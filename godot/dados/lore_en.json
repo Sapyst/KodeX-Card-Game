@@ -1,0 +1,203 @@
+{
+ "prologo": [
+  "There is a place where every faith crosses without blending. The ancients called it the Crossroads. Today, they call it the arena.",
+  "Each generation, a Codex awakens: an authorless book that holds the name of every god, and the door to all that has no name.",
+  "Six champions came to claim it. Five want to protect it. One wants to open it.",
+  "And you? No one knows your name. No one saw you arrive. Only the arena sand recorded your steps.",
+  "Choose the faith you will carry. On the other side, the Abyss has already begun to count: three, three, three."
+ ],
+ "epilogo_vitoria": [
+  "The Triangle cracks. The Circle fades. Sigil 333 becomes nothing but dry ink on scrap paper.",
+  "Silas Ashcombe falls to his knees and, for the first time in years, no one answers when he calls into the dark.",
+  "The Codex opens in your hand. On its pages, every god. On the last one, blank, a space for your name.",
+  "You close the book. Some doors exist so that someone will have the wisdom not to open them.",
+  "The champions go home. The Abyss goes back to waiting. It always waits. But not today."
+ ],
+ "epilogo_derrota": [
+  "Your journey ends here. The Codex closes its pages, and the Crossroads forgets your steps.",
+  "But Silas Ashcombe does not forget. Every fallen challenger is one less obstacle between him and the Abyss.",
+  "Get up. The tournament begins again, and down below someone is still counting to three."
+ ],
+ "personagens": {
+  "indigena": {
+   "nome": "Moema Arani",
+   "titulo": "Guardian of the Forest",
+   "cor": "#3f8f3a",
+   "intro": [
+    "You walked into the forest without asking permission. Curupira already turned his feet to fool you. I came to see if you find your way back.",
+    "I'm not here for any book. I'm here because the man in black wants to tear a hole in the world, and every hole starts in a clearing.",
+    "Tupã is listening. If your faith is hollow, the thunder will know before I do.",
+    "Play. The forest answers."
+   ],
+   "resposta_jogador": "I ask permission now. Does it still count?",
+   "ao_vencer": [
+    "Boitatá put out your fire before you lit it. Come back when you've learned to listen.",
+    "There's no shame in losing to the forest. It's older than all of us."
+   ],
+   "ao_perder": [
+    "You found the way. Few do. Curupira will be grumpy all week.",
+    "If the man in black opens the Abyss, there'll be no forest left for anyone. Don't let him, hear me?"
+   ],
+   "provocacoes": [
+    "Tupã speaks loud. Listen.",
+    "The forest takes back what's taken.",
+    "Saci laughed at that play."
+   ],
+   "arcade_intro": [
+    "I'm Moema Arani. The forest sent me to see who's making all this noise.",
+    "Play fair. Curupira plays dirty for me."
+   ],
+   "retrato_prompt": "Half-body portrait of an Indigenous Brazilian woman in her early thirties, facing forward and looking directly at the viewer. She has warm brown skin, long straight black hair with a straight-cut fringe and calm dark eyes. Red urucum paint lines cross her cheekbones and black jenipapo geometric patterns cover her forearms. She wears a woven earth-brown cotton top that fully covers her chest, a headband of green and yellow parrot feathers and a green stone muiraquitã frog amulet on a cord. She holds a wooden maracá rattle decorated with feathers in her right hand. Dark Amazon rainforest at night behind her, giant tree roots and faint fireflies."
+  },
+  "cristianismo": {
+   "nome": "Frei Bento Amaral",
+   "titulo": "The Exorcist of Ouro Preto",
+   "cor": "#d4af37",
+   "intro": [
+    "Peace and goodwill, my son. Or my daughter. With that hood, honestly, I can't tell.",
+    "I spent forty years pulling bad things out of good people. Now I've come to stop something far worse being pulled out of the Abyss.",
+    "Saint Michael holds the spear, Lazarus already rose once, and Jonah got out of the fish. My deck has patience to spare.",
+    "Let's go. And if I lose, I promise not to bless you by force."
+   ],
+   "resposta_jogador": "Save the blessing for the end, Friar.",
+   "ao_vencer": [
+    "That wasn't punishment, it was a lesson. The Ark doesn't open for those in a hurry.",
+    "Go in peace. But go train, because the man in black won't show you my mercy."
+   ],
+   "ao_perder": [
+    "David was small too. I should have remembered that before I underestimated you.",
+    "Take my blessing, like it or not. At the end of the tournament there's a door no card can close alone."
+   ],
+   "provocacoes": [
+    "Saint Michael never misses.",
+    "Even Jonah got out of the fish.",
+    "Lazarus, rise. Again."
+   ],
+   "arcade_intro": [
+    "Friar Bento Amaral, at your service. Exorcisms on Tuesdays, duels as needed.",
+    "I promise to play with charity. Charity doesn't mean easy."
+   ],
+   "retrato_prompt": "Half-body portrait of an elderly Afro-Brazilian man of mixed African and Portuguese descent, about sixty-four years old, facing forward and looking directly at the viewer. He has warm tan-brown skin, a short white beard, a bald crown ringed by short white hair, deep laugh lines and kind but tired dark eyes. He wears a coarse brown Franciscan friar habit with the hood down, a knotted white rope belt and a purple stole draped over his shoulders. He holds a plain worn wooden cross in one hand and a small brass holy-water sprinkler in the other. Dark candlelit baroque chapel behind him, a gilded altar faintly glowing."
+  },
+  "taoismo": {
+   "nome": "Lin Yuehua",
+   "titulo": "The Immortal of Cloudy Peak",
+   "cor": "#3aa58a",
+   "intro": [
+    "No need to hurry. I waited one hundred and eighty years for this tournament; I can wait for you to shuffle.",
+    "The Jade Emperor dislikes doors open to the void. And mind you, the void is the house specialty.",
+    "The Eight Immortals asked me to defeat you with balance. He Xiangu also asked that I do it politely.",
+    "Water doesn't beat stone by force. Let's find out if you are stone or river."
+   ],
+   "resposta_jogador": "A hundred and eighty years? You look wonderful, ma'am.",
+   "ao_vencer": [
+    "You pushed too hard and fell to the other side. That too is the Tao.",
+    "Come back in a hundred years. I'll still be here. Probably with this same face."
+   ],
+   "ao_perder": [
+    "Curious. I lost and I feel lighter. Zhang Guolao would laugh at me, riding backwards on his donkey.",
+    "Take a peach. The man of the Abyss wants a world without end, and everything without end rots."
+   ],
+   "provocacoes": [
+    "Nezha has left his cloud.",
+    "Yin rises, yang falls.",
+    "One Immortal fell. The other seven smile."
+   ],
+   "arcade_intro": [
+    "Lin Yuehua, of Cloudy Peak. I came for tea, but I'll accept a duel.",
+    "If I lose, blame the tea. If I win, blame the Tao."
+   ],
+   "retrato_prompt": "Half-body portrait of a young Han Chinese woman who looks about twenty-five years old, facing forward and looking directly at the viewer. She has pale ivory skin, calm dark almond-shaped eyes and long black hair gathered in a high topknot fixed with a green jade hairpin. She wears a high-collared deep blue Taoist priest robe closed up to the neck, embroidered with white clouds and cranes, with black trim and a round yin-yang medallion. She holds a white horsetail fly-whisk in one hand and a yellow paper fulu talisman with red brush script in the other. Misty dark mountain temple at night behind her, pine silhouettes and drifting incense smoke."
+  },
+  "hinduismo": {
+   "nome": "Aditya Rao",
+   "titulo": "The Archer of Varanasi",
+   "cor": "#e8731c",
+   "intro": [
+    "Finally! I thought I'd only be fighting the line at the Crossroads. Grab your cards, the Ganges waits for no one.",
+    "Hanuman leapt an ocean out of loyalty. I only need to leap over you.",
+    "Vishnu descends whenever dharma falters. A man trying to open the Abyss? That's a lot of faltering.",
+    "Krishna taught me to fight without attachment to the outcome. But I confess, I really like winning."
+   ],
+   "resposta_jogador": "Aim well, archer. I move.",
+   "ao_vencer": [
+    "Too fast? Kali doesn't apologize, and I learned from her.",
+    "Breathe, get up and come back. The wheel turns for everyone."
+   ],
+   "ao_perder": [
+    "Ha! What a blow. Even Arjuna needed good advice before the battle.",
+    "Shiva dances one world's end so another can be born. Go to the end of the tournament and don't let this world end."
+   ],
+   "provocacoes": [
+    "Jai Hanuman! One more leap!",
+    "Gandiva never misses twice.",
+    "The wheel of Samsara returns all."
+   ],
+   "arcade_intro": [
+    "Aditya Rao, of Varanasi. Bow ready, heart even readier.",
+    "No sermons, no waiting. Let's fight before the chai gets cold."
+   ],
+   "retrato_prompt": "Half-body portrait of a young Indian man of about twenty-eight, facing forward and looking directly at the viewer. He has warm medium-brown skin, an athletic build, short wavy black hair, a neatly trimmed beard, bright confident dark eyes and a red and white tilak mark on his forehead. He wears a saffron cotton kurta closed at the collar, a deep red shawl draped over one shoulder, a rudraksha bead mala around his neck and a brass armband on his upper arm. He holds an ornate wooden longbow wrapped in gold thread. Dark riverside ghats of Varanasi at night behind him, small oil lamps floating on black water."
+  },
+  "bruxaria": {
+   "nome": "Ilka Wrona",
+   "titulo": "The Witch of the Crossroads",
+   "cor": "#6b3fa0",
+   "intro": [
+    "Sit down, child. No, it's not tea. Or it is. Depends on how much you annoy me.",
+    "Baba Yaga taught me that every visitor is either a guest or dinner. I'm still deciding on you.",
+    "Hecate guards the crossroads, and this tournament is the biggest I've ever seen. Someone has to sweep the door before the magus opens it.",
+    "The man of the Triangle thinks the Abyss is a tool. I think it's a mouth. And mouths eat."
+   ],
+   "resposta_jogador": "Guest, please. Guest.",
+   "ao_vencer": [
+    "Don't cry. The Black Cat has nine lives; you have at least two.",
+    "Come back when the evil eye wears off. And keep salt in your pocket."
+   ],
+   "ao_perder": [
+    "Well, well. The Morrígan warned me through her crows, and I, stubborn old woman, wouldn't read it.",
+    "Take a witch bottle. Bury it by the magus's door. Or throw it at his head, that works too."
+   ],
+   "provocacoes": [
+    "Free evil eye, enjoy it.",
+    "Hecate holds the torch. I hold the broom.",
+    "My cat still has eight lives, see?"
+   ],
+   "arcade_intro": [
+    "Ilka Wrona. Witch, grandmother and terrible loser.",
+    "Shuffle already. The cauldron won't stir itself."
+   ],
+   "retrato_prompt": "Half-body portrait of an elderly Polish woman of about seventy, facing forward and looking directly at the viewer. She has pale weathered skin with deep wrinkles, sharp grey-green eyes, a strong nose, thin lips set in a wry smile and a long silver braid falling over one shoulder. She wears a high-necked black wool dress that fully covers her chest, a fringed black shawl embroidered with red roses and a necklace of dried rowan berries. A black crow perches on her shoulder. She holds a small glass witch bottle filled with iron pins, herbs and red thread. Dark misty birch-forest crossroads at night behind her, a single lantern glowing."
+  },
+  "alta_magia": {
+   "nome": "Silas Ashcombe",
+   "titulo": "The Magus of the Triangle",
+   "cor": "#8b1a1a",
+   "intro": [
+    "So you're the last one. Fascinating. Five champions felled just so I'd have the pleasure of felling the sixth.",
+    "The Triangle of Art is drawn. The Circle, closed. Only Sigil 333 remains, and the Codex is the ink. Thank you for bringing my ink.",
+    "Dee and Kelley spoke with angels and fled in fear. I looked into the Abyss, and the Abyss asked me for directions home.",
+    "Choronzon is not a demon. It is the end of the self. All that dissolves in it becomes three hundred thirty-three shards of silence."
+   ],
+   "resposta_jogador": "Your Abyss will have to wait.",
+   "ao_vencer": [
+    "Three, three, three. Do you hear it? It's your name being forgotten, syllable by syllable, at the edge of the Abyss.",
+    "Thank you for the Codex. Don't worry: on the other side, no one will miss you. Not even you."
+   ],
+   "ao_perder": [
+    "Impossible. The Circle was closed. I traced every line in the sand... who erased the line? Who erased the line?",
+    "You didn't win. You only delayed it. The Abyss is in no hurry, and Choronzon has every shape in the world to return."
+   ],
+   "provocacoes": [
+    "Dantalion, bring me what is his.",
+    "Three, three, three. Your Cornucopia cracks.",
+    "One less piece. The Abyss didn't notice."
+   ],
+   "arcade_intro": [
+    "Silas Ashcombe. I trace circles, open triangles, close fates. Stay inside the circle, please. For your safety.",
+    "Don't leave the circle, whatever happens. The last one who left is still being collected, in pieces, in the Abyss."
+   ],
+   "retrato_prompt": "Half-body portrait of a gaunt white Englishman in his mid-fifties, facing forward and looking directly at the viewer. He has pale sallow skin, hollow cheeks, piercing ice-blue eyes, long silver hair tied back at the nape and a neatly trimmed silver goatee. He wears a high-collared black ceremonial robe with crimson lining, closed to the throat, and a plain golden triangle pendant, a simple upward-pointing triangle with a single dot in its center, hanging on a chain over his chest. He holds a black wand tipped with a silver triangle in one hand and a red wax sigil disc engraved with the number 333 in the other. Dark desert night behind him, a triangle traced in the sand glowing faintly."
+  }
+ }
+}

@@ -9,7 +9,9 @@ arte/frame/saida/
 arte/frame/saida_v2/
 arte/frame/*.png
 !arte/frame/mapa_frame.png
-cartas_finais/
+cartas_finais/*
+!cartas_finais/v1/
+cartas_finais/v1/**/_*.png
 video/
 sim/relatorios/tmp_*/
 sim/relatorios/r*_final/

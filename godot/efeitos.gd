@@ -497,7 +497,8 @@ func _desenhar_tutor() -> void:
 		draw_colored_polygon(PackedVector2Array([tp + Vector2(-3, -2), tp + Vector2(3, -2), tp + Vector2(0, 2)]), Color(1.0, 0.85, 0.4, pisca))
 
 
-## Silas falando (espera toque): corpo inteiro 187×260 à esquerda, respirando 1,5 px; a caixa de texto sai de trás
+## Silas falando (espera toque): corpo inteiro 187×260 à esquerda, com a base da arte no rodapé, respirando 1,5 px;
+## a caixa de texto (encostada na base) sai de trás
 ## dele para a direita (0,2 s) e o texto digita a 45 letras/s numa coluna de 188 px (Fonte57, linhas de 11 px).
 func _desenhar_tutor_grande() -> void:
 	var tu := tutor
@@ -511,7 +512,7 @@ func _desenhar_tutor_grande() -> void:
 	var larg_txt := 188
 	var linhas := Fonte57.quebrar(texto, larg_txt)
 	var h := 30.0 + linhas.size() * 11 + 14
-	var cy := 330.0
+	var cy := 622.0 - h / 2                          # caixa encostada na base da tela, junto dos pés do Silas
 	var abre := clampf((t - 0.12) / 0.22, 0, 1)
 	abre = 1.0 - pow(1.0 - abre, 3.0)
 	var bx0 := 96.0
@@ -529,7 +530,7 @@ func _desenhar_tutor_grande() -> void:
 		var alt := 260.0
 		var lw := alt * tex.get_width() / tex.get_height()
 		var resp := sin(tempo * 1.5) * 1.5
-		var pos := Vector2(70 - lw / 2 - (1.0 - ent) * 140, cy + 150 - alt + resp)
+		var pos := Vector2(70 - lw / 2 - (1.0 - ent) * 140, 646 - alt + resp)   # base da arte no rodapé
 		draw_texture_rect(tex, Rect2(pos + Vector2(3, 4), Vector2(lw, alt)), false, Color(0, 0, 0, 0.45 * ent))
 		draw_texture_rect(tex, Rect2(pos, Vector2(lw, alt)), false, Color(1, 1, 1, ent))
 	if abre < 1.0:

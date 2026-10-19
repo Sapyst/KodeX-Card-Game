@@ -16,6 +16,7 @@ SLOTS_ENTIDADE = 4
 SLOTS_SELO = 2
 MAX_RODADAS = 40
 DANO_FADIGA = 2
+CUSTO_REEMBARALHAR = 5        # deck vazio: paga 5 de Cornucópia (só com 6+) e o cemitério volta ao deck
 MAX_ACOES_POR_TURNO = 60
 MULLIGAN_MAX = 2
 
@@ -314,6 +315,12 @@ class Jogo:
     # ---------- compra / fim ----------
     def comprar(self, j: Jogador, n: int = 1):
         for _ in range(n):
+            if not j.deck and j.cornucopia >= CUSTO_REEMBARALHAR + 1 and j.cemiterio:
+                j.cornucopia -= CUSTO_REEMBARALHAR
+                j.deck = list(j.cemiterio)
+                j.cemiterio.clear()
+                self.rng.shuffle(j.deck)
+                self._log(f"reembaralhou j{j.idx}")
             if not j.deck:
                 j.fadiga += 1
                 self._dano_cornucopia(j.idx, DANO_FADIGA, None)

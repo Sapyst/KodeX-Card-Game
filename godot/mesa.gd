@@ -126,6 +126,24 @@ func _ready() -> void:
 	await _ir_para_deck()
 	await _comprar_mao()
 	print("PRONTO: mão inicial comprada")
+	if OS.get_environment("GD_TESTE_REEMB") != "":             # teste: Guarda em campo + deck vazio → reembaralhar
+		var g := _nova_carta(proj(DECK_JOG), 1.0)
+		g.definir(db["cartas"]["hin_durga"], 0)
+		g.virada_para_cima = true
+		deck_jog.erase(g)
+		await _por_em_campo(g, 0, 1)
+		for c in deck_jog.duplicate():
+			cemit[0].append({"dados": c.dados, "no": null})
+			c.queue_free()
+		deck_jog.clear()
+		cemiterio[0] = cemit[0].size()
+		await get_tree().create_timer(1.0).timeout
+		get_tree().create_timer(1.5).timeout.connect(func() -> void: escolhido.emit(true))
+		await _comprar(0)
+		print("REEMB deck=", deck_jog.size(), " cornucopia=", cornucopia[0], " mao=", mao_jog.size())
+		await get_tree().create_timer(1.5).timeout
+		get_tree().quit()
+		return
 	if OS.get_environment("GD_TESTE_TOKEN") != "":             # teste visual: invoca o Cão Celestial e abre o zoom
 		await motor._invocar_tokens(0, {"nome": "Xiaotian Quan, Cão Celestial", "atk": 2, "vida": 1, "n": 1}, null)
 		await get_tree().create_timer(1.0).timeout
@@ -1472,9 +1490,20 @@ func _encerrar(v: int, motivo := "") -> void:
 	fim_turno_pedido.emit()               # a partida podia estar esperando o botão FIM do jogador
 
 
-## Compra 1. Deck vazio = fadiga (2 de dano na Cornucópia). Mão cheia (7) = a carta comprada queima.
+## Compra 1. Deck vazio: pode reembaralhar o cemitério pagando 5 de Cornucópia (com 6+); senão fadiga (2 de dano).
+## Mão cheia (7) = a carta comprada queima.
 func _comprar(d: int) -> void:
 	var deck := _deck_de(d)
+	if deck.is_empty() and modo_partida and _pode_reembaralhar(d):
+		var sim := true
+		if motor.humano(d):
+			sim = await pedir_sim_nao("DECK VAZIO", "REEMBARALHAR O CEMITERIO: -%d CORNUCOPIA" % CUSTO_REEMBARALHAR,
+				"REEMBARALHAR", "NAO  (-2)")
+		elif cemit[d].size() < 3 and cornucopia[d] < 10:
+			sim = false                                  # IA: com quase nada no cemitério, prefere a fadiga
+		if sim:
+			await _reembaralhar(d)
+			deck = _deck_de(d)
 	if deck.is_empty():
 		cornucopia[d] -= 2
 		placar_pulo[d] = 1.0
@@ -1485,6 +1514,78 @@ func _comprar(d: int) -> void:
 		await _checar_fim()
 		return
 	await _receber_comprada(d, deck.pop_back())
+
+
+const CUSTO_REEMBARALHAR := 5
+
+
+func _pode_reembaralhar(d: int) -> bool:
+	return cornucopia[d] >= CUSTO_REEMBARALHAR + 1 and cemit[d].any(func(e: Dictionary) -> bool: return not e["dados"].get("token", false))
+
+
+## Paga 5 de Cornucópia; as cartas do cemitério voam (viradas para baixo, uma a cada 0,04 s) para o deck, que embaralha.
+func _reembaralhar(d: int) -> void:
+	cornucopia[d] -= CUSTO_REEMBARALHAR
+	placar_pulo[d] = 1.0
+	tremor = 2.5
+	Sessao.vibrar(40, 0.7)
+	efeitos.flash(Color("#7a5aa8"), 0.25)
+	efeitos.numero(_pos_placar(d) + Vector2(36, 2), "-%d" % CUSTO_REEMBARALHAR, Color("#ff5050"), 2)
+	efeitos.numero(Vector2(180, LINHA_Y + (40 if d == 0 else -40)), "REEMBARALHAR", Color("#e0c8ff"), 2)
+	var cem := proj(CEMIT_JOG if d == 0 else CEMIT_OPON)
+	var dest := proj(DECK_JOG if d == 0 else DECK_OPON)
+	var deck := _deck_de(d)
+	var entradas: Array = cemit[d].duplicate()
+	cemit[d].clear()
+	cemiterio[d] = 0
+	for k in entradas.size():
+		var e: Dictionary = entradas[k]
+		if e["dados"].get("token", false):
+			if e["no"] != null and is_instance_valid(e["no"]):
+				(e["no"] as Carta).queue_free()
+			continue
+		var c: Carta
+		if e["no"] != null and is_instance_valid(e["no"]):
+			c = e["no"]
+		else:
+			c = _nova_carta(cem, esc_em(cem))
+		c.definir(e["dados"], d)
+		c.resetar()
+		c.em_campo = false
+		c.apagada = false
+		c.empilhada = false
+		c.z_index = 300 + k
+		if c.virada_para_cima:
+			c.virar(0.2)
+		deck.append(c)
+		_arco(c, dest + Vector2(0, -k / 3), 0.38, 30, rng.randf_range(-0.3, 0.3), esc_em(dest))
+		efeitos.faiscas(c.position, 4, Color("#c8b0f0"))
+		await get_tree().create_timer(0.04).timeout
+	await get_tree().create_timer(0.45).timeout
+	_embaralhar_deck(d)
+	for c in deck:                                       # batidinha do monte embaralhado
+		c.rotation = 0.0
+		var t := create_tween()
+		t.tween_property(c, "scale", Vector2(c.scale.x, c.scale.y * 0.92), 0.06)
+		t.tween_property(c, "scale", Vector2.ONE * esc_em(dest), 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	efeitos.anel(dest, Color("#c8b0f0"), 40)
+	await get_tree().create_timer(0.3).timeout
+	await _checar_fim()
+
+
+## Pergunta sim/não: mesa escurece, faixa com título e subtítulo, dois botões.
+func pedir_sim_nao(titulo: String, sub: String, txt_sim: String, txt_nao: String) -> bool:
+	efeitos.t_escolha = 0.0
+	efeitos.faixa_alvo = {"titulo": titulo, "sub": Sessao.t(sub), "y": LINHA_Y}
+	efeitos.escolha = [{"rect": Rect2(70, LINHA_Y + 20, 104, 16), "texto": txt_sim, "valor": true},
+		{"rect": Rect2(186, LINHA_Y + 20, 104, 16), "texto": txt_nao, "valor": false}]
+	_veu(1.0)
+	Sessao.vibrar(12, 0.4)
+	var v = await escolhido
+	efeitos.faixa_alvo = {}
+	efeitos.escolha.clear()
+	_veu(0.0, 0.18)
+	return v == true
 
 
 ## A carta (já fora do deck) vai para a mão com o arco de compra. `queimar`: mão cheia manda ao cemitério.

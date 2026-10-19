@@ -375,6 +375,9 @@ func _cabecalho(titulo: String, sub: String) -> void:
 
 
 func _titulo() -> void:
+	# versão no canto inferior direito (vem de application/config/version)
+	var ver := "v" + str(ProjectSettings.get_setting("application/config/version", ""))
+	PixelFonte.desenhar(self, Vector2(354 - PixelFonte.largura(ver.to_upper()), 628), ver.to_upper(), Color(0.89, 0.72, 0.35, 0.6))
 	# cartas lendárias em leque, abrindo e respirando
 	var ids := ["ind_tupa", "cri_sao_miguel_arcanjo", "hin_shiva_nataraja", "bru_hecate", "tao_imperador_de_jade"]
 	var e := _entrada(2)

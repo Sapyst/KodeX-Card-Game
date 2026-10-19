@@ -69,8 +69,28 @@ var turno_posto := -1                   # Selo: turno em que foi posto
 var sem_renascer := false
 
 
+var _fx: Node2D                          # camada sem luz da mesa (cores fiéis): efeito de Guarda
+
+
+func _ready() -> void:
+	_fx = Node2D.new()
+	var mat := CanvasItemMaterial.new()
+	mat.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
+	_fx.material = mat
+	_fx.draw.connect(_desenhar_fx)
+	add_child(_fx)
+
+
 func _process(_d: float) -> void:
 	queue_redraw()
+	if _fx:
+		_fx.queue_redraw()
+
+
+func _desenhar_fx() -> void:
+	if em_campo and virada_para_cima and tipo == "entidade" and tem("guarda"):
+		_fx.draw_set_transform_matrix(Transform2D(0.0, Vector2(maxf(absf(giro), 0.02), 1.0), inclinacao, bob.round()))
+		_guarda(-LARG / 2, -ALT / 2)
 
 
 func _draw() -> void:
@@ -350,3 +370,33 @@ func _no_contorno(x: float, y: float, w: float, h: float, d: float) -> Vector2:
 	if d < w: return Vector2(x + w - d, y + h)
 	d -= w
 	return Vector2(x, y + h - minf(d, h))
+
+
+const ESCUDO := ["0111110", "1222221", "1233321", "1233321", "1223221", "0122210", "0012100", "0001000"]
+
+
+## Guarda: carta mais clara (véu azul 12%), contorno azul-aço de 2 px, um reflexo de escudo atravessando a carta
+## a cada 1,8 s e um escudo pixel 7×8 (×1) preso no topo, no meio.
+func _guarda(x0: int, y0: int) -> void:
+	var tt := Time.get_ticks_msec() / 1000.0
+	var r := Rect2(x0, y0, LARG, ALT)
+	_fx.draw_rect(r, Color(0.75, 0.88, 1.0, 0.2))
+	var fase := fmod(tt / 1.8, 1.0)
+	var bx := x0 - 8 + fase * (LARG + 16)
+	for k in 3:                                   # reflexo inclinado: 3 degraus de 2 px de altura cada terço
+		var xx := bx + k * 3
+		var faixa := Rect2(xx, y0 + k * ALT / 3.0, 4, ALT / 3.0).intersection(r)
+		if faixa.size.x > 0:
+			_fx.draw_rect(faixa, Color(1, 1, 1, 0.22))
+	var pulso := 0.7 + 0.3 * sin(tt * TAU / 1.4)
+	_fx.draw_rect(r.grow(1), Color(0.7, 0.85, 1.0, pulso), false, 2.0)
+	_fx.draw_rect(r.grow(3), Color(0.45, 0.65, 1.0, 0.55 * pulso), false, 2.0)
+	_fx.draw_rect(r.grow(5), Color(0.45, 0.65, 1.0, 0.25 * pulso), false, 2.0)
+	var cores := [Color(0, 0, 0, 0), Color("#1b2333"), Color("#c9d6ea"), Color("#4f7fd0")]
+	var ox := x0 + LARG / 2 - 7                    # escudo 2× (14×16 px) centrado sobre a borda de cima
+	var oy := y0 - 9
+	for yy in ESCUDO.size():
+		for xx in 7:
+			var v := int(ESCUDO[yy][xx])
+			if v > 0:
+				_fx.draw_rect(Rect2(ox + xx * 2, oy + yy * 2, 2, 2), cores[v])

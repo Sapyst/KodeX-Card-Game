@@ -87,7 +87,8 @@ Os 32 slots já contam as cópias duplicadas: ~20–24 cartas distintas por deck
 ## 9. Fim de jogo
 
 - Cornucópia **0** → derrota.
-- Comprar com deck vazio → **2 de dano** à Cornucópia por carta não comprada.
+- Comprar com deck vazio → pode **reembaralhar**: paga **5** de Cornucópia (só com **6 ou mais**) e o cemitério inteiro volta
+  embaralhado para o deck. Se não quiser ou não puder → **2 de dano** à Cornucópia por carta não comprada.
 - **Choronzon** entrando em campo → vitória imediata de quem o invocou (ver `choronzon.md`).
 
 ## 10. Fórmula de custo (orçamento de pontos)

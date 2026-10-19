@@ -103,9 +103,10 @@ func _ir(novo: String) -> void:
 	botoes.clear()
 	match novo:
 		"titulo":
-			_botao(Rect2(90, 400, 180, 30), "Torneio", func() -> void: _falar_lista(Sessao.lore.get("prologo", []), Sessao.t("Narrador"), OURO[0], "", func() -> void: _ir("escolha_deck")))
-			_botao(Rect2(90, 442, 180, 30), "Arcade", func() -> void: _ir("arcade"))
-			_botao(Rect2(120, 500, 120, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("titulo"), {"idioma": true})
+			_botao(Rect2(90, 388, 180, 30), "Torneio", func() -> void: _falar_lista(Sessao.lore.get("prologo", []), Sessao.t("Narrador"), OURO[0], "", func() -> void: _ir("escolha_deck")))
+			_botao(Rect2(90, 426, 180, 30), "Arcade", func() -> void: _ir("arcade"))
+			_botao(Rect2(90, 464, 180, 30), "Tutorial", _comecar_tutorial)
+			_botao(Rect2(120, 512, 120, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("titulo"), {"idioma": true})
 		"escolha_deck":
 			for i in 6:
 				var d: String = Sessao.DECKS[i]
@@ -296,6 +297,11 @@ func vibrar(ms: int, forca: float = 0.5) -> void:
 	if OS.get_environment("GD_FLUXO_AUTO") != "":
 		return
 	Input.vibrate_handheld(ms, forca)
+
+
+func _comecar_tutorial() -> void:
+	Sessao.preparar_tutorial()
+	get_tree().change_scene_to_file("res://mesa.tscn")
 
 
 func _botao(r: Rect2, texto: String, acao: Callable, extra := {}) -> void:

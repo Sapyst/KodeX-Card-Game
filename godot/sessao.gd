@@ -40,6 +40,8 @@ func _ready() -> void:
 	if OS.get_environment("GD_IDIOMA") != "":
 		idioma = OS.get_environment("GD_IDIOMA")
 	carregar_dados()
+	if OS.get_environment("GD_TUTORIAL") != "":          # teste: abre a mesa direto no tutorial
+		preparar_tutorial()
 
 
 ## Recarrega cartas e lore no idioma atual (nomes e textos das cartas vêm de cartas_en.json no inglês).
@@ -144,6 +146,25 @@ func preparar_luta_torneio() -> void:
 	deck_jogador = montar_deck(deck_jogador_nome)
 	deck_oponente = montar_deck(oponente)
 	resultado = ""
+
+
+## Tutorial: Alta Magia × Taoísmo com as cartas na ordem do roteiro (tutorial.gd); o resto do deck completa as 32.
+func preparar_tutorial() -> void:
+	modo = "tutorial"
+	deck_jogador_nome = "alta_magia"
+	oponente = "taoismo"
+	deck_jogador = _deck_ordenado("alta_magia", Tutorial.DECK_JOGADOR)
+	deck_oponente = _deck_ordenado("taoismo", Tutorial.DECK_OPONENTE)
+	resultado = ""
+
+
+func _deck_ordenado(deck: String, fim: Array) -> Array:
+	var resto: Array = (db["decks"][deck] as Array).duplicate()
+	for cid in fim:
+		resto.erase(cid)
+	while resto.size() + fim.size() > 32:
+		resto.pop_back()
+	return resto + fim
 
 
 func preparar_arcade(meu_deck: String, opon: String, deck_opon: String) -> void:

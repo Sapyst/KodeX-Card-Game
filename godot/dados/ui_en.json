@@ -99,5 +99,6 @@
  "DECK VAZIO": "EMPTY DECK",
  "REEMBARALHAR O CEMITERIO: -%d CORNUCOPIA": "RESHUFFLE GRAVEYARD: -%d CORNUCOPIA",
  "REEMBARALHAR": "RESHUFFLE",
- "NAO  (-%d)": "NO  (-%d)"
+ "NAO  (-%d)": "NO  (-%d)",
+ "Tutorial": "Tutorial"
 }

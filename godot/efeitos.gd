@@ -25,7 +25,11 @@ var faixa_alvo := {}                   # {titulo, sub, y}: faixa que atravessa a
 var galeria := {}                      # {titulo, sub}: tela escura com as cartas grandes (escolha["tex"])
 var t_escolha := 0.0                   # s desde que a escolha abriu (animações de entrada)
 var escolhida := -1
-var vitrine := {}                      # carta montada mostrada grande: {tex, de, t, dur, cor}                    # item da galeria tocado (pulso de confirmação)
+var vitrine := {}
+# tutorial
+var tutor := {}                        # {nome, cor, texto, t, toque}: painel do Silas no topo, texto digitando
+var guia := {}                         # {de, para, t}: dedo fantasma mostrando o gesto (loop de 1,6 s)
+var foco: Array = []                   # Rect2 pulsando em dourado (o que o Silas está mostrando)                      # carta montada mostrada grande: {tex, de, t, dur, cor}                    # item da galeria tocado (pulso de confirmação)
 
 
 func _ready() -> void:
@@ -127,6 +131,10 @@ func _process(delta: float) -> void:
 	aneis = aneis.filter(func(a: Dictionary) -> bool: return a["vida"] > 0.0)
 	clarao.a = maxf(0.0, clarao.a - delta * 1.4)
 	t_escolha += delta
+	if not tutor.is_empty():
+		tutor["t"] += delta
+	if not guia.is_empty():
+		guia["t"] += delta
 	if not vitrine.is_empty():
 		vitrine["t"] += delta
 	if faixa != "":
@@ -188,6 +196,14 @@ func _draw() -> void:
 		draw_rect(Rect2(-400, -400, 1200, 1500), clarao)
 	if faixa != "":
 		_desenhar_faixa()
+	for r in foco:
+		var pf := 0.55 + 0.45 * sin(tempo * 6.0)
+		draw_rect((r as Rect2).grow(2), Color(1.0, 0.85, 0.4, pf), false, 2.0)
+		draw_rect((r as Rect2).grow(5), Color(1.0, 0.85, 0.4, pf * 0.4), false, 2.0)
+	if not guia.is_empty():
+		_desenhar_guia()
+	if not tutor.is_empty():
+		_desenhar_tutor()
 	if cursor.x > -50:
 		var c := cursor.round()
 		draw_circle(c, 5.0 if cursor_apertado else 6.0, Color(1, 1, 1, 0.35))
@@ -412,3 +428,67 @@ func _desenhar_vitrine() -> void:
 	draw_rect(r.grow(3), Color(cor, 0.35 * fundo), false, 3.0)
 	draw_rect(r.grow(1), Color("#140c10"))
 	draw_texture_rect(v["tex"], r, false)
+
+
+## Dedo fantasma: encosta em `de` (anel fechando), arrasta até `para` com rastro de 6 pontos e solta; repete a cada 1,6 s.
+func _desenhar_guia() -> void:
+	var de: Vector2 = guia["de"]
+	var para: Vector2 = guia["para"]
+	var u := fmod(guia["t"], 1.6) / 1.6
+	var mov := clampf((u - 0.15) / 0.6, 0, 1)
+	mov = mov * mov * (3.0 - 2.0 * mov)
+	var p := de.lerp(para, mov) + Vector2(0, -sin(mov * PI) * 14)
+	var al := 1.0 - clampf((u - 0.85) / 0.15, 0, 1)
+	draw_arc(para, 9.0 + sin(tempo * 6.0) * 1.5, 0, TAU, 24, Color(1.0, 0.85, 0.4, 0.8), 2.0)
+	for k in 6:
+		var mk := clampf(mov - k * 0.05, 0, 1)
+		var q := de.lerp(para, mk) + Vector2(0, -sin(mk * PI) * 14)
+		draw_rect(Rect2(q.round() - Vector2.ONE, Vector2(2, 2)), Color(1, 1, 1, 0.5 * al * (1.0 - k / 6.0)))
+	if u < 0.15:
+		draw_arc(de, lerpf(14.0, 6.0, u / 0.15), 0, TAU, 20, Color(1, 1, 1, 0.8), 1.0)
+	draw_circle(p.round(), 6.0, Color("#140c10", 0.8 * al))
+	draw_circle(p.round(), 5.0, Color(1, 1, 1, 0.9 * al))
+	draw_circle(p.round() + Vector2(-1, -1), 2.0, Color(1.0, 0.85, 0.4, al))
+
+
+## Painel do Silas: retrato (busto) 44×58, nome na cor dele, texto digitando a 45 letras/s e "toque para continuar".
+func _desenhar_tutor() -> void:
+	var tu := tutor
+	var texto: String = tu["texto"]
+	var linhas := Fonte57.quebrar(texto, 284)
+	var tem_toque: bool = tu["toque"] != ""
+	var h := maxf(66.0, 22.0 + linhas.size() * 10 + (10 if tem_toque else 2))
+	var ent := clampf(tu["t"] / 0.18, 0, 1)
+	var r := Rect2(8, 30 - (1.0 - ent) * 12, 344, h)
+	var cor: Color = tu["cor"]
+	draw_rect(r.grow(2), Color("#140c10", ent))
+	draw_rect(r, Color(0.1, 0.07, 0.1, 0.96 * ent))
+	draw_rect(Rect2(r.position, Vector2(r.size.x, 2)), Color(cor, ent))
+	draw_rect(Rect2(r.position + Vector2(0, r.size.y - 1), Vector2(r.size.x, 1)), Color(0.61, 0.45, 0.19, ent))
+	var rr := Rect2(r.position + Vector2(5, 5), Vector2(44, 58))
+	draw_rect(rr, cor.darkened(0.7))
+	var tex := Carta.textura("retrato", "alta_magia", "png")
+	if tex:
+		var tw := float(tex.get_width())
+		var th := float(tex.get_height())
+		var src := Rect2(tw * 0.2, 0, tw * 0.6, tw * 0.6 * 58.0 / 44.0)
+		src.size.y = minf(src.size.y, th)
+		draw_texture_rect_region(tex, rr, src, Color(1, 1, 1, ent))
+	draw_rect(rr, Color(cor, ent), false, 1.0)
+	Fonte57.desenhar(self, r.position + Vector2(56, 5), tu["nome"], cor, Color("#140c10"))
+	var visiveis := int(tu["t"] * 45.0)
+	var y := r.position.y + 18
+	for ln in linhas:
+		if visiveis <= 0:
+			break
+		var parte: String = ln.substr(0, visiveis)
+		Fonte57.desenhar(self, Vector2(r.position.x + 56, y), parte, Color("#f2e6c8"), Color("#140c10"))
+		visiveis -= ln.length() + 1
+		y += 10
+	if tem_toque and int(tu["t"] * 45.0) >= texto.length():
+		var pisca := 0.5 + 0.5 * sin(tempo * 6.0)
+		var s := Sessao.t(tu["toque"]).to_upper()
+		var w := PixelFonte.largura(s)
+		PixelFonte.desenhar(self, Vector2(r.end.x - w - 14, r.end.y - 8), s, Color(1.0, 0.85, 0.4, pisca))
+		var tp := Vector2(r.end.x - 8, r.end.y - 6 + absf(sin(tempo * 5.0)) * 1.5)
+		draw_colored_polygon(PackedVector2Array([tp + Vector2(-3, -2), tp + Vector2(3, -2), tp + Vector2(0, 2)]), Color(1.0, 0.85, 0.4, pisca))

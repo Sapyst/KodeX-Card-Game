@@ -160,6 +160,17 @@ func _ready() -> void:
 		await get_tree().create_timer(1.0).timeout
 		get_tree().quit()
 		return
+	if modo_partida and Sessao.modo == "tutorial":
+		tut = Tutorial.new(self)
+		await tut.rodar()
+		Sessao.modo = ""
+		Sessao.resultado = ""
+		await get_tree().create_timer(0.8).timeout
+		if OS.get_environment("GD_SAIR_NO_FIM") != "":
+			get_tree().quit()
+			return
+		get_tree().change_scene_to_file("res://fluxo.tscn")
+		return
 	if modo_partida and OS.get_environment("GD_ROTEIRO") != "":
 		await _roteiro_efeitos()
 		await get_tree().create_timer(1.0).timeout
@@ -266,10 +277,12 @@ func _process(delta: float) -> void:
 					_jogaveis.append(c)
 		for c in _jogaveis:
 			if is_instance_valid(c) and c in mao_jog:
-				(c as Carta).destaque = 1
+				if tut == null or (tut.pode_pegar.is_valid() and tut.pode_pegar.call(c, "mao")):
+					(c as Carta).destaque = 1
 		for c in campo_ent[0]:
 			if c != null and (c as Carta).virada_para_cima and motor.pode_atacar(c):
-				(c as Carta).destaque = 2
+				if tut == null or (tut.pode_pegar.is_valid() and tut.pode_pegar.call(c, "campo")):
+					(c as Carta).destaque = 2
 	else:
 		_t_destaque = 0.0
 	for dono in 2:
@@ -556,7 +569,12 @@ func _ir_para_deck() -> void:
 		await get_tree().create_timer(0.006).timeout
 	await get_tree().create_timer(0.65).timeout
 	if modo_partida:
-		if Sessao.modo != "":
+		if Sessao.modo == "tutorial":                    # tutorial: ordem fixa (sem embaralhar)
+			for i in deck_jog.size():
+				deck_jog[i].definir(db["cartas"][Sessao.deck_jogador[i]], 0)
+			for i in deck_opon.size():
+				deck_opon[i].definir(db["cartas"][Sessao.deck_oponente[i]], 1)
+		elif Sessao.modo != "":
 			_dar_ids(deck_jog, Sessao.deck_jogador, 0)
 			_dar_ids(deck_opon, Sessao.deck_oponente, 1)
 		else:
@@ -701,6 +719,9 @@ func pressionar(p: Vector2) -> void:
 		efeitos.zoom = null
 		_ignorar_soltar = true
 		return
+	if tut != null and tut.esperando_toque:     # tutorial: toque avança a fala do Silas
+		tut.toque()
+		return
 	if not alvos_pedidos.is_empty():            # escolhendo alvo: toca um destacado ou o botão PULAR
 		for b in efeitos.escolha:
 			if (b["rect"] as Rect2).grow(3).has_point(p):
@@ -718,6 +739,8 @@ func pressionar(p: Vector2) -> void:
 				return
 		return
 	if modo_partida and botao_fim.grow(4).has_point(p):
+		if tut != null and not tut.fim_ok:
+			return
 		if ativo == 0 and not ocupado and not acabou:
 			Sessao.vibrar(10, 0.4)
 			fim_turno_pedido.emit()
@@ -756,6 +779,13 @@ func soltar(p: Vector2) -> void:
 	segurando = null
 	efeitos.destaques.clear()
 	ocupado = true
+	if tut != null and tut.pode_soltar.is_valid() and not tut.pode_soltar.call(c, origem, p):
+		if origem == "mao":
+			await _recusar(c)
+		else:
+			await _voltar_ao_espaco(c)
+		ocupado = false
+		return
 	if origem == "mao":
 		await _soltar_da_mao(c, p)
 	else:
@@ -764,6 +794,9 @@ func soltar(p: Vector2) -> void:
 
 
 func _pegar(c: Carta, de: String, idx: int) -> void:
+	if tut != null and not (tut.pode_pegar.is_valid() and tut.pode_pegar.call(c, de)):
+		_tentar_zoom(ponteiro)                   # tutorial: carta fora do roteiro só pode ser lida (segurar)
+		return
 	Sessao.vibrar(12, 0.3)
 	segurando_t = 0.0
 	segurando_ini = ponteiro
@@ -1322,6 +1355,7 @@ var cemit := [[], []]                 # cemitério lógico: [{dados, no}] (no = 
 var vencedor := -1                    # -1 em jogo · 0 jogador · 1 oponente · 2 empate
 var alvos_pedidos: Array = []         # o jogador está escolhendo um alvo por toque
 var veu_alvo: Node2D
+var tut: Tutorial = null                  # tutorial em curso (só a jogada pedida é aceita)
 var _t_destaque := 0.0
 var _jogaveis: Array = []
 var veu_a := 0.0

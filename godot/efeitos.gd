@@ -453,6 +453,9 @@ func _desenhar_guia() -> void:
 
 ## Painel do Silas: retrato (busto) 44×58, nome na cor dele, texto digitando a 45 letras/s e "toque para continuar".
 func _desenhar_tutor() -> void:
+	if tutor.get("grande", false):
+		_desenhar_tutor_grande()
+		return
 	var tu := tutor
 	var texto: String = tu["texto"]
 	var linhas := Fonte57.quebrar(texto, 284)
@@ -491,4 +494,66 @@ func _desenhar_tutor() -> void:
 		var w := PixelFonte.largura(s)
 		PixelFonte.desenhar(self, Vector2(r.end.x - w - 14, r.end.y - 8), s, Color(1.0, 0.85, 0.4, pisca))
 		var tp := Vector2(r.end.x - 8, r.end.y - 6 + absf(sin(tempo * 5.0)) * 1.5)
+		draw_colored_polygon(PackedVector2Array([tp + Vector2(-3, -2), tp + Vector2(3, -2), tp + Vector2(0, 2)]), Color(1.0, 0.85, 0.4, pisca))
+
+
+## Silas falando (espera toque): corpo inteiro 187×260 à esquerda, respirando 1,5 px; a caixa de texto sai de trás
+## dele para a direita (0,2 s) e o texto digita a 45 letras/s numa coluna de 188 px (Fonte57, linhas de 11 px).
+func _desenhar_tutor_grande() -> void:
+	var tu := tutor
+	var t: float = tu["t"] + 0.3
+	var texto: String = tu["texto"]
+	var cor: Color = tu["cor"]
+	var ent := clampf(t / 0.25, 0, 1)
+	ent = 1.0 - pow(1.0 - ent, 3.0)
+	draw_rect(Rect2(-400, -400, 1200, 1500), Color(0.03, 0.02, 0.05, 0.55 * ent))
+	var tx0 := 158.0
+	var larg_txt := 188
+	var linhas := Fonte57.quebrar(texto, larg_txt)
+	var h := 30.0 + linhas.size() * 11 + 14
+	var cy := 330.0
+	var abre := clampf((t - 0.12) / 0.22, 0, 1)
+	abre = 1.0 - pow(1.0 - abre, 3.0)
+	var bx0 := 96.0
+	var bx1 := lerpf(bx0 + 20, 352.0, abre)
+	var caixa := Rect2(bx0, cy - h / 2, bx1 - bx0, h)
+	if abre > 0.0:
+		draw_rect(caixa.grow(2), Color("#140c10"))
+		draw_rect(caixa, Color(0.1, 0.07, 0.1, 0.97))
+		draw_rect(Rect2(caixa.position, Vector2(caixa.size.x, 2)), cor)
+		draw_rect(Rect2(caixa.position + Vector2(0, caixa.size.y - 2), Vector2(caixa.size.x, 2)), Color(0.61, 0.45, 0.19))
+		draw_rect(Rect2(caixa.end.x - 2, caixa.position.y, 2, caixa.size.y), Color(0.61, 0.45, 0.19))
+	# Silas na frente da caixa
+	var tex := Carta.textura("retrato", "alta_magia", "png")
+	if tex:
+		var alt := 260.0
+		var lw := alt * tex.get_width() / tex.get_height()
+		var resp := sin(tempo * 1.5) * 1.5
+		var pos := Vector2(70 - lw / 2 - (1.0 - ent) * 140, cy + 150 - alt + resp)
+		draw_texture_rect(tex, Rect2(pos + Vector2(3, 4), Vector2(lw, alt)), false, Color(0, 0, 0, 0.45 * ent))
+		draw_texture_rect(tex, Rect2(pos, Vector2(lw, alt)), false, Color(1, 1, 1, ent))
+	if abre < 1.0:
+		return
+	# placa do nome sobre a borda de cima da caixa
+	var nome: String = tu["nome"]
+	var wn := Fonte57.largura(nome) + 14
+	var placa := Rect2(tx0 - 4, caixa.position.y - 7, wn, 13)
+	draw_rect(placa.grow(1), Color("#140c10"))
+	draw_rect(placa, cor.darkened(0.45))
+	draw_rect(Rect2(placa.position, Vector2(placa.size.x, 1)), cor)
+	Fonte57.desenhar(self, placa.position + Vector2(7, 3), nome, Color("#ffe39a"), Color("#140c10"))
+	var visiveis := int(tu["t"] * 45.0)
+	var y := caixa.position.y + 14
+	for ln in linhas:
+		if visiveis <= 0:
+			break
+		Fonte57.desenhar(self, Vector2(tx0, y), ln.substr(0, visiveis), Color("#f6ecd4"), Color("#140c10"))
+		visiveis -= ln.length() + 1
+		y += 11
+	if int(tu["t"] * 45.0) >= texto.length():
+		var pisca := 0.5 + 0.5 * sin(tempo * 6.0)
+		var s := Sessao.t(tu["toque"]).to_upper()
+		var w := PixelFonte.largura(s)
+		PixelFonte.desenhar(self, Vector2(caixa.end.x - w - 16, caixa.end.y - 10), s, Color(1.0, 0.85, 0.4, pisca))
+		var tp := Vector2(caixa.end.x - 9, caixa.end.y - 8 + absf(sin(tempo * 5.0)) * 1.5)
 		draw_colored_polygon(PackedVector2Array([tp + Vector2(-3, -2), tp + Vector2(3, -2), tp + Vector2(0, 2)]), Color(1.0, 0.85, 0.4, pisca))

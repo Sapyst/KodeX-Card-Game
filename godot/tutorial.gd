@@ -93,7 +93,7 @@ func txt(chave: String) -> String:
 func falar(chave: String, espera := true) -> void:
 	var p: Dictionary = Sessao.personagem("alta_magia")
 	m.efeitos.tutor = {"nome": p.get("nome", "Silas Ashcombe"), "cor": Color(p.get("cor", "#8b1a1a")).lightened(0.35),
-		"texto": txt(chave), "t": 0.0, "toque": txt("toque") if espera else ""}
+		"texto": txt(chave), "t": -0.3 if espera else 0.0, "toque": txt("toque") if espera else "", "grande": espera}
 	if not espera:
 		return
 	m.ocupado = true

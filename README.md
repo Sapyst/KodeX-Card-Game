@@ -5,6 +5,8 @@ taoismo, hinduísmo, bruxaria e alta magia — e o Conjunto do Abismo (Choronzon
 
 **© 2026 Sapyst — todos os direitos reservados. Veja [LICENSE](LICENSE).**
 
+📖 **[Wiki KodeX](wiki/README.md)** — todas as cartas com arte, atributos, texto e contexto mitológico.
+
 ## Jogar (teste)
 Baixe o APK na aba **Releases** e instale no Android (permitir "fontes desconhecidas").
 - **Torneio:** escolha um deck e enfrente os cinco campeões na Encruzilhada e, por fim, Silas Ashcombe, o Magus do Triângulo.

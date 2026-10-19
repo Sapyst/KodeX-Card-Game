@@ -1,0 +1,52 @@
+== Matriz de win rate (linha vence coluna; empate conta 0,5) ==
+              alta_ma bruxari cristia hinduis indigen taoismo
+alta_magia       —      47.0%   51.7%   33.9%   51.8%   48.1%
+bruxaria        53.0%    —      41.0%   39.0%   49.8%   60.1%
+cristianismo    48.3%   59.0%    —      48.6%   64.6%   53.2%
+hinduismo       66.1%   61.1%   51.3%    —      48.4%   57.6%
+indigena        48.1%   50.2%   35.4%   51.6%    —      52.2%
+taoismo         51.8%   40.0%   46.8%   42.4%   47.8%    —   
+
+== Média por deck ==
+   56.9%  hinduismo
+   54.8%  cristianismo
+   48.6%  bruxaria
+   47.5%  indigena
+   46.5%  alta_magia
+   45.8%  taoismo
+
+== Cartas mais fortes (win rate quando jogada, ≥30 partidas) ==
+   72.0%  São Miguel Arcanjo             [cristianismo] jogadas=6391 dano=11.1
+   70.0%  Elias, Carro de Fogo           [cristianismo] jogadas=9911 dano=10.3
+   68.2%  Shiva Nataraja                 [hinduismo] jogadas=5717 dano=11.2
+   67.2%  Leviatã                        [cristianismo] jogadas=5205 dano=11.8
+   65.5%  Hécate, Senhora das Encruzilha [bruxaria] jogadas=5937 dano=10.7
+   63.3%  Sansão                         [cristianismo] jogadas=6410 dano=8.7
+   61.7%  Dantalion, das Mil Faces       [alta_magia] jogadas=5977 dano=4.0
+   61.0%  Multiplicação dos Pães         [cristianismo] jogadas=5622 dano=0.0
+   60.8%  Baba Yaga                      [bruxaria] jogadas=4921 dano=5.8
+   60.5%  Mudez de Zacarias              [cristianismo] jogadas=5208 dano=0.0
+   60.0%  Véu de Verônica                [cristianismo] jogadas=5541 dano=0.0
+   60.0%  Sangue nos Umbrais             [cristianismo] jogadas=5231 dano=0.0
+   59.9%  Serafim                        [cristianismo] jogadas=6482 dano=6.4
+   59.9%  Granizo e Fogo                 [cristianismo] jogadas=6114 dano=6.6
+   59.8%  Gabriel, o Mensageiro          [cristianismo] jogadas=7802 dano=2.3
+== Cartas mais fracas ==
+   39.2%  Dança do Aruanã                [indigena] jogadas=5504 na mão= 14.4%
+   41.5%  Han Xiangzi                    [taoismo] jogadas=6342 na mão=  9.6%
+   42.4%  Saci-Pererê                    [indigena] jogadas=13082 na mão=  8.8%
+   42.5%  Li Tieguai                     [taoismo] jogadas=10863 na mão=  9.0%
+   43.3%  Cao Guojiu                     [taoismo] jogadas=7039 na mão=  5.5%
+   43.7%  Curupira                       [indigena] jogadas=13520 na mão=  8.6%
+   44.2%  Dragão Azul do Leste           [taoismo] jogadas=5248 na mão= 13.5%
+   44.4%  Conjuração dos Elementais      [alta_magia] jogadas=10104 na mão= 27.5%
+   44.4%  Abrahadabra                    [alta_magia] jogadas=5265 na mão= 25.0%
+   44.5%  Edward Kelley, o Vidente       [alta_magia] jogadas=7228 na mão=  8.6%
+   44.5%  Boneco de Cera                 [bruxaria] jogadas=5449 na mão=  6.8%
+   44.7%  Lan Caihe                      [taoismo] jogadas=6561 na mão=  6.0%
+   44.9%  Orobas, o Príncipe Fiel        [alta_magia] jogadas=8023 na mão=  7.1%
+   44.9%  Lü Dongbin                     [taoismo] jogadas=6755 na mão=  7.1%
+   45.0%  Sapo Familiar                  [bruxaria] jogadas=5856 na mão=  8.2%
+
+(42.8s, bot=heur, seed=11)
+JSON em relatorios/r2_matriz_prevista.json

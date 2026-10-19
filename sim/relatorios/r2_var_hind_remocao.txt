@@ -1,0 +1,17 @@
+oficial                            média  77.6 | indi 73.2  cris 67.2  taoi 78.8  brux 81.5  alta 87.5 | dano-atq 15.0 mortes efeito 3.6 combate 6.0 rod 10.5 | esp rod  8.7 1º 64.0%
+R1 Garuda 1/2 sem ping             média  76.2 | indi 70.8  cris 66.7  taoi 76.2  brux 80.2  alta 87.2 | dano-atq 14.6 mortes efeito 3.6 combate 6.0 rod 10.6 | esp rod  8.8 1º 61.7%
+R2 Yajna 2Fe+compra, sem dano      média  79.8 | indi 76.7  cris 69.8  taoi 80.0  brux 83.2  alta 89.2 | dano-atq 15.2 mortes efeito 3.5 combate 6.1 rod 10.5 | esp rod  8.6 1º 61.5%
+R3 Lei do Karma 3                  média  77.1 | indi 72.7  cris 66.7  taoi 78.3  brux 80.8  alta 86.8 | dano-atq 14.9 mortes efeito 3.6 combate 5.9 rod 10.6 | esp rod  8.7 1º 64.2%
+R4 Lanka area 1                    média  76.8 | indi 71.3  cris 66.3  taoi 78.5  brux 81.2  alta 86.5 | dano-atq 14.8 mortes efeito 3.6 combate 6.0 rod 10.6 | esp rod  8.6 1º 65.5%
+R5 Agni 1                          média  76.7 | indi 70.5  cris 66.5  taoi 78.7  brux 80.5  alta 87.3 | dano-atq 14.8 mortes efeito 3.6 combate 6.0 rod 10.6 | esp rod  8.7 1º 64.7%
+R6 Kali area 1 (4/5)               média  75.8 | indi 70.5  cris 65.5  taoi 77.3  brux 79.2  alta 86.3 | dano-atq 14.7 mortes efeito 3.5 combate 6.1 rod 10.6 | esp rod  8.7 1º 65.0%
+R7 Pashupatastra so destroy, c2    média  76.3 | indi 71.7  cris 65.3  taoi 78.0  brux 80.2  alta 86.5 | dano-atq 14.8 mortes efeito 3.6 combate 5.9 rod 10.5 | esp rod  8.8 1º 64.5%
+R8 Gandiva +3/+3 sem area          média  77.2 | indi 73.5  cris 67.7  taoi 77.8  brux 79.7  alta 87.3 | dano-atq 14.9 mortes efeito 3.7 combate 6.0 rod 10.6 | esp rod  8.7 1º 62.7%
+R9 Trishula sem Ultimo Sopro       média  77.7 | indi 74.5  cris 68.0  taoi 77.7  brux 80.0  alta 88.3 | dano-atq 14.9 mortes efeito 3.6 combate 5.9 rod 10.5 | esp rod  8.7 1º 63.3%
+R10 Sudarshana 1 por ataque        média  78.3 | indi 74.0  cris 68.5  taoi 79.2  brux 81.3  alta 88.5 | dano-atq 15.0 mortes efeito 3.6 combate 5.9 rod 10.5 | esp rod  8.7 1º 65.5%
+R11 Brahmastra so destroy, c3      média  76.8 | indi 71.3  cris 68.5  taoi 78.5  brux 79.3  alta 86.5 | dano-atq 14.8 mortes efeito 3.4 combate 6.2 rod 10.6 | esp rod  8.6 1º 66.0%
+R12 Tandava area 2                 média  76.2 | indi 72.3  cris 64.8  taoi 77.5  brux 79.8  alta 86.7 | dano-atq 14.8 mortes efeito 3.5 combate 6.1 rod 10.6 | esp rod  8.6 1º 64.2%
+R13 Shiva 5/7 sem Impeto           média  77.2 | indi 75.0  cris 64.8  taoi 78.8  brux 79.5  alta 87.8 | dano-atq 14.8 mortes efeito 3.8 combate 6.2 rod 10.9 | esp rod  9.2 1º 63.3%
+RA R1+R2+R4+R6+R8+R9               média  74.9 | indi 68.3  cris 67.7  taoi 75.7  brux 76.7  alta 86.2 | dano-atq 14.4 mortes efeito 3.2 combate 6.4 rod 10.7 | esp rod  8.7 1º 63.5%
+RB RA+R3+R5+R10+R11                média  71.8 | indi 63.7  cris 65.8  taoi 73.3  brux 73.3  alta 82.8 | dano-atq 13.9 mortes efeito 2.9 combate 6.7 rod 10.9 | esp rod  8.7 1º 62.7%
+RC RB+K1+D1+H1                     média  68.9 | indi 65.7  cris 59.8  taoi 67.2  brux 68.3  alta 83.7 | dano-atq 13.4 mortes efeito 3.5 combate 7.0 rod 11.7 | esp rod 10.0 1º 61.0%

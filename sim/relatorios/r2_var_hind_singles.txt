@@ -1,0 +1,12 @@
+oficial                            média  77.6 | indi 73.2  cris 67.2  taoi 78.8  brux 81.5  alta 87.5 | dano-ataque 15.0 rod 10.5 | espelho rod  8.7 1º 64.0%
+K1 Krishna aura other_ally         média  77.4 | indi 74.3  cris 67.2  taoi 78.0  brux 80.0  alta 87.3 | dano-ataque 14.9 rod 10.8 | espelho rod  9.1 1º 63.3%
+K2 Krishna 3/4                     média  76.9 | indi 73.3  cris 66.7  taoi 77.5  brux 80.7  alta 86.5 | dano-ataque 14.8 rod 10.6 | espelho rod  8.8 1º 64.3%
+D1 Durga 4/6 sem Impeto            média  78.3 | indi 75.2  cris 68.5  taoi 78.3  brux 82.2  alta 87.2 | dano-ataque 15.0 rod 10.7 | espelho rod  9.0 1º 62.2%
+H1 Hanuman 3/4 sem Impeto          média  78.2 | indi 74.5  cris 67.0  taoi 79.5  brux 80.8  alta 89.3 | dano-ataque 15.0 rod 10.9 | espelho rod  9.2 1º 62.3%
+H2 Hanuman 3/2                     média  74.7 | indi 70.5  cris 63.5  taoi 75.3  brux 77.8  alta 86.2 | dano-ataque 14.6 rod 10.7 | espelho rod  8.6 1º 64.5%
+J1 Jatayu 1/2 sem Impeto           média  78.0 | indi 73.2  cris 67.7  taoi 79.2  brux 81.2  alta 88.8 | dano-ataque 15.0 rod 10.6 | espelho rod  8.6 1º 63.8%
+G1 Garuda 2/2 sem Impeto           média  79.9 | indi 77.5  cris 69.3  taoi 81.0  brux 82.8  alta 89.0 | dano-ataque 15.2 rod 10.5 | espelho rod  8.7 1º 61.8%
+O1 Om cura2+compra (sem Fe)        média  77.7 | indi 73.3  cris 67.7  taoi 78.5  brux 81.5  alta 87.5 | dano-ataque 14.9 rod 10.7 | espelho rod  8.9 1º 63.7%
+Y1 Yajna 2dano+1Fe                 média  77.9 | indi 72.8  cris 68.2  taoi 79.3  brux 82.0  alta 87.3 | dano-ataque 14.9 rod 10.6 | espelho rod  8.7 1º 63.2%
+S1 Sudarshana +2/+2 sem Impeto     média  79.1 | indi 75.2  cris 69.7  taoi 80.2  brux 81.8  alta 88.7 | dano-ataque 15.1 rod 10.4 | espelho rod  8.7 1º 64.3%
+N1 Narasimha 2/3                   média  78.1 | indi 73.7  cris 68.5  taoi 79.2  brux 80.8  alta 88.3 | dano-ataque 15.0 rod 10.6 | espelho rod  8.8 1º 62.5%

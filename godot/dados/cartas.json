@@ -1,0 +1,5299 @@
+{
+ "cartas": {
+  "ind_saci_perere": {
+   "id": "ind_saci_perere",
+   "nome": "Saci-Pererê",
+   "cultura": "indigena",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 1,
+   "lendaria": false,
+   "keywords": [
+    "furtivo"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "freeze",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Furtivo. Despertar: uma Entidade inimiga não ataca no próximo turno dela.",
+   "copias": 2,
+   "arte": "res://arte/indigena/ind_saci_perere.png"
+  },
+  "ind_curupira": {
+   "id": "ind_curupira",
+   "nome": "Curupira",
+   "cultura": "indigena",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [
+    "guarda"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_damaged",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "attacker",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Guarda. Sempre que sofrer dano, causa 1 de dano ao atacante.",
+   "copias": 2,
+   "arte": "res://arte/indigena/ind_curupira.png"
+  },
+  "ind_caipora": {
+   "id": "ind_caipora",
+   "nome": "Caipora",
+   "cultura": "indigena",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 2,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "summon",
+       "atk": 1,
+       "vida": 2,
+       "nome": "Queixada",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: invoca um Queixada 1/2.",
+   "copias": 2,
+   "arte": "res://arte/indigena/ind_caipora.png"
+  },
+  "ind_iara": {
+   "id": "ind_iara",
+   "nome": "Iara",
+   "cultura": "indigena",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 2,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "bounce",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: devolve uma Entidade inimiga à mão do dono.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_iara.png"
+  },
+  "ind_boitata": {
+   "id": "ind_boitata",
+   "nome": "Boitatá",
+   "cultura": "indigena",
+   "tipo": "entidade",
+   "custo": 4,
+   "atk": 3,
+   "vida": 4,
+   "lendaria": false,
+   "keywords": [
+    "guarda"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_damaged",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "attacker",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Guarda. Sempre que sofrer dano de um ataque, causa 1 de dano ao atacante.",
+   "copias": 2,
+   "arte": "res://arte/indigena/ind_boitata.png"
+  },
+  "ind_anhanga": {
+   "id": "ind_anhanga",
+   "nome": "Anhangá",
+   "cultura": "indigena",
+   "tipo": "entidade",
+   "custo": 4,
+   "atk": 3,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "ally_dies",
+     "acoes": [
+      {
+       "op": "summon",
+       "atk": 1,
+       "vida": 2,
+       "nome": "Veado Branco",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Sempre que outra Entidade aliada morrer, invoca um Veado Branco 1/2.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_anhanga.png"
+  },
+  "ind_mapinguari": {
+   "id": "ind_mapinguari",
+   "nome": "Mapinguari",
+   "cultura": "indigena",
+   "tipo": "entidade",
+   "custo": 5,
+   "atk": 4,
+   "vida": 5,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_damaged",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "attacker",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Sempre que sofrer dano, causa 2 de dano ao atacante.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_mapinguari.png"
+  },
+  "ind_cobra_grande": {
+   "id": "ind_cobra_grande",
+   "nome": "Cobra-Grande",
+   "cultura": "indigena",
+   "tipo": "entidade",
+   "custo": 6,
+   "atk": 5,
+   "vida": 6,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_dies",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "self",
+       "atk": 1,
+       "vida": 1,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Sempre que uma Entidade inimiga morrer, Cobra-Grande ganha +1/+1 permanente.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_cobra_grande.png"
+  },
+  "ind_jaci": {
+   "id": "ind_jaci",
+   "nome": "Jaci, a Lua",
+   "cultura": "indigena",
+   "tipo": "entidade",
+   "custo": 6,
+   "atk": 4,
+   "vida": 5,
+   "lendaria": true,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "summon",
+       "atk": 0,
+       "vida": 2,
+       "nome": "Vitória-régia",
+       "keywords": [
+        "guarda"
+       ],
+       "n": 1
+      }
+     ]
+    },
+    {
+     "gatilho": "end_turn",
+     "acoes": [
+      {
+       "op": "heal",
+       "alvo": "all_ally_entities",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Lendária. Despertar: invoca uma Vitória-régia 0/2 com Guarda. No fim do seu turno, cura 2 em todas as Entidades aliadas.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_jaci.png"
+  },
+  "ind_tupa": {
+   "id": "ind_tupa",
+   "nome": "Tupã, o Trovão",
+   "cultura": "indigena",
+   "tipo": "entidade",
+   "custo": 7,
+   "atk": 6,
+   "vida": 7,
+   "lendaria": true,
+   "keywords": [
+    "guarda"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "all_enemy_entities",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Lendária. Guarda. Despertar: causa 2 de dano a todas as Entidades inimigas.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_tupa.png"
+  },
+  "ind_arapuca": {
+   "id": "ind_arapuca",
+   "nome": "Arapuca",
+   "cultura": "indigena",
+   "tipo": "selo",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_attacks",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "attacker",
+       "n": 1
+      },
+      {
+       "op": "freeze",
+       "alvo": "attacker"
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade inimiga atacar uma Entidade sua: ela sofre 1 de dano, não ataca no próximo turno dela, e você compra 1 carta.",
+   "copias": 2,
+   "arte": "res://arte/indigena/ind_arapuca.png"
+  },
+  "ind_mundeu": {
+   "id": "ind_mundeu",
+   "nome": "Mundéu",
+   "cultura": "indigena",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_attacks",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "attacker",
+       "n": 4
+      },
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 4
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade inimiga atacar uma Entidade sua: ela sofre 4 de dano e sua Cornucópia cura 4.",
+   "copias": 2,
+   "arte": "res://arte/indigena/ind_mundeu.png"
+  },
+  "ind_assovio_da_matinta": {
+   "id": "ind_assovio_da_matinta",
+   "nome": "Assovio da Matinta",
+   "cultura": "indigena",
+   "tipo": "selo",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_end_turn",
+     "acoes": [
+      {
+       "op": "discard",
+       "alvo": "enemy_hand_random",
+       "n": 1
+      },
+      {
+       "op": "damage",
+       "alvo": "enemy_cornucopia",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "No fim do turno do oponente: ele descarta 1 carta aleatória e sua Cornucópia sofre 1 de dano.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_assovio_da_matinta.png"
+  },
+  "ind_sopro_do_paje": {
+   "id": "ind_sopro_do_paje",
+   "nome": "Sopro do Pajé",
+   "cultura": "indigena",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_plays_rite",
+     "acoes": [
+      {
+       "op": "counter"
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando o oponente jogar um Rito: anula esse Rito e você compra 1 carta.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_sopro_do_paje.png"
+  },
+  "ind_cauim": {
+   "id": "ind_cauim",
+   "nome": "Cauim",
+   "cultura": "indigena",
+   "tipo": "rito",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 2
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Sua Cornucópia cura 2. Compre 1 carta.",
+   "copias": 2,
+   "arte": "res://arte/indigena/ind_cauim.png"
+  },
+  "ind_visao_do_caapi": {
+   "id": "ind_visao_do_caapi",
+   "nome": "Visão do Caapi",
+   "cultura": "indigena",
+   "tipo": "rito",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "draw",
+       "n": 2
+      },
+      {
+       "op": "gain_fe",
+       "n": 1,
+       "perm": false
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Compre 2 cartas. Ganhe +1 Fé neste turno.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_visao_do_caapi.png"
+  },
+  "ind_fogo_de_monan": {
+   "id": "ind_fogo_de_monan",
+   "nome": "Fogo de Monan",
+   "cultura": "indigena",
+   "tipo": "rito",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "all_enemy_entities",
+       "n": 2
+      },
+      {
+       "op": "damage",
+       "alvo": "enemy_cornucopia",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Causa 2 de dano a todas as Entidades inimigas e 1 de dano à Cornucópia inimiga.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_fogo_de_monan.png"
+  },
+  "ind_danca_do_aruana": {
+   "id": "ind_danca_do_aruana",
+   "nome": "Dança do Aruanã",
+   "cultura": "indigena",
+   "tipo": "rito",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "summon",
+       "atk": 1,
+       "vida": 1,
+       "nome": "Aruanã",
+       "n": 2
+      },
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Invoca dois Aruanãs 1/1. Sua Cornucópia cura 2.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_danca_do_aruana.png"
+  },
+  "ind_dadiva_de_mani": {
+   "id": "ind_dadiva_de_mani",
+   "nome": "Dádiva de Mani",
+   "cultura": "indigena",
+   "tipo": "rito",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity",
+       "para": "hand"
+      },
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 6
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Devolve uma Entidade do seu cemitério à sua mão. Sua Cornucópia cura 6. Compre 1 carta.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_dadiva_de_mani.png"
+  },
+  "ind_kuarup": {
+   "id": "ind_kuarup",
+   "nome": "Kuarup",
+   "cultura": "indigena",
+   "tipo": "rito",
+   "custo": 4,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity",
+       "para": "field"
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Traz uma Entidade do seu cemitério de volta ao campo. Compre 1 carta.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_kuarup.png"
+  },
+  "ind_terra_sem_males": {
+   "id": "ind_terra_sem_males",
+   "nome": "Terra sem Males",
+   "cultura": "indigena",
+   "tipo": "rito",
+   "custo": 4,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "all_ally_entities",
+       "atk": 1,
+       "vida": 1,
+       "perm": true
+      },
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 4
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Todas as suas Entidades ganham +1/+1 permanente. Sua Cornucópia cura 4.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_terra_sem_males.png"
+  },
+  "ind_ibirapema": {
+   "id": "ind_ibirapema",
+   "nome": "Ibirapema",
+   "cultura": "indigena",
+   "tipo": "reliquia",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 2,
+       "vida": 0,
+       "perm": true
+      },
+      {
+       "op": "give_keyword",
+       "alvo": "equipped",
+       "keyword": "impeto"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "A portadora ganha +2 ATK e Ímpeto.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_ibirapema.png"
+  },
+  "ind_muiraquita": {
+   "id": "ind_muiraquita",
+   "nome": "Muiraquitã",
+   "cultura": "indigena",
+   "tipo": "reliquia",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 0,
+       "vida": 3,
+       "perm": true
+      },
+      {
+       "op": "give_keyword",
+       "alvo": "equipped",
+       "keyword": "renascer"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "A portadora ganha +3 Vida e Renascer.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_muiraquita.png"
+  },
+  "ind_maraca_do_paje": {
+   "id": "ind_maraca_do_paje",
+   "nome": "Maracá do Pajé",
+   "cultura": "indigena",
+   "tipo": "reliquia",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 1,
+       "vida": 2,
+       "perm": true
+      }
+     ]
+    },
+    {
+     "gatilho": "equipped_dies",
+     "acoes": [
+      {
+       "op": "summon",
+       "atk": 1,
+       "vida": 1,
+       "nome": "Espírito",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "A portadora ganha +1/+2. Quando ela morrer, invoca um Espírito 1/1.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_maraca_do_paje.png"
+  },
+  "ind_cocar_do_morubixaba": {
+   "id": "ind_cocar_do_morubixaba",
+   "nome": "Cocar do Morubixaba",
+   "cultura": "indigena",
+   "tipo": "reliquia",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 0,
+       "vida": 3,
+       "perm": true
+      },
+      {
+       "op": "give_keyword",
+       "alvo": "equipped",
+       "keyword": "guarda"
+      }
+     ]
+    },
+    {
+     "gatilho": "static",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "all_ally_entities",
+       "atk": 1,
+       "vida": 0,
+       "perm": false
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "A portadora ganha +3 Vida e Guarda. Enquanto ela estiver em campo, todas as suas Entidades ganham +1 ATK.",
+   "copias": 1,
+   "arte": "res://arte/indigena/ind_cocar_do_morubixaba.png"
+  },
+  "cri_anjo_da_guarda": {
+   "id": "cri_anjo_da_guarda",
+   "nome": "Anjo da Guarda",
+   "cultura": "cristianismo",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [
+    "guarda"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_death",
+     "acoes": [
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Guarda. Último Sopro: cura 2 da sua Cornucópia.",
+   "copias": 2,
+   "arte": "res://arte/cristianismo/cri_anjo_da_guarda.png"
+  },
+  "cri_jonas": {
+   "id": "cri_jonas",
+   "nome": "Jonas",
+   "cultura": "cristianismo",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [
+    "renascer"
+   ],
+   "sacrificio": 0,
+   "efeitos": [],
+   "usos": null,
+   "texto": "Renascer. (Quando morrer, volta para a sua mão uma vez.)",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_jonas.png"
+  },
+  "cri_davi_o_pastor": {
+   "id": "cri_davi_o_pastor",
+   "nome": "Davi, o Pastor",
+   "cultura": "cristianismo",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_attack",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "enemy_entity",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Ao atacar, causa 2 de dano a uma Entidade inimiga à sua escolha.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_davi_o_pastor.png"
+  },
+  "cri_lazaro_de_betania": {
+   "id": "cri_lazaro_de_betania",
+   "nome": "Lázaro de Betânia",
+   "cultura": "cristianismo",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 2,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [
+    "renascer"
+   ],
+   "sacrificio": 0,
+   "efeitos": [],
+   "usos": null,
+   "texto": "Renascer. (Quando morrer, volta para a sua mão uma vez.)",
+   "copias": 2,
+   "arte": "res://arte/cristianismo/cri_lazaro_de_betania.png"
+  },
+  "cri_judite": {
+   "id": "cri_judite",
+   "nome": "Judite",
+   "cultura": "cristianismo",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 2,
+   "vida": 1,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "cond": {
+      "tipo": "target_cost_max",
+      "n": 3
+     },
+     "acoes": [
+      {
+       "op": "destroy",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: destrói uma Entidade inimiga de custo 3 ou menos.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_judite.png"
+  },
+  "cri_gabriel": {
+   "id": "cri_gabriel",
+   "nome": "Gabriel, o Mensageiro",
+   "cultura": "cristianismo",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 2,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "search",
+       "tipo": "rito"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: busque um Rito do seu deck para a mão.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_gabriel.png"
+  },
+  "cri_rafael": {
+   "id": "cri_rafael",
+   "nome": "Rafael, o Curador",
+   "cultura": "cristianismo",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 2,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "heal",
+       "alvo": "ally_entity",
+       "n": 4
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: cura 4 de Vida de uma Entidade aliada.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_rafael.png"
+  },
+  "cri_sansao": {
+   "id": "cri_sansao",
+   "nome": "Sansão",
+   "cultura": "cristianismo",
+   "tipo": "entidade",
+   "custo": 4,
+   "atk": 3,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_death",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "all_enemy_entities",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Último Sopro: causa 2 de dano a todas as Entidades inimigas.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_sansao.png"
+  },
+  "cri_serafim": {
+   "id": "cri_serafim",
+   "nome": "Serafim",
+   "cultura": "cristianismo",
+   "tipo": "entidade",
+   "custo": 5,
+   "atk": 4,
+   "vida": 4,
+   "lendaria": false,
+   "keywords": [
+    "guarda"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "silence",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Guarda. Despertar: silencia uma Entidade inimiga (perde palavras-chave e efeitos).",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_serafim.png"
+  },
+  "cri_leviata": {
+   "id": "cri_leviata",
+   "nome": "Leviatã",
+   "cultura": "cristianismo",
+   "tipo": "entidade",
+   "custo": 6,
+   "atk": 6,
+   "vida": 7,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 1,
+   "efeitos": [
+    {
+     "gatilho": "on_death",
+     "acoes": [
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 4
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Sacrifício 1. Último Sopro: cura 4 da sua Cornucópia.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_leviata.png"
+  },
+  "cri_elias": {
+   "id": "cri_elias",
+   "nome": "Elias, Carro de Fogo",
+   "cultura": "cristianismo",
+   "tipo": "entidade",
+   "custo": 6,
+   "atk": 4,
+   "vida": 5,
+   "lendaria": true,
+   "keywords": [
+    "renascer"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "all_enemy_entities",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Lendária. Renascer. Despertar: fogo do céu — 2 de dano a todas as Entidades inimigas.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_elias.png"
+  },
+  "cri_sao_miguel_arcanjo": {
+   "id": "cri_sao_miguel_arcanjo",
+   "nome": "São Miguel Arcanjo",
+   "cultura": "cristianismo",
+   "tipo": "entidade",
+   "custo": 7,
+   "atk": 5,
+   "vida": 6,
+   "lendaria": true,
+   "keywords": [
+    "guarda"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "destroy",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Lendária. Guarda. Despertar: destrói uma Entidade inimiga.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_sao_miguel_arcanjo.png"
+  },
+  "cri_cova_dos_leoes": {
+   "id": "cri_cova_dos_leoes",
+   "nome": "Cova dos Leões",
+   "cultura": "cristianismo",
+   "tipo": "selo",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "ally_damaged",
+     "acoes": [
+      {
+       "op": "heal",
+       "alvo": "defender",
+       "n": 4
+      },
+      {
+       "op": "buff",
+       "alvo": "defender",
+       "atk": 1,
+       "vida": 1,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade aliada sofrer dano, cure 4 dela e ela ganha +1/+1 permanente.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_cova_dos_leoes.png"
+  },
+  "cri_tumba_vazia": {
+   "id": "cri_tumba_vazia",
+   "nome": "Tumba Vazia",
+   "cultura": "cristianismo",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "ally_dies",
+     "acoes": [
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity",
+       "para": "field"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade aliada morrer, reviva uma Entidade do seu cemitério para o campo.",
+   "copias": 2,
+   "arte": "res://arte/cristianismo/cri_tumba_vazia.png"
+  },
+  "cri_portao_do_eden": {
+   "id": "cri_portao_do_eden",
+   "nome": "Portão do Éden",
+   "cultura": "cristianismo",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_plays_entity",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "triggering",
+       "n": 3
+      },
+      {
+       "op": "freeze",
+       "alvo": "triggering"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando o oponente invocar uma Entidade, ela sofre 3 de dano e não ataca no próximo turno dela.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_portao_do_eden.png"
+  },
+  "cri_mudez_de_zacarias": {
+   "id": "cri_mudez_de_zacarias",
+   "nome": "Mudez de Zacarias",
+   "cultura": "cristianismo",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_plays_rite",
+     "acoes": [
+      {
+       "op": "counter"
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando o oponente jogar um Rito, anule-o. Compre 1 carta.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_mudez_de_zacarias.png"
+  },
+  "cri_sangue_nos_umbrais": {
+   "id": "cri_sangue_nos_umbrais",
+   "nome": "Sangue nos Umbrais",
+   "cultura": "cristianismo",
+   "tipo": "selo",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_attacks",
+     "acoes": [
+      {
+       "op": "destroy",
+       "alvo": "attacker"
+      },
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 4
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade inimiga atacar, destrua-a. Cure 4 da sua Cornucópia.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_sangue_nos_umbrais.png"
+  },
+  "cri_multiplicacao_dos_paes": {
+   "id": "cri_multiplicacao_dos_paes",
+   "nome": "Multiplicação dos Pães",
+   "cultura": "cristianismo",
+   "tipo": "rito",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "draw",
+       "n": 2
+      },
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Compre 2 cartas. Cure 2 da sua Cornucópia.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_multiplicacao_dos_paes.png"
+  },
+  "cri_exorcismo": {
+   "id": "cri_exorcismo",
+   "nome": "Exorcismo",
+   "cultura": "cristianismo",
+   "tipo": "rito",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "bounce",
+       "alvo": "enemy_entity"
+      },
+      {
+       "op": "heal",
+       "alvo": "ally_entity",
+       "n": 4
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Devolva uma Entidade inimiga à mão do dono. Cure 4 de Vida de uma Entidade aliada.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_exorcismo.png"
+  },
+  "cri_praga_dos_gafanhotos": {
+   "id": "cri_praga_dos_gafanhotos",
+   "nome": "Praga dos Gafanhotos",
+   "cultura": "cristianismo",
+   "tipo": "rito",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "all_enemy_entities",
+       "n": 2
+      },
+      {
+       "op": "discard",
+       "alvo": "enemy_hand_random",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Causa 2 de dano a todas as Entidades inimigas. O oponente descarta 1 carta aleatória.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_praga_dos_gafanhotos.png"
+  },
+  "cri_talita_cumi": {
+   "id": "cri_talita_cumi",
+   "nome": "Talita Cumi",
+   "cultura": "cristianismo",
+   "tipo": "rito",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity",
+       "para": "field"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Reviva uma Entidade do seu cemitério para o campo.",
+   "copias": 2,
+   "arte": "res://arte/cristianismo/cri_talita_cumi.png"
+  },
+  "cri_vale_dos_ossos_secos": {
+   "id": "cri_vale_dos_ossos_secos",
+   "nome": "Vale dos Ossos Secos",
+   "cultura": "cristianismo",
+   "tipo": "rito",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "summon",
+       "atk": 1,
+       "vida": 1,
+       "nome": "Osso Erguido",
+       "n": 2
+      },
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity_random",
+       "para": "hand"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Invoque dois Ossos Erguidos 1/1. Reviva uma Entidade aleatória do seu cemitério para a mão.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_vale_dos_ossos_secos.png"
+  },
+  "cri_granizo_e_fogo": {
+   "id": "cri_granizo_e_fogo",
+   "nome": "Granizo e Fogo",
+   "cultura": "cristianismo",
+   "tipo": "rito",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "all_enemy_entities",
+       "n": 3
+      },
+      {
+       "op": "damage",
+       "alvo": "enemy_cornucopia",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Causa 3 de dano a todas as Entidades inimigas e 1 de dano à Cornucópia inimiga.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_granizo_e_fogo.png"
+  },
+  "cri_juizo_final": {
+   "id": "cri_juizo_final",
+   "nome": "Juízo Final",
+   "cultura": "cristianismo",
+   "tipo": "rito",
+   "custo": 4,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "destroy",
+       "alvo": "all_entities"
+      },
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity_random",
+       "para": "hand"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Destrua todas as Entidades em campo, inimigas e suas. Depois, uma Entidade aleatória do seu cemitério volta à sua mão.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_juizo_final.png"
+  },
+  "cri_funda_de_davi": {
+   "id": "cri_funda_de_davi",
+   "nome": "Funda de Davi",
+   "cultura": "cristianismo",
+   "tipo": "reliquia",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 2,
+       "vida": 0,
+       "perm": true
+      },
+      {
+       "op": "give_keyword",
+       "alvo": "equipped",
+       "keyword": "impeto"
+      }
+     ]
+    },
+    {
+     "gatilho": "equipped_attacks",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "enemy_entity",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "A portadora ganha +2 ATK e Ímpeto. Quando ela ataca, causa 1 de dano a uma Entidade inimiga à sua escolha.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_funda_de_davi.png"
+  },
+  "cri_veu_de_veronica": {
+   "id": "cri_veu_de_veronica",
+   "nome": "Véu de Verônica",
+   "cultura": "cristianismo",
+   "tipo": "reliquia",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 1,
+       "vida": 2,
+       "perm": true
+      },
+      {
+       "op": "give_keyword",
+       "alvo": "equipped",
+       "keyword": "renascer"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "A portadora ganha +1/+2 e Renascer.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_veu_de_veronica.png"
+  },
+  "cri_santo_graal": {
+   "id": "cri_santo_graal",
+   "nome": "Santo Graal",
+   "cultura": "cristianismo",
+   "tipo": "reliquia",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 0,
+       "vida": 2,
+       "perm": true
+      },
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 4
+      }
+     ]
+    },
+    {
+     "gatilho": "equipped_attacks",
+     "acoes": [
+      {
+       "op": "heal",
+       "alvo": "equipped",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "A portadora ganha +0/+2. Ao equipar, cure 4 da sua Cornucópia. Quando a portadora ataca, cure 2 dela.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_santo_graal.png"
+  },
+  "cri_arca_da_alianca": {
+   "id": "cri_arca_da_alianca",
+   "nome": "Arca da Aliança",
+   "cultura": "cristianismo",
+   "tipo": "reliquia",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 0,
+       "vida": 3,
+       "perm": true
+      },
+      {
+       "op": "give_keyword",
+       "alvo": "equipped",
+       "keyword": "guarda"
+      }
+     ]
+    },
+    {
+     "gatilho": "static",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "all_ally_entities",
+       "atk": 1,
+       "vida": 0,
+       "perm": false
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "A portadora ganha +0/+3 e Guarda. Enquanto a Arca estiver em campo, suas Entidades têm +1 ATK.",
+   "copias": 1,
+   "arte": "res://arte/cristianismo/cri_arca_da_alianca.png"
+  },
+  "tao_lan_caihe": {
+   "id": "tao_lan_caihe",
+   "nome": "Lan Caihe",
+   "cultura": "taoismo",
+   "tipo": "entidade",
+   "custo": 1,
+   "atk": 1,
+   "vida": 1,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "cond": {
+      "tipo": "ally_count_min",
+      "n": 2
+     },
+     "acoes": [
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: se você controla 2 ou mais Entidades, compre 1 carta.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_lan_caihe.png"
+  },
+  "tao_he_xiangu": {
+   "id": "tao_he_xiangu",
+   "nome": "He Xiangu",
+   "cultura": "taoismo",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "end_turn",
+     "acoes": [
+      {
+       "op": "heal",
+       "alvo": "ally_entity",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "No fim do seu turno, cure 2 de Vida de uma Entidade aliada.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_he_xiangu.png"
+  },
+  "tao_han_xiangzi": {
+   "id": "tao_han_xiangzi",
+   "nome": "Han Xiangzi",
+   "cultura": "taoismo",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "cond": {
+      "tipo": "ally_count_min",
+      "n": 2
+     },
+     "acoes": [
+      {
+       "op": "gain_fe",
+       "n": 2,
+       "perm": false
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: se você controla 2 ou mais Entidades, ganhe 2 Fé temporária.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_han_xiangzi.png"
+  },
+  "tao_li_tieguai": {
+   "id": "tao_li_tieguai",
+   "nome": "Li Tieguai",
+   "cultura": "taoismo",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [
+    "renascer"
+   ],
+   "sacrificio": 0,
+   "efeitos": [],
+   "usos": null,
+   "texto": "Renascer.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_li_tieguai.png"
+  },
+  "tao_zhongli_quan": {
+   "id": "tao_zhongli_quan",
+   "nome": "Zhongli Quan",
+   "cultura": "taoismo",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 2,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity",
+       "para": "hand"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: devolva uma Entidade do seu cemitério para a sua mão.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_zhongli_quan.png"
+  },
+  "tao_lu_dongbin": {
+   "id": "tao_lu_dongbin",
+   "nome": "Lü Dongbin",
+   "cultura": "taoismo",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 2,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "static",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "other_ally_entities",
+       "atk": 1,
+       "vida": 0,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Aura: suas outras Entidades têm +1 ATK enquanto Lü Dongbin estiver em campo.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_lu_dongbin.png"
+  },
+  "tao_zhang_guolao": {
+   "id": "tao_zhang_guolao",
+   "nome": "Zhang Guolao",
+   "cultura": "taoismo",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 2,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "bounce",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: devolva uma Entidade inimiga à mão do dono.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_zhang_guolao.png"
+  },
+  "tao_cao_guojiu": {
+   "id": "tao_cao_guojiu",
+   "nome": "Cao Guojiu",
+   "cultura": "taoismo",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 1,
+   "vida": 4,
+   "lendaria": false,
+   "keywords": [
+    "guarda"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "heal",
+       "alvo": "ally_entity",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Guarda. Despertar: cure 2 de Vida de uma Entidade aliada.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_cao_guojiu.png"
+  },
+  "tao_nezha": {
+   "id": "tao_nezha",
+   "nome": "Nezha",
+   "cultura": "taoismo",
+   "tipo": "entidade",
+   "custo": 4,
+   "atk": 3,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [
+    "impeto",
+    "renascer"
+   ],
+   "sacrificio": 0,
+   "efeitos": [],
+   "usos": null,
+   "texto": "Ímpeto. Renascer.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_nezha.png"
+  },
+  "tao_zhong_kui": {
+   "id": "tao_zhong_kui",
+   "nome": "Zhong Kui",
+   "cultura": "taoismo",
+   "tipo": "entidade",
+   "custo": 4,
+   "atk": 3,
+   "vida": 4,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "silence",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: silencie uma Entidade inimiga (ela perde palavras-chave e habilidades).",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_zhong_kui.png"
+  },
+  "tao_erlang_shen": {
+   "id": "tao_erlang_shen",
+   "nome": "Erlang Shen",
+   "cultura": "taoismo",
+   "tipo": "entidade",
+   "custo": 5,
+   "atk": 3,
+   "vida": 5,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "summon",
+       "atk": 2,
+       "vida": 1,
+       "nome": "Xiaotian Quan, Cão Celestial",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: invoque Xiaotian Quan, o Cão Celestial (2/1), se houver slot livre.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_erlang_shen.png"
+  },
+  "tao_guan_yu": {
+   "id": "tao_guan_yu",
+   "nome": "Guan Yu, Imperador Guan",
+   "cultura": "taoismo",
+   "tipo": "entidade",
+   "custo": 5,
+   "atk": 4,
+   "vida": 5,
+   "lendaria": false,
+   "keywords": [
+    "guarda"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "ally_entity",
+       "atk": 1,
+       "vida": 0,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Guarda. Despertar: uma Entidade aliada ganha +1 ATK permanente.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_guan_yu.png"
+  },
+  "tao_xiwangmu": {
+   "id": "tao_xiwangmu",
+   "nome": "Xiwangmu, Rainha Mãe do Oeste",
+   "cultura": "taoismo",
+   "tipo": "entidade",
+   "custo": 6,
+   "atk": 4,
+   "vida": 5,
+   "lendaria": true,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity",
+       "para": "field"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: reviva uma Entidade do seu cemitério para o campo.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_xiwangmu.png"
+  },
+  "tao_imperador_de_jade": {
+   "id": "tao_imperador_de_jade",
+   "nome": "Imperador de Jade",
+   "cultura": "taoismo",
+   "tipo": "entidade",
+   "custo": 7,
+   "atk": 5,
+   "vida": 6,
+   "lendaria": true,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "static",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "other_ally_entities",
+       "atk": 1,
+       "vida": 1,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Aura: suas outras Entidades têm +1/+1 enquanto o Imperador de Jade estiver em campo.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_imperador_de_jade.png"
+  },
+  "tao_fulu_de_selamento": {
+   "id": "tao_fulu_de_selamento",
+   "nome": "Fulu de Selamento",
+   "cultura": "taoismo",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_plays_rite",
+     "acoes": [
+      {
+       "op": "counter"
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando o oponente jogar um Rito: anule-o (vai ao cemitério sem efeito). Compre 1 carta.",
+   "copias": 2,
+   "arte": "res://arte/taoismo/tao_fulu_de_selamento.png"
+  },
+  "tao_dragao_azul_do_leste": {
+   "id": "tao_dragao_azul_do_leste",
+   "nome": "Dragão Azul do Leste",
+   "cultura": "taoismo",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_end_turn",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "all_ally_entities",
+       "atk": 1,
+       "vida": 1,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "No fim do turno do oponente: todas as suas Entidades ganham +1/+1 permanente.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_dragao_azul_do_leste.png"
+  },
+  "tao_tigre_branco_do_oeste": {
+   "id": "tao_tigre_branco_do_oeste",
+   "nome": "Tigre Branco do Oeste",
+   "cultura": "taoismo",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_attacks",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "attacker",
+       "n": 4
+      },
+      {
+       "op": "buff",
+       "alvo": "attacker",
+       "atk": -1,
+       "vida": 0,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade inimiga atacar: ela sofre 4 de dano e recebe −1 ATK permanente.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_tigre_branco_do_oeste.png"
+  },
+  "tao_passaro_vermelho_do_sul": {
+   "id": "tao_passaro_vermelho_do_sul",
+   "nome": "Pássaro Vermelho do Sul",
+   "cultura": "taoismo",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "ally_dies",
+     "acoes": [
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity",
+       "para": "field"
+      },
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade aliada morrer: reviva uma Entidade do seu cemitério para o campo e cure 2 da sua Cornucópia.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_passaro_vermelho_do_sul.png"
+  },
+  "tao_tartaruga_negra_do_norte": {
+   "id": "tao_tartaruga_negra_do_norte",
+   "nome": "Tartaruga Negra do Norte",
+   "cultura": "taoismo",
+   "tipo": "selo",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "ally_damaged",
+     "acoes": [
+      {
+       "op": "heal",
+       "alvo": "defender",
+       "n": 4
+      },
+      {
+       "op": "buff",
+       "alvo": "defender",
+       "atk": 0,
+       "vida": 1,
+       "perm": true
+      },
+      {
+       "op": "give_keyword",
+       "alvo": "defender",
+       "keyword": "guarda"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade aliada sofrer dano: cure 4 de Vida dela; ela ganha +0/+1 permanente e Guarda.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_tartaruga_negra_do_norte.png"
+  },
+  "tao_circulacao_do_qi": {
+   "id": "tao_circulacao_do_qi",
+   "nome": "Circulação do Qi",
+   "cultura": "taoismo",
+   "tipo": "rito",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "gain_fe",
+       "n": 1,
+       "perm": false
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Ganhe 1 Fé temporária. Compre 1 carta.",
+   "copias": 2,
+   "arte": "res://arte/taoismo/tao_circulacao_do_qi.png"
+  },
+  "tao_flechas_de_houyi": {
+   "id": "tao_flechas_de_houyi",
+   "nome": "Flechas de Houyi",
+   "cultura": "taoismo",
+   "tipo": "rito",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "enemy_entity",
+       "n": 3
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Cause 3 de dano a uma Entidade inimiga. Compre 1 carta.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_flechas_de_houyi.png"
+  },
+  "tao_pilula_de_ouro": {
+   "id": "tao_pilula_de_ouro",
+   "nome": "Pílula de Ouro",
+   "cultura": "taoismo",
+   "tipo": "rito",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity",
+       "para": "field"
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Reviva uma Entidade do seu cemitério para o campo. Compre 1 carta.",
+   "copias": 2,
+   "arte": "res://arte/taoismo/tao_pilula_de_ouro.png"
+  },
+  "tao_banquete_dos_pessegos": {
+   "id": "tao_banquete_dos_pessegos",
+   "nome": "Banquete dos Pêssegos",
+   "cultura": "taoismo",
+   "tipo": "rito",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "all_ally_entities",
+       "atk": 1,
+       "vida": 1,
+       "perm": true
+      },
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Todas as suas Entidades ganham +1/+1 permanente. Cure 2 da sua Cornucópia.",
+   "copias": 1,
+   "arte": "res://arte/taoismo/tao_banquete_dos_pessegos.png"
+  },
+  "tao_taiji": {
+   "id": "tao_taiji",
+   "nome": "Taiji",
+   "cultura": "taoismo",
+   "tipo": "rito",
+   "custo": 4,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "ally_entity",
+       "atk": 2,
+       "vida": 2,
+       "perm": true
+      },
+      {
+       "op": "buff",
+       "alvo": "enemy_entity",
+       "atk": -2,
+       "vida": -2,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Uma Entidade aliada ganha +2/+2 permanente e uma Entidade inimiga recebe −2/−2 permanente.",
+   "copias": 2,
+   "arte": "res://arte/taoismo/tao_taiji.png"
+  },
+  "tao_pessego_da_imortalidade": {
+   "id": "tao_pessego_da_imortalidade",
+   "nome": "Pêssego da Imortalidade",
+   "cultura": "taoismo",
+   "tipo": "reliquia",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 1,
+       "vida": 2,
+       "perm": true
+      },
+      {
+       "op": "give_keyword",
+       "alvo": "equipped",
+       "keyword": "renascer"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Equipe uma Entidade aliada: +1/+2. A portadora ganha Renascer.",
+   "copias": 2,
+   "arte": "res://arte/taoismo/tao_pessego_da_imortalidade.png"
+  },
+  "tao_espelho_de_bronze": {
+   "id": "tao_espelho_de_bronze",
+   "nome": "Espelho de Bronze",
+   "cultura": "taoismo",
+   "tipo": "reliquia",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 1,
+       "vida": 1,
+       "perm": true
+      },
+      {
+       "op": "give_keyword",
+       "alvo": "equipped",
+       "keyword": "furtivo"
+      },
+      {
+       "op": "silence",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Equipe uma Entidade aliada: +1/+1 e Furtivo. Ao equipar, silencie uma Entidade inimiga.",
+   "copias": 2,
+   "arte": "res://arte/taoismo/tao_espelho_de_bronze.png"
+  },
+  "hin_matsya": {
+   "id": "hin_matsya",
+   "nome": "Matsya, o Peixe",
+   "cultura": "hinduismo",
+   "tipo": "entidade",
+   "custo": 1,
+   "atk": 0,
+   "vida": 1,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "search",
+       "tipo": "reliquia"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: busque uma Relíquia do seu deck para a mão.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_matsya.png"
+  },
+  "hin_garuda": {
+   "id": "hin_garuda",
+   "nome": "Garuda",
+   "cultura": "hinduismo",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [
+    "impeto"
+   ],
+   "sacrificio": 0,
+   "efeitos": [],
+   "usos": null,
+   "texto": "Ímpeto.",
+   "copias": 2,
+   "arte": "res://arte/hinduismo/hin_garuda.png"
+  },
+  "hin_jatayu": {
+   "id": "hin_jatayu",
+   "nome": "Jatayu",
+   "cultura": "hinduismo",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 1,
+   "lendaria": false,
+   "keywords": [
+    "impeto"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_death",
+     "acoes": [
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Ímpeto. Último Sopro: compre 1 carta.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_jatayu.png"
+  },
+  "hin_ganesha": {
+   "id": "hin_ganesha",
+   "nome": "Ganesha, Removedor de Obstáculos",
+   "cultura": "hinduismo",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 2,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "bounce",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: devolva uma Entidade inimiga à mão do dono.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_ganesha.png"
+  },
+  "hin_arjuna": {
+   "id": "hin_arjuna",
+   "nome": "Arjuna",
+   "cultura": "hinduismo",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 2,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [
+    "furtivo"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_attack",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "enemy_entity",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Furtivo. Ao atacar, causa 1 de dano a uma Entidade inimiga à sua escolha.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_arjuna.png"
+  },
+  "hin_hanuman": {
+   "id": "hin_hanuman",
+   "nome": "Hanuman",
+   "cultura": "hinduismo",
+   "tipo": "entidade",
+   "custo": 4,
+   "atk": 3,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [
+    "impeto"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_attack",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "self",
+       "atk": 1,
+       "vida": 0,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Ímpeto. Sempre que atacar, ganha +1 ATK permanente.",
+   "copias": 2,
+   "arte": "res://arte/hinduismo/hin_hanuman.png"
+  },
+  "hin_narasimha": {
+   "id": "hin_narasimha",
+   "nome": "Narasimha",
+   "cultura": "hinduismo",
+   "tipo": "entidade",
+   "custo": 4,
+   "atk": 3,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "cond": {
+      "tipo": "target_cost_max",
+      "n": 3
+     },
+     "acoes": [
+      {
+       "op": "destroy",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: destrua uma Entidade inimiga de custo 3 ou menos.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_narasimha.png"
+  },
+  "hin_rama": {
+   "id": "hin_rama",
+   "nome": "Rama, Príncipe de Ayodhya",
+   "cultura": "hinduismo",
+   "tipo": "entidade",
+   "custo": 4,
+   "atk": 3,
+   "vida": 4,
+   "lendaria": false,
+   "keywords": [
+    "renascer"
+   ],
+   "sacrificio": 0,
+   "efeitos": [],
+   "usos": null,
+   "texto": "Renascer.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_rama.png"
+  },
+  "hin_krishna": {
+   "id": "hin_krishna",
+   "nome": "Krishna, o Auriga",
+   "cultura": "hinduismo",
+   "tipo": "entidade",
+   "custo": 5,
+   "atk": 3,
+   "vida": 4,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "static",
+     "acoes": [
+      {
+       "op": "give_keyword",
+       "alvo": "all_ally_entities",
+       "keyword": "impeto"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Enquanto Krishna estiver em campo, suas Entidades têm Ímpeto.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_krishna.png"
+  },
+  "hin_durga": {
+   "id": "hin_durga",
+   "nome": "Durga, a Fortaleza",
+   "cultura": "hinduismo",
+   "tipo": "entidade",
+   "custo": 5,
+   "atk": 4,
+   "vida": 5,
+   "lendaria": false,
+   "keywords": [
+    "impeto",
+    "guarda"
+   ],
+   "sacrificio": 0,
+   "efeitos": [],
+   "usos": null,
+   "texto": "Ímpeto. Guarda.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_durga.png"
+  },
+  "hin_kali": {
+   "id": "hin_kali",
+   "nome": "Kali",
+   "cultura": "hinduismo",
+   "tipo": "entidade",
+   "custo": 6,
+   "atk": 4,
+   "vida": 5,
+   "lendaria": true,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "all_enemy_entities",
+       "n": 1
+      }
+     ]
+    },
+    {
+     "gatilho": "enemy_dies",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "self",
+       "atk": 1,
+       "vida": 0,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: 1 de dano a todas as Entidades inimigas. Sempre que uma Entidade inimiga morrer, Kali ganha +1 ATK permanente.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_kali.png"
+  },
+  "hin_shiva_nataraja": {
+   "id": "hin_shiva_nataraja",
+   "nome": "Shiva Nataraja",
+   "cultura": "hinduismo",
+   "tipo": "entidade",
+   "custo": 7,
+   "atk": 5,
+   "vida": 5,
+   "lendaria": true,
+   "keywords": [
+    "impeto"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "destroy",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Ímpeto. Despertar: destrua uma Entidade inimiga.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_shiva_nataraja.png"
+  },
+  "hin_chamas_de_agni": {
+   "id": "hin_chamas_de_agni",
+   "nome": "Chamas de Agni",
+   "cultura": "hinduismo",
+   "tipo": "selo",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_plays_entity",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "triggering",
+       "n": 1
+      },
+      {
+       "op": "damage",
+       "alvo": "enemy_cornucopia",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando o oponente invocar uma Entidade, ela sofre 1 de dano e a Cornucópia inimiga sofre 1.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_chamas_de_agni.png"
+  },
+  "hin_roda_do_samsara": {
+   "id": "hin_roda_do_samsara",
+   "nome": "Roda do Samsara",
+   "cultura": "hinduismo",
+   "tipo": "selo",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "ally_dies",
+     "acoes": [
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity",
+       "para": "hand"
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério à sua mão e compre 1 carta.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_roda_do_samsara.png"
+  },
+  "hin_lei_do_karma": {
+   "id": "hin_lei_do_karma",
+   "nome": "Lei do Karma",
+   "cultura": "hinduismo",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_attacks",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "attacker",
+       "n": 3
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade inimiga atacar, ela sofre 3 de dano. Compre 1 carta.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_lei_do_karma.png"
+  },
+  "hin_veu_de_maya": {
+   "id": "hin_veu_de_maya",
+   "nome": "Véu de Maya",
+   "cultura": "hinduismo",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_plays_rite",
+     "acoes": [
+      {
+       "op": "counter"
+      },
+      {
+       "op": "bounce",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando o oponente jogar um Rito, anule-o e devolva uma Entidade inimiga à mão do dono.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_veu_de_maya.png"
+  },
+  "hin_incendio_de_lanka": {
+   "id": "hin_incendio_de_lanka",
+   "nome": "Incêndio de Lanka",
+   "cultura": "hinduismo",
+   "tipo": "selo",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_end_turn",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "all_enemy_entities",
+       "n": 1
+      },
+      {
+       "op": "damage",
+       "alvo": "enemy_cornucopia",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "No fim do turno do oponente, 1 de dano a todas as Entidades inimigas e 1 à Cornucópia inimiga.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_incendio_de_lanka.png"
+  },
+  "hin_pashupatastra": {
+   "id": "hin_pashupatastra",
+   "nome": "Pashupatastra",
+   "cultura": "hinduismo",
+   "tipo": "selo",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_attacks",
+     "acoes": [
+      {
+       "op": "destroy",
+       "alvo": "attacker"
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade inimiga atacar, destrua-a. Compre 1 carta.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_pashupatastra.png"
+  },
+  "hin_om": {
+   "id": "hin_om",
+   "nome": "Om",
+   "cultura": "hinduismo",
+   "tipo": "rito",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "draw",
+       "n": 1
+      },
+      {
+       "op": "gain_fe",
+       "n": 1,
+       "perm": false
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Compre 1 carta e ganhe 1 de Fé temporária.",
+   "copias": 2,
+   "arte": "res://arte/hinduismo/hin_om.png"
+  },
+  "hin_yajna": {
+   "id": "hin_yajna",
+   "nome": "Yajna, o Fogo Sacrificial",
+   "cultura": "hinduismo",
+   "tipo": "rito",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "enemy_entity",
+       "n": 2
+      },
+      {
+       "op": "gain_fe",
+       "n": 2,
+       "perm": false
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Cause 2 de dano a uma Entidade inimiga e ganhe 2 de Fé temporária.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_yajna.png"
+  },
+  "hin_samudra_manthan": {
+   "id": "hin_samudra_manthan",
+   "nome": "Samudra Manthan",
+   "cultura": "hinduismo",
+   "tipo": "rito",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "draw",
+       "n": 2
+      },
+      {
+       "op": "gain_fe",
+       "n": 2,
+       "perm": false
+      },
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Compre 2 cartas, ganhe 2 de Fé temporária e cure 2 da sua Cornucópia.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_samudra_manthan.png"
+  },
+  "hin_brahmastra": {
+   "id": "hin_brahmastra",
+   "nome": "Brahmastra",
+   "cultura": "hinduismo",
+   "tipo": "rito",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "destroy",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Destrua uma Entidade inimiga.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_brahmastra.png"
+  },
+  "hin_descida_do_avatar": {
+   "id": "hin_descida_do_avatar",
+   "nome": "Descida do Avatar",
+   "cultura": "hinduismo",
+   "tipo": "rito",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity",
+       "para": "field"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Reviva uma Entidade do seu cemitério para o campo.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_descida_do_avatar.png"
+  },
+  "hin_vishvarupa": {
+   "id": "hin_vishvarupa",
+   "nome": "Vishvarupa, a Forma Universal",
+   "cultura": "hinduismo",
+   "tipo": "rito",
+   "custo": 4,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "set_stats",
+       "alvo": "ally_entity",
+       "atk": 6,
+       "vida": 6
+      },
+      {
+       "op": "give_keyword",
+       "alvo": "ally_entity",
+       "keyword": "impeto"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Uma Entidade aliada passa a ter ATK 6 e Vida 6 e ganha Ímpeto.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_vishvarupa.png"
+  },
+  "hin_tandava": {
+   "id": "hin_tandava",
+   "nome": "Tandava",
+   "cultura": "hinduismo",
+   "tipo": "rito",
+   "custo": 5,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "all_enemy_entities",
+       "n": 2
+      },
+      {
+       "op": "damage",
+       "alvo": "enemy_cornucopia",
+       "n": 3
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "2 de dano a todas as Entidades inimigas e 3 de dano à Cornucópia inimiga.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_tandava.png"
+  },
+  "hin_vajra": {
+   "id": "hin_vajra",
+   "nome": "Vajra",
+   "cultura": "hinduismo",
+   "tipo": "reliquia",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 2,
+       "vida": 0,
+       "perm": true
+      },
+      {
+       "op": "damage",
+       "alvo": "enemy_entity",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Portadora: +2 ATK. Ao equipar, causa 2 de dano a uma Entidade inimiga.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_vajra.png"
+  },
+  "hin_sudarshana_chakra": {
+   "id": "hin_sudarshana_chakra",
+   "nome": "Sudarshana Chakra",
+   "cultura": "hinduismo",
+   "tipo": "reliquia",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 2,
+       "vida": 1,
+       "perm": true
+      },
+      {
+       "op": "give_keyword",
+       "alvo": "equipped",
+       "keyword": "impeto"
+      }
+     ]
+    },
+    {
+     "gatilho": "equipped_attacks",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "enemy_entity",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Portadora: +2 ATK / +1 Vida e Ímpeto. Quando a portadora atacar, causa 1 de dano a uma Entidade inimiga.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_sudarshana_chakra.png"
+  },
+  "hin_gandiva": {
+   "id": "hin_gandiva",
+   "nome": "Gandiva",
+   "cultura": "hinduismo",
+   "tipo": "reliquia",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 3,
+       "vida": 1,
+       "perm": true
+      }
+     ]
+    },
+    {
+     "gatilho": "equipped_attacks",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "all_enemy_entities",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Portadora: +3 ATK / +1 Vida. Quando a portadora atacar, causa 1 de dano a todas as Entidades inimigas.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_gandiva.png"
+  },
+  "hin_trishula": {
+   "id": "hin_trishula",
+   "nome": "Trishula",
+   "cultura": "hinduismo",
+   "tipo": "reliquia",
+   "custo": 4,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 3,
+       "vida": 1,
+       "perm": true
+      }
+     ]
+    },
+    {
+     "gatilho": "equipped_attacks",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "enemy_entity",
+       "n": 1
+      }
+     ]
+    },
+    {
+     "gatilho": "equipped_dies",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "all_enemy_entities",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Portadora: +3 ATK / +1 Vida. Quando atacar, 1 de dano a uma Entidade inimiga. Quando morrer, 2 de dano a todas as Entidades inimigas.",
+   "copias": 1,
+   "arte": "res://arte/hinduismo/hin_trishula.png"
+  },
+  "bru_sapo_familiar": {
+   "id": "bru_sapo_familiar",
+   "nome": "Sapo Familiar",
+   "cultura": "bruxaria",
+   "tipo": "entidade",
+   "custo": 1,
+   "atk": 0,
+   "vida": 1,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_death",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "enemy_entity",
+       "atk": -1,
+       "vida": -1,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Último Sopro: uma Entidade inimiga à escolha perde 1 ATK e 1 Vida permanentemente.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_sapo_familiar.png"
+  },
+  "bru_gato_preto": {
+   "id": "bru_gato_preto",
+   "nome": "Gato Preto",
+   "cultura": "bruxaria",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 1,
+   "lendaria": false,
+   "keywords": [
+    "furtivo",
+    "renascer"
+   ],
+   "sacrificio": 0,
+   "efeitos": [],
+   "usos": null,
+   "texto": "Furtivo. Renascer. *(Sete vidas: quando morre, volta à sua mão uma vez.)*",
+   "copias": 2,
+   "arte": "res://arte/bruxaria/bru_gato_preto.png"
+  },
+  "bru_corvo_agourento": {
+   "id": "bru_corvo_agourento",
+   "nome": "Corvo Agourento",
+   "cultura": "bruxaria",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "discard",
+       "alvo": "enemy_hand_random",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: o oponente descarta 1 carta aleatória da mão.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_corvo_agourento.png"
+  },
+  "bru_strega_de_benevento": {
+   "id": "bru_strega_de_benevento",
+   "nome": "Strega de Benevento",
+   "cultura": "bruxaria",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 2,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "summon",
+       "atk": 1,
+       "vida": 1,
+       "nome": "Strix",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: invoque uma Strix 1/1 (coruja familiar).",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_strega_de_benevento.png"
+  },
+  "bru_benandante": {
+   "id": "bru_benandante",
+   "nome": "Benandante",
+   "cultura": "bruxaria",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 2,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "freeze",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: congele uma Entidade inimiga à escolha (ela não ataca no próximo turno).",
+   "copias": 2,
+   "arte": "res://arte/bruxaria/bru_benandante.png"
+  },
+  "bru_circe": {
+   "id": "bru_circe",
+   "nome": "Circe",
+   "cultura": "bruxaria",
+   "tipo": "entidade",
+   "custo": 4,
+   "atk": 3,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "set_stats",
+       "alvo": "enemy_entity",
+       "atk": 1,
+       "vida": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: uma Entidade inimiga à escolha vira porco — seu ATK e sua Vida passam a ser 1/1.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_circe.png"
+  },
+  "bru_medeia": {
+   "id": "bru_medeia",
+   "nome": "Medeia, a Envenenadora",
+   "cultura": "bruxaria",
+   "tipo": "entidade",
+   "custo": 4,
+   "atk": 3,
+   "vida": 4,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "enemy_entity",
+       "atk": -2,
+       "vida": 0,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: uma Entidade inimiga à escolha perde 2 ATK permanentemente.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_medeia.png"
+  },
+  "bru_bruxa_de_endor": {
+   "id": "bru_bruxa_de_endor",
+   "nome": "A Bruxa de Endor",
+   "cultura": "bruxaria",
+   "tipo": "entidade",
+   "custo": 4,
+   "atk": 2,
+   "vida": 4,
+   "lendaria": false,
+   "keywords": [
+    "furtivo"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity",
+       "para": "hand"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Furtivo. Despertar: devolva uma Entidade do seu cemitério à sua mão.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_bruxa_de_endor.png"
+  },
+  "bru_baba_yaga": {
+   "id": "bru_baba_yaga",
+   "nome": "Baba Yaga",
+   "cultura": "bruxaria",
+   "tipo": "entidade",
+   "custo": 5,
+   "atk": 3,
+   "vida": 5,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 1,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "destroy",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Sacrifício 1. Despertar: devore uma Entidade inimiga à escolha (destrua-a).",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_baba_yaga.png"
+  },
+  "bru_cerridwen": {
+   "id": "bru_cerridwen",
+   "nome": "Cerridwen, Senhora do Caldeirão",
+   "cultura": "bruxaria",
+   "tipo": "entidade",
+   "custo": 5,
+   "atk": 4,
+   "vida": 4,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "draw",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: compre 2 cartas.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_cerridwen.png"
+  },
+  "bru_a_morrigan": {
+   "id": "bru_a_morrigan",
+   "nome": "A Morrigan",
+   "cultura": "bruxaria",
+   "tipo": "entidade",
+   "custo": 6,
+   "atk": 5,
+   "vida": 5,
+   "lendaria": true,
+   "keywords": [
+    "impeto"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "ally_dies",
+     "acoes": [
+      {
+       "op": "summon",
+       "atk": 1,
+       "vida": 1,
+       "nome": "Corvo",
+       "n": 1
+      }
+     ]
+    },
+    {
+     "gatilho": "enemy_dies",
+     "acoes": [
+      {
+       "op": "summon",
+       "atk": 1,
+       "vida": 1,
+       "nome": "Corvo",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Ímpeto. Sempre que uma Entidade — aliada ou inimiga — morrer, invoque um Corvo 1/1.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_a_morrigan.png"
+  },
+  "bru_hecate": {
+   "id": "bru_hecate",
+   "nome": "Hécate, Senhora das Encruzilhadas",
+   "cultura": "bruxaria",
+   "tipo": "entidade",
+   "custo": 7,
+   "atk": 5,
+   "vida": 7,
+   "lendaria": true,
+   "keywords": [],
+   "sacrificio": 1,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "all_enemy_entities",
+       "atk": -2,
+       "vida": -2,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Sacrifício 1. Despertar: todas as Entidades inimigas perdem 2 ATK e 2 Vida permanentemente.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_hecate.png"
+  },
+  "bru_mau_olhado": {
+   "id": "bru_mau_olhado",
+   "nome": "Mau-Olhado",
+   "cultura": "bruxaria",
+   "tipo": "selo",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_plays_entity",
+     "acoes": [
+      {
+       "op": "freeze",
+       "alvo": "triggering"
+      },
+      {
+       "op": "buff",
+       "alvo": "triggering",
+       "atk": -1,
+       "vida": -1,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando o oponente invocar uma Entidade, ela fica congelada e perde 1 ATK e 1 Vida permanentemente.",
+   "copias": 2,
+   "arte": "res://arte/bruxaria/bru_mau_olhado.png"
+  },
+  "bru_circulo_de_sal": {
+   "id": "bru_circulo_de_sal",
+   "nome": "Círculo de Sal",
+   "cultura": "bruxaria",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_attacks",
+     "acoes": [
+      {
+       "op": "bounce",
+       "alvo": "attacker"
+      },
+      {
+       "op": "discard",
+       "alvo": "enemy_hand_random",
+       "n": 1
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade inimiga atacar, devolva-a à mão do dono; o oponente descarta 1 carta aleatória e você compra 1.",
+   "copias": 2,
+   "arte": "res://arte/bruxaria/bru_circulo_de_sal.png"
+  },
+  "bru_garrafa_de_bruxa": {
+   "id": "bru_garrafa_de_bruxa",
+   "nome": "Garrafa de Bruxa",
+   "cultura": "bruxaria",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_plays_rite",
+     "acoes": [
+      {
+       "op": "counter"
+      },
+      {
+       "op": "discard",
+       "alvo": "enemy_hand_random",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando o oponente jogar um Rito, anule-o; o oponente descarta 1 carta aleatória.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_garrafa_de_bruxa.png"
+  },
+  "bru_boneco_de_cera": {
+   "id": "bru_boneco_de_cera",
+   "nome": "Boneco de Cera",
+   "cultura": "bruxaria",
+   "tipo": "selo",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "ally_damaged",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "attacker",
+       "n": 4
+      },
+      {
+       "op": "buff",
+       "alvo": "attacker",
+       "atk": -2,
+       "vida": -2,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade aliada sofrer dano de um ataque, o atacante sofre 4 de dano e perde 2 ATK e 2 Vida permanentemente.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_boneco_de_cera.png"
+  },
+  "bru_pocao_de_beladona": {
+   "id": "bru_pocao_de_beladona",
+   "nome": "Poção de Beladona",
+   "cultura": "bruxaria",
+   "tipo": "rito",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "heal",
+       "alvo": "ally_entity",
+       "n": 2
+      },
+      {
+       "op": "buff",
+       "alvo": "ally_entity",
+       "atk": 1,
+       "vida": 1,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Uma Entidade aliada à escolha cura 2 de Vida e ganha +1 ATK e +1 Vida permanentemente.",
+   "copias": 2,
+   "arte": "res://arte/bruxaria/bru_pocao_de_beladona.png"
+  },
+  "bru_pacto_na_encruzilhada": {
+   "id": "bru_pacto_na_encruzilhada",
+   "nome": "Pacto na Encruzilhada",
+   "cultura": "bruxaria",
+   "tipo": "rito",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "gain_fe",
+       "n": 2,
+       "perm": false
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Ganhe 2 de Fé temporária (só neste turno).",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_pacto_na_encruzilhada.png"
+  },
+  "bru_seidr": {
+   "id": "bru_seidr",
+   "nome": "Seiðr",
+   "cultura": "bruxaria",
+   "tipo": "rito",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "search",
+       "tipo": "entidade"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Busque uma Entidade do seu deck e ponha-a na mão. Embaralhe.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_seidr.png"
+  },
+  "bru_po_de_ossos": {
+   "id": "bru_po_de_ossos",
+   "nome": "Pó de Ossos",
+   "cultura": "bruxaria",
+   "tipo": "rito",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "all_enemy_entities",
+       "n": 2
+      },
+      {
+       "op": "discard",
+       "alvo": "enemy_hand_random",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Todas as Entidades inimigas sofrem 2 de dano; o oponente descarta 1 carta aleatória.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_po_de_ossos.png"
+  },
+  "bru_maleficio": {
+   "id": "bru_maleficio",
+   "nome": "Malefício",
+   "cultura": "bruxaria",
+   "tipo": "rito",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "enemy_entity",
+       "atk": -3,
+       "vida": -2,
+       "perm": true
+      },
+      {
+       "op": "silence",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Uma Entidade inimiga à escolha perde 3 ATK e 2 Vida permanentemente e é silenciada (perde palavras-chave e habilidades).",
+   "copias": 2,
+   "arte": "res://arte/bruxaria/bru_maleficio.png"
+  },
+  "bru_saba_de_walpurgis": {
+   "id": "bru_saba_de_walpurgis",
+   "nome": "Sabá de Walpurgis",
+   "cultura": "bruxaria",
+   "tipo": "rito",
+   "custo": 4,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "all_ally_entities",
+       "atk": 1,
+       "vida": 1,
+       "perm": true
+      },
+      {
+       "op": "summon",
+       "atk": 1,
+       "vida": 2,
+       "nome": "Lebre",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Todas as Entidades aliadas ganham +1 ATK e +1 Vida permanentemente. Invoque uma Lebre 1/2.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_saba_de_walpurgis.png"
+  },
+  "bru_vassoura": {
+   "id": "bru_vassoura",
+   "nome": "Vassoura",
+   "cultura": "bruxaria",
+   "tipo": "reliquia",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 1,
+       "vida": 2,
+       "perm": true
+      },
+      {
+       "op": "give_keyword",
+       "alvo": "equipped",
+       "keyword": "impeto"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "A portadora ganha +1 ATK e +2 Vida e Ímpeto.",
+   "copias": 2,
+   "arte": "res://arte/bruxaria/bru_vassoura.png"
+  },
+  "bru_livro_das_sombras": {
+   "id": "bru_livro_das_sombras",
+   "nome": "Livro das Sombras",
+   "cultura": "bruxaria",
+   "tipo": "reliquia",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 1,
+       "vida": 1,
+       "perm": true
+      }
+     ]
+    },
+    {
+     "gatilho": "equipped_attacks",
+     "acoes": [
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": 4,
+   "texto": "Usos 4. A portadora ganha +1 ATK e +1 Vida enquanto o porta. Sempre que ela atacar, compre 1 carta e gaste 1 Uso.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_livro_das_sombras.png"
+  },
+  "bru_caldeirao_de_renascimento": {
+   "id": "bru_caldeirao_de_renascimento",
+   "nome": "Caldeirão de Renascimento",
+   "cultura": "bruxaria",
+   "tipo": "reliquia",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 1,
+       "vida": 2,
+       "perm": true
+      }
+     ]
+    },
+    {
+     "gatilho": "equipped_dies",
+     "acoes": [
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity",
+       "para": "field"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "A portadora ganha +1 ATK e +2 Vida. Quando ela morrer, reviva uma Entidade do seu cemitério para o campo.",
+   "copias": 1,
+   "arte": "res://arte/bruxaria/bru_caldeirao_de_renascimento.png"
+  },
+  "alt_homunculo": {
+   "id": "alt_homunculo",
+   "nome": "Homúnculo",
+   "cultura": "alta_magia",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_death",
+     "acoes": [
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Último Sopro: compre 1 carta.",
+   "copias": 2,
+   "arte": "res://arte/alta_magia/alt_homunculo.png"
+  },
+  "alt_edward_kelley": {
+   "id": "alt_edward_kelley",
+   "nome": "Edward Kelley, o Vidente",
+   "cultura": "alta_magia",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 1,
+   "lendaria": false,
+   "keywords": [
+    "furtivo"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "search",
+       "tipo": "reliquia"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Furtivo. Despertar: busque uma Relíquia do seu deck.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_edward_kelley.png"
+  },
+  "alt_silfo": {
+   "id": "alt_silfo",
+   "nome": "Silfo",
+   "cultura": "alta_magia",
+   "tipo": "entidade",
+   "custo": 2,
+   "atk": 1,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [
+    "impeto",
+    "furtivo"
+   ],
+   "sacrificio": 0,
+   "efeitos": [],
+   "usos": null,
+   "texto": "Ímpeto. Furtivo.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_silfo.png"
+  },
+  "alt_vassago": {
+   "id": "alt_vassago",
+   "nome": "Vassago, o Príncipe que Acha",
+   "cultura": "alta_magia",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 2,
+   "vida": 3,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "search",
+       "tipo": "selo"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: busque um Selo do seu deck.",
+   "copias": 2,
+   "arte": "res://arte/alta_magia/alt_vassago.png"
+  },
+  "alt_orobas": {
+   "id": "alt_orobas",
+   "nome": "Orobas, o Príncipe Fiel",
+   "cultura": "alta_magia",
+   "tipo": "entidade",
+   "custo": 3,
+   "atk": 1,
+   "vida": 4,
+   "lendaria": false,
+   "keywords": [
+    "guarda"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "start_turn",
+     "acoes": [
+      {
+       "op": "heal",
+       "alvo": "self",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Guarda. No início do seu turno, Orobas cura 2 de Vida de si mesmo.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_orobas.png"
+  },
+  "alt_andras": {
+   "id": "alt_andras",
+   "nome": "Andras, o Semeador de Discórdia",
+   "cultura": "alta_magia",
+   "tipo": "entidade",
+   "custo": 4,
+   "atk": 3,
+   "vida": 2,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "cond": {
+      "tipo": "target_cost_max",
+      "n": 3
+     },
+     "acoes": [
+      {
+       "op": "destroy",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: destrua uma Entidade inimiga de custo 3 ou menos.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_andras.png"
+  },
+  "alt_marbas": {
+   "id": "alt_marbas",
+   "nome": "Marbas, o Leão das Doenças",
+   "cultura": "alta_magia",
+   "tipo": "entidade",
+   "custo": 4,
+   "atk": 3,
+   "vida": 4,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "silence",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: silencie uma Entidade inimiga (ela perde palavras-chave e efeitos).",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_marbas.png"
+  },
+  "alt_astaroth": {
+   "id": "alt_astaroth",
+   "nome": "Astaroth, o Duque Revelador",
+   "cultura": "alta_magia",
+   "tipo": "entidade",
+   "custo": 4,
+   "atk": 3,
+   "vida": 5,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 1,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "draw",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Sacrifício 1. Despertar: compre 2 cartas.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_astaroth.png"
+  },
+  "alt_dantalion": {
+   "id": "alt_dantalion",
+   "nome": "Dantalion, das Mil Faces",
+   "cultura": "alta_magia",
+   "tipo": "entidade",
+   "custo": 5,
+   "atk": 3,
+   "vida": 4,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 1,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "swap_control",
+       "alvo": "enemy_entity",
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Sacrifício 1. Despertar: tome o controle permanente de uma Entidade inimiga.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_dantalion.png"
+  },
+  "alt_paimon": {
+   "id": "alt_paimon",
+   "nome": "Paimon, Rei do Oeste",
+   "cultura": "alta_magia",
+   "tipo": "entidade",
+   "custo": 6,
+   "atk": 4,
+   "vida": 5,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "summon",
+       "atk": 1,
+       "vida": 1,
+       "nome": "Espírito de Paimon",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Despertar: invoque dois Espíritos de Paimon 1/1.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_paimon.png"
+  },
+  "alt_babalon": {
+   "id": "alt_babalon",
+   "nome": "Babalon, a Mulher Escarlate",
+   "cultura": "alta_magia",
+   "tipo": "entidade",
+   "custo": 6,
+   "atk": 5,
+   "vida": 6,
+   "lendaria": true,
+   "keywords": [],
+   "sacrificio": 1,
+   "efeitos": [
+    {
+     "gatilho": "ally_dies",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "self",
+       "atk": 1,
+       "vida": 1,
+       "perm": true
+      }
+     ]
+    },
+    {
+     "gatilho": "enemy_dies",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "self",
+       "atk": 1,
+       "vida": 1,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Sacrifício 1. Sempre que qualquer Entidade morrer, Babalon ganha +1/+1 permanente.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_babalon.png"
+  },
+  "alt_anjo_guardiao": {
+   "id": "alt_anjo_guardiao",
+   "nome": "Anjo Guardião Sagrado",
+   "cultura": "alta_magia",
+   "tipo": "entidade",
+   "custo": 7,
+   "atk": 4,
+   "vida": 8,
+   "lendaria": true,
+   "keywords": [
+    "guarda",
+    "renascer"
+   ],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 4
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Guarda. Renascer. Despertar: cure 4 da sua Cornucópia.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_anjo_guardiao.png"
+  },
+  "alt_pentagrama_flamejante": {
+   "id": "alt_pentagrama_flamejante",
+   "nome": "Pentagrama Flamejante",
+   "cultura": "alta_magia",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_plays_rite",
+     "acoes": [
+      {
+       "op": "counter"
+      },
+      {
+       "op": "draw",
+       "n": 1
+      },
+      {
+       "op": "heal",
+       "alvo": "ally_cornucopia",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando o oponente jogar um Rito, anule-o, compre 1 carta e cure 2 da sua Cornucópia.",
+   "copias": 2,
+   "arte": "res://arte/alta_magia/alt_pentagrama_flamejante.png"
+  },
+  "alt_selo_de_salomao": {
+   "id": "alt_selo_de_salomao",
+   "nome": "Selo de Salomão",
+   "cultura": "alta_magia",
+   "tipo": "selo",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_plays_entity",
+     "acoes": [
+      {
+       "op": "counter"
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando o oponente invocar uma Entidade, anule-a (ela vai ao cemitério) e compre 1 carta.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_selo_de_salomao.png"
+  },
+  "alt_solve_et_coagula": {
+   "id": "alt_solve_et_coagula",
+   "nome": "Solve et Coagula",
+   "cultura": "alta_magia",
+   "tipo": "selo",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "ally_dies",
+     "acoes": [
+      {
+       "op": "revive",
+       "alvo": "ally_graveyard_entity",
+       "para": "hand"
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade aliada morrer no turno do oponente, devolva uma Entidade do seu cemitério à mão e compre 1 carta.",
+   "copias": 2,
+   "arte": "res://arte/alta_magia/alt_solve_et_coagula.png"
+  },
+  "alt_sigilo_de_spare": {
+   "id": "alt_sigilo_de_spare",
+   "nome": "Sigilo de Spare",
+   "cultura": "alta_magia",
+   "tipo": "selo",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_end_turn",
+     "acoes": [
+      {
+       "op": "discard",
+       "alvo": "enemy_hand_random",
+       "n": 1
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "No fim do turno do oponente, ele descarta 1 carta aleatória da mão e você compra 1 carta.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_sigilo_de_spare.png"
+  },
+  "alt_lemegeton": {
+   "id": "alt_lemegeton",
+   "nome": "Lemegeton, a Chave Menor",
+   "cultura": "alta_magia",
+   "tipo": "rito",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "search",
+       "tipo": "entidade"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Busque uma Entidade do seu deck e coloque-a na mão.",
+   "copias": 2,
+   "arte": "res://arte/alta_magia/alt_lemegeton.png"
+  },
+  "alt_azoth": {
+   "id": "alt_azoth",
+   "nome": "Azoth",
+   "cultura": "alta_magia",
+   "tipo": "rito",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "gain_fe",
+       "n": 1,
+       "perm": true
+      },
+      {
+       "op": "gain_fe",
+       "n": 1,
+       "perm": false
+      },
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Sua Fé máxima aumenta em 1 (até 8). Ganhe 1 de Fé neste turno. Compre 1 carta.",
+   "copias": 2,
+   "arte": "res://arte/alta_magia/alt_azoth.png"
+  },
+  "alt_conjuracao_elementais": {
+   "id": "alt_conjuracao_elementais",
+   "nome": "Conjuração dos Elementais",
+   "cultura": "alta_magia",
+   "tipo": "rito",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "summon",
+       "atk": 1,
+       "vida": 1,
+       "nome": "Elemental",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Invoque dois Elementais 1/1 (se houver slots livres).",
+   "copias": 2,
+   "arte": "res://arte/alta_magia/alt_conjuracao_elementais.png"
+  },
+  "alt_ritual_menor_pentagrama": {
+   "id": "alt_ritual_menor_pentagrama",
+   "nome": "Ritual Menor do Pentagrama",
+   "cultura": "alta_magia",
+   "tipo": "rito",
+   "custo": 4,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "bounce",
+       "alvo": "all_enemy_entities"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Devolva todas as Entidades inimigas à mão do dono.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_ritual_menor_pentagrama.png"
+  },
+  "alt_abrahadabra": {
+   "id": "alt_abrahadabra",
+   "nome": "Abrahadabra",
+   "cultura": "alta_magia",
+   "tipo": "rito",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "enemy_cornucopia",
+       "n": 3
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Cause 3 de dano à Cornucópia inimiga.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_abrahadabra.png"
+  },
+  "alt_anel_de_salomao": {
+   "id": "alt_anel_de_salomao",
+   "nome": "Anel de Salomão",
+   "cultura": "alta_magia",
+   "tipo": "reliquia",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 1,
+       "vida": 2,
+       "perm": true
+      },
+      {
+       "op": "give_keyword",
+       "alvo": "equipped",
+       "keyword": "impeto"
+      }
+     ]
+    },
+    {
+     "gatilho": "equipped_attacks",
+     "acoes": [
+      {
+       "op": "silence",
+       "alvo": "enemy_entity"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "A Entidade equipada ganha +1/+2 e Ímpeto. Sempre que ela atacar, silencie uma Entidade inimiga.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_anel_de_salomao.png"
+  },
+  "alt_sigillum_dei_aemeth": {
+   "id": "alt_sigillum_dei_aemeth",
+   "nome": "Sigillum Dei Aemeth",
+   "cultura": "alta_magia",
+   "tipo": "reliquia",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 0,
+       "vida": 3,
+       "perm": true
+      },
+      {
+       "op": "give_keyword",
+       "alvo": "equipped",
+       "keyword": "guarda"
+      }
+     ]
+    },
+    {
+     "gatilho": "equipped_dies",
+     "acoes": [
+      {
+       "op": "draw",
+       "n": 1
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "A Entidade equipada ganha +0/+3 e Guarda. Quando ela morrer, compre 1 carta.",
+   "copias": 1,
+   "arte": "res://arte/alta_magia/alt_sigillum_dei_aemeth.png"
+  },
+  "alt_pedra_de_visao": {
+   "id": "alt_pedra_de_visao",
+   "nome": "Pedra de Visão de Dee",
+   "cultura": "alta_magia",
+   "tipo": "reliquia",
+   "custo": 1,
+   "atk": null,
+   "vida": null,
+   "lendaria": false,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 1,
+       "vida": 3,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "A Entidade equipada ganha +1/+3.",
+   "copias": 2,
+   "arte": "res://arte/alta_magia/alt_pedra_de_visao.png"
+  },
+  "aby_choronzon": {
+   "id": "aby_choronzon",
+   "nome": "Choronzon, Habitante do Abismo",
+   "cultura": "abismo",
+   "tipo": "entidade",
+   "custo": 99,
+   "atk": 3,
+   "vida": 3,
+   "lendaria": true,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "win"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Só pode ser invocado pelo efeito de Sigilo 333. Quando Choronzon entra em campo, você vence o jogo.",
+   "copias": 1,
+   "arte": "res://arte/abismo/aby_choronzon.png"
+  },
+  "aby_triangulo": {
+   "id": "aby_triangulo",
+   "nome": "Triângulo da Arte",
+   "cultura": "abismo",
+   "tipo": "reliquia",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": true,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_equip",
+     "acoes": [
+      {
+       "op": "buff",
+       "alvo": "equipped",
+       "atk": 0,
+       "vida": 2,
+       "perm": true
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Equipe numa Entidade aliada: +0/+2. Conta como \"Triângulo\" para Sigilo 333.",
+   "copias": 1,
+   "arte": "res://arte/abismo/aby_triangulo.png"
+  },
+  "aby_circulo": {
+   "id": "aby_circulo",
+   "nome": "Círculo de Proteção",
+   "cultura": "abismo",
+   "tipo": "selo",
+   "custo": 2,
+   "atk": null,
+   "vida": null,
+   "lendaria": true,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "enemy_attacks",
+     "acoes": [
+      {
+       "op": "damage",
+       "alvo": "attacker",
+       "n": 2
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Quando uma Entidade inimiga atacar, o atacante sofre 2 de dano. Enquanto virado para baixo, conta como \"Círculo\" para Sigilo 333.",
+   "copias": 1,
+   "arte": "res://arte/abismo/aby_circulo.png"
+  },
+  "aby_sigilo": {
+   "id": "aby_sigilo",
+   "nome": "Sigilo 333",
+   "cultura": "abismo",
+   "tipo": "rito",
+   "custo": 3,
+   "atk": null,
+   "vida": null,
+   "lendaria": true,
+   "keywords": [],
+   "sacrificio": 0,
+   "efeitos": [
+    {
+     "gatilho": "on_play",
+     "acoes": [
+      {
+       "op": "ritual_choronzon"
+      }
+     ]
+    }
+   ],
+   "usos": null,
+   "texto": "Se você controla Triângulo da Arte e Círculo de Proteção e tem Choronzon na mão, invoque-o. Senão, compre 1 carta.",
+   "copias": 1,
+   "arte": "res://arte/abismo/aby_sigilo.png"
+  }
+ },
+ "decks": {
+  "indigena": [
+   "ind_saci_perere",
+   "ind_saci_perere",
+   "ind_curupira",
+   "ind_curupira",
+   "ind_caipora",
+   "ind_caipora",
+   "ind_iara",
+   "ind_boitata",
+   "ind_boitata",
+   "ind_anhanga",
+   "ind_mapinguari",
+   "ind_cobra_grande",
+   "ind_jaci",
+   "ind_tupa",
+   "ind_arapuca",
+   "ind_arapuca",
+   "ind_mundeu",
+   "ind_mundeu",
+   "ind_assovio_da_matinta",
+   "ind_sopro_do_paje",
+   "ind_cauim",
+   "ind_cauim",
+   "ind_visao_do_caapi",
+   "ind_fogo_de_monan",
+   "ind_danca_do_aruana",
+   "ind_dadiva_de_mani",
+   "ind_kuarup",
+   "ind_terra_sem_males",
+   "ind_ibirapema",
+   "ind_muiraquita",
+   "ind_maraca_do_paje",
+   "ind_cocar_do_morubixaba"
+  ],
+  "cristianismo": [
+   "cri_anjo_da_guarda",
+   "cri_anjo_da_guarda",
+   "cri_jonas",
+   "cri_davi_o_pastor",
+   "cri_lazaro_de_betania",
+   "cri_lazaro_de_betania",
+   "cri_judite",
+   "cri_gabriel",
+   "cri_rafael",
+   "cri_sansao",
+   "cri_serafim",
+   "cri_leviata",
+   "cri_elias",
+   "cri_sao_miguel_arcanjo",
+   "cri_cova_dos_leoes",
+   "cri_tumba_vazia",
+   "cri_tumba_vazia",
+   "cri_portao_do_eden",
+   "cri_mudez_de_zacarias",
+   "cri_sangue_nos_umbrais",
+   "cri_multiplicacao_dos_paes",
+   "cri_exorcismo",
+   "cri_praga_dos_gafanhotos",
+   "cri_talita_cumi",
+   "cri_talita_cumi",
+   "cri_vale_dos_ossos_secos",
+   "cri_granizo_e_fogo",
+   "cri_juizo_final",
+   "cri_funda_de_davi",
+   "cri_veu_de_veronica",
+   "cri_santo_graal",
+   "cri_arca_da_alianca"
+  ],
+  "taoismo": [
+   "tao_lan_caihe",
+   "tao_he_xiangu",
+   "tao_han_xiangzi",
+   "tao_li_tieguai",
+   "tao_zhongli_quan",
+   "tao_lu_dongbin",
+   "tao_zhang_guolao",
+   "tao_cao_guojiu",
+   "tao_nezha",
+   "tao_zhong_kui",
+   "tao_erlang_shen",
+   "tao_guan_yu",
+   "tao_xiwangmu",
+   "tao_imperador_de_jade",
+   "tao_fulu_de_selamento",
+   "tao_fulu_de_selamento",
+   "tao_dragao_azul_do_leste",
+   "tao_tigre_branco_do_oeste",
+   "tao_passaro_vermelho_do_sul",
+   "tao_tartaruga_negra_do_norte",
+   "tao_circulacao_do_qi",
+   "tao_circulacao_do_qi",
+   "tao_flechas_de_houyi",
+   "tao_pilula_de_ouro",
+   "tao_pilula_de_ouro",
+   "tao_banquete_dos_pessegos",
+   "tao_taiji",
+   "tao_taiji",
+   "tao_pessego_da_imortalidade",
+   "tao_pessego_da_imortalidade",
+   "tao_espelho_de_bronze",
+   "tao_espelho_de_bronze"
+  ],
+  "hinduismo": [
+   "hin_matsya",
+   "hin_garuda",
+   "hin_garuda",
+   "hin_jatayu",
+   "hin_ganesha",
+   "hin_arjuna",
+   "hin_hanuman",
+   "hin_hanuman",
+   "hin_narasimha",
+   "hin_rama",
+   "hin_krishna",
+   "hin_durga",
+   "hin_kali",
+   "hin_shiva_nataraja",
+   "hin_chamas_de_agni",
+   "hin_roda_do_samsara",
+   "hin_lei_do_karma",
+   "hin_veu_de_maya",
+   "hin_incendio_de_lanka",
+   "hin_pashupatastra",
+   "hin_om",
+   "hin_om",
+   "hin_yajna",
+   "hin_samudra_manthan",
+   "hin_brahmastra",
+   "hin_descida_do_avatar",
+   "hin_vishvarupa",
+   "hin_tandava",
+   "hin_vajra",
+   "hin_sudarshana_chakra",
+   "hin_gandiva",
+   "hin_trishula"
+  ],
+  "bruxaria": [
+   "bru_sapo_familiar",
+   "bru_gato_preto",
+   "bru_gato_preto",
+   "bru_corvo_agourento",
+   "bru_strega_de_benevento",
+   "bru_benandante",
+   "bru_benandante",
+   "bru_circe",
+   "bru_medeia",
+   "bru_bruxa_de_endor",
+   "bru_baba_yaga",
+   "bru_cerridwen",
+   "bru_a_morrigan",
+   "bru_hecate",
+   "bru_mau_olhado",
+   "bru_mau_olhado",
+   "bru_circulo_de_sal",
+   "bru_circulo_de_sal",
+   "bru_garrafa_de_bruxa",
+   "bru_boneco_de_cera",
+   "bru_pocao_de_beladona",
+   "bru_pocao_de_beladona",
+   "bru_pacto_na_encruzilhada",
+   "bru_seidr",
+   "bru_po_de_ossos",
+   "bru_maleficio",
+   "bru_maleficio",
+   "bru_saba_de_walpurgis",
+   "bru_vassoura",
+   "bru_vassoura",
+   "bru_livro_das_sombras",
+   "bru_caldeirao_de_renascimento"
+  ],
+  "alta_magia": [
+   "alt_homunculo",
+   "alt_homunculo",
+   "alt_edward_kelley",
+   "alt_silfo",
+   "alt_vassago",
+   "alt_vassago",
+   "alt_orobas",
+   "alt_andras",
+   "alt_marbas",
+   "alt_astaroth",
+   "alt_dantalion",
+   "alt_paimon",
+   "alt_babalon",
+   "alt_anjo_guardiao",
+   "alt_pentagrama_flamejante",
+   "alt_pentagrama_flamejante",
+   "alt_selo_de_salomao",
+   "alt_solve_et_coagula",
+   "alt_solve_et_coagula",
+   "alt_sigilo_de_spare",
+   "alt_lemegeton",
+   "alt_lemegeton",
+   "alt_azoth",
+   "alt_azoth",
+   "alt_conjuracao_elementais",
+   "alt_conjuracao_elementais",
+   "alt_ritual_menor_pentagrama",
+   "alt_abrahadabra",
+   "alt_anel_de_salomao",
+   "alt_sigillum_dei_aemeth",
+   "alt_pedra_de_visao",
+   "alt_pedra_de_visao"
+  ],
+  "abismo": [
+   "aby_choronzon",
+   "aby_triangulo",
+   "aby_circulo",
+   "aby_sigilo"
+  ]
+ }
+}

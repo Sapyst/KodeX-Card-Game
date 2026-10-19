@@ -1,0 +1,66 @@
+== alta_magia (A) x hinduismo (B) — n=800 seed=11 bot=heur
+   A 10.9%  B 89.1%  rodadas 9.4  1º vence 54.1%
+   [alta_magia] dano Cornucópia: ataque 3.1 efeito 0.8 | ataques à Cornucópia 1.4/partida | fadiga: 8% das partidas, 0.5 de dano
+   [hinduismo] dano Cornucópia: ataque 16.5 efeito 1.4 | ataques à Cornucópia 5.3/partida | fadiga: 0% das partidas, 0.0 de dano
+      ('gat', 0, 'Babalon, a Mulher Escarlate', 'ally_dies')                 0.32/partida
+      ('gat', 0, 'Babalon, a Mulher Escarlate', 'enemy_dies')                0.30/partida
+      ('gat', 0, 'Hanuman', 'on_attack')                                     0.02/partida
+      ('gat', 1, 'Hanuman', 'on_attack')                                     1.19/partida
+      ('mata_despertar', 0, 'Andras, o Semeador de Discórdia')               0.31/partida
+      ('mata_despertar', 1, 'Narasimha')                                     0.18/partida
+      ('mata_despertar', 1, 'Shiva Nataraja')                                0.33/partida
+   -- alta_magia: carta | WR jogada | WR comprada | rod.1ª jogada | na mão
+      Dantalion, das Mil Faces     enti C5  jog  35.2  comp  15.4  r1  9.4  mão 47.9  (jog=184)
+      Paimon, Rei do Oeste         enti C6  jog  16.7  comp  15.3  r1  7.6  mão 14.7  (jog=434)
+      Silfo                        enti C2  jog  14.2  comp  15.2  r1  4.9  mão  5.6  (jog=452)
+      Andras, o Semeador de Discór enti C4  jog  15.1  comp  14.7  r1  6.6  mão  9.9  (jog=402)
+      Ritual Menor do Pentagrama   rito C4  jog  14.5  comp  14.3  r1  9.3  mão 44.4  (jog=165)
+      Abrahadabra                  rito C3  jog  17.6  comp  14.3  r1  9.0  mão 51.5  (jog=210)
+      Marbas, o Leão das Doenças   enti C4  jog  15.6  comp  14.3  r1  6.3  mão  8.9  (jog=432)
+      Anjo Guardião Sagrado        enti C7  jog  19.2  comp  14.2  r1  7.6  mão 21.0  (jog=777)
+      Sigilo de Spare              selo C1  jog  16.6  comp  14.2  r1  5.7  mão 30.5  (jog=314)
+      Astaroth, o Duque Revelador  enti C4  jog  19.0  comp  14.1  r1  9.7  mão 51.3  (jog=163)
+      Conjuração dos Elementais    rito C2  jog  14.8  comp  13.5  r1  5.4  mão 36.5  (jog=558)
+      Orobas, o Príncipe Fiel      enti C3  jog  13.1  comp  13.5  r1  5.5  mão  9.0  (jog=506)
+      Babalon, a Mulher Escarlate  enti C6  jog  26.2  comp  13.3  r1  9.5  mão 48.1  (jog=231)
+      Solve et Coagula             selo C1  jog  13.4  comp  13.0  r1  5.3  mão 29.9  (jog=618)
+      Vassago, o Príncipe que Acha enti C3  jog  13.1  comp  12.8  r1  4.9  mão  9.4  (jog=924)
+      Sigillum Dei Aemeth          reli C2  jog  15.5  comp  12.7  r1  6.3  mão 21.6  (jog=425)
+      Anel de Salomão              reli C2  jog  14.7  comp  12.7  r1  6.3  mão 21.4  (jog=441)
+      Lemegeton, a Chave Menor     rito C1  jog  13.0  comp  12.6  r1  4.9  mão 16.5  (jog=714)
+      Edward Kelley, o Vidente     enti C2  jog  11.7  comp  12.4  r1  5.1  mão  8.7  (jog=431)
+      Selo de Salomão              selo C3  jog  15.7  comp  12.4  r1  6.3  mão 32.1  (jog=460)
+      Pentagrama Flamejante        selo C2  jog  13.6  comp  12.3  r1  5.1  mão 34.2  (jog=720)
+      Pedra de Visão de Dee        reli C1  jog  14.3  comp  12.1  r1  5.6  mão 22.1  (jog=682)
+      Azoth                        rito C3  jog  11.2  comp  12.0  r1  6.4  mão 25.6  (jog=638)
+      Homúnculo                    enti C2  jog  10.8  comp  11.5  r1  4.2  mão  8.3  (jog=893)
+   -- hinduismo: carta | WR jogada | WR comprada | rod.1ª jogada | na mão
+      Shiva Nataraja               enti C7  jog  90.8  comp  91.4  r1  8.4  mão  9.7  (jog=332)
+      Roda do Samsara              selo C1  jog  87.6  comp  89.0  r1  5.1  mão 16.4  (jog=338)
+      Samudra Manthan              rito C3  jog  87.4  comp  88.7  r1  6.1  mão 12.6  (jog=310)
+      Hanuman                      enti C4  jog  87.6  comp  88.7  r1  5.9  mão  8.3  (jog=667)
+      Krishna, o Auriga            enti C5  jog  87.5  comp  88.7  r1  7.0  mão  5.3  (jog=377)
+      Kali                         enti C6  jog  87.8  comp  88.7  r1  7.3  mão  6.7  (jog=344)
+      Ganesha, Removedor de Obstác enti C3  jog  87.8  comp  88.6  r1  5.9  mão 11.3  (jog=395)
+      Lei do Karma                 selo C2  jog  86.8  comp  88.6  r1  5.7  mão 20.0  (jog=311)
+      Vajra                        reli C2  jog  89.6  comp  88.1  r1  6.1  mão 14.7  (jog=405)
+      Garuda                       enti C2  jog  87.5  comp  87.9  r1  3.8  mão 11.6  (jog=735)
+      Om                           rito C1  jog  87.6  comp  87.8  r1  3.9  mão  6.7  (jog=724)
+      Matsya, o Peixe              enti C1  jog  86.0  comp  87.6  r1  4.3  mão 11.8  (jog=356)
+      Gandiva                      reli C3  jog  87.1  comp  87.6  r1  7.1  mão 17.5  (jog=350)
+      Rama, Príncipe de Ayodhya    enti C4  jog  84.3  comp  87.4  r1  6.1  mão  9.4  (jog=410)
+      Durga, a Fortaleza           enti C5  jog  87.1  comp  87.3  r1  6.8  mão  3.7  (jog=346)
+      Pashupatastra                selo C3  jog  83.5  comp  87.3  r1  7.3  mão 32.4  (jog=255)
+      Descida do Avatar            rito C3  jog  82.2  comp  87.1  r1  8.3  mão 39.8  (jog=236)
+      Véu de Maya                  selo C2  jog  82.9  comp  87.0  r1  6.1  mão 25.3  (jog=286)
+      Jatayu                       enti C2  jog  86.0  comp  86.6  r1  4.7  mão 12.9  (jog=339)
+      Brahmastra                   rito C4  jog  83.6  comp  86.2  r1  7.0  mão 13.7  (jog=305)
+      Vishvarupa, a Forma Universa rito C4  jog  79.6  comp  86.0  r1  8.6  mão 28.5  (jog=201)
+      Incêndio de Lanka            selo C2  jog  83.5  comp  85.9  r1  5.9  mão 24.8  (jog=285)
+      Tandava                      rito C5  jog  79.7  comp  85.9  r1  8.8  mão 23.3  (jog=237)
+      Trishula                     reli C4  jog  86.6  comp  85.9  r1  7.3  mão 16.1  (jog=343)
+      Narasimha                    enti C4  jog  82.5  comp  85.8  r1  7.0  mão 13.3  (jog=308)
+      Sudarshana Chakra            reli C3  jog  86.0  comp  85.1  r1  6.8  mão 19.8  (jog=329)
+      Arjuna                       enti C3  jog  83.7  comp  84.6  r1  5.0  mão  7.9  (jog=378)
+      Yajna, o Fogo Sacrificial    rito C2  jog  80.7  comp  83.8  r1  5.7  mão 18.2  (jog=311)
+      Chamas de Agni               selo C1  jog  80.9  comp  82.7  r1  5.1  mão 13.9  (jog=320)

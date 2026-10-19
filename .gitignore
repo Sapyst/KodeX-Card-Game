@@ -1,0 +1,24 @@
+# derivados e pesados (regeráveis por script)
+arte/**/_*/
+arte/_*
+arte/**/_*.png
+arte/**/_*.md
+arte/**/_*.log
+arte/__pycache__/
+arte/frame/saida/
+arte/frame/saida_v2/
+arte/frame/*.png
+!arte/frame/mapa_frame.png
+cartas_finais/
+video/
+sim/relatorios/tmp_*/
+sim/relatorios/r*_final/
+sim/relatorios/espelhos*/
+**/__pycache__/
+# Godot
+godot/.godot/
+godot/export/
+*.import
+# logs
+*.log
+*.jsonl

@@ -1,0 +1,169 @@
+[r0 t0 j0] mulligan j0: ['São Miguel Arcanjo', 'Serafim']
+[r0 t0 j0] mulligan j1: ['Tupã, o Trovão', 'Kuarup']
+[r1 t2 j1] j1 joga Curupira
+[r2 t3 j0] j0 joga Jonas
+[r2 t4 j1] j1 joga Maracá do Pajé
+[r2 t4 j1] gatilho on_equip de <Reliquia Maracá do Pajé>
+[r2 t4 j1] <Curupira 2/4 j1> ataca <Jonas 1/2 j0>
+[r2 t4 j1] gatilho on_damaged de <Curupira 2/3 j1>
+[r2 t4 j1] gatilho on_damaged de <Curupira 2/2 j1>
+[r2 t4 j1] morre <Jonas 1/0 j0>
+[r2 t4 j1] renasce Jonas para a mão de j0
+[r3 t5 j0] j0 joga Davi, o Pastor
+[r3 t6 j1] j1 joga Dança do Aruanã
+[r3 t6 j1] j1 joga Arapuca
+[r3 t6 j1] <Curupira 2/2 j1> ataca <Davi, o Pastor 1/2 j0>
+[r3 t6 j1] gatilho on_damaged de <Curupira 2/1 j1>
+[r3 t6 j1] gatilho on_damaged de <Curupira 2/0 j1>
+[r3 t6 j1] morre <Curupira 2/0 j1>
+[r3 t6 j1] gatilho equipped_dies de <Reliquia Maracá do Pajé>
+[r3 t6 j1] morre <Davi, o Pastor 1/0 j0>
+[r4 t7 j0] j0 joga Praga dos Gafanhotos
+[r4 t7 j0] morre <Aruanã 1/-1 j1>
+[r4 t7 j0] morre <Aruanã 1/-1 j1>
+[r4 t7 j0] morre <Espírito 1/-1 j1>
+[r4 t7 j0] j0 joga Jonas
+[r4 t8 j1] j1 joga Iara
+[r4 t8 j1] gatilho on_play de <Iara 2/3 j1>
+[r4 t8 j1] j1 joga Cauim
+[r5 t9 j0] j0 joga Jonas
+[r5 t9 j0] j0 joga Granizo e Fogo
+[r5 t9 j0] cornucópia j1 -1 = 14
+[r5 t9 j0] morre <Iara 2/0 j1>
+[r5 t10 j1] j1 joga Anhangá
+[r6 t11 j0] j0 joga Talita Cumi
+[r6 t11 j0] j0 revive Davi, o Pastor para o campo
+[r6 t11 j0] j0 joga Sangue nos Umbrais
+[r6 t12 j1] j1 joga Boitatá
+[r6 t12 j1] j1 joga Mundéu
+[r6 t12 j1] <Anhangá 3/3 j1> ataca <Davi, o Pastor 1/2 j0>
+[r6 t12 j1] selo Sangue nos Umbrais dispara (enemy_attacks)
+[r6 t12 j1] morre <Anhangá 3/3 j1>
+[r7 t13 j0] j0 joga Elias, Carro de Fogo
+[r7 t13 j0] gatilho on_play de <Elias, Carro de Fogo 4/6 j0>
+[r7 t14 j1] j1 joga Cocar do Morubixaba
+[r7 t14 j1] gatilho on_equip de <Reliquia Cocar do Morubixaba>
+[r7 t14 j1] j1 joga Terra sem Males
+[r7 t14 j1] <Boitatá 5/6 j1> ataca <Davi, o Pastor 1/2 j0>
+[r7 t14 j1] morre <Davi, o Pastor 1/-3 j0>
+[r8 t15 j0] j0 joga Juízo Final
+[r8 t15 j0] morre <Jonas 1/2 j0>
+[r8 t15 j0] morre <Elias, Carro de Fogo 4/6 j0>
+[r8 t15 j0] renasce Elias, Carro de Fogo para a mão de j0
+[r8 t15 j0] morre <Boitatá 5/5 j1>
+[r8 t15 j0] j0 joga Davi, o Pastor
+[r8 t15 j0] j0 joga Tumba Vazia
+[r8 t16 j1] j1 joga Tupã, o Trovão
+[r8 t16 j1] gatilho on_play de <Tupã, o Trovão 6/7 j1>
+[r8 t16 j1] morre <Davi, o Pastor 1/0 j0>
+[r8 t16 j1] selo Tumba Vazia dispara (ally_dies)
+[r8 t16 j1] j0 revive Jonas para o campo
+[r9 t17 j0] j0 joga Elias, Carro de Fogo
+[r9 t17 j0] gatilho on_play de <Elias, Carro de Fogo 4/6 j0>
+[r9 t17 j0] j0 joga Anjo da Guarda
+[r9 t18 j1] j1 joga Kuarup
+[r9 t18 j1] j1 revive Anhangá para o campo
+[r9 t18 j1] j1 joga Caipora
+[r9 t18 j1] gatilho on_play de <Caipora 2/2 j1>
+[r9 t18 j1] <Tupã, o Trovão 6/5 j1> ataca <Anjo da Guarda 1/2 j0>
+[r9 t18 j1] morre <Anjo da Guarda 1/-4 j0>
+[r9 t18 j1] gatilho on_death de <Anjo da Guarda 1/-4 j0>
+[r10 t19 j0] j0 joga Portão do Éden
+[r10 t19 j0] j0 joga Exorcismo
+[r10 t19 j0] <Elias, Carro de Fogo 4/6 j0> ataca <Anhangá 3/3 j1>
+[r10 t19 j0] selo Arapuca dispara (enemy_attacks)
+[r10 t19 j0] selo Mundéu dispara (enemy_attacks)
+[r10 t19 j0] morre <Elias, Carro de Fogo 4/-2 j0>
+[r10 t19 j0] morre <Anhangá 3/-1 j1>
+[r10 t19 j0] <Jonas 1/2 j0> ataca <Queixada 1/2 j1>
+[r10 t20 j1] j1 joga Tupã, o Trovão
+[r10 t20 j1] selo Portão do Éden dispara (enemy_plays_entity)
+[r10 t20 j1] gatilho on_play de <Tupã, o Trovão 6/4 j1>
+[r10 t20 j1] morre <Jonas 1/-1 j0>
+[r10 t20 j1] j1 joga Ibirapema
+[r10 t20 j1] gatilho on_equip de <Reliquia Ibirapema>
+[r10 t20 j1] <Caipora 4/2 j1> ataca Cornucopia(0)
+[r10 t20 j1] cornucópia j0 -4 = 11
+[r10 t20 j1] <Queixada 1/1 j1> ataca Cornucopia(0)
+[r10 t20 j1] cornucópia j0 -1 = 10
+[r11 t21 j0] j0 joga Mudez de Zacarias
+[r11 t22 j1] j1 joga Mapinguari
+[r11 t22 j1] j1 joga Sopro do Pajé
+[r11 t22 j1] <Caipora 4/2 j1> ataca Cornucopia(0)
+[r11 t22 j1] cornucópia j0 -4 = 6
+[r11 t22 j1] <Queixada 1/1 j1> ataca Cornucopia(0)
+[r11 t22 j1] cornucópia j0 -1 = 5
+[r12 t23 j0] j0 joga Talita Cumi
+[r12 t23 j0] selo Sopro do Pajé dispara (enemy_plays_rite)
+[r12 t23 j0] efeito anulado (counter)
+[r12 t23 j0] j0 joga Cova dos Leões
+[r12 t24 j1] <Caipora 4/2 j1> ataca Cornucopia(0)
+[r12 t24 j1] cornucópia j0 -4 = 1
+[r12 t24 j1] <Queixada 1/1 j1> ataca Cornucopia(0)
+[r12 t24 j1] cornucópia j0 -1 = 0
+[r12 t24 j1] FIM: vence j1 (Cornucópia a zero)
+
+== cristianismo vs indigena — 2000 duelos ==
+  Vitórias A:  75.5%   Vitórias B:  24.5%   Empates:   0.0%
+  Duração média: 15.3 rodadas   Vantagem de quem começa:  48.3%
+
+  -- lado A: cartas de cristianismo --
+  carta                        tipo       C  jogadas  WR jogada  dano méd  na mão
+  Anjo da Guarda               entidade   2     3048      74.2%      1.65    6.3%
+  Davi, o Pastor               entidade   2     1461      74.0%      2.35    6.6%
+  Jonas                        entidade   2     2287      73.7%      1.42    6.6%
+  Gabriel, o Mensageiro        entidade   3     1647      78.8%      2.61    5.6%
+  Judite                       entidade   3     1477      75.8%      2.80    6.8%
+  Lázaro de Betânia            entidade   3     4625      76.2%      3.10    5.7%
+  Rafael, o Curador            entidade   3     1461      75.4%      3.72    6.5%
+  Sansão                       entidade   4     1379      80.6%      9.84    6.0%
+  Serafim                      entidade   5     1391      77.9%      7.10    4.8%
+  Elias, Carro de Fogo         entidade   6     2274      85.9%     12.00    4.3%
+  Leviatã                      entidade   6     1271      82.6%     13.39    8.8%
+  São Miguel Arcanjo           entidade   7     1517      91.7%     13.10    3.2%
+  Funda de Davi                reliquia   1     1230      77.4%      0.74    5.1%
+  Santo Graal                  reliquia   2     1166      76.8%      0.00    5.8%
+  Véu de Verônica              reliquia   2     1179      79.0%      0.00    6.4%
+  Arca da Aliança              reliquia   3     1180      77.1%      0.00    5.9%
+  Exorcismo                    rito       2     1151      76.0%      0.00    7.4%
+  Multiplicação dos Pães       rito       2     1135      80.3%      0.00    2.8%
+  Praga dos Gafanhotos         rito       2     1243      77.5%      3.55    4.7%
+  Granizo e Fogo               rito       3     1348      77.6%      7.31    4.3%
+  Talita Cumi                  rito       3     2408      75.6%      0.00    9.0%
+  Vale dos Ossos Secos         rito       3     1324      75.1%      1.48    5.7%
+  Juízo Final                  rito       4     1520      77.6%      0.00    2.3%
+  Cova dos Leões               selo       1     1133      77.0%      0.00    8.0%
+  Mudez de Zacarias            selo       2     1131      78.2%      0.00    7.2%
+  Portão do Éden               selo       2     1135      75.7%      2.67    8.6%
+  Tumba Vazia                  selo       2     2342      76.0%      0.00    7.2%
+  Sangue nos Umbrais           selo       3     1136      77.7%      0.00    6.8%
+
+  -- lado B: cartas de indigena --
+  carta                        tipo       C  jogadas  WR jogada  dano méd  na mão
+  Curupira                     entidade   2     3152      22.0%      1.62    3.9%
+  Saci-Pererê                  entidade   2     3043      21.4%      1.08    4.0%
+  Caipora                      entidade   3     3160      23.1%      2.50    3.3%
+  Iara                         entidade   3     1581      22.3%      2.27    3.2%
+  Anhangá                      entidade   4     1495      22.4%      5.16    3.6%
+  Boitatá                      entidade   4     3194      23.3%      4.14    3.0%
+  Mapinguari                   entidade   5     1615      22.9%      6.52    2.4%
+  Cobra-Grande                 entidade   6     1697      25.7%     11.05    2.7%
+  Jaci, a Lua                  entidade   6     1676      25.4%      6.65    2.8%
+  Tupã, o Trovão               entidade   7     1822      26.9%     14.48    3.8%
+  Ibirapema                    reliquia   1     1392      23.0%      0.00    5.9%
+  Maracá do Pajé               reliquia   2     1394      24.1%      0.82    8.8%
+  Muiraquitã                   reliquia   2     1350      24.8%      0.00    7.6%
+  Cocar do Morubixaba          reliquia   3     1370      25.0%      0.00    7.7%
+  Cauim                        rito       1     2817      23.8%      0.00    1.5%
+  Dança do Aruanã              rito       2     1316      17.3%      1.41    8.2%
+  Fogo de Monan                rito       2     1460      23.2%      4.48    2.2%
+  Visão do Caapi               rito       2     1398      23.9%      0.00    1.6%
+  Dádiva de Mani               rito       3     1358      24.4%      0.00    1.6%
+  Kuarup                       rito       4     1291      24.2%      0.00    2.2%
+  Terra sem Males              rito       4     1208      23.2%      0.00   11.5%
+  Arapuca                      selo       1     2823      23.7%      0.86    3.9%
+  Assovio da Matinta           selo       1     1394      22.8%      0.93    5.0%
+  Mundéu                       selo       2     2835      22.7%      3.38    4.0%
+  Sopro do Pajé                selo       2     1398      24.2%      0.00    2.4%
+
+(2.8s, bot=heur, seed=11)

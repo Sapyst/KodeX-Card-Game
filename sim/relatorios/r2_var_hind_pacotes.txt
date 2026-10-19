@@ -1,0 +1,7 @@
+P3 -1 Vida em todas as Entidades   média  60.7 | indi 55.8  cris 52.2  taoi 61.2  brux 62.5  alta 72.0 | dano-atq 12.4 mortes efeito 4.1 combate 5.8 rod 11.2 | esp rod  8.4 1º 59.3%
+P4 -1 ATK em todas as Entidades    média  58.9 | indi 51.5  cris 51.3  taoi 59.3  brux 61.2  alta 71.0 | dano-atq 11.7 mortes efeito 4.6 combate 6.3 rod 12.2 | esp rod 10.0 1º 62.8%
+P5 Reliquias -1 Vida               média  72.6 | indi 68.8  cris 63.3  taoi 72.5  brux 75.8  alta 82.7 | dano-atq 14.3 mortes efeito 3.8 combate 5.9 rod 10.8 | esp rod  8.8 1º 66.3%
+P7 Krishna 4/4 sem aura            média  77.5 | indi 74.7  cris 67.2  taoi 78.0  brux 79.7  alta 88.0 | dano-atq 14.9 mortes efeito 3.8 combate 6.1 rod 10.9 | esp rod  9.2 1º 62.8%
+P8 corpos: Hanuman3/2 Durga4/4 Rama3/3 Krishna3/4 média  71.1 | indi 65.3  cris 61.5  taoi 70.7  brux 76.0  alta 82.0 | dano-atq 14.0 mortes efeito 3.9 combate 5.9 rod 10.9 | esp rod  8.6 1º 63.0%
+P1 RB + Reliquias -1 Vida          média  65.2 | indi 53.2  cris 58.7  taoi 65.3  brux 69.0  alta 79.7 | dano-atq 12.8 mortes efeito 3.1 combate 6.7 rod 11.1 | esp rod  8.8 1º 62.7%
+P2 P1 + corpos                     média  54.5 | indi 43.3  cris 49.5  taoi 51.8  brux 58.0  alta 70.0 | dano-atq 11.3 mortes efeito 3.2 combate 6.4 rod 11.3 | esp rod  8.7 1º 63.0%

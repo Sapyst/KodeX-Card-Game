@@ -1,0 +1,10 @@
+oficial                            média  41.3 | indi 44.3  cris 38.0  taoi 50.5  hind 18.7  alta 55.0 | dano-atq  9.2 mortes efeito 2.5 combate 6.3 rod 12.5 | esp rod 11.7 1º 45.2%
+M1 Maleficio -3/-2                 média  42.5 | indi 45.5  cris 39.0  taoi 53.3  hind 19.0  alta 55.8 | dano-atq  9.3 mortes efeito 2.6 combate 6.4 rod 12.5 | esp rod 11.8 1º 43.7%
+V1 Vassoura +1/+2                  média  43.6 | indi 47.8  cris 39.8  taoi 53.8  hind 20.3  alta 56.3 | dano-atq  9.6 mortes efeito 2.5 combate 6.4 rod 12.5 | esp rod 11.6 1º 44.8%
+S1 Saba Lebre 1/2                  média  41.6 | indi 45.0  cris 38.7  taoi 50.3  hind 18.8  alta 55.3 | dano-atq  9.2 mortes efeito 2.6 combate 6.3 rod 12.5 | esp rod 11.7 1º 44.2%
+L1 Livro Usos 4                    média  41.6 | indi 44.7  cris 38.2  taoi 51.2  hind 18.5  alta 55.3 | dano-atq  9.2 mortes efeito 2.5 combate 6.3 rod 12.4 | esp rod 11.7 1º 45.0%
+T1 Strega 2/2 + Strix 1/2          média  40.2 | indi 43.7  cris 37.0  taoi 49.3  hind 16.8  alta 54.2 | dano-atq  8.9 mortes efeito 2.6 combate 6.3 rod 12.5 | esp rod 11.8 1º 46.0%
+B1 Benandante 3/3 (7,5/7)          média  44.8 | indi 46.3  cris 38.7  taoi 59.2  hind 22.2  alta 57.7 | dano-atq  9.8 mortes efeito 2.5 combate 6.4 rod 12.4 | esp rod 11.7 1º 44.8%
+G1 Gato 1/2 (6/5)                  média  44.0 | indi 48.0  cris 38.7  taoi 53.3  hind 21.0  alta 59.0 | dano-atq  9.8 mortes efeito 2.6 combate 6.5 rod 12.6 | esp rod 11.7 1º 44.5%
+CB1 M1+V1+S1                       média  45.3 | indi 50.0  cris 40.8  taoi 56.3  hind 21.0  alta 58.2 | dano-atq  9.9 mortes efeito 2.6 combate 6.5 rod 12.6 | esp rod 11.8 1º 44.5%
+CB2 M1+V1+S1+L1                    média  45.4 | indi 50.0  cris 41.1  taoi 57.2  hind 20.8  alta 58.0 | dano-atq  9.9 mortes efeito 2.5 combate 6.5 rod 12.5 | esp rod 11.8 1º 44.5%

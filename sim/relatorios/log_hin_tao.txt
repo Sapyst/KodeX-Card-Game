@@ -1,0 +1,130 @@
+[r0 t0 j0] mulligan j0: ['Shiva Nataraja', 'Krishna, o Auriga']
+[r0 t0 j0] mulligan j1: ['Imperador de Jade', 'Taiji']
+[r1 t1 j0] j0 joga Om
+[r1 t1 j0] j0 joga Roda do Samsara
+[r1 t2 j1] j1 joga Han Xiangzi
+[r2 t3 j0] j0 joga Yajna, o Fogo Sacrificial
+[r2 t3 j0] morre <Han Xiangzi 1/0 j1>
+[r2 t3 j0] j0 joga Garuda
+[r2 t3 j0] gatilho on_play de <Garuda 2/1 j0>
+[r2 t3 j0] <Garuda 2/1 j0> ataca Cornucopia(1)
+[r2 t3 j0] cornucópia j1 -2 = 13
+[r2 t4 j1] j1 joga Circulação do Qi
+[r2 t4 j1] j1 joga Fulu de Selamento
+[r3 t5 j0] j0 joga Jatayu
+[r3 t5 j0] <Garuda 2/1 j0> ataca Cornucopia(1)
+[r3 t5 j0] cornucópia j1 -2 = 11
+[r3 t5 j0] <Jatayu 1/1 j0> ataca Cornucopia(1)
+[r3 t5 j0] cornucópia j1 -1 = 10
+[r3 t6 j1] j1 joga Zhang Guolao
+[r3 t6 j1] gatilho on_play de <Zhang Guolao 2/3 j1>
+[r4 t7 j0] j0 joga Brahmastra
+[r4 t7 j0] selo Fulu de Selamento dispara (enemy_plays_rite)
+[r4 t7 j0] efeito anulado (counter)
+[r4 t8 j1] j1 joga Zhong Kui
+[r4 t8 j1] gatilho on_play de <Zhong Kui 3/4 j1>
+[r4 t8 j1] <Zhang Guolao 2/3 j1> ataca <Jatayu 1/1 j0>
+[r4 t8 j1] morre <Jatayu 1/-1 j0>
+[r4 t8 j1] selo Roda do Samsara dispara (ally_dies)
+[r5 t9 j0] j0 joga Garuda
+[r5 t9 j0] gatilho on_play de <Garuda 2/1 j0>
+[r5 t9 j0] j0 joga Jatayu
+[r5 t9 j0] <Garuda 2/1 j0> ataca <Zhang Guolao 2/2 j1>
+[r5 t9 j0] morre <Garuda 2/-1 j0>
+[r5 t9 j0] morre <Zhang Guolao 2/0 j1>
+[r5 t10 j1] j1 joga Nezha
+[r5 t10 j1] <Zhong Kui 3/3 j1> ataca <Jatayu 1/1 j0>
+[r5 t10 j1] morre <Jatayu 1/-2 j0>
+[r5 t10 j1] gatilho on_death de <Jatayu 1/-2 j0>
+[r5 t10 j1] <Nezha 3/3 j1> ataca Cornucopia(0)
+[r5 t10 j1] cornucópia j0 -3 = 12
+[r6 t11 j0] j0 joga Kali
+[r6 t11 j0] gatilho on_play de <Kali 4/5 j0>
+[r6 t11 j0] morre <Zhong Kui 3/0 j1>
+[r6 t11 j0] gatilho enemy_dies de <Kali 4/5 j0>
+[r6 t12 j1] j1 joga Taiji
+[r6 t12 j1] j1 joga Espelho de Bronze
+[r6 t12 j1] gatilho on_equip de <Reliquia Espelho de Bronze>
+[r6 t12 j1] <Nezha 6/4 j1> ataca <Kali 3/3 j0>
+[r6 t12 j1] morre <Kali 3/-3 j0>
+[r7 t13 j0] j0 joga Garuda
+[r7 t13 j0] gatilho on_play de <Garuda 2/1 j0>
+[r7 t13 j0] morre <Nezha 6/0 j1>
+[r7 t13 j0] renasce Nezha para a mão de j1
+[r7 t13 j0] j0 joga Vishvarupa, a Forma Universal
+[r7 t13 j0] j0 joga Chamas de Agni
+[r7 t13 j0] <Garuda 6/6 j0> ataca Cornucopia(1)
+[r7 t13 j0] cornucópia j1 -6 = 4
+[r7 t14 j1] j1 joga Imperador de Jade
+[r7 t14 j1] selo Chamas de Agni dispara (enemy_plays_entity)
+[r7 t14 j1] cornucópia j1 -1 = 3
+[r8 t15 j0] j0 joga Tandava
+[r8 t15 j0] cornucópia j1 -3 = 0
+[r8 t15 j0] FIM: vence j0 (Cornucópia a zero)
+
+== hinduismo vs taoismo — 2000 duelos ==
+  Vitórias A:  81.5%   Vitórias B:  18.6%   Empates:   0.0%
+  Duração média: 9.4 rodadas   Vantagem de quem começa:  55.2%
+
+  -- lado A: cartas de hinduismo --
+  carta                        tipo       C  jogadas  WR jogada  dano méd  na mão
+  Matsya, o Peixe              entidade   1      969      82.1%      1.78    9.4%
+  Garuda                       entidade   2     1982      80.2%      5.25   11.0%
+  Jatayu                       entidade   2      948      78.9%      2.66   10.7%
+  Arjuna                       entidade   3      945      74.8%      3.79    9.2%
+  Ganesha, Removedor de Obstác entidade   3      990      82.2%      3.96   11.9%
+  Hanuman                      entidade   4     1800      79.1%      7.91    7.5%
+  Narasimha                    entidade   4      798      77.5%      4.99   12.4%
+  Rama, Príncipe de Ayodhya    entidade   4     1197      77.9%      5.33   11.0%
+  Durga, a Fortaleza           entidade   5      915      80.2%      8.44    6.1%
+  Krishna, o Auriga            entidade   5      906      76.3%      8.03    6.3%
+  Kali                         entidade   6     1004      82.0%     13.78    5.4%
+  Shiva Nataraja               entidade   7      933      87.7%     12.12    8.6%
+  Vajra                        reliquia   2      966      83.3%      2.25   17.2%
+  Gandiva                      reliquia   3      857      80.6%      1.68   20.4%
+  Sudarshana Chakra            reliquia   3      881      79.7%      1.56   20.1%
+  Trishula                     reliquia   4      935      81.7%      2.86   16.6%
+  Om                           rito       1     1754      78.9%      0.00    9.0%
+  Yajna, o Fogo Sacrificial    rito       2      792      73.2%      1.53   19.8%
+  Brahmastra                   rito       3      888      77.5%      1.42   11.5%
+  Descida do Avatar            rito       3      587      74.4%      0.00   41.3%
+  Samudra Manthan              rito       3      843      76.6%      0.00   12.6%
+  Vishvarupa, a Forma Universa rito       4      478      68.2%      0.00   33.6%
+  Tandava                      rito       5      595      74.5%      7.76   21.8%
+  Chamas de Agni               selo       1      800      74.9%      2.76   18.4%
+  Roda do Samsara              selo       1      832      78.6%      0.00   17.0%
+  Incêndio de Lanka            selo       2      692      74.6%      3.63   28.5%
+  Lei do Karma                 selo       2      706      78.0%      2.97   29.2%
+  Véu de Maya                  selo       2      716      79.7%      0.00   30.1%
+  Pashupatastra                selo       3      628      73.7%      2.25   36.9%
+
+  -- lado B: cartas de taoismo --
+  carta                        tipo       C  jogadas  WR jogada  dano méd  na mão
+  Lan Caihe                    entidade   1     1023      20.9%      1.16    8.2%
+  Han Xiangzi                  entidade   2      978      23.2%      1.61   15.6%
+  He Xiangu                    entidade   2      994      24.8%      2.20   15.3%
+  Li Tieguai                   entidade   2     1653      17.9%      1.16   16.3%
+  Cao Guojiu                   entidade   3     1198      17.9%      1.87    7.7%
+  Lü Dongbin                   entidade   3     1062      19.8%      1.86   11.9%
+  Zhang Guolao                 entidade   3     1062      25.2%      2.77    9.0%
+  Zhongli Quan                 entidade   3     1031      21.5%      2.87    9.8%
+  Nezha                        entidade   4     1569      25.4%      4.62   12.0%
+  Zhong Kui                    entidade   4      939      22.1%      4.26   10.3%
+  Erlang Shen                  entidade   5      944      22.9%      6.09    9.9%
+  Guan Yu, Imperador Guan      entidade   5      992      25.2%      6.28    9.4%
+  Xiwangmu, Rainha Mãe do Oest entidade   6      949      30.6%      5.29   10.4%
+  Imperador de Jade            entidade   7      890      25.6%      6.26   16.2%
+  Espelho de Bronze            reliquia   2     1473      23.3%      0.00   25.2%
+  Pêssego da Imortalidade      reliquia   2     1460      24.6%      0.00   27.0%
+  Circulação do Qi             rito       1     1759      21.3%      0.00    5.4%
+  Flechas de Houyi             rito       2      833      23.6%      2.53   11.8%
+  Banquete dos Pêssegos        rito       3      554      27.8%      0.00   44.2%
+  Pílula de Ouro               rito       3     1455      22.3%      0.00   21.8%
+  Taiji                        rito       4     1289      26.1%      0.00   19.3%
+  Tartaruga Negra do Norte     selo       1      755      26.5%      0.00   20.2%
+  Dragão Azul do Leste         selo       2      644      21.3%      0.00   36.2%
+  Fulu de Selamento            selo       2     1274      24.0%      0.00   36.2%
+  Pássaro Vermelho do Sul      selo       2      563      28.4%      0.00   38.9%
+  Tigre Branco do Oeste        selo       2      591      29.6%      3.17   40.0%
+
+(1.7s, bot=heur, seed=11)

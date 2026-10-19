@@ -1,0 +1,7 @@
+formato por coluna: WR/rodadas/1º-vence (%)
+hind oficial                             média WR  56.3 rod 11.4 1º 54.7 | indi 50.5/12.1/56.7  cris 51.9/12.4/52.1  taoi 57.1/10.7/55.5  brux 55.9/10.8/52.9  alta 65.9/11.1/56.5 | espelho rod  8.9 1º 63.4
+hind K1 Krishna aura other_ally (10/11)  média WR  54.3 rod 11.6 1º 54.2 | indi 49.0/12.3/55.4  cris 48.5/12.6/52.5  taoi 55.8/10.8/56.4  brux 53.7/10.9/51.5  alta 64.6/11.3/55.0 | espelho rod  9.2 1º 62.2
+--- regra: 2º jogador +2 Fé temporária no 1º turno (motor patched só aqui) ---
+hind oficial + regra +2 Fé               média WR  54.7 rod 11.4 1º 49.1 | indi 48.4/11.9/51.8  cris 47.6/12.3/45.8  taoi 55.7/10.6/48.5  brux 58.8/10.4/49.0  alta 62.8/11.5/50.2 | espelho rod  8.8 1º 57.1
+cristianismo oficial + regra +2 Fé       média WR  54.2 rod 14.2 1º 46.0 | indi 62.7/15.6/44.7  taoi 52.3/14.7/44.9  hind 52.1/12.4/49.7  brux 58.3/13.8/43.5  alta 45.4/14.4/47.4 | espelho rod 16.7 1º 45.0
+taoismo oficial + regra +2 Fé            média WR  46.3 rod 12.8 1º 47.7 | indi 47.8/13.6/49.6  cris 45.6/14.5/46.4  hind 44.3/10.6/50.9  brux 44.3/12.0/42.9  alta 49.3/13.1/48.5 | espelho rod 12.7 1º 47.7

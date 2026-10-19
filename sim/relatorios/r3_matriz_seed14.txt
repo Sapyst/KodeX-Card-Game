@@ -1,0 +1,52 @@
+== Matriz de win rate (linha vence coluna; empate conta 0,5) ==
+              alta_ma bruxari cristia hinduis indigen taoismo
+alta_magia       —      49.6%   51.1%   35.6%   53.2%   49.5%
+bruxaria        50.4%    —      41.5%   40.8%   50.9%   55.5%
+cristianismo    48.9%   58.5%    —      50.4%   62.7%   52.0%
+hinduismo       64.3%   59.2%   49.6%    —      48.6%   54.2%
+indigena        46.8%   49.0%   37.2%   51.4%    —      50.3%
+taoismo         50.4%   44.5%   47.9%   45.8%   49.6%    —   
+
+== Média por deck ==
+   55.2%  hinduismo
+   54.5%  cristianismo
+   47.9%  bruxaria
+   47.8%  alta_magia
+   47.6%  taoismo
+   47.0%  indigena
+
+== Cartas mais fortes (win rate quando jogada, ≥30 partidas; 'comprada' = WR da partida em que chegou à mão) ==
+   71.5%  comprada= 68.2%  Elias, Carro de Fogo           [cristianismo] jogadas=9690 dano=10.2
+   71.5%  comprada= 67.5%  São Miguel Arcanjo             [cristianismo] jogadas=6412 dano=11.0
+   67.7%  comprada= 63.5%  Shiva Nataraja                 [hinduismo] jogadas=5828 dano=11.1
+   64.7%  comprada= 58.2%  Leviatã                        [cristianismo] jogadas=5195 dano=12.0
+   64.4%  comprada= 52.4%  Hécate, Senhora das Encruzilha [bruxaria] jogadas=5969 dano=11.0
+   63.7%  comprada= 62.9%  Sansão                         [cristianismo] jogadas=6344 dano=8.8
+   63.3%  comprada= 52.2%  Dantalion, das Mil Faces       [alta_magia] jogadas=6033 dano=4.1
+   60.1%  comprada= 60.2%  Multiplicação dos Pães         [cristianismo] jogadas=5616 dano=0.0
+   59.8%  comprada= 57.1%  Véu de Verônica                [cristianismo] jogadas=5397 dano=0.0
+   59.7%  comprada= 58.8%  Mudez de Zacarias              [cristianismo] jogadas=5310 dano=0.0
+   59.5%  comprada= 52.4%  Baba Yaga                      [bruxaria] jogadas=4952 dano=5.8
+   59.1%  comprada= 60.2%  Gabriel, o Mensageiro          [cristianismo] jogadas=7691 dano=2.4
+   59.0%  comprada= 58.4%  Sangue nos Umbrais             [cristianismo] jogadas=5290 dano=0.0
+   59.0%  comprada= 59.1%  Serafim                        [cristianismo] jogadas=6408 dano=6.4
+   58.5%  comprada= 56.2%  Arca da Aliança                [cristianismo] jogadas=5553 dano=0.0
+== Cartas mais fracas ==
+   38.1%  comprada= 45.4%  Dança do Aruanã                [indigena] jogadas=5479 na mão= 14.6%
+   42.0%  comprada= 45.4%  Saci-Pererê                    [indigena] jogadas=13404 na mão=  8.3%
+   42.6%  comprada= 45.7%  Curupira                       [indigena] jogadas=13598 na mão=  8.5%
+   43.1%  comprada= 46.1%  Boneco de Cera                 [bruxaria] jogadas=5503 na mão=  7.5%
+   43.3%  comprada= 47.4%  Sapo Familiar                  [bruxaria] jogadas=5977 na mão=  7.7%
+   43.8%  comprada= 47.2%  Li Tieguai                     [taoismo] jogadas=10857 na mão=  9.2%
+   44.3%  comprada= 47.7%  Han Xiangzi                    [taoismo] jogadas=6367 na mão= 10.2%
+   44.7%  comprada= 47.5%  Gato Preto                     [bruxaria] jogadas=20587 na mão=  7.1%
+   44.8%  comprada= 45.5%  Assovio da Matinta             [indigena] jogadas=6291 na mão=  6.5%
+   45.0%  comprada= 46.9%  Anhangá                        [indigena] jogadas=6767 na mão=  5.7%
+   45.1%  comprada= 46.7%  Caipora                        [indigena] jogadas=14236 na mão=  6.6%
+   45.3%  comprada= 45.6%  Dragão Azul do Leste           [taoismo] jogadas=5317 na mão= 12.1%
+   45.3%  comprada= 47.1%  Cao Guojiu                     [taoismo] jogadas=7099 na mão=  5.0%
+   45.4%  comprada= 48.7%  Edward Kelley, o Vidente       [alta_magia] jogadas=7279 na mão=  8.3%
+   45.5%  comprada= 48.2%  Orobas, o Príncipe Fiel        [alta_magia] jogadas=8121 na mão=  7.1%
+
+(45.6s, bot=heur, seed=14)
+JSON em relatorios/r3_matriz_seed14.json

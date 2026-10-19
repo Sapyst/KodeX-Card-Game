@@ -1,0 +1,120 @@
+[r0 t0 j0] mulligan j0: ['Shiva Nataraja', 'Krishna, o Auriga']
+[r0 t0 j0] mulligan j1: ['Anjo Guardião Sagrado', 'Ritual Menor do Pentagrama']
+[r1 t1 j0] j0 joga Om
+[r1 t1 j0] j0 joga Roda do Samsara
+[r1 t2 j1] j1 joga Edward Kelley, o Vidente
+[r1 t2 j1] gatilho on_play de <Edward Kelley, o Vidente 0/2 j1>
+[r1 t2 j1] j1 busca Anel de Salomão
+[r2 t3 j0] j0 joga Garuda
+[r2 t3 j0] gatilho on_play de <Garuda 2/1 j0>
+[r2 t3 j0] <Garuda 2/1 j0> ataca <Edward Kelley, o Vidente 0/2 j1>
+[r2 t3 j0] morre <Edward Kelley, o Vidente 0/0 j1>
+[r2 t4 j1] j1 joga Pentagrama Flamejante
+[r3 t5 j0] j0 joga Jatayu
+[r3 t5 j0] <Garuda 2/1 j0> ataca Cornucopia(1)
+[r3 t5 j0] cornucópia j1 -2 = 13
+[r3 t5 j0] <Jatayu 1/1 j0> ataca Cornucopia(1)
+[r3 t5 j0] cornucópia j1 -1 = 12
+[r3 t6 j1] j1 joga Sigilo de Spare
+[r4 t7 j0] j0 joga Vishvarupa, a Forma Universal
+[r4 t7 j0] selo Pentagrama Flamejante dispara (enemy_plays_rite)
+[r4 t7 j0] efeito anulado (counter)
+[r4 t7 j0] <Garuda 2/1 j0> ataca Cornucopia(1)
+[r4 t7 j0] cornucópia j1 -2 = 10
+[r4 t7 j0] <Jatayu 1/1 j0> ataca Cornucopia(1)
+[r4 t7 j0] cornucópia j1 -1 = 9
+[r4 t7 j0] selo Sigilo de Spare dispara (enemy_end_turn)
+[r4 t8 j1] j1 joga Marbas, o Leão das Doenças
+[r4 t8 j1] gatilho on_play de <Marbas, o Leão das Doenças 3/4 j1>
+[r5 t9 j0] j0 joga Brahmastra
+[r5 t9 j0] morre <Marbas, o Leão das Doenças 3/4 j1>
+[r5 t9 j0] j0 joga Véu de Maya
+[r5 t9 j0] <Garuda 2/1 j0> ataca Cornucopia(1)
+[r5 t9 j0] cornucópia j1 -2 = 7
+[r5 t9 j0] <Jatayu 1/1 j0> ataca Cornucopia(1)
+[r5 t9 j0] cornucópia j1 -1 = 6
+[r5 t10 j1] j1 joga Abrahadabra
+[r5 t10 j1] selo Véu de Maya dispara (enemy_plays_rite)
+[r5 t10 j1] efeito anulado (counter)
+[r5 t10 j1] j1 joga Solve et Coagula
+[r6 t11 j0] j0 joga Kali
+[r6 t11 j0] gatilho on_play de <Kali 4/5 j0>
+[r6 t11 j0] <Garuda 2/1 j0> ataca Cornucopia(1)
+[r6 t11 j0] cornucópia j1 -2 = 4
+[r6 t11 j0] <Jatayu 1/1 j0> ataca Cornucopia(1)
+[r6 t11 j0] cornucópia j1 -1 = 3
+[r6 t12 j1] j1 joga Silfo
+[r6 t12 j1] j1 joga Sigillum Dei Aemeth
+[r6 t12 j1] gatilho on_equip de <Reliquia Sigillum Dei Aemeth>
+[r6 t12 j1] <Silfo 1/5 j1> ataca <Jatayu 1/1 j0>
+[r6 t12 j1] morre <Jatayu 1/0 j0>
+[r6 t12 j1] gatilho on_death de <Jatayu 1/0 j0>
+[r6 t12 j1] selo Roda do Samsara dispara (ally_dies)
+[r7 t13 j0] j0 joga Tandava
+[r7 t13 j0] cornucópia j1 -3 = 0
+[r7 t13 j0] FIM: vence j0 (Cornucópia a zero)
+
+== hinduismo vs alta_magia — 2000 duelos ==
+  Vitórias A:  96.1%   Vitórias B:   3.9%   Empates:   0.0%
+  Duração média: 8.4 rodadas   Vantagem de quem começa:  51.7%
+
+  -- lado A: cartas de hinduismo --
+  carta                        tipo       C  jogadas  WR jogada  dano méd  na mão
+  Matsya, o Peixe              entidade   1      832      95.7%      2.14   12.0%
+  Garuda                       entidade   2     1667      95.0%      6.52   14.5%
+  Jatayu                       entidade   2      797      95.2%      3.42   14.6%
+  Arjuna                       entidade   3      845      95.3%      5.33   11.3%
+  Ganesha, Removedor de Obstác entidade   3      797      96.4%      5.51   18.2%
+  Hanuman                      entidade   4     1513      95.7%      9.45    8.8%
+  Narasimha                    entidade   4      663      94.7%      5.86   14.0%
+  Rama, Príncipe de Ayodhya    entidade   4      871      95.3%      7.00   11.3%
+  Durga, a Fortaleza           entidade   5      755      95.8%      9.44    6.9%
+  Krishna, o Auriga            entidade   5      731      93.7%      8.35    7.2%
+  Kali                         entidade   6      742      96.2%     11.66   10.8%
+  Shiva Nataraja               entidade   7      652      97.0%      9.20   16.6%
+  Vajra                        reliquia   2      893      96.9%      1.97   16.9%
+  Gandiva                      reliquia   3      737      95.0%      1.54   21.4%
+  Sudarshana Chakra            reliquia   3      751      94.5%      1.71   21.6%
+  Trishula                     reliquia   4      762      94.9%      2.19   17.1%
+  Om                           rito       1     1578      95.0%      0.00    9.2%
+  Yajna, o Fogo Sacrificial    rito       2      663      92.9%      1.34   24.3%
+  Brahmastra                   rito       3      731      93.6%      0.91   15.6%
+  Descida do Avatar            rito       3      461      93.9%      0.00   46.8%
+  Samudra Manthan              rito       3      695      94.1%      0.00   19.0%
+  Vishvarupa, a Forma Universa rito       4      379      89.4%      0.00   33.9%
+  Tandava                      rito       5      415      89.6%      6.12   30.8%
+  Chamas de Agni               selo       1      687      93.9%      2.69   21.4%
+  Roda do Samsara              selo       1      748      94.5%      0.00   16.8%
+  Incêndio de Lanka            selo       2      583      93.3%      3.25   29.4%
+  Lei do Karma                 selo       2      631      93.7%      2.48   28.8%
+  Véu de Maya                  selo       2      585      92.3%      0.00   32.6%
+  Pashupatastra                selo       3      538      94.1%      1.91   37.5%
+
+  -- lado B: cartas de alta_magia --
+  carta                        tipo       C  jogadas  WR jogada  dano méd  na mão
+  Edward Kelley, o Vidente     entidade   2     1060       4.2%      0.10    7.4%
+  Homúnculo                    entidade   2     2120       4.5%      0.63    6.4%
+  Silfo                        entidade   2     1061       6.3%      1.29    5.4%
+  Orobas, o Príncipe Fiel      entidade   3     1213       4.6%      1.01    8.6%
+  Vassago, o Príncipe que Acha entidade   3     2302       5.1%      1.63    8.0%
+  Andras, o Semeador de Discór entidade   4      963       4.8%      2.38   10.7%
+  Astaroth, o Duque Revelador  entidade   4      265       5.9%      2.55   56.9%
+  Marbas, o Leão das Doenças   entidade   4      955       5.8%      2.75   11.4%
+  Dantalion, das Mil Faces     entidade   5      320      19.0%      2.62   56.6%
+  Babalon, a Mulher Escarlate  entidade   6      332      12.1%      4.92   56.2%
+  Paimon, Rei do Oeste         entidade   6      353      12.6%      3.76   54.7%
+  Anjo Guardião Sagrado        entidade   7     1476       8.3%      4.05   27.5%
+  Pedra de Visão de Dee        reliquia   1     1566       5.9%      0.00   24.9%
+  Anel de Salomão              reliquia   2      951       6.5%      0.00   27.6%
+  Sigillum Dei Aemeth          reliquia   2      897       6.1%      0.00   29.9%
+  Lemegeton, a Chave Menor     rito       1     1596       4.7%      0.00   19.6%
+  Azoth                        rito       3     1387       4.9%      0.00   33.1%
+  Conjuração dos Elementais    rito       3      590       7.1%      1.01   70.4%
+  Abrahadabra                  rito       4      694       4.3%      2.59   20.6%
+  Ritual Menor do Pentagrama   rito       4      265       9.4%      0.00   54.0%
+  Sigilo de Spare              selo       1      759       6.2%      0.00   27.3%
+  Solve et Coagula             selo       1     1512       5.4%      0.00   29.2%
+  Pentagrama Flamejante        selo       2     1608       5.9%      0.00   39.7%
+  Selo de Salomão              selo       3     1083       5.9%      0.00   36.6%
+
+(1.4s, bot=heur, seed=11)

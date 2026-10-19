@@ -1,0 +1,1351 @@
+
+===== indigena x cristianismo  (n=400)  rodadas méd 15.2  <6: 0%  >14: 53%
+  [indigena@A] dano Cornucópia por fonte: ataque 6.7  efeito 1.3  (fadiga sofrida 0.6) | ataques: corn 2.5 ent 7.2
+     selo Arapuca                    postos  554 disparos  481 (87%)
+     selo Assovio da Matinta         postos  274 disparos  255 (93%)
+     selo Mundéu                     postos  582 disparos  489 (84%)
+     selo Sopro do Pajé              postos  266 disparos  216 (81%)
+  [cristianismo@B] dano Cornucópia por fonte: ataque 13.2  efeito 2.7  (fadiga sofrida 0.0) | ataques: corn 5.3 ent 7.3
+     selo Cova dos Leões             postos  225 disparos  196 (87%)
+     selo Mudez de Zacarias          postos  212 disparos  156 (74%)
+     selo Portão do Éden             postos  232 disparos  205 (88%)
+     selo Sangue nos Umbrais         postos  236 disparos  177 (75%)
+     selo Tumba Vazia                postos  467 disparos  383 (82%)
+     ('Anhangá', 'ally_dies')                                                         419
+     ('Boitatá', 'ally_attacked')                                                     62
+     ('Cobra-Grande', 'enemy_dies')                                                   755
+     ('Curupira', 'on_damaged')                                                       724
+     ('Davi, o Pastor', 'on_attack')                                                  250
+     ('Mapinguari', 'on_damaged')                                                     589
+     ('davi_mata',)                                                                   73
+     ('mortes_por', 'cristianismo@B', 'Elias, Carro de Fogo', 'inimigas')             509
+     ('mortes_por', 'cristianismo@B', 'Juízo Final', 'inimigas')                      553
+     ('mortes_por', 'cristianismo@B', 'Juízo Final', 'proprias')                      411
+     ('mortes_por', 'cristianismo@B', 'Praga dos Gafanhotos', 'inimigas')             318
+     ('mortes_por', 'cristianismo@B', 'Sansão', 'inimigas')                           390
+     ('mortes_por', 'indigena@A', 'Tupã, o Trovão', 'inimigas')                       383
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Anjo da Guarda')              30
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Davi, o Pastor')              7
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Elias, Carro de Fogo')        25
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Gabriel, o Mensageiro')       25
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Jonas')                       7
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Judite')                      24
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Leviatã')                     39
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Lázaro de Betânia')           25
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Rafael, o Curador')           26
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Sansão')                      38
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Serafim')                     58
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'São Miguel Arcanjo')          50
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Anjo da Guarda')                    44
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Davi, o Pastor')                    8
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Elias, Carro de Fogo')              29
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Gabriel, o Mensageiro')             15
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Jonas')                             6
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Judite')                            16
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Leviatã')                           42
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Lázaro de Betânia')                 12
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Rafael, o Curador')                 21
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Sansão')                            24
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Serafim')                           57
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'São Miguel Arcanjo')                72
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Anhangá')                              11
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Boitatá')                              27
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Caipora')                              25
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Cobra-Grande')                         30
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Curupira')                             9
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Iara')                                 14
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Jaci, a Lua')                          29
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Mapinguari')                           13
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Saci-Pererê')                          8
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Tupã, o Trovão')                       51
+     ('revive_campo_lendaria', 'cristianismo@B', 'Talita Cumi')                       75
+     ('revive_campo_lendaria', 'cristianismo@B', 'Tumba')                             101
+     ('revive_campo_lendaria', 'indigena@A', 'Kuarup')                                80
+     cobra_atk_max (soma por partida onde disparou) 1767
+     Jaci: jogos 288 rodadas méd 16.5 WR indígena c/ Jaci 22%
+  [indigena@A] jogadas/partida: Boitatá=1.61, Curupira=1.57, Caipora=1.53, Saci-Pererê=1.49, Mundéu=1.46, Cauim=1.43, Arapuca=1.39, Jaci, a Lua=0.87, Tupã, o Trovão=0.85, Cobra-Grande=0.82, Anhangá=0.78, Mapinguari=0.78
+  [cristianismo@B] jogadas/partida: Lázaro de Betâ=2.35, Anjo da Guarda=1.64, Talita Cumi=1.27, Tumba Vazia=1.17, Jonas=1.15, Elias, Carro d=1.06, Rafael, o Cura=0.82, Gabriel, o Men=0.79, São Miguel Arc=0.79, Serafim=0.73, Judite=0.73, Juízo Final=0.73
+
+===== indigena x taoismo  (n=400)  rodadas méd 13.8  <6: 0%  >14: 37%
+  [indigena@A] dano Cornucópia por fonte: ataque 8.3  efeito 1.1  (fadiga sofrida 0.3) | ataques: corn 3.1 ent 8.2
+     selo Arapuca                    postos  521 disparos  463 (89%)
+     selo Assovio da Matinta         postos  247 disparos  226 (91%)
+     selo Mundéu                     postos  548 disparos  479 (87%)
+     selo Sopro do Pajé              postos  259 disparos  209 (81%)
+  [taoismo@B] dano Cornucópia por fonte: ataque 12.3  efeito 0.0  (fadiga sofrida 0.1) | ataques: corn 3.8 ent 10.8
+     selo Dragão Azul do Leste       postos  238 disparos  220 (92%)
+     selo Fulu de Selamento          postos  460 disparos  357 (78%)
+     selo Pássaro Vermelho do Sul    postos  222 disparos  186 (84%)
+     selo Tartaruga Negra do Norte   postos  239 disparos  204 (85%)
+     selo Tigre Branco do Oeste      postos  232 disparos  188 (81%)
+     ('Anhangá', 'ally_dies')                                                         373
+     ('Boitatá', 'ally_attacked')                                                     62
+     ('Cobra-Grande', 'enemy_dies')                                                   856
+     ('Curupira', 'on_damaged')                                                       606
+     ('Mapinguari', 'on_damaged')                                                     465
+     ('mortes_por', 'indigena@A', 'Tupã, o Trovão', 'inimigas')                       338
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Anhangá')                              13
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Boitatá')                              22
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Caipora')                              25
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Cobra-Grande')                         17
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Curupira')                             10
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Iara')                                 11
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Jaci, a Lua')                          21
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Mapinguari')                           18
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Saci-Pererê')                          6
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Tupã, o Trovão')                       30
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Cao Guojiu')                           23
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Erlang Shen')                          16
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Guan Yu, Imperador Guan')              30
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Han Xiangzi')                          9
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'He Xiangu')                            4
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Imperador de Jade')                    32
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Lan Caihe')                            3
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Li Tieguai')                           2
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Lü Dongbin')                           9
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Nezha')                                8
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Xiwangmu, Rainha Mãe do Oeste')        28
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Zhang Guolao')                         9
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Zhong Kui')                            11
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Zhongli Quan')                         14
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Cao Guojiu')                    32
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Erlang Shen')                   35
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Guan Yu, Imperador Guan')       56
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Han Xiangzi')                   15
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'He Xiangu')                     7
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Imperador de Jade')             45
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Lan Caihe')                     16
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Li Tieguai')                    4
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Lü Dongbin')                    32
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Nezha')                         21
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Xiwangmu, Rainha Mãe do Oeste') 47
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Zhang Guolao')                  18
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Zhong Kui')                     21
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Zhongli Quan')                  24
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Cao Guojiu')     24
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Erlang Shen')    42
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Guan Yu, Imperador Guan') 33
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Han Xiangzi')    16
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'He Xiangu')      5
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Imperador de Jade') 34
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Lan Caihe')      4
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Li Tieguai')     4
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Lü Dongbin')     5
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Nezha')          22
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhang Guolao')   13
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhong Kui')      19
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhongli Quan')   24
+     ('revive_campo_lendaria', 'indigena@A', 'Kuarup')                                51
+     ('revive_campo_lendaria', 'taoismo@B', 'Pássaro')                                60
+     ('revive_campo_lendaria', 'taoismo@B', 'Pílula de Ouro')                         92
+     ('revive_campo_lendaria', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste')          34
+     cobra_atk_max (soma por partida onde disparou) 1829
+     Jaci: jogos 258 rodadas méd 15.0 WR indígena c/ Jaci 41%
+  [indigena@A] jogadas/partida: Boitatá=1.44, Curupira=1.39, Cauim=1.38, Mundéu=1.37, Caipora=1.37, Saci-Pererê=1.34, Arapuca=1.30, Jaci, a Lua=0.80, Cobra-Grande=0.77, Iara=0.76, Tupã, o Trovão=0.76, Anhangá=0.72
+  [taoismo@B] jogadas/partida: Espelho de Bro=1.29, Circulação do =1.29, Pílula de Ouro=1.29, Pêssego da Imo=1.25, Nezha=1.22, Taiji=1.19, Li Tieguai=1.17, Fulu de Selame=1.15, Cao Guojiu=0.81, Imperador de J=0.80, Xiwangmu, Rain=0.80, Erlang Shen=0.76
+
+===== indigena x hinduismo  (n=400)  rodadas méd 10.5  <6: 1%  >14: 14%
+  [indigena@A] dano Cornucópia por fonte: ataque 4.5  efeito 0.9  (fadiga sofrida 0.0) | ataques: corn 1.8 ent 3.0
+     selo Arapuca                    postos  367 disparos  307 (84%)
+     selo Assovio da Matinta         postos  165 disparos  149 (90%)
+     selo Mundéu                     postos  367 disparos  284 (77%)
+     selo Sopro do Pajé              postos  176 disparos  136 (77%)
+  [hinduismo@B] dano Cornucópia por fonte: ataque 10.5  efeito 8.0  (fadiga sofrida 0.0) | ataques: corn 4.8 ent 4.8
+     selo Chamas de Agni             postos  162 disparos  146 (90%)
+     selo Incêndio de Lanka          postos  164 disparos  155 (95%)
+     selo Lei do Karma               postos  174 disparos  139 (80%)
+     selo Pashupatastra              postos  168 disparos  118 (70%)
+     selo Roda do Samsara            postos  184 disparos  146 (79%)
+     selo Véu de Maya                postos  172 disparos  136 (79%)
+     ('Anhangá', 'ally_dies')                                                         245
+     ('Boitatá', 'ally_attacked')                                                     24
+     ('Cobra-Grande', 'enemy_dies')                                                   275
+     ('Curupira', 'on_damaged')                                                       535
+     ('Hanuman', 'on_attack')                                                         496
+     ('Kali', 'enemy_dies')                                                           675
+     ('Kali', 'on_play')                                                              231
+     ('Mapinguari', 'on_damaged')                                                     376
+     ('mortes_por', 'hinduismo@B', 'Brahmastra', 'inimigas')                          353
+     ('mortes_por', 'hinduismo@B', 'Kali', 'inimigas')                                219
+     ('mortes_por', 'indigena@A', 'Tupã, o Trovão', 'inimigas')                       197
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Arjuna')                   10
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Durga, a Fortaleza')       16
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Ganesha, Removedor de Obstáculos') 8
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Garuda')                   11
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Hanuman')                  13
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Jatayu')                   9
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Kali')                     18
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Krishna, o Auriga')        19
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Matsya, o Peixe')          4
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Narasimha')                3
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Shiva Nataraja')           17
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Anhangá')                              8
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Boitatá')                              34
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Caipora')                              24
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Cobra-Grande')                         9
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Curupira')                             8
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Iara')                                 12
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Jaci, a Lua')                          15
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Mapinguari')                           15
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Saci-Pererê')                          3
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Tupã, o Trovão')                       24
+     ('revive_campo_lendaria', 'hinduismo@B', 'Descida do Avatar')                    35
+     ('revive_campo_lendaria', 'indigena@A', 'Kuarup')                                39
+     cobra_atk_max (soma por partida onde disparou) 830
+     hanuman_atk_max soma 1358
+     Jaci: jogos 177 rodadas méd 12.1 WR indígena c/ Jaci 28%
+  [indigena@A] jogadas/partida: Curupira=1.18, Caipora=1.15, Boitatá=1.14, Saci-Pererê=1.12, Cauim=1.03, Arapuca=0.92, Mundéu=0.92, Iara=0.61, Tupã, o Trovão=0.59, Cobra-Grande=0.59, Jaci, a Lua=0.56, Anhangá=0.55
+  [hinduismo@B] jogadas/partida: Garuda=1.16, Om=1.04, Hanuman=0.98, Rama, Príncipe=0.75, Vajra=0.59, Krishna, o Aur=0.57, Ganesha, Remov=0.57, Matsya, o Peix=0.56, Brahmastra=0.54, Kali=0.53, Gandiva=0.53, Jatayu=0.53
+
+===== indigena x bruxaria  (n=400)  rodadas méd 12.6  <6: 0%  >14: 24%
+  [indigena@A] dano Cornucópia por fonte: ataque 8.3  efeito 1.1  (fadiga sofrida 0.2) | ataques: corn 3.4 ent 5.8
+     selo Arapuca                    postos  439 disparos  351 (80%)
+     selo Assovio da Matinta         postos  209 disparos  199 (95%)
+     selo Mundéu                     postos  442 disparos  359 (81%)
+     selo Sopro do Pajé              postos  209 disparos  155 (74%)
+  [bruxaria@B] dano Cornucópia por fonte: ataque 10.9  efeito 0.7  (fadiga sofrida 0.1) | ataques: corn 4.3 ent 7.0
+     selo Boneco de Cera             postos  212 disparos  169 (80%)
+     selo Círculo de Sal             postos  416 disparos  337 (81%)
+     selo Garrafa de Bruxa           postos  225 disparos  170 (76%)
+     selo Mau-Olhado                 postos  431 disparos  388 (90%)
+     ('Anhangá', 'ally_dies')                                                         291
+     ('Boitatá', 'ally_attacked')                                                     54
+     ('Cobra-Grande', 'enemy_dies')                                                   519
+     ('Curupira', 'on_damaged')                                                       517
+     ('Mapinguari', 'on_damaged')                                                     313
+     ('mortes_por', 'bruxaria@B', 'Hécate, Senhora das Encruzilhadas', 'inimigas')    335
+     ('mortes_por', 'bruxaria@B', 'Pó de Ossos', 'inimigas')                          301
+     ('mortes_por', 'indigena@A', 'Tupã, o Trovão', 'inimigas')                       326
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'A Bruxa de Endor')                  12
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'A Morrigan')                        13
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Baba Yaga')                         7
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Benandante')                        20
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Cerridwen, Senhora do Caldeirão')   14
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Circe')                             10
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Corvo Agourento')                   11
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Gato Preto')                        4
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Hécate, Senhora das Encruzilhadas') 23
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Medeia, a Envenenadora')            17
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Sapo Familiar')                     3
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Strega de Benevento')               9
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Anhangá')                              9
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Boitatá')                              31
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Caipora')                              16
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Cobra-Grande')                         19
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Curupira')                             16
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Iara')                                 3
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Jaci, a Lua')                          26
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Mapinguari')                           12
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Saci-Pererê')                          7
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Tupã, o Trovão')                       29
+     ('revive_campo_lendaria', 'bruxaria@B', 'Caldeirão')                             36
+     ('revive_campo_lendaria', 'indigena@A', 'Kuarup')                                55
+     cobra_atk_max (soma por partida onde disparou) 1128
+     Jaci: jogos 218 rodadas méd 14.2 WR indígena c/ Jaci 47%
+  [indigena@A] jogadas/partida: Curupira=1.24, Saci-Pererê=1.22, Boitatá=1.22, Caipora=1.18, Cauim=1.16, Mundéu=1.10, Arapuca=1.10, Iara=0.62, Jaci, a Lua=0.61, Fogo de Monan=0.60, Visão do Caapi=0.60, Tupã, o Trovão=0.59
+  [bruxaria@B] jogadas/partida: Gato Preto=2.13, Vassoura=1.15, Benandante=1.14, Poção de Belad=1.11, Malefício=1.11, Mau-Olhado=1.08, Círculo de Sal=1.04, A Morrigan=0.69, Strega de Bene=0.64, Sapo Familiar=0.61, Pó de Ossos=0.60, Hécate, Senhor=0.59
+
+===== indigena x alta_magia  (n=400)  rodadas méd 12.8  <6: 0%  >14: 38%
+  [indigena@A] dano Cornucópia por fonte: ataque 10.9  efeito 1.0  (fadiga sofrida 0.0) | ataques: corn 4.3 ent 8.5
+     selo Arapuca                    postos  460 disparos  383 (83%)
+     selo Assovio da Matinta         postos  217 disparos  204 (94%)
+     selo Mundéu                     postos  488 disparos  401 (82%)
+     selo Sopro do Pajé              postos  224 disparos  183 (82%)
+  [alta_magia@B] dano Cornucópia por fonte: ataque 6.8  efeito 2.3  (fadiga sofrida 4.2) | ataques: corn 2.2 ent 6.8
+     selo Pentagrama Flamejante      postos  533 disparos  431 (81%)
+     selo Selo de Salomão            postos  314 disparos  267 (85%)
+     selo Sigilo de Spare            postos  243 disparos  231 (95%)
+     selo Solve et Coagula           postos  520 disparos  438 (84%)
+     ('Anhangá', 'ally_dies')                                                         277
+     ('Babalon, a Mulher Escarlate', 'ally_dies')                                     592
+     ('Babalon, a Mulher Escarlate', 'enemy_dies')                                    835
+     ('Boitatá', 'ally_attacked')                                                     75
+     ('Cobra-Grande', 'enemy_dies')                                                   914
+     ('Curupira', 'on_damaged')                                                       586
+     ('Mapinguari', 'on_damaged')                                                     445
+     ('mortes_por', 'indigena@A', 'Tupã, o Trovão', 'inimigas')                       188
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Anhangá')                              6
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Boitatá')                              15
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Caipora')                              14
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Cobra-Grande')                         10
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Curupira')                             14
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Iara')                                 5
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Jaci, a Lua')                          19
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Mapinguari')                           10
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Saci-Pererê')                          11
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Tupã, o Trovão')                       22
+     ('revive_campo_lendaria', 'indigena@A', 'Kuarup')                                41
+     ('rouba', False, 0)                                                              5
+     ('rouba', False, 2)                                                              11
+     ('rouba', False, 3)                                                              25
+     ('rouba', False, 4)                                                              42
+     ('rouba', False, 5)                                                              9
+     ('rouba', False, 6)                                                              45
+     ('rouba', True, 6)                                                               29
+     ('rouba', True, 7)                                                               22
+     ('salomao_anula_custo', 2)                                                       34
+     ('salomao_anula_custo', 3)                                                       39
+     ('salomao_anula_custo', 4)                                                       50
+     ('salomao_anula_custo', 5)                                                       17
+     ('salomao_anula_custo', 6)                                                       72
+     ('salomao_anula_custo', 7)                                                       55
+     ('salomao_anula_lendaria',)                                                      97
+     cobra_atk_max (soma por partida onde disparou) 1849
+     Jaci: jogos 228 rodadas méd 14.3 WR indígena c/ Jaci 62%
+     Babalon: jogos 237 gatilhos/jogo 6.02
+  [indigena@A] jogadas/partida: Caipora=1.30, Cauim=1.24, Curupira=1.23, Saci-Pererê=1.23, Mundéu=1.22, Boitatá=1.22, Arapuca=1.15, Jaci, a Lua=0.70, Cocar do Morub=0.66, Tupã, o Trovão=0.64, Muiraquitã=0.64, Cobra-Grande=0.63
+  [alta_magia@B] jogadas/partida: Anjo Guardião =1.63, Vassago, o Prí=1.49, Homúnculo=1.45, Pedra de Visão=1.36, Pentagrama Fla=1.33, Solve et Coagu=1.30, Lemegeton, a C=1.24, Azoth=1.15, Orobas, o Prín=0.86, Selo de Salomã=0.79, Sigillum Dei A=0.76, Anel de Salomã=0.76
+
+===== cristianismo x taoismo  (n=400)  rodadas méd 14.8  <6: 0%  >14: 47%
+  [cristianismo@A] dano Cornucópia por fonte: ataque 8.5  efeito 2.6  (fadiga sofrida 0.0) | ataques: corn 3.9 ent 7.0
+     selo Cova dos Leões             postos  216 disparos  195 (90%)
+     selo Mudez de Zacarias          postos  207 disparos  159 (77%)
+     selo Portão do Éden             postos  221 disparos  193 (87%)
+     selo Sangue nos Umbrais         postos  238 disparos  199 (84%)
+     selo Tumba Vazia                postos  465 disparos  399 (86%)
+  [taoismo@B] dano Cornucópia por fonte: ataque 10.8  efeito 0.0  (fadiga sofrida 0.4) | ataques: corn 3.4 ent 9.2
+     selo Dragão Azul do Leste       postos  256 disparos  240 (94%)
+     selo Fulu de Selamento          postos  488 disparos  390 (80%)
+     selo Pássaro Vermelho do Sul    postos  244 disparos  210 (86%)
+     selo Tartaruga Negra do Norte   postos  264 disparos  236 (89%)
+     selo Tigre Branco do Oeste      postos  253 disparos  205 (81%)
+     ('Davi, o Pastor', 'on_attack')                                                  222
+     ('davi_mata',)                                                                   73
+     ('mortes_por', 'cristianismo@A', 'Elias, Carro de Fogo', 'inimigas')             446
+     ('mortes_por', 'cristianismo@A', 'Juízo Final', 'inimigas')                      454
+     ('mortes_por', 'cristianismo@A', 'Juízo Final', 'proprias')                      308
+     ('mortes_por', 'cristianismo@A', 'Praga dos Gafanhotos', 'inimigas')             197
+     ('mortes_por', 'cristianismo@A', 'Sansão', 'inimigas')                           286
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Anjo da Guarda')              31
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Davi, o Pastor')              8
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Elias, Carro de Fogo')        36
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Gabriel, o Mensageiro')       28
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Jonas')                       4
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Judite')                      36
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Leviatã')                     26
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Lázaro de Betânia')           27
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Rafael, o Curador')           26
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Sansão')                      31
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Serafim')                     55
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'São Miguel Arcanjo')          48
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Anjo da Guarda')                    33
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Davi, o Pastor')                    4
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Elias, Carro de Fogo')              31
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Gabriel, o Mensageiro')             15
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Jonas')                             2
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Judite')                            29
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Leviatã')                           30
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Lázaro de Betânia')                 15
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Rafael, o Curador')                 23
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Sansão')                            42
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Serafim')                           56
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'São Miguel Arcanjo')                77
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Cao Guojiu')                           22
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Erlang Shen')                          26
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Guan Yu, Imperador Guan')              32
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Han Xiangzi')                          6
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'He Xiangu')                            4
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Imperador de Jade')                    47
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Lan Caihe')                            3
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Li Tieguai')                           1
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Lü Dongbin')                           8
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Nezha')                                14
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Xiwangmu, Rainha Mãe do Oeste')        37
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Zhang Guolao')                         9
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Zhong Kui')                            7
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Zhongli Quan')                         17
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Cao Guojiu')                    33
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Erlang Shen')                   51
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Guan Yu, Imperador Guan')       53
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Han Xiangzi')                   16
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'He Xiangu')                     7
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Imperador de Jade')             71
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Lan Caihe')                     14
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Li Tieguai')                    7
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Lü Dongbin')                    26
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Nezha')                         26
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Xiwangmu, Rainha Mãe do Oeste') 65
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Zhang Guolao')                  25
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Zhong Kui')                     23
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Zhongli Quan')                  39
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Cao Guojiu')     22
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Erlang Shen')    48
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Guan Yu, Imperador Guan') 38
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Han Xiangzi')    11
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'He Xiangu')      5
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Imperador de Jade') 61
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Lan Caihe')      6
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Li Tieguai')     6
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Lü Dongbin')     11
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Nezha')          20
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhang Guolao')   16
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhong Kui')      24
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhongli Quan')   19
+     ('revive_campo_lendaria', 'cristianismo@A', 'Talita Cumi')                       84
+     ('revive_campo_lendaria', 'cristianismo@A', 'Tumba')                             108
+     ('revive_campo_lendaria', 'taoismo@B', 'Pássaro')                                84
+     ('revive_campo_lendaria', 'taoismo@B', 'Pílula de Ouro')                         136
+     ('revive_campo_lendaria', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste')          61
+  [cristianismo@A] jogadas/partida: Lázaro de Betâ=2.19, Anjo da Guarda=1.47, Talita Cumi=1.26, Jonas=1.25, Tumba Vazia=1.16, Elias, Carro d=0.99, Gabriel, o Men=0.80, Juízo Final=0.74, Rafael, o Cura=0.73, Davi, o Pastor=0.72, Sansão=0.70, Granizo e Fogo=0.69
+  [taoismo@B] jogadas/partida: Pílula de Ouro=1.35, Circulação do =1.33, Taiji=1.32, Nezha=1.32, Pêssego da Imo=1.30, Li Tieguai=1.29, Espelho de Bro=1.28, Fulu de Selame=1.22, Imperador de J=0.86, Xiwangmu, Rain=0.86, He Xiangu=0.82, Cao Guojiu=0.81
+
+===== cristianismo x hinduismo  (n=400)  rodadas méd 10.5  <6: 3%  >14: 17%
+  [cristianismo@A] dano Cornucópia por fonte: ataque 4.6  efeito 1.7  (fadiga sofrida 0.0) | ataques: corn 2.0 ent 1.9
+     selo Cova dos Leões             postos  143 disparos  126 (88%)
+     selo Mudez de Zacarias          postos  127 disparos   88 (69%)
+     selo Portão do Éden             postos  134 disparos  117 (87%)
+     selo Sangue nos Umbrais         postos  123 disparos   76 (62%)
+     selo Tumba Vazia                postos  276 disparos  235 (85%)
+  [hinduismo@B] dano Cornucópia por fonte: ataque 9.7  efeito 7.6  (fadiga sofrida 0.0) | ataques: corn 4.2 ent 3.9
+     selo Chamas de Agni             postos  163 disparos  149 (91%)
+     selo Incêndio de Lanka          postos  152 disparos  141 (93%)
+     selo Lei do Karma               postos  175 disparos  119 (68%)
+     selo Pashupatastra              postos  148 disparos   90 (61%)
+     selo Roda do Samsara            postos  188 disparos  153 (81%)
+     selo Véu de Maya                postos  165 disparos  134 (81%)
+     ('Davi, o Pastor', 'on_attack')                                                  64
+     ('Hanuman', 'on_attack')                                                         457
+     ('Kali', 'enemy_dies')                                                           534
+     ('Kali', 'on_play')                                                              247
+     ('davi_mata',)                                                                   19
+     ('mortes_por', 'cristianismo@A', 'Elias, Carro de Fogo', 'inimigas')             219
+     ('mortes_por', 'cristianismo@A', 'Juízo Final', 'inimigas')                      267
+     ('mortes_por', 'cristianismo@A', 'Juízo Final', 'proprias')                      139
+     ('mortes_por', 'cristianismo@A', 'Praga dos Gafanhotos', 'inimigas')             140
+     ('mortes_por', 'cristianismo@A', 'Sansão', 'inimigas')                           186
+     ('mortes_por', 'hinduismo@B', 'Brahmastra', 'inimigas')                          278
+     ('mortes_por', 'hinduismo@B', 'Brahmastra', 'proprias')                          2
+     ('mortes_por', 'hinduismo@B', 'Kali', 'inimigas')                                149
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Anjo da Guarda')              20
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Davi, o Pastor')              6
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Elias, Carro de Fogo')        26
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Gabriel, o Mensageiro')       15
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Jonas')                       3
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Judite')                      29
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Leviatã')                     18
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Lázaro de Betânia')           16
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Rafael, o Curador')           20
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Sansão')                      41
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Serafim')                     26
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'São Miguel Arcanjo')          34
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Anjo da Guarda')                    20
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Davi, o Pastor')                    8
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Elias, Carro de Fogo')              14
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Gabriel, o Mensageiro')             12
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Jonas')                             3
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Judite')                            16
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Leviatã')                           17
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Lázaro de Betânia')                 8
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Rafael, o Curador')                 17
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Sansão')                            24
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Serafim')                           23
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'São Miguel Arcanjo')                42
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Arjuna')                   11
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Durga, a Fortaleza')       11
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Ganesha, Removedor de Obstáculos') 9
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Garuda')                   11
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Hanuman')                  16
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Jatayu')                   5
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Kali')                     23
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Krishna, o Auriga')        16
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Matsya, o Peixe')          5
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Narasimha')                4
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Rama, Príncipe de Ayodhya') 3
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Shiva Nataraja')           25
+     ('revive_campo_lendaria', 'cristianismo@A', 'Talita Cumi')                       60
+     ('revive_campo_lendaria', 'cristianismo@A', 'Tumba')                             56
+     ('revive_campo_lendaria', 'hinduismo@B', 'Descida do Avatar')                    48
+     hanuman_atk_max soma 1290
+  [cristianismo@A] jogadas/partida: Lázaro de Betâ=1.70, Anjo da Guarda=1.12, Jonas=0.92, Elias, Carro d=0.77, Talita Cumi=0.71, Tumba Vazia=0.69, Gabriel, o Men=0.63, Rafael, o Cura=0.57, Juízo Final=0.56, Davi, o Pastor=0.55, Judite=0.54, Granizo e Fogo=0.48
+  [hinduismo@B] jogadas/partida: Garuda=1.08, Om=0.97, Hanuman=0.95, Rama, Príncipe=0.79, Vajra=0.57, Kali=0.56, Ganesha, Remov=0.56, Krishna, o Aur=0.56, Brahmastra=0.55, Shiva Nataraja=0.54, Matsya, o Peix=0.54, Gandiva=0.52
+
+===== cristianismo x bruxaria  (n=400)  rodadas méd 13.5  <6: 0%  >14: 34%
+  [cristianismo@A] dano Cornucópia por fonte: ataque 9.3  efeito 2.5  (fadiga sofrida 0.0) | ataques: corn 4.8 ent 4.6
+     selo Cova dos Leões             postos  181 disparos  149 (82%)
+     selo Mudez de Zacarias          postos  176 disparos  130 (74%)
+     selo Portão do Éden             postos  182 disparos  152 (84%)
+     selo Sangue nos Umbrais         postos  183 disparos  130 (71%)
+     selo Tumba Vazia                postos  380 disparos  304 (80%)
+  [bruxaria@B] dano Cornucópia por fonte: ataque 7.7  efeito 0.5  (fadiga sofrida 0.2) | ataques: corn 3.0 ent 5.9
+     selo Boneco de Cera             postos  230 disparos  178 (77%)
+     selo Círculo de Sal             postos  456 disparos  342 (75%)
+     selo Garrafa de Bruxa           postos  227 disparos  175 (77%)
+     selo Mau-Olhado                 postos  445 disparos  396 (89%)
+     ('Davi, o Pastor', 'on_attack')                                                  228
+     ('davi_mata',)                                                                   74
+     ('mortes_por', 'bruxaria@B', 'Hécate, Senhora das Encruzilhadas', 'inimigas')    232
+     ('mortes_por', 'bruxaria@B', 'Pó de Ossos', 'inimigas')                          241
+     ('mortes_por', 'bruxaria@B', 'Pó de Ossos', 'proprias')                          5
+     ('mortes_por', 'cristianismo@A', 'Elias, Carro de Fogo', 'inimigas')             376
+     ('mortes_por', 'cristianismo@A', 'Juízo Final', 'inimigas')                      406
+     ('mortes_por', 'cristianismo@A', 'Juízo Final', 'proprias')                      342
+     ('mortes_por', 'cristianismo@A', 'Praga dos Gafanhotos', 'inimigas')             239
+     ('mortes_por', 'cristianismo@A', 'Praga dos Gafanhotos', 'proprias')             1
+     ('mortes_por', 'cristianismo@A', 'Sansão', 'inimigas')                           268
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'A Bruxa de Endor')                  12
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'A Morrigan')                        22
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Baba Yaga')                         5
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Benandante')                        14
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Cerridwen, Senhora do Caldeirão')   19
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Circe')                             9
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Corvo Agourento')                   6
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Gato Preto')                        7
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Hécate, Senhora das Encruzilhadas') 34
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Medeia, a Envenenadora')            15
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Sapo Familiar')                     1
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Strega de Benevento')               10
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Anjo da Guarda')              26
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Davi, o Pastor')              13
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Elias, Carro de Fogo')        20
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Gabriel, o Mensageiro')       25
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Jonas')                       4
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Judite')                      25
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Leviatã')                     22
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Lázaro de Betânia')           24
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Rafael, o Curador')           18
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Sansão')                      31
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Serafim')                     37
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'São Miguel Arcanjo')          41
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Anjo da Guarda')                    20
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Davi, o Pastor')                    9
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Elias, Carro de Fogo')              16
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Gabriel, o Mensageiro')             18
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Jonas')                             1
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Judite')                            19
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Leviatã')                           27
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Lázaro de Betânia')                 19
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Rafael, o Curador')                 22
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Sansão')                            31
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Serafim')                           36
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'São Miguel Arcanjo')                53
+     ('revive_campo_lendaria', 'bruxaria@B', 'Caldeirão')                             56
+     ('revive_campo_lendaria', 'cristianismo@A', 'Talita Cumi')                       61
+     ('revive_campo_lendaria', 'cristianismo@A', 'Tumba')                             69
+  [cristianismo@A] jogadas/partida: Lázaro de Betâ=1.86, Anjo da Guarda=1.28, Jonas=1.06, Tumba Vazia=0.95, Talita Cumi=0.93, Elias, Carro d=0.82, Gabriel, o Men=0.67, Davi, o Pastor=0.66, Juízo Final=0.65, Rafael, o Cura=0.62, Granizo e Fogo=0.60, Judite=0.59
+  [bruxaria@B] jogadas/partida: Gato Preto=2.38, Benandante=1.20, Malefício=1.15, Círculo de Sal=1.14, Vassoura=1.11, Poção de Belad=1.11, Mau-Olhado=1.11, A Morrigan=0.71, Strega de Bene=0.67, Medeia, a Enve=0.65, Pó de Ossos=0.64, Sapo Familiar=0.64
+
+===== cristianismo x alta_magia  (n=400)  rodadas méd 13.7  <6: 0%  >14: 46%
+  [cristianismo@A] dano Cornucópia por fonte: ataque 9.3  efeito 3.1  (fadiga sofrida 0.0) | ataques: corn 4.5 ent 7.7
+     selo Cova dos Leões             postos  190 disparos  164 (86%)
+     selo Mudez de Zacarias          postos  197 disparos  161 (82%)
+     selo Portão do Éden             postos  201 disparos  181 (90%)
+     selo Sangue nos Umbrais         postos  218 disparos  174 (80%)
+     selo Tumba Vazia                postos  421 disparos  353 (84%)
+  [alta_magia@B] dano Cornucópia por fonte: ataque 5.2  efeito 2.6  (fadiga sofrida 5.0) | ataques: corn 1.9 ent 6.1
+     selo Pentagrama Flamejante      postos  595 disparos  472 (79%)
+     selo Selo de Salomão            postos  328 disparos  290 (88%)
+     selo Sigilo de Spare            postos  271 disparos  255 (94%)
+     selo Solve et Coagula           postos  545 disparos  487 (89%)
+     ('Babalon, a Mulher Escarlate', 'ally_dies')                                     378
+     ('Babalon, a Mulher Escarlate', 'enemy_dies')                                    509
+     ('Davi, o Pastor', 'on_attack')                                                  340
+     ('davi_mata',)                                                                   108
+     ('mortes_por', 'alta_magia@B', 'Sansão', 'inimigas')                             8
+     ('mortes_por', 'cristianismo@A', 'Elias, Carro de Fogo', 'inimigas')             266
+     ('mortes_por', 'cristianismo@A', 'Juízo Final', 'inimigas')                      322
+     ('mortes_por', 'cristianismo@A', 'Juízo Final', 'proprias')                      391
+     ('mortes_por', 'cristianismo@A', 'Praga dos Gafanhotos', 'inimigas')             160
+     ('mortes_por', 'cristianismo@A', 'Sansão', 'inimigas')                           203
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Anjo da Guarda')              45
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Davi, o Pastor')              5
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Elias, Carro de Fogo')        20
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Gabriel, o Mensageiro')       22
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Jonas')                       8
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Judite')                      15
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Leviatã')                     17
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Lázaro de Betânia')           29
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Rafael, o Curador')           16
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Sansão')                      38
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Serafim')                     33
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'São Miguel Arcanjo')          28
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Anjo da Guarda')                    30
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Davi, o Pastor')                    13
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Elias, Carro de Fogo')              24
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Gabriel, o Mensageiro')             23
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Jonas')                             4
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Judite')                            17
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Leviatã')                           37
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Lázaro de Betânia')                 21
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Rafael, o Curador')                 21
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Sansão')                            33
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Serafim')                           41
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'São Miguel Arcanjo')                51
+     ('revive_campo_lendaria', 'cristianismo@A', 'Talita Cumi')                       48
+     ('revive_campo_lendaria', 'cristianismo@A', 'Tumba')                             75
+     ('rouba', False, 0)                                                              2
+     ('rouba', False, 2)                                                              24
+     ('rouba', False, 3)                                                              54
+     ('rouba', False, 4)                                                              21
+     ('rouba', False, 5)                                                              21
+     ('rouba', False, 6)                                                              43
+     ('rouba', True, 6)                                                               22
+     ('rouba', True, 7)                                                               30
+     ('salomao_anula_custo', 2)                                                       44
+     ('salomao_anula_custo', 3)                                                       103
+     ('salomao_anula_custo', 4)                                                       20
+     ('salomao_anula_custo', 5)                                                       32
+     ('salomao_anula_custo', 6)                                                       59
+     ('salomao_anula_custo', 7)                                                       32
+     ('salomao_anula_lendaria',)                                                      67
+     Babalon: jogos 251 gatilhos/jogo 3.53
+  [cristianismo@A] jogadas/partida: Lázaro de Betâ=1.83, Anjo da Guarda=1.35, Talita Cumi=1.15, Tumba Vazia=1.05, Jonas=1.01, Elias, Carro d=0.78, Gabriel, o Men=0.70, Davi, o Pastor=0.67, Rafael, o Cura=0.67, Juízo Final=0.66, Vale dos Ossos=0.62, Granizo e Fogo=0.61
+  [alta_magia@B] jogadas/partida: Anjo Guardião =1.88, Vassago, o Prí=1.59, Homúnculo=1.58, Pentagrama Fla=1.49, Pedra de Visão=1.44, Solve et Coagu=1.36, Azoth=1.30, Lemegeton, a C=1.28, Marbas, o Leão=0.86, Orobas, o Prín=0.85, Silfo=0.84, Conjuração dos=0.84
+
+===== taoismo x hinduismo  (n=400)  rodadas méd 9.5  <6: 4%  >14: 8%
+  [taoismo@A] dano Cornucópia por fonte: ataque 4.4  efeito 0.0  (fadiga sofrida 0.0) | ataques: corn 1.5 ent 3.2
+     selo Dragão Azul do Leste       postos  141 disparos  116 (82%)
+     selo Fulu de Selamento          postos  264 disparos  178 (67%)
+     selo Pássaro Vermelho do Sul    postos  107 disparos   85 (79%)
+     selo Tartaruga Negra do Norte   postos  167 disparos  155 (93%)
+     selo Tigre Branco do Oeste      postos  138 disparos  103 (75%)
+  [hinduismo@B] dano Cornucópia por fonte: ataque 8.4  efeito 7.6  (fadiga sofrida 0.0) | ataques: corn 4.3 ent 4.2
+     selo Chamas de Agni             postos  138 disparos  129 (93%)
+     selo Incêndio de Lanka          postos  128 disparos  117 (91%)
+     selo Lei do Karma               postos  146 disparos  119 (82%)
+     selo Pashupatastra              postos  131 disparos  102 (78%)
+     selo Roda do Samsara            postos  170 disparos  128 (75%)
+     selo Véu de Maya                postos  154 disparos  116 (75%)
+     ('Hanuman', 'on_attack')                                                         440
+     ('Kali', 'enemy_dies')                                                           441
+     ('Kali', 'on_play')                                                              210
+     ('mortes_por', 'hinduismo@B', 'Brahmastra', 'inimigas')                          232
+     ('mortes_por', 'hinduismo@B', 'Kali', 'inimigas')                                120
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Arjuna')                   6
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Durga, a Fortaleza')       11
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Ganesha, Removedor de Obstáculos') 3
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Garuda')                   14
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Hanuman')                  17
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Jatayu')                   5
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Kali')                     14
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Krishna, o Auriga')        5
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Matsya, o Peixe')          3
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Narasimha')                6
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Rama, Príncipe de Ayodhya') 2
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Shiva Nataraja')           15
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Cao Guojiu')                           12
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Erlang Shen')                          5
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Guan Yu, Imperador Guan')              9
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Han Xiangzi')                          6
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'He Xiangu')                            1
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Imperador de Jade')                    10
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Lan Caihe')                            7
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Li Tieguai')                           1
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Lü Dongbin')                           6
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Nezha')                                3
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Xiwangmu, Rainha Mãe do Oeste')        10
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Zhang Guolao')                         5
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Zhong Kui')                            4
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Zhongli Quan')                         12
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Cao Guojiu')                    28
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Erlang Shen')                   22
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Guan Yu, Imperador Guan')       21
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Han Xiangzi')                   14
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'He Xiangu')                     17
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Imperador de Jade')             25
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Lan Caihe')                     14
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Li Tieguai')                    6
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Lü Dongbin')                    24
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Nezha')                         11
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Xiwangmu, Rainha Mãe do Oeste') 24
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Zhang Guolao')                  19
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Zhong Kui')                     17
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Zhongli Quan')                  30
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Cao Guojiu')     28
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Erlang Shen')    17
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Guan Yu, Imperador Guan') 34
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Han Xiangzi')    7
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'He Xiangu')      6
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Imperador de Jade') 13
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Lan Caihe')      3
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Li Tieguai')     5
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Lü Dongbin')     15
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Nezha')          11
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhang Guolao')   17
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhong Kui')      8
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhongli Quan')   13
+     ('revive_campo', 'taoismo@A', 'outro', 'Cao Guojiu')                             1
+     ('revive_campo', 'taoismo@A', 'outro', 'Erlang Shen')                            2
+     ('revive_campo', 'taoismo@A', 'outro', 'Guan Yu, Imperador Guan')                1
+     ('revive_campo', 'taoismo@A', 'outro', 'Imperador de Jade')                      3
+     ('revive_campo', 'taoismo@A', 'outro', 'Lan Caihe')                              1
+     ('revive_campo', 'taoismo@A', 'outro', 'Lü Dongbin')                             2
+     ('revive_campo', 'taoismo@A', 'outro', 'Nezha')                                  1
+     ('revive_campo', 'taoismo@A', 'outro', 'Zhang Guolao')                           2
+     ('revive_campo_lendaria', 'hinduismo@B', 'Descida do Avatar')                    29
+     ('revive_campo_lendaria', 'taoismo@A', 'Pássaro')                                20
+     ('revive_campo_lendaria', 'taoismo@A', 'Pílula de Ouro')                         49
+     ('revive_campo_lendaria', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste')          13
+     ('revive_campo_lendaria', 'taoismo@A', 'outro')                                  3
+     hanuman_atk_max soma 1218
+  [taoismo@A] jogadas/partida: Circulação do =0.92, Li Tieguai=0.85, Nezha=0.84, Pílula de Ouro=0.78, Espelho de Bro=0.75, Pêssego da Imo=0.69, Taiji=0.69, Fulu de Selame=0.66, Cao Guojiu=0.57, Han Xiangzi=0.56, Xiwangmu, Rain=0.54, Zhang Guolao=0.54
+  [hinduismo@B] jogadas/partida: Garuda=1.05, Om=0.90, Hanuman=0.85, Rama, Príncipe=0.62, Vajra=0.54, Ganesha, Remov=0.54, Krishna, o Aur=0.52, Matsya, o Peix=0.50, Brahmastra=0.50, Kali=0.49, Gandiva=0.49, Sudarshana Cha=0.47
+
+===== taoismo x bruxaria  (n=400)  rodadas méd 12.4  <6: 0%  >14: 26%
+  [taoismo@A] dano Cornucópia por fonte: ataque 9.2  efeito 0.0  (fadiga sofrida 0.1) | ataques: corn 3.4 ent 7.4
+     selo Dragão Azul do Leste       postos  191 disparos  178 (93%)
+     selo Fulu de Selamento          postos  398 disparos  311 (78%)
+     selo Pássaro Vermelho do Sul    postos  189 disparos  144 (76%)
+     selo Tartaruga Negra do Norte   postos  200 disparos  177 (88%)
+     selo Tigre Branco do Oeste      postos  208 disparos  167 (80%)
+  [bruxaria@B] dano Cornucópia por fonte: ataque 9.1  efeito 0.5  (fadiga sofrida 0.1) | ataques: corn 3.7 ent 6.9
+     selo Boneco de Cera             postos  233 disparos  178 (76%)
+     selo Círculo de Sal             postos  421 disparos  351 (83%)
+     selo Garrafa de Bruxa           postos  218 disparos  157 (72%)
+     selo Mau-Olhado                 postos  420 disparos  384 (91%)
+     ('mortes_por', 'bruxaria@B', 'Hécate, Senhora das Encruzilhadas', 'inimigas')    266
+     ('mortes_por', 'bruxaria@B', 'Pó de Ossos', 'inimigas')                          189
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'A Bruxa de Endor')                  12
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'A Morrigan')                        24
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Baba Yaga')                         4
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Benandante')                        16
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Cerridwen, Senhora do Caldeirão')   17
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Circe')                             11
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Corvo Agourento')                   11
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Gato Preto')                        5
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Hécate, Senhora das Encruzilhadas') 19
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Medeia, a Envenenadora')            10
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Sapo Familiar')                     2
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Strega de Benevento')               10
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Cao Guojiu')                           14
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Erlang Shen')                          22
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Guan Yu, Imperador Guan')              15
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Han Xiangzi')                          6
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'He Xiangu')                            2
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Imperador de Jade')                    27
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Lan Caihe')                            6
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Lü Dongbin')                           10
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Nezha')                                3
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Xiwangmu, Rainha Mãe do Oeste')        22
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Zhang Guolao')                         1
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Zhong Kui')                            9
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Zhongli Quan')                         15
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Cao Guojiu')                    28
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Erlang Shen')                   29
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Guan Yu, Imperador Guan')       36
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Han Xiangzi')                   16
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'He Xiangu')                     8
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Imperador de Jade')             45
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Lan Caihe')                     7
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Li Tieguai')                    7
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Lü Dongbin')                    29
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Nezha')                         14
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Xiwangmu, Rainha Mãe do Oeste') 36
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Zhang Guolao')                  20
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Zhong Kui')                     14
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Zhongli Quan')                  28
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Cao Guojiu')     19
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Erlang Shen')    22
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Guan Yu, Imperador Guan') 40
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Han Xiangzi')    4
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'He Xiangu')      8
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Imperador de Jade') 28
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Lan Caihe')      4
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Li Tieguai')     3
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Lü Dongbin')     12
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Nezha')          11
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhang Guolao')   11
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhong Kui')      17
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhongli Quan')   16
+     ('revive_campo', 'taoismo@A', 'outro', 'Lan Caihe')                              1
+     ('revive_campo_lendaria', 'bruxaria@B', 'Caldeirão')                             43
+     ('revive_campo_lendaria', 'taoismo@A', 'Pássaro')                                49
+     ('revive_campo_lendaria', 'taoismo@A', 'Pílula de Ouro')                         81
+     ('revive_campo_lendaria', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste')          28
+  [taoismo@A] jogadas/partida: Circulação do =1.15, Espelho de Bro=1.05, Pêssego da Imo=1.01, Pílula de Ouro=1.00, Nezha=1.00, Fulu de Selame=0.99, Taiji=0.98, Li Tieguai=0.94, Cao Guojiu=0.66, Xiwangmu, Rain=0.64, He Xiangu=0.62, Han Xiangzi=0.61
+  [bruxaria@B] jogadas/partida: Gato Preto=2.09, Malefício=1.14, Benandante=1.11, Poção de Belad=1.11, Vassoura=1.10, Círculo de Sal=1.05, Mau-Olhado=1.05, A Morrigan=0.65, Medeia, a Enve=0.62, Strega de Bene=0.61, Hécate, Senhor=0.61, Sapo Familiar=0.59
+
+===== taoismo x alta_magia  (n=400)  rodadas méd 11.8  <6: 1%  >14: 28%
+  [taoismo@A] dano Cornucópia por fonte: ataque 14.7  efeito 0.0  (fadiga sofrida 0.0) | ataques: corn 4.9 ent 9.7
+     selo Dragão Azul do Leste       postos  197 disparos  181 (92%)
+     selo Fulu de Selamento          postos  404 disparos  328 (81%)
+     selo Pássaro Vermelho do Sul    postos  191 disparos  139 (73%)
+     selo Tartaruga Negra do Norte   postos  207 disparos  175 (85%)
+     selo Tigre Branco do Oeste      postos  212 disparos  173 (82%)
+  [alta_magia@B] dano Cornucópia por fonte: ataque 3.8  efeito 1.3  (fadiga sofrida 3.2) | ataques: corn 1.5 ent 5.2
+     selo Pentagrama Flamejante      postos  502 disparos  377 (75%)
+     selo Selo de Salomão            postos  316 disparos  249 (79%)
+     selo Sigilo de Spare            postos  221 disparos  212 (96%)
+     selo Solve et Coagula           postos  464 disparos  425 (92%)
+     ('Babalon, a Mulher Escarlate', 'ally_dies')                                     288
+     ('Babalon, a Mulher Escarlate', 'enemy_dies')                                    403
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Cao Guojiu')                           19
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Erlang Shen')                          12
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Guan Yu, Imperador Guan')              15
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Han Xiangzi')                          7
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'He Xiangu')                            6
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Imperador de Jade')                    18
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Lan Caihe')                            6
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Li Tieguai')                           1
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Lü Dongbin')                           3
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Nezha')                                8
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Xiwangmu, Rainha Mãe do Oeste')        16
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Zhang Guolao')                         3
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Zhong Kui')                            12
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Zhongli Quan')                         11
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Cao Guojiu')                    18
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Erlang Shen')                   16
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Guan Yu, Imperador Guan')       16
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Han Xiangzi')                   13
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'He Xiangu')                     12
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Imperador de Jade')             16
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Lan Caihe')                     11
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Li Tieguai')                    10
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Lü Dongbin')                    21
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Nezha')                         12
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Xiwangmu, Rainha Mãe do Oeste') 21
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Zhang Guolao')                  7
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Zhong Kui')                     7
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Zhongli Quan')                  17
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Cao Guojiu')     12
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Erlang Shen')    15
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Guan Yu, Imperador Guan') 13
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Han Xiangzi')    6
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'He Xiangu')      4
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Imperador de Jade') 16
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Lan Caihe')      6
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Li Tieguai')     3
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Lü Dongbin')     10
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Nezha')          12
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhang Guolao')   6
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhong Kui')      12
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhongli Quan')   9
+     ('revive_campo_lendaria', 'taoismo@A', 'Pássaro')                                34
+     ('revive_campo_lendaria', 'taoismo@A', 'Pílula de Ouro')                         37
+     ('revive_campo_lendaria', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste')          16
+     ('rouba', False, 1)                                                              2
+     ('rouba', False, 2)                                                              12
+     ('rouba', False, 3)                                                              39
+     ('rouba', False, 4)                                                              45
+     ('rouba', False, 5)                                                              34
+     ('rouba', True, 6)                                                               22
+     ('rouba', True, 7)                                                               21
+     ('salomao_anula_custo', 1)                                                       3
+     ('salomao_anula_custo', 2)                                                       31
+     ('salomao_anula_custo', 3)                                                       67
+     ('salomao_anula_custo', 4)                                                       41
+     ('salomao_anula_custo', 5)                                                       42
+     ('salomao_anula_custo', 6)                                                       32
+     ('salomao_anula_custo', 7)                                                       33
+     ('salomao_anula_lendaria',)                                                      65
+     Babalon: jogos 187 gatilhos/jogo 3.70
+  [taoismo@A] jogadas/partida: Circulação do =1.13, Espelho de Bro=1.11, Pêssego da Imo=1.08, Taiji=1.02, Fulu de Selame=1.01, Pílula de Ouro=1.01, Nezha=0.84, Li Tieguai=0.78, Cao Guojiu=0.65, Xiwangmu, Rain=0.64, He Xiangu=0.59, Guan Yu, Imper=0.59
+  [alta_magia@B] jogadas/partida: Vassago, o Prí=1.47, Anjo Guardião =1.44, Homúnculo=1.41, Pentagrama Fla=1.25, Pedra de Visão=1.19, Solve et Coagu=1.16, Azoth=1.15, Lemegeton, a C=1.09, Selo de Salomã=0.79, Orobas, o Prín=0.76, Anel de Salomã=0.73, Edward Kelley,=0.70
+
+===== hinduismo x bruxaria  (n=400)  rodadas méd 9.8  <6: 2%  >14: 6%
+  [hinduismo@A] dano Cornucópia por fonte: ataque 7.6  efeito 7.2  (fadiga sofrida 0.0) | ataques: corn 4.2 ent 3.5
+     selo Chamas de Agni             postos  170 disparos  145 (85%)
+     selo Incêndio de Lanka          postos  134 disparos  129 (96%)
+     selo Lei do Karma               postos  135 disparos   99 (73%)
+     selo Pashupatastra              postos  124 disparos   79 (64%)
+     selo Roda do Samsara            postos  167 disparos  133 (80%)
+     selo Véu de Maya                postos  145 disparos  110 (76%)
+  [bruxaria@B] dano Cornucópia por fonte: ataque 5.3  efeito 0.4  (fadiga sofrida 0.0) | ataques: corn 2.1 ent 2.5
+     selo Boneco de Cera             postos  165 disparos  113 (68%)
+     selo Círculo de Sal             postos  319 disparos  213 (67%)
+     selo Garrafa de Bruxa           postos  158 disparos   96 (61%)
+     selo Mau-Olhado                 postos  306 disparos  271 (89%)
+     ('Hanuman', 'on_attack')                                                         467
+     ('Kali', 'enemy_dies')                                                           483
+     ('Kali', 'on_play')                                                              212
+     ('mortes_por', 'bruxaria@B', 'Hécate, Senhora das Encruzilhadas', 'inimigas')    112
+     ('mortes_por', 'bruxaria@B', 'Pó de Ossos', 'inimigas')                          161
+     ('mortes_por', 'bruxaria@B', 'Pó de Ossos', 'proprias')                          3
+     ('mortes_por', 'hinduismo@A', 'Brahmastra', 'inimigas')                          269
+     ('mortes_por', 'hinduismo@A', 'Kali', 'inimigas')                                189
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'A Bruxa de Endor')                  8
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'A Morrigan')                        15
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Baba Yaga')                         2
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Benandante')                        12
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Cerridwen, Senhora do Caldeirão')   12
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Circe')                             7
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Corvo Agourento')                   5
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Gato Preto')                        6
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Hécate, Senhora das Encruzilhadas') 11
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Medeia, a Envenenadora')            11
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Sapo Familiar')                     2
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Strega de Benevento')               11
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Arjuna')                   3
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Durga, a Fortaleza')       20
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Ganesha, Removedor de Obstáculos') 5
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Garuda')                   9
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Hanuman')                  13
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Jatayu')                   6
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Kali')                     23
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Krishna, o Auriga')        9
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Matsya, o Peixe')          4
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Narasimha')                4
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Shiva Nataraja')           16
+     ('revive_campo_lendaria', 'bruxaria@B', 'Caldeirão')                             26
+     ('revive_campo_lendaria', 'hinduismo@A', 'Descida do Avatar')                    39
+     hanuman_atk_max soma 1197
+  [hinduismo@A] jogadas/partida: Garuda=1.00, Om=0.94, Hanuman=0.92, Rama, Príncipe=0.61, Durga, a Forta=0.51, Arjuna=0.49, Matsya, o Peix=0.48, Kali=0.47, Jatayu=0.45, Ganesha, Remov=0.45, Trishula=0.45, Vajra=0.45
+  [bruxaria@B] jogadas/partida: Gato Preto=1.89, Benandante=0.99, Malefício=0.91, Vassoura=0.84, Círculo de Sal=0.80, Poção de Belad=0.79, Mau-Olhado=0.77, Corvo Agourent=0.53, Strega de Bene=0.52, Sapo Familiar=0.52, A Morrigan=0.49, Pó de Ossos=0.48
+
+===== hinduismo x alta_magia  (n=400)  rodadas méd 8.6  <6: 7%  >14: 6%
+  [hinduismo@A] dano Cornucópia por fonte: ataque 9.4  efeito 9.0  (fadiga sofrida 0.0) | ataques: corn 5.1 ent 3.9
+     selo Chamas de Agni             postos  144 disparos  129 (90%)
+     selo Incêndio de Lanka          postos  113 disparos  101 (89%)
+     selo Lei do Karma               postos  120 disparos   80 (67%)
+     selo Pashupatastra              postos  113 disparos   77 (68%)
+     selo Roda do Samsara            postos  148 disparos   92 (62%)
+     selo Véu de Maya                postos  112 disparos   81 (72%)
+  [alta_magia@B] dano Cornucópia por fonte: ataque 1.2  efeito 1.3  (fadiga sofrida 0.6) | ataques: corn 0.8 ent 1.9
+     selo Pentagrama Flamejante      postos  326 disparos  200 (61%)
+     selo Selo de Salomão            postos  209 disparos  159 (76%)
+     selo Sigilo de Spare            postos  163 disparos  139 (85%)
+     selo Solve et Coagula           postos  312 disparos  289 (93%)
+     ('Babalon, a Mulher Escarlate', 'ally_dies')                                     55
+     ('Babalon, a Mulher Escarlate', 'enemy_dies')                                    54
+     ('Hanuman', 'on_attack')                                                         474
+     ('Kali', 'enemy_dies')                                                           412
+     ('Kali', 'on_play')                                                              142
+     ('mortes_por', 'hinduismo@A', 'Brahmastra', 'inimigas')                          183
+     ('mortes_por', 'hinduismo@A', 'Kali', 'inimigas')                                87
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Arjuna')                   6
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Durga, a Fortaleza')       8
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Ganesha, Removedor de Obstáculos') 3
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Garuda')                   12
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Hanuman')                  11
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Jatayu')                   4
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Kali')                     10
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Krishna, o Auriga')        3
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Narasimha')                3
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Rama, Príncipe de Ayodhya') 2
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Shiva Nataraja')           13
+     ('revive_campo_lendaria', 'hinduismo@A', 'Descida do Avatar')                    23
+     ('rouba', False, 1)                                                              2
+     ('rouba', False, 2)                                                              5
+     ('rouba', False, 3)                                                              7
+     ('rouba', False, 4)                                                              25
+     ('rouba', False, 5)                                                              15
+     ('rouba', True, 6)                                                               10
+     ('rouba', True, 7)                                                               4
+     ('salomao_anula_custo', 1)                                                       4
+     ('salomao_anula_custo', 2)                                                       11
+     ('salomao_anula_custo', 3)                                                       15
+     ('salomao_anula_custo', 4)                                                       40
+     ('salomao_anula_custo', 5)                                                       29
+     ('salomao_anula_custo', 6)                                                       34
+     ('salomao_anula_custo', 7)                                                       26
+     ('salomao_anula_lendaria',)                                                      60
+     hanuman_atk_max soma 1233
+     Babalon: jogos 63 gatilhos/jogo 1.73
+  [hinduismo@A] jogadas/partida: Garuda=0.89, Om=0.81, Hanuman=0.80, Rama, Príncipe=0.47, Arjuna=0.46, Trishula=0.45, Matsya, o Peix=0.42, Durga, a Forta=0.42, Kali=0.41, Vajra=0.41, Ganesha, Remov=0.39, Brahmastra=0.39
+  [alta_magia@B] jogadas/partida: Homúnculo=1.12, Vassago, o Prí=1.07, Lemegeton, a C=0.82, Pentagrama Fla=0.81, Pedra de Visão=0.81, Anjo Guardião =0.78, Solve et Coagu=0.78, Azoth=0.71, Orobas, o Prín=0.65, Edward Kelley,=0.57, Marbas, o Leão=0.53, Anel de Salomã=0.53
+
+===== bruxaria x alta_magia  (n=400)  rodadas méd 12.6  <6: 0%  >14: 36%
+  [bruxaria@A] dano Cornucópia por fonte: ataque 12.3  efeito 0.8  (fadiga sofrida 0.0) | ataques: corn 5.1 ent 8.8
+     selo Boneco de Cera             postos  220 disparos  162 (74%)
+     selo Círculo de Sal             postos  428 disparos  344 (80%)
+     selo Garrafa de Bruxa           postos  194 disparos  159 (82%)
+     selo Mau-Olhado                 postos  436 disparos  387 (89%)
+  [alta_magia@B] dano Cornucópia por fonte: ataque 4.8  efeito 2.1  (fadiga sofrida 3.6) | ataques: corn 2.0 ent 5.2
+     selo Pentagrama Flamejante      postos  501 disparos  377 (75%)
+     selo Selo de Salomão            postos  290 disparos  244 (84%)
+     selo Sigilo de Spare            postos  241 disparos  228 (95%)
+     selo Solve et Coagula           postos  475 disparos  421 (89%)
+     ('Babalon, a Mulher Escarlate', 'ally_dies')                                     331
+     ('Babalon, a Mulher Escarlate', 'enemy_dies')                                    519
+     ('mortes_por', 'bruxaria@A', 'Hécate, Senhora das Encruzilhadas', 'inimigas')    238
+     ('mortes_por', 'bruxaria@A', 'Pó de Ossos', 'inimigas')                          146
+     ('revive_campo', 'alta_magia@B', 'Caldeirão', 'Andras, o Semeador de Discórdia') 3
+     ('revive_campo', 'alta_magia@B', 'Caldeirão', 'Anjo Guardião Sagrado')           7
+     ('revive_campo', 'alta_magia@B', 'Caldeirão', 'Babalon, a Mulher Escarlate')     3
+     ('revive_campo', 'alta_magia@B', 'Caldeirão', 'Dantalion, das Mil Faces')        3
+     ('revive_campo', 'alta_magia@B', 'Caldeirão', 'Orobas, o Príncipe Fiel')         1
+     ('revive_campo', 'alta_magia@B', 'Caldeirão', 'Vassago, o Príncipe que Acha')    1
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'A Bruxa de Endor')                  16
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'A Morrigan')                        22
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Baba Yaga')                         10
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Benandante')                        19
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Cerridwen, Senhora do Caldeirão')   10
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Circe')                             11
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Corvo Agourento')                   6
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Gato Preto')                        3
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Hécate, Senhora das Encruzilhadas') 17
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Medeia, a Envenenadora')            4
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Sapo Familiar')                     1
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Strega de Benevento')               7
+     ('revive_campo_lendaria', 'alta_magia@B', 'Caldeirão')                           10
+     ('revive_campo_lendaria', 'bruxaria@A', 'Caldeirão')                             39
+     ('rouba', False, 0)                                                              1
+     ('rouba', False, 1)                                                              1
+     ('rouba', False, 2)                                                              17
+     ('rouba', False, 3)                                                              29
+     ('rouba', False, 4)                                                              47
+     ('rouba', False, 5)                                                              34
+     ('rouba', True, 6)                                                               27
+     ('rouba', True, 7)                                                               40
+     ('salomao_anula_custo', 1)                                                       5
+     ('salomao_anula_custo', 2)                                                       35
+     ('salomao_anula_custo', 3)                                                       36
+     ('salomao_anula_custo', 4)                                                       54
+     ('salomao_anula_custo', 5)                                                       49
+     ('salomao_anula_custo', 6)                                                       31
+     ('salomao_anula_custo', 7)                                                       34
+     ('salomao_anula_lendaria',)                                                      65
+     Babalon: jogos 212 gatilhos/jogo 4.01
+  [bruxaria@A] jogadas/partida: Gato Preto=1.93, Benandante=1.19, Poção de Belad=1.13, Vassoura=1.10, Mau-Olhado=1.09, Malefício=1.08, Círculo de Sal=1.07, A Morrigan=0.69, Hécate, Senhor=0.65, Strega de Bene=0.59, Cerridwen, Sen=0.58, Caldeirão de R=0.57
+  [alta_magia@B] jogadas/partida: Anjo Guardião =1.57, Homúnculo=1.46, Vassago, o Prí=1.44, Pedra de Visão=1.34, Pentagrama Fla=1.25, Lemegeton, a C=1.22, Solve et Coagu=1.19, Azoth=1.17, Orobas, o Prín=0.80, Marbas, o Leão=0.80, Silfo=0.79, Anel de Salomã=0.78
+
+===== indigena x indigena  (n=400)  rodadas méd 15.0  <6: 0%  >14: 50%
+  [indigena@A] dano Cornucópia por fonte: ataque 10.9  efeito 1.3  (fadiga sofrida 0.5) | ataques: corn 3.7 ent 9.3
+     selo Arapuca                    postos  527 disparos  469 (89%)
+     selo Assovio da Matinta         postos  275 disparos  254 (92%)
+     selo Mundéu                     postos  569 disparos  499 (88%)
+     selo Sopro do Pajé              postos  267 disparos  224 (84%)
+  [indigena@B] dano Cornucópia por fonte: ataque 11.3  efeito 1.3  (fadiga sofrida 0.5) | ataques: corn 3.8 ent 9.3
+     selo Arapuca                    postos  535 disparos  459 (86%)
+     selo Assovio da Matinta         postos  274 disparos  258 (94%)
+     selo Mundéu                     postos  567 disparos  493 (87%)
+     selo Sopro do Pajé              postos  280 disparos  225 (80%)
+     ('Anhangá', 'ally_dies')                                                         975
+     ('Boitatá', 'ally_attacked')                                                     256
+     ('Cobra-Grande', 'enemy_dies')                                                   2403
+     ('Curupira', 'on_damaged')                                                       1696
+     ('Mapinguari', 'on_damaged')                                                     1557
+     ('mortes_por', 'indigena@A', 'Tupã, o Trovão', 'inimigas')                       458
+     ('mortes_por', 'indigena@B', 'Tupã, o Trovão', 'inimigas')                       535
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Anhangá')                              9
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Boitatá')                              26
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Caipora')                              23
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Cobra-Grande')                         17
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Curupira')                             13
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Iara')                                 10
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Jaci, a Lua')                          22
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Mapinguari')                           18
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Saci-Pererê')                          10
+     ('revive_campo', 'indigena@A', 'Kuarup', 'Tupã, o Trovão')                       32
+     ('revive_campo', 'indigena@B', 'Kuarup', 'Anhangá')                              7
+     ('revive_campo', 'indigena@B', 'Kuarup', 'Boitatá')                              28
+     ('revive_campo', 'indigena@B', 'Kuarup', 'Caipora')                              13
+     ('revive_campo', 'indigena@B', 'Kuarup', 'Cobra-Grande')                         22
+     ('revive_campo', 'indigena@B', 'Kuarup', 'Curupira')                             10
+     ('revive_campo', 'indigena@B', 'Kuarup', 'Iara')                                 6
+     ('revive_campo', 'indigena@B', 'Kuarup', 'Jaci, a Lua')                          24
+     ('revive_campo', 'indigena@B', 'Kuarup', 'Mapinguari')                           21
+     ('revive_campo', 'indigena@B', 'Kuarup', 'Saci-Pererê')                          9
+     ('revive_campo', 'indigena@B', 'Kuarup', 'Tupã, o Trovão')                       33
+     ('revive_campo_lendaria', 'indigena@A', 'Kuarup')                                54
+     ('revive_campo_lendaria', 'indigena@B', 'Kuarup')                                57
+     cobra_atk_max (soma por partida onde disparou) 3672
+     Jaci: jogos 346 rodadas méd 15.5 WR indígena c/ Jaci 100%
+  [indigena@A] jogadas/partida: Boitatá=1.55, Caipora=1.51, Curupira=1.50, Saci-Pererê=1.45, Mundéu=1.42, Cauim=1.41, Arapuca=1.32, Cobra-Grande=0.85, Jaci, a Lua=0.85, Tupã, o Trovão=0.84, Anhangá=0.79, Iara=0.78
+  [indigena@B] jogadas/partida: Boitatá=1.53, Curupira=1.48, Caipora=1.48, Saci-Pererê=1.47, Mundéu=1.42, Cauim=1.39, Arapuca=1.34, Tupã, o Trovão=0.89, Cobra-Grande=0.86, Jaci, a Lua=0.81, Mapinguari=0.80, Iara=0.78
+
+===== cristianismo x cristianismo  (n=400)  rodadas méd 16.0  <6: 0%  >14: 56%
+  [cristianismo@A] dano Cornucópia por fonte: ataque 9.6  efeito 3.0  (fadiga sofrida 0.3) | ataques: corn 3.8 ent 5.6
+     selo Cova dos Leões             postos  237 disparos  209 (88%)
+     selo Mudez de Zacarias          postos  229 disparos  172 (75%)
+     selo Portão do Éden             postos  243 disparos  223 (92%)
+     selo Sangue nos Umbrais         postos  242 disparos  199 (82%)
+     selo Tumba Vazia                postos  497 disparos  429 (86%)
+  [cristianismo@B] dano Cornucópia por fonte: ataque 10.2  efeito 2.8  (fadiga sofrida 0.3) | ataques: corn 4.0 ent 5.8
+     selo Cova dos Leões             postos  238 disparos  205 (86%)
+     selo Mudez de Zacarias          postos  228 disparos  165 (72%)
+     selo Portão do Éden             postos  241 disparos  217 (90%)
+     selo Sangue nos Umbrais         postos  236 disparos  176 (75%)
+     selo Tumba Vazia                postos  483 disparos  430 (89%)
+     ('Davi, o Pastor', 'on_attack')                                                  326
+     ('davi_mata',)                                                                   101
+     ('mortes_por', 'cristianismo@A', 'Elias, Carro de Fogo', 'inimigas')             425
+     ('mortes_por', 'cristianismo@A', 'Juízo Final', 'inimigas')                      477
+     ('mortes_por', 'cristianismo@A', 'Juízo Final', 'proprias')                      340
+     ('mortes_por', 'cristianismo@A', 'Praga dos Gafanhotos', 'inimigas')             238
+     ('mortes_por', 'cristianismo@A', 'Sansão', 'inimigas')                           247
+     ('mortes_por', 'cristianismo@B', 'Elias, Carro de Fogo', 'inimigas')             365
+     ('mortes_por', 'cristianismo@B', 'Juízo Final', 'inimigas')                      461
+     ('mortes_por', 'cristianismo@B', 'Juízo Final', 'proprias')                      313
+     ('mortes_por', 'cristianismo@B', 'Praga dos Gafanhotos', 'inimigas')             241
+     ('mortes_por', 'cristianismo@B', 'Praga dos Gafanhotos', 'proprias')             3
+     ('mortes_por', 'cristianismo@B', 'Sansão', 'inimigas')                           252
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Anjo da Guarda')              28
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Davi, o Pastor')              9
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Elias, Carro de Fogo')        54
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Gabriel, o Mensageiro')       19
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Jonas')                       2
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Judite')                      31
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Leviatã')                     44
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Lázaro de Betânia')           36
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Rafael, o Curador')           27
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Sansão')                      46
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'Serafim')                     47
+     ('revive_campo', 'cristianismo@A', 'Talita Cumi', 'São Miguel Arcanjo')          90
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Anjo da Guarda')                    17
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Davi, o Pastor')                    5
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Elias, Carro de Fogo')              28
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Gabriel, o Mensageiro')             20
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Jonas')                             4
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Judite')                            30
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Leviatã')                           51
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Lázaro de Betânia')                 16
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Rafael, o Curador')                 29
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Sansão')                            40
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'Serafim')                           55
+     ('revive_campo', 'cristianismo@A', 'Tumba', 'São Miguel Arcanjo')                97
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Anjo da Guarda')              24
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Davi, o Pastor')              10
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Elias, Carro de Fogo')        43
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Gabriel, o Mensageiro')       25
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Jonas')                       4
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Judite')                      29
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Leviatã')                     31
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Lázaro de Betânia')           25
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Rafael, o Curador')           32
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Sansão')                      32
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'Serafim')                     65
+     ('revive_campo', 'cristianismo@B', 'Talita Cumi', 'São Miguel Arcanjo')          86
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Anjo da Guarda')                    28
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Davi, o Pastor')                    5
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Elias, Carro de Fogo')              36
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Gabriel, o Mensageiro')             16
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Jonas')                             4
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Judite')                            19
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Leviatã')                           44
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Lázaro de Betânia')                 21
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Rafael, o Curador')                 19
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Sansão')                            35
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'Serafim')                           57
+     ('revive_campo', 'cristianismo@B', 'Tumba', 'São Miguel Arcanjo')                106
+     ('revive_campo_lendaria', 'cristianismo@A', 'Talita Cumi')                       144
+     ('revive_campo_lendaria', 'cristianismo@A', 'Tumba')                             125
+     ('revive_campo_lendaria', 'cristianismo@B', 'Talita Cumi')                       129
+     ('revive_campo_lendaria', 'cristianismo@B', 'Tumba')                             142
+  [cristianismo@A] jogadas/partida: Lázaro de Betâ=2.40, Anjo da Guarda=1.61, Jonas=1.33, Talita Cumi=1.31, Tumba Vazia=1.24, Elias, Carro d=1.22, Gabriel, o Men=0.86, Rafael, o Cura=0.81, Davi, o Pastor=0.80, Judite=0.80, Juízo Final=0.79, Serafim=0.73
+  [cristianismo@B] jogadas/partida: Lázaro de Betâ=2.49, Anjo da Guarda=1.67, Talita Cumi=1.28, Jonas=1.22, Tumba Vazia=1.21, Elias, Carro d=1.15, Gabriel, o Men=0.86, Rafael, o Cura=0.82, Serafim=0.81, São Miguel Arc=0.79, Juízo Final=0.77, Judite=0.76
+
+===== taoismo x taoismo  (n=400)  rodadas méd 12.9  <6: 1%  >14: 32%
+  [taoismo@A] dano Cornucópia por fonte: ataque 9.9  efeito 0.0  (fadiga sofrida 0.1) | ataques: corn 3.2 ent 9.4
+     selo Dragão Azul do Leste       postos  236 disparos  215 (91%)
+     selo Fulu de Selamento          postos  445 disparos  337 (76%)
+     selo Pássaro Vermelho do Sul    postos  205 disparos  169 (82%)
+     selo Tartaruga Negra do Norte   postos  232 disparos  212 (91%)
+     selo Tigre Branco do Oeste      postos  227 disparos  201 (89%)
+  [taoismo@B] dano Cornucópia por fonte: ataque 9.5  efeito 0.0  (fadiga sofrida 0.1) | ataques: corn 3.1 ent 9.2
+     selo Dragão Azul do Leste       postos  223 disparos  196 (88%)
+     selo Fulu de Selamento          postos  433 disparos  324 (75%)
+     selo Pássaro Vermelho do Sul    postos  227 disparos  176 (78%)
+     selo Tartaruga Negra do Norte   postos  228 disparos  201 (88%)
+     selo Tigre Branco do Oeste      postos  214 disparos  187 (87%)
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Cao Guojiu')                           18
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Erlang Shen')                          15
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Guan Yu, Imperador Guan')              31
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Han Xiangzi')                          5
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'He Xiangu')                            3
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Imperador de Jade')                    32
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Lan Caihe')                            5
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Li Tieguai')                           2
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Lü Dongbin')                           5
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Nezha')                                4
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Xiwangmu, Rainha Mãe do Oeste')        29
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Zhang Guolao')                         5
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Zhong Kui')                            12
+     ('revive_campo', 'taoismo@A', 'Pássaro', 'Zhongli Quan')                         16
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Cao Guojiu')                    23
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Erlang Shen')                   29
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Guan Yu, Imperador Guan')       42
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Han Xiangzi')                   13
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'He Xiangu')                     13
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Imperador de Jade')             32
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Lan Caihe')                     14
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Li Tieguai')                    5
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Lü Dongbin')                    17
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Nezha')                         21
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Xiwangmu, Rainha Mãe do Oeste') 46
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Zhang Guolao')                  16
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Zhong Kui')                     19
+     ('revive_campo', 'taoismo@A', 'Pílula de Ouro', 'Zhongli Quan')                  21
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Cao Guojiu')     30
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Erlang Shen')    29
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Guan Yu, Imperador Guan') 39
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Han Xiangzi')    8
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'He Xiangu')      4
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Imperador de Jade') 25
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Lan Caihe')      3
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Li Tieguai')     2
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Lü Dongbin')     22
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Nezha')          11
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhang Guolao')   5
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhong Kui')      22
+     ('revive_campo', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhongli Quan')   18
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Cao Guojiu')                           22
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Erlang Shen')                          23
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Guan Yu, Imperador Guan')              36
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Han Xiangzi')                          3
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'He Xiangu')                            2
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Imperador de Jade')                    26
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Lan Caihe')                            1
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Li Tieguai')                           3
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Lü Dongbin')                           5
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Nezha')                                8
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Xiwangmu, Rainha Mãe do Oeste')        24
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Zhang Guolao')                         13
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Zhong Kui')                            12
+     ('revive_campo', 'taoismo@B', 'Pássaro', 'Zhongli Quan')                         10
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Cao Guojiu')                    25
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Erlang Shen')                   30
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Guan Yu, Imperador Guan')       39
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Han Xiangzi')                   18
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'He Xiangu')                     4
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Imperador de Jade')             41
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Lan Caihe')                     12
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Li Tieguai')                    4
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Lü Dongbin')                    26
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Nezha')                         24
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Xiwangmu, Rainha Mãe do Oeste') 35
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Zhang Guolao')                  8
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Zhong Kui')                     17
+     ('revive_campo', 'taoismo@B', 'Pílula de Ouro', 'Zhongli Quan')                  28
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Cao Guojiu')     25
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Erlang Shen')    27
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Guan Yu, Imperador Guan') 32
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Han Xiangzi')    11
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'He Xiangu')      8
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Imperador de Jade') 36
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Lan Caihe')      8
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Li Tieguai')     2
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Lü Dongbin')     8
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Nezha')          14
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhang Guolao')   13
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhong Kui')      17
+     ('revive_campo', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste', 'Zhongli Quan')   16
+     ('revive_campo_lendaria', 'taoismo@A', 'Pássaro')                                61
+     ('revive_campo_lendaria', 'taoismo@A', 'Pílula de Ouro')                         78
+     ('revive_campo_lendaria', 'taoismo@A', 'Xiwangmu, Rainha Mãe do Oeste')          25
+     ('revive_campo_lendaria', 'taoismo@B', 'Pássaro')                                50
+     ('revive_campo_lendaria', 'taoismo@B', 'Pílula de Ouro')                         76
+     ('revive_campo_lendaria', 'taoismo@B', 'Xiwangmu, Rainha Mãe do Oeste')          36
+  [taoismo@A] jogadas/partida: Circulação do =1.19, Espelho de Bro=1.18, Pílula de Ouro=1.16, Pêssego da Imo=1.15, Taiji=1.14, Fulu de Selame=1.11, Nezha=1.01, Li Tieguai=1.00, Imperador de J=0.75, Xiwangmu, Rain=0.74, Cao Guojiu=0.73, Guan Yu, Imper=0.72
+  [taoismo@B] jogadas/partida: Circulação do =1.23, Pêssego da Imo=1.21, Pílula de Ouro=1.20, Espelho de Bro=1.15, Nezha=1.12, Taiji=1.09, Fulu de Selame=1.08, Li Tieguai=1.06, Cao Guojiu=0.74, Erlang Shen=0.72, Xiwangmu, Rain=0.71, Imperador de J=0.70
+
+===== hinduismo x hinduismo  (n=400)  rodadas méd 8.1  <6: 5%  >14: 1%
+  [hinduismo@A] dano Cornucópia por fonte: ataque 6.1  efeito 5.4  (fadiga sofrida 0.0) | ataques: corn 3.0 ent 1.8
+     selo Chamas de Agni             postos  134 disparos  126 (94%)
+     selo Incêndio de Lanka          postos   95 disparos   85 (89%)
+     selo Lei do Karma               postos  102 disparos   72 (71%)
+     selo Pashupatastra              postos  110 disparos   51 (46%)
+     selo Roda do Samsara            postos  141 disparos  124 (88%)
+     selo Véu de Maya                postos  110 disparos   81 (74%)
+  [hinduismo@B] dano Cornucópia por fonte: ataque 6.3  efeito 5.0  (fadiga sofrida 0.0) | ataques: corn 2.9 ent 1.9
+     selo Chamas de Agni             postos  127 disparos  119 (94%)
+     selo Incêndio de Lanka          postos  116 disparos   98 (84%)
+     selo Lei do Karma               postos  132 disparos   85 (64%)
+     selo Pashupatastra              postos  106 disparos   55 (52%)
+     selo Roda do Samsara            postos  135 disparos  118 (87%)
+     selo Véu de Maya                postos  123 disparos   94 (76%)
+     ('Hanuman', 'on_attack')                                                         629
+     ('Kali', 'enemy_dies')                                                           439
+     ('Kali', 'on_play')                                                              347
+     ('mortes_por', 'hinduismo@A', 'Brahmastra', 'inimigas')                          160
+     ('mortes_por', 'hinduismo@A', 'Brahmastra', 'proprias')                          2
+     ('mortes_por', 'hinduismo@A', 'Kali', 'inimigas')                                100
+     ('mortes_por', 'hinduismo@B', 'Brahmastra', 'inimigas')                          177
+     ('mortes_por', 'hinduismo@B', 'Brahmastra', 'proprias')                          3
+     ('mortes_por', 'hinduismo@B', 'Kali', 'inimigas')                                77
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Arjuna')                   7
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Durga, a Fortaleza')       14
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Ganesha, Removedor de Obstáculos') 4
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Garuda')                   8
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Hanuman')                  11
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Jatayu')                   5
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Kali')                     15
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Krishna, o Auriga')        5
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Matsya, o Peixe')          2
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Narasimha')                3
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Rama, Príncipe de Ayodhya') 2
+     ('revive_campo', 'hinduismo@A', 'Descida do Avatar', 'Shiva Nataraja')           14
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Arjuna')                   4
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Durga, a Fortaleza')       7
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Ganesha, Removedor de Obstáculos') 6
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Garuda')                   8
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Hanuman')                  10
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Jatayu')                   5
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Kali')                     8
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Krishna, o Auriga')        9
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Matsya, o Peixe')          3
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Narasimha')                4
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Rama, Príncipe de Ayodhya') 3
+     ('revive_campo', 'hinduismo@B', 'Descida do Avatar', 'Shiva Nataraja')           9
+     ('revive_campo_lendaria', 'hinduismo@A', 'Descida do Avatar')                    29
+     ('revive_campo_lendaria', 'hinduismo@B', 'Descida do Avatar')                    17
+     hanuman_atk_max soma 1536
+  [hinduismo@A] jogadas/partida: Garuda=0.91, Hanuman=0.80, Om=0.79, Rama, Príncipe=0.55, Kali=0.43, Matsya, o Peix=0.43, Jatayu=0.42, Durga, a Forta=0.41, Arjuna=0.41, Ganesha, Remov=0.40, Samudra Mantha=0.36, Narasimha=0.35
+  [hinduismo@B] jogadas/partida: Garuda=0.93, Om=0.77, Hanuman=0.72, Rama, Príncipe=0.53, Matsya, o Peix=0.47, Ganesha, Remov=0.42, Jatayu=0.40, Krishna, o Aur=0.40, Brahmastra=0.38, Kali=0.38, Durga, a Forta=0.37, Vajra=0.37
+
+===== bruxaria x bruxaria  (n=400)  rodadas méd 11.4  <6: 0%  >14: 18%
+  [bruxaria@A] dano Cornucópia por fonte: ataque 8.5  efeito 0.6  (fadiga sofrida 0.0) | ataques: corn 4.0 ent 4.7
+     selo Boneco de Cera             postos  173 disparos  126 (73%)
+     selo Círculo de Sal             postos  334 disparos  242 (72%)
+     selo Garrafa de Bruxa           postos  158 disparos  112 (71%)
+     selo Mau-Olhado                 postos  350 disparos  297 (85%)
+  [bruxaria@B] dano Cornucópia por fonte: ataque 8.6  efeito 0.5  (fadiga sofrida 0.0) | ataques: corn 3.9 ent 4.8
+     selo Boneco de Cera             postos  163 disparos  114 (70%)
+     selo Círculo de Sal             postos  351 disparos  255 (73%)
+     selo Garrafa de Bruxa           postos  177 disparos  134 (76%)
+     selo Mau-Olhado                 postos  347 disparos  292 (84%)
+     ('mortes_por', 'bruxaria@A', 'Hécate, Senhora das Encruzilhadas', 'inimigas')    234
+     ('mortes_por', 'bruxaria@A', 'Pó de Ossos', 'inimigas')                          247
+     ('mortes_por', 'bruxaria@A', 'Pó de Ossos', 'proprias')                          2
+     ('mortes_por', 'bruxaria@B', 'Hécate, Senhora das Encruzilhadas', 'inimigas')    208
+     ('mortes_por', 'bruxaria@B', 'Pó de Ossos', 'inimigas')                          221
+     ('mortes_por', 'bruxaria@B', 'Pó de Ossos', 'proprias')                          1
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'A Bruxa de Endor')                  14
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'A Morrigan')                        21
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Baba Yaga')                         7
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Benandante')                        23
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Cerridwen, Senhora do Caldeirão')   14
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Circe')                             7
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Corvo Agourento')                   6
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Gato Preto')                        5
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Hécate, Senhora das Encruzilhadas') 16
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Medeia, a Envenenadora')            6
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Sapo Familiar')                     1
+     ('revive_campo', 'bruxaria@A', 'Caldeirão', 'Strega de Benevento')               7
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'A Bruxa de Endor')                  6
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'A Morrigan')                        8
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Baba Yaga')                         3
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Benandante')                        19
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Cerridwen, Senhora do Caldeirão')   15
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Circe')                             6
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Corvo Agourento')                   2
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Gato Preto')                        4
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Hécate, Senhora das Encruzilhadas') 12
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Medeia, a Envenenadora')            11
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Sapo Familiar')                     1
+     ('revive_campo', 'bruxaria@B', 'Caldeirão', 'Strega de Benevento')               5
+     ('revive_campo_lendaria', 'bruxaria@A', 'Caldeirão')                             37
+     ('revive_campo_lendaria', 'bruxaria@B', 'Caldeirão')                             20
+  [bruxaria@A] jogadas/partida: Gato Preto=1.86, Benandante=1.00, Poção de Belad=0.88, Mau-Olhado=0.88, Malefício=0.85, Círculo de Sal=0.83, Vassoura=0.83, A Morrigan=0.58, Pó de Ossos=0.57, Seiðr=0.53, Strega de Bene=0.52, Corvo Agourent=0.51
+  [bruxaria@B] jogadas/partida: Gato Preto=1.94, Benandante=0.97, Vassoura=0.90, Poção de Belad=0.89, Malefício=0.89, Círculo de Sal=0.88, Mau-Olhado=0.87, A Morrigan=0.58, Strega de Bene=0.53, Pó de Ossos=0.53, Sapo Familiar=0.52, Medeia, a Enve=0.50
+
+===== alta_magia x alta_magia  (n=400)  rodadas méd 12.9  <6: 0%  >14: 37%
+  [alta_magia@A] dano Cornucópia por fonte: ataque 7.4  efeito 2.8  (fadiga sofrida 3.3) | ataques: corn 3.0 ent 8.5
+     selo Pentagrama Flamejante      postos  558 disparos  470 (84%)
+     selo Selo de Salomão            postos  325 disparos  292 (90%)
+     selo Sigilo de Spare            postos  240 disparos  226 (94%)
+     selo Solve et Coagula           postos  485 disparos  394 (81%)
+  [alta_magia@B] dano Cornucópia por fonte: ataque 6.4  efeito 2.7  (fadiga sofrida 3.1) | ataques: corn 2.6 ent 8.1
+     selo Pentagrama Flamejante      postos  548 disparos  465 (85%)
+     selo Selo de Salomão            postos  319 disparos  278 (87%)
+     selo Sigilo de Spare            postos  243 disparos  234 (96%)
+     selo Solve et Coagula           postos  517 disparos  436 (84%)
+     ('Babalon, a Mulher Escarlate', 'ally_dies')                                     720
+     ('Babalon, a Mulher Escarlate', 'enemy_dies')                                    1843
+     ('rouba', False, 0)                                                              4
+     ('rouba', False, 2)                                                              20
+     ('rouba', False, 3)                                                              47
+     ('rouba', False, 4)                                                              71
+     ('rouba', False, 5)                                                              11
+     ('rouba', False, 6)                                                              34
+     ('rouba', True, 6)                                                               106
+     ('rouba', True, 7)                                                               98
+     ('salomao_anula_custo', 2)                                                       73
+     ('salomao_anula_custo', 3)                                                       125
+     ('salomao_anula_custo', 4)                                                       115
+     ('salomao_anula_custo', 5)                                                       28
+     ('salomao_anula_custo', 6)                                                       89
+     ('salomao_anula_custo', 7)                                                       140
+     ('salomao_anula_lendaria',)                                                      186
+     Babalon: jogos 340 gatilhos/jogo 7.54
+  [alta_magia@A] jogadas/partida: Vassago, o Prí=1.55, Homúnculo=1.50, Anjo Guardião =1.45, Pedra de Visão=1.44, Pentagrama Fla=1.40, Lemegeton, a C=1.29, Azoth=1.28, Solve et Coagu=1.21, Selo de Salomã=0.81, Silfo=0.81, Marbas, o Leão=0.81, Sigillum Dei A=0.77
+  [alta_magia@B] jogadas/partida: Vassago, o Prí=1.53, Anjo Guardião =1.52, Homúnculo=1.47, Pedra de Visão=1.42, Pentagrama Fla=1.37, Lemegeton, a C=1.30, Solve et Coagu=1.29, Azoth=1.22, Orobas, o Prín=0.81, Marbas, o Leão=0.80, Selo de Salomã=0.80, Sigillum Dei A=0.80

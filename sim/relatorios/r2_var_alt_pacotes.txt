@@ -1,0 +1,3 @@
+P1 Pedra +1/+3                     média  40.2 | indi 46.0  cris 45.8  taoi 46.8  hind 11.2  brux 51.0 | dano-atq  8.3 mortes efeito 1.1 combate 6.4 rod 12.8 | esp rod 13.2 1º 57.3%
+F1 Pentagrama + cura 2             média  37.2 | indi 40.8  cris 45.3  taoi 40.7  hind 11.2  brux 48.0 | dano-atq  7.9 mortes efeito 1.1 combate 6.4 rod 12.9 | esp rod 13.5 1º 55.5%
+CA3 Z1+A1+B1+P1+F1                 média  44.7 | indi 52.8  cris 52.8  taoi 50.7  hind 14.2  brux 53.0 | dano-atq  9.2 mortes efeito 1.1 combate 6.6 rod 12.9 | esp rod 13.2 1º 56.8%

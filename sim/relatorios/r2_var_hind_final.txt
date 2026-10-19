@@ -1,0 +1,6 @@
+H0 remocao+reliquias (11 cartas) [seed 11] média  65.0 | indi 55.4  cris 58.5  taoi 65.2  brux 67.7  alta 78.4 | dano-atq 12.8 mortes efeito 3.2 combate 6.3 rod 11.0 | esp rod  8.8 1º 65.1%
+H0 remocao+reliquias (11 cartas) [seed 12] média  64.7 | indi 56.4  cris 55.1  taoi 63.6  brux 70.0  alta 78.2 | dano-atq 12.8 mortes efeito 3.3 combate 6.3 rod 11.0 | esp rod  8.8 1º 62.7%
+H1 H0+Hanuman3/2+Krishna3/4 [seed 11] média  58.6 | indi 49.5  cris 51.6  taoi 58.1  brux 60.8  alta 73.2 | dano-atq 12.0 mortes efeito 3.4 combate 6.4 rod 11.3 | esp rod  8.9 1º 63.8%
+H1 H0+Hanuman3/2+Krishna3/4 [seed 12] média  57.7 | indi 49.7  cris 47.7  taoi 55.2  brux 64.2  alta 71.8 | dano-atq 11.9 mortes efeito 3.4 combate 6.2 rod 11.2 | esp rod  8.9 1º 58.5%
+H2 H1+Tandava area2+Durga4/4 [seed 11] média  55.3 | indi 45.6  cris 48.4  taoi 55.1  brux 57.7  alta 69.8 | dano-atq 11.5 mortes efeito 3.3 combate 6.4 rod 11.3 | esp rod  8.8 1º 63.3%
+H2 H1+Tandava area2+Durga4/4 [seed 12] média  53.9 | indi 44.9  cris 42.5  taoi 51.6  brux 60.3  alta 70.2 | dano-atq 11.3 mortes efeito 3.3 combate 6.3 rod 11.2 | esp rod  8.9 1º 58.9%

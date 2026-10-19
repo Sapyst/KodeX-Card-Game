@@ -1,0 +1,4 @@
+X1 nenhum Impeto (Krishna compra 2) média  81.8 | indi 82.7  cris 65.8  taoi 84.3  brux 82.8  alta 93.3 | dano-atq 15.4 mortes efeito 4.5 combate 6.4 rod 11.5 | esp rod 11.5 1º 56.2%
+X2 X1 + RB (remocao)               média  72.6 | indi 68.5  cris 60.8  taoi 73.0  brux 72.3  alta 88.5 | dano-atq 13.6 mortes efeito 3.8 combate 7.5 rod 12.3 | esp rod 11.4 1º 61.5%
+X3 so Selos punitivos fracos       média  74.1 | indi 67.2  cris 63.5  taoi 77.0  brux 78.5  alta 84.3 | dano-atq 14.4 mortes efeito 3.6 combate 6.0 rod 10.7 | esp rod  8.7 1º 66.5%
+X4 X3 + sem Impeto                 média  78.7 | indi 78.7  cris 62.3  taoi 81.2  brux 80.2  alta 91.3 | dano-atq 14.9 mortes efeito 4.5 combate 6.5 rod 11.8 | esp rod 11.7 1º 55.8%

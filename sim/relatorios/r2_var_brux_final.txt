@@ -1,0 +1,2 @@
+CB3 [seed 11]                      média  46.1 | indi 50.6  cris 40.5  taoi 58.7  hind 22.4  alta 58.6 | dano-atq 10.0 mortes efeito 2.6 combate 6.5 rod 12.6 | esp rod 11.8 1º 46.2%
+CB3 [seed 12]                      média  47.5 | indi 53.8  cris 42.9  taoi 57.5  hind 24.2  alta 59.0 | dano-atq 10.1 mortes efeito 2.6 combate 6.7 rod 12.7 | esp rod 12.0 1º 47.7%

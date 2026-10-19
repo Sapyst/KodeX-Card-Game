@@ -1,0 +1,52 @@
+== Matriz de win rate (linha vence coluna; empate conta 0,5) ==
+              alta_ma bruxari cristia hinduis indigen taoismo
+alta_magia       —      26.8%   19.7%    4.6%   30.4%   15.6%
+bruxaria        73.2%    —      33.4%   17.7%   55.2%   54.6%
+cristianismo    80.3%   66.6%    —      27.5%   76.3%   60.8%
+hinduismo       95.4%   82.3%   72.5%    —      83.2%   82.5%
+indigena        69.6%   44.8%   23.6%   16.8%    —      41.9%
+taoismo         84.5%   45.4%   39.2%   17.4%   58.1%    —   
+
+== Média por deck ==
+   83.2%  hinduismo
+   62.3%  cristianismo
+   48.9%  taoismo
+   46.8%  bruxaria
+   39.4%  indigena
+   19.4%  alta_magia
+
+== Cartas mais fortes (win rate quando jogada, ≥30 partidas) ==
+   86.4%  Shiva Nataraja                 [hinduismo] jogadas=4508 dano=11.0
+   82.8%  Vajra                          [hinduismo] jogadas=5001 dano=2.0
+   82.6%  Kali                           [hinduismo] jogadas=4646 dano=11.9
+   81.6%  Ganesha, Removedor de Obstácul [hinduismo] jogadas=4877 dano=3.8
+   81.0%  São Miguel Arcanjo             [cristianismo] jogadas=6121 dano=11.6
+   80.6%  Gandiva                        [hinduismo] jogadas=4361 dano=1.5
+   80.6%  Hanuman                        [hinduismo] jogadas=9028 dano=7.6
+   80.6%  Garuda                         [hinduismo] jogadas=9916 dano=4.8
+   80.5%  Om                             [hinduismo] jogadas=9267 dano=0.0
+   80.3%  Jatayu                         [hinduismo] jogadas=4929 dano=2.4
+   80.2%  Trishula                       [hinduismo] jogadas=4617 dano=2.7
+   80.0%  Durga, a Fortaleza             [hinduismo] jogadas=4781 dano=8.2
+   79.8%  Samudra Manthan                [hinduismo] jogadas=4187 dano=0.0
+   79.5%  Roda do Samsara                [hinduismo] jogadas=4210 dano=0.0
+   79.5%  Krishna, o Auriga              [hinduismo] jogadas=4612 dano=7.5
+== Cartas mais fracas ==
+   18.3%  Conjuração dos Elementais      [alta_magia] jogadas=5824 na mão= 51.0%
+   19.5%  Edward Kelley, o Vidente       [alta_magia] jogadas=6982 na mão=  5.4%
+   20.4%  Homúnculo                      [alta_magia] jogadas=13794 na mão=  6.5%
+   20.5%  Azoth                          [alta_magia] jogadas=10957 na mão= 17.4%
+   20.6%  Vassago, o Príncipe que Acha   [alta_magia] jogadas=14742 na mão=  6.3%
+   20.7%  Orobas, o Príncipe Fiel        [alta_magia] jogadas=7708 na mão=  6.2%
+   20.8%  Abrahadabra                    [alta_magia] jogadas=5587 na mão= 11.1%
+   21.1%  Lemegeton, a Chave Menor       [alta_magia] jogadas=11301 na mão= 15.4%
+   21.6%  Solve et Coagula               [alta_magia] jogadas=11382 na mão= 18.0%
+   21.6%  Silfo                          [alta_magia] jogadas=7172 na mão=  4.5%
+   22.3%  Marbas, o Leão das Doenças     [alta_magia] jogadas=6935 na mão=  6.5%
+   22.5%  Selo de Salomão                [alta_magia] jogadas=7203 na mão= 17.7%
+   22.6%  Pedra de Visão de Dee          [alta_magia] jogadas=12070 na mão= 10.2%
+   22.7%  Pentagrama Flamejante          [alta_magia] jogadas=12033 na mão= 21.2%
+   23.0%  Andras, o Semeador de Discórdi [alta_magia] jogadas=6929 na mão=  6.8%
+
+(36.3s, bot=heur, seed=11)
+JSON em relatorios/r1_matriz.json

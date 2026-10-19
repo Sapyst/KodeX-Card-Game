@@ -1,0 +1,128 @@
+[r0 t0 j0] mulligan j0: ['Anjo Guardião Sagrado', 'Dantalion, das Mil Faces']
+[r0 t0 j0] mulligan j1: ['Imperador de Jade', 'Taiji']
+[r1 t1 j0] j0 joga Lemegeton, a Chave Menor
+[r1 t1 j0] j0 busca Homúnculo
+[r1 t2 j1] j1 joga Han Xiangzi
+[r2 t3 j0] j0 joga Silfo
+[r2 t3 j0] <Silfo 1/2 j0> ataca <Han Xiangzi 1/2 j1>
+[r2 t4 j1] j1 joga Espelho de Bronze
+[r2 t4 j1] gatilho on_equip de <Reliquia Espelho de Bronze>
+[r2 t4 j1] <Han Xiangzi 2/2 j1> ataca <Silfo 1/1 j0>
+[r2 t4 j1] morre <Silfo 1/-1 j0>
+[r3 t5 j0] j0 joga Edward Kelley, o Vidente
+[r3 t5 j0] gatilho on_play de <Edward Kelley, o Vidente 0/2 j0>
+[r3 t5 j0] j0 busca Sigillum Dei Aemeth
+[r3 t6 j1] j1 joga Circulação do Qi
+[r3 t6 j1] j1 joga Zhang Guolao
+[r3 t6 j1] gatilho on_play de <Zhang Guolao 2/3 j1>
+[r3 t6 j1] <Han Xiangzi 2/1 j1> ataca <Edward Kelley, o Vidente 0/2 j0>
+[r3 t6 j1] morre <Edward Kelley, o Vidente 0/0 j0>
+[r4 t7 j0] j0 joga Marbas, o Leão das Doenças
+[r4 t7 j0] gatilho on_play de <Marbas, o Leão das Doenças 3/4 j0>
+[r4 t8 j1] j1 joga Taiji
+[r4 t8 j1] <Han Xiangzi 4/3 j1> ataca <Marbas, o Leão das Doenças 1/2 j0>
+[r4 t8 j1] morre <Marbas, o Leão das Doenças 1/-2 j0>
+[r4 t8 j1] <Zhang Guolao 2/3 j1> ataca Cornucopia(0)
+[r4 t8 j1] cornucópia j0 -2 = 13
+[r5 t9 j0] j0 joga Homúnculo
+[r5 t9 j0] j0 joga Azoth
+[r5 t10 j1] j1 joga Zhong Kui
+[r5 t10 j1] gatilho on_play de <Zhong Kui 3/4 j1>
+[r5 t10 j1] <Han Xiangzi 4/2 j1> ataca <Homúnculo 1/2 j0>
+[r5 t10 j1] morre <Homúnculo 1/-2 j0>
+[r5 t10 j1] <Zhang Guolao 2/3 j1> ataca Cornucopia(0)
+[r5 t10 j1] cornucópia j0 -2 = 11
+[r6 t11 j0] j0 joga Abrahadabra
+[r6 t11 j0] cornucópia j1 -3 = 12
+[r6 t11 j0] j0 joga Selo de Salomão
+[r6 t12 j1] j1 joga Nezha
+[r6 t12 j1] selo Selo de Salomão dispara (enemy_plays_entity)
+[r6 t12 j1] efeito anulado (counter)
+[r6 t12 j1] j1 joga Pêssego da Imortalidade
+[r6 t12 j1] gatilho on_equip de <Reliquia Pêssego da Imortalidade>
+[r6 t12 j1] <Han Xiangzi 4/1 j1> ataca Cornucopia(0)
+[r6 t12 j1] cornucópia j0 -4 = 7
+[r6 t12 j1] <Zhong Kui 4/6 j1> ataca Cornucopia(0)
+[r6 t12 j1] cornucópia j0 -4 = 3
+[r6 t12 j1] <Zhang Guolao 2/3 j1> ataca Cornucopia(0)
+[r6 t12 j1] cornucópia j0 -2 = 1
+[r7 t13 j0] j0 joga Azoth
+[r7 t13 j0] j0 joga Andras, o Semeador de Discórdia
+[r7 t13 j0] gatilho on_play de <Andras, o Semeador de Discórdia 3/3 j0>
+[r7 t13 j0] morre <Han Xiangzi 4/1 j1>
+[r7 t13 j0] j0 joga Sigillum Dei Aemeth
+[r7 t13 j0] gatilho on_equip de <Reliquia Sigillum Dei Aemeth>
+[r7 t14 j1] j1 joga Espelho de Bronze
+[r7 t14 j1] gatilho on_equip de <Reliquia Espelho de Bronze>
+[r7 t14 j1] j1 joga Pílula de Ouro
+[r7 t14 j1] j1 revive Nezha para o campo
+[r7 t14 j1] j1 joga Fulu de Selamento
+[r7 t14 j1] <Zhong Kui 4/6 j1> ataca <Andras, o Semeador de Discórdia 3/6 j0>
+[r7 t14 j1] <Zhang Guolao 3/4 j1> ataca <Andras, o Semeador de Discórdia 3/2 j0>
+[r7 t14 j1] morre <Andras, o Semeador de Discórdia 3/-1 j0>
+[r7 t14 j1] gatilho equipped_dies de <Reliquia Sigillum Dei Aemeth>
+[r7 t14 j1] <Nezha 3/3 j1> ataca Cornucopia(0)
+[r7 t14 j1] cornucópia j0 -3 = -2
+[r7 t14 j1] FIM: vence j1 (Cornucópia a zero)
+
+== alta_magia vs taoismo — 2000 duelos ==
+  Vitórias A:  18.2%   Vitórias B:  81.8%   Empates:   0.0%
+  Duração média: 11.9 rodadas   Vantagem de quem começa:  54.3%
+
+  -- lado A: cartas de alta_magia --
+  carta                        tipo       C  jogadas  WR jogada  dano méd  na mão
+  Edward Kelley, o Vidente     entidade   2     1396      18.4%      0.17    5.4%
+  Homúnculo                    entidade   2     2778      18.8%      1.08    6.7%
+  Silfo                        entidade   2     1429      19.3%      1.69    4.9%
+  Orobas, o Príncipe Fiel      entidade   3     1573      19.8%      1.69    4.6%
+  Vassago, o Príncipe que Acha entidade   3     3011      19.4%      2.31    4.9%
+  Andras, o Semeador de Discór entidade   4     1443      21.9%      3.44    4.9%
+  Astaroth, o Duque Revelador  entidade   4      817      24.1%      3.84   36.0%
+  Marbas, o Leão das Doenças   entidade   4     1434      21.1%      4.08    6.5%
+  Dantalion, das Mil Faces     entidade   5      970      33.9%      4.14   29.9%
+  Babalon, a Mulher Escarlate  entidade   6     1168      29.4%     15.09   28.8%
+  Paimon, Rei do Oeste         entidade   6     1016      29.2%      7.24   31.3%
+  Anjo Guardião Sagrado        entidade   7     2774      24.2%      7.62   11.4%
+  Pedra de Visão de Dee        reliquia   1     2485      21.3%      0.00    9.9%
+  Anel de Salomão              reliquia   2     1397      21.3%      0.00   11.9%
+  Sigillum Dei Aemeth          reliquia   2     1427      20.9%      0.00   10.8%
+  Lemegeton, a Chave Menor     rito       1     2296      20.3%      0.00   15.8%
+  Azoth                        rito       3     2275      18.5%      0.00   17.6%
+  Conjuração dos Elementais    rito       3     1232      16.7%      1.82   54.7%
+  Abrahadabra                  rito       4     1161      18.2%      2.07    9.8%
+  Ritual Menor do Pentagrama   rito       4      686      23.2%      0.00   39.1%
+  Sigilo de Spare              selo       1     1142      22.2%      0.00   20.3%
+  Solve et Coagula             selo       1     2306      20.5%      0.00   19.4%
+  Pentagrama Flamejante        selo       2     2535      21.1%      0.00   21.4%
+  Selo de Salomão              selo       3     1576      20.4%      0.00   16.0%
+
+  -- lado B: cartas de taoismo --
+  carta                        tipo       C  jogadas  WR jogada  dano méd  na mão
+  Lan Caihe                    entidade   1     1161      78.8%      3.81   13.2%
+  Han Xiangzi                  entidade   2     1122      74.5%      4.09   18.5%
+  He Xiangu                    entidade   2     1109      76.6%      5.19   16.4%
+  Li Tieguai                   entidade   2     1648      75.5%      3.82   14.9%
+  Cao Guojiu                   entidade   3     1228      77.1%      5.45    9.6%
+  Lü Dongbin                   entidade   3     1181      80.2%      5.41   12.0%
+  Zhang Guolao                 entidade   3     1206      84.0%      7.08   12.8%
+  Zhongli Quan                 entidade   3     1192      78.9%      7.49   12.4%
+  Nezha                        entidade   4     1630      79.9%      8.01    8.3%
+  Zhong Kui                    entidade   4     1095      78.7%      9.49   10.7%
+  Erlang Shen                  entidade   5     1166      78.2%     11.81    9.6%
+  Guan Yu, Imperador Guan      entidade   5     1197      82.8%     11.27    7.0%
+  Xiwangmu, Rainha Mãe do Oest entidade   6     1180      82.3%     10.36    9.5%
+  Imperador de Jade            entidade   7     1252      79.6%     11.65    9.4%
+  Espelho de Bronze            reliquia   2     2231      80.6%      0.00    5.8%
+  Pêssego da Imortalidade      reliquia   2     2168      81.3%      0.00    5.6%
+  Circulação do Qi             rito       1     2229      80.3%      0.00    2.7%
+  Flechas de Houyi             rito       2     1106      82.4%      2.32    5.3%
+  Banquete dos Pêssegos        rito       3     1048      80.4%      0.00   10.6%
+  Pílula de Ouro               rito       3     2011      80.1%      0.00    8.5%
+  Taiji                        rito       4     2046      79.9%      0.00    4.5%
+  Tartaruga Negra do Norte     selo       1     1026      78.8%      0.00   10.4%
+  Dragão Azul do Leste         selo       2     1020      76.6%      0.00   12.4%
+  Fulu de Selamento            selo       2     2029      78.5%      0.00   10.2%
+  Pássaro Vermelho do Sul      selo       2      942      79.5%      0.00   13.8%
+  Tigre Branco do Oeste        selo       2     1010      79.6%      3.08   11.8%
+
+(2.5s, bot=heur, seed=11)

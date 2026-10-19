@@ -1,0 +1,167 @@
+[r0 t0 j0] mulligan j0: ['Tupã, o Trovão', 'Mapinguari']
+[r0 t0 j0] mulligan j1: ['Hécate, Senhora das Encruzilhadas']
+[r1 t1 j0] j0 joga Cauim
+[r1 t2 j1] j1 joga Gato Preto
+[r2 t3 j0] j0 joga Visão do Caapi
+[r2 t3 j0] j0 joga Arapuca
+[r2 t4 j1] j1 joga Livro das Sombras
+[r2 t4 j1] gatilho on_equip de <Reliquia Livro das Sombras>
+[r2 t4 j1] <Gato Preto 2/2 j1> ataca Cornucopia(0)
+[r2 t4 j1] gatilho equipped_attacks de <Reliquia Livro das Sombras>
+[r2 t4 j1] cornucópia j0 -2 = 13
+[r3 t5 j0] j0 joga Curupira
+[r3 t6 j1] j1 joga Benandante
+[r3 t6 j1] gatilho on_play de <Benandante 2/3 j1>
+[r3 t6 j1] <Gato Preto 2/2 j1> ataca <Curupira 1/2 j0>
+[r3 t6 j1] gatilho equipped_attacks de <Reliquia Livro das Sombras>
+[r3 t6 j1] selo Arapuca dispara (enemy_attacks)
+[r3 t6 j1] gatilho on_damaged de <Curupira 1/0 j0>
+[r3 t6 j1] morre <Gato Preto 2/-1 j1>
+[r3 t6 j1] renasce Gato Preto para a mão de j1
+[r3 t6 j1] morre <Curupira 1/0 j0>
+[r4 t7 j0] j0 joga Kuarup
+[r4 t7 j0] j0 revive Curupira para o campo
+[r4 t8 j1] j1 joga Sabá de Walpurgis
+[r4 t8 j1] <Benandante 3/4 j1> ataca <Curupira 1/2 j0>
+[r4 t8 j1] gatilho on_damaged de <Curupira 1/-1 j0>
+[r4 t8 j1] morre <Curupira 1/-1 j0>
+[r5 t9 j0] j0 joga Curupira
+[r5 t9 j0] j0 joga Saci-Pererê
+[r5 t9 j0] gatilho on_play de <Saci-Pererê 1/1 j0>
+[r5 t10 j1] j1 joga Medeia, a Envenenadora
+[r5 t10 j1] gatilho on_play de <Medeia, a Envenenadora 3/4 j1>
+[r5 t10 j1] j1 joga Poção de Beladona
+[r5 t10 j1] <Lebre 1/1 j1> ataca <Curupira 0/2 j0>
+[r5 t10 j1] gatilho on_damaged de <Curupira 0/1 j0>
+[r5 t10 j1] morre <Lebre 1/0 j1>
+[r6 t11 j0] j0 joga Jaci, a Lua
+[r6 t11 j0] gatilho on_play de <Jaci, a Lua 4/5 j0>
+[r6 t11 j0] gatilho end_turn de <Jaci, a Lua 4/5 j0>
+[r6 t12 j1] j1 joga Pó de Ossos
+[r6 t12 j1] gatilho on_damaged de <Curupira 0/0 j0>
+[r6 t12 j1] morre <Curupira 0/0 j0>
+[r6 t12 j1] morre <Saci-Pererê 1/-1 j0>
+[r6 t12 j1] morre <Vitória-régia 0/0 j0>
+[r6 t12 j1] j1 joga Caldeirão de Renascimento
+[r6 t12 j1] gatilho on_equip de <Reliquia Caldeirão de Renascimento>
+[r6 t12 j1] j1 joga Mau-Olhado
+[r6 t12 j1] <Benandante 5/7 j1> ataca <Jaci, a Lua 4/3 j0>
+[r6 t12 j1] morre <Jaci, a Lua 4/-2 j0>
+[r6 t12 j1] <Medeia, a Envenenadora 3/4 j1> ataca Cornucopia(0)
+[r6 t12 j1] cornucópia j0 -3 = 10
+[r7 t13 j0] j0 joga Fogo de Monan
+[r7 t13 j0] cornucópia j1 -1 = 14
+[r7 t13 j0] j0 joga Mundéu
+[r7 t13 j0] j0 joga Dança do Aruanã
+[r7 t14 j1] j1 joga Gato Preto
+[r7 t14 j1] j1 joga Vassoura
+[r7 t14 j1] gatilho on_equip de <Reliquia Vassoura>
+[r7 t14 j1] j1 joga Malefício
+[r7 t14 j1] morre <Aruanã 0/-1 j0>
+[r7 t14 j1] <Medeia, a Envenenadora 4/3 j1> ataca <Aruanã 1/1 j0>
+[r7 t14 j1] selo Mundéu dispara (enemy_attacks)
+[r7 t14 j1] morre <Medeia, a Envenenadora 4/-1 j1>
+[r8 t15 j0] j0 joga Boitatá
+[r8 t15 j0] selo Mau-Olhado dispara (enemy_plays_entity)
+[r8 t15 j0] j0 joga Sopro do Pajé
+[r8 t15 j0] <Aruanã 1/1 j0> ataca <Benandante 5/1 j1>
+[r8 t15 j0] morre <Aruanã 1/-4 j0>
+[r8 t15 j0] morre <Benandante 5/0 j1>
+[r8 t15 j0] gatilho equipped_dies de <Reliquia Caldeirão de Renascimento>
+[r8 t15 j0] j1 revive A Bruxa de Endor para o campo
+[r8 t15 j0] gatilho on_play de <A Bruxa de Endor 2/4 j1>
+[r8 t16 j1] j1 joga Hécate, Senhora das Encruzilhadas
+[r8 t16 j1] morre <Gato Preto 1/1 j1>
+[r8 t16 j1] gatilho on_play de <Hécate, Senhora das Encruzilhadas 6/7 j1>
+[r8 t16 j1] <A Bruxa de Endor 2/4 j1> ataca <Boitatá 0/1 j0>
+[r8 t16 j1] morre <Boitatá 0/-1 j0>
+[r9 t17 j0] j0 joga Cobra-Grande
+[r9 t17 j0] j0 joga Assovio da Matinta
+[r9 t18 j1] j1 joga Medeia, a Envenenadora
+[r9 t18 j1] gatilho on_play de <Medeia, a Envenenadora 3/4 j1>
+[r9 t18 j1] j1 joga Strega de Benevento
+[r9 t18 j1] gatilho on_play de <Strega de Benevento 2/3 j1>
+[r9 t18 j1] <Hécate, Senhora das Encruzilhadas 6/7 j1> ataca <Cobra-Grande 3/6 j0>
+[r9 t18 j1] morre <Cobra-Grande 3/0 j0>
+[r9 t18 j1] <A Bruxa de Endor 2/4 j1> ataca Cornucopia(0)
+[r9 t18 j1] cornucópia j0 -2 = 10
+[r9 t18 j1] selo Assovio da Matinta dispara (enemy_end_turn)
+[r9 t18 j1] cornucópia j1 -1 = 13
+[r10 t19 j0] j0 joga Anhangá
+[r10 t20 j1] j1 joga Vassoura
+[r10 t20 j1] gatilho on_equip de <Reliquia Vassoura>
+[r10 t20 j1] <Hécate, Senhora das Encruzilhadas 7/5 j1> ataca <Anhangá 3/3 j0>
+[r10 t20 j1] morre <Anhangá 3/-4 j0>
+[r10 t20 j1] <Medeia, a Envenenadora 3/4 j1> ataca Cornucopia(0)
+[r10 t20 j1] cornucópia j0 -3 = 7
+[r10 t20 j1] <A Bruxa de Endor 2/4 j1> ataca Cornucopia(0)
+[r10 t20 j1] cornucópia j0 -2 = 5
+[r10 t20 j1] <Strega de Benevento 2/3 j1> ataca Cornucopia(0)
+[r10 t20 j1] cornucópia j0 -2 = 3
+[r11 t22 j1] <A Bruxa de Endor 2/4 j1> ataca Cornucopia(0)
+[r11 t22 j1] cornucópia j0 -2 = 1
+[r11 t22 j1] <Hécate, Senhora das Encruzilhadas 7/2 j1> ataca Cornucopia(0)
+[r11 t22 j1] cornucópia j0 -7 = -6
+[r11 t22 j1] FIM: vence j1 (Cornucópia a zero)
+
+== indigena vs bruxaria — 2000 duelos ==
+  Vitórias A:  44.6%   Vitórias B:  55.4%   Empates:   0.0%
+  Duração média: 12.9 rodadas   Vantagem de quem começa:  47.4%
+
+  -- lado A: cartas de indigena --
+  carta                        tipo       C  jogadas  WR jogada  dano méd  na mão
+  Curupira                     entidade   2     2474      42.0%      1.84    6.4%
+  Saci-Pererê                  entidade   2     2403      39.5%      1.27    6.6%
+  Caipora                      entidade   3     2463      43.5%      3.81    6.1%
+  Iara                         entidade   3     1274      44.1%      2.73    4.7%
+  Anhangá                      entidade   4     1223      43.6%      5.34    4.8%
+  Boitatá                      entidade   4     2456      43.4%      3.78    4.7%
+  Mapinguari                   entidade   5     1178      44.8%      5.82    5.3%
+  Cobra-Grande                 entidade   6     1217      46.3%      9.63    4.6%
+  Jaci, a Lua                  entidade   6     1243      46.0%      5.51    4.0%
+  Tupã, o Trovão               entidade   7     1244      57.0%     13.12    4.6%
+  Ibirapema                    reliquia   1     1141      43.9%      0.00    7.1%
+  Maracá do Pajé               reliquia   2     1076      46.4%      0.92    8.1%
+  Muiraquitã                   reliquia   2     1051      46.7%      0.00    8.9%
+  Cocar do Morubixaba          reliquia   3     1107      45.7%      0.00    9.0%
+  Cauim                        rito       1     2300      44.3%      0.00    2.4%
+  Dança do Aruanã              rito       2      942      38.2%      2.16   11.3%
+  Fogo de Monan                rito       2     1217      43.2%      4.78    2.4%
+  Visão do Caapi               rito       2     1169      47.8%      0.00    3.0%
+  Dádiva de Mani               rito       3     1088      47.8%      0.00    3.8%
+  Kuarup                       rito       4     1001      48.6%      0.00    3.0%
+  Terra sem Males              rito       4      847      47.3%      0.00   12.1%
+  Arapuca                      selo       1     2188      44.8%      0.83    4.8%
+  Assovio da Matinta           selo       1     1125      44.0%      0.94    5.5%
+  Mundéu                       selo       2     2204      44.2%      3.28    5.4%
+  Sopro do Pajé                selo       2     1120      46.0%      0.00    4.5%
+
+  -- lado B: cartas de bruxaria --
+  carta                        tipo       C  jogadas  WR jogada  dano méd  na mão
+  Sapo Familiar                entidade   1     1170      52.3%      0.54    8.8%
+  Corvo Agourento              entidade   2     1177      54.6%      2.05    9.4%
+  Gato Preto                   entidade   2     4147      52.4%      1.36    7.2%
+  Benandante                   entidade   3     2438      55.5%      3.82    7.6%
+  Strega de Benevento          entidade   3     1287      54.1%      5.10    7.5%
+  A Bruxa de Endor             entidade   4     1046      58.1%      4.48    6.2%
+  Circe                        entidade   4     1126      58.4%      5.04    6.8%
+  Medeia, a Envenenadora       entidade   4     1126      59.1%      6.41    8.2%
+  Baba Yaga                    entidade   5     1029      69.0%      7.39   12.8%
+  Cerridwen, Senhora do Caldei entidade   5     1082      64.2%      7.44    4.9%
+  A Morrigan                   entidade   6     1442      65.3%     13.20    4.3%
+  Hécate, Senhora das Encruzil entidade   7     1244      72.2%     13.42   15.9%
+  Vassoura                     reliquia   1     2229      56.8%      0.00    7.3%
+  Livro das Sombras            reliquia   2     1041      60.4%      0.00    9.0%
+  Caldeirão de Renascimento    reliquia   3     1049      67.9%      0.00    9.7%
+  Pacto na Encruzilhada        rito       1      964      53.4%      0.00   16.3%
+  Poção de Beladona            rito       1     2233      56.1%      0.00    7.5%
+  Seiðr                        rito       1     1126      59.0%      0.00    4.3%
+  Pó de Ossos                  rito       2     1149      58.2%      3.64    5.1%
+  Malefício                    rito       3     2238      54.4%      0.00    6.6%
+  Sabá de Walpurgis            rito       4     1013      54.9%      0.62    5.7%
+  Mau-Olhado                   selo       1     2217      55.3%      0.00    7.5%
+  Círculo de Sal               selo       2     2160      60.1%      0.00    6.2%
+  Garrafa de Bruxa             selo       2     1089      57.8%      0.00    6.1%
+  Boneco de Cera               selo       3     1090      51.8%      1.77    7.7%
+
+(2.4s, bot=heur, seed=11)

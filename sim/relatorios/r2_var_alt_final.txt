@@ -1,0 +1,2 @@
+CA3 [seed 11]                      média  44.3 | indi 51.3  cris 52.0  taoi 51.2  hind 14.7  brux 52.1 | dano-atq  9.2 mortes efeito 1.1 combate 6.6 rod 12.9 | esp rod 13.2 1º 56.3%
+CA3 [seed 12]                      média  45.6 | indi 55.3  cris 50.3  taoi 49.3  hind 17.1  brux 56.2 | dano-atq  9.4 mortes efeito 1.1 combate 6.9 rod 13.0 | esp rod 13.5 1º 59.2%

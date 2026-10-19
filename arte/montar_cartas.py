@@ -59,6 +59,19 @@ def backup(pasta_versao):
               open(os.path.join(b, "config.json"), "w"), indent=1)
 
 
+def modo_en():
+    """Troca os rótulos fixos do frame para inglês (tipo, lendária, palavras-chave, tradições)."""
+    F2.TIPO_NOME = {"entidade": "Entity", "selo": "Seal", "rito": "Rite", "reliquia": "Relic"}
+    F2.TXT_LENDARIA = "LEGENDARY"
+    F2.KEYS = ["Legendary", "Last Breath", "Awaken", "Rebirth", "Guard", "Stealth", "Rush", "Sacrifice"]
+    nomes = {"indigena": "Indigenous", "cristianismo": "Christianity", "taoismo": "Taoism", "hinduismo": "Hinduism",
+             "bruxaria": "Witchcraft", "alta_magia": "High magic"}
+    for k, v in nomes.items():
+        F2.CULT[k]["nome"] = v
+    _orig = F2.nome_efeito
+    F2.nome_efeito = lambda c: "Trap" if c["tipo"] == "selo" and not any(k in c.get("texto", "") for k in F2.KEYS[1:]) else _orig(c)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--versao", default="v1"); ap.add_argument("--deck"); ap.add_argument("--id")
@@ -68,15 +81,7 @@ def main():
     en = {}
     if a.idioma == "en":
         en = json.load(open(os.path.join(RAIZ, "godot", "dados", "cartas_en.json"), encoding="utf-8"))["cartas"]
-        F2.TIPO_NOME = {"entidade": "Entity", "selo": "Seal", "rito": "Rite", "reliquia": "Relic"}
-        F2.TXT_LENDARIA = "LEGENDARY"
-        F2.KEYS = ["Legendary", "Last Breath", "Awaken", "Rebirth", "Guard", "Stealth", "Rush", "Sacrifice"]
-        nomes = {"indigena": "Indigenous", "cristianismo": "Christianity", "taoismo": "Taoism", "hinduismo": "Hinduism",
-                 "bruxaria": "Witchcraft", "alta_magia": "High magic"}
-        for k, v in nomes.items():
-            F2.CULT[k]["nome"] = v
-        _orig = F2.nome_efeito
-        F2.nome_efeito = lambda c: "Trap" if c["tipo"] == "selo" and not any(k in c.get("texto", "") for k in F2.KEYS[1:]) else _orig(c)
+        modo_en()
     pasta = os.path.join(RAIZ, "cartas_finais", a.versao)
     os.makedirs(pasta, exist_ok=True)
     backup(pasta)

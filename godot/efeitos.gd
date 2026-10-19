@@ -19,10 +19,18 @@ var nuvens: Array[Dictionary] = []     # baforadas de poeira no chão (camada ba
 var fala := {}                         # balão do oponente: {quem, texto, cor, retrato, t}
 var dica := ""                         # instrução fixa enquanto o jogador escolhe um alvo ("TOQUE UM ALVO")
 var dica_y := 291.0
+# escolhas grandes (alvo por toque / galeria do cemitério)
+var alvos: Array = []                  # Cartas candidatas: brilho dourado pulsando + seta quicando em cima
+var faixa_alvo := {}                   # {titulo, sub, y}: faixa que atravessa a mesa durante a escolha de alvo
+var galeria := {}                      # {titulo, sub}: tela escura com as cartas grandes (escolha["tex"])
+var t_escolha := 0.0                   # s desde que a escolha abriu (animações de entrada)
+var escolhida := -1
+var vitrine := {}                      # carta montada mostrada grande: {tex, de, t, dur, cor}                    # item da galeria tocado (pulso de confirmação)
 
 
 func _ready() -> void:
 	z_index = 900
+	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR          # cartas montadas reduzidas (zoom, galeria) sem serrilhado
 	var mat := CanvasItemMaterial.new()
 	mat.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
 	material = mat
@@ -118,6 +126,9 @@ func _process(delta: float) -> void:
 		a["vida"] -= delta
 	aneis = aneis.filter(func(a: Dictionary) -> bool: return a["vida"] > 0.0)
 	clarao.a = maxf(0.0, clarao.a - delta * 1.4)
+	t_escolha += delta
+	if not vitrine.is_empty():
+		vitrine["t"] += delta
 	if faixa != "":
 		faixa_t += delta
 	queue_redraw()
@@ -127,8 +138,9 @@ func _draw() -> void:
 	# espaços válidos (pulsando) enquanto arrasta
 	var pulso := 0.45 + 0.35 * sin(tempo * 9.0)
 	for r in destaques:
-		draw_rect(r, Color(1.0, 0.85, 0.4, pulso), false, 1.0)
-		draw_rect(r.grow(1), Color(1.0, 0.85, 0.4, pulso * 0.4), false, 1.0)
+		draw_rect(r, Color(1.0, 0.85, 0.4, pulso), false, 2.0)
+		draw_rect(r.grow(2), Color(1.0, 0.85, 0.4, pulso * 0.45), false, 2.0)
+		draw_rect(r.grow(4), Color(1.0, 0.85, 0.4, pulso * 0.18), false, 2.0)
 	for nv in nuvens:
 		var u: float = nv["t"] / nv["vida"]
 		var r: float = lerpf(nv["r"], nv["rmax"], 1.0 - pow(1.0 - u, 2.0))
@@ -143,6 +155,12 @@ func _draw() -> void:
 		var al := clampf(p["vida"] / 0.4, 0, 1)
 		var esc: int = p["esc"]
 		PixelFonte.centrado(self, (p["p"] as Vector2).round(), Sessao.t(p["texto"]), Color(p["cor"], al), esc, Color(0.08, 0.04, 0.06, al))
+	if not alvos.is_empty():
+		_desenhar_alvos()
+	if not faixa_alvo.is_empty():
+		_desenhar_faixa_alvo()
+	if not galeria.is_empty():
+		_desenhar_galeria()
 	if dica != "":
 		var w := PixelFonte.largura(Sessao.t(dica), 1) + 10
 		var rd := Rect2(180 - w / 2.0, dica_y - 6, w, 12)
@@ -150,14 +168,18 @@ func _draw() -> void:
 		draw_rect(rd, Color("#24161f"))
 		draw_rect(Rect2(rd.position, Vector2(rd.size.x, 1)), Color(1.0, 0.85, 0.4, pulso))
 		PixelFonte.centrado(self, rd.get_center() + Vector2(0, 1), Sessao.t(dica), Color("#ffe39a"))
-	# botões de escolha da face
+	# botões de escolha (face, PULAR); itens com "tex" são cartas da galeria
 	for b in escolha:
+		if b.has("tex"):
+			continue
 		var r: Rect2 = b["rect"]
 		draw_rect(r.grow(1), Color("#140c10"))
 		draw_rect(r, Color("#3d1f33"))
 		draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), Color("#e2b85a"))
 		draw_rect(Rect2(r.position + Vector2(0, r.size.y - 1), Vector2(r.size.x, 1)), Color("#9c7430"))
 		PixelFonte.centrado(self, r.get_center() + Vector2(0, 1), Sessao.t(str(b["texto"])), Color("#ffe39a"), 1)
+	if not vitrine.is_empty():
+		_desenhar_vitrine()
 	if zoom != null and is_instance_valid(zoom):
 		_desenhar_zoom()
 	if not fala.is_empty():
@@ -273,3 +295,120 @@ func _desenhar_fala_oponente() -> void:
 	for ln in Fonte57.quebrar(fala["texto"], 280):
 		Fonte57.desenhar(self, Vector2(r.position.x + 46, y), ln, Color("#f2e6c8"), Color("#140c10"))
 		y += 10
+
+
+static func _ease_back(u: float) -> float:
+	var c := 1.70158
+	return 1.0 + (c + 1.0) * pow(u - 1.0, 3.0) + c * pow(u - 1.0, 2.0)
+
+
+## Seta dourada apontando para baixo (11×7 px) com contorno escuro.
+func _seta(p: Vector2, cor: Color) -> void:
+	draw_rect(Rect2(p + Vector2(-4, -17), Vector2(8, 10)), Color("#140c10"))
+	draw_colored_polygon(PackedVector2Array([p + Vector2(-11, -9), p + Vector2(11, -9), p + Vector2(0, 4)]), Color("#140c10"))
+	draw_rect(Rect2(p + Vector2(-2, -16), Vector2(4, 9)), cor)
+	draw_colored_polygon(PackedVector2Array([p + Vector2(-8, -8), p + Vector2(8, -8), p + Vector2(0, 1)]), cor)
+	draw_rect(Rect2(p + Vector2(-2, -16), Vector2(1, 8)), Color(1, 1, 1, cor.a * 0.8))
+
+
+## Candidatas a alvo: 4 faixas de brilho dourado pulsando (2 px cada), cantos de mira que se fecham e uma seta quicando.
+func _desenhar_alvos() -> void:
+	var u := clampf(t_escolha / 0.25, 0, 1)
+	var pulso := 0.65 + 0.35 * sin(tempo * 7.0)
+	for k in alvos.size():
+		var c = alvos[k]
+		if not is_instance_valid(c):
+			continue
+		var cc: Carta = c
+		var sz := Vector2(Carta.LARG, Carta.ALT + Carta.ESPESSURA) * cc.scale.x
+		var r := Rect2(cc.global_position - sz / 2, sz)
+		draw_rect(r.grow(1), Color(1.0, 0.95, 0.7, pulso * u), false, 2.0)
+		for i in 5:
+			draw_rect(r.grow(3 + i * 3), Color(1.0, 0.78, 0.3, (0.7 - i * 0.13) * pulso * u), false, 3.0)
+		# mira: cantos em L que entram de 10 px para 3 px
+		var g := lerpf(10.0, 3.0, _ease_back(u)) + 1.5 * sin(tempo * 7.0)
+		var rr := r.grow(g)
+		var cor := Color(1.0, 0.95, 0.75, u)
+		for cx in [rr.position.x, rr.end.x]:
+			for cy in [rr.position.y, rr.end.y]:
+				var sx := 1.0 if cx == rr.position.x else -1.0
+				var sy := 1.0 if cy == rr.position.y else -1.0
+				draw_rect(Rect2(Vector2(cx, cy) - Vector2(1, 1), Vector2(sx * 7, 2)).abs(), cor)
+				draw_rect(Rect2(Vector2(cx, cy) - Vector2(1, 1), Vector2(2, sy * 7)).abs(), cor)
+		var bob := absf(sin(tempo * 5.0 + k * 0.7)) * -4.0
+		_seta(Vector2(r.get_center().x, rr.position.y - 6 + bob - (1.0 - u) * 12), Color(1.0, 0.85, 0.4, u))
+
+
+## Faixa que atravessa a mesa: título 2× + o efeito; entra abrindo do centro (0,2 s).
+func _desenhar_faixa_alvo() -> void:
+	var u := clampf(t_escolha / 0.2, 0, 1)
+	var y: float = faixa_alvo["y"]
+	var w := 380.0 * (1.0 - pow(1.0 - u, 3.0))
+	var r := Rect2(180 - w / 2, y - 15, w, 30)
+	draw_rect(r, Color(0.09, 0.05, 0.08, 0.94))
+	var brilho := 0.75 + 0.25 * sin(tempo * 4.0)
+	draw_rect(Rect2(r.position, Vector2(r.size.x, 2)), Color(0.89, 0.72, 0.35, brilho))
+	draw_rect(Rect2(r.position + Vector2(0, r.size.y - 2), Vector2(r.size.x, 2)), Color(0.61, 0.45, 0.19, brilho))
+	if u < 1.0:
+		return
+	PixelFonte.centrado(self, Vector2(180, y - 5), Sessao.t(faixa_alvo["titulo"]), Color("#ffe39a"), 2, Color("#140c10"))
+	PixelFonte.centrado(self, Vector2(180, y + 8), faixa_alvo["sub"], Color("#cfe0ff"), 1)
+
+
+## Galeria: escurece a tela e mostra as cartas candidatas grandes (96×134), entrando de baixo uma a uma.
+func _desenhar_galeria() -> void:
+	var u := clampf(t_escolha / 0.2, 0, 1)
+	draw_rect(Rect2(-400, -400, 1200, 1500), Color(0.03, 0.02, 0.05, 0.78 * u))
+	var topo := 9999.0
+	for b in escolha:
+		if b.has("tex"):
+			topo = minf(topo, (b["rect"] as Rect2).position.y)
+	var ty := topo - 28 - (1.0 - u) * 10
+	PixelFonte.centrado(self, Vector2(180, ty), Sessao.t(galeria["titulo"]), Color(1.0, 0.89, 0.6, u), 2, Color("#140c10"))
+	PixelFonte.centrado(self, Vector2(180, ty + 13), Sessao.t(galeria["sub"]), Color(0.81, 0.88, 1.0, u), 1)
+	var pulso := 0.6 + 0.4 * sin(tempo * 5.0)
+	for b in escolha:
+		if not b.has("tex"):
+			continue
+		var i: int = b["valor"]
+		var e := clampf((t_escolha - 0.08 - i * 0.07) / 0.32, 0, 1)
+		if e <= 0.0:
+			continue
+		var r: Rect2 = b["rect"]
+		var off := Vector2(0, (1.0 - _ease_back(e)) * 70 + sin(tempo * 2.2 + i) * 1.5)
+		var esc := 1.0
+		if escolhida == i:
+			esc = 1.0 + 0.12 * sin(clampf(t_escolha * 3.0, 0, 1) * PI)
+		elif escolhida >= 0:
+			off.y += 6
+		var rr := Rect2(r.get_center() + off - r.size * esc / 2, r.size * esc)
+		var al := e if escolhida < 0 or escolhida == i else 0.35
+		draw_rect(rr.grow(4), Color(1.0, 0.82, 0.35, 0.25 * pulso * al), false, 4.0)
+		draw_rect(rr.grow(1), Color(1.0, 0.85, 0.4, (0.5 + 0.5 * pulso) * al), false, 2.0)
+		draw_texture_rect(b["tex"], rr, false, Color(1, 1, 1, al))
+		if b.has("rotulo"):
+			PixelFonte.centrado(self, Vector2(rr.get_center().x, rr.end.y + 7), b["rotulo"], Color(1.0, 0.89, 0.6, al), 1, Color("#140c10"))
+
+
+## Vitrine: a carta montada sai da posição da carta na mesa (escala 0,25), cresce até 160×224 no centro com
+## ease-out-back (0,24 s), fica com raios girando atrás e volta encolhendo (0,18 s) no fim de `dur`.
+func _desenhar_vitrine() -> void:
+	var v := vitrine
+	var t: float = v["t"]
+	var dur: float = v["dur"]
+	var ent := clampf(t / 0.24, 0, 1)
+	var sai := clampf((t - (dur - 0.18)) / 0.18, 0, 1)
+	var k := _ease_back(ent) * (1.0 - sai * sai)
+	var centro: Vector2 = (v["de"] as Vector2).lerp(Vector2(180, 290), minf(1.0, ent * 1.2)).lerp(v["de"], sai)
+	var tam := Vector2(160, 224) * lerpf(0.25, 1.0, k)
+	var cor: Color = v["cor"]
+	var fundo := (1.0 - sai) * minf(1.0, t / 0.15)
+	draw_rect(Rect2(-400, -400, 1200, 1500), Color(0.03, 0.02, 0.05, 0.45 * fundo))
+	for i in 12:
+		var a := t * 0.8 + TAU * i / 12.0
+		draw_colored_polygon(PackedVector2Array([centro, centro + Vector2.from_angle(a - 0.09) * 230, centro + Vector2.from_angle(a + 0.09) * 230]),
+			Color(cor, 0.13 * fundo))
+	var r := Rect2(centro - tam / 2, tam)
+	draw_rect(r.grow(3), Color(cor, 0.35 * fundo), false, 3.0)
+	draw_rect(r.grow(1), Color("#140c10"))
+	draw_texture_rect(v["tex"], r, false)

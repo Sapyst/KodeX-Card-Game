@@ -94,6 +94,10 @@ func _ready() -> void:
 	_criar_luzes()
 	camada_cartas = Node2D.new()
 	add_child(camada_cartas)
+	veu_alvo = Node2D.new()                   # escurece a mesa durante a escolha de alvo; as candidatas sobem acima dele
+	veu_alvo.z_index = 740
+	veu_alvo.draw.connect(func() -> void: veu_alvo.draw_rect(Rect2(-400, -400, 1200, 1500), Color(0.03, 0.02, 0.05, 0.62 * veu_a)))
+	add_child(veu_alvo)
 	if modo_partida:
 		db = Sessao.db                        # já no idioma escolhido
 	motor = MotorEfeitos.new(self)
@@ -122,6 +126,22 @@ func _ready() -> void:
 	await _ir_para_deck()
 	await _comprar_mao()
 	print("PRONTO: mão inicial comprada")
+	if OS.get_environment("GD_TESTE_TOKEN") != "":             # teste visual: invoca o Cão Celestial e abre o zoom
+		await motor._invocar_tokens(0, {"nome": "Xiaotian Quan, Cão Celestial", "atk": 2, "vida": 1, "n": 1}, null)
+		await get_tree().create_timer(1.0).timeout
+		efeitos.zoom = campo_ent[0][_primeiro_ocupado(0)]
+		await get_tree().create_timer(1.0).timeout
+		get_tree().quit()
+		return
+	if OS.get_environment("GD_TESTE_GALERIA") != "":           # teste visual da galeria do cemitério
+		var fal: Array = []
+		for cid in ["tao_lu_dongbin", "tao_lan_caihe", "tao_erlang_shen", "tao_nezha", "tao_zhang_guolao"]:
+			fal.append({"dados": db["cartas"][cid], "no": null})
+		get_tree().create_timer(1.6).timeout.connect(func() -> void: escolhido.emit(1))
+		print("GALERIA ", await pedir_cemiterio(fal))
+		await get_tree().create_timer(1.0).timeout
+		get_tree().quit()
+		return
 	if modo_partida and OS.get_environment("GD_ROTEIRO") != "":
 		await _roteiro_efeitos()
 		await get_tree().create_timer(1.0).timeout
@@ -215,6 +235,25 @@ func _process(delta: float) -> void:
 	for ch in camada_cartas.get_children():
 		if ch is Carta:
 			(ch as Carta).aura_arcoiris = false
+			(ch as Carta).destaque = 0
+	# destaques do turno do jogador: o que dá para jogar (mão) e quem pode atacar (campo); recalcula a cada 0,25 s
+	var minha_vez := modo_partida and ativo == 0 and not ocupado and not acabou and segurando == null and alvos_pedidos.is_empty()
+	if minha_vez:
+		_t_destaque -= delta
+		if _t_destaque <= 0.0:
+			_t_destaque = 0.25
+			_jogaveis.clear()
+			for c in mao_jog:
+				if _motivo_jogar(c, 0) == "":
+					_jogaveis.append(c)
+		for c in _jogaveis:
+			if is_instance_valid(c) and c in mao_jog:
+				(c as Carta).destaque = 1
+		for c in campo_ent[0]:
+			if c != null and (c as Carta).virada_para_cima and motor.pode_atacar(c):
+				(c as Carta).destaque = 2
+	else:
+		_t_destaque = 0.0
 	for dono in 2:
 		for i in 4:
 			var c = campo_ent[dono][i]
@@ -623,6 +662,9 @@ func _rect_espaco(p: Vector2) -> Rect2:
 
 # ================= entrada (toque / mouse) =================
 func _unhandled_input(ev: InputEvent) -> void:
+	# no celular cada toque chega também como mouse emulado (device -1): sem isto o toque contava duas vezes
+	if (ev is InputEventMouseButton or ev is InputEventMouseMotion) and ev.device == InputEvent.DEVICE_ID_EMULATION:
+		return
 	var pos_ev: Vector2 = ev.position if "position" in ev else Vector2.ZERO
 	var p: Vector2 = get_canvas_transform().affine_inverse() * pos_ev
 	if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT or ev is InputEventScreenTouch:
@@ -1261,6 +1303,10 @@ var motor: MotorEfeitos
 var cemit := [[], []]                 # cemitério lógico: [{dados, no}] (no = nó ainda na pilha, ou null)
 var vencedor := -1                    # -1 em jogo · 0 jogador · 1 oponente · 2 empate
 var alvos_pedidos: Array = []         # o jogador está escolhendo um alvo por toque
+var veu_alvo: Node2D
+var _t_destaque := 0.0
+var _jogaveis: Array = []
+var veu_a := 0.0
 signal alvo_tocado(alvo)
 
 
@@ -1408,6 +1454,10 @@ func _encerrar(v: int, motivo := "") -> void:
 	efeitos.escolha.clear()
 	efeitos.dica = ""
 	efeitos.destaques.clear()
+	efeitos.alvos.clear()
+	efeitos.faixa_alvo = {}
+	efeitos.galeria = {}
+	_veu(0.0)
 	if motivo != "":
 		efeitos.numero(Vector2(180, LINHA_Y - 30), motivo, Color("#e0a8ff"), 3)
 		await get_tree().create_timer(0.6).timeout
@@ -1578,7 +1628,7 @@ func _revelar_selo(s: Carta) -> void:
 		await s.virar(0.24)
 	efeitos.anel(s.position, Color("#c8b0f0"), 44)
 	efeitos.faiscas(s.position, 20, Color("#c8b0f0"))
-	efeitos.numero(Vector2(180, LINHA_Y - 34 if s.dono == 1 else LINHA_Y + 34), "SELO: " + PixelFonte.normalizar(s.nome), Color("#e0c8ff"), 1)
+	await _vitrine(s, 1.2, Color("#c8b0f0"))
 	for k in 2:
 		var tb := create_tween()
 		tb.tween_property(s, "brilho", 0.8, 0.07)
@@ -1595,43 +1645,127 @@ func _selo_ao_cemiterio(s: Carta) -> void:
 	await get_tree().create_timer(0.2).timeout
 
 
+## Mostra a carta montada grande no centro por `dur` s (Rito lançado, Selo revelado, Entidade do oponente).
+func _primeiro_ocupado(d: int) -> int:
+	for i in 4:
+		if campo_ent[d][i] != null:
+			return i
+	return -1
+
+
+func _vitrine(c: Carta, dur := 1.15, cor := Color("#ffe39a")) -> void:
+	var tex := Carta.textura("carta_en" if Sessao.idioma == "en" else "carta", c.id, "webp")
+	if tex == null or acabou:
+		return
+	efeitos.vitrine = {"tex": tex, "de": c.global_position, "t": 0.0, "dur": dur, "cor": cor}
+	Sessao.vibrar(10, 0.3)
+	await get_tree().create_timer(dur).timeout
+	efeitos.vitrine = {}
+
+
 # ---------- escolha de alvo pelo jogador (toque) ----------
-## Destaca os candidatos e espera um toque num deles; o botão devolve null (PULAR / CANCELAR).
-func pedir_alvo(cands: Array, dica: String, botao := "PULAR"):
+func _veu(alvo: float, dur := 0.2) -> void:
+	create_tween().tween_method(func(v: float) -> void:
+		veu_a = v
+		veu_alvo.queue_redraw(), veu_a, alvo, dur)
+
+
+## Escurece a mesa, ergue as candidatas acima do véu com brilho dourado, mira e seta; faixa no meio com o pedido.
+## A carta que pediu o alvo (Rito no centro) vai para o canto esquerdo da faixa. O botão devolve null (PULAR/CANCELAR).
+func pedir_alvo(cands: Array, dica: String, botao := "PULAR", fonte = null):
 	alvos_pedidos = cands.duplicate()
-	efeitos.destaques.clear()
+	var z_antes := {}
 	for c in cands:
 		var cc: Carta = c
-		var sz := Vector2(Carta.LARG, Carta.ALT) * cc.scale.x
-		efeitos.destaques.append(Rect2(cc.position - sz / 2, sz).grow(3))
-	efeitos.dica = dica
-	efeitos.dica_y = LINHA_Y - 6
-	efeitos.escolha = [{"rect": Rect2(155, LINHA_Y + 4, 50, 12), "texto": botao, "valor": "pular"}]
+		z_antes[c] = [cc.z_index, cc.scale]
+		cc.z_index = 745
+		create_tween().tween_property(cc, "scale", cc.scale * 1.15, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	var fonte_volta = null
+	if fonte is Carta and is_instance_valid(fonte) and not (fonte as Carta).em_campo and not (fonte in cands):
+		var fc: Carta = fonte
+		fonte_volta = [fc.position, fc.scale]
+		var tf := create_tween().set_parallel(true)
+		tf.tween_property(fc, "position", Vector2(30, LINHA_Y), 0.22).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tf.tween_property(fc, "scale", Vector2(0.9, 0.9), 0.22)
+	var titulo := "ESCOLHA O ALVO"
+	var sub := Sessao.t(dica)
+	if dica.begins_with("ALVO: "):
+		sub = Sessao.t("EFEITO: ") + Sessao.t(dica.substr(6))
+		if fonte is Carta and is_instance_valid(fonte):
+			sub = PixelFonte.normalizar((fonte as Carta).nome).to_upper() + ":  " + Sessao.t(dica.substr(6))
+	elif dica.begins_with("SACRIFIQUE"):
+		titulo = dica
+		sub = Sessao.t("TOQUE UMA ENTIDADE SUA")
+	efeitos.t_escolha = 0.0
+	efeitos.alvos = cands.duplicate()
+	efeitos.faixa_alvo = {"titulo": titulo, "sub": sub, "y": LINHA_Y}
+	efeitos.escolha = [{"rect": Rect2(152, LINHA_Y + 19, 56, 14), "texto": botao, "valor": "pular"}]
+	_veu(1.0)
+	Sessao.vibrar(12, 0.4)
 	var r = await alvo_tocado
+	if r != null:
+		var rc: Carta = r
+		efeitos.anel(rc.global_position, Color("#ffe39a"), 40)
+		efeitos.faiscas(rc.global_position, 18)
+		var tb := create_tween()
+		tb.tween_property(rc, "brilho", 0.7, 0.07)
+		tb.tween_property(rc, "brilho", 0.0, 0.15)
+		Sessao.vibrar(18, 0.6)
 	alvos_pedidos.clear()
-	efeitos.destaques.clear()
+	efeitos.alvos.clear()
+	efeitos.faixa_alvo = {}
 	efeitos.escolha.clear()
-	efeitos.dica = ""
+	_veu(0.0, 0.18)
+	for c in z_antes:
+		if is_instance_valid(c):
+			(c as Carta).z_index = z_antes[c][0]
+			create_tween().tween_property(c, "scale", z_antes[c][1], 0.15)
+	if fonte_volta != null and is_instance_valid(fonte):
+		var tf := create_tween().set_parallel(true)
+		tf.tween_property(fonte, "position", fonte_volta[0], 0.18)
+		tf.tween_property(fonte, "scale", fonte_volta[1], 0.18)
+		await tf.finished
 	return r
 
 
-## Escolha simples no cemitério: até 4 botões com as Entidades válidas (mais caras primeiro).
-func pedir_cemiterio(cands: Array):
+## Escolha no cemitério: tela escura com as cartas montadas grandes (até 6, mais caras primeiro), entrando de baixo.
+func pedir_cemiterio(cands: Array, titulo := "REVIVER QUAL?"):
 	var lista := cands.duplicate()
 	lista.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a["dados"]["custo"]) > int(b["dados"]["custo"]))
-	lista = lista.slice(0, 4)
+	lista = lista.slice(0, 6)
+	var n := lista.size()
+	var cols := mini(n, 3)
+	var linhas := int(ceil(n / 3.0))
+	var W := 96.0
+	var H := 134.0
+	var y0 := 330.0 - (linhas * H + (linhas - 1) * 16) / 2.0
 	efeitos.escolha = []
-	for k in lista.size():
-		var n := PixelFonte.normalizar(str(lista[k]["dados"]["nome"]))
-		if n.length() > 22:
-			n = n.substr(0, 22)
-		efeitos.escolha.append({"rect": Rect2(90, 236 + k * 16, 180, 12), "texto": "%s  %d" % [n, int(lista[k]["dados"]["custo"])], "valor": k})
-	efeitos.escolha.append({"rect": Rect2(155, 236 + lista.size() * 16, 50, 12), "texto": "PULAR", "valor": -1})
-	efeitos.dica = "REVIVER QUAL?"
-	efeitos.dica_y = 222
+	var pasta := "carta_en" if Sessao.idioma == "en" else "carta"
+	for k in n:
+		var lin := k / 3
+		var na_linha := mini(3, n - lin * 3)
+		var x0 := 180.0 - (na_linha * W + (na_linha - 1) * 8) / 2.0
+		var cid := str(lista[k]["dados"].get("id", ""))
+		var tex := Carta.textura(pasta, cid, "webp")
+		var rect := Rect2(x0 + (k % 3) * (W + 8), y0 + lin * (H + 16), W, H)
+		if tex == null:
+			efeitos.escolha.append({"rect": rect, "texto": str(lista[k]["dados"]["nome"]), "valor": k})
+		else:
+			efeitos.escolha.append({"rect": rect, "tex": tex, "valor": k})
+	efeitos.escolha.append({"rect": Rect2(145, y0 + linhas * (H + 16) + 2, 70, 16), "texto": "PULAR", "valor": -1})
+	efeitos.galeria = {"titulo": titulo, "sub": "TOQUE NUMA CARTA"}
+	efeitos.t_escolha = 0.0
+	efeitos.escolhida = -1
+	Sessao.vibrar(12, 0.4)
 	var v = await escolhido
+	if v != null and int(v) >= 0:
+		efeitos.escolhida = int(v)
+		efeitos.t_escolha = 0.0
+		Sessao.vibrar(18, 0.6)
+		await get_tree().create_timer(0.35).timeout
 	efeitos.escolha.clear()
-	efeitos.dica = ""
+	efeitos.galeria = {}
+	efeitos.escolhida = -1
 	if v == null or int(v) < 0:
 		return null
 	return lista[int(v)]
@@ -1831,6 +1965,8 @@ func _jogar_entidade(c: Carta, d: int, i: int, sacrificios: Array = []) -> void:
 		c.queue_free()
 		return
 	await _por_em_campo(c, d, i)
+	if d == 1:
+		await _vitrine(c, 1.0, Color("#ff9a8a"))
 	if c.tem("impeto"):
 		efeitos.numero(c.position + Vector2(0, -34), "IMPETO", Color("#ffe39a"), 1)
 	var ctx := {"triggering": c, "attacker": null}
@@ -1887,7 +2023,7 @@ func _jogar_rito(c: Carta, d: int, pre = null, tipo_pre := "") -> void:
 	await t.finished
 	if not c.virada_para_cima:
 		await c.virar(0.24)
-	efeitos.numero(p + Vector2(0, -64), c.nome, Color("#f2e6c8"), 1)
+	await _vitrine(c, 1.15)
 	for k in 3:
 		var tb := create_tween()
 		tb.tween_property(c, "brilho", 0.6, 0.08)

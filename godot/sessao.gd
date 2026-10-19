@@ -6,6 +6,7 @@ const NOME_DECK := {"indigena": "Indígena", "cristianismo": "Cristianismo", "ta
 	"hinduismo": "Hinduísmo", "bruxaria": "Bruxaria", "alta_magia": "Alta magia", "misto": "Misto"}
 
 var db: Dictionary = {}
+var tokens: Dictionary = {}          # nome PT do token (como nas ações summon_token) → {id, en, cultura}
 var lore: Dictionary = {}
 var rng := RandomNumberGenerator.new()
 
@@ -43,6 +44,8 @@ func _ready() -> void:
 
 ## Recarrega cartas e lore no idioma atual (nomes e textos das cartas vêm de cartas_en.json no inglês).
 func carregar_dados() -> void:
+	if FileAccess.file_exists("res://dados/tokens.json"):
+		tokens = JSON.parse_string(FileAccess.get_file_as_string("res://dados/tokens.json"))
 	db = JSON.parse_string(FileAccess.get_file_as_string("res://dados/cartas.json"))
 	var arq_lore := "res://dados/lore_en.json" if idioma == "en" else "res://dados/lore.json"
 	if FileAccess.file_exists(arq_lore):

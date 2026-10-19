@@ -305,7 +305,7 @@ func _escolher(dono: int, cands: Array, acao: Dictionary, ctx: Dictionary) -> Ar
 	var esc = null
 	if humano(dono) and ctx.get("interativo", false):      # o jogador toca o alvo (mesmo com 1 só: pode PULAR)
 		if cands[0] is Carta:
-			esc = await m.pedir_alvo(cands, _dica_alvo(acao))
+			esc = await m.pedir_alvo(cands, _dica_alvo(acao), "PULAR", ctx.get("fonte"))
 		else:
 			esc = await m.pedir_cemiterio(cands)
 		if esc == null:
@@ -773,10 +773,17 @@ func _buscar(d: int, a: Dictionary) -> void:
 
 func _invocar_tokens(d: int, a: Dictionary, fonte) -> void:
 	var nome := str(a.get("nome", "Token"))
-	var dados := {"id": "token_" + nome.to_lower().replace(" ", "_"), "nome": nome, "cultura": "token", "tipo": "entidade",
+	var info: Dictionary = Sessao.tokens.get(nome, {})        # arte, tradição e nome em inglês do token
+	var de_quem := str(fonte.nome) if (fonte is Object and is_instance_valid(fonte) and fonte is Carta) else ""
+	var en := Sessao.idioma == "en"
+	var texto := (("Token summoned by %s." if en else "Token invocado por %s.") % de_quem) if de_quem != "" else "Token."
+	if "guarda" in (a.get("keywords", []) as Array):
+		texto = ("Guard. " if en else "Guarda. ") + texto
+	var dados := {"id": str(info.get("id", "token_" + nome.to_lower().replace(" ", "_"))),
+		"nome": str(info.get("en", nome)) if en else nome, "cultura": str(info.get("cultura", "token")), "tipo": "entidade",
 		"custo": 0, "atk": int(a["atk"]), "vida": int(a["vida"]), "lendaria": false,
 		"keywords": (a.get("keywords", []) as Array).duplicate(), "sacrificio": 0, "efeitos": [], "usos": null,
-		"texto": "Token.", "token": true}
+		"texto": texto, "token": true}
 	var de := _pos_de(fonte)
 	for k in int(a.get("n", 1)):
 		var i: int = m._espaco_livre(m.campo_ent[d])

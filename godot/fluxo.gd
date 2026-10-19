@@ -237,6 +237,9 @@ func _avancar_fala() -> void:
 
 # ================= entrada =================
 func _unhandled_input(ev: InputEvent) -> void:
+	# no celular cada toque chega também como mouse emulado (device -1): sem isto o toque contava duas vezes
+	if (ev is InputEventMouseButton or ev is InputEventMouseMotion) and ev.device == InputEvent.DEVICE_ID_EMULATION:
+		return
 	var botao_ev: bool = (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT) or ev is InputEventScreenTouch
 	if botao_ev:
 		var p: Vector2 = get_canvas_transform().affine_inverse() * (ev.position as Vector2) - position
@@ -264,14 +267,19 @@ func apertar(p: Vector2) -> void:
 
 
 ## Dedo saiu: se ainda estava em cima do mesmo botão, dispara (com 70 ms para o “afundar” aparecer).
+var _soltando := {}                    # botão que acabou de ser solto (continua desenhado afundado por 70 ms)
+
+
 func soltar_toque(p: Vector2) -> void:
 	if apertado < 0 or apertado >= botoes.size():
 		apertado = -1; return
 	var b := botoes[apertado]
+	apertado = -1                                # já consumido: um segundo "soltar" não dispara de novo
 	if (b["rect"] as Rect2).grow(8).has_point(p):
 		vibrar(18, 0.6)
+		_soltando = b
 		await get_tree().create_timer(0.07).timeout
-		apertado = -1
+		_soltando = {}
 		(b["acao"] as Callable).call()
 	else:
 		apertado = -1
@@ -410,7 +418,7 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 		return
 	var r: Rect2 = b["rect"]
 	r.position.y += (1.0 - e) * 24.0
-	var pressao := 1.0 if i == apertado else 0.0
+	var pressao := 1.0 if (i == apertado or (not _soltando.is_empty() and botoes[i] == _soltando)) else 0.0
 	if b.has("deck"):
 		var d: String = b["deck"]
 		var cor: Color = Carta.COR_CULTURA.get(d, Color("#241a20"))

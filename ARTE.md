@@ -10,7 +10,7 @@ e podem ser refeitas, refinadas ou substituídas antes de uma versão final.
 
 | Pasta | Conteúdo |
 |---|---|
-| `arte/<deck>/<id>.png` | ilustração escolhida de cada carta (768×1024, 3:4) — 161 cartas |
+| `arte/<deck>/<id>.png` | ilustração escolhida de cada carta (768×1024, 3:4) — 161 cartas + 12 tokens em `arte/tokens/` |
 | `cartas_finais/v1/<deck>/<id>.png` | carta montada no frame (720×1008, proporção 63×88 mm) |
 | `cartas_finais/v1/_backup/` | gerador do frame e configuração exata usada na montagem da v1 |
 | `arte/personagens/<deck>.png` | os 6 personagens do torneio, recortados (fundo transparente) |
@@ -63,6 +63,11 @@ com uma lista de **atributos obrigatórios**. Regras aplicadas em todas as carta
 
 Cartas provisórias nesta Alpha (13 — ainda falta algum atributo; as outras 10 da 3ª rodada foram aprovadas):
 `bru_baba_yaga`, `ind_curupira`, `ind_mapinguari`, `ind_ibirapema`, `hin_shiva_nataraja`, `hin_vishvarupa`, `cri_anjo_da_guarda`, `tao_lan_caihe`, `tao_flechas_de_houyi`, `alt_homunculo`, `alt_dantalion`, `alt_paimon`, `bru_benandante`.
+
+### Tokens
+As 12 Entidades invocadas por efeito (Cão Celestial, Corvo, Lebre, Elemental…) usam o mesmo setup (Krea 2 + Chaotic Shapes),
+3 candidatas cada, prompts em `godot/dados/tokens.json`, script `arte/gerar_tokens.py`. Arte em `arte/tokens/`, cartas montadas
+no frame da tradição de origem em `cartas_finais/v1/tokens/` (`arte/montar_tokens.py`).
 
 ## 2. Frame das cartas
 

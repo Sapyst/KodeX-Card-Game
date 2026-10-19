@@ -58,6 +58,7 @@ var silenciada := false
 var congelada := false                  # não atacará no próximo turno do controlador
 var sem_ataque := false                 # congelada neste turno
 var ja_atacou := false                  # já atacou alguma vez (Furtivo some)
+var destaque := 0                       # 1 = dá para jogar (mão, dourado) · 2 = pronta para atacar (campo, laranja)
 var aura_arcoiris := false              # fortalecida em campo: brilho arco-íris no chão, por baixo da carta
 var _t_aura := 0.0
 var reliquia: Dictionary = {}           # {dados, nome, usos, portadora, dono}
@@ -88,6 +89,14 @@ func _draw() -> void:
 		_frente(x0, y0)
 	else:
 		_verso(x0, y0)
+	if destaque > 0:
+		var tt := Time.get_ticks_msec() / 1000.0
+		var pulso := 0.55 + 0.45 * sin(tt * TAU / 1.1)
+		var cor := Color(1.0, 0.85, 0.4) if destaque == 1 else Color(1.0, 0.5, 0.2)
+		var r := Rect2(x0, y0, LARG, ALT + ESPESSURA)
+		draw_rect(r.grow(1), Color(cor.lightened(0.3), 0.6 + 0.4 * pulso), false, 2.0)
+		draw_rect(r.grow(3), Color(cor, 0.55 * pulso), false, 2.0)
+		draw_rect(r.grow(5), Color(cor, 0.25 * pulso), false, 2.0)
 	var dormindo := cansada and not tem("impeto")
 	if virada_para_cima and (dormindo or atacou):
 		draw_rect(Rect2(x0, y0, LARG, ALT), Color(0.05, 0.03, 0.1, 0.35))

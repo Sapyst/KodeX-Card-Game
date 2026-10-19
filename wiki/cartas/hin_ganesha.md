@@ -16,7 +16,6 @@
 | **Lendária** | não |
 | **Cópias no deck** | 1 |
 | **Id** | `hin_ganesha` |
-| **Arte** | provisória nesta Alpha |
 
 ## Texto da carta
 

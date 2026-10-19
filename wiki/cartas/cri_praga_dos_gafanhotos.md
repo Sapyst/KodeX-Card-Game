@@ -15,7 +15,6 @@
 | **Lendária** | não |
 | **Cópias no deck** | 1 |
 | **Id** | `cri_praga_dos_gafanhotos` |
-| **Arte** | provisória nesta Alpha |
 
 ## Texto da carta
 

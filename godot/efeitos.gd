@@ -15,7 +15,10 @@ var destaques: Array[Rect2] = []       # espaços válidos piscando durante o ar
 var escolha: Array[Dictionary] = []    # botões CIMA/BAIXO: {rect, texto, valor}
 var zoom: Carta = null                 # carta segurada sem mover: painel com os dados completos
 var tempo := 0.0
+var nuvens: Array[Dictionary] = []     # baforadas de poeira no chão (camada baixa)
 var fala := {}                         # balão do oponente: {quem, texto, cor, retrato, t}
+var dica := ""                         # instrução fixa enquanto o jogador escolhe um alvo ("TOQUE UM ALVO")
+var dica_y := 291.0
 
 
 func _ready() -> void:
@@ -30,6 +33,20 @@ func poeira(p: Vector2, n: int = 12) -> void:
 		var a := randf_range(PI * 0.9, PI * 2.1)
 		particulas.append({"p": p + Vector2(randf_range(-20, 20), randf_range(-2, 2)), "v": Vector2.from_angle(a) * randf_range(20, 55),
 			"cor": Color("#c9b994") if i % 2 else Color("#8c7a6a"), "vida": randf_range(0.25, 0.45), "max": 0.45, "g": 40.0, "tam": 1})
+
+
+## Onda de poeira no chão ao redor de onde a carta caiu: ~30 baforadas saem em elipse (perspectiva da mesa,
+## altura 0,5× a largura), crescem de 2 a 7 px e somem em 0,45–0,8 s; um segundo anel mais lento e mais fraco.
+func onda_poeira(c: Vector2, raio: float, forca: float = 1.0) -> void:
+	var n := int(30 * forca)
+	for anel in 2:
+		for i in n:
+			var a := TAU * i / n + randf_range(-0.08, 0.08)
+			var dirv := Vector2(cos(a), sin(a) * 0.5)
+			var vel := (90.0 if anel == 0 else 45.0) * randf_range(0.8, 1.2) * forca
+			nuvens.append({"p": c + dirv * raio * 0.55, "v": dirv * vel, "r": randf_range(2.0, 3.5),
+				"rmax": randf_range(5.0, 8.0) * (1.0 if anel == 0 else 0.8), "vida": randf_range(0.45, 0.8), "t": 0.0,
+				"cor": [Color("#c9b994"), Color("#a8987a"), Color("#8c7a6a")][randi() % 3], "a0": 0.55 if anel == 0 else 0.35})
 
 
 func faiscas(p: Vector2, n: int = 16, cor := Color("#ffe39a")) -> void:
@@ -87,6 +104,11 @@ func _process(delta: float) -> void:
 		p["p"] += p["v"] * delta
 		p["vida"] -= delta
 	particulas = particulas.filter(func(p: Dictionary) -> bool: return p["vida"] > 0.0)
+	for nv in nuvens:
+		nv["t"] += delta
+		nv["p"] += (nv["v"] as Vector2) * delta
+		nv["v"] *= 0.90
+	nuvens = nuvens.filter(func(nv: Dictionary) -> bool: return nv["t"] < nv["vida"])
 	for p in popups:
 		p["p"] += Vector2(0, -28) * delta
 		p["vida"] -= delta
@@ -107,6 +129,10 @@ func _draw() -> void:
 	for r in destaques:
 		draw_rect(r, Color(1.0, 0.85, 0.4, pulso), false, 1.0)
 		draw_rect(r.grow(1), Color(1.0, 0.85, 0.4, pulso * 0.4), false, 1.0)
+	for nv in nuvens:
+		var u: float = nv["t"] / nv["vida"]
+		var r: float = lerpf(nv["r"], nv["rmax"], 1.0 - pow(1.0 - u, 2.0))
+		draw_circle((nv["p"] as Vector2).round(), r, Color(nv["cor"], nv["a0"] * (1.0 - u)))
 	for a in aneis:
 		draw_arc(a["p"], a["r"], 0, TAU, 32, Color(a["cor"], a["vida"] / 0.3), 1.0)
 	for p in particulas:
@@ -116,7 +142,14 @@ func _draw() -> void:
 	for p in popups:
 		var al := clampf(p["vida"] / 0.4, 0, 1)
 		var esc: int = p["esc"]
-		PixelFonte.centrado(self, (p["p"] as Vector2).round(), p["texto"], Color(p["cor"], al), esc, Color(0.08, 0.04, 0.06, al))
+		PixelFonte.centrado(self, (p["p"] as Vector2).round(), Sessao.t(p["texto"]), Color(p["cor"], al), esc, Color(0.08, 0.04, 0.06, al))
+	if dica != "":
+		var w := PixelFonte.largura(Sessao.t(dica), 1) + 10
+		var rd := Rect2(180 - w / 2.0, dica_y - 6, w, 12)
+		draw_rect(rd.grow(1), Color("#140c10"))
+		draw_rect(rd, Color("#24161f"))
+		draw_rect(Rect2(rd.position, Vector2(rd.size.x, 1)), Color(1.0, 0.85, 0.4, pulso))
+		PixelFonte.centrado(self, rd.get_center() + Vector2(0, 1), Sessao.t(dica), Color("#ffe39a"))
 	# botões de escolha da face
 	for b in escolha:
 		var r: Rect2 = b["rect"]
@@ -124,7 +157,7 @@ func _draw() -> void:
 		draw_rect(r, Color("#3d1f33"))
 		draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), Color("#e2b85a"))
 		draw_rect(Rect2(r.position + Vector2(0, r.size.y - 1), Vector2(r.size.x, 1)), Color("#9c7430"))
-		PixelFonte.centrado(self, r.get_center() + Vector2(0, 1), b["texto"], Color("#ffe39a"), 1)
+		PixelFonte.centrado(self, r.get_center() + Vector2(0, 1), Sessao.t(str(b["texto"])), Color("#ffe39a"), 1)
 	if zoom != null and is_instance_valid(zoom):
 		_desenhar_zoom()
 	if not fala.is_empty():
@@ -162,7 +195,7 @@ func _desenhar_faixa() -> void:
 		var esc := 4
 		var salto := 0.0 if not vit else absf(sin(faixa_t * 4.0)) * -2.0
 		var cor_txt := Color("#ffe39a") if vit else Color("#b8b0c0")
-		PixelFonte.centrado(self, c + Vector2(0, salto), faixa, cor_txt, esc, Color("#140c10"))
+		PixelFonte.centrado(self, c + Vector2(0, salto), Sessao.t(faixa), cor_txt, esc, Color("#140c10"))
 		if not vit:                                   # rachaduras na faixa
 			for k in 5:
 				var x0 := 60 + k * 55
@@ -173,7 +206,7 @@ func _desenhar_faixa() -> void:
 ## Painel 328×N no meio da tela: nome (2×), tipo · custo · ATK/Def, palavras-chave e o texto quebrado em 79 colunas.
 func _desenhar_zoom() -> void:
 	var c := zoom
-	var tex := Carta.textura("carta", c.id, "webp") if c.id != "" else null
+	var tex := Carta.textura("carta_en" if Sessao.idioma == "en" else "carta", c.id, "webp") if c.id != "" else null
 	if tex:
 		# carta inteira no frame do mapa (300×420), centrada; fundo escurecido atrás
 		draw_rect(Rect2(-400, -400, 1200, 1500), Color(0.04, 0.02, 0.06, 0.55))
@@ -184,9 +217,9 @@ func _desenhar_zoom() -> void:
 			var s := "VIDA ATUAL %d" % maxi(c.vida(), 0)
 			var w := PixelFonte.largura(s, 2) + 12
 			draw_rect(Rect2(180 - w / 2.0, 92, w, 16), Color("#5a1a1a"))
-			PixelFonte.centrado(self, Vector2(180, 100), s, Color("#ffd0d0"), 2)
+			PixelFonte.centrado(self, Vector2(180, 100), Sessao.t(s), Color("#ffd0d0"), 2)
 		return
-	var tipo_txt: String = {"entidade": "ENTIDADE", "selo": "SELO", "rito": "RITO", "reliquia": "RELIQUIA"}.get(c.tipo, c.tipo.to_upper())
+	var tipo_txt: String = Sessao.t({"entidade": "ENTIDADE", "selo": "SELO", "rito": "RITO", "reliquia": "RELIQUIA"}.get(c.tipo, c.tipo.to_upper()))
 	var linha2 := "%s  -  CUSTO %d" % [tipo_txt, c.custo]
 	if c.tipo == "entidade":
 		linha2 += "  -  ATK %d  DEF %d" % [c.atk, maxi(c.vida(), 0)]
@@ -194,7 +227,7 @@ func _desenhar_zoom() -> void:
 		linha2 += "  -  LENDARIA"
 	var kws := ""
 	for k in c.keywords:
-		kws += {"guarda": "GUARDA ", "impeto": "IMPETO ", "furtivo": "FURTIVO ", "renascer": "RENASCER "}.get(k, "")
+		kws += Sessao.t({"guarda": "GUARDA", "impeto": "IMPETO", "furtivo": "FURTIVO", "renascer": "RENASCER"}.get(k, "")) + " "
 	var linhas := PixelFonte.quebrar(c.texto, 79)
 	var h := 12 + 12 + 8 + (8 if kws != "" else 0) + linhas.size() * 7 + 8
 	var y0 := 250.0 - h / 2.0 if c.global_position.y > 320 else 390.0 - h / 2.0

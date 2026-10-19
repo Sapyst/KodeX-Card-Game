@@ -15,7 +15,6 @@
 | **Lendária** | não |
 | **Cópias no deck** | 1 |
 | **Id** | `ind_visao_do_caapi` |
-| **Arte** | provisória nesta Alpha |
 
 ## Texto da carta
 

@@ -16,7 +16,6 @@
 | **Lendária** | não |
 | **Cópias no deck** | 1 |
 | **Id** | `bru_bruxa_de_endor` |
-| **Arte** | provisória nesta Alpha |
 
 ## Texto da carta
 

@@ -53,6 +53,7 @@ CULT = {
     "alta_magia":   dict(base=(26, 22, 30), forma=[(224, 182, 80), (150, 40, 40), (70, 60, 76)], pilula=(30, 26, 36),
                          painel=(246, 243, 236), padrao="asanoha", nome="Alta magia"),
 }
+TXT_LENDARIA = "LENDÁRIA"
 TIPO_NOME = {"entidade": "Entidade", "selo": "Selo", "rito": "Rito", "reliquia": "Relíquia"}
 
 
@@ -371,7 +372,7 @@ def escrever(im, c, cult, raridade):
     # etiqueta pequena ao lado da pílula de Def: se não couber, tira a cultura e depois reduz a letra (mín. 11 px)
     tem_def = c["tipo"] == "entidade" or (c["tipo"] == "reliquia" and c.get("usos"))
     limite = (DEFESA[0] - 14 if tem_def else W - PAINEL - 16) - TEXTO[0]
-    base = TIPO_NOME[c["tipo"]].upper() + ("  ·  LENDÁRIA" if c.get("lendaria") else "")
+    base = TIPO_NOME[c["tipo"]].upper() + (("  ·  " + TXT_LENDARIA) if c.get("lendaria") else "")
     rot = base + "  ·  " + pal["nome"].upper()
     if d.textlength(rot, font=ft) > limite:
         rot = base

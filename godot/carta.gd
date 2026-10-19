@@ -39,6 +39,33 @@ var lendaria := false
 var cansada := false                    # entrou neste turno (sem Ímpeto): não ataca
 var atacou := false
 var apagada := false                    # na mão, sem Fé para jogar
+# ---- estado de regras (motor_efeitos.gd) ----
+var dados: Dictionary = {}              # ficha da carta (cartas.json) ou do token
+var dono_real := 0                      # dono original (mão/cemitério); `dono` = quem controla (lado do campo)
+var atk_base := 0
+var vida_base := 0
+var buff_atk := 0
+var buff_vida := 0
+var temp_atk := 0
+var temp_vida := 0
+var aura_atk := 0
+var aura_vida := 0
+var rel_atk := 0
+var rel_vida := 0
+var aura_keywords: Array = []
+var efeitos: Array = []
+var silenciada := false
+var congelada := false                  # não atacará no próximo turno do controlador
+var sem_ataque := false                 # congelada neste turno
+var ja_atacou := false                  # já atacou alguma vez (Furtivo some)
+var aura_arcoiris := false              # fortalecida em campo: brilho arco-íris no chão, por baixo da carta
+var _t_aura := 0.0
+var reliquia: Dictionary = {}           # {dados, nome, usos, portadora, dono}
+var token := false
+var em_campo := false
+var roubada_temp := false
+var turno_posto := -1                   # Selo: turno em que foi posto
+var sem_renascer := false
 
 
 func _process(_d: float) -> void:
@@ -50,6 +77,8 @@ func _draw() -> void:
 	var y0 := -ALT / 2
 	if not empilhada:
 		_sombra(x0, y0)
+	if aura_arcoiris:
+		_aura(x0, y0)
 	draw_set_transform_matrix(Transform2D(0.0, Vector2(maxf(absf(giro), 0.02), 1.0), inclinacao, bob.round()))
 	# espessura: faixa de papel aparecendo embaixo e à direita (luz vem de cima)
 	draw_rect(Rect2(x0 + 1, y0 + ALT, LARG - 1, ESPESSURA), PAPEL)
@@ -59,11 +88,21 @@ func _draw() -> void:
 		_frente(x0, y0)
 	else:
 		_verso(x0, y0)
-	if virada_para_cima and (cansada or atacou):
+	var dormindo := cansada and not tem("impeto")
+	if virada_para_cima and (dormindo or atacou):
 		draw_rect(Rect2(x0, y0, LARG, ALT), Color(0.05, 0.03, 0.1, 0.35))
-		if cansada:
+		if dormindo:
 			PixelFonte.desenhar(self, Vector2(x0 + LARG - 14, y0 + 14), "Z", Color("#cfe0ff"))
 			PixelFonte.desenhar(self, Vector2(x0 + LARG - 9, y0 + 10), "Z", Color("#cfe0ff"))
+	if virada_para_cima and em_campo:
+		if congelada or sem_ataque:
+			draw_rect(Rect2(x0, y0, LARG, ALT), Color(0.35, 0.6, 1.0, 0.28))
+			draw_rect(Rect2(x0, y0, LARG, ALT), Color("#9ad0ff"), false, 1.0)
+		if silenciada:
+			draw_rect(Rect2(x0 + 8, y0 + 40, 48, 9), Color("#2a2830"))
+			PixelFonte.centrado(self, Vector2(x0 + LARG / 2, y0 + 45), Sessao.t("MUDO"), Color("#b8b4c0"))
+	if not reliquia.is_empty():
+		_faixa_reliquia(x0, y0)
 	if apagada:
 		draw_rect(Rect2(x0, y0, LARG, ALT), Color(0.05, 0.03, 0.08, 0.5))
 	if brilho > 0.0:
@@ -138,31 +177,32 @@ func _frente(x0: int, y0: int) -> void:
 		if n.length() > 12:
 			n = n.substr(0, 12)
 		PixelFonte.desenhar(self, Vector2(x0 + 14, y0 + 5), n, Color("#2a2028"))
-	draw_rect(Rect2(x0 + 2, y0 + 2, 9, 10), Color("#2a3a7a"))                          # custo
-	draw_rect(Rect2(x0 + 3, y0 + 3, 7, 8), Color("#4f6fb0"))
-	PixelFonte.centrado(self, Vector2(x0 + 7, y0 + 7), str(custo), Color.WHITE)
+	_selo_num(Rect2(x0 + 1, y0 + 1, 0, 14), str(custo), Color("#2f4f9a"), Color.WHITE)   # custo (dígitos 2×)
 	if lendaria:
 		draw_rect(Rect2(x0 + 1, y0 + 1, LARG - 2, 1), Color("#ffe39a"))
 		draw_rect(Rect2(x0 + 1, y0 + ALT - 2, LARG - 2, 1), Color("#ffe39a"))
-	if "guarda" in keywords:
+	if tem("guarda"):
 		draw_rect(Rect2(x0, y0, LARG, ALT), Color("#e2b85a"), false, 2.0)
 	var kw := ""
-	for k in keywords:
-		kw += {"guarda": "G", "impeto": "I", "furtivo": "F", "renascer": "R"}.get(k, "")
+	for k in keywords + aura_keywords.filter(func(k2: String) -> bool: return not (k2 in keywords)):
+		kw += ({"guarda": "G", "impeto": "R", "furtivo": "S", "renascer": "B"} if Sessao.idioma == "en" else {"guarda": "G", "impeto": "I", "furtivo": "F", "renascer": "R"}).get(k, "")
 	if kw != "":
 		draw_rect(Rect2(x0 + 8, y0 + 69, kw.length() * 4 + 3, 8), Color("#2a2028"))
 		PixelFonte.desenhar(self, Vector2(x0 + 10, y0 + 71), kw, Color("#ffe39a"))
 	match tipo:
 		"entidade":
-			draw_rect(Rect2(x0 + 2, y0 + ALT - 12, 16, 10), Color("#5a2a2a"))
-			PixelFonte.centrado(self, Vector2(x0 + 10, y0 + ALT - 7), str(atk), Color("#ffd9a0"))
-			draw_rect(Rect2(x0 + LARG - 18, y0 + ALT - 12, 16, 10), Color("#2a3a5a"))
-			var cor_def := Color("#ff8a8a") if dano > 0 else Color("#cfe0ff")
-			PixelFonte.centrado(self, Vector2(x0 + LARG - 10, y0 + ALT - 7), str(maxi(defe - dano, 0)), cor_def)
+			var base_atk: int = int(dados["atk"]) if dados.get("atk") != null else atk
+			var base_def: int = int(dados["vida"]) if dados.get("vida") != null else defe
+			var cor_atk := Color("#ffe39a") if atk > base_atk else (Color("#e0a8ff") if atk < base_atk else Color("#ffe0b0"))
+			_selo_num(Rect2(x0 + 1, y0 + ALT - 15, 0, 14), str(atk), Color("#8a2a1a"), cor_atk)
+			var cor_def := Color("#ffb0b0") if dano > 0 else (Color("#ffe39a") if defe > base_def else (Color("#e0a8ff") if defe < base_def else Color("#e0ecff")))
+			_selo_num(Rect2(x0 + LARG - 1, y0 + ALT - 15, 0, 14), str(maxi(defe - dano, 0)), Color("#1f3f7a"), cor_def, true)
 		"selo":
-			PixelFonte.centrado(self, Vector2(x0 + LARG / 2, y0 + ALT - 7), "SELO", Color("#c8b0f0"))
+			PixelFonte.centrado(self, Vector2(x0 + LARG / 2, y0 + ALT - 7), Sessao.t("SELO"), Color("#c8b0f0"))
 		"rito":
-			PixelFonte.centrado(self, Vector2(x0 + LARG / 2, y0 + ALT - 7), "RITO", Color("#a8e0b8"))
+			PixelFonte.centrado(self, Vector2(x0 + LARG / 2, y0 + ALT - 7), Sessao.t("RITO"), Color("#a8e0b8"))
+		"reliquia":
+			PixelFonte.centrado(self, Vector2(x0 + LARG / 2, y0 + ALT - 7), Sessao.t("RELIQUIA"), Color("#ffe39a"))
 
 
 ## Vira no ar: escala X → 0 (troca a face) → volta, levantando junto.
@@ -197,3 +237,107 @@ func definir(d: Dictionary, quem: int) -> void:
 	keywords = d.get("keywords", []).duplicate()
 	texto = d.get("texto", ""); cultura = d.get("cultura", ""); lendaria = d.get("lendaria", false)
 	dono = quem; dano = 0
+	dados = d
+	dono_real = quem
+	token = bool(d.get("token", false))
+	resetar()
+
+
+func tem(kw: String) -> bool:
+	return kw in keywords or kw in aura_keywords
+
+
+## Furtivo: não pode ser alvo de efeitos inimigos até atacar.
+func protegida() -> bool:
+	return tem("furtivo") and not ja_atacou
+
+
+## ATK/Def mostrados = base + buffs permanentes + temporários + aura + Relíquia (Def = Vida máxima; vida() = Def − dano).
+func sincronizar() -> void:
+	atk = maxi(0, atk_base + buff_atk + temp_atk + aura_atk + rel_atk)
+	defe = vida_base + buff_vida + temp_vida + aura_vida + rel_vida
+
+
+func limpar_stats() -> void:
+	buff_atk = 0; buff_vida = 0; temp_atk = 0; temp_vida = 0; rel_atk = 0; rel_vida = 0
+	dano = 0
+	sincronizar()
+
+
+## Volta ao estado impresso (ao entrar na mão: Renascer, bounce, revive). Renascer usado não volta.
+func resetar() -> void:
+	if dados.is_empty():
+		return
+	atk_base = int(dados["atk"]) if dados.get("atk") != null else 0
+	vida_base = int(dados["vida"]) if dados.get("vida") != null else 0
+	keywords = (dados.get("keywords", []) as Array).duplicate()
+	if sem_renascer:
+		keywords.erase("renascer")
+	efeitos = dados.get("efeitos", [])
+	buff_atk = 0; buff_vida = 0; temp_atk = 0; temp_vida = 0; aura_atk = 0; aura_vida = 0; rel_atk = 0; rel_vida = 0
+	aura_keywords = []
+	dano = 0
+	silenciada = false; congelada = false; sem_ataque = false; ja_atacou = false
+	reliquia = {}
+	roubada_temp = false
+	cansada = false; atacou = false
+	dono = dono_real
+	sincronizar()
+
+
+## Relíquia equipada: faixa dourada logo abaixo da carta, com o nome (e Usos, se tiver).
+func _faixa_reliquia(x0: int, y0: int) -> void:
+	var n := PixelFonte.normalizar(str(reliquia.get("nome", "")))
+	if n.length() > 13:
+		n = n.substr(0, 13)
+	if reliquia.get("usos") != null:
+		n += " " + str(reliquia["usos"])
+	var r := Rect2(x0 + 2, y0 + ALT + ESPESSURA, LARG - 4, 8)
+	draw_rect(r.grow(1), Color("#140c10"))
+	draw_rect(r, Color("#5a3a1a"))
+	draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), Color("#ffe39a"))
+	PixelFonte.centrado(self, r.get_center() + Vector2(0, 1), n, Color("#ffe39a"))
+
+
+## Selo com número em dígitos 2× (6×10 px cada) e contorno escuro. r.position = canto (esquerdo, ou direito se `direita`).
+func _selo_num(r: Rect2, s: String, fundo: Color, cor: Color, direita := false) -> void:
+	var w := PixelFonte.largura(s, 2) + 6
+	var x := r.position.x - w if direita else r.position.x
+	var caixa := Rect2(x, r.position.y, w, r.size.y)
+	draw_rect(caixa.grow(1), Color("#140c10"))
+	draw_rect(caixa, fundo)
+	draw_rect(Rect2(caixa.position, Vector2(w, 1)), fundo.lightened(0.4))
+	PixelFonte.desenhar(self, caixa.position + Vector2(3, 2), s, cor, 2)
+
+
+## Aura arco-íris no chão (a carta é desenhada por cima, então só a borda aparece): 6 contornos que crescem
+## 1→9 px além da carta, matiz girando 0,35 volta/s, alfa pulsando 0,8 s, e 4 faíscas que orbitam.
+func _aura(x0: int, y0: int) -> void:
+	_t_aura += get_process_delta_time()
+	var pulso := 0.8 + 0.2 * sin(_t_aura * TAU / 0.8)
+	var esp := 2.0 + 1.5 * sin(_t_aura * TAU / 1.6)          # a aura "respira" 2–3,5 px
+	# brilho difuso: 5 faixas de 3 px, de fora (fraca) para dentro (forte); cada lado com um matiz diferente
+	for i in range(5, 0, -1):
+		var g := esp + i * 3.0
+		var al := (0.16 + 0.12 * (5 - i)) * pulso
+		var r := Rect2(x0 - g, y0 - g, LARG + 2 * g, ALT + ESPESSURA + 2 * g)
+		var h0 := fmod(_t_aura * 0.4 + i * 0.05, 1.0)
+		draw_rect(Rect2(r.position, Vector2(r.size.x, 3)), Color.from_hsv(h0, 0.9, 1.0, al))
+		draw_rect(Rect2(Vector2(r.end.x - 3, r.position.y), Vector2(3, r.size.y)), Color.from_hsv(fmod(h0 + 0.25, 1.0), 0.9, 1.0, al))
+		draw_rect(Rect2(Vector2(r.position.x, r.end.y - 3), Vector2(r.size.x, 3)), Color.from_hsv(fmod(h0 + 0.5, 1.0), 0.9, 1.0, al))
+		draw_rect(Rect2(r.position, Vector2(3, r.size.y)), Color.from_hsv(fmod(h0 + 0.75, 1.0), 0.9, 1.0, al))
+	var per := 2.0 * (LARG + ALT) + 40.0
+	for k in 6:
+		var d := fmod(_t_aura * 80.0 + k * per / 6.0, per)
+		var q := _no_contorno(x0 - esp - 4, y0 - esp - 4, LARG + 2 * esp + 8, ALT + ESPESSURA + 2 * esp + 8, d)
+		draw_rect(Rect2(q.round() - Vector2.ONE, Vector2(3, 3)), Color.from_hsv(fmod(_t_aura * 0.4 + k / 6.0, 1.0), 0.5, 1.0, 0.95))
+
+
+func _no_contorno(x: float, y: float, w: float, h: float, d: float) -> Vector2:
+	if d < w: return Vector2(x + d, y)
+	d -= w
+	if d < h: return Vector2(x + w, y + d)
+	d -= h
+	if d < w: return Vector2(x + w - d, y + h)
+	d -= w
+	return Vector2(x, y + h - minf(d, h))

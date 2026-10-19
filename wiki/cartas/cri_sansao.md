@@ -16,7 +16,6 @@
 | **Lendária** | não |
 | **Cópias no deck** | 1 |
 | **Id** | `cri_sansao` |
-| **Arte** | provisória nesta Alpha |
 
 ## Texto da carta
 

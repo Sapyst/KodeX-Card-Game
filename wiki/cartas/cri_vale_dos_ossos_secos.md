@@ -15,7 +15,6 @@
 | **Lendária** | não |
 | **Cópias no deck** | 1 |
 | **Id** | `cri_vale_dos_ossos_secos` |
-| **Arte** | provisória nesta Alpha |
 
 ## Texto da carta
 

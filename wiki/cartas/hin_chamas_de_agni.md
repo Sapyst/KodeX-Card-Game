@@ -15,7 +15,6 @@
 | **Lendária** | não |
 | **Cópias no deck** | 1 |
 | **Id** | `hin_chamas_de_agni` |
-| **Arte** | provisória nesta Alpha |
 
 ## Texto da carta
 

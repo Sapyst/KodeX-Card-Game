@@ -1,4 +1,4 @@
-# Gods Kodex
+# KodeX
 
 Jogo de cartas mobile (Godot 4.7, retrato) com seis tradições mitológicas — indígena brasileira, cristianismo,
 taoismo, hinduísmo, bruxaria e alta magia — e o Conjunto do Abismo (Choronzon).

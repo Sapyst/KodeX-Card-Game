@@ -53,6 +53,7 @@ var rng := RandomNumberGenerator.new()
 var ruido := FastNoiseLite.new()
 var tempo := 0.0
 var efeitos: Efeitos
+var chao: Efeitos
 var placar: Node2D
 var cornucopia := [15, 15]
 var placar_pulo := [0.0, 0.0]
@@ -65,7 +66,7 @@ var origem := ""                      # "mao" | "campo"
 var origem_idx := -1
 var ponteiro := Vector2.ZERO
 var ocupado := false                  # animação em curso: ignora toques
-signal escolhido(valor: bool)
+signal escolhido(valor)
 signal fim_turno_pedido
 var modo_partida := OS.get_environment("GD_DEMO") == ""
 var auto_jogador := OS.get_environment("GD_AUTO") != ""
@@ -82,7 +83,7 @@ var segurando_ini := Vector2.ZERO
 
 
 func _ready() -> void:
-	rng.seed = 7
+	rng.seed = 7 if OS.get_environment("GD_SEED") == "" else OS.get_environment("GD_SEED").to_int()
 	ruido.frequency = 3.0
 	ambiente = CanvasModulate.new()
 	ambiente.color = Color.BLACK
@@ -94,13 +95,19 @@ func _ready() -> void:
 	camada_cartas = Node2D.new()
 	add_child(camada_cartas)
 	if modo_partida:
-		db = JSON.parse_string(FileAccess.get_file_as_string("res://dados/cartas.json"))
+		db = Sessao.db                        # já no idioma escolhido
+	motor = MotorEfeitos.new(self)
+	if OS.get_environment("GD_VELOCIDADE") != "":          # testes automáticos: acelera animações e timers
+		Engine.time_scale = maxf(0.1, OS.get_environment("GD_VELOCIDADE").to_float())
 	placar = Node2D.new()
 	placar.z_index = 50
 	placar.draw.connect(_desenhar_placar)
 	add_child(placar)
 	efeitos = Efeitos.new()
 	add_child(efeitos)
+	chao = Efeitos.new()                      # efeitos rentes à mesa: ficam POR BAIXO das cartas
+	add_child(chao)
+	chao.z_index = 20
 	camera = Camera2D.new()
 	camera.position = CENTRO
 	camera.ignore_rotation = false
@@ -115,9 +122,14 @@ func _ready() -> void:
 	await _ir_para_deck()
 	await _comprar_mao()
 	print("PRONTO: mão inicial comprada")
+	if modo_partida and OS.get_environment("GD_ROTEIRO") != "":
+		await _roteiro_efeitos()
+		await get_tree().create_timer(1.0).timeout
+		get_tree().quit()
+		return
 	if modo_partida:
 		await _partida()
-		Sessao.resultado = "vitoria" if cornucopia[1] <= 0 else ("derrota" if cornucopia[0] <= 0 else "empate")
+		Sessao.resultado = "vitoria" if vencedor == 0 else ("derrota" if vencedor == 1 else "empate")
 		if Sessao.modo != "" and OS.get_environment("GD_SAIR_NO_FIM") == "":
 			await get_tree().create_timer(1.5).timeout
 			get_tree().change_scene_to_file("res://fluxo.tscn")
@@ -200,11 +212,17 @@ func _process(delta: float) -> void:
 		var c: Carta = mao_jog[k]
 		if c != segurando:
 			c.bob = Vector2(0, sin(tempo * 2.2 + k * 1.3) * 1.2)
+	for ch in camada_cartas.get_children():
+		if ch is Carta:
+			(ch as Carta).aura_arcoiris = false
 	for dono in 2:
 		for i in 4:
 			var c = campo_ent[dono][i]
 			if c != null and c != segurando:
 				(c as Carta).bob = Vector2(0, sin(tempo * 1.6 + i * 1.9 + dono) * 0.9)
+			if c != null:
+				var cc: Carta = c
+				cc.aura_arcoiris = cc.virada_para_cima and (cc.atk > cc.atk_base or cc.defe > cc.vida_base)
 	if modo_partida:
 		_atualizar_zoom(delta)
 	# carta segurada: segue o dedo com atraso, inclina conforme a velocidade
@@ -581,7 +599,7 @@ func _desenhar_placar() -> void:
 		placar.draw_rect(r.grow(1), ESCURO)
 		placar.draw_rect(r, Color("#5a3a1a") if vez else Color("#2a2430"))
 		placar.draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), OURO[1] if vez else Color("#4a4450"))
-		PixelFonte.centrado(placar, r.get_center() + Vector2(0, 1), "FIM" if vez else "...", Color("#ffe39a") if vez else Color("#8a8090"))
+		PixelFonte.centrado(placar, r.get_center() + Vector2(0, 1), Sessao.t("FIM TURNO" if vez else "AGUARDE"), Color("#ffe39a") if vez else Color("#8a8090"))
 
 
 # ================= posições do campo =================
@@ -618,6 +636,21 @@ func _unhandled_input(ev: InputEvent) -> void:
 
 func pressionar(p: Vector2) -> void:
 	ponteiro = p
+	if zoom_travado:                          # qualquer toque fecha a carta ampliada
+		zoom_travado = false
+		efeitos.zoom = null
+		_ignorar_soltar = true
+		return
+	if not alvos_pedidos.is_empty():            # escolhendo alvo: toca um destacado ou o botão PULAR
+		for b in efeitos.escolha:
+			if (b["rect"] as Rect2).grow(3).has_point(p):
+				alvo_tocado.emit(null)
+				return
+		for c in alvos_pedidos:
+			if is_instance_valid(c) and (c as Carta).contem(p):
+				alvo_tocado.emit(c)
+				return
+		return
 	if not efeitos.escolha.is_empty():
 		for b in efeitos.escolha:
 			if (b["rect"] as Rect2).grow(3).has_point(p):
@@ -626,6 +659,7 @@ func pressionar(p: Vector2) -> void:
 		return
 	if modo_partida and botao_fim.grow(4).has_point(p):
 		if ativo == 0 and not ocupado and not acabou:
+			Sessao.vibrar(10, 0.4)
 			fim_turno_pedido.emit()
 		return
 	if ocupado or segurando != null or (modo_partida and (ativo != 0 or acabou)):
@@ -650,8 +684,12 @@ func mover(p: Vector2) -> void:
 
 func soltar(p: Vector2) -> void:
 	ponteiro = p
-	efeitos.zoom = null
 	zoom_pendente = null
+	if _ignorar_soltar:
+		_ignorar_soltar = false
+		return
+	if not zoom_travado:
+		efeitos.zoom = null
 	if segurando == null:
 		return
 	var c := segurando
@@ -666,6 +704,7 @@ func soltar(p: Vector2) -> void:
 
 
 func _pegar(c: Carta, de: String, idx: int) -> void:
+	Sessao.vibrar(12, 0.3)
 	segurando_t = 0.0
 	segurando_ini = ponteiro
 	segurando = c
@@ -676,7 +715,9 @@ func _pegar(c: Carta, de: String, idx: int) -> void:
 	t.tween_property(c, "scale", Vector2(1.15, 1.15), 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	t.tween_property(c, "levantada", 1.0, 0.12)
 	efeitos.destaques.clear()
-	if de == "mao":
+	if de == "mao" and modo_partida:
+		_destacar_jogada(c)
+	elif de == "mao":
 		if c.tipo == "entidade":
 			for i in 4:
 				if campo_ent[0][i] == null:
@@ -793,6 +834,7 @@ func _voltar_ao_espaco(c: Carta) -> void:
 
 ## Soltou em lugar inválido: sacode (6 batidas em 0,2 s) e volta para a origem como puxada por um ímã (elástico 0,5 s).
 func _recusar(c: Carta) -> void:
+	Sessao.vibrar_pulsos(2, 15, 0.5)
 	var base := c.position
 	var t := create_tween()
 	for dx in [5, -5, 4, -4, 2, 0]:
@@ -862,6 +904,7 @@ func _cair(c: Carta, dest: Vector2, para_cima: bool) -> void:
 	t2.tween_property(c, "levantada", 0.0, 0.16)
 	await t2.finished
 	_impacto(c, dest, 1.0)
+	Sessao.vibrar(20, 0.5)
 	c.z_index = 100
 
 
@@ -870,8 +913,8 @@ func _impacto(c: Carta, dest: Vector2, forca: float) -> void:
 	var t := create_tween()
 	t.tween_property(c, "scale", Vector2(e * 1.08, e * 0.9), 0.05)
 	t.tween_property(c, "scale", Vector2(e, e), 0.14).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	efeitos.poeira(dest + Vector2(0, Carta.ALT * e / 2), int(14 * forca))
-	efeitos.anel(dest, Color("#ffe39a"), 34 * forca)
+	chao.onda_poeira(dest, Carta.LARG * e, forca)
+	chao.poeira(dest + Vector2(0, Carta.ALT * e / 2), int(10 * forca))
 	tremor = maxf(tremor, 2.0 * forca)
 
 
@@ -888,6 +931,11 @@ func _remover_do_campo(c: Carta) -> int:
 ## tremor de 3 px, volta (0,3 s). Quem zerar a Vida é destruído.
 func _atacar(c: Carta, alvo: Carta) -> void:
 	c.atacou = true
+	if modo_partida:
+		_conta(c.dono, "ataques")
+		if not await motor.antes_do_ataque(c, alvo):          # Selo/efeito cancelou o ataque
+			await _checar_fim()
+			return
 	var ini := c.position
 	var dir := (alvo.position - ini).normalized()
 	c.z_index = 750
@@ -900,15 +948,18 @@ func _atacar(c: Carta, alvo: Carta) -> void:
 	var t2 := create_tween()
 	t2.tween_property(c, "position", contato, 0.11).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 	await t2.finished
-	# impacto
-	alvo.dano += c.atk
-	c.dano += alvo.atk
+	# impacto (simultâneo)
+	var da := c.atk
+	var dd := alvo.atk
+	alvo.dano += da
+	c.dano += dd
 	tremor = 3.5
+	Sessao.vibrar(35, 0.7)
 	efeitos.flash(Color.WHITE, 0.18)
 	efeitos.faiscas((contato + alvo.position) / 2, 18)
-	efeitos.numero(alvo.position + Vector2(0, -20), "-%d" % c.atk, Color("#ff6a6a"))
-	if alvo.atk > 0:
-		efeitos.numero(c.position + Vector2(0, -20), "-%d" % alvo.atk, Color("#ff6a6a"))
+	efeitos.numero(alvo.position + Vector2(0, -20), "-%d" % da, Color("#ff6a6a"))
+	if dd > 0:
+		efeitos.numero(c.position + Vector2(0, -20), "-%d" % dd, Color("#ff6a6a"))
 	_piscar(alvo); _piscar(c)
 	_sacudir(alvo, 3.0)
 	var t3 := create_tween().set_parallel(true)
@@ -917,6 +968,10 @@ func _atacar(c: Carta, alvo: Carta) -> void:
 	t3.tween_property(c, "levantada", 0.0, 0.3)
 	await t3.finished
 	c.z_index = 100
+	if modo_partida:
+		await motor.apos_combate(c, alvo, da, dd)
+		await _checar_fim()
+		return
 	if alvo.vida() <= 0:
 		await _destruir(alvo)
 	if c.vida() <= 0:
@@ -939,12 +994,10 @@ func _sacudir(c: Carta, amp: float) -> void:
 
 ## Derrota da carta: treme, pisca 2×, estilhaça em ~70 fragmentos e reaparece pequena no cemitério do dono.
 func _destruir(c: Carta) -> void:
-	if c.dono == 1:
-		_provocar(2)
 	_remover_do_campo(c)
-	if modo_partida and "renascer" in c.keywords:
-		await _renascer(c)
-		return
+	if modo_partida:                       # o motor já decidiu (Renascer, token, cemitério); aqui é só o visual
+		c.em_campo = false
+		c.dono = c.dono_real
 	_sacudir(c, 2.0)
 	for k in 2:
 		var t := create_tween()
@@ -952,6 +1005,7 @@ func _destruir(c: Carta) -> void:
 		t.tween_property(c, "brilho", 0.2, 0.08)
 		await t.finished
 	efeitos.estilhacar(c.position, c.cores_estilhaco(), int(Carta.LARG * c.scale.x), int(Carta.ALT * c.scale.y))
+	Sessao.vibrar(45, 0.8)
 	tremor = 2.5
 	c.visible = false
 	await get_tree().create_timer(0.35).timeout
@@ -967,6 +1021,8 @@ func _destruir(c: Carta) -> void:
 	cemiterio[c.dono] += 1
 	if not c.virada_para_cima:
 		c.virada_para_cima = true
+	if modo_partida:
+		c.resetar()
 	create_tween().tween_property(c, "scale", Vector2.ONE * esc_em(cem), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
@@ -974,6 +1030,11 @@ func _destruir(c: Carta) -> void:
 ## clarão vermelho, número grande e o placar pulsa.
 func _golpe_direto(c: Carta, alvo_dono: int) -> void:
 	c.atacou = true
+	if modo_partida:
+		_conta(c.dono, "golpes_diretos")
+		if not await motor.antes_do_ataque(c, null):
+			await _checar_fim()
+			return
 	var ini := c.position
 	var alvo := _pos_placar(alvo_dono) + Vector2(10, 2)
 	var dir := (alvo - ini).normalized()
@@ -990,6 +1051,7 @@ func _golpe_direto(c: Carta, alvo_dono: int) -> void:
 	cornucopia[alvo_dono] -= c.atk
 	placar_pulo[alvo_dono] = 1.0
 	tremor = 5.0
+	Sessao.vibrar(60, 1.0)
 	efeitos.flash(Color("#ff3030"), 0.3)
 	efeitos.faiscas(alvo, 26, Color("#ff9a6a"))
 	efeitos.numero(alvo + Vector2(20, -10), "-%d" % c.atk, Color("#ff5050"), 3)
@@ -1000,12 +1062,16 @@ func _golpe_direto(c: Carta, alvo_dono: int) -> void:
 	t3.tween_property(c, "levantada", 0.0, 0.35)
 	await t3.finished
 	c.z_index = 100
+	if modo_partida:
+		await _checar_fim()
+		return
 	if cornucopia[alvo_dono] <= 0:
 		acabou = true
 		if alvo_dono == 1:
 			await _vitoria()
 		else:
 			await _derrota()
+		fim_turno_pedido.emit()               # a partida podia estar esperando o botão FIM do jogador
 
 
 ## Rito: a carta sobe ao centro do lado inimigo, brilha 3×, dispara um feixe de faíscas no alvo (3 de dano) e se desfaz.
@@ -1041,6 +1107,7 @@ func _lancar_rito(c: Carta, alvo_idx: int) -> void:
 # ================= vitória / derrota =================
 func _vitoria() -> void:
 	await get_tree().create_timer(0.3).timeout
+	Sessao.vibrar_pulsos(3, 40, 0.8, 0.09)
 	efeitos.faixa = "VITÓRIA"
 	efeitos.faixa_t = 0.0
 	efeitos.confete(90)
@@ -1063,6 +1130,7 @@ func _derrota() -> void:
 	for i in luzes.size():
 		var l: PointLight2D = luzes[i]
 		t.tween_method(func(v: float) -> void: l.set_meta("liga", v), 1.0, 0.45, 1.0)
+	Sessao.vibrar(150, 1.0)
 	efeitos.faixa = "DERROTA"
 	efeitos.faixa_t = 0.0
 	efeitos.cinzas(70)
@@ -1183,15 +1251,23 @@ func _demo() -> void:
 	await _golpe_direto(inimiga, 0)
 
 
-# ================= partida (fase 1: regras sem efeitos de carta) =================
+# ================= partida (regras + efeitos reais das cartas: motor_efeitos.gd) =================
 const MAO_MAX := 7
 const FE_TETO := 8
 const TURNOS_MAX := 80
+const AREA_CAMPO := Rect2(26, 50, 308, 470)       # "qualquer lugar do campo acima da mão" (Rito sem alvo)
 var estat := [{}, {}]                 # contadores por lado (impressos no fim da partida)
+var motor: MotorEfeitos
+var cemit := [[], []]                 # cemitério lógico: [{dados, no}] (no = nó ainda na pilha, ou null)
+var vencedor := -1                    # -1 em jogo · 0 jogador · 1 oponente · 2 empate
+var alvos_pedidos: Array = []         # o jogador está escolhendo um alvo por toque
+signal alvo_tocado(alvo)
 
 
 func _conta(d: int, k: String) -> void:
 	estat[d][k] = int(estat[d].get(k, 0)) + 1
+var zoom_travado := false
+var _ignorar_soltar := false             # carta ampliada fica aberta até o próximo toque
 var zoom_pendente: Carta = null
 var zoom_t := 0.0
 var zoom_ini := Vector2.ZERO
@@ -1243,8 +1319,11 @@ func _partida() -> void:
 		turno_n += 1
 		if turno_n > TURNOS_MAX:
 			print("FIM DA PARTIDA: empate por limite de turnos")
-			return
+			vencedor = 2
+			break
+		ocupado = true                        # início/fim de turno resolvem gatilhos: sem toques no meio
 		await _inicio_turno(ativo)
+		ocupado = false
 		if acabou:
 			break
 		if ativo == 0 and not auto_jogador:
@@ -1254,42 +1333,98 @@ func _partida() -> void:
 			await _turno_ia(ativo)
 		if acabou:
 			break
-		_fim_turno(ativo)
+		ocupado = true
+		await _fim_turno(ativo)
+		ocupado = false
+		if acabou:
+			break
 		ativo = 1 - ativo
-	print("FIM DA PARTIDA: %s no turno %d (Cornucópias %d × %d)" % ["vitória" if cornucopia[1] <= 0 else "derrota", turno_n, cornucopia[0], cornucopia[1]])
+	var r: String = {0: "vitória", 1: "derrota", 2: "empate"}.get(vencedor, "empate")
+	print("FIM DA PARTIDA: %s no turno %d (Cornucópias %d × %d)" % [r, turno_n, cornucopia[0], cornucopia[1]])
 	print("ESTAT jogador: ", estat[0], "  oponente: ", estat[1])
+	print(motor.resumo())
 
 
 ## Início do turno: Fé máx +1 (teto 8) e restaura; o 2º jogador ganha +1 Fé temporária no 1º turno dele;
-## Entidades acordam; compra 1 (quem começa não compra no 1º turno).
+## Entidades acordam (congeladas perdem este turno); compra 1 (quem começa não compra no 1º turno); "início do turno".
 func _inicio_turno(d: int) -> void:
 	fe_max[d] = mini(FE_TETO, fe_max[d] + 1)
 	fe[d] = fe_max[d]
 	if d == 1 and turno_n == 2:
 		fe[d] += 1
 	selo_no_turno = false
-	for i in 4:
-		var c = campo_ent[d][i]
-		if c != null:
-			(c as Carta).cansada = false
-			(c as Carta).atacou = false
+	for c in motor.campo(d):
+		c.cansada = false
+		c.atacou = false
+		c.sem_ataque = c.congelada
+		c.congelada = false
 	_atualizar_apagadas()
 	efeitos.numero(Vector2(180, LINHA_Y - 4), "SEU TURNO" if d == 0 else "TURNO DELE", Color("#ffe39a") if d == 0 else Color("#cfe0ff"), 2)
 	await get_tree().create_timer(0.6).timeout
 	if not (d == 0 and turno_n == 1):
 		await _comprar(d)
+	if acabou:
+		return
+	await motor.inicio_turno(d)
+	await _checar_fim()
 	_atualizar_apagadas()
 
 
-func _fim_turno(_d: int) -> void:
+## Fim do turno: "fim do turno" das Entidades, Selos enemy_end_turn do outro lado, buffs temporários expiram,
+## mão acima de 7 descarta (a mais cara).
+func _fim_turno(d: int) -> void:
 	efeitos.destaques.clear()
+	await motor.fim_turno(d)
+	var mao := _mao_de(d)
+	while mao.size() > MAO_MAX and not acabou:
+		var cara: Carta = mao[0]
+		for c in mao:
+			if c.custo > cara.custo:
+				cara = c
+		await _descartar(d, cara)
+	await _checar_fim()
 	_atualizar_apagadas()
+
+
+func _checar_fim() -> void:
+	if acabou:
+		return
+	var m0: bool = cornucopia[0] <= 0
+	var m1: bool = cornucopia[1] <= 0
+	if m0 and m1:
+		await _encerrar(2)
+	elif m1:
+		await _encerrar(0)
+	elif m0:
+		await _encerrar(1)
+
+
+func _encerrar(v: int, motivo := "") -> void:
+	if acabou:
+		return
+	acabou = true
+	vencedor = v
+	alvos_pedidos.clear()
+	efeitos.escolha.clear()
+	efeitos.dica = ""
+	efeitos.destaques.clear()
+	if motivo != "":
+		efeitos.numero(Vector2(180, LINHA_Y - 30), motivo, Color("#e0a8ff"), 3)
+		await get_tree().create_timer(0.6).timeout
+	if v == 0:
+		await _vitoria()
+	elif v == 1:
+		await _derrota()
+	else:
+		efeitos.faixa = "EMPATE"
+		efeitos.faixa_t = 0.0
+		await get_tree().create_timer(2.5).timeout
+	fim_turno_pedido.emit()               # a partida podia estar esperando o botão FIM do jogador
 
 
 ## Compra 1. Deck vazio = fadiga (2 de dano na Cornucópia). Mão cheia (7) = a carta comprada queima.
 func _comprar(d: int) -> void:
 	var deck := _deck_de(d)
-	var mao := _mao_de(d)
 	if deck.is_empty():
 		cornucopia[d] -= 2
 		placar_pulo[d] = 1.0
@@ -1297,22 +1432,23 @@ func _comprar(d: int) -> void:
 		efeitos.numero(_pos_placar(d) + Vector2(36, 2), "-2", Color("#ff5050"), 2)
 		efeitos.numero(Vector2(180, LINHA_Y + (40 if d == 0 else -40)), "DECK VAZIO", Color("#ffd0a0"), 1)
 		await get_tree().create_timer(0.5).timeout
-		if cornucopia[d] <= 0:
-			acabou = true
-			if d == 1:
-				await _vitoria()
-			else:
-				await _derrota()
+		await _checar_fim()
 		return
-	var c: Carta = deck.pop_back()
+	await _receber_comprada(d, deck.pop_back())
+
+
+## A carta (já fora do deck) vai para a mão com o arco de compra. `queimar`: mão cheia manda ao cemitério.
+func _receber_comprada(d: int, c: Carta, queimar := true) -> void:
+	var mao := _mao_de(d)
 	c.empilhada = false
 	c.z_index = 500 + mao.size()
-	if mao.size() >= MAO_MAX:
+	if queimar and mao.size() >= MAO_MAX:
 		if not c.virada_para_cima:
 			await c.virar(0.2)
 		efeitos.numero(c.position + Vector2(0, -40), "MAO CHEIA", Color("#ffd0a0"), 1)
 		await get_tree().create_timer(0.3).timeout
 		efeitos.estilhacar(c.position, c.cores_estilhaco(), int(Carta.LARG * c.scale.x), int(Carta.ALT * c.scale.y))
+		cemit[d].append({"dados": c.dados, "no": null})
 		c.queue_free()
 		cemiterio[d] += 1
 		return
@@ -1324,7 +1460,8 @@ func _comprar(d: int) -> void:
 	if d == 0:
 		var lay: Array = _layout_mao(mao.size(), mao.size() - 1)
 		_arco(c, lay[0], 0.42, 40, lay[1], 1.0)
-		get_tree().create_timer(0.1).timeout.connect(func() -> void: c.virar(0.26))
+		if not c.virada_para_cima:
+			get_tree().create_timer(0.1).timeout.connect(func() -> void: c.virar(0.26))
 		var anteriores: Array[Carta] = mao.slice(0, mao.size() - 1)
 		for kk in anteriores.size():
 			var a: Carta = anteriores[kk]
@@ -1333,25 +1470,219 @@ func _comprar(d: int) -> void:
 			t.tween_property(a, "position", l2[0], 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 			t.tween_property(a, "rotation", l2[1], 0.3)
 	else:
+		if c.virada_para_cima:
+			c.virar(0.2)
 		var lo: Array = _layout_mao_opon(mao.size(), mao.size() - 1)
 		_arco(c, lo[0], 0.42, 20, lo[1], 0.62)
 		_rearrumar(mao.slice(0, mao.size() - 1), _layout_mao_opon, 0.62)
 	await get_tree().create_timer(0.5).timeout
 	_rearrumar_de(d)
+	_atualizar_apagadas()
+
+
+## Carta volta para a mão do dono (Renascer, bounce, revive para a mão): estado impresso, face certa, encaixa no leque.
+func _entrar_na_mao(d: int, c: Carta) -> void:
+	c.resetar()
+	c.em_campo = false
+	c.dono = d
+	c.dono_real = d
+	var mao := _mao_de(d)
+	mao.append(c)
+	c.z_index = 500 + mao.size()
+	if d == 1 and c.virada_para_cima:
+		c.virar(0.24)
+	elif d == 0 and not c.virada_para_cima:
+		c.virar(0.24)
+	var t := create_tween().set_parallel(true)
+	t.tween_property(c, "levantada", 0.0, 0.3)
+	if d == 0:
+		t.tween_property(c, "scale", Vector2.ONE, 0.3)
+	_rearrumar_de(d)
+	_atualizar_apagadas()
+	await get_tree().create_timer(0.35).timeout
+
+
+## Descarte (efeito ou mão > 7): a carta vira, mostra-se e se desfaz; vai ao cemitério.
+func _descartar(d: int, c: Carta) -> void:
+	_mao_de(d).erase(c)
+	_rearrumar_de(d)
+	c.z_index = 760
+	if not c.virada_para_cima:
+		await c.virar(0.2)
+	efeitos.numero(c.position + Vector2(0, 40 if d == 1 else -52), "DESCARTE", Color("#c88aff"), 1)
+	await get_tree().create_timer(0.3).timeout
+	efeitos.estilhacar(c.position, [Color("#c88aff"), Color("#4e2c6c"), Color("#f2e6c8")], int(Carta.LARG * c.scale.x), int(Carta.ALT * c.scale.y))
+	cemit[d].append({"dados": c.dados, "no": null})
+	cemiterio[d] += 1
+	c.visible = false                          # libera depois: um ataque/efeito em curso ainda pode apontar para ela
+	get_tree().create_timer(6.0).timeout.connect(c.queue_free)
+	_atualizar_apagadas()
+
+
+## Token/carta que some sem ir à pilha do cemitério.
+func _desfazer(c: Carta) -> void:
+	_remover_do_campo(c)
+	c.em_campo = false
+	_sacudir(c, 2.0)
+	await get_tree().create_timer(0.15).timeout
+	efeitos.estilhacar(c.position, c.cores_estilhaco(), int(Carta.LARG * c.scale.x), int(Carta.ALT * c.scale.y))
+	c.visible = false                          # libera depois: gatilhos ainda podem apontar para ela (triggering)
+	get_tree().create_timer(6.0).timeout.connect(c.queue_free)
+	await get_tree().create_timer(0.2).timeout
+
+
+func _embaralhar_deck(d: int) -> void:
+	var deck := _deck_de(d)
+	for i in range(deck.size() - 1, 0, -1):
+		var j := rng.randi_range(0, i)
+		var tmp := deck[i]
+		deck[i] = deck[j]
+		deck[j] = tmp
+	var base := proj(DECK_JOG if d == 0 else DECK_OPON)
+	for i in deck.size():
+		deck[i].position = base + Vector2(0, -int(i / 3))
+		deck[i].z_index = i
+		deck[i].empilhada = i > 0
+
+
+func _pos_fe(d: int) -> Vector2:
+	return proj(Vector2(300, LINHA_Y + 8)) if d == 0 else proj(Vector2(300, LINHA_Y - 14))
+
+
+## Põe uma Entidade num espaço (invocação, token, revive, roubo): entra cansada; cai com poeira.
+func _por_em_campo(c: Carta, d: int, i: int) -> void:
+	campo_ent[d][i] = c
+	c.dono = d
+	c.em_campo = true
+	c.apagada = false
+	c.atacou = false
+	c.cansada = true
+	motor.recalcular_auras()
+	var dest := pos_ent(d, i)
+	if c.position.distance_to(dest) > 60:
+		await _arco(c, dest + Vector2(0, -24), 0.35, 20, 0.0, esc_em(dest) * 1.25).finished
+	await _cair(c, dest, true)
+
+
+## Selo dispara: sobe, vira para cima com clarão roxo e brilho, mostra o nome.
+func _revelar_selo(s: Carta) -> void:
+	s.z_index = 760
+	Sessao.vibrar(30, 0.6)
+	efeitos.flash(Color("#7a5aa8"), 0.22)
+	var e := s.scale.x
+	var t := create_tween().set_parallel(true)
+	t.tween_property(s, "scale", Vector2(e, e) * 1.35, 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	t.tween_property(s, "levantada", 1.0, 0.15)
+	await t.finished
+	if not s.virada_para_cima:
+		await s.virar(0.24)
+	efeitos.anel(s.position, Color("#c8b0f0"), 44)
+	efeitos.faiscas(s.position, 20, Color("#c8b0f0"))
+	efeitos.numero(Vector2(180, LINHA_Y - 34 if s.dono == 1 else LINHA_Y + 34), "SELO: " + PixelFonte.normalizar(s.nome), Color("#e0c8ff"), 1)
+	for k in 2:
+		var tb := create_tween()
+		tb.tween_property(s, "brilho", 0.8, 0.07)
+		tb.tween_property(s, "brilho", 0.0, 0.14)
+		await tb.finished
+	await get_tree().create_timer(0.2).timeout
+
+
+func _selo_ao_cemiterio(s: Carta) -> void:
+	await get_tree().create_timer(0.2).timeout
+	efeitos.estilhacar(s.position, [Color("#c8b0f0"), Color("#7a5aa8"), Color("#3b2d5e")], int(Carta.LARG * s.scale.x), int(Carta.ALT * s.scale.y))
+	cemiterio[s.dono_real] += 1
+	s.queue_free()
+	await get_tree().create_timer(0.2).timeout
+
+
+# ---------- escolha de alvo pelo jogador (toque) ----------
+## Destaca os candidatos e espera um toque num deles; o botão devolve null (PULAR / CANCELAR).
+func pedir_alvo(cands: Array, dica: String, botao := "PULAR"):
+	alvos_pedidos = cands.duplicate()
+	efeitos.destaques.clear()
+	for c in cands:
+		var cc: Carta = c
+		var sz := Vector2(Carta.LARG, Carta.ALT) * cc.scale.x
+		efeitos.destaques.append(Rect2(cc.position - sz / 2, sz).grow(3))
+	efeitos.dica = dica
+	efeitos.dica_y = LINHA_Y - 6
+	efeitos.escolha = [{"rect": Rect2(155, LINHA_Y + 4, 50, 12), "texto": botao, "valor": "pular"}]
+	var r = await alvo_tocado
+	alvos_pedidos.clear()
+	efeitos.destaques.clear()
+	efeitos.escolha.clear()
+	efeitos.dica = ""
+	return r
+
+
+## Escolha simples no cemitério: até 4 botões com as Entidades válidas (mais caras primeiro).
+func pedir_cemiterio(cands: Array):
+	var lista := cands.duplicate()
+	lista.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a["dados"]["custo"]) > int(b["dados"]["custo"]))
+	lista = lista.slice(0, 4)
+	efeitos.escolha = []
+	for k in lista.size():
+		var n := PixelFonte.normalizar(str(lista[k]["dados"]["nome"]))
+		if n.length() > 22:
+			n = n.substr(0, 22)
+		efeitos.escolha.append({"rect": Rect2(90, 236 + k * 16, 180, 12), "texto": "%s  %d" % [n, int(lista[k]["dados"]["custo"])], "valor": k})
+	efeitos.escolha.append({"rect": Rect2(155, 236 + lista.size() * 16, 50, 12), "texto": "PULAR", "valor": -1})
+	efeitos.dica = "REVIVER QUAL?"
+	efeitos.dica_y = 222
+	var v = await escolhido
+	efeitos.escolha.clear()
+	efeitos.dica = ""
+	if v == null or int(v) < 0:
+		return null
+	return lista[int(v)]
 
 
 # ---------- jogar cartas ----------
+## Como um Rito é jogado: "area" (soltar em qualquer lugar do campo), "alvo" (soltar sobre o alvo),
+## "cemiterio" (soltar sobre o cemitério) ou "sem_alvo" (não há alvo útil: recusa).
+func _rito_modo(c: Carta, d: int) -> String:
+	var tipo := MotorEfeitos.alvo_escolhido(c.dados)
+	if tipo == "":
+		return "area"
+	if not motor.candidatos(tipo, d, c.dados).is_empty():
+		return "cemiterio" if tipo == "ally_graveyard_entity" else "alvo"
+	for ef in c.dados.get("efeitos", []):
+		for a in ef["acoes"]:
+			var al := str(a.get("alvo", ""))
+			if al == tipo:
+				continue
+			if not (al in MotorEfeitos.ALVOS_ESCOLHIDOS) or not motor.candidatos(al, d, c.dados).is_empty():
+				return "area"
+	return "sem_alvo"
+
+
+func _portadoras(d: int) -> Array:
+	return motor.campo(d).filter(func(e: Carta) -> bool: return e.reliquia.is_empty())
+
+
 ## "" = pode jogar; senão um motivo curto (mostrado sobre a carta).
 func _motivo_jogar(c: Carta, d: int) -> String:
 	if c.custo > fe[d]:
 		return "SEM FE"
-	if c.tipo == "entidade" and _espaco_livre(campo_ent[d]) < 0:
-		return "CAMPO CHEIO"
-	if c.tipo == "selo":
-		if selo_no_turno:
-			return "1 SELO POR TURNO"
-		if _espaco_livre(campo_selo[d]) < 0:
-			return "SEM ESPACO"
+	match c.tipo:
+		"entidade":
+			var sac := int(c.dados.get("sacrificio", 0))
+			var n := motor.campo(d).size()
+			if sac > 0 and n < sac:
+				return "SACRIFICIO %d" % sac
+			if n - sac >= 4:
+				return "CAMPO CHEIO"
+		"selo":
+			if selo_no_turno:
+				return "1 SELO POR TURNO"
+			if _espaco_livre(campo_selo[d]) < 0:
+				return "SEM ESPACO"
+		"reliquia":
+			if _portadoras(d).is_empty():
+				return "SEM PORTADORA"
+		"rito":
+			if _rito_modo(c, d) == "sem_alvo":
+				return "SEM ALVO"
 	return ""
 
 
@@ -1367,6 +1698,44 @@ func _pagar(d: int, custo: int) -> void:
 	_atualizar_apagadas()
 
 
+## Destaques enquanto o jogador arrasta uma carta da mão (só o que é válido para aquele tipo).
+func _destacar_jogada(c: Carta) -> void:
+	efeitos.destaques.clear()
+	if _motivo_jogar(c, 0) != "":
+		return
+	match c.tipo:
+		"entidade":
+			if int(c.dados.get("sacrificio", 0)) > 0:
+				efeitos.destaques.append(Rect2(26, LINHA_Y + 6, 308, 128))
+			else:
+				for i in 4:
+					if campo_ent[0][i] == null:
+						efeitos.destaques.append(_rect_espaco(pos_ent(0, i)))
+		"selo":
+			for i in 2:
+				if campo_selo[0][i] == null:
+					efeitos.destaques.append(_rect_espaco(pos_selo(0, i)))
+		"reliquia":
+			for e in _portadoras(0):
+				efeitos.destaques.append(_rect_espaco((e as Carta).position))
+		"rito":
+			match _rito_modo(c, 0):
+				"area":
+					efeitos.destaques.append(AREA_CAMPO)
+				"alvo":
+					for e in motor.candidatos(MotorEfeitos.alvo_escolhido(c.dados), 0, c.dados):
+						efeitos.destaques.append(_rect_espaco((e as Carta).position))
+				"cemiterio":
+					efeitos.destaques.append(_rect_espaco(proj(CEMIT_JOG)))
+
+
+func _carta_sob(p: Vector2, lista: Array) -> Carta:
+	for e in lista:
+		if is_instance_valid(e) and _rect_espaco((e as Carta).position).grow(6).has_point(p):
+			return e
+	return null
+
+
 func _soltar_da_mao_partida(c: Carta, p: Vector2) -> void:
 	var motivo := _motivo_jogar(c, 0)
 	if motivo != "":
@@ -1375,39 +1744,112 @@ func _soltar_da_mao_partida(c: Carta, p: Vector2) -> void:
 		return
 	match c.tipo:
 		"entidade":
-			var i := _espaco_sob(p, func(k: int) -> Vector2: return pos_ent(0, k), 4, campo_ent[0])
-			if i < 0:
+			var sac := int(c.dados.get("sacrificio", 0))
+			if sac <= 0:
+				var i := _espaco_sob(p, func(k: int) -> Vector2: return pos_ent(0, k), 4, campo_ent[0])
+				if i < 0:
+					await _recusar(c)
+					return
+				await _jogar_entidade(c, 0, i)
+				return
+			if not (p.y > LINHA_Y and p.y < 520):
 				await _recusar(c)
 				return
-			await _jogar_entidade(c, 0, i)
+			var t := create_tween().set_parallel(true)
+			t.tween_property(c, "position", Vector2(180, LINHA_Y + 150), 0.18)
+			t.tween_property(c, "rotation", 0.0, 0.18)
+			t.tween_property(c, "inclinacao", 0.0, 0.18)
+			t.tween_property(c, "scale", Vector2(0.9, 0.9), 0.18)
+			var escolhidas: Array = []
+			for k in sac:
+				var cands := motor.campo(0).filter(func(e: Carta) -> bool: return not (e in escolhidas))
+				var s = await pedir_alvo(cands, "SACRIFIQUE %d" % (sac - k), "CANCELAR")
+				if s == null:
+					efeitos.numero(c.position + Vector2(0, -52), "CANCELADO", Color("#ffd0a0"), 1)
+					await _recusar(c)
+					return
+				escolhidas.append(s)
+				(s as Carta).brilho = 0.5
+			var slot := _espaco_sob(p, func(k: int) -> Vector2: return pos_ent(0, k), 4, campo_ent[0])
+			await _jogar_entidade(c, 0, slot, escolhidas)
 		"selo":
 			var i := _espaco_sob(p, func(k: int) -> Vector2: return pos_selo(0, k), 2, campo_selo[0])
 			if i < 0:
 				await _recusar(c)
 				return
 			await _jogar_selo(c, 0, i)
-		_:
-			if p.y > 520:                                       # soltou em cima da própria mão
+		"reliquia":
+			var port := _carta_sob(p, _portadoras(0))
+			if port == null:
 				await _recusar(c)
 				return
-			await _jogar_rito(c, 0)
+			await _jogar_reliquia(c, 0, port)
+		_:
+			match _rito_modo(c, 0):
+				"area":
+					if not AREA_CAMPO.has_point(p):
+						await _recusar(c)
+						return
+					await _jogar_rito(c, 0)
+				"alvo":
+					var tipo := MotorEfeitos.alvo_escolhido(c.dados)
+					var alvo := _carta_sob(p, motor.candidatos(tipo, 0, c.dados))
+					if alvo == null:
+						await _recusar(c)
+						return
+					await _jogar_rito(c, 0, alvo, tipo)
+				"cemiterio":
+					if not _rect_espaco(proj(CEMIT_JOG)).grow(10).has_point(p):
+						await _recusar(c)
+						return
+					var cands := motor.candidatos("ally_graveyard_entity", 0, c.dados)
+					var e = cands[0] if cands.size() == 1 else await pedir_cemiterio(cands)
+					if e == null:
+						await _recusar(c)
+						return
+					await _jogar_rito(c, 0, e, "ally_graveyard_entity")
+				_:
+					await _recusar(c)
 
 
-func _jogar_entidade(c: Carta, d: int, i: int) -> void:
+## Entidade: paga, sai da mão, sacrifícios morrem (sem Renascer), entra cansada → Selos enemy_plays_entity do
+## oponente → (se não anulada) Despertar. `i` < 0 ou ocupado: primeiro espaço livre.
+func _jogar_entidade(c: Carta, d: int, i: int, sacrificios: Array = []) -> void:
 	_conta(d, "entidades")
 	_pagar(d, c.custo)
 	_mao_de(d).erase(c)
 	_rearrumar_de(d)
-	campo_ent[d][i] = c
 	c.apagada = false
-	c.atacou = false
-	c.cansada = not ("impeto" in c.keywords)
-	var dest := pos_ent(d, i)
-	if d == 1 or segurando == null and c.position.distance_to(dest) > 60:
-		await _arco(c, dest + Vector2(0, -24), 0.35, 20, 0.0, esc_em(dest) * 1.25).finished
-	await _cair(c, dest, true)
-	if "impeto" in c.keywords:
-		efeitos.numero(dest + Vector2(0, -34), "IMPETO", Color("#ffe39a"), 1)
+	for s in sacrificios:
+		efeitos.numero((s as Carta).position + Vector2(0, -30), "SACRIFICIO", Color("#e0a8ff"), 1)
+		await motor.morrer(s, false)
+	await motor.processar_mortes()
+	if i < 0 or campo_ent[d][i] != null:
+		i = _espaco_livre(campo_ent[d])
+	if i < 0:
+		cemit[d].append({"dados": c.dados, "no": null})
+		c.queue_free()
+		return
+	await _por_em_campo(c, d, i)
+	if c.tem("impeto"):
+		efeitos.numero(c.position + Vector2(0, -34), "IMPETO", Color("#ffe39a"), 1)
+	var ctx := {"triggering": c, "attacker": null}
+	await motor.disparar_selos("enemy_plays_entity", 1 - d, ctx)
+	if ctx.get("anulado", false):
+		if c.em_campo:
+			_remover_do_campo(c)
+			c.em_campo = false
+			cemit[d].append({"dados": c.dados, "no": c})
+			efeitos.numero(c.position + Vector2(0, -30), "ANULADA", Color("#c88aff"), 1)
+			await _destruir(c)
+			motor.recalcular_auras()
+		await _checar_fim()
+		return
+	await motor.processar_mortes()
+	if c.em_campo and not acabou:
+		await motor.disparar_efeitos_entidade(c, "on_play", {"triggering": c, "interativo": motor.humano(d)})
+		await motor.processar_mortes()
+	await _checar_fim()
 
 
 func _jogar_selo(c: Carta, d: int, i: int) -> void:
@@ -1418,14 +1860,17 @@ func _jogar_selo(c: Carta, d: int, i: int) -> void:
 	campo_selo[d][i] = c
 	selo_no_turno = true
 	c.apagada = false
+	c.dono = d
+	c.turno_posto = turno_n
 	var dest := pos_selo(d, i)
 	if d == 1 or c.position.distance_to(dest) > 60:
 		await _arco(c, dest + Vector2(0, -24), 0.35, 20, 0.0, esc_em(dest) * 1.25).finished
 	await _cair(c, dest, false)
 
 
-## Rito/Relíquia (fase 1): sobe ao centro, vira, mostra o nome, brilha 3× e se desfaz; o efeito real vem na fase 2.
-func _jogar_rito(c: Carta, d: int) -> void:
+## Rito: sobe ao centro, vira, mostra o nome e brilha → Selos enemy_plays_rite do oponente (podem anular) →
+## efeito (alvo já escolhido pelo arraste em `pre`) → cemitério.
+func _jogar_rito(c: Carta, d: int, pre = null, tipo_pre := "") -> void:
 	_conta(d, "ritos")
 	_pagar(d, c.custo)
 	_mao_de(d).erase(c)
@@ -1448,12 +1893,71 @@ func _jogar_rito(c: Carta, d: int) -> void:
 		tb.tween_property(c, "brilho", 0.6, 0.08)
 		tb.tween_property(c, "brilho", 0.0, 0.12)
 		await tb.finished
-	var cores := [Color("#ffe39a"), Color("#fff4d0"), Color("#e2b85a")] if c.tipo == "reliquia" else [Color("#8ae3a8"), Color("#d8ffe0"), Color("#4aa070")]
-	efeitos.estilhacar(c.position, cores, 70, 100)
-	tremor = 2.0
+	var ctx := {"triggering": c, "attacker": null, "dono": d, "fonte": c, "self": null, "interativo": motor.humano(d)}
+	if pre != null and tipo_pre != "":
+		ctx["_esc_" + tipo_pre] = pre
+	await motor.disparar_selos("enemy_plays_rite", 1 - d, ctx)
+	if ctx.get("anulado", false):
+		efeitos.numero(p + Vector2(0, -50), "ANULADO", Color("#c88aff"), 2)
+		await get_tree().create_timer(0.4).timeout
+	else:
+		motor._linha_txt = 0
+		for ef in c.dados.get("efeitos", []):
+			if acabou:
+				break
+			if motor.cond_ok(ef.get("cond"), ctx):
+				await motor.executar_acoes(ef["acoes"], ctx)
+	cemit[d].append({"dados": c.dados, "no": null})
+	efeitos.estilhacar(c.position, [Color("#8ae3a8"), Color("#d8ffe0"), Color("#4aa070")], 70, 100)
+	tremor = maxf(tremor, 2.0)
 	c.queue_free()
 	cemiterio[d] += 1
 	await get_tree().create_timer(0.3).timeout
+	await motor.processar_mortes()
+	await _checar_fim()
+
+
+## Relíquia: voa até a portadora, encolhe e vira a faixa dourada sob ela → Selos enemy_plays_reliquia → on_equip.
+func _jogar_reliquia(c: Carta, d: int, port: Carta) -> void:
+	_conta(d, "reliquias")
+	_pagar(d, c.custo)
+	_mao_de(d).erase(c)
+	_rearrumar_de(d)
+	c.apagada = false
+	c.z_index = 780
+	if not c.virada_para_cima:
+		c.virar(0.2)
+	await _arco(c, port.position + Vector2(0, -10), 0.32, 24, 0.0, 0.9).finished
+	for k in 2:
+		var tb := create_tween()
+		tb.tween_property(c, "brilho", 0.7, 0.07)
+		tb.tween_property(c, "brilho", 0.0, 0.1)
+		await tb.finished
+	var t2 := create_tween().set_parallel(true)
+	t2.tween_property(c, "position", port.position + Vector2(0, Carta.ALT * port.scale.y / 2 + 6), 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	t2.tween_property(c, "scale", Vector2(0.15, 0.08), 0.18)
+	await t2.finished
+	c.queue_free()
+	var rel := {"dados": c.dados, "nome": c.nome, "usos": c.dados.get("usos"), "portadora": port, "dono": d}
+	port.reliquia = rel
+	efeitos.faiscas(port.position + Vector2(0, 36), 18, Color("#ffe39a"))
+	efeitos.anel(port.position, Color("#ffe39a"), 36)
+	efeitos.numero(port.position + Vector2(0, -44), PixelFonte.normalizar(c.nome), Color("#ffe39a"), 1)
+	_piscar(port)
+	var ctx := {"triggering": rel, "attacker": null, "equipped": port}
+	await motor.disparar_selos("enemy_plays_reliquia", 1 - d, ctx)
+	if ctx.get("anulado", false):
+		motor.remover_reliquia(rel)
+		await motor.processar_mortes()
+		await _checar_fim()
+		return
+	await motor.processar_mortes()
+	if is_same(port.reliquia, rel) and port.em_campo and not acabou:
+		motor._linha_txt = 0
+		await motor.disparar_efeitos_reliquia(rel, "on_equip", {"triggering": rel, "interativo": motor.humano(d)})
+		motor.recalcular_auras()
+		await motor.processar_mortes()
+	await _checar_fim()
 
 
 # ---------- regras de ataque ----------
@@ -1463,7 +1967,9 @@ func _pode_atacar(c: Carta, alvo: Carta) -> String:
 		return ""
 	if not c.virada_para_cima:
 		return "VIRADA"
-	if c.cansada:
+	if c.sem_ataque:
+		return "CONGELADA"
+	if c.cansada and not c.tem("impeto"):
 		return "CANSADA"
 	if c.atacou:
 		return "JA ATACOU"
@@ -1473,7 +1979,7 @@ func _pode_atacar(c: Carta, alvo: Carta) -> String:
 	var guardas: Array = []
 	for i in 4:
 		var e = campo_ent[inimigo][i]
-		if e != null and (e as Carta).virada_para_cima and "guarda" in (e as Carta).keywords:
+		if e != null and (e as Carta).virada_para_cima and (e as Carta).tem("guarda"):
 			guardas.append(e)
 	if not guardas.is_empty() and not (alvo in guardas):
 		return "GUARDA"
@@ -1482,27 +1988,11 @@ func _pode_atacar(c: Carta, alvo: Carta) -> String:
 
 ## Renascer: em vez de ir ao cemitério, volta para a mão do dono (uma vez — perde a palavra-chave).
 func _renascer(c: Carta) -> void:
-	c.keywords.erase("renascer")
 	_piscar(c)
 	efeitos.faiscas(c.position, 16, Color("#ffe39a"))
 	efeitos.numero(c.position + Vector2(0, -34), "RENASCER", Color("#ffe39a"), 1)
-	c.dano = 0
-	c.cansada = false
-	c.atacou = false
 	await get_tree().create_timer(0.35).timeout
-	var mao := _mao_de(c.dono)
-	if mao.size() >= MAO_MAX:
-		efeitos.estilhacar(c.position, c.cores_estilhaco(), 50, 70)
-		c.queue_free()
-		cemiterio[c.dono] += 1
-		return
-	mao.append(c)
-	c.z_index = 500 + mao.size()
-	if c.dono == 1 and c.virada_para_cima:
-		c.virar(0.24)
-	_rearrumar_de(c.dono)
-	_atualizar_apagadas()
-	await get_tree().create_timer(0.35).timeout
+	await _entrar_na_mao(c.dono_real, c)
 
 
 # ---------- segurar para ver a carta ----------
@@ -1530,9 +2020,13 @@ func _atualizar_zoom(delta: float) -> void:
 	if segurando != null:
 		segurando_t += delta
 		if segurando_t > 0.4 and ponteiro.distance_to(segurando_ini) < 5.0:
-			efeitos.zoom = segurando
-		elif ponteiro.distance_to(segurando_ini) >= 5.0:
-			efeitos.zoom = null
+			# segurou parado: abre a carta e cancela o arraste (ela volta ao lugar)
+			var c := segurando
+			segurando = null
+			efeitos.destaques.clear()
+			efeitos.zoom = c
+			zoom_travado = true
+			_devolver(c)
 	elif zoom_pendente != null:
 		zoom_t += delta
 		if not is_instance_valid(zoom_pendente) or ponteiro.distance_to(zoom_ini) >= 5.0:
@@ -1540,81 +2034,245 @@ func _atualizar_zoom(delta: float) -> void:
 			efeitos.zoom = null
 		elif zoom_t > 0.4:
 			efeitos.zoom = zoom_pendente
+			zoom_travado = true
+			zoom_pendente = null
 
 
-# ---------- IA (oponente; e o jogador com GD_AUTO=1) ----------
+# ---------- IA (oponente; e o jogador com GD_AUTO=1) — port do HeurBot de sim/bots.py ----------
+const LIMIAR_RITO := 1.5
+
+
 func _turno_ia(d: int) -> void:
 	ocupado = true
 	await get_tree().create_timer(0.4).timeout
-	# 1) joga da mais cara que cabe, até não caber mais nada
-	var jogou := true
-	while jogou and not acabou:
-		jogou = false
-		var ordem: Array = _mao_de(d).duplicate()
-		ordem.sort_custom(func(a: Carta, b: Carta) -> bool: return a.custo > b.custo)
-		for c in ordem:
-			var carta: Carta = c
-			if _motivo_jogar(carta, d) != "":
-				continue
-			if d == 1 and (carta.lendaria or carta.custo >= 5):
-				_provocar(0)
-			if carta.tipo == "entidade":
-				await _jogar_entidade(carta, d, _espaco_livre(campo_ent[d]))
-			elif carta.tipo == "selo":
-				await _jogar_selo(carta, d, _espaco_livre(campo_selo[d]))
-			else:
-				await _jogar_rito(carta, d)
-			jogou = true
-			await get_tree().create_timer(0.35).timeout
-			break
-	# 2) ataques
-	for i in 4:
+	for _k in 60:
 		if acabou:
 			break
-		var c = campo_ent[d][i]
-		if c == null:
-			continue
-		var plano := _ia_plano_ataque(c)
-		_conta(d, "plano_" + str(plano["acao"]))
-		if plano["acao"] == "direto":
-			if d == 1:
-				_provocar(1)
-			await _golpe_direto(c, 1 - d)
-			await get_tree().create_timer(0.35).timeout
-		elif plano["acao"] == "carta":
-			await _atacar(c, plano["alvo"])
-			await get_tree().create_timer(0.35).timeout
+		var acao := _ia_escolher(d)
+		if acao.is_empty():
+			break
+		_conta(d, "ia_" + str(acao["tipo"]))
+		if acao["tipo"] == "jogar":
+			var carta: Carta = acao["carta"]
+			if d == 1 and (carta.lendaria or carta.custo >= 5):
+				_provocar(0)
+			match carta.tipo:
+				"entidade":
+					var sac := int(carta.dados.get("sacrificio", 0))
+					var vitimas: Array = motor.campo(d)
+					vitimas.sort_custom(func(a: Carta, b: Carta) -> bool: return motor.valor(a) < motor.valor(b))
+					await _jogar_entidade(carta, d, -1, vitimas.slice(0, sac))
+				"selo":
+					await _jogar_selo(carta, d, _espaco_livre(campo_selo[d]))
+				"reliquia":
+					await _jogar_reliquia(carta, d, acao["alvo"])
+				_:
+					await _jogar_rito(carta, d)
+		else:
+			var c: Carta = acao["atacante"]
+			if acao["alvo"] == null:
+				if d == 1:
+					_provocar(1)
+				await _golpe_direto(c, 1 - d)
+			else:
+				await _atacar(c, acao["alvo"])
+		await get_tree().create_timer(0.35).timeout
 	await get_tree().create_timer(0.3).timeout
 	ocupado = false
 
 
-## Mata-e-sobrevive > troca (alvo custa ≥) > direto (campo vazio); respeita Guarda e cansaço via _pode_atacar.
+## Uma ação por vez: letal na Cornucópia > melhor jogada (pontuação > 0) > melhor ataque.
+func _ia_escolher(d: int) -> Dictionary:
+	var ini := 1 - d
+	var prontos: Array = motor.campo(d).filter(func(e: Carta) -> bool: return motor.pode_atacar(e))
+	if _campo_vazio(ini) and not prontos.is_empty():
+		var total := 0
+		for e in prontos:
+			total += (e as Carta).atk
+		if total >= cornucopia[ini]:
+			for e in prontos:
+				if _pode_atacar(e, null) == "" and (e as Carta).atk > 0:
+					return {"tipo": "atacar", "atacante": e, "alvo": null}
+	var jogada := _ia_melhor_jogada(d)
+	if not jogada.is_empty():
+		return jogada
+	var melhor := {}
+	var nota := 0.0
+	for e in prontos:
+		var plano := _ia_plano_ataque(e)
+		if plano["acao"] != "nada" and float(plano["nota"]) > nota:
+			nota = plano["nota"]
+			melhor = {"tipo": "atacar", "atacante": e, "alvo": plano.get("alvo")}
+	return melhor
+
+
+func _ia_melhor_jogada(d: int) -> Dictionary:
+	var melhor := {}
+	var pontos_melhor := 0.0
+	var vistos := {}
+	for c in _mao_de(d):
+		var carta: Carta = c
+		if vistos.has(carta.id) or _motivo_jogar(carta, d) != "":
+			continue
+		vistos[carta.id] = true
+		var opcoes: Array = []
+		if carta.tipo == "reliquia":
+			for port in _portadoras(d):
+				var pc: Carta = port
+				opcoes.append([1.5 + carta.custo * 0.5 + pc.atk * 0.3 + (1.5 if motor.pode_atacar(pc) else 0.0), pc])
+		elif carta.tipo == "entidade":
+			var base := 2.0 + carta.custo + carta.keywords.size() * 0.5
+			var sac := int(carta.dados.get("sacrificio", 0))
+			if sac > 0:
+				var vs: Array = motor.campo(d).map(func(e: Carta) -> float: return motor.valor(e))
+				vs.sort()
+				for k in sac:
+					base -= float(vs[k]) * 0.5
+			opcoes.append([base, null])
+		elif carta.tipo == "selo":
+			opcoes.append([1.5 + carta.custo * 0.5, null])
+		else:
+			opcoes.append([_ia_utilidade_rito(d, carta), null])
+		for o in opcoes:
+			var pts: float = o[0]
+			if pts > pontos_melhor or (pts == pontos_melhor and not melhor.is_empty() and carta.custo > (melhor["carta"] as Carta).custo):
+				pontos_melhor = pts
+				melhor = {"tipo": "jogar", "carta": carta, "alvo": o[1]}
+	return melhor if pontos_melhor > 0.0 else {}
+
+
+func _ia_utilidade_rito(d: int, c: Carta) -> float:
+	var total := 0.0
+	for ef in c.dados.get("efeitos", []):
+		if not motor.cond_ok(ef.get("cond"), {"dono": d, "triggering": c}):
+			return 0.0
+		for a in ef["acoes"]:
+			total += _ia_utilidade_acao(d, a)
+	return total if total >= LIMIAR_RITO else 0.0
+
+
+func _ia_utilidade_acao(d: int, a: Dictionary) -> float:
+	var ini := 1 - d
+	var op: String = a["op"]
+	var alvo := str(a.get("alvo", ""))
+	var meus: Array = motor.campo(d)
+	var deles: Array = motor.campo(ini)
+	var inimigos: Array = deles.filter(func(e: Carta) -> bool: return not e.protegida()) if alvo in ["enemy_entity", "enemy_entity_random"] else deles
+	var n := int(a.get("n", 0))
+	match op:
+		"damage":
+			if alvo == "enemy_cornucopia":
+				return 2.0 + (10.0 if cornucopia[ini] <= n else 0.0)
+			if alvo == "all_enemy_entities":
+				var s := 0.0
+				for e in deles:
+					s += 1.5 if (e as Carta).vida() <= n else 0.7
+				return s
+			if alvo == "all_entities":
+				var s := 0.0
+				for e in deles:
+					s += 1.5 if (e as Carta).vida() <= n else 0.7
+				for e in meus:
+					s -= 1.0 if (e as Carta).vida() <= n else 0.3
+				return s
+			if not inimigos.is_empty():
+				for e in inimigos:
+					if (e as Carta).vida() <= n:
+						return 3.0
+				return 1.0
+			return 0.0
+		"heal":
+			if alvo == "ally_cornucopia":
+				return 1.0 if cornucopia[d] <= 15 - n else 0.0
+			for e in meus:
+				if (e as Carta).dano > 0:
+					return 1.5
+			return 0.0
+		"draw":
+			return 1.5 * n
+		"search":
+			for c in _deck_de(d):
+				var cc: Carta = c
+				if (a.get("tipo") == null or cc.tipo == a["tipo"]) and (a.get("custo_max") == null or cc.custo <= int(a["custo_max"])) \
+						and (a.get("keyword") == null or a["keyword"] in cc.keywords):
+					return 2.0
+			return 0.0
+		"buff":
+			if alvo.begins_with("enemy") or alvo == "all_enemy_entities":
+				return 2.0 if not inimigos.is_empty() else 0.0
+			if meus.is_empty():
+				return 0.0
+			var prontos := meus.any(func(e: Carta) -> bool: return motor.pode_atacar(e))
+			return (2.0 if (prontos or a.get("perm", true)) else 0.5) + 0.3 * (int(a.get("atk", 0)) + int(a.get("vida", 0)))
+		"destroy", "bounce", "freeze", "silence", "swap_control", "set_stats":
+			if inimigos.is_empty() and alvo.begins_with("enemy"):
+				return 0.0
+			if alvo == "all_entities":
+				var s := 0.0
+				for e in deles:
+					s += motor.valor(e) * 0.5
+				for e in meus:
+					s -= motor.valor(e) * 0.5
+				return s
+			if op == "set_stats" and alvo.begins_with("ally"):
+				return 2.0 if not meus.is_empty() else 0.0
+			if op == "swap_control" and not motor.tem_slot(d):
+				return 0.0
+			return {"destroy": 4.0, "swap_control": 4.0, "bounce": 2.0, "freeze": 1.5, "silence": 1.5, "set_stats": 2.0}[op]
+		"summon":
+			return 2.0 if motor.tem_slot(d) else 0.0
+		"revive":
+			if motor.entidades_cemiterio(d).is_empty():
+				return 0.0
+			if str(a.get("para", "hand")) == "field" and not motor.tem_slot(d):
+				return 0.0
+			return 3.0
+		"discard":
+			return 2.0 if not _mao_de(ini).is_empty() else 0.0
+		"gain_fe":
+			for c in _mao_de(d):
+				if (c as Carta).tipo != "rito" and (c as Carta).custo <= fe[d] + n:
+					return 1.5
+			return 0.5
+		"give_keyword":
+			return 1.5 if not meus.is_empty() else 0.0
+		"copy_stats":
+			return 1.0
+		"win", "ritual_choronzon":
+			return 20.0
+	return 1.0
+
+
+## Melhor ataque desta Entidade: mata-e-sobrevive > troca favorável > dano grátis; Cornucópia se o campo inimigo
+## está vazio. Nunca morre sem matar. {"acao": "direto"|"carta"|"nada", "alvo", "nota"}
 func _ia_plano_ataque(c: Carta) -> Dictionary:
+	if c.atk <= 0 and c.efeitos.is_empty() and c.reliquia.is_empty():
+		return {"acao": "nada", "nota": 0.0}
 	if _pode_atacar(c, null) == "":
-		return {"acao": "direto"}
+		return {"acao": "direto", "alvo": null, "nota": 10.0 + c.atk}
 	var inimigo := 1 - c.dono
 	var melhor: Carta = null
-	var nota := -999.0
-	for i in 4:
-		var e = campo_ent[inimigo][i]
-		if e == null or _pode_atacar(c, e) != "":
+	var nota := 0.0
+	for e in motor.campo(inimigo):
+		if _pode_atacar(c, e) != "":
 			continue
 		var alvo: Carta = e
-		var mata := alvo.vida() <= c.atk
-		var sobrevive := c.vida() > alvo.atk
-		var n := -999.0
-		if mata and sobrevive:
-			n = 100.0 + alvo.atk * 3 + alvo.custo
-		elif mata and alvo.custo >= c.custo:
-			n = 50.0 + alvo.custo - c.custo
-		elif sobrevive and c.atk > 0:
-			n = 10.0 + c.atk                                  # castiga sem perder a carta
+		var mata := c.atk >= alvo.vida()
+		var morre := alvo.atk >= c.vida()
+		var n := 0.0
+		if mata and not morre:
+			n = 8.0 + motor.valor(alvo)
+		elif mata and morre:
+			var diff := motor.valor(alvo) - motor.valor(c)
+			n = 2.0 + diff if diff >= 0 else 0.0
+		elif not morre:
+			n = 1.0 + c.atk * 0.5 if c.atk > 0 else 0.0
 		if n > nota:
 			nota = n
 			melhor = alvo
 	if melhor != null:
-		return {"acao": "carta", "alvo": melhor}
-	return {"acao": "nada"}
+		return {"acao": "carta", "alvo": melhor, "nota": nota}
+	return {"acao": "nada", "nota": 0.0}
 
 
 var _ultima_provocacao := -100.0
@@ -1631,3 +2289,104 @@ func _provocar(i: int) -> void:
 		return
 	_ultima_provocacao = tempo
 	efeitos.falar(p.get("nome", ""), lista[i], Color(p.get("cor", "#e2b85a")), Sessao.oponente)
+
+
+## Carta que estava sendo arrastada volta ao lugar sem sacudir (usado ao abrir o zoom).
+func _devolver(c: Carta) -> void:
+	var t := create_tween().set_parallel(true)
+	t.tween_property(c, "inclinacao", 0.0, 0.15)
+	t.tween_property(c, "levantada", 0.0, 0.15)
+	if origem == "mao":
+		var k := mao_jog.find(c)
+		var lay: Array = _layout_mao(mao_jog.size(), k)
+		c.z_index = 500 + k
+		t.tween_property(c, "position", lay[0], 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		t.tween_property(c, "rotation", lay[1], 0.2)
+		t.tween_property(c, "scale", Vector2.ONE, 0.2)
+	else:
+		var dest := pos_ent(0, origem_idx)
+		c.z_index = 100
+		t.tween_property(c, "position", dest, 0.2)
+		t.tween_property(c, "rotation", 0.0, 0.2)
+		t.tween_property(c, "scale", Vector2.ONE * esc_em(dest), 0.2)
+
+
+# ================= roteiro de vídeo (GD_ROTEIRO=1): os 5 tipos de jogada com efeito real =================
+func _carta_db(cid: String, d: int, pos: Vector2, esc: float) -> Carta:
+	var c := _nova_carta(pos, esc)
+	c.definir(db["cartas"][cid], d)
+	return c
+
+
+func _roteiro_efeitos() -> void:
+	ativo = 0
+	turno_n = 5
+	fe_max = [8, 7]
+	fe = [8, 0]
+	# mesa montada: Rama (pronto) do nosso lado; Lázaro e Nezha do outro; um Selo (Arapuca) do oponente, de turno passado
+	var rama := _carta_db("hin_rama", 0, proj(DECK_JOG), 0.5)
+	rama.virada_para_cima = true
+	await _por_em_campo(rama, 0, 1)
+	rama.cansada = false
+	var lazaro := _carta_db("cri_lazaro_de_betania", 1, proj(DECK_OPON), 0.5)
+	lazaro.virada_para_cima = true
+	await _por_em_campo(lazaro, 1, 1)
+	var nezha := _carta_db("tao_nezha", 1, proj(DECK_OPON), 0.5)
+	nezha.virada_para_cima = true
+	await _por_em_campo(nezha, 1, 2)
+	var selo := _carta_db("ind_arapuca", 1, proj(DECK_OPON), 0.5)
+	await _jogar_selo_roteiro(selo, 1, 0)
+	# mão: Rito sem alvo, Rito com alvo, Relíquia, Entidade com Despertar de alvo
+	var ids := ["ind_cauim", "tao_flechas_de_houyi", "ind_ibirapema", "bru_circe"]
+	cornucopia[0] = 11
+	for k in mini(ids.size(), mao_jog.size()):
+		mao_jog[k].definir(db["cartas"][ids[k]], 0)
+		mao_jog[k].virada_para_cima = true
+	_atualizar_apagadas()
+	efeitos.numero(Vector2(180, LINHA_Y - 4), "SEU TURNO", Color("#ffe39a"), 2)
+	await get_tree().create_timer(1.2).timeout
+	var banquete: Carta = mao_jog[0]
+	var flechas: Carta = mao_jog[1]
+	var ibira: Carta = mao_jog[2]
+	var circe: Carta = mao_jog[3]
+	# 1) Rito sem alvo: solta em qualquer lugar do campo
+	await _demo_arrastar(banquete.position, Vector2(180, 250), 0.7)
+	await _esperar_livre()
+	await get_tree().create_timer(0.8).timeout
+	# 2) Rito com alvo: solta em cima do Lázaro
+	await _demo_arrastar(flechas.position, lazaro.position, 0.7)
+	await _esperar_livre()
+	await get_tree().create_timer(0.8).timeout
+	# 3) Relíquia: solta sobre o Rama
+	await _demo_arrastar(ibira.position, rama.position, 0.6)
+	await _esperar_livre()
+	await get_tree().create_timer(0.8).timeout
+	# 4) Despertar com alvo: Circe cai no espaço, o jogador toca a Nezha
+	_demo_arrastar(circe.position, pos_ent(0, 2), 0.6)
+	while alvos_pedidos.is_empty():
+		await get_tree().process_frame
+	await get_tree().create_timer(0.7).timeout
+	await _demo_tocar(nezha.position)
+	await _esperar_livre()
+	await get_tree().create_timer(0.8).timeout
+	# 5) Rama ataca a Nezha → o Selo Arapuca do oponente dispara
+	await _demo_arrastar(rama.position, nezha.position, 0.6)
+	await _esperar_livre()
+	efeitos.cursor = Vector2(-100, -100)
+	await get_tree().create_timer(1.5).timeout
+	print("ROTEIRO: fim  ", motor.resumo())
+
+
+func _esperar_livre() -> void:
+	await get_tree().process_frame
+	while ocupado:
+		await get_tree().process_frame
+
+
+func _jogar_selo_roteiro(c: Carta, d: int, i: int) -> void:
+	campo_selo[d][i] = c
+	c.dono = d
+	c.turno_posto = 1
+	var dest := pos_selo(d, i)
+	await _arco(c, dest + Vector2(0, -24), 0.35, 20, 0.0, esc_em(dest) * 1.25).finished
+	await _cair(c, dest, false)

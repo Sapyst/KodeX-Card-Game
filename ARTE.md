@@ -61,11 +61,8 @@ com uma lista de **atributos obrigatórios**. Regras aplicadas em todas as carta
 3. As que ainda falharam em algum detalhe entraram como **provisórias** (a menos ruim) e ganharam uma terceira rodada
    (`f`, `g`, `h`). Relatórios em `arte/<deck>/_revisao_krea.md` (local).
 
-Cartas provisórias nesta Alpha (podem ter algum atributo imperfeito):
-`ind_curupira`, `ind_mapinguari`, `ind_visao_do_caapi`, `ind_ibirapema`, `cri_anjo_da_guarda`, `cri_sansao`, `cri_leviata`,
-`cri_praga_dos_gafanhotos`, `cri_vale_dos_ossos_secos`, `tao_lan_caihe`, `tao_zhang_guolao`, `tao_flechas_de_houyi`,
-`hin_ganesha`, `hin_durga`, `hin_shiva_nataraja`, `hin_chamas_de_agni`, `hin_vishvarupa`, `bru_benandante`,
-`bru_bruxa_de_endor`, `bru_baba_yaga`, `alt_homunculo`, `alt_dantalion`, `alt_paimon`.
+Cartas provisórias nesta Alpha (13 — ainda falta algum atributo; as outras 10 da 3ª rodada foram aprovadas):
+`bru_baba_yaga`, `ind_curupira`, `ind_mapinguari`, `ind_ibirapema`, `hin_shiva_nataraja`, `hin_vishvarupa`, `cri_anjo_da_guarda`, `tao_lan_caihe`, `tao_flechas_de_houyi`, `alt_homunculo`, `alt_dantalion`, `alt_paimon`, `bru_benandante`.
 
 ## 2. Frame das cartas
 

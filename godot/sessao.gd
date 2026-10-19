@@ -21,11 +21,73 @@ var torneio_ordem: Array = []        # 6 oponentes; o último é sempre alta_mag
 var torneio_idx := 0
 
 
+# ================= idioma (pt / en) =================
+var idioma := "pt"
+var _ui_en: Dictionary = {}
+const CONFIG := "user://config.cfg"
+
+
 func _ready() -> void:
 	rng.randomize()
+	if FileAccess.file_exists("res://dados/ui_en.json"):
+		_ui_en = JSON.parse_string(FileAccess.get_file_as_string("res://dados/ui_en.json"))
+	var cfg := ConfigFile.new()
+	if cfg.load(CONFIG) == OK:
+		idioma = str(cfg.get_value("geral", "idioma", ""))
+	if idioma == "":
+		idioma = "pt" if OS.get_locale_language() == "pt" else "en"     # 1ª vez: idioma do celular
+	if OS.get_environment("GD_IDIOMA") != "":
+		idioma = OS.get_environment("GD_IDIOMA")
+	carregar_dados()
+
+
+## Recarrega cartas e lore no idioma atual (nomes e textos das cartas vêm de cartas_en.json no inglês).
+func carregar_dados() -> void:
 	db = JSON.parse_string(FileAccess.get_file_as_string("res://dados/cartas.json"))
-	if FileAccess.file_exists("res://dados/lore.json"):
-		lore = JSON.parse_string(FileAccess.get_file_as_string("res://dados/lore.json"))
+	var arq_lore := "res://dados/lore_en.json" if idioma == "en" else "res://dados/lore.json"
+	if FileAccess.file_exists(arq_lore):
+		lore = JSON.parse_string(FileAccess.get_file_as_string(arq_lore))
+	if idioma == "en" and FileAccess.file_exists("res://dados/cartas_en.json"):
+		var en: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://dados/cartas_en.json"))["cartas"]
+		for cid in db["cartas"]:
+			if en.has(cid):
+				db["cartas"][cid]["nome"] = en[cid]["nome"]
+				db["cartas"][cid]["texto"] = en[cid]["texto"]
+
+
+func trocar_idioma() -> void:
+	idioma = "en" if idioma == "pt" else "pt"
+	var cfg := ConfigFile.new()
+	cfg.load(CONFIG)
+	cfg.set_value("geral", "idioma", idioma)
+	cfg.save(CONFIG)
+	carregar_dados()
+
+
+## Tradução de texto de interface. Os textos ficam em português no código; aqui viram inglês quando preciso.
+## Aceita números variáveis ("DANO 3" → chave "DANO %d") e prefixos ("BUSCA ENTIDADE" → "SEARCH " + resto).
+func t(s: String) -> String:
+	if idioma != "en" or s == "":
+		return s
+	if _ui_en.has(s):
+		return _ui_en[s]
+	var re := RegEx.create_from_string("-?\\d+")
+	var nums := re.search_all(s)
+	if not nums.is_empty():
+		var chave := re.sub(s, "%d", true)
+		if _ui_en.has(chave):
+			var args: Array = []
+			for m in nums:
+				args.append(int(m.get_string()))
+			return (_ui_en[chave] as String) % args
+	for pre in ["BUSCA ", "INVOCA ", "ALVO: ", "SELO: "]:
+		if s.begins_with(pre):
+			return _ui_en[pre] + t(s.substr(pre.length()))
+	return s
+
+
+func nome_deck(d: String) -> String:
+	return t(NOME_DECK.get(d, d))
 
 
 func personagem(deck: String) -> Dictionary:
@@ -93,3 +155,21 @@ func preparar_arcade(meu_deck: String, opon: String, deck_opon: String) -> void:
 	deck_jogador = montar_deck(deck_jogador_nome)
 	deck_oponente = montar_deck(d_op)
 	resultado = ""
+
+
+# ================= vibração (resposta tátil no celular) =================
+var _sem_vibrar := OS.get_environment("GD_AUTO") != "" or OS.get_environment("GD_DEMO") != ""
+
+
+## Vibração curta (ms, força 0..1). Não vibra em teste automático (GD_AUTO) nem na demo (GD_DEMO).
+func vibrar(ms: int, forca: float = 0.5) -> void:
+	if _sem_vibrar:
+		return
+	Input.vibrate_handheld(ms, clampf(forca, 0.0, 1.0))
+
+
+## n pulsos de `ms` separados por `pausa` s (recusa, vitória).
+func vibrar_pulsos(n: int, ms: int, forca: float = 0.5, pausa: float = 0.07) -> void:
+	for k in n:
+		vibrar(ms, forca)
+		await get_tree().create_timer(pausa + ms / 1000.0).timeout

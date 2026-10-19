@@ -16,7 +16,6 @@
 | **Lendária** | não |
 | **Cópias no deck** | 1 |
 | **Id** | `tao_zhang_guolao` |
-| **Arte** | provisória nesta Alpha |
 
 ## Texto da carta
 

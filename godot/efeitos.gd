@@ -512,7 +512,7 @@ func _desenhar_tutor_grande() -> void:
 	var larg_txt := 188
 	var linhas := Fonte57.quebrar(texto, larg_txt)
 	var h := 30.0 + linhas.size() * 11 + 14
-	var cy := 622.0 - h / 2                          # caixa encostada na base da tela, junto dos pés do Silas
+	var cy := 596.0 - h / 2                          # caixa junto dos pés do Silas, acima do degradê da base
 	var abre := clampf((t - 0.12) / 0.22, 0, 1)
 	abre = 1.0 - pow(1.0 - abre, 3.0)
 	var bx0 := 96.0
@@ -533,6 +533,7 @@ func _desenhar_tutor_grande() -> void:
 		var pos := Vector2(70 - lw / 2 - (1.0 - ent) * 140, 646 - alt + resp)   # base da arte no rodapé
 		draw_texture_rect(tex, Rect2(pos + Vector2(3, 4), Vector2(lw, alt)), false, Color(0, 0, 0, 0.45 * ent))
 		draw_texture_rect(tex, Rect2(pos, Vector2(lw, alt)), false, Color(1, 1, 1, ent))
+	_degrade_base(ent)
 	if abre < 1.0:
 		return
 	# placa do nome sobre a borda de cima da caixa
@@ -558,3 +559,20 @@ func _desenhar_tutor_grande() -> void:
 		PixelFonte.desenhar(self, Vector2(caixa.end.x - w - 16, caixa.end.y - 10), s, Color(1.0, 0.85, 0.4, pisca))
 		var tp := Vector2(caixa.end.x - 9, caixa.end.y - 8 + absf(sin(tempo * 5.0)) * 1.5)
 		draw_colored_polygon(PackedVector2Array([tp + Vector2(-3, -2), tp + Vector2(3, -2), tp + Vector2(0, 2)]), Color(1.0, 0.85, 0.4, pisca))
+
+
+## Degradê preto na base das falas: transparente em y 598, preto em y 640 e preto até o fim real da tela
+## (celulares mais altos que 9:16 mostram mais área abaixo) — esconde o corte da arte do Silas.
+func _degrade_base(al: float) -> void:
+	var inv := get_canvas_transform().affine_inverse()
+	var tela := get_viewport_rect().size
+	var a := inv * Vector2.ZERO
+	var b := inv * tela
+	var x0 := minf(a.x, b.x) - 10
+	var x1 := maxf(a.x, b.x) + 10
+	var fundo := maxf(a.y, b.y) + 10
+	var preto := Color(0.02, 0.01, 0.03, al)
+	var zero := Color(0.02, 0.01, 0.03, 0.0)
+	draw_polygon(PackedVector2Array([Vector2(x0, 598), Vector2(x1, 598), Vector2(x1, 640), Vector2(x0, 640)]),
+		PackedColorArray([zero, zero, preto, preto]))
+	draw_rect(Rect2(x0, 640, x1 - x0, maxf(0.0, fundo - 640)), preto)

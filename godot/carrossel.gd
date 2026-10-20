@@ -21,6 +21,7 @@ var vel := 0.0
 var t := 0.0                      # s desde a abertura
 var fechando := -1.0              # s desde o início do fechamento (-1 = aberto)
 var escolhido := -1
+var tam_pilha := Vector2(28, 39)  # tamanho da carta na pilha da mesa (abre de lá e volta exatamente para lá)
 var _segura := false
 var _ini := Vector2.ZERO
 var _ult := Vector2.ZERO
@@ -179,23 +180,25 @@ func _draw() -> void:
 		var alvo_c := Vector2(x, CY + minf(a_off, 3.0) * 10.0)
 		var alvo_t := Vector2(CW * esc * giro, CH * esc)
 		# abrir: sai da pilha escalonado (0,035 s por carta, a do centro primeiro); fechar: volta
-		var atraso := minf(a_off, 6.0) * 0.035
+		# abrir: sai do topo da pilha para baixo (a última que entrou sai primeiro), cada uma do seu lugar no monte
+		var na_pilha := origem + Vector2(0, -minf(k, 12))
+		var atraso := minf(n - 1 - k, 10) * 0.035
 		var u := clampf((t - atraso) / 0.4, 0, 1)
 		var e := _ease_back(u)
-		var pilha_t := Vector2(28, 39)
-		var c := origem.lerp(alvo_c, e)
-		var tam := pilha_t.lerp(alvo_t, e)
-		var rot := (1.0 - u) * (0.6 if off > 0 else -0.6)
+		var c := na_pilha.lerp(alvo_c, e)
+		var tam := tam_pilha.lerp(alvo_t, e)
+		var rot := (1.0 - u) * 0.25 * signf(off)
 		if fecha > 0.0:
-			var uf := clampf((fechando - atraso * 0.6) / 0.38, 0, 1)
-			uf = uf * uf
+			# fechar: voltam em ordem (de baixo para cima) e assentam alinhadas, sem girar, no lugar de cada uma
+			var uf := clampf((fechando - minf(k, 10) * 0.02) / 0.3, 0, 1)
+			uf = uf * uf * (3.0 - 2.0 * uf)
 			if k == escolhido:                                   # a escolhida sobe e some
 				c = alvo_c + Vector2(0, -uf * 120)
 				tam = alvo_t * (1.0 + uf * 0.25)
 			else:
-				c = alvo_c.lerp(origem, uf)
-				tam = alvo_t.lerp(pilha_t, uf)
-				rot = uf * (0.5 if off > 0 else -0.5)
+				c = alvo_c.lerp(na_pilha, uf)
+				tam = alvo_t.lerp(tam_pilha, uf)
+				rot = 0.0
 		var al := 1.0 if k != escolhido or fecha <= 0.0 else 1.0 - fecha
 		var esc_cor := 1.0 - minf(a_off, 3.0) * 0.22
 		draw_set_transform(c, rot, Vector2.ONE)

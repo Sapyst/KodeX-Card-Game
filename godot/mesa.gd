@@ -298,6 +298,7 @@ func _process(delta: float) -> void:
 			if c != null:
 				var cc: Carta = c
 				cc.aura_arcoiris = cc.virada_para_cima and (cc.atk > cc.atk_base or cc.defe > cc.vida_base)
+	_atualizar_pilhas()
 	if modo_partida:
 		_atualizar_zoom(delta)
 	# carta segurada: segue o dedo com atraso, inclina conforme a velocidade
@@ -1122,20 +1123,97 @@ func _destruir(c: Carta) -> void:
 	c.visible = false
 	await get_tree().create_timer(0.35).timeout
 	var cem := proj(CEMIT_JOG if c.dono == 0 else CEMIT_OPON)
-	c.position = cem + Vector2(0, -cemiterio[c.dono])
+	var k_pilha := _indice_cemit(c)
+	c.position = cem + Vector2(0, -_altura_pilha(k_pilha))
 	c.rotation = 0.0
 	c.brilho = 0.0
 	c.dano = 0
-	c.empilhada = cemiterio[c.dono] > 0
+	c.empilhada = false
 	c.scale = Vector2.ZERO
 	c.visible = true
-	c.z_index = 40 + cemiterio[c.dono]
+	c.z_index = 60
 	cemiterio[c.dono] += 1
 	if not c.virada_para_cima:
 		c.virada_para_cima = true
 	if modo_partida:
 		c.resetar()
-	create_tween().tween_property(c, "scale", Vector2.ONE * esc_em(cem), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	var tw := create_tween()
+	tw.tween_property(c, "scale", Vector2.ONE * esc_em(cem), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_callback(func() -> void:                   # assentou: a pilha organizada passa a mostrá-la
+		if is_instance_valid(c) and not c.em_campo and _indice_cemit(c) >= 0:
+			c.visible = false)
+
+
+# ---------- pilha do cemitério (organizada, na ordem real de entrada) ----------
+const PILHA_MAX := 12                     # no máximo 12 px de espessura visível (1 px por carta)
+
+
+func _altura_pilha(k: int) -> float:
+	return float(mini(k, PILHA_MAX))
+
+
+func _indice_cemit(c: Carta) -> int:
+	for d in 2:
+		for k in cemit[d].size():
+			if is_same(cemit[d][k]["no"], c):
+				return k
+	return -1
+
+
+## Topo visível de cada pilha: a última entrada que já assentou (as que ainda estão voando não contam).
+func _topo_assentado(d: int) -> int:
+	for k in range(cemit[d].size() - 1, -1, -1):
+		var no = cemit[d][k]["no"]
+		if no == null or not is_instance_valid(no) or not (no as Carta).visible or (no as Carta).em_campo:
+			return k
+	return -1
+
+
+func _atualizar_pilhas() -> void:
+	if not modo_partida:
+		return
+	if pilha_cem == null:
+		pilha_cem = Node2D.new()
+		pilha_cem.z_index = 38
+		pilha_cem.draw.connect(_desenhar_pilhas)
+		camada_cartas.add_child(pilha_cem)
+	for d in 2:
+		var k := _topo_assentado(d)
+		var cem := proj(CEMIT_JOG if d == 0 else CEMIT_OPON)
+		if topo_cem[d] == null:
+			topo_cem[d] = _nova_carta(cem, esc_em(cem))
+			topo_cem[d].z_index = 39
+			topo_cem[d].virada_para_cima = true
+		var tc: Carta = topo_cem[d]
+		tc.visible = k >= 0
+		if k >= 0:
+			var dd: Dictionary = cemit[d][k]["dados"]
+			if tc.id != str(dd.get("id", "")) or tc.get_meta("k", -1) != k:
+				tc.definir(dd, d)
+				tc.resetar()
+				tc.virada_para_cima = true
+				tc.set_meta("k", k)
+			tc.position = cem + Vector2(0, -_altura_pilha(k))
+			tc.scale = Vector2.ONE * esc_em(cem)
+			tc.rotation = 0.0
+	pilha_cem.queue_redraw()
+
+
+## Espessura da pilha: uma lâmina de papel por carta (até 12), alinhadas, com a borda escura alternada.
+func _desenhar_pilhas() -> void:
+	for d in 2:
+		var k := _topo_assentado(d)
+		if k < 1:
+			continue
+		var cem := proj(CEMIT_JOG if d == 0 else CEMIT_OPON)
+		var e := esc_em(cem)
+		var sz := Vector2(Carta.LARG, Carta.ALT) * e
+		var n := int(_altura_pilha(k))
+		pilha_cem.draw_rect(Rect2(cem - sz / 2 + Vector2(2, 3), sz + Vector2(0, n)), Color(0, 0, 0, 0.35))
+		for j in n:
+			var r := Rect2(cem - sz / 2 + Vector2(0, -j), sz)
+			pilha_cem.draw_rect(r, Carta.PAPEL if j % 2 == 0 else Carta.PAPEL_ESC)
+			pilha_cem.draw_rect(Rect2(r.position.x, r.end.y - 1, r.size.x, 1), Carta.PAPEL_ESC.darkened(0.25))
 
 
 ## Golpe direto na Cornucópia (só com o campo inimigo vazio): recuo maior, investida até o placar, tremor de 5 px,
@@ -1375,7 +1453,9 @@ var vencedor := -1                    # -1 em jogo · 0 jogador · 1 oponente ·
 var alvos_pedidos: Array = []         # o jogador está escolhendo um alvo por toque
 var veu_alvo: Node2D
 var tut: Tutorial = null
-var carrossel: Carrossel                  # tutorial em curso (só a jogada pedida é aceita)
+var carrossel: Carrossel
+var pilha_cem: Node2D = null
+var topo_cem: Array = [null, null]                  # tutorial em curso (só a jogada pedida é aceita)
 var _t_destaque := 0.0
 var _jogaveis: Array = []
 var veu_a := 0.0
@@ -1605,6 +1685,7 @@ func _reembaralhar(d: int) -> void:
 			c = _nova_carta(cem, esc_em(cem))
 		c.definir(e["dados"], d)
 		c.resetar()
+		c.visible = true
 		c.em_campo = false
 		c.apagada = false
 		c.empilhada = false
@@ -1894,12 +1975,15 @@ func _itens_cemiterio(lista: Array) -> Array:
 
 ## Ver o cemitério (o seu ou o do oponente): carrossel horizontal saindo da pilha.
 func abrir_cemiterio(d: int) -> void:
-	carrossel.abrir(_itens_cemiterio(cemit[d]), proj(CEMIT_JOG if d == 0 else CEMIT_OPON), "ver",
+	var cem := proj(CEMIT_JOG if d == 0 else CEMIT_OPON)
+	carrossel.tam_pilha = Vector2(Carta.LARG, Carta.ALT) * esc_em(cem)
+	carrossel.abrir(_itens_cemiterio(cemit[d]), cem, "ver",
 		"SEU CEMITÉRIO" if d == 0 else "CEMITÉRIO DELE")
 
 
 ## Escolha no cemitério (reviver): o mesmo carrossel, só com as candidatas; tocar na carta do centro escolhe.
 func pedir_cemiterio(cands: Array, titulo := "REVIVER QUAL?"):
+	carrossel.tam_pilha = Vector2(Carta.LARG, Carta.ALT) * esc_em(proj(CEMIT_JOG))
 	var r: int = await carrossel.escolher(_itens_cemiterio(cands), proj(CEMIT_JOG), titulo)
 	if r < 0:
 		return null

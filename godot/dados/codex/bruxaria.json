@@ -1,0 +1,347 @@
+{
+ "bru_sapo_familiar": {
+  "titulo_pt": "O Bichinho de Roupa Nova",
+  "titulo_en": "The Toad in Fine Clothes",
+  "lore_pt": "Nos grandes processos bascos de Zugarramurdi, entre 1609 e 1614, os acusados contavam uma história estranha e muito repetida: cada bruxa criava em casa um sapo vestido com roupinhas, alimentado com carinho e levado às reuniões noturnas. Dele se tiraria o veneno dos unguentos e das maldições. Na Inglaterra, o sapo também surge nos julgamentos como familiar, ao lado do gato e da doninha. Por trás do mito havia um dado real: a pele de muitos sapos libera toxinas de verdade. O bicho mais humilde do pântano virou, assim, a peça mais barata e mais temida do arsenal de uma bruxa.",
+  "lore_en": "In the great Basque trials of Zugarramurdi (1609–1614), the accused kept telling the same odd story: every witch raised a toad at home, dressed it in little clothes, fed it lovingly and carried it to the night gatherings, where its venom went into ointments and curses. English trials list toads as familiars too, alongside cats and weasels. There was a grain of truth underneath: many toads really do secrete toxins through their skin. So the humblest creature of the marsh became the cheapest, most dreaded tool in a witch's kit.",
+  "curiosidade_pt": "O inquisidor Alonso de Salazar y Frías mandou revistar as casas das acusadas atrás dos tais sapos vestidos e não achou nenhum; a ausência virou um dos argumentos dele para encerrar a caça às bruxas na Espanha.",
+  "curiosidade_en": "Inquisitor Alonso de Salazar y Frías had suspects' houses searched for the dressed toads and found not a single one — an absence he used to argue the whole affair was invented, helping end witch-hunting in Spain.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Basque_witch_trials",
+   "https://lemdo.uvic.ca/emee/WitchcraftAndAnimalFamiliars.html"
+  ]
+ },
+ "bru_gato_preto": {
+  "titulo_pt": "O Familiar das Sete Vidas",
+  "titulo_en": "The Familiar of Nine Lives",
+  "lore_pt": "Poucos animais carregam tanta superstição quanto o gato preto. Já em 1233 uma bula papal, a Vox in Rama, acusava hereges alemães de beijar um gato negro em seus ritos, e a calúnia passou depois para as bruxas. No primeiro grande julgamento de bruxaria da Inglaterra, em Chelmsford (1566), Elizabeth Francis confessou ter herdado da avó um gato chamado Satã, alimentado com pão, leite e gotas do próprio sangue. O folclore completou o retrato: o gato tem várias vidas, rouba a sorte de quem cruza seu caminho e é o disfarce favorito da bruxa para rondar a noite sem ser vista.",
+  "lore_en": "Few animals carry as much superstition as the black cat. As early as 1233 a papal bull, Vox in Rama, accused German heretics of kissing a black cat during their rites, and the slander later passed to witches. At England's first major witch trial, Chelmsford in 1566, Elizabeth Francis confessed she had inherited from her grandmother a cat named Satan, fed on bread, milk and drops of her own blood. Folklore filled in the rest: the cat has many lives, steals the luck of anyone whose path it crosses, and is the witch's favourite disguise for prowling unseen at night.",
+  "curiosidade_pt": "O gato de Elizabeth Francis não era preto: os registros o descrevem como branco e malhado. Ela o repassou a Agnes Waterhouse, que se tornou a primeira mulher executada por bruxaria na Inglaterra.",
+  "curiosidade_en": "Elizabeth Francis's cat wasn't black at all — the records call it white and spotted. She passed it on to Agnes Waterhouse, who became the first woman executed for witchcraft in England.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Elizabeth_Frauncis",
+   "https://en.wikipedia.org/wiki/Vox_in_Rama",
+   "https://en.wikipedia.org/wiki/Agnes_Waterhouse"
+  ]
+ },
+ "bru_corvo_agourento": {
+  "titulo_pt": "O Mensageiro do Agouro",
+  "titulo_en": "The Messenger of Ill Omen",
+  "lore_pt": "Por toda a Europa, corvos e gralhas eram aves de mau presságio: comiam os mortos nos campos de batalha, grasnavam sobre casas onde alguém ia morrer e, para espanto de todos, imitavam a fala humana. Na Irlanda, eram a forma de Badb e da Morrigan, deusas da guerra que pousavam sobre os heróis condenados. No Norte, dois corvos, Huginn e Muninn, voavam o mundo inteiro e voltavam para contar tudo a Odin. O folclore das bruxas herdou essa fama de espião: o corvo seria mandado para rondar a casa do vizinho, escutar segredos e secar a sorte de quem morava ali.",
+  "lore_en": "Across Europe, ravens and crows were birds of bad omen: they ate the dead on battlefields, cawed over houses where someone was about to die and, unnervingly, could mimic human speech. In Ireland they were the shape of Badb and the Morrígan, war goddesses who settled on doomed heroes. In the North, the ravens Huginn and Muninn flew over the whole world and came back to tell Odin everything. Witch lore inherited that reputation for spying: the raven was sent to circle a neighbour's house, overhear secrets and drain the luck of whoever lived there.",
+  "curiosidade_pt": "Os nomes Huginn e Muninn significam algo como “Pensamento” e “Memória”, e no poema Grímnismál Odin confessa temer mais pela volta de Memória do que pela de Pensamento.",
+  "curiosidade_en": "Huginn and Muninn mean roughly “Thought” and “Memory,” and in the poem Grímnismál Odin admits he worries more about Memory failing to return than Thought.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Huginn_and_Muninn",
+   "https://en.wikipedia.org/wiki/Badb"
+  ]
+ },
+ "bru_strega_de_benevento": {
+  "titulo_pt": "A Bruxa da Nogueira",
+  "titulo_en": "The Witch of the Walnut Tree",
+  "lore_pt": "A palavra italiana strega vem do latim strix, a ave noturna que, para os romanos, entrava pelas janelas para atacar recém-nascidos. Em Apuleio, uma feiticeira se unta e vira coruja: mulher e pássaro são a mesma criatura. Benevento, no sul da Itália, ganhou fama de capital das streghe. Diz a lenda que elas se reuniam sob uma enorme nogueira à beira do rio Sabato para dançar e preparar suas poções. No século VII, o bispo São Barbato teria mandado derrubar a árvore e arrancar suas raízes. Mas, como toda boa história de bruxa, a nogueira teria voltado a brotar.",
+  "lore_en": "The Italian word strega comes from the Latin strix, the night bird that, for the Romans, slipped through windows to prey on newborns. In Apuleius, a sorceress rubs herself with ointment and turns into an owl: woman and bird are one creature. Benevento, in southern Italy, became famous as the capital of the streghe. Legend says they gathered under a huge walnut tree by the river Sabato to dance and brew their potions. In the seventh century, Bishop Saint Barbatus supposedly had the tree felled and its roots torn out. But, as in any good witch tale, the walnut is said to have grown back.",
+  "curiosidade_pt": "A lenda deu nome ao licor amarelo Strega, feito em Benevento desde o século XIX, e o licor deu nome ao Prêmio Strega, um dos prêmios literários mais importantes da Itália.",
+  "curiosidade_en": "The legend named Strega, the yellow liqueur made in Benevento since the 19th century, and the liqueur in turn named the Premio Strega, one of Italy's most prestigious literary prizes.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Witches_of_Benevento",
+   "https://en.wikipedia.org/wiki/Strix_(mythology)",
+   "https://en.wikipedia.org/wiki/Strega_Prize"
+  ]
+ },
+ "bru_benandante": {
+  "titulo_pt": "O Guerreiro das Noites Sagradas",
+  "titulo_en": "The Night Warrior of the Harvest",
+  "lore_pt": "No Friul, nordeste da Itália, a Inquisição ouviu entre 1575 e 1675 uma história que não sabia classificar. Camponeses nascidos com a membrana do parto sobre o rosto diziam ser benandanti, “os que andam bem”. Quatro noites por ano, seus espíritos deixavam o corpo para lutar contra os bruxos malvados: eles armados de ramos de funcho, os inimigos de talos de sorgo. Se vencessem, a colheita seria farta; se perdessem, viria a fome. Eles se viam como defensores da fé, mas os inquisidores insistiram por décadas até que passassem a confessar o sabá esperado. O historiador Carlo Ginzburg viu ali o rastro de um antigo culto agrário.",
+  "lore_en": "In Friuli, in northeastern Italy, the Inquisition heard a story between 1575 and 1675 it simply couldn't classify. Peasants born with the birth membrane over their faces called themselves benandanti, “good walkers.” Four nights a year their spirits left their bodies to battle evil witches: they fought with fennel stalks, their enemies with sorghum canes. Victory meant a rich harvest; defeat meant famine. They saw themselves as defenders of the faith, yet the inquisitors pressed them for decades until they began confessing the sabbath the judges expected. Historian Carlo Ginzburg read in them the trace of an ancient agrarian cult.",
+  "curiosidade_pt": "A membrana que marcava o benandante, o âmnio, é a mesma da expressão portuguesa “nascer empelicado”, ainda hoje usada para quem nasce com sorte.",
+  "curiosidade_en": "The caul that marked a benandante is the same membrane behind the English phrase “born with a caul,” long considered a sign of luck and second sight.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Benandanti",
+   "https://en.wikipedia.org/wiki/Caul"
+  ]
+ },
+ "bru_circe": {
+  "titulo_pt": "A Feiticeira de Eeia",
+  "titulo_en": "The Enchantress of Aeaea",
+  "lore_pt": "Filha do Sol, Circe vivia na ilha de Eeia cercada de lobos e leões mansos, que um dia tinham sido homens. Na Odisseia, os companheiros de Ulisses aceitam sua bebida de mel e queijo, ela os toca com uma varinha e eles viram porcos, mas mantêm a mente humana. Ulisses resiste graças a uma erva mágica, o moly, presente de Hermes, e obriga Circe a desfazer o encanto. Em vez de inimiga, ela vira guia: é quem ensina o herói a descer ao mundo dos mortos e a escapar das Sereias. Homero a chama de deusa terrível de voz humana, a primeira grande feiticeira da literatura ocidental.",
+  "lore_en": "Daughter of the Sun, Circe lived on the island of Aeaea among tame wolves and lions that had once been men. In the Odyssey, Odysseus's companions drink her brew of honey and cheese; a touch of her wand turns them into pigs, though they keep their human minds. Odysseus resists thanks to a magic herb, moly, given by Hermes, and forces her to undo the spell. Instead of an enemy she becomes a guide, teaching the hero how to reach the land of the dead and slip past the Sirens. Homer calls her a dread goddess with a human voice — Western literature's first great sorceress.",
+  "curiosidade_pt": "O nome grego de Circe, Kírkē, provavelmente se liga a kírkos, um tipo de falcão: uma ave de rapina que circula a presa.",
+  "curiosidade_en": "Circe's Greek name, Kirkē, is probably linked to kirkos, a kind of hawk — a bird of prey that circles its quarry.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Circe",
+   "https://en.wikipedia.org/wiki/Moly_(herb)"
+  ]
+ },
+ "bru_medeia": {
+  "titulo_pt": "A Princesa dos Venenos",
+  "titulo_en": "The Princess of Poisons",
+  "lore_pt": "Neta do Sol, sobrinha de Circe e sacerdotisa de Hécate, Medeia é a feiticeira mais temida do mito grego. Apaixonada por Jasão, ela o protege com um unguento contra o fogo dos touros de bronze e faz adormecer o dragão que guardava o Velo de Ouro. Ovídio conta que ela rejuvenesceu o velho pai de Jasão num caldeirão de ervas colhidas ao luar, e enganou as filhas do rei Pélias para que fizessem o mesmo com o pai, sem a mágica. Na tragédia de Eurípides, traída por Jasão, ela envia à nova noiva um vestido envenenado que a queima viva, e foge num carro puxado por serpentes.",
+  "lore_en": "Granddaughter of the Sun, niece of Circe and priestess of Hecate, Medea is the most feared sorceress in Greek myth. In love with Jason, she shields him from the fire-breathing bronze bulls with an ointment and lulls to sleep the dragon guarding the Golden Fleece. Ovid tells how she made Jason's aged father young again in a cauldron of herbs gathered by moonlight — then tricked King Pelias's daughters into trying the same on their father, minus the magic. In Euripides' tragedy, betrayed by Jason, she sends his new bride a poisoned robe that burns her alive and escapes in a serpent-drawn chariot.",
+  "curiosidade_pt": "Hoje Medeia é uma das tragédias gregas mais encenadas, mas na estreia, em Atenas em 431 a.C., Eurípides ficou em terceiro e último lugar no concurso teatral.",
+  "curiosidade_en": "Medea is now one of the most-staged Greek tragedies, yet at its premiere in Athens in 431 BC Euripides finished third — dead last — in the drama competition.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Medea",
+   "https://en.wikipedia.org/wiki/Medea_(play)"
+  ]
+ },
+ "bru_bruxa_de_endor": {
+  "titulo_pt": "A Mulher que Chamou Samuel",
+  "titulo_en": "The Woman Who Summoned Samuel",
+  "lore_pt": "Segundo o Primeiro Livro de Samuel, na véspera de uma batalha perdida o rei Saul, que havia banido os necromantes de Israel, disfarça-se e procura em segredo uma mulher de Endor capaz de chamar os mortos. Ela hesita, temendo uma armadilha; ele jura protegê-la. Da terra sobe um ancião envolto num manto: o profeta Samuel, que anuncia a Saul que ele e seus filhos morrerão no dia seguinte. Vendo o rei arrasado, a mulher prepara pão e carne para que ele coma antes de partir. É o único relato detalhado de necromancia na Bíblia hebraica, e por séculos teólogos discutiram se aquele era mesmo Samuel ou um espírito disfarçado.",
+  "lore_en": "According to the First Book of Samuel, on the eve of a losing battle King Saul — who had banished necromancers from Israel — puts on a disguise and secretly visits a woman at Endor who can call up the dead. She hesitates, fearing a trap; he swears to protect her. From the earth rises an old man wrapped in a cloak: the prophet Samuel, who tells Saul he and his sons will die the next day. Seeing the king crushed, the woman cooks bread and meat so he can eat before he goes. It is the only detailed account of necromancy in the Hebrew Bible, and theologians long argued whether it was truly Samuel or a spirit in disguise.",
+  "curiosidade_pt": "O texto hebraico nunca a chama de “bruxa”: ela é a dona de um ôb, um espírito dos mortos. Uma tradição rabínica chega a identificá-la como a mãe de Abner, general do próprio Saul.",
+  "curiosidade_en": "The Hebrew text never calls her a “witch” — she is a woman who has an ’ob, a spirit of the dead. One rabbinic tradition even identifies her as the mother of Abner, Saul's own general.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Witch_of_Endor"
+  ]
+ },
+ "bru_baba_yaga": {
+  "titulo_pt": "A Velha da Cabana de Pés de Galinha",
+  "titulo_en": "The Crone of the Chicken-Legged Hut",
+  "lore_pt": "Nos contos russos e eslavos, Baba Yaga é a velha da floresta: perna de osso, dentes de ferro, nariz que bate no teto. Mora numa cabana que gira sobre pés de galinha, cercada por uma cerca de ossos com caveiras de olhos acesos, e voa num pilão, apagando o rastro com uma vassoura. Pode devorar quem a visita, mas também pode ajudá-lo. No conto de Vasilisa, a menina enviada para buscar fogo cumpre tarefas impossíveis com a ajuda de uma boneca mágica e volta para casa com uma caveira em chamas que destrói a madrasta cruel. Estudiosos a leem como a guardiã da fronteira entre vivos e mortos.",
+  "lore_en": "In Russian and Slavic tales, Baba Yaga is the crone of the forest: a bony leg, iron teeth, a nose that scrapes the ceiling. She lives in a hut that spins on chicken legs, behind a fence of bones topped with skulls whose eyes glow, and she flies in a mortar, sweeping away her tracks with a broom. She may eat her visitors — or help them. In the tale of Vasilisa, a girl sent to fetch fire completes impossible chores with a magic doll's help and returns home with a blazing skull that destroys her cruel stepmother. Scholars read her as the keeper of the border between the living and the dead.",
+  "curiosidade_pt": "Mussorgsky dedicou a ela um movimento de Quadros de uma Exposição, “A Cabana sobre Pés de Galinha”, inspirado num desenho de relógio em forma da casa da bruxa.",
+  "curiosidade_en": "Mussorgsky gave her a movement in Pictures at an Exhibition, “The Hut on Hen's Legs,” inspired by a design for a clock shaped like the witch's house.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Baba_Yaga",
+   "https://en.wikipedia.org/wiki/Vasilisa_the_Beautiful"
+  ]
+ },
+ "bru_cerridwen": {
+  "titulo_pt": "A Senhora do Caldeirão",
+  "titulo_en": "Lady of the Cauldron",
+  "lore_pt": "No conto galês da origem de Taliesin, a feiticeira Cerridwen quer compensar o filho feio e desafortunado com toda a sabedoria do mundo. Para isso, prepara um caldeirão que precisa ferver por um ano e um dia, vigiado pelo menino Gwion Bach. No último dia, três gotas escaldantes saltam na mão dele, que as leva à boca e recebe todo o saber. Furiosa, Cerridwen o persegue numa cadeia de transformações: lebre e cão, peixe e lontra, pássaro e falcão, até que ele vira um grão de trigo e ela, uma galinha preta que o engole. Nove meses depois, nasce Taliesin, o maior dos bardos de Gales.",
+  "lore_en": "In the Welsh tale of Taliesin's birth, the sorceress Cerridwen wants to make up for her ugly, luckless son by giving him all the wisdom in the world. She brews a cauldron that must simmer for a year and a day, tended by the boy Gwion Bach. On the final day three scalding drops leap onto his hand; he sucks them and gains all the knowledge. Furious, Cerridwen chases him through a string of shape-shifts — hare and hound, fish and otter, bird and hawk — until he becomes a grain of wheat and she a black hen that swallows him. Nine months later she gives birth to Taliesin, greatest of Welsh bards.",
+  "curiosidade_pt": "O resto da poção, sem as três gotas mágicas, virou veneno tão forte que rachou o caldeirão e envenenou os cavalos de um rei que bebiam no riacho onde ele escorreu.",
+  "curiosidade_en": "Once the three magic drops were gone, the rest of the brew turned so poisonous that it cracked the cauldron and killed a king's horses drinking from the stream it spilled into.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Ceridwen",
+   "https://en.wikipedia.org/wiki/Taliesin"
+  ]
+ },
+ "bru_a_morrigan": {
+  "titulo_pt": "A Grande Rainha dos Corvos",
+  "titulo_en": "The Great Queen of Ravens",
+  "lore_pt": "A Morrigan, “Grande Rainha”, é a deusa irlandesa da guerra, da profecia e do destino, muitas vezes vista como uma trindade de irmãs. Antes de uma batalha decisiva, ela se une ao deus Dagda numa margem de rio e promete a vitória ao seu povo. No épico Táin, oferece seu amor ao herói Cú Chulainn; rejeitada, ataca-o no combate como enguia, loba e novilha. Quando ele finalmente cai, amarrado a uma pedra para morrer de pé, ninguém ousa se aproximar até que um corvo pouse em seu ombro. Também é vista como a lavadeira do vau, que lava a armadura de quem vai morrer.",
+  "lore_en": "The Morrígan, the “Great Queen,” is the Irish goddess of war, prophecy and fate, often seen as a trio of sisters. Before a decisive battle she lies with the god Dagda by a river and promises victory to her people. In the epic Táin she offers her love to the hero Cú Chulainn; spurned, she attacks him mid-combat as an eel, a she-wolf and a heifer. When he finally falls, tied to a standing stone so he can die on his feet, no one dares approach until a raven lands on his shoulder. She also appears as the washer at the ford, rinsing the armour of those about to die.",
+  "curiosidade_pt": "A caverna de Oweynagat, em Rathcroghan, na Irlanda, é tradicionalmente chamada de casa da Morrigan e tida como uma porta para o Outro Mundo; ainda pode ser visitada.",
+  "curiosidade_en": "Oweynagat, a cave at Rathcroghan in Ireland, is traditionally called the Morrígan's home and a doorway to the Otherworld — and visitors can still crawl inside.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/The_Morr%C3%ADgan",
+   "https://en.wikipedia.org/wiki/Oweynagat"
+  ]
+ },
+ "bru_hecate": {
+  "titulo_pt": "A Senhora das Encruzilhadas",
+  "titulo_en": "Lady of the Crossroads",
+  "lore_pt": "Hécate é a deusa grega das encruzilhadas, da noite, dos fantasmas e da magia. Hesíodo a celebra como uma divindade honrada pelo próprio Zeus, com poder sobre a terra, o mar e o céu. No mito de Perséfone, é ela quem, tocha na mão, ouve o grito da jovem raptada e ajuda Deméter na busca. Com o tempo, passou a ser retratada com três corpos ou três rostos, cada um olhando para um caminho. Nas noites de lua nova, os atenienses deixavam ceias para ela nas encruzilhadas, e seus cães negros anunciavam sua chegada. É a deusa invocada por Medeia e venerada pelas feiticeiras antigas.",
+  "lore_en": "Hecate is the Greek goddess of crossroads, night, ghosts and magic. Hesiod praises her as a deity honoured by Zeus himself, with power over earth, sea and sky. In the myth of Persephone, torch in hand, she hears the stolen girl's cry and helps Demeter search for her. Over time she came to be shown with three bodies or three faces, each watching a different road. On new-moon nights Athenians left suppers for her at crossroads, and howling black dogs announced her approach. She is the goddess Medea calls upon and the patron of the sorceresses of antiquity.",
+  "curiosidade_pt": "Em Macbeth, de Shakespeare, Hécate aparece como a rainha das bruxas que repreende as Três Irmãs; muitos estudiosos acham que essas cenas foram acrescentadas depois por Thomas Middleton.",
+  "curiosidade_en": "In Shakespeare's Macbeth, Hecate appears as queen of the witches, scolding the Weird Sisters — though many scholars think those scenes were added later by Thomas Middleton.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Hecate",
+   "https://en.wikipedia.org/wiki/Three_Witches"
+  ]
+ },
+ "bru_mau_olhado": {
+  "titulo_pt": "O Olhar que Seca",
+  "titulo_en": "The Gaze That Withers",
+  "lore_pt": "A crença de que um olhar, sobretudo o olhar invejoso, pode adoecer uma criança, secar o leite da vaca ou quebrar a sorte é uma das mais antigas e espalhadas do Mediterrâneo ao Oriente Médio. Plutarco já tentava explicá-la com partículas que sairiam dos olhos. Ninguém precisava ser bruxa para ter “olho gordo”: qualquer um podia causar o mal sem querer. Mesmo assim, os caçadores de bruxas incorporaram a ideia, e o olhar fixo de uma acusada podia virar prova no tribunal. Contra ele nasceu a maior família de amuletos do mundo: o olho azul turco, a figa, o chifrinho napolitano, a fitinha vermelha.",
+  "lore_en": "The belief that a gaze — especially an envious one — can sicken a child, dry up a cow's milk or break someone's luck is among the oldest and most widespread from the Mediterranean to the Middle East. Plutarch tried to explain it with particles streaming from the eyes. No one had to be a witch to have the evil eye; anyone could cause harm without meaning to. Even so, witch-hunters absorbed the idea, and an accused woman's stare could become evidence in court. Against it grew the largest family of amulets on earth: the blue Turkish eye, the fig hand, the Neapolitan horn, the red ribbon.",
+  "curiosidade_pt": "Os romanos usavam contra o mau-olhado amuletos fálicos chamados fascinus, e é dessa raiz latina que vêm as palavras “fascinar” e “fascínio”.",
+  "curiosidade_en": "Romans warded off the evil eye with phallic charms called fascinus, and that Latin root gave English the word “fascinate.”",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Evil_eye",
+   "https://en.wikipedia.org/wiki/Fascinus"
+  ]
+ },
+ "bru_circulo_de_sal": {
+  "titulo_pt": "A Linha que o Mal Não Cruza",
+  "titulo_en": "The Line Evil Will Not Cross",
+  "lore_pt": "Para a magia popular europeia, o sal é o grande purificador. Por não apodrecer, seria justamente aquilo que o que é podre, o morto, o demônio, o feitiço, não consegue atravessar. Jogava-se uma pitada por cima do ombro quando ele caía, punha-se no berço do bebê antes do batismo e espalhava-se na soleira para impedir a entrada da bruxa. A própria liturgia cristã mistura sal à água benta. O círculo mágico vem da alta magia dos grimórios, mas a tradição popular e, depois, a Wicca o simplificaram: uma linha de sal no chão, e quem está dentro passa a estar “entre os mundos”, protegido.",
+  "lore_en": "In European folk magic, salt is the great purifier. Because it never rots, it was thought to be the one thing rotten forces — the dead, demons, curses — could not cross. A pinch went over the shoulder whenever it spilled, into the baby's cradle before baptism, and across the threshold to keep witches out. Christian liturgy itself mixes salt into holy water. The magic circle comes from the high magic of the grimoires, but folk practice and later Wicca simplified it: a line of salt on the floor, and whoever stands inside is “between the worlds,” protected.",
+  "curiosidade_pt": "Em A Última Ceia, de Leonardo da Vinci, há um saleiro derrubado diante de Judas, um detalhe muitas vezes lido como presságio de traição e azar.",
+  "curiosidade_en": "In Leonardo da Vinci's The Last Supper, a salt cellar lies knocked over in front of Judas — a detail often read as an omen of betrayal and bad luck.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Magic_circle",
+   "https://en.wikipedia.org/wiki/Salt#Religion_and_culture"
+  ]
+ },
+ "bru_garrafa_de_bruxa": {
+  "titulo_pt": "O Feitiço que Volta",
+  "titulo_en": "The Curse Sent Home",
+  "lore_pt": "A garrafa de bruxa é um dos poucos objetos de magia popular que os arqueólogos encontram aos montes. A partir do século XVII, ingleses enterravam sob a lareira ou a soleira jarras de cerâmica com urina, cabelo, unhas, pregos e alfinetes dobrados. A lógica era espelhada: a urina e o cabelo transformavam a garrafa num “corpo” da vítima enfeitiçada, e os pregos atormentavam a bruxa responsável até ela desfazer o mal, ou devolviam o feitiço a quem o lançou. Curandeiros populares vendiam a receita como contrafeitiço padrão, e o costume atravessou o Atlântico, sobrevivendo até o século XX.",
+  "lore_en": "The witch bottle is one of the few folk-magic objects archaeologists find in quantity. From the 17th century on, the English buried stoneware jars under hearths and thresholds, filled with urine, hair, nail clippings, nails and bent pins. The logic was a mirror image: urine and hair made the bottle a stand-in for the bewitched victim's body, while the sharp metal tormented the witch until she lifted the spell — or bounced the curse back to its sender. Cunning folk sold the recipe as the standard counter-charm, and the custom crossed the Atlantic and lasted into the 20th century.",
+  "curiosidade_pt": "Uma garrafa achada ainda lacrada em Greenwich, em 2004, foi analisada em laboratório: continha urina com resíduo de nicotina, doze pregos, um coração de couro espetado e unhas bem manicuradas, sinal de um dono abastado.",
+  "curiosidade_en": "A bottle found still sealed in Greenwich in 2004 went to the lab: it held urine with a nicotine trace, twelve iron nails, a pierced leather heart and neatly manicured fingernails — hinting at a well-off owner.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Witch_bottle",
+   "https://archive.archaeology.org/online/features/halloween/opening_witch_bottle/",
+   "https://en.wikipedia.org/wiki/Bartmann_jug"
+  ]
+ },
+ "bru_boneco_de_cera": {
+  "titulo_pt": "O Corpo de Cera",
+  "titulo_en": "The Body of Wax",
+  "lore_pt": "O boneco é a forma mais antiga da magia simpática: o que se faz com a imagem acontece com a pessoa. Um poema de Teócrito, do século III a.C., mostra uma jovem derretendo cera no fogo para que o amante “derreta” de paixão. Gregos enterravam figuras de chumbo com as mãos atadas junto a tabuletas de maldição. Nos processos de bruxaria, o boneco virou prova material: em Lancashire, em 1612, acusadas descreveram imagens de argila espetadas com espinhos, e na Escócia uma figura de cera teria sido usada para tentar matar o rei Jaime VI. Mas a tradição também tinha outro lado: em mãos certas, o boneco podia curar.",
+  "lore_en": "The doll is the oldest form of sympathetic magic: what is done to the image happens to the person. A poem by Theocritus from the 3rd century BC shows a young woman melting wax over a fire so that her lover will “melt” with desire. Greeks buried lead figures with bound hands next to curse tablets. In the witch trials the doll became physical evidence: in Lancashire in 1612 the accused described clay images pierced with thorns, and in Scotland a wax figure was allegedly used against King James VI. Yet there was another side: in the right hands, the doll could also heal.",
+  "curiosidade_pt": "Já no Egito antigo, os conspiradores que tramaram o assassinato do faraó Ramsés III foram acusados de usar figuras de cera mágicas para enfeitiçar os guardas do palácio.",
+  "curiosidade_en": "Back in ancient Egypt, the conspirators who plotted to murder Pharaoh Ramesses III were accused of using magic wax figures to bewitch the palace guards.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Poppet",
+   "https://en.wikipedia.org/wiki/North_Berwick_witch_trials",
+   "https://en.wikipedia.org/wiki/Harem_conspiracy"
+  ]
+ },
+ "bru_pocao_de_beladona": {
+  "titulo_pt": "A Bela e Mortal",
+  "titulo_en": "The Beautiful and the Deadly",
+  "lore_pt": "O nome científico da beladona, Atropa belladonna, junta duas ideias opostas: Átropos, a Moira grega que corta o fio da vida, e as “belas damas” italianas que pingavam o suco da planta nos olhos para dilatar as pupilas. Toda a planta é rica em alcaloides que, em pouca quantidade, aceleram o coração e provocam visões, e em excesso matam. Eruditos do século XVI a listavam nas receitas do unguento de voo das bruxas, muitas vezes para argumentar que elas não voavam de verdade, apenas sonhavam, drogadas. Para curandeiras de aldeia, porém, em dose certa, era remédio: a erva da bruxa por excelência, cura e veneno na mesma raiz.",
+  "lore_en": "Belladonna's scientific name, Atropa belladonna, joins two opposites: Atropos, the Greek Fate who cuts the thread of life, and the Italian “beautiful ladies” who dripped its juice into their eyes to widen their pupils. The whole plant is loaded with alkaloids that in small amounts race the heart and bring visions, and in larger ones kill. Sixteenth-century scholars listed it in recipes for witches' flying ointment, often to argue that witches never really flew but merely dreamed it, drugged. For village healers, though, a measured dose was medicine: the witch's herb above all, cure and poison in the same root.",
+  "curiosidade_pt": "A atropina, extraída da beladona, ainda é usada por oftalmologistas para dilatar a pupila e serve como antídoto contra gases de nervos usados em armas químicas.",
+  "curiosidade_en": "Atropine, extracted from belladonna, is still used by eye doctors to dilate pupils and serves as an antidote to the nerve agents used in chemical weapons.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Atropa_belladonna",
+   "https://en.wikipedia.org/wiki/Flying_ointment",
+   "https://en.wikipedia.org/wiki/Atropine"
+  ]
+ },
+ "bru_pacto_na_encruzilhada": {
+  "titulo_pt": "O Preço da Meia-Noite",
+  "titulo_en": "The Midnight Bargain",
+  "lore_pt": "Para os teólogos que definiram a bruxaria, o essencial não era o feitiço, mas o pacto: um acordo com o Diabo. A lenda mais antiga é a de Teófilo de Adana, um clérigo do século VI que vendeu a alma por escrito para recuperar um cargo e foi salvo pela Virgem, que resgatou o contrato. Dele descendem todas as versões de Fausto, que assina com sangue e paga no fim. A encruzilhada é o cenário natural desses acordos: lugar de Hécate e dos mortos sem descanso, onde o folclore europeu enterrava suicidas e onde, à meia-noite, se dizia possível comprar um talento com uma oferenda.",
+  "lore_en": "For the theologians who defined witchcraft, the heart of the matter wasn't the spell but the pact: a deal with the Devil. The oldest legend is that of Theophilus of Adana, a sixth-century cleric who sold his soul in writing to regain his post and was saved by the Virgin Mary, who retrieved the contract. Every Faust descends from him — the scholar who signs in blood and pays at the end. The crossroads is the natural setting for such bargains: Hecate's place and the haunt of restless dead, where European folklore buried suicides and where, at midnight, a talent could supposedly be bought with an offering.",
+  "curiosidade_pt": "Um suposto pacto do padre Urbain Grandier com Lúcifer e outros demônios, escrito em latim de trás para frente, foi apresentado como prova em seu julgamento em Loudun (1634) e ainda está guardado na Biblioteca Nacional da França.",
+  "curiosidade_en": "A supposed pact between priest Urbain Grandier and Lucifer and other demons, written in backward Latin, was entered as evidence at his 1634 trial in Loudun and survives today in France's national library.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Theophilus_of_Adana",
+   "https://en.wikipedia.org/wiki/Deal_with_the_Devil",
+   "https://en.wikipedia.org/wiki/Urbain_Grandier"
+  ]
+ },
+ "bru_seidr": {
+  "titulo_pt": "O Fio do Destino Nórdico",
+  "titulo_en": "The Norse Thread of Fate",
+  "lore_pt": "Seiðr é a magia nórdica de transe, profecia e manipulação da sorte, o que mais se aproxima de uma bruxaria na Escandinávia pré-cristã. Segundo Snorri Sturluson, foi a deusa Freyja quem ensinou a arte aos deuses Æsir, e o próprio Odin a praticava, embora fosse vista como vergonhosa para homens. A descrição mais viva está na saga de Érico, o Vermelho: durante uma fome na Groenlândia, a vidente Þorbjörg chega com manto azul, gorro de pele de cordeiro e cajado, senta-se numa plataforma alta enquanto uma mulher entoa cantos para atrair os espíritos, e então revela o futuro a cada um que pergunta.",
+  "lore_en": "Seiðr is the Norse magic of trance, prophecy and bending fortune — the closest thing to witchcraft in pre-Christian Scandinavia. According to Snorri Sturluson, the goddess Freyja taught the art to the Æsir gods, and Odin himself practised it, even though it was thought shameful for men. The most vivid account comes in the Saga of Erik the Red: during a famine in Greenland, the seeress Þorbjörg arrives in a blue cloak, lambskin hood and staff, takes a high seat while a woman sings to draw in the spirits, and then reveals the future to each person who asks.",
+  "curiosidade_pt": "Þorbjörg usava luvas de pele de gato com o pelo virado para dentro e, antes da sessão, comeu um mingau de leite de cabra com o coração de cada animal da fazenda.",
+  "curiosidade_en": "Þorbjörg wore catskin gloves with the fur turned inward, and before the ritual she ate a porridge of goat's milk mixed with the hearts of every animal on the farm.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Sei%C3%B0r",
+   "https://en.wikipedia.org/wiki/V%C3%B6lva",
+   "https://en.wikipedia.org/wiki/Saga_of_Erik_the_Red"
+  ]
+ },
+ "bru_po_de_ossos": {
+  "titulo_pt": "A Poeira dos Túmulos",
+  "titulo_en": "The Dust of the Grave",
+  "lore_pt": "Osso moído, cinza de pira e terra de sepultura eram os ingredientes clássicos de quem queria falar com os mortos. No poema Farsália, de Lucano, a bruxa tessália Ericto vasculha campos de batalha e piras funerárias atrás de restos humanos e reanima um soldado morto para profetizar o destino da guerra civil romana. Gregos e romanos depositavam tabuletas de maldição em túmulos, para que os mortos as levassem aos deuses do subterrâneo. Na magia popular europeia, a terra de cemitério servia tanto para amaldiçoar quanto para proteger: polvilhada na porta do inimigo ou carregada num saquinho junto ao corpo.",
+  "lore_en": "Ground bone, pyre ash and grave dirt were the classic ingredients for anyone who wanted to speak with the dead. In Lucan's poem Pharsalia, the Thessalian witch Erichtho combs battlefields and funeral pyres for human remains and revives a dead soldier to prophesy the outcome of Rome's civil war. Greeks and Romans slipped curse tablets into tombs so the dead would carry them to the gods below. In European folk magic, graveyard dirt served both to curse and to protect: sprinkled on an enemy's doorstep or carried in a little pouch close to the body.",
+  "curiosidade_pt": "Das cerca de 130 tabuletas de maldição achadas no santuário romano de Bath, na Inglaterra, a maioria pede vingança por roubos banais, sobretudo de roupas deixadas nos banhos.",
+  "curiosidade_en": "Of the roughly 130 curse tablets found at the Roman shrine in Bath, England, most demand revenge for petty thefts — above all clothes stolen while their owners bathed.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Erichtho",
+   "https://en.wikipedia.org/wiki/Curse_tablet",
+   "https://en.wikipedia.org/wiki/Bath_curse_tablets"
+  ]
+ },
+ "bru_maleficio": {
+  "titulo_pt": "O Mal Bem-Feito",
+  "titulo_en": "The Harm Well Done",
+  "lore_pt": "Maleficium, em latim “malfeito”, é o dano causado por magia, e foi isso que a bruxaria significou antes de tudo para vizinhos e juízes: a vaca que secou, a manteiga que não deu ponto, a criança que definhou, o granizo que destruiu a vinha. Tribunais comuns puniam o malefício como crime muito antes de a Igreja tratá-lo como heresia. O famoso tratado Malleus Maleficarum, de 1486, é praticamente um catálogo dessas maldades e de como seriam feitas: com toque, olhar, palavra ou objeto escondido. Por trás de muitas acusações, porém, havia algo mais terreno: inveja, brigas de vizinhança e o medo do azar inexplicável.",
+  "lore_en": "Maleficium, Latin for “evil-doing,” is harm caused by magic — and that is what witchcraft meant above all to neighbours and judges: the cow gone dry, the butter that wouldn't churn, the child wasting away, the hail that flattened the vineyard. Secular courts punished maleficium as a crime long before the Church treated it as heresy. The notorious 1486 treatise Malleus Maleficarum is practically a catalogue of such harms and how they were supposedly done: by touch, gaze, word or hidden object. Behind many accusations, though, lay something far more earthly: envy, neighbourly feuds and the fear of unexplained bad luck.",
+  "curiosidade_pt": "Heinrich Kramer, autor do Malleus, escreveu o livro logo depois de ser expulso de Innsbruck pelo bispo local, que achou seu julgamento de bruxas abusivo e o chamou de senil.",
+  "curiosidade_en": "Heinrich Kramer, author of the Malleus, wrote it soon after being thrown out of Innsbruck by the local bishop, who found his witch trial abusive and called him senile.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Maleficium_(sorcery)",
+   "https://en.wikipedia.org/wiki/Malleus_Maleficarum",
+   "https://en.wikipedia.org/wiki/Heinrich_Kramer"
+  ]
+ },
+ "bru_saba_de_walpurgis": {
+  "titulo_pt": "A Noite em que as Bruxas Voam",
+  "titulo_en": "The Night the Witches Fly",
+  "lore_pt": "O sabá, a reunião noturna em que bruxas chegariam voando para dançar, banquetear e prestar homenagem ao Diabo, foi em grande parte uma construção de juízes e inquisidores do século XV. Mas por baixo dessa caricatura havia folclore real: cortejos noturnos de espíritos e viagens extáticas. Na Alemanha, a grande data do sabá era a Noite de Walpurgis, de 30 de abril para 1º de maio, quando as bruxas se reuniriam no monte Brocken, nas montanhas Harz. Goethe levou a cena para o Fausto. Hoje, na Wicca, a data corresponde a Beltane, uma festa de fogo e fertilidade que celebra a chegada do verão.",
+  "lore_en": "The sabbath — the nocturnal gathering where witches supposedly flew in to dance, feast and pay homage to the Devil — was largely built by 15th-century judges and inquisitors. Beneath the caricature, though, lay genuine folklore: nighttime processions of spirits and ecstatic journeys. In Germany the great sabbath date was Walpurgis Night, April 30 into May 1, when witches were said to gather on the Brocken peak in the Harz mountains. Goethe brought the scene into Faust. In modern Wicca the date corresponds to Beltane, a festival of fire and fertility welcoming the summer.",
+  "curiosidade_pt": "A noite leva o nome de Santa Valburga, uma freira inglesa de Wessex que virou abadessa na Alemanha e foi canonizada num 1º de maio, sem nenhuma ligação com bruxas.",
+  "curiosidade_en": "The night is named for Saint Walburga, an English nun from Wessex who became an abbess in Germany and was canonized on a May 1 — with no link to witches at all.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Walpurgis_Night",
+   "https://en.wikipedia.org/wiki/Witches%27_Sabbath",
+   "https://en.wikipedia.org/wiki/Saint_Walpurga"
+  ]
+ },
+ "bru_vassoura": {
+  "titulo_pt": "A Montaria da Bruxa",
+  "titulo_en": "The Witch's Steed",
+  "lore_pt": "Antes de voar, a vassoura já era mágica. Varria para fora da casa o mal e até as almas dos mortos, marcava a soleira e, posta atrás da porta com as cerdas para cima, impediria a entrada de bruxas. A imagem da bruxa montada nela fixou-se no século XV: era a ferramenta doméstica por excelência, virada do avesso pela mulher que montava em vez de varrer e saía pela chaminé em vez de ficar junto ao fogo. Tratados da época diziam que o cabo era untado com o unguento de voo. Na Wicca, a vassoura, o besom, varre ritualmente o círculo, e saltar sobre ela ainda é um costume de casamento.",
+  "lore_en": "Before it ever flew, the broom was already magical. It swept evil — and even the souls of the dead — out of the house, guarded the threshold and, propped behind the door bristles up, kept witches from entering. The image of the witch riding one took hold in the 15th century: the quintessential household tool turned upside down by a woman who rode it instead of sweeping, and left by the chimney instead of staying by the hearth. Treatises claimed its handle was smeared with flying ointment. In Wicca the besom ritually sweeps the circle, and jumping the broom remains a wedding custom.",
+  "curiosidade_pt": "A imagem mais antiga conhecida de bruxas voando, uma delas numa vassoura, está na margem de um manuscrito de 1451 do poema O Campeão das Damas, de Martin Le Franc.",
+  "curiosidade_en": "The oldest known picture of flying witches, one of them on a broomstick, sits in the margin of a 1451 manuscript of Martin Le Franc's poem The Champion of Ladies.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Broom",
+   "https://www.guinnessworldrecords.com/world-records/722313-oldest-depiction-of-a-witch-on-a-broomstick"
+  ]
+ },
+ "bru_livro_das_sombras": {
+  "titulo_pt": "O Caderno do Coven",
+  "titulo_en": "The Coven's Notebook",
+  "lore_pt": "O Livro das Sombras é o caderno de rituais, invocações, leis e receitas da Wicca, a religião de bruxaria moderna criada na Inglaterra em meados do século XX. Gerald Gardner reuniu a primeira versão por volta de 1949, afirmando ter recebido o material de um coven antigo. Historiadores como Ronald Hutton mostraram que ele, na verdade, combinou grimórios renascentistas, textos de Aleister Crowley, maçonaria e folclore, o que não diminui seu valor como uma religião nova. Doreen Valiente, sacerdotisa de Gardner, reescreveu boa parte do livro e deu a ele sua poesia mais famosa. Por tradição, cada iniciado copia à mão o livro de quem o iniciou.",
+  "lore_en": "The Book of Shadows is Wicca's notebook of rituals, invocations, laws and recipes — the modern witchcraft religion born in England in the mid-20th century. Gerald Gardner assembled the first version around 1949, claiming the material came from an ancient coven. Historians such as Ronald Hutton showed he actually blended Renaissance grimoires, Aleister Crowley's writings, Freemasonry and folklore — which doesn't make it any less valid as a new religion. Doreen Valiente, Gardner's high priestess, rewrote much of it and gave it its most famous poetry. By tradition, each initiate hand-copies the book of the one who initiated them.",
+  "curiosidade_pt": "A primeira versão de Gardner se chamava Ye Bok of ye Art Magical. Valiente suspeitava que o nome “Livro das Sombras” veio de um artigo de revista sobre um manual sânscrito que previa o futuro pelo tamanho da sombra de uma pessoa.",
+  "curiosidade_en": "Gardner's first version was titled Ye Bok of ye Art Magical. Valiente suspected the name “Book of Shadows” came from a magazine article about a Sanskrit manual that told fortunes by the length of a person's shadow.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Book_of_Shadows",
+   "https://en.wikipedia.org/wiki/Doreen_Valiente"
+  ]
+ },
+ "bru_caldeirao_de_renascimento": {
+  "titulo_pt": "O Caldeirão que Devolve os Mortos",
+  "titulo_en": "The Cauldron That Returns the Dead",
+  "lore_pt": "No segundo ramo do Mabinogion galês, o rei Brân, o Abençoado, dá ao rei da Irlanda um presente de casamento extraordinário: o Pair Dadeni, o Caldeirão do Renascimento. Um guerreiro morto lançado nele se levanta no dia seguinte, tão forte quanto antes, mas sem voz. Quando a guerra estoura entre Gales e Irlanda, os irlandeses ressuscitam seus mortos noite após noite. Só o arrependido Efnisien consegue detê-los: deita-se entre os cadáveres, é jogado vivo no caldeirão e se estica até rachar o vaso e o próprio coração. O caldeirão, de Cerridwen a Macbeth, é o objeto da bruxa por excelência.",
+  "lore_en": "In the second branch of the Welsh Mabinogion, King Brân the Blessed gives the King of Ireland an extraordinary wedding gift: the Pair Dadeni, the Cauldron of Rebirth. A dead warrior thrown into it rises the next day as strong as ever, but unable to speak. When war breaks out between Wales and Ireland, the Irish revive their fallen night after night. Only the remorseful Efnisien can stop them: he lies among the corpses, is tossed alive into the cauldron and stretches until he bursts both the vessel and his own heart. From Cerridwen to Macbeth, the cauldron is the witch's object above all.",
+  "curiosidade_pt": "O caldeirão de prata de Gundestrup, achado numa turfeira da Dinamarca em 1891, tem uma placa em que uma figura gigante mergulha guerreiros numa cuba, cena muitas vezes comparada ao Pair Dadeni.",
+  "curiosidade_en": "The silver Gundestrup cauldron, found in a Danish peat bog in 1891, has a panel where a giant figure dips warriors into a vat — a scene often compared to the Pair Dadeni.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Branwen_ferch_Ll%C5%B7r",
+   "https://en.wikipedia.org/wiki/Gundestrup_cauldron"
+  ]
+ },
+ "tok_strix": {
+  "titulo_pt": "A Ave que Grita na Noite",
+  "titulo_en": "The Shrieking Night Bird",
+  "lore_pt": "Para gregos e romanos, a strix era uma ave noturna de mau agouro, parecida com uma coruja, que entrava pelas janelas para sugar o sangue de bebês. O poeta Ovídio conta que uma ninfa protegeu um príncipe recém-nascido pendurando ramos de espinheiro na porta e oferecendo às aves as entranhas de uma leitoa no lugar da criança. Com o tempo, a linha entre ave e mulher se apagou: acreditava-se que certas feiticeiras se transformavam em strix à noite. A palavra sobreviveu nas línguas europeias, dando origem ao italiano strega, “bruxa”, e ao romeno strigoi, um morto-vivo do folclore.",
+  "lore_en": "For Greeks and Romans the strix was an owl-like bird of ill omen that flew in through windows to drink the blood of infants. The poet Ovid tells how a nymph protected a newborn prince by hanging hawthorn at the door and offering the birds a piglet's entrails in place of the child. Over time the line between bird and woman blurred: certain sorceresses were believed to turn into strixes at night. The word lived on in European languages, giving Italian strega, “witch,” and Romanian strigoi, a restless undead of folklore.",
+  "curiosidade_pt": "O nome sobrevive também na biologia: Strix é o gênero científico de várias corujas reais, como a coruja-do-mato europeia.",
+  "curiosidade_en": "The name survives in biology too: Strix is the scientific genus of several real owls, such as the European tawny owl.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Strix_(mythology)",
+   "https://en.wikipedia.org/wiki/Strix_(bird)"
+  ]
+ },
+ "tok_corvo": {
+  "titulo_pt": "A Sombra da Rainha da Guerra",
+  "titulo_en": "The War Queen's Shadow",
+  "lore_pt": "Na Irlanda antiga, o corvo que sobrevoava o campo de batalha não era um pássaro qualquer. Era a forma preferida de Badb e da Morrigan, deusas da guerra que se banqueteavam com os caídos e anunciavam quem iria morrer. O grande herói do Ulster, Cú Chulainn, mortalmente ferido, amarrou-se a uma pedra para morrer de pé, e seus inimigos só ousaram se aproximar quando um corvo pousou em seu ombro, sinal de que a vida o havia deixado. Por toda a Europa, o corvo carregou essa fama: mensageiro de morte, observador astuto e, no folclore das bruxas, espião a serviço da feiticeira.",
+  "lore_en": "In ancient Ireland, the raven circling a battlefield was no ordinary bird. It was the favourite shape of Badb and the Morrígan, war goddesses who feasted on the fallen and foretold who would die. The great Ulster hero Cú Chulainn, mortally wounded, tied himself to a standing stone to die on his feet, and his enemies dared approach only when a raven landed on his shoulder — the sign that life had left him. Across Europe the raven carried that reputation: herald of death, shrewd watcher and, in witch lore, a spy in the sorceress's service.",
+  "curiosidade_pt": "A cena de Cú Chulainn com o corvo no ombro virou uma estátua de bronze no Correio Geral de Dublin, escolhida como memorial do Levante da Páscoa de 1916.",
+  "curiosidade_en": "The scene of Cú Chulainn with the raven on his shoulder became a bronze statue in Dublin's General Post Office, chosen as the memorial to the 1916 Easter Rising.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/C%C3%BA_Chulainn",
+   "https://en.wikipedia.org/wiki/Badb"
+  ]
+ },
+ "tok_lebre": {
+  "titulo_pt": "A Bruxa de Orelhas Longas",
+  "titulo_en": "The Long-Eared Witch",
+  "lore_pt": "Em boa parte das Ilhas Britânicas, a lebre era o animal em que a bruxa mais gostava de se transformar. Dizia-se que, nessa forma, ela mamava nas vacas do vizinho e roubava o leite. Em 1662, na Escócia, Isobel Gowdie fez uma das confissões mais impressionantes da história da bruxaria: contou, por conta própria, como voava com seu coven e recitou os versos que a faziam virar lebre e depois voltar à forma humana. Contou até ter sido perseguida por cães nessa forma. Ninguém sabe ao certo por que ela confessou, e não há registro de sua execução.",
+  "lore_en": "Across much of the British Isles, the hare was the creature a witch most liked to become. In that shape, people said, she suckled the neighbour's cows and stole their milk. In 1662 in Scotland, Isobel Gowdie gave one of the most striking confessions in the history of witchcraft: unprompted, she described flying with her coven and recited the verses that turned her into a hare and back into a woman. She even told of being chased by hounds in hare form. No one knows for sure why she confessed, and there is no record of her execution.",
+  "curiosidade_pt": "Uma história repetida em muitos lugares diz que um caçador ferira uma lebre e, no dia seguinte, encontrara uma velha da aldeia com o mesmo ferimento na perna.",
+  "curiosidade_en": "A tale told in many places says a hunter wounded a hare, and the next day found an old village woman with the very same wound in her leg.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Isobel_Gowdie",
+   "https://en.wikipedia.org/wiki/Hare#Folklore_and_mythology"
+  ]
+ }
+}

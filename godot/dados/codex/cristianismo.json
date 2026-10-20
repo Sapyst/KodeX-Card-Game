@@ -1,0 +1,345 @@
+{
+ "cri_anjo_da_guarda": {
+  "titulo_pt": "O Companheiro Invisível",
+  "titulo_en": "The Unseen Companion",
+  "lore_pt": "Na tradição cristã, cada pessoa teria ao seu lado um anjo encarregado de protegê-la. A ideia se apoia em passagens como o Salmo 91, que fala de anjos guardando os caminhos do fiel, e na fala de Jesus no Evangelho de Mateus sobre os pequeninos cujos anjos contemplam o Pai. O modelo narrativo vem do Livro de Tobias, onde Rafael caminha disfarçado ao lado de um jovem viajante durante toda a jornada. Com o tempo a devoção ganhou orações próprias, ensinadas a crianças, e uma imagem que se tornou clássica: o anjo que acompanha uma criança à beira do perigo, cobrindo-a com a asa.",
+  "lore_en": "Christian tradition holds that every person walks with an angel assigned to protect them. The belief draws on texts such as Psalm 91, where angels guard the faithful in all their ways, and on Jesus' words in Matthew about the little ones whose angels behold the Father. Its storybook model is the Book of Tobit, in which Raphael travels in disguise beside a young man for his entire journey. Over the centuries the devotion gained its own prayers, taught to children at bedtime, and an image that became iconic: an angel hovering beside a child near a cliff or a broken bridge, wing outstretched like a shield.",
+  "curiosidade_pt": "A Igreja Católica celebra os Santos Anjos da Guarda em 2 de outubro, poucos dias depois da festa dos arcanjos Miguel, Gabriel e Rafael, em 29 de setembro.",
+  "curiosidade_en": "The Catholic Church keeps the memorial of the Holy Guardian Angels on 2 October, just days after the feast of the archangels Michael, Gabriel and Raphael on 29 September.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Guardian_angel",
+   "https://en.wikipedia.org/wiki/Book_of_Tobit"
+  ]
+ },
+ "cri_jonas": {
+  "titulo_pt": "O Profeta Engolido",
+  "titulo_en": "The Swallowed Prophet",
+  "lore_pt": "Jonas recebe a ordem de pregar em Nínive, capital dos temidos assírios, e faz o oposto: embarca rumo a Társis, no outro extremo do mundo conhecido. Uma tempestade ameaça o navio, a sorte aponta para ele e os marinheiros o lançam ao mar, que logo se acalma. Segundo o livro bíblico, um grande peixe o engole e o guarda por três dias e três noites, até devolvê-lo à praia. Os evangelhos leram essa volta das profundezas como sinal da ressurreição, e os primeiros cristãos pintaram Jonas sem parar nas catacumbas romanas, como promessa de que a morte não tem a última palavra.",
+  "lore_en": "Jonah is told to preach in Nineveh, capital of the dreaded Assyrians, and does the exact opposite: he boards a ship for Tarshish, at the far edge of the known world. A storm batters the vessel, the lots point to him, and the sailors throw him overboard, after which the sea goes calm. According to the book, a great fish swallows him and keeps him for three days and three nights before spitting him onto dry land. The Gospels read that return from the deep as a sign of the resurrection, and early Christians painted Jonah over and over in the Roman catacombs as a promise that death does not get the last word.",
+  "curiosidade_pt": "O texto hebraico fala apenas em \"grande peixe\" (dag gadol); a baleia surgiu depois, quando a tradução grega usou a palavra kētos, monstro marinho. E o livro termina de modo raro: com uma pergunta de Deus que fica sem resposta.",
+  "curiosidade_en": "The Hebrew text only says \"great fish\" (dag gadol); the whale came later, when the Greek translation used kētos, sea monster. The book also ends unusually, on a question from God that Jonah never answers.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Jonah",
+   "https://en.wikipedia.org/wiki/Book_of_Jonah"
+  ]
+ },
+ "cri_davi_o_pastor": {
+  "titulo_pt": "O Menino da Funda",
+  "titulo_en": "The Boy with the Sling",
+  "lore_pt": "Davi era o caçula de Jessé, um pastor de Belém ungido rei em segredo pelo profeta Samuel. Quando o gigante filisteu Golias passou quarenta dias desafiando o exército de Israel no vale de Elá, foi esse rapaz quem aceitou o duelo. Recusou a armadura do rei Saul, pegou cinco pedras lisas no riacho e, com a funda, acertou o gigante na testa antes de qualquer golpe de espada. Mais tarde seria rei, poeta dos Salmos e ancestral do Messias na tradição cristã, mas a imagem que atravessou os séculos foi a do menino sem armadura que derruba o impossível.",
+  "lore_en": "David was the youngest son of Jesse, a shepherd from Bethlehem secretly anointed king by the prophet Samuel. When the Philistine giant Goliath spent forty days taunting Israel's army in the Valley of Elah, it was this boy who took up the challenge. He refused King Saul's armor, chose five smooth stones from the stream and, with his sling, struck the giant in the forehead before any sword was drawn. He would later become king, psalmist and, in Christian tradition, ancestor of the Messiah, yet the image that outlived the centuries is the unarmored boy toppling the impossible.",
+  "curiosidade_pt": "A altura de Golias muda conforme o manuscrito: o texto hebraico tradicional fala em cerca de 2,9 metros, mas os Manuscritos do Mar Morto e a Septuaginta dão algo perto de 2 metros.",
+  "curiosidade_en": "Goliath's height depends on the manuscript: the traditional Hebrew text implies about 2.9 metres, while the Dead Sea Scrolls and the Septuagint give roughly 2 metres.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Goliath",
+   "https://en.wikipedia.org/wiki/David"
+  ]
+ },
+ "cri_lazaro_de_betania": {
+  "titulo_pt": "O Amigo que Voltou",
+  "titulo_en": "The Friend Who Came Back",
+  "lore_pt": "Lázaro vivia em Betânia, perto de Jerusalém, com as irmãs Marta e Maria, e era amigo próximo de Jesus. Segundo o Evangelho de João, ele adoeceu e morreu antes que Jesus chegasse. Quatro dias depois, diante de um túmulo já fechado, Jesus mandou remover a pedra e chamou Lázaro para fora, e ele saiu ainda enrolado nas faixas funerárias. É o último grande sinal narrado por João antes da Paixão, e o evangelho conta que foi justamente esse milagre que fez as autoridades decidirem agir. A tradição posterior deu a Lázaro uma segunda vida inteira, como bispo em Chipre ou na Provença.",
+  "lore_en": "Lazarus lived in Bethany, near Jerusalem, with his sisters Martha and Mary, and was a close friend of Jesus. According to John's Gospel, he fell ill and died before Jesus arrived. Four days later, at a sealed tomb, Jesus had the stone rolled away and called Lazarus out, and he emerged still bound in burial cloths. It is the last great sign John recounts before the Passion, and the Gospel says this very miracle pushed the authorities to act. Later tradition handed Lazarus an entire second life, as a bishop in Cyprus or in Provence, before he died again, this time for good.",
+  "curiosidade_pt": "Em Larnaca, no Chipre, um túmulo encontrado no ano 890 trazia a inscrição \"Lázaro, quatro dias morto, amigo de Cristo\". Em 1972, obras na igreja de São Lázaro revelaram restos humanos num sarcófago sob o altar.",
+  "curiosidade_en": "In Larnaca, Cyprus, a tomb found in the year 890 bore the inscription \"Lazarus, four days dead, friend of Christ\". In 1972, renovation work in the Church of Saint Lazarus uncovered human remains in a sarcophagus beneath the altar.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Lazarus_of_Bethany",
+   "https://en.wikipedia.org/wiki/Church_of_Saint_Lazarus,_Larnaca"
+  ]
+ },
+ "cri_judite": {
+  "titulo_pt": "A Viúva de Betúlia",
+  "titulo_en": "The Widow of Bethulia",
+  "lore_pt": "O Livro de Judite conta que a cidade de Betúlia, cercada pelo general assírio Holofernes e sem água, estava prestes a se render. Judite, uma viúva respeitada, repreende os anciãos pela falta de fé, veste suas melhores roupas e entra no acampamento inimigo acompanhada só de sua criada. Holofernes a recebe encantado e oferece um banquete; quando ele adormece embriagado, ela pega a espada dele e o decapita. Exposta nas muralhas, a cabeça põe o exército em fuga. Judite virou símbolo da vitória pela coragem e pela astúcia, e inspirou pintores como Caravaggio, Artemisia Gentileschi e Klimt.",
+  "lore_en": "The Book of Judith tells how the town of Bethulia, besieged by the Assyrian general Holofernes and cut off from water, was days from surrender. Judith, a respected widow, scolds the elders for their lack of faith, dresses in her finest clothes and walks into the enemy camp with only her maid. Holofernes is charmed and throws a banquet; when he passes out drunk, she takes his own sword and beheads him. Displayed on the walls, the head sends the army running. Judith became an emblem of victory through nerve and cunning, and a favorite subject for Caravaggio, Artemisia Gentileschi and Klimt.",
+  "curiosidade_pt": "Judite está na Bíblia católica e na ortodoxa, mas não na Bíblia hebraica, e as igrejas protestantes a classificam entre os apócrifos.",
+  "curiosidade_en": "Judith appears in Catholic and Orthodox Bibles but not in the Hebrew Bible, and Protestant churches place it among the Apocrypha.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Book_of_Judith",
+   "https://en.wikipedia.org/wiki/Judith_Slaying_Holofernes_(Artemisia_Gentileschi,_Naples)"
+  ]
+ },
+ "cri_gabriel": {
+  "titulo_pt": "O Arauto Celeste",
+  "titulo_en": "The Herald of Heaven",
+  "lore_pt": "Gabriel, cujo nome significa \"Deus é minha força\", é um dos poucos anjos chamados pelo nome na Bíblia. Primeiro aparece ao profeta Daniel para explicar visões misteriosas sobre o fim dos tempos. No Evangelho de Lucas, faz dois anúncios que mudam tudo: diz ao sacerdote Zacarias que ele terá um filho, João Batista, e diz a Maria, em Nazaré, que ela será mãe de Jesus. Por isso a arte cristã o mostra quase sempre na Anunciação, de joelhos, com um lírio na mão. Ele também é figura central no Islã, onde transmite o Corão ao profeta Maomé.",
+  "lore_en": "Gabriel, whose name means \"God is my strength\", is one of the very few angels the Bible calls by name. He first appears to the prophet Daniel to explain baffling visions about the end of days. In Luke's Gospel he delivers two announcements that change everything: he tells the priest Zechariah he will have a son, John the Baptist, and tells Mary in Nazareth that she will bear Jesus. That is why Christian art nearly always shows him at the Annunciation, kneeling, a lily in hand. He is also central in Islam, where he conveys the Qur'an to the Prophet Muhammad.",
+  "curiosidade_pt": "Por ser o mensageiro por excelência, Gabriel é tido como padroeiro dos carteiros, das telecomunicações, dos radialistas e até dos colecionadores de selos.",
+  "curiosidade_en": "As the messenger par excellence, Gabriel is regarded as patron of postal workers, telecommunications, radio broadcasters and even stamp collectors.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Gabriel"
+  ]
+ },
+ "cri_rafael": {
+  "titulo_pt": "O Médico Disfarçado",
+  "titulo_en": "The Healer in Disguise",
+  "lore_pt": "Rafael, \"Deus cura\", é o herói discreto do Livro de Tobias. Disfarçado como um viajante chamado Azarias, acompanha o jovem Tobias numa longa viagem. No caminho, ensina-o a guardar o coração, o fígado e o fel de um peixe do rio Tigre. A fumaça do coração e do fígado afasta o demônio Asmodeu, que havia matado os sete noivos de Sara, e o fel cura a cegueira do velho Tobit, pai do rapaz. Só no fim ele revela quem é: um dos sete anjos que estão diante de Deus. Por isso é padroeiro de médicos, viajantes e cegos.",
+  "lore_en": "Raphael, \"God heals\", is the quiet hero of the Book of Tobit. Disguised as a traveler named Azarias, he accompanies young Tobias on a long journey. Along the way he tells him to keep the heart, liver and gall of a fish caught in the Tigris. Smoke from the heart and liver drives off the demon Asmodeus, who had killed Sarah's seven bridegrooms, and the gall cures the blindness of old Tobit, the boy's father. Only at the end does he reveal himself as one of the seven angels who stand before God, which is why he is patron of physicians, travelers and the blind.",
+  "curiosidade_pt": "Um cachorro acompanha Tobias e Rafael na viagem, um raro cão simpático nas Escrituras; estudiosos o comparam a Argos, o cão fiel de Ulisses na Odisseia.",
+  "curiosidade_en": "A dog trots along with Tobias and Raphael on the journey, a rare friendly dog in Scripture; scholars have compared it to Argos, Odysseus' loyal hound in the Odyssey.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Book_of_Tobit",
+   "https://en.wikipedia.org/wiki/Raphael_(archangel)"
+  ]
+ },
+ "cri_sansao": {
+  "titulo_pt": "A Força das Sete Tranças",
+  "titulo_en": "The Strength of Seven Locks",
+  "lore_pt": "Sansão foi consagrado a Deus desde antes de nascer, com a regra de nunca cortar o cabelo. Segundo o Livro dos Juízes, quando o espírito divino descia sobre ele, sua força era descomunal: rasgou um leão com as mãos, derrotou mil filisteus com uma queixada de jumento e arrancou os portões de Gaza. Dalila descobriu o segredo e entregou-o aos inimigos, que o cegaram e o puseram para girar um moinho. No templo do deus Dagon, diante de uma multidão que zombava dele, Sansão pediu forças uma última vez, empurrou as colunas centrais e fez o edifício desabar sobre todos, inclusive ele.",
+  "lore_en": "Samson was dedicated to God before birth, under a vow never to cut his hair. According to the Book of Judges, when the divine spirit rushed upon him his strength was monstrous: he tore a lion apart barehanded, struck down a thousand Philistines with a donkey's jawbone and ripped the gates of Gaza from their posts. Delilah wormed out his secret and sold him to his enemies, who blinded him and set him to grind at a mill. In the temple of the god Dagon, before a jeering crowd, Samson begged for strength one last time, pushed the central pillars and brought the building down on everyone, himself included.",
+  "curiosidade_pt": "Dalila não corta o cabelo de Sansão com as próprias mãos: o texto diz que ela o faz dormir no colo e chama um homem para raspar as sete tranças.",
+  "curiosidade_en": "Delilah does not cut Samson's hair herself: the text says she lulled him to sleep on her lap and called in a man to shave off his seven locks.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Samson",
+   "https://en.wikipedia.org/wiki/Delilah"
+  ]
+ },
+ "cri_serafim": {
+  "titulo_pt": "Os Ardentes",
+  "titulo_en": "The Burning Ones",
+  "lore_pt": "Os serafins aparecem uma única vez na Bíblia como seres celestes, numa visão do profeta Isaías. Ele vê o Senhor no trono, cercado por criaturas de seis asas: duas cobrem o rosto, duas cobrem os pés e duas servem para voar. Elas clamam \"Santo, santo, santo\" e o templo se enche de fumaça. Quando Isaías se sente impuro demais para estar ali, um serafim toca sua boca com uma brasa tirada do altar e o purifica. Mais tarde, o teólogo conhecido como Pseudo-Dionísio colocou os serafins no topo da hierarquia angélica, os mais próximos de Deus.",
+  "lore_en": "Seraphim appear only once in the Bible as heavenly beings, in a vision of the prophet Isaiah. He sees the Lord enthroned, surrounded by six-winged creatures: two wings cover the face, two cover the feet and two are for flying. They cry \"Holy, holy, holy\" and the temple fills with smoke. When Isaiah feels too unclean to stand there, a seraph touches his lips with a live coal taken from the altar and purifies him. Later, the theologian known as Pseudo-Dionysius placed the seraphim at the very top of the angelic hierarchy, nearest of all to God.",
+  "curiosidade_pt": "Em hebraico, saraf significa \"ardente\" e, em outras passagens, nomeia serpentes: as \"serpentes abrasadoras\" que atacam Israel no deserto no Livro dos Números.",
+  "curiosidade_en": "In Hebrew, saraph means \"burning\", and elsewhere it names snakes: the \"fiery serpents\" that strike Israel in the wilderness in the Book of Numbers.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Seraph"
+  ]
+ },
+ "cri_leviata": {
+  "titulo_pt": "A Serpente do Abismo",
+  "titulo_en": "The Serpent of the Deep",
+  "lore_pt": "Leviatã é o grande monstro marinho da Bíblia. No Livro de Jó, Deus o descreve com orgulho quase assustador: couraça de escamas, fumaça saindo das narinas, um mar que ferve à sua passagem, e nenhum anzol capaz de fisgá-lo. Os Salmos lembram que Deus esmagou suas cabeças, mas também que o criou para brincar nas águas. Isaías anuncia que, no fim dos tempos, o Senhor o abaterá com a espada. Textos judaicos posteriores vão além e dizem que sua carne será servida aos justos num banquete final. A fera do caos acaba virando alimento da nova criação.",
+  "lore_en": "Leviathan is the Bible's great sea monster. In the Book of Job, God describes it with almost frightening pride: armored in scales, smoke pouring from its nostrils, the sea boiling in its wake, and no hook able to catch it. The Psalms recall that God crushed its heads, yet also that he made it to frolic in the waters. Isaiah announces that at the end of days the Lord will slay it with his sword. Later Jewish writings go further, saying its flesh will be served to the righteous at a final banquet. The beast of chaos ends up as food for the new creation.",
+  "curiosidade_pt": "O filósofo Thomas Hobbes batizou seu famoso tratado político de 1651 com o nome do monstro, usando Leviatã como imagem do Estado todo-poderoso.",
+  "curiosidade_en": "Philosopher Thomas Hobbes named his famous 1651 political treatise after the monster, using Leviathan as an image of the all-powerful state.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Leviathan"
+  ]
+ },
+ "cri_elias": {
+  "titulo_pt": "O Profeta que Não Morreu",
+  "titulo_en": "The Prophet Who Never Died",
+  "lore_pt": "Elias surge de repente no Primeiro Livro dos Reis, anunciando uma seca ao rei Acab. É alimentado por corvos, multiplica a farinha e o azeite de uma viúva pobre e devolve a vida ao filho dela. No Monte Carmelo, desafia 450 profetas de Baal: só o seu altar recebe fogo do céu, que consome até as pedras e a água ao redor. Seu fim é o mais espantoso da Bíblia: um carro e cavalos de fogo o separam do discípulo Eliseu, e ele sobe ao céu num redemoinho. Por não ter morrido, espera-se o seu retorno antes do grande Dia do Senhor.",
+  "lore_en": "Elijah bursts into the First Book of Kings announcing a drought to King Ahab. Ravens feed him, he makes a poor widow's flour and oil last and brings her son back to life. On Mount Carmel he challenges 450 prophets of Baal: only his altar receives fire from heaven, which devours even the stones and the water around it. His exit is the most astonishing in the Bible: a chariot and horses of fire part him from his disciple Elisha, and he rises to heaven in a whirlwind. Because he never died, his return is expected before the great Day of the Lord.",
+  "curiosidade_pt": "Na ceia judaica de Pessach, muitas famílias servem uma taça extra de vinho para Elias e abrem a porta da casa, à espera de que o profeta entre.",
+  "curiosidade_en": "At the Jewish Passover Seder, many families pour an extra cup of wine for Elijah and open the front door in case the prophet walks in.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Elijah"
+  ]
+ },
+ "cri_sao_miguel_arcanjo": {
+  "titulo_pt": "O Príncipe das Milícias Celestes",
+  "titulo_en": "Prince of the Heavenly Host",
+  "lore_pt": "Miguel, cujo nome é uma pergunta, \"Quem é como Deus?\", aparece no Livro de Daniel como o grande príncipe que protege o povo de Israel. A Epístola de Judas conta que ele disputou com o diabo o corpo de Moisés, e o Apocalipse o põe à frente dos anjos numa guerra no céu, de onde o dragão, a antiga serpente, é lançado para baixo. A tradição medieval lhe deu outra tarefa: pesar as almas no Juízo Final, balança numa mão e espada na outra. Santuários dedicados a ele foram erguidos no alto de montanhas e rochedos, como o Monte Gargano, na Itália.",
+  "lore_en": "Michael, whose name is a question, \"Who is like God?\", appears in the Book of Daniel as the great prince who guards the people of Israel. The Epistle of Jude says he contended with the devil over the body of Moses, and Revelation puts him at the head of the angels in a war in heaven, from which the dragon, that ancient serpent, is hurled down. Medieval tradition gave him another job: weighing souls at the Last Judgment, scales in one hand and sword in the other. Shrines to him rose on mountaintops and sea crags, such as Monte Gargano in Italy.",
+  "curiosidade_pt": "O Monte Saint-Michel, na Normandia, nasceu de uma visão: segundo a tradição, o arcanjo apareceu em 708 ao bispo Auberto de Avranches e pediu uma igreja sobre o rochedo.",
+  "curiosidade_en": "Mont-Saint-Michel in Normandy began with a vision: tradition says the archangel appeared in 708 to Bishop Aubert of Avranches and asked for a church on the rocky islet.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Michael_(archangel)",
+   "https://en.wikipedia.org/wiki/Mont-Saint-Michel"
+  ]
+ },
+ "cri_cova_dos_leoes": {
+  "titulo_pt": "A Noite de Daniel",
+  "titulo_en": "Daniel's Long Night",
+  "lore_pt": "Daniel, um judeu exilado na Babilônia, subiu tanto na corte do rei Dario que despertou inveja. Sem achar falhas nele, os rivais convenceram o rei a proibir por trinta dias qualquer oração que não fosse dirigida ao próprio monarca. Daniel continuou rezando três vezes ao dia, de janela aberta para Jerusalém, e foi jogado na cova dos leões, cuja entrada o rei selou com seu anel. De manhã, aflito, Dario correu até lá e ouviu Daniel responder lá de dentro: um anjo havia fechado a boca das feras. Os acusadores acabaram na cova no lugar dele.",
+  "lore_en": "Daniel, a Jewish exile in Babylon, rose so high at King Darius' court that he stirred up envy. Unable to find fault with him, his rivals talked the king into banning, for thirty days, any prayer not addressed to the monarch himself. Daniel kept praying three times a day by a window open toward Jerusalem and was thrown into the lions' den, its mouth sealed with the king's own ring. At dawn an anxious Darius rushed back and heard Daniel answer from inside: an angel had shut the beasts' jaws. His accusers ended up in the den in his place.",
+  "curiosidade_pt": "As Bíblias católica e ortodoxa trazem uma segunda cova: na história de Bel e o Dragão, Daniel passa seis dias com sete leões e recebe comida do profeta Habacuc, levado até ali por um anjo.",
+  "curiosidade_en": "Catholic and Orthodox Bibles include a second den: in the story of Bel and the Dragon, Daniel spends six days with seven lions and is fed by the prophet Habakkuk, carried there by an angel.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Daniel_in_the_lions'_den",
+   "https://en.wikipedia.org/wiki/Bel_and_the_Dragon"
+  ]
+ },
+ "cri_tumba_vazia": {
+  "titulo_pt": "O Sinal da Pedra Rolada",
+  "titulo_en": "The Sign of the Rolled Stone",
+  "lore_pt": "Segundo os evangelhos, na manhã do primeiro dia da semana algumas mulheres foram ao sepulcro de Jesus levando perfumes para o corpo e encontraram a pedra removida e o túmulo vazio. Um jovem vestido de branco anuncia que ele ressuscitou. João acrescenta a corrida de Pedro e de outro discípulo e os panos de linho deixados no chão. Nenhum evangelho descreve o momento da ressurreição em si: o que eles narram é o sinal, o lugar vazio. Na arte cristã, o túmulo aberto virou uma porta, e a ausência do corpo tornou-se a mensagem mais importante da fé.",
+  "lore_en": "According to the Gospels, early on the first day of the week several women went to Jesus' tomb with spices for the body and found the stone rolled away and the grave empty. A young man in white tells them he has risen. John adds the footrace of Peter and another disciple and the linen cloths lying on the ground. No Gospel describes the resurrection itself: what they recount is the sign, the empty place. In Christian art the open tomb became a doorway, and the missing body turned into the faith's central message.",
+  "curiosidade_pt": "Desde a época de Saladino, no século XII, a chave da Igreja do Santo Sepulcro, em Jerusalém, fica com uma família muçulmana, e outra família muçulmana abre a porta todos os dias, como parte neutra entre as igrejas cristãs.",
+  "curiosidade_en": "Since Saladin's time in the 12th century, the key to Jerusalem's Church of the Holy Sepulchre has been held by a Muslim family, and another Muslim family opens the door each day as a neutral party between the Christian churches.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Empty_tomb",
+   "https://en.wikipedia.org/wiki/Church_of_the_Holy_Sepulchre"
+  ]
+ },
+ "cri_portao_do_eden": {
+  "titulo_pt": "A Espada que Gira",
+  "titulo_en": "The Turning Sword",
+  "lore_pt": "Depois que Adão e Eva comem do fruto proibido, o Livro do Gênesis conta que eles são expulsos do jardim do Éden. Para que não voltem à árvore da vida, Deus põe a leste do jardim querubins e uma espada flamejante que gira em todas as direções. É a primeira vez que querubins aparecem na Bíblia, e já como guardiões de uma fronteira sagrada. Eles voltariam como figuras de ouro sobre a Arca da Aliança e como criaturas de quatro faces na visão de Ezequiel. A tradição posterior tentou dar nome ao guarda do portão, mas o texto original fala só de querubins e da espada.",
+  "lore_en": "After Adam and Eve eat the forbidden fruit, Genesis says they are driven out of the garden of Eden. To keep them from the tree of life, God stations cherubim east of the garden along with a flaming sword that turns every way. It is the first time cherubim appear in the Bible, and from the start they guard a sacred border. They return as golden figures atop the Ark of the Covenant and as four-faced creatures in Ezekiel's vision. Later tradition tried to name the gatekeeper, but the original text speaks only of cherubim and the sword.",
+  "curiosidade_pt": "Os querubins bíblicos não têm nada de bebês gorduchos: eram guardiões imponentes, parentes dos touros alados que vigiavam portões na Mesopotâmia. Os anjinhos rechonchudos são os putti da arte renascentista.",
+  "curiosidade_en": "Biblical cherubim are nothing like chubby babies: they were imposing guardians, kin to the winged bulls that watched over Mesopotamian gates. The plump little angels are the putti of Renaissance art.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Cherub",
+   "https://en.wikipedia.org/wiki/Flaming_sword_(mythology)"
+  ]
+ },
+ "cri_mudez_de_zacarias": {
+  "titulo_pt": "A Palavra Suspensa",
+  "titulo_en": "The Silenced Word",
+  "lore_pt": "Zacarias era um sacerdote idoso, casado com Isabel, que nunca pudera ter filhos. Enquanto oferecia incenso no Templo de Jerusalém, o anjo Gabriel apareceu ao lado do altar e anunciou que eles teriam um filho, a quem chamariam João. Zacarias duvidou: ele e a esposa eram velhos demais. Como sinal, o Evangelho de Lucas conta que ele ficou mudo até que a promessa se cumprisse. Meses depois, quando todos discutiam o nome do bebê, ele pediu uma tabuinha e escreveu: \"João é o seu nome\". Na mesma hora a voz voltou, e a primeira coisa que fez foi louvar a Deus.",
+  "lore_en": "Zechariah was an elderly priest married to Elizabeth, who had never been able to have children. While he was offering incense in the Jerusalem Temple, the angel Gabriel appeared beside the altar and announced they would have a son named John. Zechariah doubted: he and his wife were far too old. As a sign, Luke's Gospel says, he was struck mute until the promise came true. Months later, as relatives argued over the baby's name, he asked for a writing tablet and wrote, \"His name is John.\" At that moment his voice returned, and the first thing he did was praise God.",
+  "curiosidade_pt": "O hino que Zacarias canta ao recuperar a voz, o Benedictus, é rezado todas as manhãs na Liturgia das Horas há séculos.",
+  "curiosidade_en": "The hymn Zechariah sings when his voice returns, the Benedictus, has been prayed every morning in the Liturgy of the Hours for centuries.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Zechariah_(New_Testament_figure)",
+   "https://en.wikipedia.org/wiki/Benedictus_(Song_of_Zechariah)"
+  ]
+ },
+ "cri_sangue_nos_umbrais": {
+  "titulo_pt": "A Noite da Passagem",
+  "titulo_en": "The Night of Passing Over",
+  "lore_pt": "Segundo o Livro do Êxodo, na noite da décima e última praga do Egito cada família israelita sacrificou um cordeiro e marcou com o sangue dele os batentes da porta. Quando o Destruidor passasse para ferir os primogênitos do Egito, veria o sinal e seguiria adiante sem entrar naquela casa. À meia-noite a morte atingiu do palácio do Faraó à prisão, e os israelitas finalmente partiram. Dessa noite nasceu a Páscoa judaica, Pessach, palavra ligada a \"passar por cima\". Os cristãos depois leram o cordeiro como figura de Cristo, cujo sangue também protege e liberta.",
+  "lore_en": "According to Exodus, on the night of the tenth and final plague of Egypt every Israelite family sacrificed a lamb and smeared its blood on their doorframe. When the Destroyer came through to strike Egypt's firstborn, it would see the mark and pass over that house. At midnight death reached from Pharaoh's palace to the prison cell, and the Israelites at last set out. That night gave birth to the Jewish Passover, Pesach, a word tied to \"passing over\". Christians later read the lamb as a figure of Christ, whose blood also shields and sets free.",
+  "curiosidade_pt": "O sangue não era aplicado com as mãos: o texto manda usar um ramo de hissopo, uma planta aromática, mergulhado na bacia, para pintar a verga e os dois batentes.",
+  "curiosidade_en": "The blood was not applied by hand: the text prescribes a bunch of hyssop, an aromatic herb, dipped in the basin to paint the lintel and both doorposts.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/The_Exodus",
+   "https://en.wikipedia.org/wiki/Passover"
+  ]
+ },
+ "cri_multiplicacao_dos_paes": {
+  "titulo_pt": "Doze Cestos de Sobra",
+  "titulo_en": "Twelve Baskets Left Over",
+  "lore_pt": "É o único milagre de Jesus contado pelos quatro evangelhos. Uma multidão o segue até um lugar deserto e, ao cair da tarde, não há o que comer: só cinco pães de cevada e dois peixes, que, em João, pertencem a um menino. Jesus manda o povo sentar na relva, abençoa os pães, parte e distribui. Cerca de cinco mil homens, sem contar mulheres e crianças, comem até ficar satisfeitos, e ainda sobram doze cestos cheios. A cena ecoa o maná do deserto, e os primeiros cristãos a leram como figura da Eucaristia, o pão partido e repartido.",
+  "lore_en": "It is the only miracle of Jesus told by all four Gospels. A crowd follows him to a remote spot and, as evening falls, there is nothing to eat: just five barley loaves and two fish, which in John belong to a boy. Jesus has the people sit on the grass, blesses the bread, breaks it and hands it out. About five thousand men, not counting women and children, eat their fill, and twelve full baskets are left over. The scene echoes the manna in the desert, and early Christians read it as a figure of the Eucharist, bread broken and shared.",
+  "curiosidade_pt": "Na igreja da Multiplicação, em Tabgha, às margens do mar da Galileia, um famoso mosaico antigo mostra uma cesta com apenas quatro pães entre dois peixes.",
+  "curiosidade_en": "In the Church of the Multiplication at Tabgha, on the Sea of Galilee, a famous ancient mosaic shows a basket with only four loaves between two fish.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Feeding_the_multitude",
+   "https://en.wikipedia.org/wiki/Church_of_the_Multiplication"
+  ]
+ },
+ "cri_exorcismo": {
+  "titulo_pt": "Meu Nome é Legião",
+  "titulo_en": "My Name Is Legion",
+  "lore_pt": "Expulsar espíritos impuros é uma das ações mais frequentes de Jesus nos evangelhos de Marcos, Mateus e Lucas. O caso mais impressionante é o do homem de Gerasa, que vivia entre túmulos e quebrava qualquer corrente. Perguntado sobre seu nome, o espírito responde \"Legião, porque somos muitos\" e pede para entrar numa vara de porcos, que se lança no lago. Depois, o homem é encontrado sentado, vestido e lúcido. A Igreja transformou essa prática em rito formal, com orações, água benta e crucifixo, reservado a sacerdotes autorizados pelo bispo.",
+  "lore_en": "Driving out unclean spirits is one of the things Jesus does most often in the Gospels of Mark, Matthew and Luke. The most striking case is the man of Gerasa, who lived among the tombs and snapped every chain. Asked his name, the spirit answers \"Legion, for we are many\" and begs to enter a herd of pigs, which rush into the lake. Afterward the man is found sitting, clothed and in his right mind. The Church turned the practice into a formal rite, with prayers, holy water and a crucifix, reserved for priests authorized by their bishop.",
+  "curiosidade_pt": "Segundo Marcos, a vara que se lançou no lago tinha cerca de dois mil porcos, um detalhe que mostra o tamanho da \"legião\" expulsa.",
+  "curiosidade_en": "According to Mark, the herd that plunged into the lake numbered about two thousand pigs, a detail meant to show the size of the \"legion\" cast out.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Exorcism_of_the_Gerasene_demoniac",
+   "https://en.wikipedia.org/wiki/Exorcism_in_the_Catholic_Church"
+  ]
+ },
+ "cri_praga_dos_gafanhotos": {
+  "titulo_pt": "O Vento que Trouxe a Fome",
+  "titulo_en": "The Wind That Brought Famine",
+  "lore_pt": "Os gafanhotos são a oitava das dez pragas do Egito. Segundo o Êxodo, Moisés estende o cajado e um vento do oriente sopra o dia e a noite inteiros; ao amanhecer, uma nuvem de insetos cobre o país a ponto de escurecer o chão. Eles devoram tudo o que o granizo havia deixado, até não restar nada verde em todo o Egito. O Faraó pede perdão, um vento do ocidente leva a nuvem para o mar, mas ele volta a endurecer o coração. Na Bíblia, o gafanhoto é imagem da fome total, e o Apocalipse o transforma em criatura saída do abismo.",
+  "lore_en": "Locusts are the eighth of the ten plagues of Egypt. According to Exodus, Moses stretches out his staff and an east wind blows all day and all night; by morning a cloud of insects blankets the land so thickly the ground goes dark. They devour everything the hail had spared, until nothing green is left in all Egypt. Pharaoh begs forgiveness, a west wind sweeps the swarm into the sea, and then he hardens his heart again. In the Bible the locust stands for total famine, and Revelation turns it into a creature crawling out of the abyss.",
+  "curiosidade_pt": "Apesar da má fama, gafanhotos eram comida permitida pela Lei de Moisés, e o Evangelho conta que João Batista se alimentava deles com mel silvestre.",
+  "curiosidade_en": "Despite their bad reputation, locusts were permitted food under the Law of Moses, and the Gospels say John the Baptist lived on them with wild honey.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Plagues_of_Egypt",
+   "https://en.wikipedia.org/wiki/Locust"
+  ]
+ },
+ "cri_talita_cumi": {
+  "titulo_pt": "Menina, Levanta-te",
+  "titulo_en": "Little Girl, Get Up",
+  "lore_pt": "Jairo, chefe de uma sinagoga em Cafarnaum, implora a Jesus que salve sua filha de doze anos, que está morrendo. No caminho chega a notícia de que já é tarde: a menina morreu. Jesus entra na casa só com os pais e três discípulos, manda sair as carpideiras, que riem quando ele diz que ela está apenas dormindo, e segura a mão dela. Então diz em aramaico \"Talitha kum\", que significa \"menina, levanta-te\". Ela se levanta e começa a andar, e Jesus manda que lhe deem de comer. Marcos guardou as palavras na língua original, como uma fórmula preciosa.",
+  "lore_en": "Jairus, leader of a synagogue in Capernaum, begs Jesus to save his twelve-year-old daughter, who is dying. On the way word arrives that it is too late: the girl has died. Jesus enters the house with only the parents and three disciples, sends out the mourners, who laugh when he says she is only asleep, and takes her by the hand. Then he speaks in Aramaic, \"Talitha kum\", meaning \"little girl, get up\". She rises and starts to walk, and Jesus tells them to give her something to eat. Mark preserved the words in their original language, like a treasured formula.",
+  "curiosidade_pt": "Talitha kum é uma das poucas frases que os evangelhos registram na própria língua falada por Jesus, o aramaico, junto com \"Effatá\" (\"abre-te\").",
+  "curiosidade_en": "Talitha kum is one of the few sayings the Gospels record in the very language Jesus spoke, Aramaic, alongside \"Ephphatha\" (\"be opened\").",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Daughter_of_Jairus",
+   "https://en.wikipedia.org/wiki/Aramaic_of_Jesus"
+  ]
+ },
+ "cri_vale_dos_ossos_secos": {
+  "titulo_pt": "O Exército que se Levanta",
+  "titulo_en": "The Army That Rises",
+  "lore_pt": "O profeta Ezequiel, exilado na Babilônia, é levado em visão a um vale cheio de ossos ressecados. Deus pergunta se aqueles ossos podem viver e manda que ele profetize sobre eles. Com um barulho de chocalho, os ossos se juntam, cada um ao seu par, e ganham tendões, carne e pele. Por fim, o sopro dos quatro ventos entra neles e uma multidão imensa se põe de pé. A visão era uma promessa ao povo exilado, que se sentia sem esperança: Israel voltaria à sua terra. Os cristãos a leram também como imagem da ressurreição dos mortos.",
+  "lore_en": "The prophet Ezekiel, exiled in Babylon, is carried in a vision to a valley strewn with bone-dry skeletons. God asks whether these bones can live and tells him to prophesy over them. With a rattling noise the bones snap together, each to its match, and grow sinew, flesh and skin. Finally the breath of the four winds enters them and a vast multitude stands up. The vision was a promise to a people in exile who felt hopeless: Israel would return to its land. Christians also read it as an image of the resurrection of the dead.",
+  "curiosidade_pt": "A visão inspirou o spiritual \"Dem Bones\", composto pelos irmãos James Weldon e J. Rosamond Johnson, aquele do \"osso do pé ligado ao osso do tornozelo\".",
+  "curiosidade_en": "The vision inspired the spiritual \"Dem Bones\", by brothers James Weldon and J. Rosamond Johnson, the one where the foot bone's connected to the ankle bone.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Valley_of_Dry_Bones",
+   "https://en.wikipedia.org/wiki/Dem_Bones"
+  ]
+ },
+ "tok_osso_erguido": {
+  "titulo_pt": "Os Ossos que Ouviram",
+  "titulo_en": "The Bones That Heard",
+  "lore_pt": "Esta figura vem da visão de Ezequiel no vale dos ossos secos. Ao comando do profeta, ossos espalhados e ressecados se procuram e se encaixam, recebem tendões, carne e pele e, quando o sopro divino entra neles, ficam de pé como um exército. Cada esqueleto que se ergue é um pedaço dessa promessa: a de que um povo dado como morto, disperso no exílio, poderia viver de novo. Na tradição cristã, a cena tornou-se uma das imagens mais fortes da ressurreição, pintada desde a Antiguidade, como nos murais da sinagoga de Dura-Europos.",
+  "lore_en": "This figure comes from Ezekiel's vision in the valley of dry bones. At the prophet's word, scattered, sun-bleached bones seek one another out and lock together, take on sinew, flesh and skin and, when the divine breath enters them, stand up like an army. Each skeleton that rises is a fragment of that promise: that a people given up for dead, scattered in exile, could live again. In Christian tradition the scene became one of the strongest images of resurrection, painted since antiquity, as on the walls of the Dura-Europos synagogue.",
+  "curiosidade_pt": "No texto, os ossos primeiro recebem corpo completo e só depois o fôlego: por um momento, o vale fica cheio de corpos inteiros que ainda não respiram.",
+  "curiosidade_en": "In the text the bones first receive complete bodies and only then the breath: for a moment the valley is filled with whole bodies that are not yet breathing.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Valley_of_Dry_Bones",
+   "https://en.wikipedia.org/wiki/Dura-Europos_synagogue"
+  ]
+ },
+ "cri_granizo_e_fogo": {
+  "titulo_pt": "A Tempestade Sem Igual",
+  "titulo_en": "The Storm Like No Other",
+  "lore_pt": "O granizo é a sétima praga do Egito. Moisés ergue o cajado para o céu e vêm trovões, pedras de gelo e fogo correndo pelo chão, uma tempestade que, segundo o Êxodo, nunca se vira no país desde que ele existia. Tudo o que estava ao ar livre foi atingido: pessoas, animais, plantações e árvores. Só a terra de Gósen, onde viviam os israelitas, ficou intacta. Pela primeira vez o Faraó admite ter pecado, mas volta atrás quando a chuva para. O Apocalipse retoma a imagem na visão do fim, com granizo e fogo misturados com sangue.",
+  "lore_en": "Hail is the seventh plague of Egypt. Moses raises his staff toward the sky and there comes thunder, stones of ice and fire running along the ground, a storm that, Exodus says, the land had never seen since it became a nation. Everything left out in the open was struck: people, animals, crops and trees. Only the land of Goshen, where the Israelites lived, was spared. For the first time Pharaoh admits he has sinned, then backs down once the storm stops. Revelation revives the image in its vision of the end, with hail and fire mixed with blood.",
+  "curiosidade_pt": "O próprio texto explica por que nem tudo se perdeu: o linho e a cevada foram destruídos porque já estavam maduros, mas o trigo e a espelta escaparam por amadurecerem mais tarde, sobrando para os gafanhotos da praga seguinte.",
+  "curiosidade_en": "The text itself explains why not everything was lost: the flax and barley were ruined because they were already ripe, but the wheat and spelt survived because they ripen later, leaving something for the locusts of the next plague.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Plagues_of_Egypt"
+  ]
+ },
+ "cri_juizo_final": {
+  "titulo_pt": "O Grande Trono Branco",
+  "titulo_en": "The Great White Throne",
+  "lore_pt": "Para a fé cristã, a história termina num julgamento universal. No Evangelho de Mateus, o Filho do Homem reúne todas as nações e separa as pessoas como um pastor separa ovelhas de cabritos, segundo o modo como trataram os famintos, os doentes e os presos. O Apocalipse descreve um grande trono branco, os mortos de pé diante dele e livros abertos. Ninguém fica de fora. É talvez o tema mais monumental da arte cristã: portais de catedrais românicas, o hino Dies irae e, acima de tudo, a parede inteira da Capela Sistina pintada por Michelangelo.",
+  "lore_en": "For Christian faith, history ends in a universal judgment. In Matthew's Gospel the Son of Man gathers all nations and separates people as a shepherd parts sheep from goats, according to how they treated the hungry, the sick and the imprisoned. Revelation describes a great white throne, the dead standing before it and books opened. No one is left out. It may be the most monumental theme in Christian art: Romanesque cathedral portals, the hymn Dies irae and, above all, the entire wall of the Sistine Chapel painted by Michelangelo.",
+  "curiosidade_pt": "No Juízo Final da Sistina, Michelangelo deu a Minos, juiz do inferno, o rosto de Biagio da Cesena, mestre de cerimônias do papa que criticara os nus do afresco, e pintou o próprio rosto na pele esfolada de São Bartolomeu.",
+  "curiosidade_en": "In the Sistine Last Judgment, Michelangelo gave Minos, judge of the underworld, the face of Biagio da Cesena, the papal master of ceremonies who had criticized the nudes, and painted his own face on the flayed skin of Saint Bartholomew.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Last_Judgment",
+   "https://en.wikipedia.org/wiki/The_Last_Judgment_(Michelangelo)"
+  ]
+ },
+ "cri_funda_de_davi": {
+  "titulo_pt": "Duas Cordas e uma Pedra",
+  "titulo_en": "Two Cords and a Stone",
+  "lore_pt": "A funda é a arma com que o jovem Davi enfrentou o gigante Golias. O Primeiro Livro de Samuel conta que ele escolheu cinco pedras lisas no riacho, guardou-as no bornal de pastor e avançou só com a funda na mão. Uma única pedra bastou: acertou o gigante na testa e o derrubou de cara no chão. Longe de ser brinquedo, a funda era arma séria no mundo antigo, capaz de lançar projéteis a grande velocidade e distância. A cena virou o símbolo eterno do pequeno que vence o grande, e a funda está no ombro do famoso Davi de Michelangelo.",
+  "lore_en": "The sling is the weapon young David carried against the giant Goliath. First Samuel says he picked five smooth stones from the stream, tucked them in his shepherd's bag and advanced with nothing but the sling in hand. A single stone was enough: it struck the giant in the forehead and dropped him face-first to the ground. Far from a toy, the sling was a serious weapon in the ancient world, able to hurl projectiles at high speed over long distances. The scene became the timeless emblem of the small beating the great, and the sling rests on the shoulder of Michelangelo's famous David.",
+  "curiosidade_pt": "O Livro dos Juízes menciona setecentos fundeiros canhotos da tribo de Benjamim capazes de acertar um fio de cabelo sem errar.",
+  "curiosidade_en": "The Book of Judges mentions seven hundred left-handed slingers from the tribe of Benjamin who could hit a hair without missing.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Sling_(weapon)",
+   "https://en.wikipedia.org/wiki/David_and_Goliath"
+  ]
+ },
+ "cri_veu_de_veronica": {
+  "titulo_pt": "A Imagem Verdadeira",
+  "titulo_en": "The True Image",
+  "lore_pt": "Verônica não aparece nos evangelhos. A lenda surgiu em textos apócrifos dos primeiros séculos e foi crescendo na Idade Média: uma mulher de Jerusalém, ao ver Jesus carregando a cruz a caminho do Calvário, enxuga-lhe o rosto com um pano, e a face dele fica impressa no tecido. Em versões mais antigas, o pano cura até o imperador Tibério. O episódio entrou na Via Sacra como a sexta estação, e a relíquia guardada em Roma atraiu peregrinos de toda a Europa por séculos. Dante a cita no Paraíso como algo que o viajante não se cansa de contemplar.",
+  "lore_en": "Veronica does not appear in the Gospels. Her legend grew out of early apocryphal texts and kept expanding in the Middle Ages: a woman of Jerusalem, seeing Jesus carry the cross toward Calvary, wipes his face with a cloth, and his features are left imprinted on it. In older versions the cloth even heals Emperor Tiberius. The episode entered the Stations of the Cross as the sixth station, and the relic kept in Rome drew pilgrims from all over Europe for centuries. Dante mentions it in Paradise as a sight the pilgrim never tires of gazing at.",
+  "curiosidade_pt": "O nome Verônica pode ter nascido da própria relíquia: a expressão vera icon, \"imagem verdadeira\", teria sido confundida com o nome de uma pessoa.",
+  "curiosidade_en": "The name Veronica may have come from the relic itself: the phrase vera icon, \"true image\", was likely mistaken for a person's name.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Veil_of_Veronica",
+   "https://en.wikipedia.org/wiki/Saint_Veronica"
+  ]
+ },
+ "cri_santo_graal": {
+  "titulo_pt": "O Cálice que Ninguém Achou",
+  "titulo_en": "The Cup No One Found",
+  "lore_pt": "O Santo Graal nasce do encontro de duas tradições. De um lado, o cálice que Jesus partilhou com os discípulos na Última Ceia. De outro, o misterioso graal dos romances do rei Artur: em Chrétien de Troyes, por volta de 1190, é um prato precioso levado em procissão no castelo do Rei Pescador, um soberano ferido que nunca sara. Robert de Boron o identificou com o cálice da Ceia, usado por José de Arimateia para recolher o sangue de Cristo. Desde então, cavaleiros como Percival e Galaaz partem atrás dele, e só os de coração puro conseguem contemplá-lo.",
+  "lore_en": "The Holy Grail was born where two traditions met. On one side, the cup Jesus shared with his disciples at the Last Supper. On the other, the mysterious grail of the King Arthur romances: in Chrétien de Troyes, around 1190, it is a precious dish carried in procession at the castle of the Fisher King, a wounded ruler who never heals. Robert de Boron identified it with the cup of the Supper, used by Joseph of Arimathea to catch Christ's blood. Ever since, knights such as Perceval and Galahad ride out after it, and only the pure of heart are allowed to behold it.",
+  "curiosidade_pt": "A catedral de Valência, na Espanha, guarda um cálice de ágata vermelha que a tradição local chama de Santo Cálice; João Paulo II e Bento XVI celebraram missas com ele.",
+  "curiosidade_en": "Valencia Cathedral in Spain keeps a red agate cup that local tradition calls the Holy Chalice; John Paul II and Benedict XVI both celebrated Mass with it.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Holy_Grail",
+   "https://en.wikipedia.org/wiki/Holy_Chalice"
+  ]
+ },
+ "cri_arca_da_alianca": {
+  "titulo_pt": "O Trono Desaparecido",
+  "titulo_en": "The Vanished Throne",
+  "lore_pt": "Segundo o Êxodo, a Arca da Aliança era um cofre de madeira de acácia revestido de ouro, com dois querubins de ouro na tampa, feito no Sinai para guardar as tábuas da Lei. Era carregada por varais, porque não podia ser tocada. A Bíblia lhe atribui feitos assombrosos: as águas do Jordão param à sua passagem, as muralhas de Jericó caem depois de sete voltas, e os filisteus que a capturam sofrem pragas até devolvê-la. O rei Salomão a instalou no Santo dos Santos do Templo, mas depois da conquista babilônica ela some da história, alimentando lendas até hoje.",
+  "lore_en": "According to Exodus, the Ark of the Covenant was a chest of acacia wood overlaid with gold, crowned by two golden cherubim, built at Sinai to hold the tablets of the Law. It was carried on poles, because it could not be touched. The Bible credits it with astonishing deeds: the Jordan stops flowing as it passes, the walls of Jericho fall after seven circuits, and the Philistines who capture it suffer plagues until they send it back. King Solomon placed it in the Holy of Holies of the Temple, but after the Babylonian conquest it vanishes from history, feeding legends to this day.",
+  "curiosidade_pt": "A Igreja Ortodoxa Etíope afirma guardar a Arca original numa capela em Axum, vista apenas por um monge guardião que passa a vida inteira ali dentro.",
+  "curiosidade_en": "The Ethiopian Orthodox Church claims to keep the original Ark in a chapel in Aksum, seen only by a single guardian monk who spends the rest of his life inside.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Ark_of_the_Covenant",
+   "https://en.wikipedia.org/wiki/Church_of_Our_Lady_Mary_of_Zion"
+  ]
+ }
+}

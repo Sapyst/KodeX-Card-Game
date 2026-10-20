@@ -46,11 +46,17 @@ func _enquadrar() -> void:
 	position = Vector2(roundf((vs.x - W) / 2.0), roundf(topo + maxf(0.0, (livre - H) / 2.0)))
 
 
+var col: Colecao
+var _rolando := false                 # dedo encostado na Coleção (arrastando a grade)
+var _rol_ini := Vector2.ZERO
+var _rol_ult := Vector2.ZERO
+var _rol_moveu := false
 var logo_no: Node2D
 var logo_tex: Texture2D
 
 
 func _ready() -> void:
+	col = Colecao.new(self)
 	# logo KodeX desenhado num nó próprio com filtro linear (o resto da UI é pixel, filtro nearest)
 	logo_tex = load("res://assets/logo.png") if ResourceLoader.exists("res://assets/logo.png") else null
 	logo_no = Node2D.new()
@@ -69,6 +75,10 @@ func _ready() -> void:
 		_ir("titulo")
 	if OS.get_environment("GD_FLUXO_TELA") != "":            # teste: abre direto numa tela
 		_ir(OS.get_environment("GD_FLUXO_TELA"))
+	if OS.get_environment("GD_COL_CARTA") != "":              # teste: abre a página de lore de uma carta
+		col.abrir_aba(OS.get_environment("GD_COL_ABA") if OS.get_environment("GD_COL_ABA") != "" else "alta_magia")
+		col.abrir_carta(OS.get_environment("GD_COL_CARTA"))
+		_ir("lore")
 	var auto := OS.get_environment("GD_FLUXO_AUTO")      # teste automático: toca sozinho
 	if auto != "":
 		_autoplay()
@@ -89,6 +99,10 @@ func _process(delta: float) -> void:
 		b["t"] += delta
 		b["p"] += (b["v"] as Vector2) * delta + Vector2(sin(tempo * 1.7 + b["fase"]) * 6.0 * delta, 0)
 	brasas = brasas.filter(func(b: Dictionary) -> bool: return b["t"] < b["vida"])
+	if estado == "colecao":
+		col.atualizar(delta, _rolando)
+	elif estado == "lore":
+		col.atualizar_lore(delta, _rolando)
 	if not falas.is_empty():
 		fala_vis = minf(fala_vis + delta * 45.0, (falas[0]["texto"] as String).length())
 	queue_redraw()
@@ -103,10 +117,20 @@ func _ir(novo: String) -> void:
 	botoes.clear()
 	match novo:
 		"titulo":
-			_botao(Rect2(90, 388, 180, 30), "Torneio", func() -> void: _falar_lista(Sessao.lore.get("prologo", []), Sessao.t("Narrador"), OURO[0], "", func() -> void: _ir("escolha_deck")))
-			_botao(Rect2(90, 426, 180, 30), "Arcade", func() -> void: _ir("arcade"))
-			_botao(Rect2(90, 464, 180, 30), "Tutorial", _comecar_tutorial)
-			_botao(Rect2(120, 512, 120, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("titulo"), {"idioma": true})
+			_botao(Rect2(90, 372, 180, 30), "Torneio", func() -> void: _falar_lista(Sessao.lore.get("prologo", []), Sessao.t("Narrador"), OURO[0], "", func() -> void: _ir("escolha_deck")))
+			_botao(Rect2(90, 408, 180, 30), "Arcade", func() -> void: _ir("arcade"))
+			_botao(Rect2(90, 444, 180, 30), "Tutorial", _comecar_tutorial)
+			_botao(Rect2(90, 480, 180, 30), "Coleção", func() -> void: col.abrir_aba(col.aba); _ir("colecao"))
+			_botao(Rect2(120, 526, 120, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("titulo"), {"idioma": true})
+		"colecao":
+			if col._ids.is_empty():
+				col.abrir_aba(col.aba)
+			for i in Colecao.ABAS.size():
+				var d: String = Colecao.ABAS[i]
+				_botao(Rect2(14 + i * 48, 48, 44, 22), "", func() -> void: col.abrir_aba(d); _ir("colecao"), {"aba": d})
+			_botao(Rect2(110, 604, 140, 26), "Voltar", func() -> void: _ir("titulo"))
+		"lore":
+			_botao(Rect2(110, 604, 140, 26), "Voltar", func() -> void: _ir("colecao"))
 		"escolha_deck":
 			for i in 6:
 				var d: String = Sessao.DECKS[i]
@@ -244,10 +268,24 @@ func _unhandled_input(ev: InputEvent) -> void:
 	var botao_ev: bool = (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT) or ev is InputEventScreenTouch
 	if botao_ev:
 		var p: Vector2 = get_canvas_transform().affine_inverse() * (ev.position as Vector2) - position
+		if estado in ["colecao", "lore"]:
+			_toque_colecao(p, ev.pressed)
 		if ev.pressed:
 			apertar(p)
 		else:
 			soltar_toque(p)
+	elif (ev is InputEventMouseMotion or ev is InputEventScreenDrag) and _rolando:
+		var pr: Vector2 = get_canvas_transform().affine_inverse() * (ev.position as Vector2) - position
+		var dy := pr.y - _rol_ult.y
+		_rol_ult = pr
+		if pr.distance_to(_rol_ini) > 6:
+			_rol_moveu = true
+			apertado = -1
+		if estado == "colecao":
+			col.rolagem = col.limitar(col.rolagem - dy)
+		else:
+			col.rolagem_lore = col.limitar_lore(col.rolagem_lore - dy)
+		col.vel = -dy / maxf(get_process_delta_time(), 0.008)
 	elif (ev is InputEventMouseMotion or ev is InputEventScreenDrag) and apertado >= 0:
 		var p2: Vector2 = get_canvas_transform().affine_inverse() * (ev.position as Vector2) - position
 		if not (botoes[apertado]["rect"] as Rect2).grow(8).has_point(p2):
@@ -299,6 +337,25 @@ func vibrar(ms: int, forca: float = 0.5) -> void:
 	Input.vibrate_handheld(ms, forca)
 
 
+## Coleção: arrastar rola a grade/página (com inércia); toque curto numa carta abre a lore.
+func _toque_colecao(p: Vector2, pressed: bool) -> void:
+	if pressed:
+		_rolando = p.y > Colecao.TOPO - 50 and p.y < Colecao.BASE
+		_rol_ini = p
+		_rol_ult = p
+		_rol_moveu = false
+		col.vel = 0.0
+		return
+	var era := _rolando
+	_rolando = false
+	if era and not _rol_moveu and estado == "colecao" and apertado < 0:
+		var cid := col.tocar(p)
+		if cid != "":
+			vibrar(12, 0.4)
+			col.abrir_carta(cid)
+			_ir("lore")
+
+
 func _comecar_tutorial() -> void:
 	Sessao.preparar_tutorial()
 	get_tree().change_scene_to_file("res://mesa.tscn")
@@ -320,6 +377,11 @@ func _draw() -> void:
 			_cabecalho(Sessao.t("Escolha o seu deck"), Sessao.t("seis tradições, um Códice"))
 		"arcade":
 			_cabecalho("Arcade", Sessao.t("toque nas opções para trocar"))
+		"colecao":
+			PixelFonte.centrado(self, Vector2(180, 24), Sessao.t("Coleção").to_upper(), OURO[0], 3, ESCURO)
+			col.desenhar_grade(self)
+		"lore":
+			col.desenhar_lore(self)
 		"derrota":
 			var e := _entrada(0)
 			PixelFonte.centrado(self, Vector2(180, 290 - 20 * (1.0 - e)), Sessao.t("DERROTA"), Color(0.91, 0.42, 0.42, e), 4, ESCURO)
@@ -458,6 +520,13 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 		# setinhas animadas indicando que dá para trocar
 		var dx := 1.0 if fmod(tempo, 0.8) < 0.4 else 0.0
 		Fonte57.desenhar(self, Vector2(dentro.end.x - 12 + dx, dentro.position.y + 19), ">", OURO[1])
+		return
+	if b.has("aba"):
+		var ativa: bool = b["aba"] == col.aba
+		var cor_aba: Color = Color(Sessao.personagem(b["aba"]).get("cor", "#6a6070")) if b["aba"] != "abismo" else Color("#5a2a7a")
+		var dch := _painel(r, ativa, pressao, cor_aba.darkened(0.25 if ativa else 0.65))
+		var rotulo := PixelFonte.normalizar(Sessao.nome_deck(b["aba"]) if b["aba"] != "abismo" else Sessao.t("Abismo")).substr(0, 3)
+		PixelFonte.centrado(self, dch.get_center() + Vector2(0, 1), rotulo, OURO[0] if ativa else Color("#b8b0c0"), 1, ESCURO)
 		return
 	if b.has("idioma"):
 		var din := _painel(r, false, pressao)

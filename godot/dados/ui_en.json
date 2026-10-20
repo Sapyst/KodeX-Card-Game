@@ -100,5 +100,13 @@
  "REEMBARALHAR O CEMITERIO: -%d CORNUCOPIA": "RESHUFFLE GRAVEYARD: -%d CORNUCOPIA",
  "REEMBARALHAR": "RESHUFFLE",
  "NAO  (-%d)": "NO  (-%d)",
- "Tutorial": "Tutorial"
+ "Tutorial": "Tutorial",
+ "Coleção": "Collection",
+ "%d CARTAS": "%d CARDS",
+ "%d TOKENS": "%d TOKENS",
+ "REVISAO": "REVIEW",
+ "CURIOSIDADE": "FUN FACT",
+ "Arte em revisão: versão provisória desta Alpha.": "Art under review: a provisional version for this Alpha.",
+ "Abismo": "Abyss",
+ "toque numa carta para ler a lore": "tap a card to read its lore"
 }

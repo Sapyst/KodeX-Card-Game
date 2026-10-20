@@ -6,6 +6,8 @@ const NOME_DECK := {"indigena": "Indígena", "cristianismo": "Cristianismo", "ta
 	"hinduismo": "Hinduísmo", "bruxaria": "Bruxaria", "alta_magia": "Alta magia", "misto": "Misto"}
 
 var db: Dictionary = {}
+var codex: Dictionary = {}           # id → {titulo_pt/en, lore_pt/en, curiosidade_pt/en} (dados/codex/*.json)
+var arte_revisao: Array = []         # ids com arte provisória (marcados "em revisão" na Coleção)
 var tokens: Dictionary = {}          # nome PT do token (como nas ações summon_token) → {id, en, cultura}
 var lore: Dictionary = {}
 var rng := RandomNumberGenerator.new()
@@ -46,6 +48,13 @@ func _ready() -> void:
 
 ## Recarrega cartas e lore no idioma atual (nomes e textos das cartas vêm de cartas_en.json no inglês).
 func carregar_dados() -> void:
+	if codex.is_empty():
+		for d in DECKS + ["abismo"]:
+			var arq := "res://dados/codex/%s.json" % d
+			if FileAccess.file_exists(arq):
+				codex.merge(JSON.parse_string(FileAccess.get_file_as_string(arq)))
+		if FileAccess.file_exists("res://dados/arte_revisao.json"):
+			arte_revisao = JSON.parse_string(FileAccess.get_file_as_string("res://dados/arte_revisao.json"))
 	if FileAccess.file_exists("res://dados/tokens.json"):
 		tokens = JSON.parse_string(FileAccess.get_file_as_string("res://dados/tokens.json"))
 	db = JSON.parse_string(FileAccess.get_file_as_string("res://dados/cartas.json"))

@@ -1,0 +1,360 @@
+{
+ "ind_saci_perere": {
+  "titulo_pt": "O Moleque do Redemoinho",
+  "titulo_en": "The Imp of the Whirlwind",
+  "lore_pt": "Nenhum ser do folclore brasileiro é tão conhecido — nem tem origem tão disputada. O nome viria do tupi e evoca um pulo de quem tem um só apoio, e os registros mais antigos, no Norte, falam de um pássaro de assobio agourento. Descendo para o Sul, a figura ganhou perna única, carapuça vermelha e cachimbo, somando camadas africanas e ibéricas a um núcleo indígena. O Saci viaja dentro do redemoinho, trança crinas de cavalo, some com objetos e faz o viajante errar a trilha. Não é mau: é travesso, e sua bagunça costuma cair justamente sobre quem entra na mata sem respeito.",
+  "lore_en": "No figure in Brazilian folklore is better known, or more argued over. The name is usually traced to Tupi, and the oldest northern records describe not a boy but a bird with an ill-omened whistle. As the legend traveled south it picked up a single leg, a red cap and a pipe, layering African and Iberian touches over an Indigenous core. The Saci rides inside whirlwinds, braids horses' manes into knots, hides small things and leads travelers astray. He is not evil, only mischievous, and his pranks tend to land on whoever walks into the forest carelessly.",
+  "curiosidade_pt": "Em 1917, Monteiro Lobato lançou num jornal paulista um inquérito pedindo aos leitores relatos sobre o Saci; as respostas viraram livro em 1918.",
+  "curiosidade_en": "In 1917 the writer Monteiro Lobato ran a newspaper survey asking readers for their Saci sightings and stories; the replies became a book in 1918.",
+  "fontes": [
+   "https://pt.wikipedia.org/wiki/Saci",
+   "https://pt.wikipedia.org/wiki/O_Saci-Perer%C3%AA:_resultado_de_um_inqu%C3%A9rito"
+  ]
+ },
+ "ind_curupira": {
+  "titulo_pt": "O Guardião de Pés Virados",
+  "titulo_en": "The Backward-Footed Guardian",
+  "lore_pt": "O Curupira é o primeiro ser do folclore brasileiro a aparecer por escrito: em 1560, o jesuíta José de Anchieta contou que os indígenas deixavam penas e outros presentes nas trilhas para aplacá-lo. Pequeno, de cabelos vermelhos, ele tem os pés voltados para trás, e por isso seus rastros apontam para onde ele não está. É o protetor da floresta e da caça: castiga quem mata por prazer, quem fere a fêmea prenhe ou derruba árvore à toa, fazendo o caçador andar em círculos até se perder. Quem pede licença à mata, porém, segue em paz.",
+  "lore_en": "The Curupira is the first being of Brazilian folklore ever written down: in 1560 the Jesuit José de Anchieta noted that Indigenous people left feathers and other gifts on forest paths to appease him. Small and red-haired, he walks on feet turned backward, so his tracks always point the wrong way. He guards the forest and its game, punishing anyone who kills for sport, wounds a pregnant animal or fells trees for no reason, and leading the offender in circles until hopelessly lost. Those who ask the forest's permission pass unharmed.",
+  "curiosidade_pt": "Em 2025 o Curupira foi escolhido como mascote da COP30, a conferência do clima da ONU realizada em Belém.",
+  "curiosidade_en": "In 2025 the Curupira was chosen as the mascot of COP30, the UN climate conference held in Belém, in the Brazilian Amazon.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Curupira",
+   "https://pt.wikipedia.org/wiki/Curupira"
+  ]
+ },
+ "ind_caipora": {
+  "titulo_pt": "A Senhora dos Bichos",
+  "titulo_en": "Mistress of the Beasts",
+  "lore_pt": "O nome vem do tupi e significa algo como 'habitante do mato'. A Caipora é a dona dos animais da floresta: às vezes uma mulher peluda, às vezes um menino, quase sempre montada num porco-do-mato e seguida pela vara inteira. Ela cobra pedágio de quem caça — um rolo de fumo deixado num toco. Quem paga volta com caça; quem esquece volta de mãos vazias, perdido ou com febre. Em parte do Brasil ela se confundiu com o Curupira, mas no Nordeste segue figura própria, mais próxima dos bichos que das árvores: a padroeira da caça justa, que protege ao mesmo tempo o animal e o caçador honesto.",
+  "lore_en": "Her name comes from Tupi and means roughly 'dweller of the woods'. The Caipora owns the forest's animals: sometimes a hairy woman, sometimes a boy, almost always riding a wild peccary with the whole herd behind her. She charges hunters a toll, a twist of tobacco left on a stump. Pay it and the hunt goes well; forget, and you come home empty-handed, lost or feverish. In some regions she merged with the Curupira, but in the Northeast she remains her own figure, closer to animals than to trees, the patron of fair hunting who protects both prey and the honest hunter.",
+  "curiosidade_pt": "Da palavra 'caipora' nasceu a gíria para pessoa azarada: ver a Caipora era sinal certo de má sorte na caçada.",
+  "curiosidade_en": "In Brazilian slang, calling someone 'caipora' means they are jinxed, because meeting the Caipora was a sure sign of a bad hunt.",
+  "fontes": [
+   "https://pt.wikipedia.org/wiki/Caipora",
+   "https://en.wikipedia.org/wiki/Caipora"
+  ]
+ },
+ "ind_iara": {
+  "titulo_pt": "A Senhora das Águas",
+  "titulo_en": "Lady of the Waters",
+  "lore_pt": "Hoje a Iara é a sereia dos rios amazônicos, de cabelos longos e canto irresistível, que leva pescadores para o fundo — de onde não voltam, ou voltam 'encantados'. Mas a imagem é recente. Os cronistas do século XVI falavam do Ipupiara, um monstro aquático masculino que agarrava banhistas; foi no século XIX, sob o romantismo, que ele virou bela mulher. Uma versão popular conta que Iara era a melhor guerreira da aldeia; os irmãos, invejosos, tentaram matá-la, ela se defendeu, e o pai a lançou ao rio, onde os peixes a transformaram. O canto, dizem, é mais saudade do que maldade.",
+  "lore_en": "Today the Iara is the river siren of the Amazon, long-haired and irresistible, who draws fishermen down into the deep. Few return, and those who do come back 'enchanted'. Yet the image is fairly new. Sixteenth-century chroniclers described the Ipupiara, a male water monster that seized bathers; only in the 1800s, under Romanticism, did it become a beautiful woman. One popular version says Iara was the finest warrior of her village; jealous brothers tried to kill her, she fought back, and her father cast her into the river, where the fish transformed her. Her song, they say, is longing more than malice.",
+  "curiosidade_pt": "O nome costuma ser explicado pelo tupi como 'senhora das águas', e ela também é chamada de Mãe-d'Água.",
+  "curiosidade_en": "Her name is usually explained from Tupi as 'lady of the waters', and she is also known as the Mãe-d'Água, the Water Mother.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Iara_(mythology)",
+   "https://pt.wikipedia.org/wiki/Iara"
+  ]
+ },
+ "ind_boitata": {
+  "titulo_pt": "A Cobra de Fogo",
+  "titulo_en": "The Fire Serpent",
+  "lore_pt": "Do tupi mboi (cobra) e tatá (fogo), o Boitatá é uma serpente luminosa que corre pelos campos à noite. Anchieta já o mencionava em 1560, e o nome se espalhou pelo país em muitas variantes. A versão gaúcha conta que, durante uma longa noite de dilúvio, uma cobra sobreviveu comendo os olhos dos animais mortos até ficar cheia de luz e transparente. A tradição mais difundida faz dele o protetor dos campos e das matas contra quem lhes ateia fogo: persegue o incendiário, queima-o ou o enlouquece com seu brilho. É o fogo da natureza voltado contra quem o usa mal.",
+  "lore_en": "From the Tupi words for snake and fire, the Boitatá is a glowing serpent that races across the fields at night. Anchieta mentioned it as early as 1560, and the name spread across Brazil in many forms. The southern version tells of an endless night of flood in which one snake survived by eating the eyes of drowned animals until it filled with light and turned transparent. The most widespread tradition makes it the guardian of fields and forests against arsonists: it hunts down whoever sets them ablaze, burning or maddening them with its glare. Nature's fire, turned on those who misuse it.",
+  "curiosidade_pt": "Muitos pesquisadores ligam o mito ao fogo-fátuo, chamas azuladas causadas por gases de matéria orgânica em brejos e cemitérios.",
+  "curiosidade_en": "Many scholars connect the myth to will-o'-the-wisps, faint flames produced by gases from decaying matter in marshes and graveyards.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Boitat%C3%A1",
+   "https://pt.wikipedia.org/wiki/Boitat%C3%A1"
+  ]
+ },
+ "ind_anhanga": {
+  "titulo_pt": "O Veado de Olhos de Fogo",
+  "titulo_en": "The Fire-Eyed Stag",
+  "lore_pt": "Para os Tupinambá do século XVI, Anhangá era um espírito errante ligado aos mortos, que vagava pela mata e assustava as noites. Os jesuítas o traduziram como 'diabo', e essa leitura deformou a figura por séculos. No folclore amazônico posterior ele aparece como protetor dos animais de caça, quase sempre na forma de um veado branco de olhos em brasa. Quem persegue uma fêmea com filhote, ou caça além do necessário, é envolvido em visões e enganos; nas histórias mais sombrias, o caçador acaba ferindo um parente pensando atirar na presa. Anhangá é o medo como regra da floresta.",
+  "lore_en": "To the sixteenth-century Tupinambá, Anhangá was a wandering spirit tied to the dead, roaming the forest and haunting the night. Jesuit missionaries translated the name as 'devil', a reading that distorted the figure for centuries. In later Amazonian folklore he becomes a protector of game animals, usually appearing as a white deer with burning eyes. Hunters who chase a mother with her young, or kill more than they need, are trapped in visions and illusions; in the darkest tales, the hunter wounds a relative believing it to be his prey. Anhangá is fear as forest law.",
+  "curiosidade_pt": "O nome Anhangabaú, do famoso vale no centro de São Paulo, é frequentemente explicado como 'rio do Anhangá' ou 'rio dos malefícios'.",
+  "curiosidade_en": "São Paulo's famous Anhangabaú valley is often said to take its name from this spirit, read as 'river of Anhangá' or 'river of evil spells'.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Anhang%C3%A1",
+   "https://pt.wikipedia.org/wiki/Anhang%C3%A1"
+  ]
+ },
+ "ind_mapinguari": {
+  "titulo_pt": "O Gigante de Boca na Barriga",
+  "titulo_en": "The Giant with a Mouth in Its Belly",
+  "lore_pt": "Nas matas do Acre, Amazonas, Pará e Rondônia, seringueiros e ribeirinhos falam de um gigante peludo com um só olho na testa e uma boca aberta no ventre. Seu couro seria tão duro que flechas e balas não entram; o grito ensurdece e o cheiro derruba quem chega perto. Em várias versões ele foi um pajé que buscou a imortalidade e acabou virando bicho. É um dos poucos monstros de verdade do folclore amazônico: lento, enorme, praticamente imbatível de frente. Por isso, dizem os mais velhos, o certo é nunca enfrentá-lo — é sair do caminho dele.",
+  "lore_en": "In the forests of Acre, Amazonas, Pará and Rondônia, rubber tappers and river dwellers speak of a shaggy giant with a single eye on its forehead and a gaping mouth in its belly. Its hide is said to be so tough that arrows and bullets bounce off; its roar deafens and its stench knocks people down. In many versions it was once a shaman who sought immortality and became a beast. It is one of the few true monsters of Amazonian folklore: slow, huge and nearly unbeatable head-on. The elders' advice is simple: never fight it, just get out of its way.",
+  "curiosidade_pt": "O biólogo David Oren chegou a propor que a lenda guarde a memória de preguiças-gigantes terrestres; a hipótese nunca foi comprovada.",
+  "curiosidade_en": "Biologist David Oren proposed that the legend might preserve a memory of giant ground sloths; the idea was never confirmed and most scientists rejected it.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Mapinguari",
+   "https://skeptoid.com/episodes/888"
+  ]
+ },
+ "ind_cobra_grande": {
+  "titulo_pt": "A Serpente sob a Igreja",
+  "titulo_en": "The Serpent Beneath the Church",
+  "lore_pt": "A Cobra-Grande, ou Boiúna, é a serpente colossal dos rios amazônicos. Com olhos acesos como faróis, ela se disfarça de barco iluminado, vira canoas, abre igarapés com o corpo e dorme no fundo dos lagos. Diz-se em várias cidades do Pará que uma Cobra-Grande descansa sob a igreja matriz, e que se acordar a terra desaba. O ciclo mais famoso é o dos gêmeos Honorato e Maria Caninana, filhos de uma mulher e da cobra: ela cruel, ele bondoso. Honorato só deixou a forma de serpente quando alguém teve coragem de pingar leite em sua boca e feri-lo.",
+  "lore_en": "The Cobra-Grande, or Boiúna, is the colossal serpent of Amazonian rivers. With eyes blazing like lanterns, she disguises herself as a lit-up boat, capsizes canoes, carves new channels with her body and sleeps at the bottom of lakes. Several towns in Pará say a giant serpent lies coiled beneath the main church, and if she ever wakes, the ground will collapse. The best-known cycle tells of twins, Honorato and Maria Caninana, born to a woman and the snake: she cruel, he kind. Honorato escaped his serpent form only when someone was brave enough to drip milk into his mouth and wound him.",
+  "curiosidade_pt": "O mito inspirou 'Cobra Norato' (1931), de Raul Bopp, um dos poemas mais celebrados do modernismo brasileiro.",
+  "curiosidade_en": "The myth inspired Raul Bopp's 'Cobra Norato' (1931), one of the landmark poems of Brazilian modernism.",
+  "fontes": [
+   "https://pt.wikipedia.org/wiki/Cobra-Grande",
+   "https://pt.wikipedia.org/wiki/Cobra_Norato"
+  ]
+ },
+ "ind_jaci": {
+  "titulo_pt": "A Lua que Transforma",
+  "titulo_en": "The Transforming Moon",
+  "lore_pt": "Jaci é a Lua nas tradições de língua tupi: feminina, ligada ao Sol, Guaraci, e protetora das plantas, da fertilidade e dos amantes. Cantos recolhidos no século XIX mostram mulheres pedindo à lua cheia e à lua nova que trouxessem de volta quem amavam. Entre os Guarani Mbyá, a Lua (Jasy) aparece como um dos gêmeos míticos, irmão do Sol. A história mais lembrada é a da vitória-régia: Naiá, apaixonada pela Lua, viu seu reflexo no lago, mergulhou para alcançá-lo e se afogou. Comovida, Jaci a transformou na 'estrela das águas', a flor que só abre à noite.",
+  "lore_en": "Jaci is the Moon in Tupi-speaking traditions: feminine, paired with the Sun, Guaraci, and protector of plants, fertility and lovers. Songs collected in the nineteenth century show women asking the full and new moons to bring their beloved home. Among the Mbyá Guarani, the Moon (Jasy) appears as one of the mythic twins, brother of the Sun. Her most cherished story is the water lily's: Naiá, in love with the Moon, saw its reflection in a lake, dove in to reach it and drowned. Moved, Jaci turned her into the 'star of the waters', a flower that opens only at night.",
+  "curiosidade_pt": "A lenda da vitória-régia tem forte marca literária: ela circula em coletâneas amazônicas desde o fim do século XIX.",
+  "curiosidade_en": "The water-lily legend carries a strong literary touch; it has circulated in Amazonian collections since the late nineteenth century.",
+  "fontes": [
+   "https://pt.wikipedia.org/wiki/Jaci_(mitologia)",
+   "https://pt.wikipedia.org/wiki/Vit%C3%B3ria-r%C3%A9gia"
+  ]
+ },
+ "ind_tupa": {
+  "titulo_pt": "A Voz do Trovão",
+  "titulo_en": "The Voice of Thunder",
+  "lore_pt": "Hoje Tupã é lembrado como o grande deus dos povos tupi, mas os primeiros relatos contam outra história. Para os Tupinambá do século XVI, Tupã era o trovão — a força que fazia o céu estrondar e a chuva cair, temida, mas sem culto nem oferendas, segundo Jean de Léry. Foram os jesuítas que escolheram a palavra para traduzir 'Deus' nos catecismos em tupi. Séculos depois, os escritores indianistas do romantismo consolidaram Tupã como criador supremo. Entre autores guarani contemporâneos, o nome volta com outro sentido: o princípio sonoro de onde tudo nasce.",
+  "lore_en": "Today Tupã is remembered as the great god of the Tupi peoples, but the earliest accounts tell a different story. For the sixteenth-century Tupinambá, Tupã was thunder itself, the force that made the sky roar and the rain fall: feared, yet given no worship or offerings, according to Jean de Léry. It was the Jesuits who chose the word to mean 'God' in their Tupi catechisms. Centuries later, Romantic writers cemented Tupã as a supreme creator. Some contemporary Guarani authors reclaim the name in a new sense: the primordial sound from which everything is born.",
+  "curiosidade_pt": "Por causa da catequese, 'Tupã' ainda aparece em orações cristãs traduzidas para línguas indígenas, como em versões do Pai-Nosso em tupi.",
+  "curiosidade_en": "Because of missionary work, 'Tupã' still appears in Christian prayers translated into Indigenous languages, including Tupi versions of the Lord's Prayer.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Tup%C3%A3_(mythology)",
+   "https://pt.wikipedia.org/wiki/Tup%C3%A3"
+  ]
+ },
+ "ind_arapuca": {
+  "titulo_pt": "A Gaiola de Varetas",
+  "titulo_en": "The Stick Cage",
+  "lore_pt": "A arapuca é a armadilha de pássaros mais conhecida do Brasil, e seu nome vem do tupi. É uma pequena pirâmide de varetas amarradas com cipó, apoiada sobre um gatilho com isca de milho ou fruta. Quando a ave bica a isca, a estrutura cai e a prende viva, sem machucá-la. Cronistas do século XVI já descreviam as técnicas indígenas de captura de aves e caça miúda, e a arapuca passou intacta para a cultura caipira e sertaneja, com o mesmo nome e a mesma forma. É a imagem do caçador paciente: espera, prende e decide depois.",
+  "lore_en": "The arapuca is Brazil's best-known bird trap, and its name comes from Tupi. It is a small pyramid of sticks lashed together with vines, propped over a trigger baited with corn or fruit. When the bird pecks at the bait, the frame drops and holds it alive and unharmed. Sixteenth-century chroniclers already described Indigenous techniques for catching birds and small game, and the arapuca passed intact into rural Brazilian culture, keeping the same name and shape. It embodies the patient hunter: wait, catch, and decide later.",
+  "curiosidade_pt": "No português do Brasil, 'cair numa arapuca' virou expressão para cair numa cilada.",
+  "curiosidade_en": "In Brazilian Portuguese, 'falling into an arapuca' became a common idiom for walking into a trap or scam.",
+  "fontes": [
+   "https://pt.wikipedia.org/wiki/Arapuca"
+  ]
+ },
+ "ind_mundeu": {
+  "titulo_pt": "A Armadilha do Tronco",
+  "titulo_en": "The Deadfall",
+  "lore_pt": "O mundéu é a armadilha de peso usada pelos povos indígenas para caça grande — anta, veado, porco-do-mato. Um tronco pesado fica suspenso sobre a trilha, preso a uma forquilha ligada a um gatilho; quando o animal passa ou mexe na isca, o tronco despenca. Cronistas coloniais e, mais tarde, folcloristas como Câmara Cascudo o descrevem como a solução engenhosa para bichos que uma flecha não derruba de uma vez. Diferente da arapuca, o mundéu mata — e a caça que ele rende abastece a aldeia inteira. Engenharia simples, feita de madeira, cipó e conhecimento do caminho dos animais.",
+  "lore_en": "The mundéu is the deadfall trap Indigenous peoples used for large game such as tapir, deer and peccary. A heavy log hangs over a trail, held by a forked stick tied to a trigger; when an animal brushes the trigger or tugs the bait, the log crashes down. Colonial chroniclers and later folklorists such as Câmara Cascudo describe it as an ingenious answer to animals a single arrow could not bring down. Unlike the arapuca, the mundéu kills, and the meat it yields can feed a whole village. Simple engineering, built from wood, vine and deep knowledge of animal trails.",
+  "curiosidade_pt": "A palavra vem do tupi e ganhou na fala popular o sentido de 'grande quantidade': 'um mundéu de gente'.",
+  "curiosidade_en": "The word comes from Tupi, and in popular Brazilian speech it also came to mean 'a huge amount', as in 'a mundéu of people'.",
+  "fontes": [
+   "https://pt.wikipedia.org/wiki/Mund%C3%A9u"
+  ]
+ },
+ "ind_assovio_da_matinta": {
+  "titulo_pt": "O Silvo no Telhado",
+  "titulo_en": "The Whistle on the Roof",
+  "lore_pt": "No Pará e no baixo Amazonas, um assobio agudo e insistente no meio da noite tira o sono de qualquer casa. É a Matinta Perera, pousada no telhado em forma de pássaro, repetindo seu silvo até que alguém prometa fumo. Na manhã seguinte, uma velha da vizinhança aparece para cobrar a promessa — e quem não paga sofre alguma desgraça. O núcleo é indígena: o nome e o pássaro, cujo canto noturno é tido como mau agouro na Amazônia. A velha feiticeira que vira ave é um acréscimo do período colonial. Até hoje a Matinta é personagem viva nas histórias ribeirinhas.",
+  "lore_en": "In Pará and along the lower Amazon, a sharp, relentless whistle in the dead of night keeps whole households awake. It is the Matinta Perera, perched on the roof in bird form, repeating her call until someone promises her tobacco. The next morning an old woman from the neighborhood comes to collect, and whoever refuses meets misfortune. The core is Indigenous: the name and the bird, whose night song is considered a bad omen across the Amazon. The old witch who turns into a bird was added in colonial times. The Matinta remains very much alive in riverside storytelling today.",
+  "curiosidade_pt": "O pássaro associado ao mito é o saci (Tapera naevia), ave real cujo canto melancólico dá nome ao próprio Saci-Pererê em várias regiões.",
+  "curiosidade_en": "The bird linked to the myth is the striped cuckoo (Tapera naevia), a real species whose mournful call is also called 'saci' in Brazil, connecting it to the Saci legend.",
+  "fontes": [
+   "https://pt.wikipedia.org/wiki/Matinta_Perera",
+   "https://en.wikipedia.org/wiki/Striped_cuckoo"
+  ]
+ },
+ "ind_sopro_do_paje": {
+  "titulo_pt": "A Fumaça que Cura",
+  "titulo_en": "The Healing Smoke",
+  "lore_pt": "O pajé é o xamã dos povos tupi-guarani: curador, conselheiro e intermediário com o mundo dos espíritos. No século XVI, Jean de Léry descreveu os pajés andarilhos dos Tupinambá soprando fumaça de tabaco sobre os guerreiros para lhes dar força, e também sobre doentes e lugares para expulsar o mal. O sopro de fumaça tornou-se o gesto xamânico por excelência: cura, purifica e desfaz o que outro feitiço fez. Em pajelanças de muitos povos indígenas atuais, o tabaco soprado segue sendo um caminho para limpar o corpo e o espaço e restabelecer o equilíbrio.",
+  "lore_en": "The pajé is the shaman of Tupi-Guarani peoples: healer, counselor and go-between with the spirit world. In the sixteenth century Jean de Léry described wandering Tupinambá shamans blowing tobacco smoke over warriors to give them strength, and over the sick and over places to drive harm away. Blown smoke became the shamanic gesture par excellence: it heals, purifies and undoes what another's sorcery has done. In the healing practices of many Indigenous peoples today, blown tobacco is still a way to cleanse body and space and restore balance.",
+  "curiosidade_pt": "O tabaco é planta das Américas; foi observando usos indígenas como esse que os europeus o conheceram e o levaram ao resto do mundo.",
+  "curiosidade_en": "Tobacco is native to the Americas; Europeans first encountered it through Indigenous uses like these before carrying it around the world.",
+  "fontes": [
+   "https://pt.wikipedia.org/wiki/Paj%C3%A9",
+   "https://en.wikipedia.org/wiki/Jean_de_L%C3%A9ry"
+  ]
+ },
+ "ind_cauim": {
+  "titulo_pt": "A Bebida da Aldeia",
+  "titulo_en": "The Village Brew",
+  "lore_pt": "O cauim é a bebida fermentada dos povos tupi, feita de mandioca, milho ou frutas como o caju. As mulheres cozinhavam a base, mastigavam parte dela e a devolviam ao pote: a saliva iniciava a fermentação. Dias depois, a aldeia inteira bebia em cuias, em festas que podiam durar dias, com cantos e danças. Cronistas como Hans Staden e Jean de Léry descreveram essas cauinagens com espanto. Elas marcavam casamentos, lutos, partidas para a guerra e grandes rituais. Mais do que bebida, o cauim era o momento em que a comunidade se refazia e lembrava seus antepassados.",
+  "lore_en": "Cauim is the fermented drink of the Tupi peoples, made from manioc, corn or fruit such as cashew. Women cooked the base, chewed part of it and returned it to the pot, where saliva set off fermentation. Days later the whole village drank it from gourds at festivals that could last for days, with songs and dances. Chroniclers such as Hans Staden and Jean de Léry described these gatherings in astonishment. They marked weddings, mourning, departures for war and great rituals. More than a drink, cauim was the moment when the community renewed itself and remembered its ancestors.",
+  "curiosidade_pt": "Léry notou que os Tupinambá não comiam enquanto bebiam cauim e achavam estranho os europeus misturarem as duas coisas.",
+  "curiosidade_en": "Léry noted that the Tupinambá never ate while drinking cauim and found it odd that Europeans mixed food and drink at the same meal.",
+  "fontes": [
+   "https://pt.wikipedia.org/wiki/Cauim",
+   "https://en.wikipedia.org/wiki/Cauim"
+  ]
+ },
+ "ind_visao_do_caapi": {
+  "titulo_pt": "O Cipó do Conhecimento",
+  "titulo_en": "The Vine of Knowledge",
+  "lore_pt": "Caapi é o cipó Banisteriopsis caapi, base da bebida mais conhecida pelo nome quéchua ayahuasca, preparada há gerações por dezenas de povos amazônicos — Tukano, Desana, Huni Kuin, Yawanawá e muitos outros, cada um com seu nome e seus cantos. Para os Desana do Rio Negro, segundo o mito registrado pelos próprios autores indígenas em 'Antes o mundo não existia' (1980), o caapi nasceu de uma mulher, e seu filho foi repartido entre os grupos: cada povo recebeu seu pedaço. A bebida não é lazer: é caminho de conhecimento, que permite ao pajé ver o que está oculto.",
+  "lore_en": "Caapi is the vine Banisteriopsis caapi, the basis of the brew better known by its Quechua name, ayahuasca. Dozens of Amazonian peoples have prepared it for generations — the Tukano, Desana, Huni Kuin, Yawanawá and many more, each with its own name and songs. For the Desana of the Rio Negro, in a myth recorded by Indigenous authors themselves in 'Before the World Existed' (1980), caapi was born of a woman, and her child was shared among the groups so that every people received its own piece. The brew is not for leisure: it is a path to knowledge, letting the shaman see what lies hidden.",
+  "curiosidade_pt": "'Antes o mundo não existia' foi um dos primeiros livros de mitologia indígena brasileira assinados pelos próprios narradores indígenas.",
+  "curiosidade_en": "'Before the World Existed' was one of the first books of Brazilian Indigenous mythology credited to its own Indigenous narrators.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Banisteriopsis_caapi",
+   "https://en.wikipedia.org/wiki/Ayahuasca"
+  ]
+ },
+ "ind_fogo_de_monan": {
+  "titulo_pt": "O Fogo que Moldou o Mundo",
+  "titulo_en": "The Fire That Shaped the World",
+  "lore_pt": "Segundo o relato que o frade André Thevet ouviu dos Tupinambá da Guanabara no século XVI, Monan foi o criador de tudo: céu, terra, animais e os primeiros homens, entre os quais vivia. Mas a humanidade se tornou ingrata, e Monan mandou Tatá, o fogo do céu, que queimou a superfície da terra e deixou os vales e serras que existem hoje. Só um homem se salvou, Irin-Magé, levado ao céu. Ele implorou a Monan que apagasse o incêndio, e veio uma chuva tão grande que, correndo pelas fendas abertas pelo fogo, formou o mar.",
+  "lore_en": "According to the account the friar André Thevet heard from the Tupinambá of Guanabara Bay in the sixteenth century, Monan made everything: sky, earth, animals and the first humans, among whom he lived. But humankind grew ungrateful, and Monan sent Tatá, the fire from the sky, which scorched the earth and carved the valleys and mountains we see today. Only one man survived, Irin-Magé, carried up to the heavens. He begged Monan to quench the blaze, and a rain fell so heavily that, rushing through the cracks the fire had opened, it became the sea.",
+  "curiosidade_pt": "No mito, a água do mar é salgada porque guardou as cinzas do grande incêndio.",
+  "curiosidade_en": "In the myth, seawater is salty because it still holds the ashes of the great fire.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Monan",
+   "https://pt.wikipedia.org/wiki/Mon%C3%A3"
+  ]
+ },
+ "ind_danca_do_aruana": {
+  "titulo_pt": "Os Espíritos do Fundo do Rio",
+  "titulo_en": "Spirits from the Riverbed",
+  "lore_pt": "Os Karajá, que se chamam Iny, vivem às margens do rio Araguaia e na Ilha do Bananal. Sua cerimônia mais visível é a dos Aruanãs: espíritos que vivem no fundo do rio e visitam a aldeia. Eles são encarnados por dançarinos sempre em pares, cobertos por longas saias de palha de buriti e máscaras altas de penas, que cantam de um jeito que não soa humano. Para quem participa, não são vizinhos fantasiados, mas os próprios espíritos de visita. As máscaras ficam guardadas na casa dos homens, e o ritual integra o ciclo cerimonial Iny que marca a vida da comunidade.",
+  "lore_en": "The Karajá, who call themselves Iny, live along the Araguaia River and on Bananal Island. Their most visible ceremony is that of the Aruanãs, spirits who live on the riverbed and come to visit the village. They are embodied by dancers who always appear in pairs, covered by long skirts of buriti palm straw and tall feathered masks, singing in a way that does not sound human. To the participants they are not neighbors in costume but the spirits themselves, visiting. The masks are kept in the men's house, and the ritual is part of the Iny ceremonial cycle that structures community life.",
+  "curiosidade_pt": "As bonecas de cerâmica karajá, as ritxoko, muitas vezes retratam os Aruanãs e foram reconhecidas como patrimônio cultural do Brasil pelo Iphan em 2012.",
+  "curiosidade_en": "Karajá ceramic dolls, called ritxoko, often depict the Aruanã dancers, and in 2012 Brazil's heritage agency Iphan recognized them as national cultural heritage.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Karaj%C3%A1_people",
+   "https://www.gov.br/iphan/pt-br/superintendencias/tocantins/patrimonio-imaterial"
+  ]
+ },
+ "ind_dadiva_de_mani": {
+  "titulo_pt": "A Menina que Virou Alimento",
+  "titulo_en": "The Girl Who Became Food",
+  "lore_pt": "A lenda da mandioca, registrada por Couto de Magalhães no século XIX, conta que a filha de um chefe apareceu grávida e deu à luz uma menina de pele muito clara, Mani. Ela andou e falou cedo, mas morreu com um ano, sem doença alguma. Foi enterrada dentro da casa, e a mãe regava a cova com lágrimas. Dali brotou uma planta desconhecida; a terra rachou e revelou raízes brancas como a menina. Era a mani-oca, 'casa de Mani'. A versão escrita traz marcas da catequese, mas o núcleo — o alimento que nasce de um corpo amado — é tema de muitos povos amazônicos.",
+  "lore_en": "The legend of manioc, recorded by Couto de Magalhães in the nineteenth century, tells how a chief's daughter became pregnant and bore a very fair-skinned girl named Mani. She walked and spoke early, but died at one year old without any illness. She was buried inside the house, and her mother watered the grave with tears. From it sprang an unknown plant; the soil cracked to reveal roots as white as the child. It was mani-oca, 'Mani's house'. The written version shows missionary influence, but its core, food born from a beloved body, is shared by many Amazonian peoples.",
+  "curiosidade_pt": "A mandioca foi domesticada na Amazônia há milhares de anos e hoje é base da alimentação de centenas de milhões de pessoas no mundo.",
+  "curiosidade_en": "Manioc was domesticated in the Amazon thousands of years ago and is now a staple food for hundreds of millions of people worldwide.",
+  "fontes": [
+   "https://pt.wikipedia.org/wiki/Lenda_da_mandioca",
+   "https://en.wikipedia.org/wiki/Cassava"
+  ]
+ },
+ "ind_kuarup": {
+  "titulo_pt": "A Noite em que os Mortos Voltam",
+  "titulo_en": "The Night the Dead Return",
+  "lore_pt": "O Kuarup é a grande cerimônia em homenagem aos mortos dos povos do Alto Xingu, como Kamayurá, Kuikuro, Kalapalo e Yawalapiti. Troncos da madeira kuarup são fincados no centro da aldeia, pintados e enfeitados: cada um representa um morto ilustre, que volta por uma noite. As famílias choram diante deles; ao amanhecer, há lutas de huka-huka entre as aldeias convidadas, e o luto se encerra. O mito conta que o criador Mavutsinim tentou dar vida a troncos para trazer os mortos de volta, mas uma proibição foi quebrada e eles continuaram madeira. Desde então, o retorno dura só uma noite.",
+  "lore_en": "The Kuarup is the great ceremony honoring the dead among the peoples of the Upper Xingu, such as the Kamayurá, Kuikuro, Kalapalo and Yawalapiti. Logs of kuarup wood are planted in the village center, painted and adorned: each one stands for an honored dead person, who returns for a single night. Families weep before them; at dawn, guest villages meet in huka-huka wrestling, and mourning comes to an end. The myth says the creator Mavutsinim tried to bring logs to life to restore the dead, but a taboo was broken and they stayed wood. Since then, the return lasts only one night.",
+  "curiosidade_pt": "Após a morte de Orlando Villas Bôas, um dos criadores do Parque Indígena do Xingu, em 2002, os povos xinguanos o homenagearam com um Kuarup — honra raríssima para um não indígena.",
+  "curiosidade_en": "After Orlando Villas Bôas, a founder of the Xingu Indigenous Park, died in 2002, the Xingu peoples honored him with a Kuarup, a rare tribute to a non-Indigenous person.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Kuarup",
+   "https://pt.wikipedia.org/wiki/Quarup"
+  ]
+ },
+ "ind_terra_sem_males": {
+  "titulo_pt": "A Terra que Não se Desfaz",
+  "titulo_en": "The Land Without Evil",
+  "lore_pt": "Yvy marã e'ỹ, a 'terra sem mal', é o lugar que os Guarani buscam há séculos: onde o milho cresce sozinho, ninguém envelhece e a festa não termina. O etnólogo Curt Nimuendajú registrou, no início do século XX, como grupos guarani caminharam por longas distâncias rumo à costa seguindo pajés que anunciavam essa terra, às vezes dançando por dias para ficarem leves o bastante para alcançá-la. Estudiosos mostraram que essa busca é anterior à colonização. Para muitos Guarani de hoje, a Terra sem Males se alcança pela palavra sagrada, pela reza e pela dança — e também por um modo bom de viver.",
+  "lore_en": "Yvy marã e'ỹ, the 'land without evil', is the place the Guarani have sought for centuries: where corn grows by itself, no one grows old and the celebration never ends. In the early twentieth century, ethnologist Curt Nimuendajú recorded how Guarani groups walked great distances toward the coast following shamans who proclaimed this land, sometimes dancing for days to become light enough to reach it. Scholars have shown the quest predates colonization. For many Guarani today, the Land Without Evil is reached through sacred speech, prayer and dance, and through a good way of living.",
+  "curiosidade_pt": "Nimuendajú, alemão de nascimento, recebeu esse nome dos próprios Guarani Apapocuva, e o adotou oficialmente.",
+  "curiosidade_en": "Curt Nimuendajú was born in Germany as Curt Unckel; the name Nimuendajú was given to him by the Apapocuva Guarani, and he adopted it legally.",
+  "fontes": [
+   "https://pt.wikipedia.org/wiki/Terra_sem_males",
+   "https://en.wikipedia.org/wiki/Curt_Nimuendaj%C3%BA"
+  ]
+ },
+ "ind_ibirapema": {
+  "titulo_pt": "A Clava do Novo Nome",
+  "titulo_en": "The Club of the New Name",
+  "lore_pt": "A ibirapema era a clava cerimonial dos Tupinambá: madeira dura e pesada, de cabeça larga e achatada, decorada com penas, pintura e cordões de algodão. Diferente da borduna de guerra comum, ela pertencia ao ritual que encerrava a vida de um prisioneiro de guerra, central na cultura guerreira tupinambá. Na véspera, a clava era enfeitada durante a festa; quem a empunhava recebia depois um novo nome e passava por um período de reclusão. Para os Tupinambá, esse complexo ligava vingança, memória dos parentes e prestígio. O alemão Hans Staden, que viveu cativo entre eles, deixou a descrição mais detalhada da peça.",
+  "lore_en": "The ibirapema was the ceremonial club of the Tupinambá: heavy hardwood with a broad, flat head, decorated with feathers, paint and cotton cords. Unlike the ordinary war club, it belonged to the ritual that ended the life of a war captive, a cornerstone of Tupinambá warrior culture. The evening before, the club was adorned during the festivities; whoever wielded it then received a new name and went into seclusion. For the Tupinambá, this complex wove together revenge, the memory of kin and prestige. The German Hans Staden, held captive among them, left the most detailed description of the weapon.",
+  "curiosidade_pt": "Staden escapou do ritual e, de volta à Europa, publicou seu relato em 1557, um dos primeiros best-sellers sobre o Brasil.",
+  "curiosidade_en": "Staden escaped the ritual and, back in Europe, published his account in 1557; it became one of the first best-sellers about Brazil.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/True_History:_An_Account_of_Cannibal_Captivity_in_Brazil",
+   "https://en.wikipedia.org/wiki/Tupinamb%C3%A1_people"
+  ]
+ },
+ "ind_muiraquita": {
+  "titulo_pt": "A Rã de Pedra Verde",
+  "titulo_en": "The Green Stone Frog",
+  "lore_pt": "O muiraquitã é um amuleto de pedra verde, muitas vezes esculpido em forma de rã, com um furo para pendurar ao pescoço. Peças arqueológicas aparecem sobretudo na região do Tapajós e do Trombetas, no Pará. A lenda mais famosa o liga às Icamiabas, mulheres guerreiras que viviam sem maridos. Uma vez por ano, sob a lua, recebiam visitantes à beira de um lago, mergulhavam e traziam do fundo um barro verde, que moldavam em pequenos animais; fora da água, o barro endurecia em pedra. Os amuletos eram dados aos homens e passavam de geração em geração como sinal de sorte e proteção.",
+  "lore_en": "The muiraquitã is a green stone amulet, often carved in the shape of a frog, with a hole for wearing around the neck. Archaeological pieces come mainly from the Tapajós and Trombetas region in Pará. Its most famous legend ties it to the Icamiabas, warrior women who lived without husbands. Once a year, under the moon, they welcomed visitors by a lake, dove in and brought up green clay from the bottom, shaping it into small animals; out of the water, the clay hardened into stone. The amulets were given to the men and passed down through generations as tokens of luck and protection.",
+  "curiosidade_pt": "O muiraquitã move a trama de 'Macunaíma' (1928), de Mário de Andrade: o herói passa o livro tentando recuperar o amuleto perdido.",
+  "curiosidade_en": "The muiraquitã drives the plot of Mário de Andrade's novel 'Macunaíma' (1928): the hero spends the book trying to recover his lost amulet.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Muiraquit%C3%A3",
+   "https://pt.wikipedia.org/wiki/Muiraquit%C3%A3"
+  ]
+ },
+ "ind_maraca_do_paje": {
+  "titulo_pt": "A Voz dos Espíritos",
+  "titulo_en": "The Voice of the Spirits",
+  "lore_pt": "O maracá é o chocalho de cabaça com sementes ou pedrinhas, atravessado por um cabo e enfeitado com penas — o instrumento do pajé em todo o mundo tupi-guarani. No século XVI, Jean de Léry e André Thevet contaram que os Tupinambá tratavam certos maracás com enorme respeito: eram defumados, enfeitados, fincados no chão da casa e recebiam comida, pois neles morava um espírito que falava pelo som. Eram consultados antes de decisões importantes. Entre os Guarani de hoje, o mbaraka segue conduzindo os cantos-reza na casa de reza, ao lado do takuapu, o bastão de ritmo das mulheres.",
+  "lore_en": "The maracá is a gourd rattle filled with seeds or pebbles, pierced by a handle and decorated with feathers: the shaman's instrument throughout the Tupi-Guarani world. In the sixteenth century Jean de Léry and André Thevet reported that the Tupinambá treated certain rattles with great reverence: they were smoked, adorned, planted upright in the house and given food, because a spirit lived inside and spoke through the sound. They were consulted before important decisions. Among today's Guarani, the mbaraka still leads the sung prayers in the prayer house, alongside the takuapu, the women's rhythm staff.",
+  "curiosidade_pt": "A palavra tupi deu origem às maracas, chocalhos hoje populares na música latino-americana do mundo todo.",
+  "curiosidade_en": "The Tupi word is the source of 'maracas', the rattles now familiar in Latin American music worldwide.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Maracas",
+   "https://pt.wikipedia.org/wiki/Marac%C3%A1"
+  ]
+ },
+ "ind_cocar_do_morubixaba": {
+  "titulo_pt": "A Coroa de Quem Dá o Exemplo",
+  "titulo_en": "The Crown of the One Who Leads",
+  "lore_pt": "Morubixaba era o título do chefe tupinambá — não um rei, mas o guerreiro mais respeitado, que falava primeiro no conselho e cuja autoridade dependia de dar o exemplo e de ser generoso. Os cronistas coloniais descrevem esses líderes pelos adornos: cocares de penas de arara, guará e tucano, e mantos de penas para as grandes cerimônias. Em quase todos os povos indígenas do Brasil o cocar não é enfeite banal: forma e cores indicam idade, papel e momento ritual. Pensadores indígenas lembram que a liderança se exerce pela palavra e pelo exemplo: o chefe é o primeiro a enfrentar o perigo e o que mais dá.",
+  "lore_en": "Morubixaba was the title of a Tupinambá chief: not a king, but the most respected warrior, who spoke first in council and whose authority rested on setting an example and being generous. Colonial chroniclers describe these leaders by their regalia: headdresses of macaw, scarlet ibis and toucan feathers, and feather cloaks for great ceremonies. Among nearly all Indigenous peoples of Brazil, the headdress is never mere decoration: its shape and colors signal age, role and ritual moment. Indigenous thinkers stress that leadership is exercised through speech and example: the chief is the first to face danger and the one who gives the most.",
+  "curiosidade_pt": "Um dos raros mantos de penas de guará tupinambá do período colonial, levado à Dinamarca, foi devolvido ao Brasil em 2024.",
+  "curiosidade_en": "One of the rare Tupinambá scarlet-ibis feather cloaks from colonial times, held in Denmark for centuries, was returned to Brazil in 2024.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Tupinamb%C3%A1_cloak",
+   "https://pt.wikipedia.org/wiki/Morubixaba"
+  ]
+ },
+ "tok_queixada": {
+  "titulo_pt": "O Trovão de Cascos",
+  "titulo_en": "The Thunder of Hooves",
+  "lore_pt": "O queixada é um porco-do-mato de pelagem escura e mancha branca no queixo, que vive em bandos enormes pelas florestas da América do Sul. Quando a vara passa, ouve-se de longe: grunhidos, bater de dentes e o tropel de dezenas ou centenas de animais. Para muitos povos indígenas, é caça de grande valor e também presença respeitada, porque um bando assustado é perigoso. No folclore brasileiro, é a montaria da Caipora, que segue à frente da vara protegendo-a de caçadores gananciosos. Onde o queixada some, dizem os biólogos, é sinal de que a mata está em apuros.",
+  "lore_en": "The white-lipped peccary is a dark-furred wild pig with a white patch on its chin, roaming South American forests in enormous herds. When a herd passes, you hear it from afar: grunts, clacking teeth and the drumming of dozens or hundreds of hooves. To many Indigenous peoples it is prized game and a respected presence, because a frightened herd is dangerous. In Brazilian folklore it is the Caipora's mount, carrying her at the head of the herd to protect it from greedy hunters. Biologists say that where these peccaries vanish, the forest is in trouble.",
+  "curiosidade_pt": "O bater de dentes de uma vara de queixadas pode ser ouvido a centenas de metros e serve para manter o grupo unido e intimidar predadores.",
+  "curiosidade_en": "The tooth-clacking of a white-lipped peccary herd can be heard hundreds of meters away, helping the group stay together and scaring off predators.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/White-lipped_peccary",
+   "https://animaldiversity.org/accounts/Tayassu_pecari/"
+  ]
+ },
+ "tok_veado_branco": {
+  "titulo_pt": "A Caça Proibida",
+  "titulo_en": "The Forbidden Quarry",
+  "lore_pt": "No folclore amazônico, o veado branco de olhos de fogo é uma das formas do Anhangá, o espírito protetor dos animais de caça. Ele surge diante do caçador que exagerou — que matou mais do que precisava ou perseguiu uma mãe com filhote. Parece uma presa fácil, mas não é: quem o persegue se perde, vê coisas que não existem ou volta para casa adoecido pelo susto. Por isso, dizem os mais velhos, um veado branco na mata não é para ser caçado. É um aviso. Em muitas culturas, animais brancos raros são tratados como mensageiros — e aqui, o recado vem da própria floresta.",
+  "lore_en": "In Amazonian folklore, the white deer with fiery eyes is one of the forms of Anhangá, the spirit who protects game animals. It appears before hunters who have gone too far, killing more than they need or chasing a mother with her young. It looks like easy prey, but it is not: whoever follows it gets lost, sees things that are not there or returns home sick with fright. That is why, the elders say, a white deer in the forest is never to be hunted. It is a warning. Many cultures treat rare white animals as messengers, and here the message comes from the forest itself.",
+  "curiosidade_pt": "Animais brancos na natureza costumam ser leucísticos ou albinos; a raridade ajuda a explicar por que tantas culturas os veem como sagrados.",
+  "curiosidade_en": "White animals in the wild are usually leucistic or albino; their rarity helps explain why so many cultures regard them as sacred.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Anhang%C3%A1",
+   "https://en.wikipedia.org/wiki/Leucism"
+  ]
+ },
+ "tok_vitoria_regia": {
+  "titulo_pt": "A Estrela das Águas",
+  "titulo_en": "The Star of the Waters",
+  "lore_pt": "A vitória-régia é a maior planta aquática da Amazônia, com folhas redondas de bordas erguidas que podem passar de dois metros de diâmetro. Na lenda, ela é Naiá, a jovem que mergulhou atrás do reflexo da Lua e foi transformada por Jaci na 'estrela das águas'. A natureza parece confirmar a história: a flor abre ao anoitecer, branca e perfumada, e na segunda noite fica rosada, como se tivesse corado. Por baixo, a folha é sustentada por nervuras espinhosas tão resistentes que inspiraram arquitetos. Uma planta que mistura engenharia, botânica e poesia na mesma superfície do rio.",
+  "lore_en": "The giant water lily is the Amazon's largest aquatic plant, with round, rim-edged leaves that can exceed two meters across. In legend she is Naiá, the girl who dove after the Moon's reflection and was turned by Jaci into the 'star of the waters'. Nature seems to play along: the flower opens at dusk, white and fragrant, and by the second night turns pink, as if blushing. Underneath, the leaf is braced by spiny ribs so strong they inspired architects. A plant that blends engineering, botany and poetry on the same stretch of river.",
+  "curiosidade_pt": "A estrutura de nervuras da folha inspirou o jardineiro Joseph Paxton no projeto do Palácio de Cristal de Londres, de 1851.",
+  "curiosidade_en": "The leaf's ribbed structure inspired gardener Joseph Paxton's design for London's Crystal Palace in 1851.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Victoria_amazonica",
+   "https://stories.rbge.org.uk/archives/9766"
+  ]
+ },
+ "tok_aruana": {
+  "titulo_pt": "O Macaco-d'Água",
+  "titulo_en": "The Water Monkey",
+  "lore_pt": "O aruanã é um peixe prateado de corpo longo, escamas grandes e dois barbilhões no queixo, comum nos rios amazônicos e no Araguaia. Ele caça perto da superfície e salta para fora d'água para apanhar insetos, aranhas e até pequenos animais pousados em galhos. Para os Karajá, que vivem às margens do Araguaia, o nome do peixe é o mesmo dos espíritos do fundo do rio que visitam a aldeia nas danças mascaradas. Dentro d'água, o aruanã também é pai dedicado: é o macho que guarda os ovos e os filhotes na própria boca até que estejam prontos para nadar.",
+  "lore_en": "The arowana is a long, silvery fish with large scales and two chin barbels, common in Amazonian rivers and the Araguaia. It hunts near the surface and leaps out of the water to snatch insects, spiders and even small animals perched on branches. For the Karajá, who live along the Araguaia, the fish shares its name with the riverbed spirits who visit the village in masked dances. Beneath the water, the arowana is also a devoted parent: the male carries the eggs and young in his mouth until they are ready to swim.",
+  "curiosidade_pt": "O aruanã pode saltar cerca de dois metros fora d'água, o que lhe rendeu o apelido de 'macaco-d'água' em inglês.",
+  "curiosidade_en": "Arowanas can leap around two meters out of the water to grab prey from branches, earning them the nickname 'water monkey'.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Osteoglossum",
+   "https://seriouslyfish.com/species/osteoglossum-bicirrhosum"
+  ]
+ },
+ "tok_espirito": {
+  "titulo_pt": "O Morador do Maracá",
+  "titulo_en": "The Dweller in the Rattle",
+  "lore_pt": "Para os Tupinambá descritos pelos cronistas do século XVI, o mundo era cheio de presenças invisíveis: espíritos de antepassados, auxiliares do pajé e seres da mata. Alguns deles, acreditava-se, podiam morar dentro dos maracás sagrados e falar pelo som do chocalho, aconselhando o povo antes de decisões importantes. Por isso esses objetos recebiam comida, fumaça e cuidado. Em muitas tradições indígenas, os mortos não desaparecem: continuam ligados aos vivos e são lembrados em festas e cantos. Este espírito é essa presença — algo que permanece quando o corpo se vai, guardado no som e na memória.",
+  "lore_en": "For the Tupinambá described by sixteenth-century chroniclers, the world was full of unseen presences: ancestral spirits, the shaman's helpers and beings of the forest. Some, it was believed, could dwell inside sacred rattles and speak through their sound, advising the people before important decisions. That is why these objects were given food, smoke and care. In many Indigenous traditions the dead do not simply vanish: they remain bound to the living and are remembered in feasts and songs. This spirit is that presence, something that lingers after the body is gone, kept in sound and memory.",
+  "curiosidade_pt": "Léry relatou que os Tupinambá ofereciam comida e bebida aos maracás, tratando-os como hóspedes, não como objetos.",
+  "curiosidade_en": "Léry reported that the Tupinambá offered food and drink to their sacred rattles, treating them as guests rather than objects.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Jean_de_L%C3%A9ry",
+   "https://en.wikipedia.org/wiki/Tupinamb%C3%A1_people"
+  ]
+ }
+}

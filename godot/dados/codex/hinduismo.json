@@ -1,0 +1,352 @@
+{
+ "hin_matsya": {
+  "titulo_pt": "O Peixe que Salvou o Mundo",
+  "titulo_en": "The Fish Who Saved the World",
+  "lore_pt": "Matsya é o primeiro dos dez avatares de Vishnu. Na versão mais antiga, preservada no Shatapatha Brahmana, um peixinho implora proteção a Manu, o primeiro homem. Manu o cria num pote, depois num tanque e por fim no mar — e o peixe, agora colossal, revela que um dilúvio vai varrer o mundo. Manu constrói uma barca, amarra-a ao chifre do peixe e é rebocado até uma montanha do norte, de onde a humanidade recomeça. Os Puranas acrescentam outro feito: Matsya mergulha no oceano para recuperar os Vedas roubados por um demônio e devolvê-los a Brahma. É a divindade que resgata o que é precioso do fundo.",
+  "lore_en": "Matsya is the first of Vishnu's ten avatars. In the oldest telling, kept in the Shatapatha Brahmana, a tiny fish begs Manu, the first man, for protection. Manu raises it in a jar, then a pond, then the sea, until the now-enormous fish warns him that a flood will drown the world. Manu builds a boat, ties it to the fish's horn and is towed to a northern mountain, where humanity begins again. Later Puranas add a second deed: Matsya dives to the ocean floor to recover the Vedas stolen by a demon and returns them to Brahma. He is the god who rescues what is precious from the depths.",
+  "curiosidade_pt": "O dilúvio de Manu é um dos relatos de inundação mais antigos da Índia e costuma ser comparado às histórias de Noé e de Utnapishtim, da Mesopotâmia.",
+  "curiosidade_en": "Manu's flood is among the oldest flood stories in India, and scholars often compare it with the tales of Noah and of Mesopotamia's Utnapishtim.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Matsya",
+   "https://en.wikipedia.org/wiki/Shatapatha_Brahmana"
+  ]
+ },
+ "hin_garuda": {
+  "titulo_pt": "O Rei das Aves",
+  "titulo_en": "King of the Birds",
+  "lore_pt": "Garuda é a águia divina, metade homem e metade ave, que serve de montaria a Vishnu. Segundo o Mahabharata, ele nasce de Vinata, que vivia escravizada pela própria irmã Kadru, mãe das serpentes. Para libertar a mãe, Garuda aceita o resgate exigido pelas nagas: a amrita, o néctar da imortalidade guardado pelos deuses. Ele invade o céu, derrota Indra e seus guerreiros e volta com o néctar sem provar uma gota. Vishnu, admirado com tanta força e tanta renúncia, concede-lhe a imortalidade e o lugar a seu lado. Desde então Garuda é o inimigo jurado das serpentes e o símbolo da velocidade que não erra o alvo.",
+  "lore_en": "Garuda is the divine eagle, part man and part bird, who carries Vishnu. According to the Mahabharata, he is born to Vinata, who had been enslaved by her own sister Kadru, mother of the serpents. To free his mother, Garuda accepts the ransom the nagas demand: amrita, the nectar of immortality guarded by the gods. He storms heaven, defeats Indra and his warriors, and flies back with the nectar without tasting a drop. Vishnu, struck by such strength and such restraint, grants him immortality and a place at his side. Ever since, Garuda has been the sworn enemy of serpents and the emblem of speed that never misses.",
+  "curiosidade_pt": "Garuda está nos brasões nacionais da Indonésia (o Garuda Pancasila, de 1950) e da Tailândia, onde virou símbolo real em 1911; a companhia aérea indonésia também leva seu nome.",
+  "curiosidade_en": "Garuda appears on the national emblems of Indonesia (Garuda Pancasila, adopted in 1950) and Thailand, where it became the royal symbol in 1911; Indonesia's national airline bears his name too.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Garuda",
+   "https://en.wikipedia.org/wiki/National_emblem_of_Indonesia",
+   "https://en.wikipedia.org/wiki/Emblem_of_Thailand"
+  ]
+ },
+ "hin_jatayu": {
+  "titulo_pt": "O Abutre que Enfrentou um Rei",
+  "titulo_en": "The Vulture Who Defied a King",
+  "lore_pt": "Jatayu é o velho rei dos abutres no Ramayana, amigo do rei Dasharatha, pai de Rama. Quando Ravana atravessa o céu levando Sita raptada em seu carro voador, Jatayu é o único que ousa interceptá-lo. Mesmo idoso, despedaça o carro, quebra o arco do inimigo e obriga o senhor de Lanka a descer — até que Ravana saca a espada e lhe corta as asas. Rama e seu irmão Lakshmana encontram a ave agonizando, e com o último fôlego Jatayu conta quem levou Sita e em que direção. Rama celebra seus ritos fúnebres como faria para o próprio pai. É a lealdade que vence mesmo na derrota.",
+  "lore_en": "Jatayu is the aged king of vultures in the Ramayana and an old friend of King Dasharatha, Rama's father. When Ravana crosses the sky carrying the abducted Sita in his flying chariot, Jatayu alone dares to intercept him. Old as he is, he wrecks the chariot, breaks the demon king's bow and forces him to land, until Ravana draws his sword and severs his wings. Rama and his brother Lakshmana find the bird dying, and with his last breath Jatayu tells them who took Sita and which way they went. Rama performs his funeral rites as he would for his own father. His is a loyalty that wins even in defeat.",
+  "curiosidade_pt": "Em Chadayamangalam, no Kerala, onde a tradição local diz que Jatayu caiu, há uma escultura dele com cerca de 61 metros de comprimento, apresentada como a maior escultura de ave do mundo.",
+  "curiosidade_en": "In Chadayamangalam, Kerala, where local tradition says Jatayu fell, a sculpture of him roughly 61 metres long is billed as the largest bird sculpture in the world.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Jatayu",
+   "https://en.wikipedia.org/wiki/Jatayu_Earth%27s_Center_Nature_Park"
+  ]
+ },
+ "hin_ganesha": {
+  "titulo_pt": "O Removedor de Obstáculos",
+  "titulo_en": "The Remover of Obstacles",
+  "lore_pt": "Ganesha, o deus de cabeça de elefante, é invocado antes de qualquer começo: uma viagem, um casamento, a primeira linha de um livro. Seu título mais popular é Vighnaharta, 'aquele que remove os obstáculos'. O Shiva Purana conta que Parvati moldou um menino com a pasta do próprio banho e o pôs para guardar a porta. Shiva, ao voltar para casa, foi barrado pelo desconhecido e, na briga, cortou-lhe a cabeça. Diante da dor de Parvati, Shiva mandou trazer a cabeça do primeiro ser que encontrassem — um elefante — e devolveu a vida ao filho, tornando-o líder de seus séquitos. Ganesha virou um dos deuses mais amados da Índia.",
+  "lore_en": "Ganesha, the elephant-headed god, is invoked before every beginning: a journey, a wedding, the first line of a book. His best-loved title is Vighnaharta, 'the one who removes obstacles'. The Shiva Purana tells how Parvati shaped a boy from the paste she bathed with and set him to guard her door. Shiva, coming home, was blocked by this stranger and cut off his head in the struggle. Faced with Parvati's grief, Shiva sent for the head of the first creature his servants could find, an elephant, brought the boy back to life and made him chief of his attendants. Ganesha became one of India's most beloved gods.",
+  "curiosidade_pt": "Segundo uma tradição muito popular, foi Ganesha quem escreveu o Mahabharata ditado pelo sábio Vyasa — e, quando a pena quebrou, ele arrancou a própria presa para continuar escrevendo.",
+  "curiosidade_en": "A much-loved tradition says Ganesha was the scribe who wrote down the Mahabharata as the sage Vyasa dictated it, and when his pen broke he snapped off his own tusk to keep writing.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Ganesha",
+   "https://www.amarchitrakatha.com/?p=25195"
+  ]
+ },
+ "hin_arjuna": {
+  "titulo_pt": "O Arqueiro Incomparável",
+  "titulo_en": "The Peerless Archer",
+  "lore_pt": "Arjuna é o terceiro dos cinco irmãos Pandava, filho da rainha Kunti com o deus Indra, e o maior arqueiro do Mahabharata. Ganhou do deus do fogo o arco Gandiva e aljavas que nunca se esvaziam, e foi testado pelo próprio Shiva disfarçado de caçador. Mas sua maior prova não foi uma batalha: no campo de Kurukshetra, diante de primos e mestres no exército inimigo, ele largou o arco e se recusou a lutar. Foi para responder a essa crise que Krishna, seu cocheiro, lhe ensinou a Bhagavad Gita. Arjuna é o herói que duvida — e por isso mesmo um dos mais humanos da tradição.",
+  "lore_en": "Arjuna is the third of the five Pandava brothers, son of Queen Kunti by the god Indra, and the greatest archer of the Mahabharata. The fire god gave him the bow Gandiva and quivers that never run empty, and Shiva himself tested him in the guise of a hunter. Yet his greatest trial was not a battle: on the field of Kurukshetra, facing cousins and teachers in the enemy ranks, he dropped his bow and refused to fight. It was to answer that crisis that Krishna, his charioteer, taught him the Bhagavad Gita. Arjuna is the hero who doubts, which is exactly what makes him one of the tradition's most human figures.",
+  "curiosidade_pt": "No último ano do exílio, Arjuna viveu incógnito na corte do rei Virata disfarçado de Brihannala, professor de dança das princesas, com o Gandiva escondido numa árvore.",
+  "curiosidade_en": "During the final year of exile, Arjuna lived undercover at King Virata's court as Brihannala, dance teacher to the princesses, with his bow Gandiva hidden in a tree.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Arjuna",
+   "https://en.wikipedia.org/wiki/Virata_Parva"
+  ]
+ },
+ "hin_hanuman": {
+  "titulo_pt": "O Filho do Vento",
+  "titulo_en": "Son of the Wind",
+  "lore_pt": "Hanuman é o vanara — o povo-macaco do Ramayana —, filho do deus do vento Vayu e o devoto mais fiel de Rama. Quando o exército de Rama chega à beira do oceano sem saber como alcançar Lanka, Hanuman cresce até o tamanho de uma montanha e cruza o mar num único salto. Lá, encolhe para procurar Sita em segredo, encontra-a e entrega o anel de Rama. Na guerra, quando Lakshmana cai ferido e só uma erva do Himalaia pode salvá-lo, Hanuman, sem saber qual é a planta, traz a montanha inteira na palma da mão. Para a tradição, ele é imortal e está presente onde quer que se cante o nome de Rama.",
+  "lore_en": "Hanuman is a vanara, one of the Ramayana's monkey people, a son of the wind god Vayu and Rama's most devoted follower. When Rama's army reaches the ocean shore with no way to reach Lanka, Hanuman grows to the size of a mountain and clears the sea in a single leap. There he shrinks to search for Sita in secret, finds her and hands her Rama's ring. In the war, when Lakshmana lies wounded and only a Himalayan herb can save him, Hanuman cannot tell which plant it is, so he carries back the whole mountain in his palm. Tradition holds that he is immortal and present wherever Rama's name is sung.",
+  "curiosidade_pt": "Quando criança, Hanuman tentou comer o Sol achando que era uma fruta madura; Indra o atingiu no queixo com o raio, e uma das explicações para seu nome é justamente 'o de mandíbula marcada'.",
+  "curiosidade_en": "As a child, Hanuman tried to eat the Sun, mistaking it for a ripe fruit; Indra struck his jaw with a thunderbolt, and one popular reading of his name is 'the one with the damaged jaw'.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Hanuman"
+  ]
+ },
+ "hin_narasimha": {
+  "titulo_pt": "O Homem-Leão",
+  "titulo_en": "The Man-Lion",
+  "lore_pt": "Narasimha, metade homem e metade leão, é o quarto avatar de Vishnu. O Bhagavata Purana conta que o rei demônio Hiranyakashipu arrancou de Brahma uma bênção quase perfeita: não morreria por homem nem animal, de dia nem de noite, dentro nem fora de casa, na terra nem no ar, por arma nenhuma. Senhor dos três mundos, ele perseguiu o próprio filho, o menino Prahlada, por adorar Vishnu. Quando o tirano golpeou uma coluna desafiando o menino a mostrar seu deus, dela saltou Narasimha — ao crepúsculo, na soleira da porta, com o rei deitado no colo, rasgado só com as garras. Cada cláusula foi respeitada, e o tirano caiu mesmo assim.",
+  "lore_en": "Narasimha, half man and half lion, is Vishnu's fourth avatar. The Bhagavata Purana tells how the demon king Hiranyakashipu won from Brahma an almost flawless boon: he could be killed by neither man nor beast, by day nor night, indoors nor outdoors, on earth nor in the air, by no weapon at all. Lord of the three worlds, he hounded his own son, young Prahlada, for worshipping Vishnu. When the tyrant struck a pillar and dared the boy to show him his god, Narasimha burst out of it: at dusk, on the threshold, with the king laid across his lap, torn apart by claws alone. Every clause was honoured, and the tyrant fell anyway.",
+  "curiosidade_pt": "A mesma história alimenta o festival de Holi: na véspera das cores, fogueiras lembram Holika, tia de Prahlada, que tentou queimá-lo e acabou consumida pelo fogo.",
+  "curiosidade_en": "The same story feeds the festival of Holi: on the eve of the colours, bonfires recall Holika, Prahlada's aunt, who tried to burn him and was consumed by the flames herself.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Narasimha",
+   "https://en.wikipedia.org/wiki/Holika"
+  ]
+ },
+ "hin_rama": {
+  "titulo_pt": "O Príncipe do Dharma",
+  "titulo_en": "The Prince of Dharma",
+  "lore_pt": "Rama é o sétimo avatar de Vishnu e o herói do Ramayana de Valmiki. Príncipe de Ayodhya, ele conquista a mão de Sita ao erguer e partir o arco de Shiva, e na véspera de ser coroado aceita, sem uma queixa, catorze anos de exílio na floresta para que o pai cumpra uma promessa antiga. No exílio, o rei-demônio Ravana rapta Sita. Rama se alia ao povo-macaco, atravessa o mar por uma ponte de pedras e derrota Ravana em Lanka — um rei protegido contra deuses e demônios, mas não contra um homem. Para a tradição, Rama é o ideal de filho, marido, irmão e governante; Rama-rajya ainda significa 'um reino justo'.",
+  "lore_en": "Rama is Vishnu's seventh avatar and the hero of Valmiki's Ramayana. A prince of Ayodhya, he wins Sita's hand by lifting and breaking Shiva's bow, and on the eve of his coronation he accepts, without complaint, fourteen years of forest exile so his father can keep an old promise. In exile, the demon king Ravana abducts Sita. Rama allies with the monkey people, crosses the sea on a bridge of stones and defeats Ravana in Lanka, a king shielded against gods and demons but not against a man. In the tradition Rama is the ideal son, husband, brother and ruler, and Rama-rajya still means 'a just reign'.",
+  "curiosidade_pt": "Uma das explicações mais difundidas para o Diwali é a volta de Rama a Ayodhya: o povo teria acendido fileiras de lamparinas para iluminar o caminho do rei.",
+  "curiosidade_en": "One of the most widespread explanations of Diwali is Rama's return to Ayodhya, when people are said to have lit rows of lamps to guide their king home.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Rama",
+   "https://en.wikipedia.org/wiki/Diwali"
+  ]
+ },
+ "hin_krishna": {
+  "titulo_pt": "O Pastor Divino",
+  "titulo_en": "The Divine Cowherd",
+  "lore_pt": "Krishna é o oitavo avatar de Vishnu e, para muitas tradições, o próprio Deus supremo. O Bhagavata Purana conta sua infância entre pastores de Vrindavan: o bebê que roubava manteiga, o menino que ergueu o monte Govardhana com um dedo para abrigar a aldeia de uma tempestade, o jovem cuja flauta encantava as pastoras. Adulto, ele mata o tirano Kamsa e, no Mahabharata, recusa-se a lutar na grande guerra — aceita apenas guiar o carro de Arjuna. É ali, entre os dois exércitos, que ensina a Bhagavad Gita: agir pelo dever, sem apego ao resultado. Brincalhão e cósmico ao mesmo tempo, Krishna é talvez o deus mais amado da Índia.",
+  "lore_en": "Krishna is Vishnu's eighth avatar and, for many traditions, the Supreme God himself. The Bhagavata Purana recounts his childhood among the cowherds of Vrindavan: the baby who stole butter, the boy who lifted Mount Govardhana on one finger to shelter his village from a storm, the youth whose flute bewitched the milkmaids. As a man he slays the tyrant Kamsa and, in the Mahabharata, refuses to fight in the great war, agreeing only to drive Arjuna's chariot. There, between the two armies, he teaches the Bhagavad Gita: act from duty, without clinging to the outcome. Playful and cosmic at once, Krishna may be India's most beloved god.",
+  "curiosidade_pt": "O nome Krishna significa 'escuro' ou 'negro' em sânscrito, e por isso ele costuma ser pintado com a pele azul-escura, a cor das nuvens de chuva.",
+  "curiosidade_en": "The name Krishna means 'dark' or 'black' in Sanskrit, which is why he is usually painted with dark blue skin, the colour of rain clouds.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Krishna",
+   "https://en.wikipedia.org/wiki/Bhagavata_Purana"
+  ]
+ },
+ "hin_durga": {
+  "titulo_pt": "A Fortaleza Invencível",
+  "titulo_en": "The Invincible Fortress",
+  "lore_pt": "Durga, 'a inacessível', é a forma guerreira da Deusa. O Devi Mahatmya conta que o demônio-búfalo Mahishasura, protegido por uma bênção contra homens e deuses, expulsou todas as divindades do céu. Da fúria reunida de Vishnu, Shiva, Brahma e dos demais surgiu uma luz que tomou forma de mulher, e cada deus lhe entregou sua arma: o tridente, o disco, o raio, o arco. Montada num leão, Durga desfez o exército demoníaco e, enquanto Mahishasura trocava de forma — búfalo, leão, homem, elefante —, ela o venceu de vez. Seus fiéis celebram essa vitória a cada outono, nas nove noites do Navaratri e no décimo dia, o Vijayadashami.",
+  "lore_en": "Durga, 'the unreachable', is the warrior form of the Goddess. The Devi Mahatmya tells how the buffalo demon Mahishasura, protected by a boon against men and gods, drove every deity out of heaven. From the combined fury of Vishnu, Shiva, Brahma and the rest rose a light that took the shape of a woman, and each god handed her a weapon: trident, discus, thunderbolt, bow. Riding a lion, Durga shattered the demon army and, as Mahishasura switched forms (buffalo, lion, man, elephant), she brought him down for good. Her devotees celebrate that victory every autumn over the nine nights of Navaratri and the tenth day, Vijayadashami.",
+  "curiosidade_pt": "Em 2021 a UNESCO incluiu a Durga Puja de Calcutá na lista do Patrimônio Cultural Imaterial da Humanidade; a cidade monta mais de 3 mil altares comunitários para a festa.",
+  "curiosidade_en": "In 2021 UNESCO added Kolkata's Durga Puja to its list of the Intangible Cultural Heritage of Humanity; the city raises more than 3,000 community shrines for the festival.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Durga",
+   "https://en.wikipedia.org/wiki/Durga_Puja_in_Kolkata"
+  ]
+ },
+ "hin_kali": {
+  "titulo_pt": "A Mãe Sombria",
+  "titulo_en": "The Dark Mother",
+  "lore_pt": "Kali, 'a negra' ou 'a do tempo', é a face mais terrível da Deusa. No Devi Mahatmya, quando dois generais demônios avançam contra Durga, a testa da deusa escurece de raiva e dela salta Kali: pele escura, língua de fora, colar de cabeças, espada na mão. Ela devora carros e elefantes e derrota os generais. Depois enfrenta Raktabija, um demônio que gerava um clone de si a cada gota de sangue que tocava o chão — e Kali bebe cada gota antes que caia. Apesar do aspecto assustador, em Bengala ela é amada como mãe protetora, a força que destrói o medo, o ego e a própria morte.",
+  "lore_en": "Kali, 'the dark one' or 'she of time', is the most fearsome face of the Goddess. In the Devi Mahatmya, as two demon generals march on Durga, the goddess's brow darkens with rage and Kali leaps out of it: dark-skinned, tongue lolling, a necklace of heads, sword in hand. She devours chariots and elephants and defeats the generals. Then she faces Raktabija, a demon who spawned a copy of himself from every drop of blood that touched the ground, and Kali drinks each drop before it can fall. Frightening as she looks, in Bengal she is loved as a protective mother, the power that destroys fear, ego and death itself.",
+  "curiosidade_pt": "Numa imagem famosa, Kali dança enlouquecida após a batalha até pisar em Shiva, deitado à sua frente; ao perceber quem é, ela morde a língua de espanto — por isso aparece com a língua de fora.",
+  "curiosidade_en": "In one famous image, Kali dances wildly after the battle until she steps on Shiva, lying in her path; realising who he is, she bites her tongue in shock, which is why she is shown with it sticking out.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Kali",
+   "https://en.wikipedia.org/wiki/Devi_Mahatmya"
+  ]
+ },
+ "hin_shiva_nataraja": {
+  "titulo_pt": "O Senhor da Dança",
+  "titulo_en": "Lord of the Dance",
+  "lore_pt": "Shiva é o deus que dissolve o universo ao fim de cada ciclo para que ele possa nascer de novo — destruição como renovação. Asceta do monte Kailash, coberto de cinzas, tem a lua nos cabelos, o rio Ganges escorrendo pelas tranças, uma serpente no pescoço e um terceiro olho que incinera o que encara. Bebeu o veneno que ameaçava os mundos e ficou com a garganta azul. Como Nataraja, o 'rei da dança', ele dança dentro de um círculo de fogo: uma mão segura o tambor que cria, outra a chama que destrói, um pé esmaga o anão da ignorância e o outro se ergue em libertação. Toda a existência cabe nesse passo.",
+  "lore_en": "Shiva is the god who dissolves the universe at the end of each cycle so it can be born again: destruction as renewal. An ascetic of Mount Kailash smeared in ash, he wears the moon in his hair, the Ganges spilling from his locks, a serpent round his neck and a third eye that burns whatever it fixes on. He swallowed the poison that threatened the worlds and his throat turned blue. As Nataraja, 'king of the dance', he dances inside a ring of fire: one hand holds the drum that creates, another the flame that destroys, one foot crushes the dwarf of ignorance and the other lifts in release. All of existence fits in that step.",
+  "curiosidade_pt": "Desde 2004 há uma estátua de Shiva Nataraja de 2 metros no CERN, o maior laboratório de física de partículas do mundo, presente da Índia — a dança cósmica virou metáfora para o movimento das partículas.",
+  "curiosidade_en": "Since 2004 a 2-metre statue of Shiva Nataraja has stood at CERN, the world's largest particle physics lab, a gift from India; the cosmic dance became a metaphor for the motion of particles.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Nataraja",
+   "https://cds.cern.ch/journal/CERNBulletin/2004/27/News%20Articles/745737?ln=en"
+  ]
+ },
+ "hin_chamas_de_agni": {
+  "titulo_pt": "A Boca dos Deuses",
+  "titulo_en": "The Mouth of the Gods",
+  "lore_pt": "Agni é o fogo e o deus do fogo, uma das divindades centrais do Rigveda. Ele é a ponte entre a terra e o céu: tudo o que os sacerdotes derramam nas chamas — manteiga clarificada, grãos, leite — é Agni quem leva aos deuses. Por isso é chamado de boca dos deuses e de sacerdote divino. Na arte, aparece com duas cabeças, sete línguas de fogo e um carneiro como montaria. Nas epopeias, é Agni quem pede a floresta de Khandava para devorar e, em troca, presenteia Krishna e Arjuna com armas lendárias. Até hoje o fogo testemunha os grandes ritos hindus de passagem: o nascimento, o casamento e a cremação.",
+  "lore_en": "Agni is fire and the god of fire, one of the central deities of the Rigveda. He is the bridge between earth and sky: whatever priests pour into the flames, from clarified butter to grain and milk, Agni carries to the gods. That is why he is called the mouth of the gods and the divine priest. In art he has two heads, seven tongues of flame and a ram for a mount. In the epics it is Agni who asks to devour the Khandava forest and, in return, gives Krishna and Arjuna legendary weapons. To this day fire witnesses the great Hindu rites of passage: birth, marriage and cremation.",
+  "curiosidade_pt": "A primeira palavra do Rigveda, o texto mais antigo da tradição hindu, é justamente o nome Agni: o hino de abertura é uma invocação ao fogo.",
+  "curiosidade_en": "The very first word of the Rigveda, the oldest text of the Hindu tradition, is Agni's name: its opening hymn is an invocation to fire.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Agni",
+   "https://en.wikipedia.org/wiki/Rigveda"
+  ]
+ },
+ "hin_roda_do_samsara": {
+  "titulo_pt": "O Ciclo Sem Fim",
+  "titulo_en": "The Endless Cycle",
+  "lore_pt": "Samsara, 'fluir' ou 'vagar', é o ciclo de nascimento, morte e renascimento a que todos os seres estão presos, movido pelo karma — o fruto das próprias ações. A ideia ganha forma nas primeiras Upanishads: aquilo que se faz molda aquilo que se torna. A Bhagavad Gita oferece a imagem mais conhecida: assim como trocamos roupas gastas por roupas novas, a alma deixa corpos gastos e veste outros. Nessa visão a morte não é um fim, mas uma passagem, e a roda gira sem parar. A meta última, moksha, é justamente libertar-se dela; enquanto isso não acontece, tudo o que cai volta a subir.",
+  "lore_en": "Samsara, 'flowing' or 'wandering', is the cycle of birth, death and rebirth in which all beings are caught, driven by karma, the fruit of their own deeds. The idea takes shape in the early Upanishads: what you do shapes what you become. The Bhagavad Gita offers the best-known image: just as we swap worn-out clothes for new ones, the soul sheds worn-out bodies and puts on others. In this view death is not an ending but a passage, and the wheel never stops turning. The ultimate goal, moksha, is to break free of it; until then, whatever falls rises again.",
+  "curiosidade_pt": "A ideia de samsara não é exclusiva do hinduísmo: budismo, jainismo e sikhismo também a adotam, cada um com sua própria explicação de como sair da roda.",
+  "curiosidade_en": "Samsara is not unique to Hinduism: Buddhism, Jainism and Sikhism share the idea too, each with its own account of how to escape the wheel.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Saṃsāra",
+   "https://en.wikipedia.org/wiki/Bhagavad_Gita"
+  ]
+ },
+ "hin_lei_do_karma": {
+  "titulo_pt": "Tudo o Que Vai, Volta",
+  "titulo_en": "What Goes Around",
+  "lore_pt": "Karma quer dizer simplesmente 'ação' — e, por extensão, a lei segundo a qual toda ação gera um fruto que retorna a quem a praticou, nesta vida ou numa próxima. Nos Vedas a palavra se referia sobretudo ao ato ritual; nas Upanishads passou a abranger toda conduta e virou o motor do ciclo de renascimentos. Não há juiz nessa lei: ela funciona como a gravidade. Na Bhagavad Gita, Krishna ensina a Arjuna que temos direito à ação, mas nunca aos seus frutos — o caminho do karma-yoga, agir por dever sem apego ao resultado. O Mahabharata inteiro pode ser lido como o desenrolar do karma de cada personagem.",
+  "lore_en": "Karma simply means 'action', and by extension the law by which every action bears a fruit that returns to the one who did it, in this life or the next. In the Vedas the word mostly meant ritual acts; in the Upanishads it came to cover all conduct and became the engine of the cycle of rebirth. There is no judge in this law: it works like gravity. In the Bhagavad Gita, Krishna tells Arjuna that we are entitled to our actions but never to their fruits, the path of karma yoga, acting from duty without clinging to results. The whole Mahabharata can be read as each character's karma unfolding.",
+  "curiosidade_pt": "Num dos primeiros debates registrados sobre o karma, na Brihadaranyaka Upanishad, o sábio Yajnavalkya leva seu interlocutor para conversar a sós, longe da assembleia, antes de concluir que a boa ação torna alguém bom.",
+  "curiosidade_en": "In one of the earliest recorded discussions of karma, in the Brihadaranyaka Upanishad, the sage Yajnavalkya takes his questioner aside to talk in private, away from the assembly, before concluding that good action makes one good.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Karma_in_Hinduism",
+   "https://en.wikipedia.org/wiki/Brihadaranyaka_Upanishad"
+  ]
+ },
+ "hin_veu_de_maya": {
+  "titulo_pt": "O Véu da Ilusão",
+  "titulo_en": "The Veil of Illusion",
+  "lore_pt": "Maya é o poder que faz o Uno parecer múltiplo e o eterno parecer passageiro. No Rigveda a palavra ainda designava a arte mágica dos deuses de criar formas; nas Upanishads ela se torna o véu que esconde a realidade última. Nos Puranas, Maya é a energia com que Vishnu projeta e recolhe os mundos. As histórias são deliciosas: Vishnu vira Mohini, a encantadora que engana os demônios e lhes rouba o néctar da imortalidade; o sábio Narada pede para ver a maya e vive uma vida inteira — casamento, filhos, perdas — em poucos instantes. A lição é sempre a mesma: o que vemos raramente é o que está lá.",
+  "lore_en": "Maya is the power that makes the One look like many and the eternal look fleeting. In the Rigveda the word still meant the gods' magical art of conjuring forms; in the Upanishads it becomes the veil that hides ultimate reality. In the Puranas, Maya is the energy with which Vishnu projects and withdraws the worlds. The stories are delightful: Vishnu turns into Mohini, the enchantress who tricks the demons out of the nectar of immortality; the sage Narada asks to see maya and lives an entire lifetime, marriage, children, losses and all, in a few moments. The lesson never changes: what we see is rarely what is there.",
+  "curiosidade_pt": "Na história de Narada, tudo começa quando Vishnu lhe pede um simples copo d'água; ao voltar, depois de uma vida inteira vivida, o sábio descobre que só se passaram alguns minutos.",
+  "curiosidade_en": "In Narada's tale, it all begins when Vishnu asks him for a simple glass of water; when he returns after a whole lifetime, the sage finds that only a few minutes have passed.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Maya_(religion)",
+   "https://en.wikipedia.org/wiki/Mohini"
+  ]
+ },
+ "hin_incendio_de_lanka": {
+  "titulo_pt": "A Noite em que Lanka Ardeu",
+  "titulo_en": "The Night Lanka Burned",
+  "lore_pt": "No Ramayana, depois de encontrar Sita presa num bosque de Lanka, Hanuman se deixa capturar de propósito para encarar Ravana. Diante do rei, fala como embaixador e pede que Sita seja devolvida. Ravana manda executá-lo, mas seu irmão Vibhishana lembra que não se mata um mensageiro; a sentença vira humilhação: enrolar a cauda do macaco em panos com óleo e atear fogo. Hanuman faz a cauda crescer até esgotar os tecidos da cidade e, em chamas, salta de telhado em telhado, incendiando palácios e torres de ouro. Poupa apenas o bosque de Sita e a casa de Vibhishana, apaga a cauda no mar e volta para contar tudo a Rama.",
+  "lore_en": "In the Ramayana, after finding Sita held in a grove in Lanka, Hanuman lets himself be captured on purpose so he can face Ravana. Before the king he speaks as an envoy and demands Sita's return. Ravana orders his execution, but his brother Vibhishana reminds him that messengers are not killed, so the sentence becomes a humiliation: wrap the monkey's tail in oiled cloth and set it alight. Hanuman stretches his tail until the city runs out of cloth, then, ablaze, leaps from rooftop to rooftop, setting palaces and golden towers on fire. He spares only Sita's grove and Vibhishana's house, douses his tail in the sea and returns to tell Rama everything.",
+  "curiosidade_pt": "O fogo não feriu Hanuman: Sita teria rezado a Agni para que as chamas fossem frias para ele, e em muitas versões ele também tinha recebido do deus do fogo a bênção de não se queimar.",
+  "curiosidade_en": "The fire never hurt Hanuman: Sita is said to have prayed to Agni to keep the flames cool for him, and many versions add that the fire god had already blessed him against burning.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Sundara_Kanda",
+   "https://en.wikipedia.org/wiki/Hanuman"
+  ]
+ },
+ "hin_pashupatastra": {
+  "titulo_pt": "A Arma que Nunca Foi Disparada",
+  "titulo_en": "The Weapon Never Fired",
+  "lore_pt": "O Pashupatastra é a arma pessoal de Shiva como Pashupati, 'senhor das criaturas' — a mais destrutiva de todas as armas divinas, capaz de aniquilar a criação. Pode ser lançada pela mente, pelos olhos, pela palavra ou pelo arco. O Mahabharata conta que Arjuna, no exílio, fez penitência no Himalaia para agradar a Shiva. Um javali o atacou; ele o flechou, mas um caçador reivindicou a presa, e os dois lutaram — e Arjuna perdeu pela primeira vez. O caçador era Shiva disfarçado. Satisfeito com a coragem do herói, deu-lhe o Pashupatastra, com uma condição: jamais usá-lo contra um adversário menor, pois o mundo poderia acabar.",
+  "lore_en": "The Pashupatastra is Shiva's personal weapon as Pashupati, 'lord of creatures', the most destructive of all divine weapons, able to annihilate creation. It can be launched by the mind, the eyes, words or a bow. The Mahabharata tells how Arjuna, in exile, performed penance in the Himalayas to please Shiva. A boar charged him; he shot it, but a hunter claimed the kill, and the two fought, and Arjuna lost for the first time in his life. The hunter was Shiva in disguise. Pleased with the hero's courage, he granted him the Pashupatastra on one condition: never to use it against a lesser foe, or the world itself might end.",
+  "curiosidade_pt": "Arjuna levou o Pashupatastra para a guerra de Kurukshetra, mas nunca o disparou — e o duelo com Shiva disfarçado inspirou o célebre poema sânscrito Kiratarjuniya, de Bharavi.",
+  "curiosidade_en": "Arjuna carried the Pashupatastra into the Kurukshetra war but never fired it, and his duel with the disguised Shiva inspired Bharavi's celebrated Sanskrit poem, the Kiratarjuniya.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Pashupatastra",
+   "https://en.wikipedia.org/wiki/Kiratarjuniya"
+  ]
+ },
+ "hin_om": {
+  "titulo_pt": "O Som do Universo",
+  "titulo_en": "The Sound of the Universe",
+  "lore_pt": "Om, também escrito Aum, é a sílaba sagrada que abre e fecha os mantras, as orações e as recitações dos Vedas. Para a tradição, é o som primordial de onde o universo emerge e o nome sonoro de Brahman, o absoluto. Seus três sons — A, U e M — correspondem à vigília, ao sonho e ao sono profundo; o silêncio que vem depois é o quarto estado, a consciência pura. Na Bhagavad Gita, Krishna declara: 'Eu sou a sílaba Om'. O símbolo aparece no alto de cartas, contratos e cadernos escolares, e é entoado antes de um estudo ou de uma viagem. É a menor unidade da religião, e contém todas as outras.",
+  "lore_en": "Om, also written Aum, is the sacred syllable that opens and closes mantras, prayers and Vedic recitation. In the tradition it is the primordial sound from which the universe emerges and the spoken name of Brahman, the absolute. Its three sounds, A, U and M, match waking, dreaming and deep sleep; the silence that follows is the fourth state, pure awareness. In the Bhagavad Gita, Krishna says that he is the syllable Om. The symbol tops letters, contracts and school notebooks, and it is chanted before study or a journey. It is the smallest unit of the religion, and it holds all the rest.",
+  "curiosidade_pt": "A Mandukya Upanishad, a mais curta de todas as Upanishads, tem só doze versos — e é inteiramente dedicada a explicar a sílaba Om.",
+  "curiosidade_en": "The Mandukya Upanishad, the shortest of all the Upanishads, has just twelve verses, and every one of them is devoted to explaining the syllable Om.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Om",
+   "https://en.wikipedia.org/wiki/Mandukya_Upanishad"
+  ]
+ },
+ "hin_yajna": {
+  "titulo_pt": "O Sacrifício do Fogo",
+  "titulo_en": "The Fire Sacrifice",
+  "lore_pt": "O yajna é o sacrifício védico, o rito central da religião mais antiga da Índia. Sacerdotes acendem o fogo em altares de tijolos dispostos com geometria precisa, recitam hinos e derramam oferendas — manteiga clarificada, grãos, leite — nas chamas, para que Agni as leve aos deuses. Segundo um hino do Rigveda, o próprio universo nasceu de um sacrifício primordial, e deuses e humanos dependem uns dos outros: oferendas sobem, chuvas descem. A Bhagavad Gita reinterpreta o yajna: qualquer ação feita como oferenda, sem apego ao resultado, também é sacrifício. Nas epopeias, filhos de reis e até heroínas, como Draupadi, nascem do fogo de um yajna.",
+  "lore_en": "Yajna is the Vedic sacrifice, the central rite of India's oldest religion. Priests kindle fire on brick altars laid out with precise geometry, chant hymns and pour offerings of clarified butter, grain and milk into the flames for Agni to carry to the gods. According to one Rigvedic hymn, the universe itself was born from a primordial sacrifice, and gods and humans depend on each other: offerings rise, rain falls. The Bhagavad Gita reinterprets yajna: any action performed as an offering, without clinging to results, is also sacrifice. In the epics, princes and even heroines such as Draupadi are born from the fire of a yajna.",
+  "curiosidade_pt": "Em 1975, em Panjal, no Kerala, brâmanes nambudiri realizaram o Agnicayana, um yajna de doze dias com um altar de mil tijolos em forma de ave; o rito foi filmado pelo indólogo Frits Staal.",
+  "curiosidade_en": "In 1975, in Panjal, Kerala, Nambudiri Brahmins performed the Agnicayana, a twelve-day yajna built around a thousand-brick altar shaped like a bird; the indologist Frits Staal filmed the whole rite.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Yajna",
+   "https://en.wikipedia.org/wiki/Frits_Staal"
+  ]
+ },
+ "hin_samudra_manthan": {
+  "titulo_pt": "O Batimento do Oceano",
+  "titulo_en": "The Churning of the Ocean",
+  "lore_pt": "Um dos mitos mais contados dos Puranas: enfraquecidos por uma maldição, os deuses aceitam o conselho de Vishnu e se aliam aos demônios para bater o oceano de leite e extrair dele a amrita, o néctar da imortalidade. Usam o monte Mandara como batedor e a serpente Vasuki como corda; Vishnu vira a tartaruga Kurma para sustentar a montanha. Primeiro emerge um veneno capaz de destruir os mundos, e Shiva o bebe, ficando com a garganta azul. Depois surgem tesouros: a vaca dos desejos, o elefante branco, a deusa Lakshmi e, por fim, o médico divino com o pote de néctar. Vishnu, disfarçado de Mohini, garante que só os deuses o bebam.",
+  "lore_en": "One of the most retold myths of the Puranas: weakened by a curse, the gods take Vishnu's advice and team up with the demons to churn the ocean of milk and draw out amrita, the nectar of immortality. They use Mount Mandara as the churning rod and the serpent Vasuki as the rope, while Vishnu becomes the turtle Kurma to hold the mountain up. First a poison surfaces that could destroy the worlds, and Shiva drinks it, turning his throat blue. Then come the treasures: the wish-granting cow, the white elephant, the goddess Lakshmi and, at last, the divine physician holding the pot of nectar. Vishnu, disguised as Mohini, makes sure only the gods drink it.",
+  "curiosidade_pt": "Em Angkor Wat, no Camboja, um dos baixos-relevos mais famosos mostra o batimento do oceano, com cerca de noventa deuses e noventa demônios puxando a serpente de lados opostos.",
+  "curiosidade_en": "At Angkor Wat in Cambodia, one of the most famous bas-reliefs shows the churning of the ocean, with roughly ninety gods and ninety demons hauling the serpent from opposite ends.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Samudra_Manthana",
+   "https://www.lonelyplanet.com/cambodia/temples-of-angkor/attractions/churning-of-the-ocean-of-milk/a/poi-sig/1468974/1002179"
+  ]
+ },
+ "hin_brahmastra": {
+  "titulo_pt": "A Arma do Criador",
+  "titulo_en": "The Creator's Weapon",
+  "lore_pt": "O Brahmastra é a arma de Brahma, a mais temida das astras, as armas divinas invocadas por mantra. Não é um objeto: é uma fórmula sagrada que pode ser infundida numa flecha ou até numa folha de grama, aprendida apenas de um mestre após longa disciplina. Uma vez lançada, não pode ser anulada, a não ser por outro Brahmastra, e a terra onde cai fica estéril por gerações. No Ramayana, é com ela que Rama dá o golpe final em Ravana. No Mahabharata, Ashwatthama e Arjuna disparam seus Brahmastras um contra o outro, e os sábios precisam se interpor para salvar o mundo. É o poder que nunca deveria ser usado.",
+  "lore_en": "The Brahmastra is Brahma's weapon, the most feared of the astras, the divine weapons summoned by mantra. It is not an object but a sacred formula that can be charged into an arrow or even a blade of grass, learned only from a master after long discipline. Once released it cannot be undone except by another Brahmastra, and the land where it strikes stays barren for generations. In the Ramayana, Rama uses it to deal Ravana the final blow. In the Mahabharata, Ashwatthama and Arjuna fire their Brahmastras at each other, and sages have to step in to save the world. It is the power that should never be used.",
+  "curiosidade_pt": "Karna aprendeu o Brahmastra com Parashurama, mas foi amaldiçoado a esquecer o mantra no momento em que mais precisasse — e foi o que aconteceu no duelo final contra Arjuna.",
+  "curiosidade_en": "Karna learned the Brahmastra from Parashurama but was cursed to forget the mantra at the moment he needed it most, and that is exactly what happened in his final duel with Arjuna.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Brahmastra",
+   "https://en.wikipedia.org/wiki/Karna"
+  ]
+ },
+ "hin_descida_do_avatar": {
+  "titulo_pt": "O Deus que Desce",
+  "titulo_en": "The God Who Descends",
+  "lore_pt": "Avatara significa literalmente 'descida': a divindade que desce ao mundo numa forma — peixe, tartaruga, javali, homem-leão, anão, guerreiro, príncipe, pastor — para restaurar o equilíbrio perdido. Na Bhagavad Gita, Krishna resume a promessa: sempre que a justiça declina e a injustiça cresce, ele se manifesta para proteger os bons e restabelecer o dharma, era após era. Os Puranas fixam a lista dos dez avatares de Vishnu, o Dashavatara, mas o Bhagavata Purana adverte que as descidas são incontáveis, como riachos de um lago que nunca seca. Cada avatar tem uma missão e uma partida, e a próxima descida está sempre prometida: o último, Kalki, ainda está por vir.",
+  "lore_en": "Avatara literally means 'descent': the deity coming down into the world in some form (fish, turtle, boar, man-lion, dwarf, warrior, prince, cowherd) to restore lost balance. In the Bhagavad Gita, Krishna sums up the promise: whenever righteousness declines and wrongdoing rises, he appears to protect the good and re-establish dharma, age after age. The Puranas settle the list of Vishnu's ten avatars, the Dashavatara, yet the Bhagavata Purana warns that the descents are countless, like streams from a lake that never runs dry. Each avatar has a mission and a departure, and the next descent is always promised: the last, Kalki, is still to come.",
+  "curiosidade_pt": "A palavra 'avatar' que usamos para fotos de perfil e personagens de jogos vem desse termo sânscrito: assim como o deus, o jogador 'desce' a um mundo dentro de outro corpo.",
+  "curiosidade_en": "The word 'avatar' we use for profile pictures and game characters comes from this Sanskrit term: like the god, the player 'descends' into a world in another body.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Avatar",
+   "https://en.wikipedia.org/wiki/Dashavatara"
+  ]
+ },
+ "hin_vishvarupa": {
+  "titulo_pt": "A Forma Universal",
+  "titulo_en": "The Universal Form",
+  "lore_pt": "No capítulo 11 da Bhagavad Gita, Arjuna pede a Krishna, seu amigo e cocheiro, que lhe mostre sua verdadeira forma. Krishna lhe concede um olho divino, e Arjuna vê a Vishvarupa: incontáveis bocas e olhos, armas erguidas, o brilho de mil sóis ao mesmo tempo, todos os deuses e seres contidos num só corpo sem começo nem fim. Vê até os guerreiros dos dois exércitos já sendo tragados pelas bocas em chamas do deus. Aterrorizado, implora que Krishna volte à forma humana. A lição é vertiginosa: o amigo que conduzia seu carro era o universo inteiro. Depois da visão, Arjuna pega o arco e luta.",
+  "lore_en": "In chapter 11 of the Bhagavad Gita, Arjuna asks Krishna, his friend and charioteer, to show him his true form. Krishna grants him a divine eye, and Arjuna beholds the Vishvarupa: countless mouths and eyes, raised weapons, the blaze of a thousand suns at once, every god and being held in one body with no beginning or end. He even sees the warriors of both armies already being swallowed by the god's flaming mouths. Terrified, he begs Krishna to return to his human shape. The lesson is dizzying: the friend driving his chariot was the whole universe. After the vision, Arjuna takes up his bow and fights.",
+  "curiosidade_pt": "Robert Oppenheimer recordou um verso desse capítulo ao ver o primeiro teste da bomba atômica em 1945; os estudiosos lembram que o original diz algo mais próximo de 'Eu sou o Tempo, destruidor dos mundos'.",
+  "curiosidade_en": "Robert Oppenheimer recalled a verse from this chapter after watching the first atomic bomb test in 1945; scholars point out the original says something closer to 'I am Time, the destroyer of worlds'.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Vishvarupa",
+   "https://scroll.in/article/1053670/now-i-am-become-death-the-destroyer-of-worlds-truth-and-lies-in-oppenheimers-gita-moment"
+  ]
+ },
+ "hin_tandava": {
+  "titulo_pt": "A Dança que Desfaz Mundos",
+  "titulo_en": "The Dance that Unmakes Worlds",
+  "lore_pt": "Tandava é a dança cósmica de Shiva, e tem duas faces. No Ananda Tandava, a dança da alegria, Shiva sustenta o ritmo do universo dentro de um círculo de fogo; no Rudra Tandava, a dança da fúria, o mesmo ritmo acelera até desfazer a criação. O Shiva Purana guarda o episódio mais dramático: quando Sati, esposa de Shiva, morre humilhada no sacrifício do próprio pai, o deus enlutado carrega seu corpo pelos mundos, dançando de dor, até ameaçar o cosmos. Vishnu então corta o corpo com seu disco, e cada lugar onde caiu um pedaço virou um santuário da Deusa — os Shakti Pithas, venerados até hoje em todo o subcontinente.",
+  "lore_en": "Tandava is Shiva's cosmic dance, and it has two faces. In the Ananda Tandava, the dance of joy, Shiva keeps the rhythm of the universe inside a ring of fire; in the Rudra Tandava, the dance of fury, the same rhythm speeds up until creation comes apart. The Shiva Purana holds the most dramatic episode: when Shiva's wife Sati dies, humiliated at her own father's sacrifice, the grieving god carries her body across the worlds, dancing in sorrow until the cosmos itself is at risk. Vishnu then cuts the body apart with his discus, and every spot where a piece fell became a shrine of the Goddess, the Shakti Pithas, still revered across the subcontinent.",
+  "curiosidade_pt": "Nas torres de entrada do templo de Chidambaram, dedicado a Nataraja, estão esculpidas as 108 posturas de dança (karanas) descritas no Natya Shastra, base da dança clássica Bharatanatyam.",
+  "curiosidade_en": "The gateway towers of the Nataraja temple at Chidambaram are carved with all 108 dance poses (karanas) described in the Natya Shastra, the foundation of the classical dance Bharatanatyam.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Tandava",
+   "https://en.wikipedia.org/wiki/Nataraja_Temple,_Chidambaram",
+   "https://asianart.com/articles/karanas/index.html"
+  ]
+ },
+ "hin_vajra": {
+  "titulo_pt": "O Raio de Indra",
+  "titulo_en": "Indra's Thunderbolt",
+  "lore_pt": "O vajra — 'raio' e também 'diamante' — é a arma de Indra, rei dos deuses e senhor da tempestade, a divindade mais invocada do Rigveda. Num dos hinos mais célebres, Indra, fortalecido pela bebida sagrada soma, ergue o vajra e mata Vritra, a serpente que represava todas as águas do mundo; os rios se soltam como vacas correndo do curral. Os Puranas contam uma origem comovente: Vritra só poderia ser vencido por uma arma feita dos ossos do sábio Dadhichi, que aceitou abandonar o corpo em meditação para que os deuses forjassem o vajra. O símbolo atravessou fronteiras e virou, no budismo, emblema da indestrutibilidade.",
+  "lore_en": "The vajra, meaning both 'thunderbolt' and 'diamond', is the weapon of Indra, king of the gods and lord of storms, the most invoked deity in the Rigveda. In one of its best-known hymns, Indra, fortified by the sacred drink soma, raises the vajra and slays Vritra, the serpent that dammed up all the world's waters; the rivers burst free like cattle rushing from the pen. The Puranas give it a moving origin: Vritra could only be beaten with a weapon made from the bones of the sage Dadhichi, who agreed to leave his body in meditation so the gods could forge the vajra. The symbol crossed borders and became, in Buddhism, an emblem of indestructibility.",
+  "curiosidade_pt": "A Param Vir Chakra, a mais alta condecoração militar da Índia, traz quatro vajras de Indra em homenagem ao sacrifício de Dadhichi.",
+  "curiosidade_en": "The Param Vir Chakra, India's highest military decoration, bears four of Indra's vajras in honour of Dadhichi's sacrifice.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Vajra",
+   "https://en.wikipedia.org/wiki/Dadhichi",
+   "https://www.ajaishukla.com/2013/07/the-swiss-born-who-crafted-param-vir.html"
+  ]
+ },
+ "hin_sudarshana_chakra": {
+  "titulo_pt": "O Disco que Sempre Volta",
+  "titulo_en": "The Discus that Always Returns",
+  "lore_pt": "O Sudarshana Chakra, 'disco de boa visão', é a arma de Vishnu: um disco serrilhado que gira no dedo do deus, voa à velocidade do pensamento, destrói o alvo e retorna à sua mão. No Mahabharata, Agni o entrega a Krishna no incêndio da floresta de Khandava. Seu uso mais famoso acontece na partilha do néctar da imortalidade: o demônio Rahu se disfarça de deus e bebe um gole, mas o Sol e a Lua o denunciam, e Vishnu lhe corta a cabeça com o disco. Tarde demais: a cabeça já era imortal. Em templos do sul da Índia, o próprio disco é adorado como divindade, sob o nome Chakrattalvar.",
+  "lore_en": "The Sudarshana Chakra, 'discus of auspicious vision', is Vishnu's weapon: a serrated disc that spins on the god's finger, flies at the speed of thought, destroys its target and returns to his hand. In the Mahabharata, Agni gives it to Krishna during the burning of the Khandava forest. Its most famous use comes when the nectar of immortality is shared out: the demon Rahu disguises himself as a god and takes a sip, but the Sun and Moon expose him, and Vishnu beheads him with the discus. Too late: the head was already immortal. In some South Indian temples the discus itself is worshipped as a deity, called Chakrattalvar.",
+  "curiosidade_pt": "Segundo esse mito, a cabeça imortal de Rahu persegue o Sol e a Lua para sempre e, de vez em quando, os engole — é assim que a tradição explica os eclipses.",
+  "curiosidade_en": "According to this myth, Rahu's immortal head chases the Sun and Moon forever and now and then swallows them, which is how the tradition explains eclipses.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Sudarshana_Chakra",
+   "https://en.wikipedia.org/wiki/Rahu"
+  ]
+ },
+ "hin_gandiva": {
+  "titulo_pt": "O Arco que Troveja",
+  "titulo_en": "The Thundering Bow",
+  "lore_pt": "O Gandiva é o arco de Arjuna, o mais famoso do Mahabharata. Criado por Brahma, passou pelas mãos de vários deuses até chegar a Varuna, senhor das águas. Quando Agni quis devorar a floresta de Khandava, protegida por Indra, pediu ajuda a Krishna e Arjuna, e Varuna entregou ao herói o Gandiva, duas aljavas que nunca se esvaziam e um carro puxado por cavalos brancos. O arco era indestrutível e sua corda soava como trovão. Com ele, Arjuna enfrentou os deuses em Khandava, derrotou sozinho um exército inteiro e lutou os dezoito dias de Kurukshetra. Por isso um de seus nomes é Gandivadhari, 'o portador do Gandiva'.",
+  "lore_en": "Gandiva is Arjuna's bow, the most famous in the Mahabharata. Made by Brahma, it passed through the hands of several gods before reaching Varuna, lord of the waters. When Agni wanted to devour the Khandava forest, which Indra protected, he asked Krishna and Arjuna for help, and Varuna gave the hero the Gandiva, two quivers that never empty and a chariot drawn by white horses. The bow could not be destroyed and its string rang like thunder. With it Arjuna stood against the gods at Khandava, beat an entire army single-handed and fought all eighteen days of Kurukshetra. Hence one of his names, Gandivadhari, 'bearer of the Gandiva'.",
+  "curiosidade_pt": "Quando a missão dos Pandavas terminou, Agni pediu que Arjuna devolvesse o Gandiva, e o herói lançou o arco nas águas, de volta a Varuna.",
+  "curiosidade_en": "Once the Pandavas' mission was over, Agni asked Arjuna to give the Gandiva back, and the hero cast the bow into the waters, returning it to Varuna.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Gandiva",
+   "https://en.wikipedia.org/wiki/Khandava_Forest"
+  ]
+ },
+ "hin_trishula": {
+  "titulo_pt": "O Tridente de Shiva",
+  "titulo_en": "Shiva's Trident",
+  "lore_pt": "O Trishula, 'três pontas', é o tridente de Shiva e o sinal que o identifica em qualquer imagem, muitas vezes com um pequeno tambor amarrado ao cabo. As três pontas já foram lidas de muitas formas: as três qualidades que compõem a natureza, os três tempos — passado, presente e futuro —, ou as três funções de criar, preservar e destruir. Foi com ele que Shiva, sem saber quem era, decapitou o menino Ganesha à porta de Parvati, antes de devolvê-lo à vida. O tridente também é a arma de Durga, que o recebe de Shiva para vencer o demônio-búfalo. Diante dos templos de Shiva, ele está plantado como estandarte.",
+  "lore_en": "The Trishula, 'three points', is Shiva's trident and the mark that identifies him in any image, often with a small drum tied to the shaft. Its three prongs have been read in many ways: the three qualities that make up nature, the three times of past, present and future, or the three tasks of creating, preserving and destroying. It was with the trident that Shiva, not knowing who the boy was, beheaded young Ganesha at Parvati's door before restoring him to life. It is also Durga's weapon, given to her by Shiva to defeat the buffalo demon. Before Shiva's temples it stands planted like a banner.",
+  "curiosidade_pt": "O Trisul, no Himalaia indiano, tem esse nome porque seus três picos lembram o tridente de Shiva; em 1907 ele virou a primeira montanha acima de 7 mil metros escalada por alpinistas.",
+  "curiosidade_en": "Trisul, in the Indian Himalayas, is named for its three peaks resembling Shiva's trident; in 1907 it became the first mountain over 7,000 metres ever climbed.",
+  "fontes": [
+   "https://en.wikipedia.org/wiki/Trishula",
+   "https://en.wikipedia.org/wiki/Trisul"
+  ]
+ }
+}

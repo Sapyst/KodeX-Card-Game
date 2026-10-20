@@ -3,8 +3,10 @@ config_version=5
 
 [application]
 config/name="KodeX"
-config/version="0.6.4-alpha"
-run/main_scene="res://fluxo.tscn"
+config/version="0.6.5-alpha"
+run/main_scene="res://carregamento.tscn"
+boot_splash/show_image=false
+boot_splash/bg_color=Color(0.051, 0.043, 0.071, 1)
 config/icon="res://icon.png"
 config/features=PackedStringArray("4.7", "Mobile")
 

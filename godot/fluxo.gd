@@ -111,6 +111,11 @@ func _ready() -> void:
 	if OS.get_environment("GD_FOIL_TESTE") != "":            # teste: dá uma foil ao perfil
 		Sessao.perfil["colecao"][OS.get_environment("GD_FOIL_TESTE")] = 1
 		Sessao.perfil["foils"][OS.get_environment("GD_FOIL_TESTE")] = 1
+	if OS.get_environment("GD_TESTE_NOME") != "":             # teste: campo de nome com foco (cursor e contador)
+		_ir("perfil")
+		Sessao.perfil["nome"] = OS.get_environment("GD_TESTE_NOME")
+		mp.nome_edit.text = Sessao.perfil["nome"]
+		mp.nome_edit.grab_focus()
 	if OS.get_environment("GD_TESTE_VISOR") != "":            # teste: abre, sobe a lore, volta, fecha puxando
 		mp.abrir_deck(0)
 		_teste_visor()

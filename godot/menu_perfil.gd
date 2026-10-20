@@ -123,6 +123,22 @@ func barra_titulo() -> void:
 	Fonte57.desenhar(f, Vector2(340 - w, 15), m, f.OURO[0], f.ESCURO)
 
 
+## Texto 2× centrado + cursor de digitação: barra vertical "|" de 2×16 px piscando (0,5 s aceso / 0,5 s apagado)
+## logo depois da última letra; o cursor não desloca o centro do texto.
+func _texto2x_cursor(c: Vector2, s: String, cor: Color, focado: bool) -> void:
+	_texto2x(c, s, cor)
+	if focado and fmod(f.tempo, 1.0) < 0.5:
+		var x := c.x + Fonte57.largura(s) + 3.0 if s != "" else c.x
+		f.draw_rect(Rect2(x, c.y - 8, 2, 16), cor)
+
+
+## Contador "7/16" (fica vermelho no limite).
+func _contador(pos: Vector2, n: int) -> void:
+	var s := "%d/%d" % [n, nome_edit.max_length]
+	var cor := Color("#ff9a8a") if n >= nome_edit.max_length else Color(0.72, 0.66, 0.53)
+	Fonte57.desenhar(f, pos - Vector2(Fonte57.largura(s), 0), s, cor, f.ESCURO)
+
+
 func _texto2x(c: Vector2, s: String, cor: Color) -> void:
 	var w := Fonte57.largura(s) * 2
 	f.draw_set_transform(c - Vector2(w / 2.0, 7), 0.0, Vector2(2, 2))
@@ -158,9 +174,9 @@ func desenhar_perfil() -> void:
 	if nome == "" and not nome_edit.has_focus():
 		_texto2x(dentro.get_center(), Sessao.t("seu nome"), Color(0.5, 0.45, 0.5))
 	else:
-		var cursor := "_" if nome_edit.has_focus() and fmod(f.tempo, 0.9) < 0.45 else " "
-		_texto2x(dentro.get_center(), nome + cursor, f.OURO[0])
+		_texto2x_cursor(dentro.get_center(), nome, f.OURO[0], nome_edit.has_focus())
 	Fonte57.desenhar(f, Vector2(50, 304), Sessao.t("Nome"), Color("#b8a888"))
+	_contador(Vector2(310, 304), nome.length())
 	var tm := "%d %s" % [Sessao.moedas(), Sessao.t("moedas")]
 	var wm := Fonte57.largura(tm)
 	moeda(Vector2(180 - (wm + 14) / 2.0 + 5, 377))
@@ -433,8 +449,10 @@ func tirar(cid: String) -> void:
 func desenhar_deck_edit() -> void:
 	var d: Dictionary = Sessao.perfil["decks"][deck_idx]
 	var deck: Array = d["cartas"]
-	var cur := "_" if nome_edit.has_focus() and editando == "deck" and fmod(f.tempo, 0.9) < 0.45 else ""
-	_texto2x(Vector2(180, 18), str(d["nome"]) + cur, f.OURO[0])
+	var editando_nome := nome_edit.has_focus() and editando == "deck"
+	_texto2x_cursor(Vector2(180, 18), str(d["nome"]), f.OURO[0], editando_nome)
+	if editando_nome:
+		_contador(Vector2(352, 30), str(d["nome"]).length())
 	var n := deck.size()
 	var cor := Color(0.81, 0.88, 1.0) if n == Sessao.DECK_TAM else Color("#ff9a8a")
 	f._texto_central(Vector2(180, 36), "%d / %d" % [n, Sessao.DECK_TAM], cor)

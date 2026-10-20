@@ -22,6 +22,9 @@ var cortando := false
 var particulas: Array = []
 var zoom := -1                    # carta ampliada (índice) ou -1
 var _ultimo_dedo := Vector2.ZERO
+var trilha := PackedVector2Array()  # caminho real do dedo no corte (o rasgo segue o dedo, em qualquer ângulo)
+var inclina := 0.0                 # o pacote inclina para o lado em que o dedo corta
+var peca := {}                     # ponta cortada voando: {pos, vel, rot, w}
 
 
 func _init(menu) -> void:
@@ -32,8 +35,18 @@ func centro_pacote() -> Vector2:
 	return Vector2(180, 300)
 
 
-func y_corte() -> float:
+func y_corte_padrao() -> float:
 	return centro_pacote().y - PH / 2 + CRIMP + 8
+
+
+## Altura do rasgo: média do caminho do dedo (ou a linha tracejada antes de cortar).
+func y_corte() -> float:
+	if trilha.size() < 3:
+		return y_corte_padrao()
+	var soma := 0.0
+	for q in trilha:
+		soma += q.y
+	return clampf(soma / trilha.size(), centro_pacote().y - PH / 2 + CRIMP + 2, centro_pacote().y - PH / 2 + 70)
 
 
 # ---------------- ciclo ----------------
@@ -48,6 +61,9 @@ func comprar() -> void:
 		cartas.append({"id": e["id"], "foil": e["foil"], "nova": e["nova"], "virada": false, "t_virou": 0.0, "trocar": false, "pos": Vector2.ZERO})
 	corte = PackedByteArray()
 	corte.resize(int(PW))
+	trilha = PackedVector2Array()
+	inclina = 0.0
+	peca = {}
 	particulas.clear()
 	zoom = -1
 	_mudar("entra")
@@ -67,6 +83,11 @@ func atualizar(delta: float) -> void:
 		p["p"] += p["v"] * delta
 		p["vida"] -= delta
 	particulas = particulas.filter(func(p: Dictionary) -> bool: return p["vida"] > 0.0)
+	inclina = lerpf(inclina, 0.0, minf(1.0, delta * 6.0))
+	if not peca.is_empty():                       # física da ponta: gravidade, giro
+		peca["vel"] += Vector2(0, 900) * delta
+		peca["pos"] += peca["vel"] * delta
+		peca["rot"] += peca["w"] * delta
 	match etapa:
 		"entra":
 			if t > 0.7:
@@ -89,8 +110,8 @@ func _auto(delta: float) -> void:
 		var x0 := centro_pacote().x - PW / 2
 		var u := clampf((t - 0.8) / 0.9, 0, 1)
 		if not cortando:
-			toque(Vector2(x0 - 6, y_corte()), true)
-		mover(Vector2(x0 - 6 + u * (PW + 12), y_corte() + sin(u * 9) * 2))
+			toque(Vector2(x0 - 6, y_corte_padrao() - 6), true)
+		mover(Vector2(x0 - 6 + u * (PW + 12), y_corte_padrao() - 6 + u * 16 + sin(u * 9) * 2))   # corte em diagonal
 	if etapa == "revelar" or etapa == "fim":
 		for k in 3:
 			if not cartas[k]["virada"] and t > 0.6 + k * 1.1:
@@ -103,7 +124,7 @@ func toque(p: Vector2, pressed) -> void:
 		return
 	if etapa == "cortar":
 		var x0 := centro_pacote().x - PW / 2
-		if pressed and absf(p.y - y_corte()) < 26 and p.x > x0 - 30 and p.x < x0 + PW + 30:
+		if pressed and absf(p.y - y_corte_padrao()) < 44 and p.x > x0 - 40 and p.x < x0 + PW + 40:
 			cortando = true
 			dedo = p
 			_ultimo_dedo = p
@@ -130,16 +151,22 @@ func mover(p: Vector2) -> void:
 	if etapa != "cortar" or not cortando:
 		return
 	var x0 := centro_pacote().x - PW / 2
-	if absf(p.y - y_corte()) > 34:
+	var topo := centro_pacote().y - PH / 2
+	if p.y < topo + CRIMP - 8 or p.y > topo + 80:
 		return
-	# marca todas as colunas entre a posição anterior e a atual (o corte segue o dedo)
+	# marca as colunas entre a posição anterior e a atual; o rasgo guarda o caminho real do dedo
 	var a := int(clampf(minf(_ultimo_dedo.x, p.x) - x0, 0, PW - 1))
 	var b := int(clampf(maxf(_ultimo_dedo.x, p.x) - x0, 0, PW - 1))
+	if p.x > x0 - 4 and p.x < x0 + PW + 4:
+		trilha.append(Vector2(clampf(p.x, x0, x0 + PW), p.y))
+	inclina = clampf(inclina + (p.x - _ultimo_dedo.x) * 0.0015, -0.08, 0.08)
 	for x in range(a, b + 1):
 		if corte[x] == 0:
 			corte[x] = 1
-			if randf() < 0.35:
-				_faisca(Vector2(x0 + x, y_corte()), 3, Color("#ffe39a"))
+			if randf() < 0.45:
+				_faisca(Vector2(x0 + x, p.y), 3, Color("#ffb060"))
+			if randf() < 0.2:
+				_papel(Vector2(x0 + x, p.y), 1)
 	_ultimo_dedo = p
 	dedo = p
 	if randf() < 0.3:
@@ -154,6 +181,9 @@ func mover(p: Vector2) -> void:
 		dedo = Vector2(-99, -99)
 		_faisca(Vector2(centro_pacote().x, y_corte()), 40, Color("#ffe39a"))
 		_faisca(Vector2(centro_pacote().x, y_corte()), 30, Color("#c8b0f0"))
+		_papel(Vector2(centro_pacote().x, y_corte()), 18)
+		peca = {"pos": Vector2.ZERO, "vel": Vector2(randf_range(60, 140) * (1 if inclina >= 0 else -1), -340), "rot": 0.0,
+			"w": randf_range(3.0, 6.0) * (1 if inclina >= 0 else -1)}
 		f.vibrar(45, 0.8)
 		_mudar("rasga")
 
@@ -184,6 +214,14 @@ func _faisca(p: Vector2, n: int, cor: Color) -> void:
 		var a := randf() * TAU
 		particulas.append({"p": p, "v": Vector2.from_angle(a) * randf_range(40, 170) + Vector2(0, -40), "cor": cor,
 			"vida": randf_range(0.4, 0.9), "max": 0.9, "g": 160.0, "tam": 1 + int(randf() < 0.3)})
+
+
+## Pedacinhos de papel do rasgo (prateado/roxo, caem devagar girando).
+func _papel(p: Vector2, n: int) -> void:
+	for i in n:
+		particulas.append({"p": p + Vector2(randf_range(-4, 4), 0), "v": Vector2(randf_range(-70, 70), randf_range(-140, -40)),
+			"cor": [Color("#c8c8d4"), Color("#8a6aa8"), Color("#e2b85a")][randi() % 3], "vida": randf_range(0.6, 1.2), "max": 1.2,
+			"g": 320.0, "tam": 2})
 
 
 func alternar_troca(k: int) -> void:
@@ -329,12 +367,14 @@ func desenhar_booster() -> void:
 			var e := Efeitos._ease_back(u)
 			pacote(f, Vector2(c.x, lerpf(-160, c.y, e)), (1.0 - u) * 0.5)
 		"cortar":
-			pacote(f, c + Vector2(0, sin(f.tempo * 1.6) * 2), 0.0)
+			var treme := Vector2(randf_range(-1, 1), randf_range(-1, 1)) * (1.0 if cortando else 0.0)
+			pacote(f, c + Vector2(0, sin(f.tempo * 1.6) * 2) + treme, inclina)
 			_linha_corte(c)
 		"rasga":
 			var u := clampf(t / 0.7, 0, 1)
-			pacote(f, c, 0.0, Vector2(u * 160, -u * 120 + u * u * 60), u * 1.6, 1.0, true)
-			_brilho_abertura(c, 1.0 - u * 0.5)
+			_brilho_abertura(c, 1.0)
+			var quique := sin(clampf(t / 0.25, 0, 1) * PI) * 6        # o pacote dá um tranco para baixo ao rasgar
+			pacote(f, c + Vector2(0, quique), 0.0, peca.get("pos", Vector2.ZERO) - Vector2(0, quique), peca.get("rot", 0.0), 1.0, true)
 		"saem":
 			_cartas_saindo(c)
 		"revelar", "fim":
@@ -354,12 +394,19 @@ func desenhar_booster() -> void:
 func _linha_corte(c: Vector2) -> void:
 	var y := y_corte() + sin(f.tempo * 1.6) * 2
 	var x0 := c.x - PW / 2
+	var tem_trilha := trilha.size() > 1
 	for x in int(PW):
-		if corte[x] == 1:
-			f.draw_rect(Rect2(x0 + x, y - 1 + int(x % 3 == 0), 1, 2), Color(0.04, 0.02, 0.05))
-			f.draw_rect(Rect2(x0 + x, y + 1, 1, 1), Color(1.0, 0.9, 0.6, 0.7))
-		elif (x + int(f.tempo * 12)) % 6 < 3:
+		if corte[x] == 0 and not tem_trilha and (x + int(f.tempo * 12)) % 6 < 3:
 			f.draw_rect(Rect2(x0 + x, y, 1, 1), Color(1, 1, 1, 0.55 + 0.45 * sin(f.tempo * 5)))
+	if tem_trilha:                        # rasgo seguindo o dedo: fenda escura com borda incandescente
+		for i in range(1, trilha.size()):
+			var a := trilha[i - 1]
+			var b := trilha[i]
+			if a.distance_to(b) > 40:
+				continue
+			f.draw_line(a + Vector2(0, 1), b + Vector2(0, 1), Color(1.0, 0.55, 0.15, 0.85), 3.0)
+			f.draw_line(a, b, Color(0.04, 0.02, 0.05), 2.0)
+			f.draw_line(a + Vector2(0, -1), b + Vector2(0, -1), Color(1.0, 0.85, 0.5, 0.6), 1.0)
 	# tesourinha/dedo-guia percorrendo a linha enquanto ninguém corta
 	var n := 0
 	for v in corte:
@@ -376,11 +423,15 @@ func _linha_corte(c: Vector2) -> void:
 
 
 func _brilho_abertura(c: Vector2, forca: float) -> void:
-	var y := y_corte()
-	for k in 10:
-		var a: float = -PI / 2 + (k - 4.5) * 0.18 + sin(f.tempo * 2 + k) * 0.05
-		f.draw_colored_polygon(PackedVector2Array([Vector2(c.x, y), Vector2(c.x, y) + Vector2.from_angle(a - 0.05) * 200,
-			Vector2(c.x, y) + Vector2.from_angle(a + 0.05) * 200]), Color(1.0, 0.9, 0.6, 0.12 * forca))
+	## Luz do pacote aberto: 16 raios saindo do rasgo até fora da tela (900 px), esmaecendo na ponta, girando devagar;
+	## núcleo claro pulsando sobre o rasgo.
+	var o := Vector2(c.x, y_corte())
+	var pul := 0.75 + 0.25 * sin(f.tempo * 9.0)
+	for k in 16:
+		var a: float = -PI / 2 + (k - 7.5) * 0.17 + sin(f.tempo * 1.3 + k * 0.7) * 0.06
+		Efeitos.raio(f, o, a, 900, 0.045 + 0.02 * sin(f.tempo * 3 + k), Color(1.0, 0.92, 0.65, 0.42 * forca * pul))
+	for k in 4:
+		f.draw_circle(o, (28 - k * 6) * pul, Color(1.0, 0.95, 0.8, (0.08 + k * 0.07) * forca))
 
 
 ## As 3 cartas sobem de dentro do pacote (escalonadas 0,18 s), o pacote desce e sai, as cartas vão para a fileira.
@@ -399,7 +450,7 @@ func _cartas_saindo(c: Vector2) -> void:
 		var s := lerpf(0.8, 1.0, v)
 		verso(f, Rect2(p - Vector2(CW, CH) * s / 2, Vector2(CW, CH) * s))
 	if desce < 1.0:
-		pacote(f, c + Vector2(0, desce * desce * 420), 0.0, Vector2.ZERO, 0.0, 1.0 - desce * 0.3, true)
+		pacote(f, c + Vector2(0, desce * desce * 420), 0.0, peca.get("pos", Vector2.ZERO) - Vector2(0, desce * desce * 420), peca.get("rot", 0.0), 1.0 - desce * 0.3, true)
 		# a ponta já foi; o corpo cobre a base das cartas enquanto elas sobem
 
 
@@ -420,8 +471,8 @@ func _cartas_reveladas() -> void:
 		if frente and (lend or c["foil"]):
 			for i in 12:
 				var a: float = f.tempo * 0.7 + TAU * i / 12.0
-				var cor := Color.from_hsv(fmod(i / 12.0 + f.tempo * 0.2, 1.0), 0.6, 1.0, 0.2) if c["foil"] else Color(1.0, 0.86, 0.45, 0.18)
-				f.draw_colored_polygon(PackedVector2Array([p, p + Vector2.from_angle(a - 0.1) * 120, p + Vector2.from_angle(a + 0.1) * 120]), cor)
+				var cor := Color.from_hsv(fmod(i / 12.0 + f.tempo * 0.2, 1.0), 0.6, 1.0, 0.42) if c["foil"] else Color(1.0, 0.86, 0.45, 0.36)
+				Efeitos.raio(f, p, a, 170, 0.1, cor)
 		var tam := Vector2(CW * maxf(giro, 0.02), CH)
 		var r := Rect2(p - tam / 2, tam)
 		if not frente:
@@ -441,10 +492,7 @@ func _cartas_reveladas() -> void:
 			var tag := Sessao.t("NOVA!") if c["nova"] else Sessao.t("REPETIDA")
 			var cor_tag := Color("#8ae38a") if c["nova"] else Color("#ffc070")
 			PixelFonte.centrado(f, p + Vector2(0, -CH / 2 - 10), tag, cor_tag, 1, f.ESCURO)
-			if c["foil"]:
-				PixelFonte.centrado(f, p + Vector2(0, CH / 2 + 9), "FOIL", Color.from_hsv(fmod(f.tempo * 0.5, 1.0), 0.6, 1.0), 2, f.ESCURO)
-			elif lend:
-				PixelFonte.centrado(f, p + Vector2(0, CH / 2 + 9), Sessao.t("LENDÁRIA"), f.OURO[0], 1, f.ESCURO)
+			Efeitos.selo_raridade(f, p + Vector2(0, CH / 2 + 11), Sessao.raridade(c["id"], c["foil"]), 2, f.tempo)
 
 
 func _desenhar_zoom() -> void:

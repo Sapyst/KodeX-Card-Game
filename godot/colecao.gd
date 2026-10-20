@@ -121,12 +121,10 @@ func desenhar_grade(ci: CanvasItem) -> void:
 				var wx := PixelFonte.largura(sx) + 6
 				ci.draw_rect(Rect2(r.end.x - wx - 1, r.end.y - 11, wx, 10), Color(0.45, 0.32, 0.1, 0.95))
 				PixelFonte.desenhar(ci, Vector2(r.end.x - wx + 2, r.end.y - 8), sx, f.OURO[0])
-		if int(Sessao.perfil["foils"].get(cid, 0)) > 0 and r.position.y + 4 > TOPO and r.position.y + 14 < BASE:
-			# selo FOIL arco-íris no canto de cima, à esquerda
-			var sf := "FOIL"
-			var wf := PixelFonte.largura(sf) + 6
-			ci.draw_rect(Rect2(r.position.x + 2, r.position.y + 2, wf, 9), Color(0.08, 0.05, 0.1, 0.9))
-			PixelFonte.desenhar(ci, r.position + Vector2(5, 4), sf, Color.from_hsv(fmod(f.tempo * 0.5, 1.0), 0.6, 1.0))
+		if not cid.begins_with("tok_") and r.position.y + 2 > TOPO and r.position.y + 14 < BASE:
+			# sigla de raridade no canto de cima, à esquerda (UR se possui a foil)
+			var sig := Sessao.raridade(cid, int(Sessao.perfil["foils"].get(cid, 0)) > 0)
+			Efeitos.selo_raridade(ci, r.position + Vector2(13, 8), sig, 1, f.tempo)
 		if cid in Sessao.arte_revisao and r.position.y + 8 > TOPO and r.position.y + 8 < BASE:
 			# selo "em revisão": faixinha no canto de cima, pulsando
 			var s := Sessao.t("REVISÃO")
@@ -222,6 +220,8 @@ func desenhar_lore(ci: CanvasItem) -> void:
 	var nome := PixelFonte.normalizar(_nome(carta))
 	if y > y0 and y < BASE:
 		PixelFonte.centrado(ci, Vector2(180, y), nome, f.OURO[0], 2, f.ESCURO)
+	if not carta.begins_with("tok_") and r.end.y + 6 > y0 and r.end.y + 6 < BASE:
+		Efeitos.selo_raridade(ci, Vector2(r.end.x + 16, r.end.y - 10), Sessao.raridade(carta, foil), 2, f.tempo)
 	y += 16
 	for item in _linhas_lore():
 		var tipo: String = item[0]

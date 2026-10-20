@@ -59,6 +59,10 @@ Decisões fechadas com o autor (2026-10-20). Números são o ponto de partida; o
   S.A.R.S leve (`foil_hibrido.py`). Revisão por agentes pela identidade mitológica; anatomia conferida (Shiva/Kali 4 braços).
 - Lendária foil: frame full-art. Comum foil: frame original com pílula arco-íris + brilho holográfico.
 
+## Raridade exibida (v0.5.1)
+C = comum (custo até 3) · R = rara (custo 4+) · SR = Lendária · UR = Lendária foil. Selo com cor e efeito próprios
+(prata; azul com reflexo; ouro pulsando; arco-íris com faíscas) na revelação do booster e na Coleção.
+
 ## Fases (um release por fase)
 1. Perfil (nome + foto com recorte 3:4), auto-save, moedas (inclusive por partida arcade), montar decks, coleção possuída.
 2. Loja e abertura de booster com corte (tudo bem animado). **Feito na v0.5.0** (`godot/booster.gd`).

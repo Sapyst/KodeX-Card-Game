@@ -344,6 +344,14 @@ func tem_foil(cid: String) -> bool:
 	return ResourceLoader.exists("res://assets/carta_foil/%s.webp" % cid)
 
 
+## Raridade exibida: C (comum, custo até 3), R (rara, custo 4+), SR (Lendária), UR (Lendária foil).
+func raridade(cid: String, foil: bool) -> String:
+	var c: Dictionary = db["cartas"][cid]
+	if c["lendaria"]:
+		return "UR" if foil else "SR"
+	return "C" if int(c["custo"]) <= 3 else "R"
+
+
 func valor_troca(cid: String, foil: bool) -> int:
 	if foil:
 		return TROCA["foil"]

@@ -218,8 +218,7 @@ func _desenhar_faixa() -> void:
 		# raios dourados girando atrás da faixa
 		for k in 16:
 			var a := faixa_t * 0.6 + TAU * k / 16.0
-			var pts := PackedVector2Array([c, c + Vector2.from_angle(a - 0.08) * 420 * ent, c + Vector2.from_angle(a + 0.08) * 420 * ent])
-			draw_colored_polygon(pts, Color(1.0, 0.86, 0.45, 0.16))
+			raio(self, c, a, 460 * ent, 0.08, Color(1.0, 0.86, 0.45, 0.26))
 	else:
 		draw_rect(Rect2(-400, -400, 1200, 1500), Color(0.05, 0.03, 0.08, 0.45 * ent))
 	var h := 34.0 * ent
@@ -422,8 +421,7 @@ func _desenhar_vitrine() -> void:
 	draw_rect(Rect2(-400, -400, 1200, 1500), Color(0.03, 0.02, 0.05, 0.45 * fundo))
 	for i in 12:
 		var a := t * 0.8 + TAU * i / 12.0
-		draw_colored_polygon(PackedVector2Array([centro, centro + Vector2.from_angle(a - 0.09) * 230, centro + Vector2.from_angle(a + 0.09) * 230]),
-			Color(cor, 0.13 * fundo))
+		raio(self, centro, a, 260, 0.09, Color(cor, 0.22 * fundo))
 	var r := Rect2(centro - tam / 2, tam)
 	draw_rect(r.grow(3), Color(cor, 0.35 * fundo), false, 3.0)
 	draw_rect(r.grow(1), Color("#140c10"))
@@ -576,3 +574,45 @@ func _degrade_base(al: float) -> void:
 	draw_polygon(PackedVector2Array([Vector2(x0, 598), Vector2(x1, 598), Vector2(x1, 640), Vector2(x0, 640)]),
 		PackedColorArray([zero, zero, preto, preto]))
 	draw_rect(Rect2(x0, 640, x1 - x0, maxf(0.0, fundo - 640)), preto)
+
+
+
+## Raio de luz que esmaece até a ponta: triângulo com cor cheia na origem e transparente nas duas pontas.
+static func raio(ci: CanvasItem, origem: Vector2, ang: float, comp: float, abertura: float, cor: Color) -> void:
+	var fim := Color(cor, 0.0)
+	ci.draw_polygon(PackedVector2Array([origem, origem + Vector2.from_angle(ang - abertura) * comp, origem + Vector2.from_angle(ang + abertura) * comp]),
+		PackedColorArray([cor, fim, fim]))
+
+
+
+## Selo de raridade: C (prata), R (azul com reflexo), SR (ouro pulsando), UR (arco-íris correndo + faíscas).
+static func selo_raridade(ci: CanvasItem, centro: Vector2, sigla: String, esc: int, tempo: float) -> void:
+	var w := PixelFonte.largura(sigla, esc) + 8 * esc
+	var h := 5 * esc + 6
+	var r := Rect2(centro - Vector2(w, h) / 2, Vector2(w, h)).abs()
+	var fundo: Color = {"C": Color("#4a4a56"), "R": Color("#1e3c78"), "SR": Color("#7a5418"), "UR": Color("#3a1850")}.get(sigla, Color("#4a4a56"))
+	var texto: Color = {"C": Color("#e8e8f0"), "R": Color("#bfe0ff"), "SR": Color("#ffe39a"), "UR": Color.WHITE}.get(sigla, Color.WHITE)
+	if sigla == "SR":                                  # halo dourado pulsando
+		var pul := 0.5 + 0.5 * sin(tempo * 4.0)
+		ci.draw_rect(r.grow(3), Color(1.0, 0.82, 0.35, 0.35 * pul), false, 3.0)
+	ci.draw_rect(r.grow(1), Color("#140c10"))
+	ci.draw_rect(r, fundo)
+	if sigla == "UR":                                  # fundo arco-íris correndo
+		for x in int(r.size.x):
+			ci.draw_line(Vector2(r.position.x + x, r.position.y), Vector2(r.position.x + x, r.end.y),
+				Color.from_hsv(fmod(x / r.size.x + tempo * 0.6, 1.0), 0.75, 0.85))
+	if sigla == "R" or sigla == "UR":                  # reflexo varrendo
+		var fx := r.position.x + fmod(tempo * 0.8, 1.6) / 1.6 * (r.size.x + 20) - 10
+		for k in 3:
+			var xx := fx + k
+			if xx > r.position.x and xx < r.end.x:
+				ci.draw_line(Vector2(xx, r.position.y), Vector2(xx, r.end.y), Color(1, 1, 1, 0.45))
+	ci.draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), Color(1, 1, 1, 0.35))
+	PixelFonte.centrado(ci, r.get_center() + Vector2(0, 0.5), sigla, texto, esc, Color("#140c10"))
+	if sigla == "UR":                                  # faíscas em volta
+		for k in 4:
+			var u := fmod(tempo * 0.9 + k * 0.25, 1.0)
+			var p := r.get_center() + Vector2(cos(k * 1.7) * (r.size.x / 2 + 4), sin(k * 2.3) * (r.size.y / 2 + 3))
+			var a := sin(u * PI)
+			ci.draw_line(p - Vector2(3 * a, 0), p + Vector2(3 * a, 0), Color(1, 1, 1, a))
+			ci.draw_line(p - Vector2(0, 3 * a), p + Vector2(0, 3 * a), Color(1, 1, 1, a))

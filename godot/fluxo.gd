@@ -526,8 +526,14 @@ func _entrada_recorte(ev: InputEvent) -> bool:
 	if ev is InputEventScreenTouch or (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT):
 		var p: Vector2 = inv * (ev.position as Vector2) - position
 		var idx: int = ev.index if ev is InputEventScreenTouch else 0
-		if ev.pressed and not MenuPerfil.MOLDURA.grow(30).has_point(p) and mp.toques.is_empty():
-			return false
+		if ev.pressed:
+			var em_botao := false
+			for b in botoes:
+				em_botao = em_botao or (b["rect"] as Rect2).grow(4).has_point(p)
+			if em_botao or (not MenuPerfil.AREA_RECORTE.has_point(p) and mp.toques.is_empty()):
+				return false                            # botão (Confirmar, −, +, Cancelar): segue para os botões
+		elif not mp.toques.has(idx):
+			return false                                # soltou um toque que não era do recorte (ex.: botão)
 		mp.toque_recorte(idx, p, ev.pressed)
 		return true
 	if ev is InputEventScreenDrag or ev is InputEventMouseMotion:
@@ -574,7 +580,18 @@ func _teste_recorte() -> void:
 		await get_tree().process_frame
 	mp.toque_recorte(0, Vector2(210, 280), false)
 	await get_tree().create_timer(1.0).timeout
-	mp.confirmar_recorte()
+	# toque real no botão Confirmar (pressiona e solta pelo caminho normal de entrada)
+	var alvo := Vector2(-1, -1)
+	for b in botoes:
+		if b["texto"] == "Confirmar":
+			alvo = (b["rect"] as Rect2).get_center()
+	for pressed in [true, false]:
+		var ev := InputEventScreenTouch.new()
+		ev.position = get_canvas_transform() * (alvo + position)
+		ev.pressed = pressed
+		_unhandled_input(ev)
+		await get_tree().create_timer(0.15).timeout
+	print("RECORTE estado=", estado, " tem_foto=", Sessao.perfil.get("tem_foto", false))
 
 
 ## Booster: toques e arrastes vão para o corte/revelação, exceto quando caem num botão (repetidas, concluir).

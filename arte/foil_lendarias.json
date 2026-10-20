@@ -59,8 +59,9 @@
  },
  "alt_babalon": {
   "deck": "alta_magia",
-  "tags": "1girl, solo, babalon, scarlet woman, long red hair, golden crown, (crimson gown fully clothed:1.3), (holding a golden chalice glowing with red light:1.3), (riding a black seven-headed beast:1.4), seven heads, occult temple, candles, red and gold light, mysterious",
-  "essencial": "mulher de vermelho com coroa, cálice dourado com luz vermelha, montada numa besta de sete cabeças; vestida, sem nudez"
+  "tags": "1girl, solo focus, babalon, scarlet woman, (beautiful alluring mature woman:1.3), (seductive confident gaze:1.3), red lips, long flowing red hair, golden crown, (bare shoulders:1.2), (crimson silk gown with high leg slit:1.3), (chest covered:1.3), gold jewelry, (raising a golden chalice glowing with red light:1.3), (seated astride a black seven-headed beast:1.3), beast heads fanning out behind her, (she dominates the frame, medium full shot:1.3), red rim light, occult temple, candles",
+  "essencial": "mulher de vermelho com coroa, cálice dourado com luz vermelha, montada numa besta de sete cabeças; vestida, sem nudez",
+  "neg": "nipples, topless, exposed breasts, nude, small figure, far away, faceless"
  },
  "alt_anjo_guardiao": {
   "deck": "alta_magia",

@@ -79,6 +79,48 @@ def texto_foil_em(im, tex_claro, centro, txt, fonte, lado="m", contorno=4):
     texto_foil(im, tex_claro, (px, py), txt, fonte, "la", contorno)
 
 
+def ceu(cid):
+    """Estrelas, brilhos e poeira de luz fixos por carta (semente do id), para animar em loop sobre a arte."""
+    r = np.random.default_rng(int.from_bytes(cid.encode(), "little") % (2 ** 32))
+    est = [(r.uniform(BORDA + 8, W - BORDA - 8), BORDA + 10 + (H * 0.62) * r.uniform(0, 1) ** 1.7, r.uniform(0.8, 2.2),
+            r.uniform(0, 1), int(r.integers(1, 3))) for _ in range(85)]
+    bri = [(r.uniform(BORDA + 30, W - BORDA - 30), BORDA + 30 + (H * 0.55) * r.uniform(0, 1) ** 1.3, r.uniform(7, 15),
+            r.uniform(0, 1)) for _ in range(9)]
+    poe = [(r.uniform(BORDA + 10, W - BORDA - 10), r.uniform(0, 1), r.uniform(1.2, 2.6), r.uniform(0, 1)) for _ in range(28)]
+    return est, bri, poe
+
+
+def desenhar_ceu(im, u, est, bri, poe):
+    """Camada aditiva: 85 estrelas piscando (mais no alto), 9 brilhos de 4 pontas, 28 partículas de luz subindo."""
+    cam = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(cam)
+    for x, y, t, fase, vel in est:
+        a = 0.25 + 0.75 * max(0.0, np.sin(2 * np.pi * (u * vel + fase))) ** 2
+        cor = (225, 235, 255, int(255 * a))
+        d.ellipse((x - t, y - t, x + t, y + t), fill=cor)
+    for x, y, tam, fase in bri:
+        a = max(0.0, np.sin(2 * np.pi * (u + fase))) ** 6
+        if a < 0.04:
+            continue
+        L = tam * (0.5 + 0.7 * a)
+        cor = (255, 250, 230, int(255 * a))
+        d.line((x - L, y, x + L, y), fill=cor, width=2)
+        d.line((x, y - L, x, y + L), fill=cor, width=2)
+        d.line((x - L * 0.4, y - L * 0.4, x + L * 0.4, y + L * 0.4), fill=(255, 250, 230, int(160 * a)), width=1)
+        d.line((x - L * 0.4, y + L * 0.4, x + L * 0.4, y - L * 0.4), fill=(255, 250, 230, int(160 * a)), width=1)
+        d.ellipse((x - 3, y - 3, x + 3, y + 3), fill=(255, 255, 255, int(255 * a)))
+    for x, y0, t, fase in poe:
+        y = H - BORDA - ((y0 + u) % 1.0) * (H - 2 * BORDA)               # sobe a tela inteira uma vez por loop
+        a = 0.5 * np.sin(np.pi * ((y0 + u) % 1.0))
+        xx = x + 6 * np.sin(2 * np.pi * (u + fase))
+        d.ellipse((xx - t, y - t, xx + t, y + t), fill=(255, 220, 140, int(255 * a)))
+    brilho = cam.filter(ImageFilter.GaussianBlur(3))
+    base = im.convert("RGBA")
+    base.alpha_composite(brilho)
+    base.alpha_composite(cam)
+    return base.convert("RGB")
+
+
 def quebrar(d, txt, fonte, larg):
     linhas, atual = [], ""
     for p in txt.split():
@@ -122,6 +164,7 @@ def main():
     rot_f = f(SERIF_BOLD, 22)
     txt_f = f(SERIF, 27)
     kws = [KW[k] for k in c.get("keywords", [])]
+    est, bri, poe = ceu(cid)
     tipo_txt = "  ·  ".join([TIPO[c["tipo"]], CULT.get(deck, deck.upper()), "LENDÁRIA"])
     texto = c["texto"]
     for q in range(int(os.environ.get("QUADROS", N))):
@@ -130,6 +173,7 @@ def main():
         claro = foil(u + 0.15, False)
         im = Image.new("RGB", (W, H), (0, 0, 0))
         im.paste(a, (BORDA, BORDA), mask_arte)
+        im = desenhar_ceu(im, u, est, bri, poe)                    # estrelas e brilhos por cima da arte, sob o texto
         im.paste(Image.new("RGB", (W, H), (6, 4, 9)), (0, 0), grad_img)
         # borda foil escura + filetes
         im.paste(escuro, (0, 0), mask_borda)

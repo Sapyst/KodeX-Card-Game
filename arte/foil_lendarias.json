@@ -1,8 +1,9 @@
 {
  "ind_jaci": {
   "deck": "indigena",
-  "tags": "1girl, solo, jaci, tupi moon goddess, (indigenous brazilian woman:1.3), brown skin, long straight black hair with bangs, (white feather headdress:1.2), white body paint dots, white cotton skirt, glowing silver light in her open hands, (huge full moon behind her:1.4), floating above a dark amazon river, (victoria amazonica giant water lilies:1.2), silver moonlight reflections, fireflies, night",
-  "essencial": "mulher indígena brasileira (Tupi), lua cheia grande, rio da Amazônia com vitórias-régias, luz prateada/lunar, cocar ou adorno branco"
+  "tags": "1girl, solo, jaci, tupi moon goddess, (indigenous brazilian woman:1.3), brown skin, (centered, front view, symmetrical composition:1.3), serene face, long straight black hair with bangs, (white feather headdress:1.2), white body paint dots, white cotton garments, glowing silver light between her open hands, (huge full moon directly behind her head:1.4), standing on the dark water of an amazon river, (victoria amazonica giant round water lilies:1.3), silver moonlight reflections, starry night sky, fireflies",
+  "essencial": "mulher indígena brasileira (Tupi), lua cheia grande, rio da Amazônia com vitórias-régias, luz prateada/lunar, cocar ou adorno branco",
+  "neg": "off-center, side view, profile, black woman, african, lotus"
  },
  "ind_tupa": {
   "deck": "indigena",

@@ -90,15 +90,14 @@ func _ready() -> void:
 			mp.abrir_deck(0)
 		else:
 			_ir(OS.get_environment("GD_FLUXO_TELA"))
-	if OS.get_environment("GD_TA_TESTE") != "":               # teste: chave com as quartas (e semifinal) se resolvendo
+	if OS.get_environment("GD_TA_TESTE") != "":               # teste: "VD" = vence as quartas e perde a semi, "VVV" = campeão
 		Sessao.novo_torneio_arcade()
 		_ir("chave")
-		get_tree().create_timer(0.8).timeout.connect(func() -> void:
-			Sessao.resultado = "vitoria"
-			ta.pos_partida())
-		if OS.get_environment("GD_TA_TESTE") == "2":
-			get_tree().create_timer(5.0).timeout.connect(func() -> void:
-				Sessao.resultado = "derrota"
+		var seq := OS.get_environment("GD_TA_TESTE")
+		for k in seq.length():
+			var v := seq[k] == "V"
+			get_tree().create_timer(0.8 + k * 5.5).timeout.connect(func() -> void:
+				Sessao.resultado = "vitoria" if v else "derrota"
 				ta.pos_partida())
 	if OS.get_environment("GD_BOOSTER_AUTO") != "":           # teste: compra e abre um booster sozinho
 		_ir("loja")
@@ -188,6 +187,8 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(110, 524, 140, 24), "Cancelar", func() -> void: _ir("perfil"))
 		"loja":
 			_botao(Rect2(90, 404, 180, 30), "Comprar booster", bo.comprar)
+			if Sessao.boosters_gratis() > 0:
+				_botao(Rect2(90, 512, 180, 30), Sessao.t("Abrir grátis (%d)") % Sessao.boosters_gratis(), bo.comprar.bind(true))
 			_botao(Rect2(110, 600, 140, 26), "Voltar", func() -> void: _ir("titulo"))
 		"booster":
 			if bo.etapa == "fim":
@@ -229,15 +230,18 @@ func _ir(novo: String) -> void:
 		"chave":
 			var d := Sessao.ta()
 			if ta.anim.is_empty() and not d.is_empty():
-				if d["fim"]:
-					_botao(Rect2(100, 596, 160, 28), "Concluir", ta.concluir)
+				if d["fim"] and ta._campeao(d):
+					_botao(Rect2(90, 488, 180, 30), "Abrir booster", ta.abrir_premio)
+					_botao(Rect2(110, 528, 140, 24), "Concluir", ta.concluir)
+				elif d["fim"]:
+					_botao(Rect2(100, 586, 160, 28), "Concluir", ta.concluir)
 				elif d["eliminado"]:
-					_botao(Rect2(100, 590, 160, 26), "Ver o resto", ta.ver_resto)
-					_botao(Rect2(244, 618, 100, 18), "Sair", ta.concluir)
+					_botao(Rect2(100, 574, 160, 26), "Ver o resto", ta.ver_resto)
+					_botao(Rect2(120, 606, 120, 22), "Sair", ta.concluir)
 				else:
-					_botao(Rect2(100, 560, 160, 30), "Lutar!", ta.lutar)
-					_botao(Rect2(16, 604, 100, 24), "Voltar", func() -> void: _ir("arcade"))
-					_botao(Rect2(244, 604, 100, 24), "Desistir", ta.concluir)
+					_botao(Rect2(100, 556, 160, 30), "Lutar!", ta.lutar)
+					_botao(Rect2(20, 600, 120, 24), "Voltar", func() -> void: _ir("arcade"))
+					_botao(Rect2(220, 600, 120, 24), "Desistir", ta.concluir)
 		"falas":
 			pass
 

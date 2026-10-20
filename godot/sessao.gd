@@ -365,8 +365,20 @@ func valor_troca(cid: String, foil: bool) -> int:
 
 ## Compra e sorteia um booster: 3 cartas (Abismo fora), pelo menos 1 Entidade. As cartas já entram na coleção (e o
 ## save é gravado) antes da animação, para não se perderem se o app fechar. Devolve [{id, foil, nova}] ou [] sem moedas.
-func comprar_booster() -> Array:
-	if not gastar_moedas(BOOSTER_PRECO):
+func boosters_gratis() -> int:
+	return int(perfil.get("boosters_gratis", 0))
+
+
+func usar_booster_gratis() -> bool:
+	if boosters_gratis() <= 0:
+		return false
+	perfil["boosters_gratis"] = boosters_gratis() - 1
+	salvar()
+	return true
+
+
+func comprar_booster(gratis := false) -> Array:
+	if not gratis and not gastar_moedas(BOOSTER_PRECO):
 		return []
 	var comuns: Array = []
 	var lendarias: Array = []
@@ -519,6 +531,8 @@ func ta_pagar() -> int:
 	var p := int(d.get("premio", -1))
 	if p > 0 and not d.get("pago", false):
 		perfil["moedas"] = moedas() + p
+		if p >= PREMIO_TA[3]:                            # campeão também ganha um booster
+			perfil["boosters_gratis"] = boosters_gratis() + 1
 		d["pago"] = true
 		salvar()
 		return p

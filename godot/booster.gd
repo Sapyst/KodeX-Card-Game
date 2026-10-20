@@ -50,8 +50,10 @@ func y_corte() -> float:
 
 
 # ---------------- ciclo ----------------
-func comprar() -> void:
-	var r: Array = Sessao.comprar_booster()
+func comprar(gratis := false) -> void:
+	if gratis and not Sessao.usar_booster_gratis():
+		gratis = false
+	var r: Array = Sessao.comprar_booster(gratis)
 	if r.is_empty():
 		f.mp.avisar(Sessao.t("Moedas insuficientes."))
 		f.vibrar(30, 0.6)
@@ -245,11 +247,11 @@ func concluir() -> void:
 # ---------------- desenho ----------------
 ## Pacote holográfico: corpo com faixas arco-íris correndo, reflexo diagonal, serrilhado prata em cima e embaixo,
 ## logo KodeX, "BOOSTER" e moldura dourada. `topo_off`/`topo_rot`: deslocamento da ponta cortada.
-func pacote(ci: CanvasItem, c: Vector2, rot: float, topo_off := Vector2.ZERO, topo_rot := 0.0, alfa := 1.0, separado := false) -> void:
+func pacote(ci: CanvasItem, c: Vector2, rot: float, topo_off := Vector2.ZERO, topo_rot := 0.0, alfa := 1.0, separado := false, esc := 1.0) -> void:
 	var x0 := c.x - PW / 2
 	var y0 := c.y - PH / 2
 	var yc := y_corte() - centro_pacote().y + c.y
-	ci.draw_set_transform(c, rot, Vector2.ONE)
+	ci.draw_set_transform(c, rot, Vector2.ONE * esc)
 	var o := -Vector2(PW, PH) / 2
 	# corpo
 	var corpo_y0 := (yc - c.y) if separado else o.y + CRIMP
@@ -283,7 +285,7 @@ func pacote(ci: CanvasItem, c: Vector2, rot: float, topo_off := Vector2.ZERO, to
 		_crimp(ci, o.y, true, alfa)
 	ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 	if separado:                       # ponta cortada: faixa de cima + 8 px do corpo, com seu próprio movimento
-		ci.draw_set_transform(c + topo_off, rot + topo_rot, Vector2.ONE)
+		ci.draw_set_transform(c + topo_off, rot + topo_rot, Vector2.ONE * esc)
 		ci.draw_rect(Rect2(o.x, o.y + CRIMP, PW, (yc - c.y) - (o.y + CRIMP)), Color(Color("#2a1838").lerp(Color("#c8b0f0"), 0.3), alfa))
 		_crimp(ci, o.y, true, alfa)
 		ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)

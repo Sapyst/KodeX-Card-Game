@@ -40,6 +40,11 @@ Decisões fechadas com o autor (2026-10-20). Números são o ponto de partida; o
 - Versão **especial/rara**: arte **S.A.R.S dark fantasy** (sem Chaotic Shapes), no frame **especial** (arco-íris), com
   **efeito foil holográfico animado** (faixa de luz varrendo, arco-íris sobre os claros, estrelinhas). Sai em boosters.
 - Protótipo: `arte/foil_teste.py` (Boitatá: `arte/indigena/_sars_teste/ind_boitata_v2_0.png`).
+- **Lendária especial: frame full-art aprovado** (`arte/frame/lendaria_fullart.py`, estilo de custo "A"):
+  arte cobrindo a carta inteira; borda de foil escuro com arco-íris animado; degradê escuro só no topo e na base;
+  custo em número grande com filete separando do nome; nome, tipo, palavras-chave, ATK e DEF em Source Serif 4
+  Display (serifa grossa, licença OFL) com preenchimento foil; descrição em Source Serif 4 branca.
+  Tudo centrado pelo desenho real das letras (bbox). O frame **normal** continua o mesmo.
 
 ## Coleção / Codex no jogo (feito na v0.3.0)
 - Menu **Coleção**: abas por tradição, grade de cartas, página de lore (título, resumo, curiosidade) em PT/EN.

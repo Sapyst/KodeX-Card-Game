@@ -876,7 +876,7 @@ func _cabecalho(titulo: String, sub: String) -> void:
 
 
 func _titulo() -> void:
-	_texto_central(Vector2(180, 126), Sessao.t("o torneio do Códice"), Color(0.85, 0.78, 0.66, _entrada(4)))
+	_texto_central(Vector2(180, 158), Sessao.t("o torneio do Códice"), Color(0.85, 0.78, 0.66, _entrada(4)))
 	mpr.desenhar()
 	mp._desenhar_aviso()
 
@@ -1093,6 +1093,6 @@ func _desenhar_logo() -> void:
 	var c1 := 1.70158
 	var e := 1.0 + (c1 + 1.0) * pow(u - 1.0, 3) + c1 * pow(u - 1.0, 2)
 	var esc := e * (1.0 + 0.015 * sin(tempo * 1.6))
-	var w := 220.0 * esc
+	var w := 248.0 * esc
 	var h := w * logo_tex.get_height() / logo_tex.get_width()
-	logo_no.draw_texture_rect(logo_tex, Rect2(Vector2(180 - w / 2.0, 80 - h / 2.0), Vector2(w, h)), false, Color(1, 1, 1, u))
+	logo_no.draw_texture_rect(logo_tex, Rect2(Vector2(180 - w / 2.0, 94 - h / 2.0), Vector2(w, h)), false, Color(1, 1, 1, u))

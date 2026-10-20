@@ -9,6 +9,8 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 FONTE = "/usr/share/fonts/noto/NotoSerifDisplay-Black.ttf"
 W, H = 1900, 700
 rng = random.Random(7)
+X_CX, X_CY = 1530, 330                     # centro do X (a v2 desloca para não cortar o topo)
+RESPINGO = "anel"                          # "anel" (v1) | "traco": respingos seguem a direção de cada pincelada
 
 
 # Letras gregas desenhadas à mão em pixel art (16×22 px cada), estilo inscrição: hastes grossas, serifas em cunha,
@@ -157,19 +159,54 @@ def pincelada(img, p0, p1, larg, rng_np):
             img[y0:y1, x0:x1] = np.maximum(img[y0:y1, x0:x1], carga)
 
 
+def respingos_traco(d, p0, p1, n, semente):
+    """Respingos com a física do pincel: ~80% são lançados para a FRENTE no fim da pincelada (o pincel sai do papel
+    e chicoteia a tinta), num cone de ±20°, menores e mais raros quanto mais longe; ~20% são uma borrifada curta no
+    COMEÇO (impacto do pincel), espirrando para trás e para os lados. Gotas próximas saem alongadas (rastro)."""
+    r_ = random.Random(semente)
+    p0 = np.array(p0, float); p1 = np.array(p1, float)
+    u = (p1 - p0) / np.linalg.norm(p1 - p0)
+    nrm = np.array([-u[1], u[0]])
+    for i in range(n):
+        fim = r_.random() < 0.8
+        if fim:
+            base = p1 - u * r_.uniform(0, 70) + nrm * r_.uniform(-30, 30)
+            ang = r_.gauss(0, 0.2)
+            dist = min(300.0, r_.expovariate(1 / 115.0) + 14)
+            dirv = u * math.cos(ang) + nrm * math.sin(ang)
+            raio = max(1.8, 13.0 * math.exp(-dist / 110.0)) * r_.uniform(0.6, 1.25)
+        else:
+            base = p0 + u * r_.uniform(0, 40) + nrm * r_.uniform(-40, 40)
+            ang = r_.uniform(-1.4, 1.4)
+            dist = r_.uniform(6, 55)
+            dirv = -u * math.cos(ang) + nrm * math.sin(ang)
+            raio = r_.uniform(1.5, 4.5)
+        c = base + dirv * dist
+        passos = 3 if (fim and dist < 90 and raio > 3) else 1    # gotas perto do pincel saem esticadas
+        for k in range(passos):
+            q = c - dirv * k * raio * 0.9
+            rr = raio * (1.0 - k * 0.25)
+            d.ellipse((q[0] - rr, q[1] - rr, q[0] + rr, q[1] + rr), fill=int(255 * r_.uniform(0.75, 1.0)))
+
+
 def x_de_tinta():
     """X de pincel seco, vermelho-escuro quase preto, maior que as letras, invadindo um pouco o Ε, com respingos."""
     rng_np = np.random.default_rng(11)
     a = np.zeros((H, W), np.float32)
-    cx, cy = 1530, 330                                         # mais à esquerda: o braço de baixo cobre parte do Ε
+    cx, cy = X_CX, X_CY                                        # mais à esquerda: o braço de baixo cobre parte do Ε
     def gira(px, py, ang=math.radians(-9)):                  # X torto, tombado na diagonal
         dx, dy = px - cx, py - cy
         return (cx + dx * math.cos(ang) - dy * math.sin(ang), cy + dx * math.sin(ang) + dy * math.cos(ang))
-    pincelada(a, gira(cx - 255, cy - 300), gira(cx + 245, cy + 290), 78, rng_np)
-    pincelada(a, gira(cx + 235, cy - 300), gira(cx - 260, cy + 285), 70, rng_np)
+    t1 = (gira(cx - 255, cy - 300), gira(cx + 245, cy + 290))
+    t2 = (gira(cx + 235, cy - 300), gira(cx - 260, cy + 285))
+    pincelada(a, t1[0], t1[1], 78, rng_np)
+    pincelada(a, t2[0], t2[1], 70, rng_np)
     m = Image.fromarray((a * 255).astype(np.uint8))
     d = ImageDraw.Draw(m)
-    for _ in range(38):                                        # respingos e gotas
+    if RESPINGO == "traco":
+        respingos_traco(d, t1[0], t1[1], 30, 5)
+        respingos_traco(d, t2[0], t2[1], 26, 9)
+    for _ in range(38 if RESPINGO == "anel" else 0):          # respingos e gotas (v1: anel em volta)
         ang = rng.uniform(0, math.tau); dist = rng.uniform(170, 330)
         r = rng.choice([2, 3, 3, 5, 7, 10])
         x, y = cx + math.cos(ang) * dist, cy + math.sin(ang) * dist * 0.9

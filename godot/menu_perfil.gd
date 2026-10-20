@@ -385,32 +385,49 @@ func _rect(k: int) -> Rect2:
 	return Rect2(16 + (k % 5) * (GW + 6), GTOPO + 4 + (k / 5) * GPASSO - rolagem, GW, GH)
 
 
+## Toque numa carta da grade: abre o visor (alta resolução, lore no swipe) com os botões de adicionar/tirar.
 func tocar_grade(p: Vector2) -> void:
 	if p.y < GTOPO or p.y > GBASE:
 		return
 	for k in _ids.size():
-		if not _rect(k).has_point(p):
+		var r := _rect(k)
+		if not r.has_point(p):
 			continue
 		var cid: String = _ids[k]
 		var deck: Array = Sessao.perfil["decks"][deck_idx]["cartas"]
-		if aba_deck == "deck":
-			deck.erase(cid)
-			Sessao.salvar()
-			f.vibrar(10, 0.3)
-			_montar_lista()
-		elif Sessao.pode_por_no_deck(cid, deck_idx):
-			deck.append(cid)
-			Sessao.salvar()
-			f.vibrar(12, 0.4)
-		else:
-			f.vibrar(30, 0.6)
-			if deck.size() >= Sessao.DECK_TAM:
-				avisar(Sessao.t("O deck já tem 32 cartas."))
-			elif deck.count(cid) >= (1 if Sessao.db["cartas"][cid]["lendaria"] else 2):
-				avisar(Sessao.t("Limite de cópias desta carta no deck."))
-			else:
-				avisar(Sessao.t("Todas as suas cópias já estão em uso."))
+		f.visor.abrir(cid, r, [
+			{"texto": "+ ADICIONAR", "acao": adicionar.bind(cid), "ativo": func() -> bool: return Sessao.pode_por_no_deck(cid, deck_idx)},
+			{"texto": "- TIRAR", "acao": tirar.bind(cid), "ativo": func() -> bool: return deck.has(cid)}],
+			func() -> String:
+				var livres := Sessao.copias(cid) - Sessao.copias_em_uso(cid, deck_idx) - deck.count(cid)
+				return Sessao.t("NO DECK %d  -  LIVRES %d") % [deck.count(cid), maxi(livres, 0)])
 		return
+
+
+func adicionar(cid: String) -> void:
+	var deck: Array = Sessao.perfil["decks"][deck_idx]["cartas"]
+	if Sessao.pode_por_no_deck(cid, deck_idx):
+		deck.append(cid)
+		Sessao.salvar()
+		f.vibrar(12, 0.4)
+		_montar_lista()
+		return
+	f.vibrar(30, 0.6)
+	if deck.size() >= Sessao.DECK_TAM:
+		avisar(Sessao.t("O deck já tem 32 cartas."))
+	elif deck.count(cid) >= (1 if Sessao.db["cartas"][cid]["lendaria"] else 2):
+		avisar(Sessao.t("Limite de cópias desta carta no deck."))
+	else:
+		avisar(Sessao.t("Todas as suas cópias já estão em uso."))
+
+
+func tirar(cid: String) -> void:
+	var deck: Array = Sessao.perfil["decks"][deck_idx]["cartas"]
+	if deck.has(cid):
+		deck.erase(cid)
+		Sessao.salvar()
+		f.vibrar(10, 0.3)
+		_montar_lista()
 
 
 func desenhar_deck_edit() -> void:

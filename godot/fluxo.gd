@@ -47,6 +47,7 @@ func _enquadrar() -> void:
 
 var col: Colecao
 var mp: MenuPerfil
+var visor: Visor
 var bo: Booster
 var ta: TorneioArcade
 var _rolando := false                 # dedo encostado na Coleção (arrastando a grade)
@@ -62,6 +63,9 @@ func _ready() -> void:
 		Sessao.perfil["nome"] = OS.get_environment("GD_NOME_TESTE")
 	col = Colecao.new(self)
 	mp = MenuPerfil.new(self)
+	visor = Visor.new()
+	visor.f = self
+	add_child(visor)
 	bo = Booster.new(self)
 	ta = TorneioArcade.new(self)
 	arcade["meu_deck"] = str(int(Sessao.perfil["deck_ativo"]))
@@ -107,6 +111,9 @@ func _ready() -> void:
 	if OS.get_environment("GD_FOIL_TESTE") != "":            # teste: dá uma foil ao perfil
 		Sessao.perfil["colecao"][OS.get_environment("GD_FOIL_TESTE")] = 1
 		Sessao.perfil["foils"][OS.get_environment("GD_FOIL_TESTE")] = 1
+	if OS.get_environment("GD_TESTE_VISOR") != "":            # teste: abre, sobe a lore, volta, fecha puxando
+		mp.abrir_deck(0)
+		_teste_visor()
 	if OS.get_environment("GD_COL_CARTA") != "":              # teste: abre a página de lore de uma carta
 		col.abrir_aba(OS.get_environment("GD_COL_ABA") if OS.get_environment("GD_COL_ABA") != "" else "alta_magia")
 		col.abrir_carta(OS.get_environment("GD_COL_CARTA"))
@@ -380,6 +387,16 @@ func _unhandled_input(ev: InputEvent) -> void:
 	# no celular cada toque chega também como mouse emulado (device -1): sem isto o toque contava duas vezes
 	if (ev is InputEventMouseButton or ev is InputEventMouseMotion) and ev.device == InputEvent.DEVICE_ID_EMULATION:
 		return
+	if visor.aberto():                                       # visor de carta por cima de tudo
+		var pv: Vector2 = get_canvas_transform().affine_inverse() * (ev.position as Vector2) - position if "position" in ev else Vector2.ZERO
+		if ev is InputEventScreenTouch or (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT):
+			if ev.pressed:
+				visor.pressionar(pv)
+			else:
+				visor.soltar(pv)
+		elif ev is InputEventScreenDrag or ev is InputEventMouseMotion:
+			visor.mover(pv)
+		return
 	if estado == "recorte" and _entrada_recorte(ev):
 		return
 	if estado == "booster" and _entrada_booster(ev):
@@ -481,9 +498,8 @@ func _toque_colecao(p: Vector2, pressed: bool) -> void:
 	if era and not _rol_moveu and estado == "colecao" and apertado < 0:
 		var cid := col.tocar(p)
 		if cid != "":
-			vibrar(12, 0.4)
-			col.abrir_carta(cid)
-			_ir("lore")
+			var k := col._ids.find(cid)
+			visor.abrir(cid, col._rect_carta(k).intersection(Rect2(0, Colecao.TOPO, 360, Colecao.BASE - Colecao.TOPO)))
 
 
 ## Recorte da foto: 1 dedo arrasta, 2 dedos aproximam (pinça), roda do mouse dá zoom. Toques fora da janela vão
@@ -508,6 +524,30 @@ func _entrada_recorte(ev: InputEvent) -> bool:
 			mp.arrastar_recorte(idx2, p2)
 			return true
 	return false
+
+
+func _teste_visor() -> void:
+	await get_tree().create_timer(1.0).timeout
+	mp.tocar_grade(mp._rect(7).get_center())
+	var gesto := func(dy: float) -> void:
+		visor.pressionar(Vector2(180, 300))
+		for k in 12:
+			visor.mover(Vector2(180, 300 + dy * k / 11.0))
+			await get_tree().process_frame
+		visor.soltar(Vector2(180, 300 + dy))
+	await get_tree().create_timer(1.6).timeout
+	await gesto.call(-120.0)
+	await get_tree().create_timer(2.4).timeout
+	await gesto.call(120.0)
+	await get_tree().create_timer(1.4).timeout
+	await gesto.call(150.0)
+	await get_tree().create_timer(1.2).timeout
+	visor.abrir(mp._ids[3], mp._rect(3))
+	await get_tree().create_timer(1.2).timeout
+	visor.pressionar(Vector2(340, 600))
+	visor.soltar(Vector2(340, 600))
+	await get_tree().create_timer(1.2).timeout
+	get_tree().quit()
 
 
 func _teste_recorte() -> void:

@@ -153,6 +153,28 @@ func _ready() -> void:
 		await get_tree().create_timer(1.0).timeout
 		get_tree().quit()
 		return
+	if OS.get_environment("GD_TESTE_CEMIT") != "":             # teste visual: monte do cemitério + carrossel de ver
+		var ids := ["tao_lan_caihe", "tao_he_xiangu", "tao_nezha", "tao_zhong_kui", "tao_guan_yu", "tao_lu_dongbin", "tao_flechas_de_houyi"]
+		for cid in ids:
+			cemit[0].append({"dados": db["cartas"][cid], "no": null})
+			await get_tree().create_timer(0.35).timeout
+		var c := _nova_carta(proj(DECK_JOG), 1.0)
+		c.definir(db["cartas"]["tao_erlang_shen"], 0)
+		c.virada_para_cima = true
+		await _por_em_campo(c, 0, 1)
+		await get_tree().create_timer(0.6).timeout
+		motor.morrer(c, false)
+		await get_tree().create_timer(2.2).timeout
+		abrir_cemiterio(0)
+		await get_tree().create_timer(1.6).timeout
+		carrossel.vel = 7.0
+		await get_tree().create_timer(1.6).timeout
+		carrossel.vel = -10.0
+		await get_tree().create_timer(2.0).timeout
+		await carrossel.fechar()
+		await get_tree().create_timer(1.5).timeout
+		get_tree().quit()
+		return
 	if OS.get_environment("GD_TESTE_GALERIA") != "":           # teste visual da galeria do cemitério
 		var fal: Array = []
 		for cid in ["tao_lu_dongbin", "tao_lan_caihe", "tao_erlang_shen", "tao_nezha", "tao_zhang_guolao", "tao_guan_yu", "tao_xiwangmu", "tao_cao_guojiu"]:

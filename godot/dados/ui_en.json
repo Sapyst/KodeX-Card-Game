@@ -198,5 +198,11 @@
  "CEMITÉRIO DELE": "THEIR GRAVEYARD",
  "FECHAR": "CLOSE",
  "toque na carta para reviver": "tap the card to revive",
- "deslize para os lados": "swipe sideways"
+ "deslize para os lados": "swipe sideways",
+ "+ ADICIONAR": "+ ADD",
+ "- TIRAR": "- REMOVE",
+ "NO DECK %d  -  LIVRES %d": "IN DECK %d  -  FREE %d",
+ "DESLIZE PARA CIMA: LORE": "SWIPE UP: LORE",
+ "PARA BAIXO OU TOQUE FORA: VOLTAR": "SWIPE DOWN OR TAP OUTSIDE: BACK",
+ "BAIXO: CARTA  -  CIMA: FECHAR": "DOWN: CARD  -  UP: CLOSE"
 }

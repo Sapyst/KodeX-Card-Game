@@ -63,6 +63,7 @@ func fechar() -> void:
 	await get_tree().create_timer(0.55).timeout
 	modo = ""
 	itens = []
+	queue_redraw()                    # apaga o último quadro desenhado (senão o carrossel fica "congelado" na mesa)
 
 
 ## Escolha (reviver): abre, espera o toque na carta do centro (ou PULAR) e devolve o índice ou -1.

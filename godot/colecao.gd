@@ -123,7 +123,7 @@ func desenhar_grade(ci: CanvasItem) -> void:
 				PixelFonte.desenhar(ci, Vector2(r.end.x - wx + 2, r.end.y - 8), sx, f.OURO[0])
 		if cid in Sessao.arte_revisao and r.position.y + 8 > TOPO and r.position.y + 8 < BASE:
 			# selo "em revisão": faixinha no canto de cima, pulsando
-			var s := Sessao.t("REVISAO")
+			var s := Sessao.t("REVISÃO")
 			var w := PixelFonte.largura(s) + 6
 			var fx := Rect2(r.end.x - w - 2, r.position.y + 2, w, 9)
 			ci.draw_rect(fx, Color(0.55, 0.12, 0.12, 0.85 + 0.15 * pulso))

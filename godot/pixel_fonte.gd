@@ -11,26 +11,36 @@ const G := {
 	"S": ["011", "100", "010", "001", "110"], "T": ["111", "010", "010", "010", "010"], "U": ["101", "101", "101", "101", "011"],
 	"V": ["101", "101", "101", "010", "010"], "W": ["101", "101", "111", "111", "101"], "X": ["101", "101", "010", "101", "101"],
 	"Y": ["101", "101", "010", "010", "010"], "Z": ["111", "001", "010", "100", "111"],
-	"Ó": ["010", "000", "111", "101", "111"], "Á": ["010", "000", "111", "111", "101"],
 	"0": ["111", "101", "101", "101", "111"], "1": ["010", "110", "010", "010", "111"], "2": ["111", "001", "111", "100", "111"],
 	"3": ["111", "001", "011", "001", "111"], "4": ["101", "101", "111", "001", "001"], "5": ["111", "100", "111", "001", "111"],
 	"6": ["111", "100", "111", "101", "111"], "7": ["111", "001", "010", "010", "010"], "8": ["111", "101", "111", "101", "111"],
 	"9": ["111", "101", "111", "001", "111"], "/": ["001", "001", "010", "100", "100"], "-": ["000", "000", "111", "000", "000"],
 	"+": ["000", "010", "111", "010", "000"], "!": ["010", "010", "010", "000", "010"], "?": ["110", "001", "010", "000", "010"],
+	"(": ["010", "100", "100", "100", "010"], ")": ["010", "001", "001", "001", "010"],
 	":": ["000", "010", "000", "010", "000"], ".": ["000", "000", "000", "000", "010"], " ": ["000", "000", "000", "000", "000"],
 }
 
 
-const SEM_ACENTO := {"À": "A", "Â": "A", "Ã": "A", "É": "E", "Ê": "E", "Í": "I", "Ô": "O", "Õ": "O", "Ú": "U", "Ü": "U",
-	"Ç": "C", "Ð": "D", "Ñ": "N", "—": "-", "–": "-", "·": "-", "→": "-", ";": " ", ",": " ", "'": " ", "\"": " ",
-	"(": " ", ")": " ", "×": "X", "*": "+"}
+const SEM_ACENTO := {"Ð": "D", "—": "-", "–": "-", "·": "-", "→": "-", ";": " ", ",": " ", "'": " ", "\"": " ",
+	"×": "X", "*": "+"}
+
+## Letras acentuadas: letra base + marca. Acentos ficam 1 px acima da letra (linhas -3 e -2); a cedilha, embaixo (5 e 6).
+const ACENTOS := {"Á": ["A", "agudo"], "À": ["A", "grave"], "Â": ["A", "circ"], "Ã": ["A", "til"], "Ä": ["A", "trema"],
+	"É": ["E", "agudo"], "È": ["E", "grave"], "Ê": ["E", "circ"], "Ë": ["E", "trema"],
+	"Í": ["I", "agudo"], "Ì": ["I", "grave"], "Î": ["I", "circ"], "Ï": ["I", "trema"],
+	"Ó": ["O", "agudo"], "Ò": ["O", "grave"], "Ô": ["O", "circ"], "Õ": ["O", "til"], "Ö": ["O", "trema"],
+	"Ú": ["U", "agudo"], "Ù": ["U", "grave"], "Û": ["U", "circ"], "Ü": ["U", "trema"],
+	"Ç": ["C", "cedilha"], "Ñ": ["N", "til"]}
+const MARCAS := {"agudo": [Vector2(2, -3), Vector2(1, -2)], "grave": [Vector2(0, -3), Vector2(1, -2)],
+	"circ": [Vector2(1, -3), Vector2(0, -2), Vector2(2, -2)], "til": [Vector2(1, -3), Vector2(2, -3), Vector2(0, -2), Vector2(1, -2)],
+	"trema": [Vector2(0, -2), Vector2(2, -2)], "cedilha": [Vector2(1, 5), Vector2(1, 6), Vector2(0, 6)]}
 
 
 ## Normaliza para a fonte 3×5: maiúsculas; acentos sem glifo próprio caem na letra base.
 static func normalizar(s: String) -> String:
 	var out := ""
 	for ch in s.to_upper():
-		out += SEM_ACENTO.get(ch, ch) if not G.has(ch) else ch
+		out += ch if (G.has(ch) or ACENTOS.has(ch)) else SEM_ACENTO.get(ch, ch)
 	return out
 
 
@@ -43,12 +53,16 @@ static func desenhar(ci: CanvasItem, pos: Vector2, s: String, cor: Color, esc: i
 	var pts: Array[Vector2] = []
 	var x := 0
 	for ch in normalizar(s):
-		var g: Array = G.get(ch, G["-"])
+		var base: String = ACENTOS[ch][0] if ACENTOS.has(ch) else ch
+		var g: Array = G.get(base, G["-"])
 		for yy in 5:
 			var row: String = g[yy]
 			for xx in 3:
 				if row[xx] == "1":
 					pts.append(Vector2(x + xx, yy))
+		if ACENTOS.has(ch):
+			for m in MARCAS[ACENTOS[ch][1]]:
+				pts.append(Vector2(x, 0) + m)
 		x += 4
 	if contorno.a > 0.0:
 		for p in pts:

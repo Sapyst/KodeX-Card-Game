@@ -257,15 +257,15 @@ func _desenhar_zoom() -> void:
 			draw_rect(Rect2(180 - w / 2.0, 92, w, 16), Color("#5a1a1a"))
 			PixelFonte.centrado(self, Vector2(180, 100), Sessao.t(s), Color("#ffd0d0"), 2)
 		return
-	var tipo_txt: String = Sessao.t({"entidade": "ENTIDADE", "selo": "SELO", "rito": "RITO", "reliquia": "RELIQUIA"}.get(c.tipo, c.tipo.to_upper()))
+	var tipo_txt: String = Sessao.t({"entidade": "ENTIDADE", "selo": "SELO", "rito": "RITO", "reliquia": "RELÍQUIA"}.get(c.tipo, c.tipo.to_upper()))
 	var linha2 := "%s  -  CUSTO %d" % [tipo_txt, c.custo]
 	if c.tipo == "entidade":
 		linha2 += "  -  ATK %d  DEF %d" % [c.atk, maxi(c.vida(), 0)]
 	if c.lendaria:
-		linha2 += "  -  LENDARIA"
+		linha2 += "  -  LENDÁRIA"
 	var kws := ""
 	for k in c.keywords:
-		kws += Sessao.t({"guarda": "GUARDA", "impeto": "IMPETO", "furtivo": "FURTIVO", "renascer": "RENASCER"}.get(k, "")) + " "
+		kws += Sessao.t({"guarda": "GUARDA", "impeto": "ÍMPETO", "furtivo": "FURTIVO", "renascer": "RENASCER"}.get(k, "")) + " "
 	var linhas := PixelFonte.quebrar(c.texto, 79)
 	var h := 12 + 12 + 8 + (8 if kws != "" else 0) + linhas.size() * 7 + 8
 	var y0 := 250.0 - h / 2.0 if c.global_position.y > 320 else 390.0 - h / 2.0

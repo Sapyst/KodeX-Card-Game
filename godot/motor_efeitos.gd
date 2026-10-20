@@ -115,13 +115,13 @@ static func rotulo(a: Dictionary) -> String:
 		"summon": return "INVOCA " + str(a.get("nome", "TOKEN")).to_upper()
 		"revive": return "REVIVE"
 		"discard": return "DESCARTE %d" % n
-		"gain_fe": return "+%d FE" % n
-		"silence": return "SILENCIO"
+		"gain_fe": return "+%d FÉ" % n
+		"silence": return "SILÊNCIO"
 		"freeze": return "CONGELAR"
 		"counter": return "ANULADO"
 		"give_keyword": return str(a.get("keyword", "")).to_upper()
 		"set_stats": return "%d/%d" % [int(a.get("atk", 0)), int(a.get("vida", 0))]
-		"copy_stats": return "COPIA"
+		"copy_stats": return "CÓPIA"
 		"swap_control": return "DOMINAR"
 		"win": return "CHORONZON"
 		"ritual_choronzon": return "SIGILO 333"
@@ -465,8 +465,8 @@ func _anunciar_fonte(c: Carta, gat: String) -> void:
 	_linha_txt = 0
 	if not is_instance_valid(c):
 		return
-	var nome_gat: String = {"on_play": "DESPERTAR", "on_death": "ULTIMO SOPRO", "on_attack": "AO ATACAR",
-		"on_damaged": "AO SOFRER DANO", "ally_attacked": "PROTECAO", "start_turn": "INICIO DO TURNO",
+	var nome_gat: String = {"on_play": "DESPERTAR", "on_death": "ÚLTIMO SOPRO", "on_attack": "AO ATACAR",
+		"on_damaged": "AO SOFRER DANO", "ally_attacked": "PROTEÇÃO", "start_turn": "INÍCIO DO TURNO",
 		"end_turn": "FIM DO TURNO", "ally_dies": "ALIADA MORREU", "enemy_dies": "INIMIGA MORREU"}.get(gat, "")
 	if c.em_campo:
 		m._piscar(c)
@@ -598,7 +598,7 @@ func executar_acao(a: Dictionary, ctx: Dictionary) -> void:
 			var n := int(a.get("n", 1))
 			if a.get("perm", false):
 				m.fe_max[dono] = mini(FE_MAX, m.fe_max[dono] + n)
-				_texto_centro("+%d FE MAX" % n, COR_FE)
+				_texto_centro("+%d FÉ MÁX" % n, COR_FE)
 			else:
 				m.fe[dono] += n
 				_texto_centro(rotulo(a), COR_FE)
@@ -710,7 +710,7 @@ func aplicar_em_alvo(op: String, a: Dictionary, t, ctx: Dictionary) -> void:
 				t.silenciada = true
 				recalcular_auras()
 				m.efeitos.faiscas(t.position, 12, COR_MUDO)
-				m.efeitos.numero(t.position + Vector2(0, -20), "SILENCIO", COR_MUDO, 1)
+				m.efeitos.numero(t.position + Vector2(0, -20), "SILÊNCIO", COR_MUDO, 1)
 		"freeze":
 			if t is Carta:
 				t.congelada = true

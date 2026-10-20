@@ -231,7 +231,7 @@ func _frente(x0: int, y0: int) -> void:
 		"rito":
 			PixelFonte.centrado(self, Vector2(x0 + LARG / 2, y0 + ALT - 7), Sessao.t("RITO"), Color("#a8e0b8"))
 		"reliquia":
-			PixelFonte.centrado(self, Vector2(x0 + LARG / 2, y0 + ALT - 7), Sessao.t("RELIQUIA"), Color("#ffe39a"))
+			PixelFonte.centrado(self, Vector2(x0 + LARG / 2, y0 + ALT - 7), Sessao.t("RELÍQUIA"), Color("#ffe39a"))
 
 
 ## Vira no ar: escala X → 0 (troca a face) → volta, levantando junto.

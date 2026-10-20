@@ -1531,8 +1531,8 @@ func _comprar(d: int) -> void:
 	if deck.is_empty() and modo_partida and _pode_reembaralhar(d):
 		var sim := true
 		if motor.humano(d):
-			sim = await pedir_sim_nao("DECK VAZIO", "REEMBARALHAR O CEMITERIO: -%d CORNUCOPIA" % CUSTO_REEMBARALHAR,
-				"REEMBARALHAR", "NAO  (-2)")
+			sim = await pedir_sim_nao("DECK VAZIO", "REEMBARALHAR O CEMITÉRIO: -%d CORNUCÓPIA" % CUSTO_REEMBARALHAR,
+				"REEMBARALHAR", "NÃO  (-2)")
 		elif cemit[d].size() < 3 and cornucopia[d] < 10:
 			sim = false                                  # IA: com quase nada no cemitério, prefere a fadiga
 		if sim:
@@ -1630,7 +1630,7 @@ func _receber_comprada(d: int, c: Carta, queimar := true) -> void:
 	if queimar and mao.size() >= MAO_MAX:
 		if not c.virada_para_cima:
 			await c.virar(0.2)
-		efeitos.numero(c.position + Vector2(0, -40), "MAO CHEIA", Color("#ffd0a0"), 1)
+		efeitos.numero(c.position + Vector2(0, -40), "MÃO CHEIA", Color("#ffd0a0"), 1)
 		await get_tree().create_timer(0.3).timeout
 		efeitos.estilhacar(c.position, c.cores_estilhaco(), int(Carta.LARG * c.scale.x), int(Carta.ALT * c.scale.y))
 		cemit[d].append({"dados": c.dados, "no": null})
@@ -1932,20 +1932,20 @@ func _portadoras(d: int) -> Array:
 ## "" = pode jogar; senão um motivo curto (mostrado sobre a carta).
 func _motivo_jogar(c: Carta, d: int) -> String:
 	if c.custo > fe[d]:
-		return "SEM FE"
+		return "SEM FÉ"
 	match c.tipo:
 		"entidade":
 			var sac := int(c.dados.get("sacrificio", 0))
 			var n := motor.campo(d).size()
 			if sac > 0 and n < sac:
-				return "SACRIFICIO %d" % sac
+				return "SACRIFÍCIO %d" % sac
 			if n - sac >= 4:
 				return "CAMPO CHEIO"
 		"selo":
 			if selo_no_turno:
 				return "1 SELO POR TURNO"
 			if _espaco_livre(campo_selo[d]) < 0:
-				return "SEM ESPACO"
+				return "SEM ESPAÇO"
 		"reliquia":
 			if _portadoras(d).is_empty():
 				return "SEM PORTADORA"
@@ -2090,7 +2090,7 @@ func _jogar_entidade(c: Carta, d: int, i: int, sacrificios: Array = []) -> void:
 	_rearrumar_de(d)
 	c.apagada = false
 	for s in sacrificios:
-		efeitos.numero((s as Carta).position + Vector2(0, -30), "SACRIFICIO", Color("#e0a8ff"), 1)
+		efeitos.numero((s as Carta).position + Vector2(0, -30), "SACRIFÍCIO", Color("#e0a8ff"), 1)
 		await motor.morrer(s, false)
 	await motor.processar_mortes()
 	if i < 0 or campo_ent[d][i] != null:
@@ -2103,7 +2103,7 @@ func _jogar_entidade(c: Carta, d: int, i: int, sacrificios: Array = []) -> void:
 	if d == 1:
 		await _vitrine(c, 1.0, Color("#ff9a8a"))
 	if c.tem("impeto"):
-		efeitos.numero(c.position + Vector2(0, -34), "IMPETO", Color("#ffe39a"), 1)
+		efeitos.numero(c.position + Vector2(0, -34), "ÍMPETO", Color("#ffe39a"), 1)
 	var ctx := {"triggering": c, "attacker": null}
 	await motor.disparar_selos("enemy_plays_entity", 1 - d, ctx)
 	if ctx.get("anulado", false):
@@ -2243,10 +2243,10 @@ func _pode_atacar(c: Carta, alvo: Carta) -> String:
 	if c.cansada and not c.tem("impeto"):
 		return "CANSADA"
 	if c.atacou:
-		return "JA ATACOU"
+		return "JÁ ATACOU"
 	var inimigo := 1 - c.dono
 	if alvo == null:
-		return "" if _campo_vazio(inimigo) else "HA DEFENSORES"
+		return "" if _campo_vazio(inimigo) else "HÁ DEFENSORES"
 	var guardas: Array = []
 	for i in 4:
 		var e = campo_ent[inimigo][i]

@@ -47,6 +47,7 @@ func _enquadrar() -> void:
 
 var col: Colecao
 var mp: MenuPerfil
+var bo: Booster
 var _rolando := false                 # dedo encostado na Coleção (arrastando a grade)
 var _rol_ini := Vector2.ZERO
 var _rol_ult := Vector2.ZERO
@@ -60,6 +61,7 @@ func _ready() -> void:
 		Sessao.perfil["nome"] = OS.get_environment("GD_NOME_TESTE")
 	col = Colecao.new(self)
 	mp = MenuPerfil.new(self)
+	bo = Booster.new(self)
 	arcade["meu_deck"] = str(int(Sessao.perfil["deck_ativo"]))
 	# logo KodeX desenhado num nó próprio com filtro linear (o resto da UI é pixel, filtro nearest)
 	logo_tex = load("res://assets/logo.png") if ResourceLoader.exists("res://assets/logo.png") else null
@@ -84,8 +86,14 @@ func _ready() -> void:
 			mp.abrir_deck(0)
 		else:
 			_ir(OS.get_environment("GD_FLUXO_TELA"))
+	if OS.get_environment("GD_BOOSTER_AUTO") != "":           # teste: compra e abre um booster sozinho
+		_ir("loja")
+		get_tree().create_timer(0.6).timeout.connect(bo.comprar)
 	if OS.get_environment("GD_TESTE_RECORTE") != "":          # teste: abre a foto, aproxima, arrasta e confirma
 		_teste_recorte()
+	if OS.get_environment("GD_FOIL_TESTE") != "":            # teste: dá uma foil ao perfil
+		Sessao.perfil["colecao"][OS.get_environment("GD_FOIL_TESTE")] = 1
+		Sessao.perfil["foils"][OS.get_environment("GD_FOIL_TESTE")] = 1
 	if OS.get_environment("GD_COL_CARTA") != "":              # teste: abre a página de lore de uma carta
 		col.abrir_aba(OS.get_environment("GD_COL_ABA") if OS.get_environment("GD_COL_ABA") != "" else "alta_magia")
 		col.abrir_carta(OS.get_environment("GD_COL_CARTA"))
@@ -111,6 +119,8 @@ func _process(delta: float) -> void:
 		b["p"] += (b["v"] as Vector2) * delta + Vector2(sin(tempo * 1.7 + b["fase"]) * 6.0 * delta, 0)
 	brasas = brasas.filter(func(b: Dictionary) -> bool: return b["t"] < b["vida"])
 	mp.atualizar(delta, _rolando)
+	if estado == "booster":
+		bo.atualizar(delta)
 	if estado == "colecao":
 		col.atualizar(delta, _rolando)
 	elif estado == "lore":
@@ -131,12 +141,13 @@ func _ir(novo: String) -> void:
 	match novo:
 		"titulo":
 			_botao(Rect2(8, 4, 344, 36), "", func() -> void: _ir("perfil"), {"desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: mp.barra_titulo()})
-			_botao(Rect2(90, 360, 180, 28), "Torneio", _torneio)
-			_botao(Rect2(90, 394, 180, 28), "Arcade", func() -> void: _ir("arcade"))
-			_botao(Rect2(90, 428, 180, 28), "Tutorial", _comecar_tutorial)
-			_botao(Rect2(90, 462, 180, 28), "Coleção", func() -> void: col.abrir_aba(col.aba); _ir("colecao"))
-			_botao(Rect2(90, 496, 180, 28), "Decks", func() -> void: _ir("decks"))
-			_botao(Rect2(120, 534, 120, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("titulo"), {"idioma": true})
+			_botao(Rect2(90, 350, 180, 26), "Torneio", _torneio)
+			_botao(Rect2(90, 381, 180, 26), "Arcade", func() -> void: _ir("arcade"))
+			_botao(Rect2(90, 412, 180, 26), "Loja", func() -> void: _ir("loja"))
+			_botao(Rect2(90, 443, 180, 26), "Coleção", func() -> void: col.abrir_aba(col.aba); _ir("colecao"))
+			_botao(Rect2(90, 474, 180, 26), "Decks", func() -> void: _ir("decks"))
+			_botao(Rect2(90, 505, 180, 26), "Tutorial", _comecar_tutorial)
+			_botao(Rect2(120, 540, 120, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("titulo"), {"idioma": true})
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
@@ -159,6 +170,18 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(224, 440, 40, 26), "+", func() -> void: mp.zoom(1.15))
 			_botao(Rect2(90, 484, 180, 30), "Confirmar", mp.confirmar_recorte)
 			_botao(Rect2(110, 524, 140, 24), "Cancelar", func() -> void: _ir("perfil"))
+		"loja":
+			_botao(Rect2(90, 404, 180, 30), "Comprar booster", bo.comprar)
+			_botao(Rect2(110, 600, 140, 26), "Voltar", func() -> void: _ir("titulo"))
+		"booster":
+			if bo.etapa == "fim":
+				for k in 3:
+					if not bo.cartas[k]["nova"]:
+						_botao(Rect2(Booster.X_CARTAS[k] - 42, Booster.Y_CARTAS + Booster.CH / 2 + 24, 84, 22), "", bo.alternar_troca.bind(k),
+							{"carta": k, "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: bo.botao_troca(b, r, pr)})
+				_botao(Rect2(90, 536, 180, 30), "Concluir", bo.concluir)
+				if Sessao.moedas() >= Sessao.BOOSTER_PRECO:
+					_botao(Rect2(110, 574, 140, 26), "Abrir outro", func() -> void: bo.concluir(); bo.comprar())
 		"decks":
 			for i in Sessao.perfil["decks"].size():
 				_botao(Rect2(30, 92 + i * 46, 300, 40), "", mp.abrir_deck.bind(i), {"deck_idx": i, "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mp.botao_deck(b, r, pr)})
@@ -326,6 +349,8 @@ func _unhandled_input(ev: InputEvent) -> void:
 		return
 	if estado == "recorte" and _entrada_recorte(ev):
 		return
+	if estado == "booster" and _entrada_booster(ev):
+		return
 	var botao_ev: bool = (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT) or ev is InputEventScreenTouch
 	if botao_ev:
 		var p: Vector2 = get_canvas_transform().affine_inverse() * (ev.position as Vector2) - position
@@ -466,6 +491,25 @@ func _teste_recorte() -> void:
 	mp.confirmar_recorte()
 
 
+## Booster: toques e arrastes vão para o corte/revelação, exceto quando caem num botão (repetidas, concluir).
+func _entrada_booster(ev: InputEvent) -> bool:
+	var inv := get_canvas_transform().affine_inverse()
+	if ev is InputEventScreenTouch or (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT):
+		var p: Vector2 = inv * (ev.position as Vector2) - position
+		if ev.pressed:
+			for b in botoes:
+				if (b["rect"] as Rect2).has_point(p):
+					return false
+		elif apertado >= 0:
+			return false
+		bo.toque(p, ev.pressed)
+		return true
+	if ev is InputEventScreenDrag or ev is InputEventMouseMotion:
+		bo.mover(inv * (ev.position as Vector2) - position)
+		return apertado < 0
+	return false
+
+
 ## Torneio da história: usa o deck em uso do jogador (precisa estar completo).
 func _torneio() -> void:
 	var ok := false
@@ -503,6 +547,10 @@ func _draw() -> void:
 			col.desenhar_grade(self)
 		"lore":
 			col.desenhar_lore(self)
+		"loja":
+			bo.desenhar_loja()
+		"booster":
+			bo.desenhar_booster()
 		"perfil":
 			mp.desenhar_perfil()
 		"recorte":

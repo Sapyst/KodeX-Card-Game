@@ -138,7 +138,17 @@ def main():
     arte, cid, deck = sys.argv[1], sys.argv[2], sys.argv[3]
     ficha = next(x for x in glob.glob(os.path.join(RAIZ, "cartas", deck, "[0-9][0-9]_*.md")) if f'"id": "{cid}"' in open(x, encoding="utf-8").read())
     c = F2.ler_carta(ficha)
-    OUT = os.path.join(RAIZ, "arte", "_foil_teste", "lend_" + cid + ("" if ESTILO == "A" else "_" + ESTILO))
+    global TIPO, CULT, KW
+    en_modo = os.environ.get("IDIOMA", "pt") == "en"
+    if en_modo:                                       # versão em inglês: nome/texto de cartas_en.json e rótulos EN
+        import json as _j
+        en = _j.load(open(os.path.join(RAIZ, "godot", "dados", "cartas_en.json"), encoding="utf-8"))["cartas"].get(cid, {})
+        c["nome"], c["texto"] = en.get("nome", c["nome"]), en.get("texto", c["texto"])
+        TIPO = {"entidade": "ENTITY", "selo": "SEAL", "rito": "RITE", "reliquia": "RELIC"}
+        CULT = {"indigena": "INDIGENOUS", "cristianismo": "CHRISTIANITY", "taoismo": "TAOISM", "hinduismo": "HINDUISM",
+                "bruxaria": "WITCHCRAFT", "alta_magia": "HIGH MAGIC"}
+        KW = {"guarda": "GUARD", "impeto": "RUSH", "furtivo": "STEALTH", "renascer": "REBIRTH"}
+    OUT = os.path.join(RAIZ, "arte", "_foil_teste", "lend_" + cid + ("" if ESTILO == "A" else "_" + ESTILO) + ("_en" if en_modo else ""))
     os.makedirs(OUT, exist_ok=True)
     # arte cobrindo a carta inteira (corte "cover"), cantos arredondados por dentro da borda
     a = Image.open(arte).convert("RGB")
@@ -165,7 +175,7 @@ def main():
     txt_f = f(SERIF, 27)
     kws = [KW[k] for k in c.get("keywords", [])]
     est, bri, poe = ceu(cid)
-    tipo_txt = "  ·  ".join([TIPO[c["tipo"]], CULT.get(deck, deck.upper()), "LENDÁRIA"])
+    tipo_txt = "  ·  ".join([TIPO[c["tipo"]], CULT.get(deck, deck.upper()), "LEGENDARY" if en_modo else "LENDÁRIA"])
     texto = c["texto"]
     for q in range(int(os.environ.get("QUADROS", N))):
         u = q / N
@@ -221,9 +231,10 @@ def main():
         dl.line((70, y_tipo + 24, W - 70, y_tipo + 24), fill=(150, 140, 160), width=1)
         # descrição branca
         y = y_tipo + 42
-        corpo = texto.replace("Lendária. ", "").replace("Lendária.", "")        # a linha de tipo já diz LENDÁRIA
+        corpo = texto.replace("Lendária. ", "").replace("Lendária.", "").replace("Legendary. ", "").replace("Legendary.", "")        # a linha de tipo já diz LENDÁRIA
         for kw in kws:
             corpo = corpo.replace(kw.capitalize() + ". ", "").replace(kw.capitalize() + ".", "")
+            corpo = corpo.replace(kw.title() + ". ", "").replace(kw.title() + ".", "")
         if kws:
             texto_foil(im, claro, (W // 2, y + 12), "  ·  ".join(kws), f(SERIF_BLACK, 26), "mm", 3)
             y += 34
@@ -250,7 +261,8 @@ def main():
                     "-filter_complex", "[0][1]overlay=20:20:shortest=1,scale=570:786:flags=lanczos", "-c:v", "libx264", "-crf", "19",
                     "-pix_fmt", "yuv420p", "-movflags", "faststart", os.path.join(OUT, f"lend_{cid}.mp4")], check=True)
     prev = Image.new("RGBA", (W + 40, H + 40), (13, 11, 18, 255))
-    prev.alpha_composite(Image.open(os.path.join(OUT, "q_012.png")), (20, 20))
+    n_q = int(os.environ.get("QUADROS", N))
+    prev.alpha_composite(Image.open(os.path.join(OUT, "q_%03d.png" % min(12, n_q - 1))), (20, 20))
     prev.convert("RGB").save(os.path.join(OUT, f"lend_{cid}_previa.png"))
     print("ok")
 

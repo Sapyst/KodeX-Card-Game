@@ -61,5 +61,5 @@ Decisões fechadas com o autor (2026-10-20). Números são o ponto de partida; o
 
 ## Fases (um release por fase)
 1. Perfil (nome + foto com recorte 3:4), auto-save, moedas (inclusive por partida arcade), montar decks, coleção possuída.
-2. Loja e abertura de booster com corte (tudo bem animado).
+2. Loja e abertura de booster com corte (tudo bem animado). **Feito na v0.5.0** (`godot/booster.gd`).
 3. Torneio arcade de 8.

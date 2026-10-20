@@ -330,3 +330,77 @@ func tradicao_do_deck(ids: Array) -> String:
 		if int(conta[k]) > int(conta.get(melhor, 0)):
 			melhor = k
 	return melhor
+
+
+
+# ================= boosters (Fase 2) =================
+const BOOSTER_PRECO := 100
+const CHANCE_FOIL := 0.02          # 1 em 50 cartas; só cartas com arte foil aprovada (assets/carta_foil)
+const CHANCE_LENDARIA := 0.05
+const TROCA := {"comum": 20, "lendaria": 60, "foil": 150}
+
+
+func tem_foil(cid: String) -> bool:
+	return ResourceLoader.exists("res://assets/carta_foil/%s.webp" % cid)
+
+
+func valor_troca(cid: String, foil: bool) -> int:
+	if foil:
+		return TROCA["foil"]
+	return TROCA["lendaria"] if db["cartas"][cid]["lendaria"] else TROCA["comum"]
+
+
+## Compra e sorteia um booster: 3 cartas (Abismo fora), pelo menos 1 Entidade. As cartas já entram na coleção (e o
+## save é gravado) antes da animação, para não se perderem se o app fechar. Devolve [{id, foil, nova}] ou [] sem moedas.
+func comprar_booster() -> Array:
+	if not gastar_moedas(BOOSTER_PRECO):
+		return []
+	var comuns: Array = []
+	var lendarias: Array = []
+	var foils: Array = []
+	for cid in db["cartas"]:
+		var c: Dictionary = db["cartas"][cid]
+		if c["cultura"] == "abismo":
+			continue
+		if c["lendaria"]:
+			lendarias.append(cid)
+			if tem_foil(cid):
+				foils.append(cid)
+		else:
+			comuns.append(cid)
+	var saida: Array = []
+	for k in 3:
+		var r := rng.randf()
+		if r < CHANCE_FOIL and not foils.is_empty():
+			saida.append({"id": foils[rng.randi_range(0, foils.size() - 1)], "foil": true})
+		elif r < CHANCE_FOIL + CHANCE_LENDARIA:
+			saida.append({"id": lendarias[rng.randi_range(0, lendarias.size() - 1)], "foil": false})
+		else:
+			saida.append({"id": comuns[rng.randi_range(0, comuns.size() - 1)], "foil": false})
+	if not saida.any(func(e: Dictionary) -> bool: return db["cartas"][e["id"]]["tipo"] == "entidade"):
+		var ents := comuns.filter(func(cid: String) -> bool: return db["cartas"][cid]["tipo"] == "entidade")
+		for k in range(2, -1, -1):                       # troca a última carta comum (não foil) por uma Entidade
+			if not saida[k]["foil"] and not db["cartas"][saida[k]["id"]]["lendaria"]:
+				saida[k] = {"id": ents[rng.randi_range(0, ents.size() - 1)], "foil": false}
+				break
+	if OS.get_environment("GD_BOOSTER_TESTE") != "":       # teste visual: força comum, lendária e foil
+		saida = [{"id": comuns[0], "foil": false}, {"id": lendarias[1], "foil": false}, {"id": foils[0] if not foils.is_empty() else lendarias[0], "foil": not foils.is_empty()}]
+	for e in saida:
+		e["nova"] = copias(e["id"]) == 0
+		perfil["colecao"][e["id"]] = copias(e["id"]) + 1
+		if e["foil"]:
+			perfil["foils"][e["id"]] = int(perfil["foils"].get(e["id"], 0)) + 1
+	salvar()
+	return saida
+
+
+## Troca uma cópia repetida por moedas (só se sobrar cópia para os decks que já a usam).
+func trocar_repetida(cid: String, foil: bool) -> bool:
+	if copias(cid) <= 1 or copias(cid) - 1 < copias_em_uso(cid):
+		return false
+	perfil["colecao"][cid] = copias(cid) - 1
+	if foil:
+		perfil["foils"][cid] = maxi(0, int(perfil["foils"].get(cid, 0)) - 1)
+	perfil["moedas"] = moedas() + valor_troca(cid, foil)
+	salvar()
+	return true

@@ -121,6 +121,12 @@ func desenhar_grade(ci: CanvasItem) -> void:
 				var wx := PixelFonte.largura(sx) + 6
 				ci.draw_rect(Rect2(r.end.x - wx - 1, r.end.y - 11, wx, 10), Color(0.45, 0.32, 0.1, 0.95))
 				PixelFonte.desenhar(ci, Vector2(r.end.x - wx + 2, r.end.y - 8), sx, f.OURO[0])
+		if int(Sessao.perfil["foils"].get(cid, 0)) > 0 and r.position.y + 4 > TOPO and r.position.y + 14 < BASE:
+			# selo FOIL arco-íris no canto de cima, à esquerda
+			var sf := "FOIL"
+			var wf := PixelFonte.largura(sf) + 6
+			ci.draw_rect(Rect2(r.position.x + 2, r.position.y + 2, wf, 9), Color(0.08, 0.05, 0.1, 0.9))
+			PixelFonte.desenhar(ci, r.position + Vector2(5, 4), sf, Color.from_hsv(fmod(f.tempo * 0.5, 1.0), 0.6, 1.0))
 		if cid in Sessao.arte_revisao and r.position.y + 8 > TOPO and r.position.y + 8 < BASE:
 			# selo "em revisão": faixinha no canto de cima, pulsando
 			var s := Sessao.t("REVISÃO")
@@ -203,10 +209,15 @@ func desenhar_lore(ci: CanvasItem) -> void:
 	var y0 := 44.0
 	var off := y0 - rolagem_lore
 	var tex := _tex(carta)
+	var foil := int(Sessao.perfil["foils"].get(carta, 0)) > 0 and Sessao.tem_foil(carta)
+	if foil:                              # possui a versão foil: mostra a full-art com brilho
+		tex = Carta.textura("carta_foil_en" if Sessao.idioma == "en" else "carta_foil", carta, "webp")
 	var r := Rect2(116, off + 4, 128, 179)
 	if tex:
 		ci.draw_rect(r.intersection(Rect2(0, y0, 360, BASE - y0)).grow(2), f.ESCURO)
 		_recortado(ci, tex, r, y0, BASE)
+		if foil and r.position.y > y0 and r.end.y < BASE:
+			f.bo.brilho_foil(ci, r)
 	var y := off + 196.0
 	var nome := PixelFonte.normalizar(_nome(carta))
 	if y > y0 and y < BASE:

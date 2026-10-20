@@ -109,6 +109,8 @@ func _ready() -> void:
 	add_child(placar)
 	efeitos = Efeitos.new()
 	add_child(efeitos)
+	carrossel = Carrossel.new()               # visor do cemitério (ver e reviver)
+	add_child(carrossel)
 	chao = Efeitos.new()                      # efeitos rentes à mesa: ficam POR BAIXO das cartas
 	add_child(chao)
 	chao.z_index = 20
@@ -153,9 +155,12 @@ func _ready() -> void:
 		return
 	if OS.get_environment("GD_TESTE_GALERIA") != "":           # teste visual da galeria do cemitério
 		var fal: Array = []
-		for cid in ["tao_lu_dongbin", "tao_lan_caihe", "tao_erlang_shen", "tao_nezha", "tao_zhang_guolao"]:
+		for cid in ["tao_lu_dongbin", "tao_lan_caihe", "tao_erlang_shen", "tao_nezha", "tao_zhang_guolao", "tao_guan_yu", "tao_xiwangmu", "tao_cao_guojiu"]:
 			fal.append({"dados": db["cartas"][cid], "no": null})
-		get_tree().create_timer(1.6).timeout.connect(func() -> void: escolhido.emit(1))
+		get_tree().create_timer(1.2).timeout.connect(func() -> void: carrossel.vel = -9.0)
+		get_tree().create_timer(3.0).timeout.connect(func() -> void:
+			carrossel.escolhido = int(roundf(carrossel.pos))
+			carrossel.selecionado.emit(carrossel.escolhido))
 		print("GALERIA ", await pedir_cemiterio(fal))
 		await get_tree().create_timer(1.0).timeout
 		get_tree().quit()
@@ -714,6 +719,9 @@ func _unhandled_input(ev: InputEvent) -> void:
 
 func pressionar(p: Vector2) -> void:
 	ponteiro = p
+	if carrossel.aberto():
+		carrossel.pressionar(p)
+		return
 	if zoom_travado:                          # qualquer toque fecha a carta ampliada
 		zoom_travado = false
 		efeitos.zoom = null
@@ -745,6 +753,11 @@ func pressionar(p: Vector2) -> void:
 			Sessao.vibrar(10, 0.4)
 			fim_turno_pedido.emit()
 		return
+	if modo_partida and segurando == null and alvos_pedidos.is_empty() and efeitos.escolha.is_empty() and tut == null:
+		for d in 2:                               # tocar numa pilha de cemitério abre o carrossel
+			if not cemit[d].is_empty() and _rect_espaco(proj(CEMIT_JOG if d == 0 else CEMIT_OPON)).grow(6).has_point(p):
+				abrir_cemiterio(d)
+				return
 	if ocupado or segurando != null or (modo_partida and (ativo != 0 or acabou)):
 		_tentar_zoom(p)
 		return
@@ -763,10 +776,16 @@ func pressionar(p: Vector2) -> void:
 
 func mover(p: Vector2) -> void:
 	ponteiro = p
+	if carrossel.aberto():
+		carrossel.mover(p)
+		return
 
 
 func soltar(p: Vector2) -> void:
 	ponteiro = p
+	if carrossel.aberto():
+		carrossel.soltar(p)
+		return
 	zoom_pendente = null
 	if _ignorar_soltar:
 		_ignorar_soltar = false
@@ -1355,7 +1374,8 @@ var cemit := [[], []]                 # cemitério lógico: [{dados, no}] (no = 
 var vencedor := -1                    # -1 em jogo · 0 jogador · 1 oponente · 2 empate
 var alvos_pedidos: Array = []         # o jogador está escolhendo um alvo por toque
 var veu_alvo: Node2D
-var tut: Tutorial = null                  # tutorial em curso (só a jogada pedida é aceita)
+var tut: Tutorial = null
+var carrossel: Carrossel                  # tutorial em curso (só a jogada pedida é aceita)
 var _t_destaque := 0.0
 var _jogaveis: Array = []
 var veu_a := 0.0
@@ -1863,47 +1883,27 @@ func pedir_alvo(cands: Array, dica: String, botao := "PULAR", fonte = null):
 	return r
 
 
-## Escolha no cemitério: tela escura com as cartas montadas grandes (até 6, mais caras primeiro), entrando de baixo.
-func pedir_cemiterio(cands: Array, titulo := "REVIVER QUAL?"):
-	var lista := cands.duplicate()
-	lista.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a["dados"]["custo"]) > int(b["dados"]["custo"]))
-	lista = lista.slice(0, 6)
-	var n := lista.size()
-	var cols := mini(n, 3)
-	var linhas := int(ceil(n / 3.0))
-	var W := 96.0
-	var H := 134.0
-	var y0 := 330.0 - (linhas * H + (linhas - 1) * 16) / 2.0
-	efeitos.escolha = []
+func _itens_cemiterio(lista: Array) -> Array:
 	var pasta := "carta_en" if Sessao.idioma == "en" else "carta"
-	for k in n:
-		var lin := k / 3
-		var na_linha := mini(3, n - lin * 3)
-		var x0 := 180.0 - (na_linha * W + (na_linha - 1) * 8) / 2.0
-		var cid := str(lista[k]["dados"].get("id", ""))
-		var tex := Carta.textura(pasta, cid, "webp")
-		var rect := Rect2(x0 + (k % 3) * (W + 8), y0 + lin * (H + 16), W, H)
-		if tex == null:
-			efeitos.escolha.append({"rect": rect, "texto": str(lista[k]["dados"]["nome"]), "valor": k})
-		else:
-			efeitos.escolha.append({"rect": rect, "tex": tex, "valor": k})
-	efeitos.escolha.append({"rect": Rect2(145, y0 + linhas * (H + 16) + 2, 70, 16), "texto": "PULAR", "valor": -1})
-	efeitos.galeria = {"titulo": titulo, "sub": "TOQUE NUMA CARTA"}
-	efeitos.t_escolha = 0.0
-	efeitos.escolhida = -1
-	Sessao.vibrar(12, 0.4)
-	var v = await escolhido
-	if v != null and int(v) >= 0:
-		efeitos.escolhida = int(v)
-		efeitos.t_escolha = 0.0
-		Sessao.vibrar(18, 0.6)
-		await get_tree().create_timer(0.35).timeout
-	efeitos.escolha.clear()
-	efeitos.galeria = {}
-	efeitos.escolhida = -1
-	if v == null or int(v) < 0:
+	var out: Array = []
+	for e in lista:
+		var dd: Dictionary = e["dados"]
+		out.append({"tex": Carta.textura(pasta, str(dd.get("id", "")), "webp"), "nome": str(dd.get("nome", ""))})
+	return out
+
+
+## Ver o cemitério (o seu ou o do oponente): carrossel horizontal saindo da pilha.
+func abrir_cemiterio(d: int) -> void:
+	carrossel.abrir(_itens_cemiterio(cemit[d]), proj(CEMIT_JOG if d == 0 else CEMIT_OPON), "ver",
+		"SEU CEMITÉRIO" if d == 0 else "CEMITÉRIO DELE")
+
+
+## Escolha no cemitério (reviver): o mesmo carrossel, só com as candidatas; tocar na carta do centro escolhe.
+func pedir_cemiterio(cands: Array, titulo := "REVIVER QUAL?"):
+	var r: int = await carrossel.escolher(_itens_cemiterio(cands), proj(CEMIT_JOG), titulo)
+	if r < 0:
 		return null
-	return lista[int(v)]
+	return cands[r]
 
 
 # ---------- jogar cartas ----------

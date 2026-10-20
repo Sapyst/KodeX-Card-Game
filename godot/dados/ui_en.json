@@ -193,5 +193,10 @@
  "Não carrego bandeira nem tradição. Só cartas, e a vontade de ver você cair.": "I carry no banner and no tradition. Only cards, and the wish to see you fall.",
  "SEMIFINAL": "SEMIFINAL",
  "Abrir booster": "Open booster",
- "Abrir grátis (%d)": "Open free (%d)"
+ "Abrir grátis (%d)": "Open free (%d)",
+ "SEU CEMITÉRIO": "YOUR GRAVEYARD",
+ "CEMITÉRIO DELE": "THEIR GRAVEYARD",
+ "FECHAR": "CLOSE",
+ "toque na carta para reviver": "tap the card to revive",
+ "deslize para os lados": "swipe sideways"
 }

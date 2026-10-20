@@ -3,7 +3,7 @@ config_version=5
 
 [application]
 config/name="KodeX"
-config/version="0.6.1-alpha"
+config/version="0.6.2-alpha"
 run/main_scene="res://fluxo.tscn"
 config/icon="res://icon.png"
 config/features=PackedStringArray("4.7", "Mobile")

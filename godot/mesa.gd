@@ -180,6 +180,8 @@ func _ready() -> void:
 		for cid in ["tao_lu_dongbin", "tao_lan_caihe", "tao_erlang_shen", "tao_nezha", "tao_zhang_guolao", "tao_guan_yu", "tao_xiwangmu", "tao_cao_guojiu"]:
 			fal.append({"dados": db["cartas"][cid], "no": null})
 		get_tree().create_timer(1.2).timeout.connect(func() -> void: carrossel.vel = -9.0)
+		if OS.get_environment("GD_TESTE_ZOOM") != "":
+			get_tree().create_timer(2.2).timeout.connect(func() -> void: carrossel.zoom_alvo = 2.2; carrossel.pan = Vector2(0, -60))
 		get_tree().create_timer(3.0).timeout.connect(func() -> void:
 			carrossel.escolhido = int(roundf(carrossel.pos))
 			carrossel.selecionado.emit(carrossel.escolhido))
@@ -730,6 +732,9 @@ func _unhandled_input(ev: InputEvent) -> void:
 	if (ev is InputEventMouseButton or ev is InputEventMouseMotion) and ev.device == InputEvent.DEVICE_ID_EMULATION:
 		return
 	var pos_ev: Vector2 = ev.position if "position" in ev else Vector2.ZERO
+	if carrossel.aberto():                       # carrossel recebe o evento cru (pinça, roda, arraste)
+		carrossel.evento(ev, get_canvas_transform().affine_inverse() * pos_ev)
+		return
 	var p: Vector2 = get_canvas_transform().affine_inverse() * pos_ev
 	if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT or ev is InputEventScreenTouch:
 		if ev.pressed:

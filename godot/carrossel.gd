@@ -8,8 +8,8 @@ extends Node2D
 signal selecionado(idx)
 
 const PASSO := 64.0               # distância entre cartas no leque (px por índice)
-const CW := 150.0                 # carta do centro 150×210
-const CH := 210.0
+const CW := 188.0                 # carta do centro 188×263 (maior, para ler o texto)
+const CH := 263.0
 const CY := 300.0
 
 var itens: Array = []             # [{tex, nome}]
@@ -23,6 +23,15 @@ var fechando := -1.0              # s desde o início do fechamento (-1 = aberto
 var escolhido := -1
 var tam_pilha := Vector2(28, 39)  # tamanho da carta na pilha da mesa (abre de lá e volta exatamente para lá)
 var _segura := false
+# zoom da carta do centro: pinça (2 dedos) ou roda do mouse; com zoom, arrastar move a carta; um toque volta
+var zoom := 1.0
+var zoom_alvo := 1.0
+var pan := Vector2.ZERO
+var _dedos := {}
+var _dist_ini := 0.0
+var _zoom_ini := 1.0
+var _pincou := false
+const ZOOM_MAX := 2.6
 var _ini := Vector2.ZERO
 var _ult := Vector2.ZERO
 var _moveu := false
@@ -78,6 +87,9 @@ func _process(delta: float) -> void:
 	if not aberto():
 		return
 	t += delta
+	zoom = lerpf(zoom, zoom_alvo, minf(1.0, delta * 14.0))
+	if zoom_alvo <= 1.0:
+		pan = pan.lerp(Vector2.ZERO, minf(1.0, delta * 14.0))
 	if fechando >= 0.0:
 		fechando += delta
 	elif not _segura:
@@ -93,6 +105,72 @@ func _process(delta: float) -> void:
 
 
 # ---------------- entrada ----------------
+func zoom_ativo() -> bool:
+	return zoom_alvo > 1.02
+
+
+func _zerar_zoom() -> void:
+	zoom_alvo = 1.0
+	Sessao.vibrar(8, 0.3)
+
+
+## Recebe o evento cru (com o ponto já em coordenadas da mesa): roda do mouse, pinça e arraste com zoom.
+func evento(ev: InputEvent, p: Vector2) -> void:
+	if fechando >= 0.0:
+		return
+	if ev is InputEventMouseButton and (ev.button_index == MOUSE_BUTTON_WHEEL_UP or ev.button_index == MOUSE_BUTTON_WHEEL_DOWN):
+		if ev.pressed:
+			zoom_alvo = clampf(zoom_alvo * (1.15 if ev.button_index == MOUSE_BUTTON_WHEEL_UP else 1.0 / 1.15), 1.0, ZOOM_MAX)
+		return
+	if ev is InputEventScreenTouch:
+		if ev.pressed:
+			_dedos[ev.index] = p
+			if _dedos.size() == 2:
+				var v: Array = _dedos.values()
+				_dist_ini = maxf(10.0, (v[0] as Vector2).distance_to(v[1]))
+				_zoom_ini = zoom_alvo
+				_pincou = true
+				_segura = false
+			elif _dedos.size() == 1:
+				pressionar(p)
+		else:
+			_dedos.erase(ev.index)
+			if _dedos.is_empty():
+				if _pincou:
+					_pincou = false
+					_segura = false
+				else:
+					soltar(p)
+		return
+	if ev is InputEventScreenDrag:
+		var antes: Vector2 = _dedos.get(ev.index, p)
+		_dedos[ev.index] = p
+		if _dedos.size() >= 2:
+			var v: Array = _dedos.values()
+			zoom_alvo = clampf(_zoom_ini * (v[0] as Vector2).distance_to(v[1]) / _dist_ini, 1.0, ZOOM_MAX)
+		elif zoom_ativo():
+			pan += p - antes
+			if (p - _ini).length() > 6:
+				_moveu = true
+		else:
+			mover(p)
+		return
+	if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT:
+		if ev.pressed:
+			pressionar(p)
+		else:
+			soltar(p)
+		return
+	if ev is InputEventMouseMotion and _segura:
+		if zoom_ativo():
+			pan += p - _ult
+			_ult = p
+			if (p - _ini).length() > 6:
+				_moveu = true
+		else:
+			mover(p)
+
+
 func pressionar(p: Vector2) -> void:
 	if fechando >= 0.0:
 		return
@@ -127,6 +205,9 @@ func soltar(p: Vector2) -> void:
 	if _moveu:
 		return
 	vel = 0.0
+	if zoom_ativo():                                   # com zoom, um toque volta ao tamanho normal
+		_zerar_zoom()
+		return
 	if _btn.grow(4).has_point(p):
 		if modo == "escolher":
 			selecionado.emit(-1)
@@ -175,7 +256,7 @@ func _draw() -> void:
 		if a_off > 4.5:
 			continue
 		# posição no leque
-		var x: float = 180.0 + signf(off) * (minf(a_off, 1.0) * 92.0 + maxf(0.0, a_off - 1.0) * 30.0)
+		var x: float = 180.0 + signf(off) * (minf(a_off, 1.0) * 118.0 + maxf(0.0, a_off - 1.0) * 26.0)
 		var esc := 1.0 - minf(a_off, 3.0) * 0.16
 		var giro := 1.0 - minf(a_off, 1.6) * 0.38           # achatamento horizontal = carta girada
 		var alvo_c := Vector2(x, CY + minf(a_off, 3.0) * 10.0)
@@ -201,6 +282,12 @@ func _draw() -> void:
 				tam = alvo_t.lerp(tam_pilha, uf)
 				rot = 0.0
 		var al := 1.0 if k != escolhido or fecha <= 0.0 else 1.0 - fecha
+		if fecha <= 0.0:
+			if a_off < 0.5:
+				tam *= zoom
+				c += pan
+			else:
+				al *= 1.0 - clampf((zoom - 1.0) * 1.4, 0.0, 0.9)      # com zoom, as de lado somem
 		var esc_cor := 1.0 - minf(a_off, 3.0) * 0.22
 		draw_set_transform(c, rot, Vector2.ONE)
 		var r := Rect2(-tam / 2, tam)
@@ -220,10 +307,17 @@ func _draw() -> void:
 		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 	if fecha <= 0.0 and n > 0:
 		var centro := clampi(int(roundf(pos)), 0, n - 1)
+		var some := 1.0 - clampf((zoom - 1.0) * 3.0, 0.0, 1.0)          # textos de baixo somem com o zoom
 		var nome := PixelFonte.normalizar(str(itens[centro]["nome"]))
-		PixelFonte.centrado(self, Vector2(180, CY + CH / 2 + 18), nome, Color(1.0, 0.95, 0.85, fundo), 1, Color("#140c10"))
+		PixelFonte.centrado(self, Vector2(180, CY + CH / 2 + 18), nome, Color(1.0, 0.95, 0.85, fundo * some), 1, Color("#140c10"))
 		var dica := Sessao.t("toque na carta para reviver") if modo == "escolher" else Sessao.t("deslize para os lados")
-		PixelFonte.centrado(self, Vector2(180, CY + CH / 2 + 32), dica, Color(0.81, 0.88, 1.0, 0.6 + 0.4 * sin(t * 4)), 1)
+		if zoom_ativo():
+			dica = Sessao.t("toque para voltar")
+		elif fecha <= 0.0:
+			dica += "  -  " + Sessao.t("pinça para ampliar")
+		var y_dica := CY + CH / 2 + 32 if not zoom_ativo() else 96.0      # com zoom, a dica vai para o topo
+		var al_dica := (0.6 + 0.4 * sin(t * 4)) * (some if not zoom_ativo() else 1.0)
+		PixelFonte.centrado(self, Vector2(180, y_dica), dica, Color(0.81, 0.88, 1.0, al_dica), 1, Color("#140c10"))
 		# setas nas bordas
 		var bob := sin(t * 5) * 2
 		if centro > 0:

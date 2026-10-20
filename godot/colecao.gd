@@ -89,7 +89,11 @@ func desenhar_grade(ci: CanvasItem) -> void:
 	for cid in _ids:
 		if str(cid).begins_with("tok_"):
 			n_tok += 1
-	var info := Sessao.t("%d CARTAS") % (_ids.size() - n_tok)
+	var possui := 0
+	for cid in _ids:
+		if not str(cid).begins_with("tok_") and Sessao.copias(cid) > 0:
+			possui += 1
+	var info := Sessao.t("POSSUI %d DE %d") % [possui, _ids.size() - n_tok]
 	if n_tok > 0:
 		info += "  -  " + Sessao.t("%d TOKENS") % n_tok
 	PixelFonte.centrado(ci, Vector2(180, 86), info, Color(0.81, 0.88, 1.0, 0.8), 1)
@@ -104,6 +108,19 @@ func desenhar_grade(ci: CanvasItem) -> void:
 		ci.draw_rect(visivel.grow(1), f.ESCURO)
 		if tex:
 			_recortado(ci, tex, r, TOPO, BASE)
+		if not cid.begins_with("tok_"):
+			var tem := Sessao.copias(cid)
+			if tem == 0:
+				ci.draw_rect(visivel, Color(0.02, 0.01, 0.03, 0.62))          # ainda não possui: escurecida com cadeado
+				var cc := r.get_center()
+				if cc.y > TOPO + 8 and cc.y < BASE - 8:
+					ci.draw_rect(Rect2(cc + Vector2(-6, -2), Vector2(12, 10)), Color(0.75, 0.68, 0.55, 0.9))
+					ci.draw_arc(cc + Vector2(0, -3), 4.0, PI, TAU, 10, Color(0.75, 0.68, 0.55, 0.9), 2.0)
+			elif tem > 1 and r.end.y - 12 > TOPO and r.end.y < BASE:
+				var sx := "x%d" % tem
+				var wx := PixelFonte.largura(sx) + 6
+				ci.draw_rect(Rect2(r.end.x - wx - 1, r.end.y - 11, wx, 10), Color(0.45, 0.32, 0.1, 0.95))
+				PixelFonte.desenhar(ci, Vector2(r.end.x - wx + 2, r.end.y - 8), sx, f.OURO[0])
 		if cid in Sessao.arte_revisao and r.position.y + 8 > TOPO and r.position.y + 8 < BASE:
 			# selo "em revisão": faixinha no canto de cima, pulsando
 			var s := Sessao.t("REVISAO")

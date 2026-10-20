@@ -42,6 +42,7 @@ func _ready() -> void:
 	if OS.get_environment("GD_IDIOMA") != "":
 		idioma = OS.get_environment("GD_IDIOMA")
 	carregar_dados()
+	carregar_perfil()
 	if OS.get_environment("GD_TUTORIAL") != "":          # teste: abre a mesa direto no tutorial
 		preparar_tutorial()
 
@@ -140,9 +141,9 @@ func montar_deck(tipo: String) -> Array:
 	return deck
 
 
-func novo_torneio(deck_escolhido: String) -> void:
+func novo_torneio(_deck_escolhido := "") -> void:
 	modo = "torneio"
-	deck_jogador_nome = deck_escolhido
+	deck_jogador_nome = tradicao_do_deck(deck_ativo_ids())
 	var campeoes := DECKS.slice(0, 5)
 	campeoes.shuffle()
 	torneio_ordem = campeoes + ["alta_magia"]
@@ -152,7 +153,7 @@ func novo_torneio(deck_escolhido: String) -> void:
 
 func preparar_luta_torneio() -> void:
 	oponente = torneio_ordem[torneio_idx]
-	deck_jogador = montar_deck(deck_jogador_nome)
+	deck_jogador = deck_ativo_ids()
 	deck_oponente = montar_deck(oponente)
 	resultado = ""
 
@@ -178,14 +179,15 @@ func _deck_ordenado(deck: String, fim: Array) -> Array:
 
 func preparar_arcade(meu_deck: String, opon: String, deck_opon: String) -> void:
 	modo = "arcade"
-	deck_jogador_nome = DECKS[rng.randi_range(0, 5)] if meu_deck == "aleatorio" else meu_deck
 	oponente = DECKS[rng.randi_range(0, 5)] if opon == "aleatorio" else opon
 	var d_op := deck_opon
 	if d_op == "do_personagem":
 		d_op = oponente
 	elif d_op == "tematico_aleatorio":
 		d_op = DECKS[rng.randi_range(0, 5)]
-	deck_jogador = montar_deck(deck_jogador_nome)
+	var idx := int(meu_deck) if meu_deck.is_valid_int() else int(perfil["deck_ativo"])   # índice de um deck do jogador
+	deck_jogador = (perfil["decks"][idx]["cartas"] as Array).duplicate() if deck_valido(idx) else deck_ativo_ids()
+	deck_jogador_nome = tradicao_do_deck(deck_jogador)
 	deck_oponente = montar_deck(d_op)
 	resultado = ""
 
@@ -206,3 +208,125 @@ func vibrar_pulsos(n: int, ms: int, forca: float = 0.5, pausa: float = 0.07) -> 
 	for k in n:
 		vibrar(ms, forca)
 		await get_tree().create_timer(pausa + ms / 1000.0).timeout
+
+
+
+# ================= perfil, coleção, moedas e decks (auto-save em user://perfil.json) =================
+const SAVE := "user://perfil.json"
+const FOTO := "user://foto.png"
+const MOEDAS_INICIO := 200
+const MOEDAS_ARCADE := 15
+const DECK_TAM := 32
+var perfil: Dictionary = {}
+signal perfil_mudou
+
+
+func _perfil_novo() -> Dictionary:
+	var colecao := {}
+	for cid in db["decks"]["alta_magia"]:
+		colecao[cid] = int(colecao.get(cid, 0)) + 1
+	return {"versao": 1, "nome": "", "tem_foto": false, "moedas": MOEDAS_INICIO, "colecao": colecao, "foils": {},
+		"decks": [{"nome": "Alta Magia", "cartas": (db["decks"]["alta_magia"] as Array).duplicate()}], "deck_ativo": 0}
+
+
+func carregar_perfil() -> void:
+	perfil = {}
+	if OS.get_environment("GD_PERFIL_NOVO") == "" and FileAccess.file_exists(SAVE):
+		var d = JSON.parse_string(FileAccess.get_file_as_string(SAVE))
+		if d is Dictionary:
+			perfil = d
+	if perfil.is_empty():
+		perfil = _perfil_novo()
+	# JSON devolve números como float: normaliza contagens
+	for cid in perfil["colecao"]:
+		perfil["colecao"][cid] = int(perfil["colecao"][cid])
+	perfil["moedas"] = int(perfil["moedas"])
+	perfil["deck_ativo"] = int(perfil["deck_ativo"])
+
+
+## Auto-save: grava o perfil inteiro a cada mudança (arquivo temporário + renomeia, para não corromper).
+func salvar() -> void:
+	var tmp := SAVE + ".tmp"
+	var f := FileAccess.open(tmp, FileAccess.WRITE)
+	if f == null:
+		return
+	f.store_string(JSON.stringify(perfil, " "))
+	f.close()
+	DirAccess.rename_absolute(tmp, SAVE)
+	perfil_mudou.emit()
+
+
+func moedas() -> int:
+	return int(perfil.get("moedas", 0))
+
+
+func ganhar_moedas(n: int) -> void:
+	perfil["moedas"] = moedas() + n
+	salvar()
+
+
+func gastar_moedas(n: int) -> bool:
+	if moedas() < n:
+		return false
+	perfil["moedas"] = moedas() - n
+	salvar()
+	return true
+
+
+func copias(cid: String) -> int:
+	return int(perfil["colecao"].get(cid, 0))
+
+
+func adicionar_carta(cid: String, n := 1, foil := false) -> void:
+	perfil["colecao"][cid] = copias(cid) + n
+	if foil:
+		perfil["foils"][cid] = int(perfil["foils"].get(cid, 0)) + n
+	salvar()
+
+
+## Quantas cópias de `cid` estão em uso nos decks (menos o deck `exceto`).
+func copias_em_uso(cid: String, exceto := -1) -> int:
+	var n := 0
+	for i in perfil["decks"].size():
+		if i != exceto:
+			n += (perfil["decks"][i]["cartas"] as Array).count(cid)
+	return n
+
+
+## Limite por deck (Lendária 1, demais 2) e cópias que sobram fora dos outros decks.
+func pode_por_no_deck(cid: String, idx: int) -> bool:
+	var deck: Array = perfil["decks"][idx]["cartas"]
+	if deck.size() >= DECK_TAM:
+		return false
+	var c: Dictionary = db["cartas"][cid]
+	var limite := 1 if c["lendaria"] else 2
+	if deck.count(cid) >= limite:
+		return false
+	return deck.count(cid) + copias_em_uso(cid, idx) < copias(cid)
+
+
+func deck_valido(idx: int) -> bool:
+	return idx >= 0 and idx < perfil["decks"].size() and (perfil["decks"][idx]["cartas"] as Array).size() == DECK_TAM
+
+
+func deck_ativo_ids() -> Array:
+	var i := int(perfil["deck_ativo"])
+	if not deck_valido(i):
+		for k in perfil["decks"].size():
+			if deck_valido(k):
+				i = k
+				break
+	return (perfil["decks"][i]["cartas"] as Array).duplicate()
+
+
+## Tradição que mais aparece no deck (para o retrato/cor do jogador nos menus).
+func tradicao_do_deck(ids: Array) -> String:
+	var conta := {}
+	for cid in ids:
+		var cu := str(db["cartas"][cid]["cultura"])
+		conta[cu] = int(conta.get(cu, 0)) + 1
+	var melhor := "alta_magia"
+	for k in conta:
+		if int(conta[k]) > int(conta.get(melhor, 0)):
+			melhor = k
+	return melhor

@@ -22,10 +22,9 @@ var falas: Array = []                      # fila de {quem, texto, cor, retrato}
 var fala_vis := 0.0                        # caracteres visíveis (máquina de escrever, 45/s)
 var depois_falas: Callable
 var tempo := 0.0
-var arcade := {"oponente": "aleatorio", "meu_deck": "indigena", "deck_dele": "do_personagem"}
+var arcade := {"oponente": "aleatorio", "meu_deck": "0", "deck_dele": "do_personagem"}
 const OPC := {
 	"oponente": ["aleatorio", "indigena", "cristianismo", "taoismo", "hinduismo", "bruxaria", "alta_magia"],
-	"meu_deck": ["indigena", "cristianismo", "taoismo", "hinduismo", "bruxaria", "alta_magia", "misto", "aleatorio"],
 	"deck_dele": ["do_personagem", "tematico_aleatorio", "misto"],
 }
 
@@ -47,6 +46,7 @@ func _enquadrar() -> void:
 
 
 var col: Colecao
+var mp: MenuPerfil
 var _rolando := false                 # dedo encostado na Coleção (arrastando a grade)
 var _rol_ini := Vector2.ZERO
 var _rol_ult := Vector2.ZERO
@@ -56,7 +56,11 @@ var logo_tex: Texture2D
 
 
 func _ready() -> void:
+	if OS.get_environment("GD_NOME_TESTE") != "":
+		Sessao.perfil["nome"] = OS.get_environment("GD_NOME_TESTE")
 	col = Colecao.new(self)
+	mp = MenuPerfil.new(self)
+	arcade["meu_deck"] = str(int(Sessao.perfil["deck_ativo"]))
 	# logo KodeX desenhado num nó próprio com filtro linear (o resto da UI é pixel, filtro nearest)
 	logo_tex = load("res://assets/logo.png") if ResourceLoader.exists("res://assets/logo.png") else null
 	logo_no = Node2D.new()
@@ -71,10 +75,17 @@ func _ready() -> void:
 		_pos_luta_torneio()
 	elif Sessao.resultado != "" and Sessao.modo == "arcade":
 		_pos_luta_arcade()
+	elif str(Sessao.perfil.get("nome", "")) == "":
+		_ir("perfil")                                       # primeira vez: cria o perfil
 	else:
 		_ir("titulo")
 	if OS.get_environment("GD_FLUXO_TELA") != "":            # teste: abre direto numa tela
-		_ir(OS.get_environment("GD_FLUXO_TELA"))
+		if OS.get_environment("GD_FLUXO_TELA") == "deck_edit":
+			mp.abrir_deck(0)
+		else:
+			_ir(OS.get_environment("GD_FLUXO_TELA"))
+	if OS.get_environment("GD_TESTE_RECORTE") != "":          # teste: abre a foto, aproxima, arrasta e confirma
+		_teste_recorte()
 	if OS.get_environment("GD_COL_CARTA") != "":              # teste: abre a página de lore de uma carta
 		col.abrir_aba(OS.get_environment("GD_COL_ABA") if OS.get_environment("GD_COL_ABA") != "" else "alta_magia")
 		col.abrir_carta(OS.get_environment("GD_COL_CARTA"))
@@ -99,6 +110,7 @@ func _process(delta: float) -> void:
 		b["t"] += delta
 		b["p"] += (b["v"] as Vector2) * delta + Vector2(sin(tempo * 1.7 + b["fase"]) * 6.0 * delta, 0)
 	brasas = brasas.filter(func(b: Dictionary) -> bool: return b["t"] < b["vida"])
+	mp.atualizar(delta, _rolando)
 	if estado == "colecao":
 		col.atualizar(delta, _rolando)
 	elif estado == "lore":
@@ -115,13 +127,16 @@ func _ir(novo: String) -> void:
 	apertado = -1
 	transicao = 1.0
 	botoes.clear()
+	mp.sair_texto()
 	match novo:
 		"titulo":
-			_botao(Rect2(90, 372, 180, 30), "Torneio", func() -> void: _falar_lista(Sessao.lore.get("prologo", []), Sessao.t("Narrador"), OURO[0], "", func() -> void: _ir("escolha_deck")))
-			_botao(Rect2(90, 408, 180, 30), "Arcade", func() -> void: _ir("arcade"))
-			_botao(Rect2(90, 444, 180, 30), "Tutorial", _comecar_tutorial)
-			_botao(Rect2(90, 480, 180, 30), "Coleção", func() -> void: col.abrir_aba(col.aba); _ir("colecao"))
-			_botao(Rect2(120, 526, 120, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("titulo"), {"idioma": true})
+			_botao(Rect2(8, 4, 344, 36), "", func() -> void: _ir("perfil"), {"desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: mp.barra_titulo()})
+			_botao(Rect2(90, 360, 180, 28), "Torneio", _torneio)
+			_botao(Rect2(90, 394, 180, 28), "Arcade", func() -> void: _ir("arcade"))
+			_botao(Rect2(90, 428, 180, 28), "Tutorial", _comecar_tutorial)
+			_botao(Rect2(90, 462, 180, 28), "Coleção", func() -> void: col.abrir_aba(col.aba); _ir("colecao"))
+			_botao(Rect2(90, 496, 180, 28), "Decks", func() -> void: _ir("decks"))
+			_botao(Rect2(120, 534, 120, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("titulo"), {"idioma": true})
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
@@ -131,6 +146,35 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(110, 604, 140, 26), "Voltar", func() -> void: _ir("titulo"))
 		"lore":
 			_botao(Rect2(110, 604, 140, 26), "Voltar", func() -> void: _ir("colecao"))
+		"perfil":
+			mp.entrar_perfil()
+			_botao(Rect2(110, 266, 140, 24), "Escolher foto", mp.escolher_foto)
+			_botao(Rect2(90, 420, 180, 30), "Continuar", func() -> void:
+				if str(Sessao.perfil.get("nome", "")).strip_edges() == "":
+					mp.avisar(Sessao.t("Escreva seu nome."))
+				else:
+					_ir("titulo"))
+		"recorte":
+			_botao(Rect2(96, 440, 40, 26), "-", func() -> void: mp.zoom(1.0 / 1.15))
+			_botao(Rect2(224, 440, 40, 26), "+", func() -> void: mp.zoom(1.15))
+			_botao(Rect2(90, 484, 180, 30), "Confirmar", mp.confirmar_recorte)
+			_botao(Rect2(110, 524, 140, 24), "Cancelar", func() -> void: _ir("perfil"))
+		"decks":
+			for i in Sessao.perfil["decks"].size():
+				_botao(Rect2(30, 92 + i * 46, 300, 40), "", mp.abrir_deck.bind(i), {"deck_idx": i, "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mp.botao_deck(b, r, pr)})
+			_botao(Rect2(90, 470, 180, 30), "Novo deck", mp.novo_deck)
+			_botao(Rect2(110, 604, 140, 26), "Voltar", func() -> void: _ir("titulo"))
+		"deck_edit":
+			_botao(Rect2(60, 4, 240, 28), "", mp.renomear_deck, {"desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
+			_botao(Rect2(70, 54, 104, 22), "Coleção", mp.trocar_aba.bind("cartas"), {"aba_deck": "cartas"})
+			_botao(Rect2(186, 54, 104, 22), "No deck", mp.trocar_aba.bind("deck"), {"aba_deck": "deck"})
+			if mp.aba_deck == "cartas":
+				for i in 6:
+					var d: String = Sessao.DECKS[i]
+					_botao(Rect2(16 + i * 55, 82, 51, 20), "", mp.trocar_filtro.bind(d), {"filtro": d})
+			_botao(Rect2(16, 570, 150, 26), "Usar este deck", mp.usar_deck)
+			_botao(Rect2(172, 570, 80, 26), "Excluir", mp.excluir_deck)
+			_botao(Rect2(258, 570, 86, 26), "Voltar", func() -> void: _ir("decks"))
 		"escolha_deck":
 			for i in 6:
 				var d: String = Sessao.DECKS[i]
@@ -195,6 +239,10 @@ func _botoes_derrota() -> void:
 
 
 func _comecar_arcade() -> void:
+	if not Sessao.deck_valido(int(arcade["meu_deck"])):
+		_ciclar("meu_deck")
+	if not Sessao.deck_valido(int(arcade["meu_deck"])):
+		return
 	Sessao.preparar_arcade(arcade["meu_deck"], arcade["oponente"], arcade["deck_dele"])
 	var op := Sessao.oponente
 	var p := Sessao.personagem(op)
@@ -212,11 +260,22 @@ func _pos_luta_arcade() -> void:
 	for t in p.get(chave, []):
 		lista.append({"quem": p.get("nome", op), "texto": t, "cor": Color(p.get("cor", "#e2b85a")), "retrato": op})
 	lista.append({"quem": "Arcade", "texto": Sessao.t("Vitória!" if Sessao.resultado == "vitoria" else ("Derrota." if Sessao.resultado == "derrota" else "Empate.")), "cor": OURO[0], "retrato": ""})
+	if Sessao.resultado == "vitoria":
+		Sessao.ganhar_moedas(Sessao.MOEDAS_ARCADE)
+		lista.append({"quem": "Arcade", "texto": Sessao.t("+%d moedas! Agora você tem %d.") % [Sessao.MOEDAS_ARCADE, Sessao.moedas()], "cor": OURO[0], "retrato": ""})
 	Sessao.resultado = ""
 	_falar(lista, func() -> void: _ir("arcade"))
 
 
 func _ciclar(campo: String) -> void:
+	if campo == "meu_deck":
+		var validos: Array = []
+		for i in Sessao.perfil["decks"].size():
+			if Sessao.deck_valido(i):
+				validos.append(str(i))
+		if not validos.is_empty():
+			arcade[campo] = validos[(validos.find(arcade[campo]) + 1) % validos.size()]
+		return
 	var lista: Array = OPC[campo]
 	arcade[campo] = lista[(lista.find(arcade[campo]) + 1) % lista.size()]
 
@@ -265,10 +324,12 @@ func _unhandled_input(ev: InputEvent) -> void:
 	# no celular cada toque chega também como mouse emulado (device -1): sem isto o toque contava duas vezes
 	if (ev is InputEventMouseButton or ev is InputEventMouseMotion) and ev.device == InputEvent.DEVICE_ID_EMULATION:
 		return
+	if estado == "recorte" and _entrada_recorte(ev):
+		return
 	var botao_ev: bool = (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT) or ev is InputEventScreenTouch
 	if botao_ev:
 		var p: Vector2 = get_canvas_transform().affine_inverse() * (ev.position as Vector2) - position
-		if estado in ["colecao", "lore"]:
+		if estado in ["colecao", "lore", "deck_edit"]:
 			_toque_colecao(p, ev.pressed)
 		if ev.pressed:
 			apertar(p)
@@ -281,11 +342,16 @@ func _unhandled_input(ev: InputEvent) -> void:
 		if pr.distance_to(_rol_ini) > 6:
 			_rol_moveu = true
 			apertado = -1
+		var v := -dy / maxf(get_process_delta_time(), 0.008)
 		if estado == "colecao":
 			col.rolagem = col.limitar(col.rolagem - dy)
+			col.vel = v
+		elif estado == "deck_edit":
+			mp.rolagem = mp.limitar(mp.rolagem - dy)
+			mp.vel = v
 		else:
 			col.rolagem_lore = col.limitar_lore(col.rolagem_lore - dy)
-		col.vel = -dy / maxf(get_process_delta_time(), 0.008)
+			col.vel = v
 	elif (ev is InputEventMouseMotion or ev is InputEventScreenDrag) and apertado >= 0:
 		var p2: Vector2 = get_canvas_transform().affine_inverse() * (ev.position as Vector2) - position
 		if not (botoes[apertado]["rect"] as Rect2).grow(8).has_point(p2):
@@ -340,7 +406,10 @@ func vibrar(ms: int, forca: float = 0.5) -> void:
 ## Coleção: arrastar rola a grade/página (com inércia); toque curto numa carta abre a lore.
 func _toque_colecao(p: Vector2, pressed: bool) -> void:
 	if pressed:
-		_rolando = p.y > Colecao.TOPO - 50 and p.y < Colecao.BASE
+		if estado == "deck_edit":
+			_rolando = p.y > MenuPerfil.GTOPO and p.y < MenuPerfil.GBASE
+		else:
+			_rolando = p.y > Colecao.TOPO - 50 and p.y < Colecao.BASE
 		_rol_ini = p
 		_rol_ult = p
 		_rol_moveu = false
@@ -348,12 +417,64 @@ func _toque_colecao(p: Vector2, pressed: bool) -> void:
 		return
 	var era := _rolando
 	_rolando = false
+	if era and not _rol_moveu and estado == "deck_edit" and apertado < 0:
+		mp.tocar_grade(p)
+		return
 	if era and not _rol_moveu and estado == "colecao" and apertado < 0:
 		var cid := col.tocar(p)
 		if cid != "":
 			vibrar(12, 0.4)
 			col.abrir_carta(cid)
 			_ir("lore")
+
+
+## Recorte da foto: 1 dedo arrasta, 2 dedos aproximam (pinça), roda do mouse dá zoom. Toques fora da janela vão
+## para os botões (devolve false).
+func _entrada_recorte(ev: InputEvent) -> bool:
+	var inv := get_canvas_transform().affine_inverse()
+	if ev is InputEventMouseButton and (ev.button_index == MOUSE_BUTTON_WHEEL_UP or ev.button_index == MOUSE_BUTTON_WHEEL_DOWN):
+		if ev.pressed:
+			mp.zoom(1.1 if ev.button_index == MOUSE_BUTTON_WHEEL_UP else 1.0 / 1.1, inv * (ev.position as Vector2) - position)
+		return true
+	if ev is InputEventScreenTouch or (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT):
+		var p: Vector2 = inv * (ev.position as Vector2) - position
+		var idx: int = ev.index if ev is InputEventScreenTouch else 0
+		if ev.pressed and not MenuPerfil.MOLDURA.grow(30).has_point(p) and mp.toques.is_empty():
+			return false
+		mp.toque_recorte(idx, p, ev.pressed)
+		return true
+	if ev is InputEventScreenDrag or ev is InputEventMouseMotion:
+		var p2: Vector2 = inv * (ev.position as Vector2) - position
+		var idx2: int = ev.index if ev is InputEventScreenDrag else 0
+		if mp.toques.has(idx2):
+			mp.arrastar_recorte(idx2, p2)
+			return true
+	return false
+
+
+func _teste_recorte() -> void:
+	await get_tree().create_timer(0.8).timeout
+	mp.abrir_foto(OS.get_environment("GD_FOTO_TESTE"))
+	await get_tree().create_timer(0.8).timeout
+	mp.zoom(1.4)
+	mp.toque_recorte(0, Vector2(180, 260), true)
+	for k in 10:
+		mp.arrastar_recorte(0, Vector2(180 + k * 3, 260 + k * 2))
+		await get_tree().process_frame
+	mp.toque_recorte(0, Vector2(210, 280), false)
+	await get_tree().create_timer(1.0).timeout
+	mp.confirmar_recorte()
+
+
+## Torneio da história: usa o deck em uso do jogador (precisa estar completo).
+func _torneio() -> void:
+	var ok := false
+	for i in Sessao.perfil["decks"].size():
+		ok = ok or Sessao.deck_valido(i)
+	if not ok:
+		mp.avisar(Sessao.t("Monte um deck com 32 cartas primeiro."))
+		return
+	_falar_lista(Sessao.lore.get("prologo", []), Sessao.t("Narrador"), OURO[0], "", func() -> void: _comecar_torneio(""))
 
 
 func _comecar_tutorial() -> void:
@@ -382,6 +503,14 @@ func _draw() -> void:
 			col.desenhar_grade(self)
 		"lore":
 			col.desenhar_lore(self)
+		"perfil":
+			mp.desenhar_perfil()
+		"recorte":
+			mp.desenhar_recorte()
+		"decks":
+			mp.desenhar_decks()
+		"deck_edit":
+			mp.desenhar_deck_edit()
 		"derrota":
 			var e := _entrada(0)
 			PixelFonte.centrado(self, Vector2(180, 290 - 20 * (1.0 - e)), Sessao.t("DERROTA"), Color(0.91, 0.42, 0.42, e), 4, ESCURO)
@@ -443,6 +572,7 @@ func _cabecalho(titulo: String, sub: String) -> void:
 
 
 func _titulo() -> void:
+	mp._desenhar_aviso()
 	# versão no canto inferior direito (vem de application/config/version)
 	var ver := "v" + str(ProjectSettings.get_setting("application/config/version", ""))
 	PixelFonte.desenhar(self, Vector2(354 - PixelFonte.largura(ver.to_upper()), 628), ver.to_upper(), Color(0.89, 0.72, 0.35, 0.6))
@@ -521,6 +651,19 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 		var dx := 1.0 if fmod(tempo, 0.8) < 0.4 else 0.0
 		Fonte57.desenhar(self, Vector2(dentro.end.x - 12 + dx, dentro.position.y + 19), ">", OURO[1])
 		return
+	if b.has("desenho"):
+		(b["desenho"] as Callable).call(b, r, pressao)
+		return
+	if b.has("aba_deck") or b.has("filtro"):
+		var ativa: bool = (b.has("aba_deck") and b["aba_deck"] == mp.aba_deck) or (b.has("filtro") and b["filtro"] == mp.filtro)
+		var cor_f: Color = Carta.COR_CULTURA.get(b.get("filtro", ""), Color("#3d1f33"))
+		var dd := _painel(r, ativa, pressao, cor_f.darkened(0.2 if ativa else 0.6))
+		var rot: String = Sessao.t(b["texto"]) if b.has("aba_deck") else PixelFonte.normalizar(Sessao.nome_deck(b["filtro"])).substr(0, 3)
+		if b.has("aba_deck"):
+			_texto_central(dd.get_center() + Vector2(0, 1), rot, OURO[0] if ativa else Color("#b8b0c0"))
+		else:
+			PixelFonte.centrado(self, dd.get_center() + Vector2(0, 1), rot, OURO[0] if ativa else Color("#b8b0c0"), 1, ESCURO)
+		return
 	if b.has("aba"):
 		var ativa: bool = b["aba"] == col.aba
 		var cor_aba: Color = Color(Sessao.personagem(b["aba"]).get("cor", "#6a6070")) if b["aba"] != "abismo" else Color("#5a2a7a")
@@ -541,6 +684,11 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 
 
 func _nome_opcao(campo: String, v: String) -> String:
+	if campo == "meu_deck":
+		var i := int(v)
+		if i >= 0 and i < Sessao.perfil["decks"].size():
+			return str(Sessao.perfil["decks"][i]["nome"])
+		return "-"
 	if v == "aleatorio":
 		return Sessao.t("Aleatório")
 	if v == "misto":

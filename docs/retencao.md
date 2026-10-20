@@ -51,6 +51,12 @@ Decisões fechadas com o autor (2026-10-20). Números são o ponto de partida; o
 - Lore em `godot/dados/codex/<deck>.json` (173 entradas, escritas por agentes a partir das fichas + fontes na web).
 - Artes provisórias aparecem marcadas **"REVISÃO"** (`godot/dados/arte_revisao.json`).
 
-## Em aberto
-- Taxa do foil e quais cartas ganham versão S.A.R.S primeiro.
-- Ordem de implementação (fases).
+## Foil: decisões (2026-10-20)
+- Chance de foil: **1 em 50 cartas** (2% por carta). Só vem foil a carta que já tem arte S.A.R.S aprovada.
+- Primeiro as **12 lendárias** (geradas e revisadas por agentes); as outras entram aos poucos.
+- Lendária foil: frame full-art. Comum foil: frame original com pílula arco-íris + brilho holográfico.
+
+## Fases (um release por fase)
+1. Perfil (nome + foto com recorte 3:4), auto-save, moedas (inclusive por partida arcade), montar decks, coleção possuída.
+2. Loja e abertura de booster com corte (tudo bem animado).
+3. Torneio arcade de 8.

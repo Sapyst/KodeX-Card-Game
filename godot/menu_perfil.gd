@@ -199,18 +199,83 @@ func _desenhar_aviso() -> void:
 	Fonte57.desenhar(f, r.position + Vector2(8, 5), aviso, Color(1, 0.9, 0.85, a), f.ESCURO)
 
 
+## Escolher foto: navegador → <input type=file> via JavaScript; Android/PC → seletor nativo do sistema.
+## A imagem é lida como bytes (funciona com caminhos content:// do Android) e decodificada pelo formato real.
 func escolher_foto() -> void:
 	if OS.get_environment("GD_FOTO_TESTE") != "":
 		abrir_foto(OS.get_environment("GD_FOTO_TESTE"))
 		return
+	if OS.has_feature("web"):
+		_escolher_web()
+		return
+	if DisplayServer.has_feature(DisplayServer.FEATURE_NATIVE_DIALOG_FILE):
+		DisplayServer.file_dialog_show(Sessao.t("Escolher foto"), "", "", false, DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,
+			PackedStringArray(["*.png, *.jpg, *.jpeg, *.webp;Imagens;image/*"]), _ao_escolher_nativo)
+		return
 	seletor.popup_centered()
 
 
-func abrir_foto(caminho: String) -> void:
-	var im := Image.load_from_file(caminho)
-	if im == null or im.is_empty():
+func _ao_escolher_nativo(ok: bool, caminhos: PackedStringArray, _filtro: int) -> void:
+	if ok and not caminhos.is_empty():
+		abrir_foto.call_deferred(caminhos[0])
+
+
+var _cb_web: JavaScriptObject = null
+
+
+func _escolher_web() -> void:
+	_cb_web = JavaScriptBridge.create_callback(_ao_arquivo_web)
+	JavaScriptBridge.get_interface("window").kodexFoto = _cb_web
+	JavaScriptBridge.eval("""(function(){var i=document.createElement('input');i.type='file';i.accept='image/*';
+		i.onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();
+		r.onload=function(){window.kodexFoto(r.result)};r.readAsDataURL(f);};i.click();})()""", true)
+
+
+func _ao_arquivo_web(args: Array) -> void:
+	var dados := str(args[0])
+	var virgula := dados.find(",")
+	if virgula < 0:
 		avisar(Sessao.t("Não consegui abrir essa imagem."))
 		return
+	_abrir_bytes(Marshalls.base64_to_raw(dados.substr(virgula + 1)))
+
+
+func abrir_foto(caminho: String) -> void:
+	var bytes := FileAccess.get_file_as_bytes(caminho)
+	if bytes.is_empty():
+		var direto := Image.load_from_file(caminho)
+		if direto != null and not direto.is_empty():
+			_usar_imagem(direto)
+			return
+		avisar(Sessao.t("Não consegui abrir essa imagem."))
+		return
+	_abrir_bytes(bytes)
+
+
+## Decodifica pelos primeiros bytes (PNG, JPEG, WebP); se não reconhecer, tenta os três.
+func _abrir_bytes(b: PackedByteArray) -> void:
+	var im := Image.new()
+	var err := ERR_FILE_UNRECOGNIZED
+	if b.size() > 12:
+		if b[0] == 0x89 and b[1] == 0x50:
+			err = im.load_png_from_buffer(b)
+		elif b[0] == 0xFF and b[1] == 0xD8:
+			err = im.load_jpg_from_buffer(b)
+		elif b[0] == 0x52 and b[8] == 0x57:
+			err = im.load_webp_from_buffer(b)
+	if err != OK:
+		for tentativa in [im.load_jpg_from_buffer, im.load_png_from_buffer, im.load_webp_from_buffer]:
+			if (tentativa as Callable).call(b) == OK:
+				err = OK
+				break
+	if err != OK or im.is_empty():
+		avisar(Sessao.t("Não consegui abrir essa imagem."))
+		return
+	_usar_imagem(im)
+
+
+func _usar_imagem(im: Image) -> void:
+	im.convert(Image.FORMAT_RGBA8)
 	if maxi(im.get_width(), im.get_height()) > 2048:             # fotos grandes de celular: reduz antes de recortar
 		var k := 2048.0 / maxi(im.get_width(), im.get_height())
 		im.resize(int(im.get_width() * k), int(im.get_height() * k), Image.INTERPOLATE_LANCZOS)
@@ -271,22 +336,32 @@ func arrastar_recorte(idx: int, p: Vector2) -> void:
 	toques[idx] = p
 
 
+const AREA_RECORTE := Rect2(16, 88, 328, 344)      # onde a foto aparece (escurecida) em volta da moldura
+
+
+## Desenha só a parte da foto que cai dentro de `area` (nada vaza por cima do cabeçalho ou dos botões).
+func _foto_em(area: Rect2, mod: Color) -> void:
+	var dest := Rect2(pos, Vector2(img.get_width(), img.get_height()) * esc)
+	var vis := dest.intersection(area)
+	if vis.size.x <= 0 or vis.size.y <= 0:
+		return
+	var src := Rect2((vis.position - dest.position) / esc, vis.size / esc)
+	f.draw_texture_rect_region(img_tex, vis, src, mod)
+
+
 func desenhar_recorte() -> void:
-	f._cabecalho(Sessao.t("Ajuste a foto"), Sessao.t("arraste e use dois dedos para aproximar"))
-	if img_tex:
-		f.draw_texture_rect(img_tex, Rect2(pos, Vector2(img.get_width(), img.get_height()) * esc), false)
-	# escurece fora da janela
 	var m := MOLDURA
-	var sombra := Color(0.03, 0.02, 0.05, 0.78)
-	f.draw_rect(Rect2(-400, 84, 1200, m.position.y - 84), sombra)
-	f.draw_rect(Rect2(-400, m.end.y, 1200, 1000), sombra)
-	f.draw_rect(Rect2(-400, m.position.y, 400 + m.position.x, m.size.y), sombra)
-	f.draw_rect(Rect2(m.end.x, m.position.y, 800, m.size.y), sombra)
-	# linhas de terço, bem leves
-	for k in [1, 2]:
+	f.draw_rect(AREA_RECORTE.grow(2), f.ESCURO)
+	f.draw_rect(AREA_RECORTE, Color(0.05, 0.04, 0.07))
+	if img_tex:
+		_foto_em(AREA_RECORTE, Color(0.32, 0.3, 0.34))             # fora da moldura: visível, mas apagada
+		_foto_em(m, Color.WHITE)                                    # dentro: nítida
+	f.draw_rect(AREA_RECORTE, Color(0.89, 0.72, 0.35, 0.35), false, 1.0)
+	for k in [1, 2]:                                                # linhas de terço, bem leves
 		f.draw_line(Vector2(m.position.x + m.size.x * k / 3.0, m.position.y), Vector2(m.position.x + m.size.x * k / 3.0, m.end.y), Color(1, 1, 1, 0.12))
 		f.draw_line(Vector2(m.position.x, m.position.y + m.size.y * k / 3.0), Vector2(m.end.x, m.position.y + m.size.y * k / 3.0), Color(1, 1, 1, 0.12))
 	_aro_recorte(m)
+	f._cabecalho(Sessao.t("Ajuste a foto"), Sessao.t("arraste e use dois dedos para aproximar"))
 
 
 func _aro_recorte(m: Rect2) -> void:

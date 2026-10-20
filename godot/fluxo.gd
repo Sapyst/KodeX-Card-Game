@@ -48,6 +48,7 @@ func _enquadrar() -> void:
 var col: Colecao
 var mp: MenuPerfil
 var visor: Visor
+var mpr: MenuPrincipal
 var bo: Booster
 var ta: TorneioArcade
 var _rolando := false                 # dedo encostado na Coleção (arrastando a grade)
@@ -63,6 +64,7 @@ func _ready() -> void:
 		Sessao.perfil["nome"] = OS.get_environment("GD_NOME_TESTE")
 	col = Colecao.new(self)
 	mp = MenuPerfil.new(self)
+	mpr = MenuPrincipal.new(self)
 	visor = Visor.new()
 	visor.f = self
 	add_child(visor)
@@ -146,6 +148,8 @@ func _process(delta: float) -> void:
 	mp.atualizar(delta, _rolando)
 	if estado == "booster":
 		bo.atualizar(delta)
+	if estado == "titulo":
+		mpr.atualizar(delta)
 	if estado == "chave":
 		ta.atualizar(delta)
 	if estado == "colecao":
@@ -168,13 +172,15 @@ func _ir(novo: String) -> void:
 	match novo:
 		"titulo":
 			_botao(Rect2(8, 4, 344, 36), "", func() -> void: _ir("perfil"), {"desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: mp.barra_titulo()})
-			_botao(Rect2(90, 350, 180, 26), "Torneio", _torneio)
-			_botao(Rect2(90, 381, 180, 26), "Arcade", func() -> void: _ir("arcade"))
-			_botao(Rect2(90, 412, 180, 26), "Loja", func() -> void: _ir("loja"))
-			_botao(Rect2(90, 443, 180, 26), "Coleção", func() -> void: col.abrir_aba(col.aba); _ir("colecao"))
-			_botao(Rect2(90, 474, 180, 26), "Decks", func() -> void: _ir("decks"))
-			_botao(Rect2(90, 505, 180, 26), "Tutorial", _comecar_tutorial)
-			_botao(Rect2(120, 540, 120, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("titulo"), {"idioma": true})
+			_botao(Rect2(60, 444, 240, 34), "", mpr.jogar, {"desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mpr.botao_jogar(b, r, pr)})
+			_botao(Rect2(44, 488, 272, 28), "", func() -> void: _ir("decks"), {"desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mpr.botao_deck(b, r, pr)})
+			var abas := [["inicio", "Início", func() -> void: pass], ["colecao", "Coleção", func() -> void: col.abrir_aba(col.aba); _ir("colecao")],
+				["decks", "Decks", func() -> void: _ir("decks")], ["loja", "Loja", func() -> void: _ir("loja")], ["opcoes", "Opções", func() -> void: _ir("opcoes")]]
+			for k in abas.size():
+				_botao(Rect2(k * 72, 590, 72, 46), abas[k][1], abas[k][2], {"aba_menu": abas[k][0], "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mpr.aba(b, r, pr)})
+		"opcoes":
+			_botao(Rect2(110, 150, 140, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("opcoes"), {"idioma": true})
+			_botao(Rect2(110, 604, 140, 26), "Voltar", func() -> void: _ir("titulo"))
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
@@ -402,6 +408,8 @@ func _unhandled_input(ev: InputEvent) -> void:
 		elif ev is InputEventScreenDrag or ev is InputEventMouseMotion:
 			visor.mover(pv)
 		return
+	if estado == "titulo" and _entrada_leque(ev):
+		return
 	if estado == "recorte" and _entrada_recorte(ev):
 		return
 	if estado == "booster" and _entrada_booster(ev):
@@ -588,6 +596,29 @@ func _entrada_booster(ev: InputEvent) -> bool:
 	return false
 
 
+## Leque de modos: arrastar na faixa das cartas rola; toque na carta do centro joga.
+func _entrada_leque(ev: InputEvent) -> bool:
+	var inv := get_canvas_transform().affine_inverse()
+	if ev is InputEventScreenTouch or (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT):
+		var p: Vector2 = inv * (ev.position as Vector2) - position
+		if ev.pressed:
+			if transicao > 0.5 or not mpr.na_area(p):
+				return false
+			for b in botoes:
+				if (b["rect"] as Rect2).has_point(p):
+					return false
+			mpr.pressionar(p)
+			return true
+		if mpr._segura:
+			mpr.soltar(p)
+			return true
+		return false
+	if (ev is InputEventScreenDrag or ev is InputEventMouseMotion) and mpr._segura:
+		mpr.mover(inv * (ev.position as Vector2) - position)
+		return true
+	return false
+
+
 ## Torneio arcade de 8: começa um novo (precisa de deck completo) ou continua o salvo.
 func _torneio_arcade() -> void:
 	if not Sessao.ta_ativo():
@@ -630,6 +661,8 @@ func _draw() -> void:
 	match estado:
 		"titulo":
 			_titulo()
+		"opcoes":
+			_opcoes()
 		"escolha_deck":
 			_cabecalho(Sessao.t("Escolha o seu deck"), Sessao.t("seis tradições, um Códice"))
 		"arcade":
@@ -714,26 +747,21 @@ func _cabecalho(titulo: String, sub: String) -> void:
 
 
 func _titulo() -> void:
+	# barra inferior: fundo e filete
+	draw_rect(Rect2(-400, 586, 1200, 200), Color(0.07, 0.05, 0.08, 0.96))
+	draw_rect(Rect2(-400, 586, 1200, 1), Color(0.89, 0.72, 0.35, 0.5))
+	draw_rect(Rect2(0, 588, 72, 2), OURO[0])                       # aba ativa: Início
+	_texto_central(Vector2(180, 126), Sessao.t("o torneio do Códice"), Color(0.85, 0.78, 0.66, _entrada(4)))
+	mpr.desenhar()
 	mp._desenhar_aviso()
-	# versão no canto inferior direito (vem de application/config/version)
-	var ver := "v" + str(ProjectSettings.get_setting("application/config/version", ""))
-	PixelFonte.desenhar(self, Vector2(354 - PixelFonte.largura(ver.to_upper()), 628), ver.to_upper(), Color(0.89, 0.72, 0.35, 0.6))
-	# cartas lendárias em leque, abrindo e respirando
-	var ids := ["ind_tupa", "cri_sao_miguel_arcanjo", "hin_shiva_nataraja", "bru_hecate", "tao_imperador_de_jade"]
-	var e := _entrada(2)
-	for i in ids.size():
-		var tex := Carta.textura("arte", ids[i], "png")
-		if tex:
-			var ang := deg_to_rad((i - 2) * 9.0 * e)
-			var resp := sin(tempo * 1.4 + i * 0.9) * 2.0
-			var pos := Vector2(180 + (i - 2) * 46 * e, 262 + absf(i - 2) * 8 * e + resp + (1.0 - e) * 40)
-			draw_set_transform(pos, ang, Vector2(1.6, 1.6))
-			draw_rect(Rect2(-27, -35, 54, 70), ESCURO)
-			draw_rect(Rect2(-26, -34, 52, 68), OURO[2])
-			draw_rect(Rect2(-25, -33, 50, 66), ESCURO)
-			draw_texture_rect(tex, Rect2(-24, -32, 48, 64), false, Color(1, 1, 1, e))
-			draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
-	_texto_central(Vector2(180, 182), Sessao.t("o torneio do Códice"), Color(0.85, 0.78, 0.66, _entrada(4)))
+
+
+func _opcoes() -> void:
+	_cabecalho(Sessao.t("Opções"), Sessao.t("idioma e informações"))
+	Fonte57.desenhar(self, Vector2(110, 134), Sessao.t("Idioma"), Color("#b8a888"))
+	var ver := "KodeX v" + str(ProjectSettings.get_setting("application/config/version", ""))
+	_texto_central(Vector2(180, 560), ver, Color(0.89, 0.72, 0.35, 0.7))
+	_texto_central(Vector2(180, 574), "Sapyst 2026", Color(0.6, 0.55, 0.6))
 
 
 ## Painel metálico (contorno, aro claro em cima/esquerda e escuro embaixo/direita, filete interno, fundo).
@@ -901,7 +929,10 @@ func _autoplay() -> void:
 	var alvo := OS.get_environment("GD_FLUXO_AUTO")
 	await get_tree().create_timer(1.2).timeout
 	if estado == "titulo":
-		tocar(_btn(["Torneio"]) if alvo == "torneio" else _btn(["Arcade"]))
+		if alvo == "torneio":
+			_torneio()
+		else:
+			_ir("arcade")
 	while is_inside_tree():
 		await get_tree().create_timer(0.35).timeout
 		if not is_inside_tree():
@@ -937,6 +968,6 @@ func _desenhar_logo() -> void:
 	var c1 := 1.70158
 	var e := 1.0 + (c1 + 1.0) * pow(u - 1.0, 3) + c1 * pow(u - 1.0, 2)
 	var esc := e * (1.0 + 0.015 * sin(tempo * 1.6))
-	var w := 300.0 * esc
+	var w := 220.0 * esc
 	var h := w * logo_tex.get_height() / logo_tex.get_width()
-	logo_no.draw_texture_rect(logo_tex, Rect2(Vector2(180 - w / 2.0, 108 - h / 2.0), Vector2(w, h)), false, Color(1, 1, 1, u))
+	logo_no.draw_texture_rect(logo_tex, Rect2(Vector2(180 - w / 2.0, 80 - h / 2.0), Vector2(w, h)), false, Color(1, 1, 1, u))

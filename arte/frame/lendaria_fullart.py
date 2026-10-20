@@ -163,7 +163,13 @@ def main():
             im.paste(claro, (0, 0), fil)
             x_nome = 126
         # nome
-        texto_foil_em(im, claro, (x_nome, cy), c["nome"], nome_f, "l", 4)
+        # nome: encolhe a fonte até caber entre o custo e a borda direita (mínimo 30 px)
+        tam_nome = 50
+        larg_max = W - BORDA - 28 - x_nome
+        medidor = ImageDraw.Draw(Image.new("L", (1, 1)))
+        while tam_nome > 30 and medidor.textlength(c["nome"], font=f(SERIF_BLACK, tam_nome)) > larg_max:
+            tam_nome -= 2
+        texto_foil_em(im, claro, (x_nome, cy), c["nome"], f(SERIF_BLACK, tam_nome), "l", 4)
         # tipo (+ palavras-chave) em serifa grossa foil
         y_tipo = 724
         texto_foil(im, claro, (W // 2, y_tipo), tipo_txt, tipo_f, "mm", 3)
@@ -171,7 +177,7 @@ def main():
         dl.line((70, y_tipo + 24, W - 70, y_tipo + 24), fill=(150, 140, 160), width=1)
         # descrição branca
         y = y_tipo + 42
-        corpo = texto
+        corpo = texto.replace("Lendária. ", "").replace("Lendária.", "")        # a linha de tipo já diz LENDÁRIA
         for kw in kws:
             corpo = corpo.replace(kw.capitalize() + ". ", "").replace(kw.capitalize() + ".", "")
         if kws:

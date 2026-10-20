@@ -1,0 +1,69 @@
+{
+ "ind_jaci": {
+  "deck": "indigena",
+  "tags": "1girl, solo, jaci, tupi moon goddess, (indigenous brazilian woman:1.3), brown skin, long straight black hair with bangs, (white feather headdress:1.2), white body paint dots, white cotton skirt, glowing silver light in her open hands, (huge full moon behind her:1.4), floating above a dark amazon river, (victoria amazonica giant water lilies:1.2), silver moonlight reflections, fireflies, night",
+  "essencial": "mulher indígena brasileira (Tupi), lua cheia grande, rio da Amazônia com vitórias-régias, luz prateada/lunar, cocar ou adorno branco"
+ },
+ "ind_tupa": {
+  "deck": "indigena",
+  "tags": "1boy, solo, tupa, tupi thunder god, (indigenous brazilian man:1.3), brown skin, muscular, red urucum body paint, black genipapo stripes, (scarlet macaw feather headdress red blue yellow:1.3), (wooden war club tacape:1.2), (lightning bolts in his raised hand:1.3), standing on storm clouds, thunderstorm over the amazon rainforest, rain, wind",
+  "essencial": "homem indígena brasileiro (Tupi, não norte-americano), cocar de penas de arara, raios/tempestade sob seu comando, tacape (clava de madeira), pintura corporal"
+ },
+ "cri_elias": {
+  "deck": "cristianismo",
+  "tags": "1boy, solo, prophet elijah, (old man with long white beard:1.2), bareheaded, (sheepskin mantle:1.3), (standing in a chariot of fire:1.5), (blazing wheels of fire:1.3), (two horses made entirely of flames:1.4), (whirlwind spiraling up into the sky:1.3), ascending to heaven, desert far below, stormy night sky",
+  "essencial": "profeta idoso de barba branca, carro de fogo puxado por cavalos de fogo, redemoinho subindo ao céu, manto; sem figura de Deus ou Cristo",
+  "neg": "helmet, horns, viking, armor, centaur, riding a horse, saddle, normal horse"
+ },
+ "cri_sao_miguel_arcanjo": {
+  "deck": "cristianismo",
+  "tags": "1boy, solo, archangel michael, handsome stern adult face, (golden armor:1.2), red cape, (large white feathered wings:1.3), golden halo, (flaming sword raised in right hand:1.3), (golden scales in left hand:1.2), (foot on the head of a defeated black dragon:1.4), storm clouds, rays of heavenly light, (golden balance scales held in left hand:1.5)",
+  "essencial": "arcanjo guerreiro com asas brancas e auréola, espada flamejante, balança, armadura, dragão/serpente derrotado sob os pés; sem figura de Deus ou Cristo",
+  "neg": "horns, demon, horned helmet, devil"
+ },
+ "tao_xiwangmu": {
+  "deck": "taoismo",
+  "tags": "1girl, solo, xiwangmu, queen mother of the west, (middle-aged regal woman:1.4), chinese empress goddess, (phoenix crown with golden phoenix ornaments:1.4), layered golden hanfu robes, (pink peach in her open palm:1.4), (small blue bird perched on her hand:1.2), (kunlun mountain peaks:1.2), (peach blossom trees:1.3), sea of clouds, jade palace",
+  "essencial": "deusa chinesa madura e régia, coroa de fênix, pêssego da imortalidade, pássaro azul, montanha Kunlun/pessegueiros",
+  "neg": "wings, feathered wings, angel, young girl, teenager, halo"
+ },
+ "tao_imperador_de_jade": {
+  "deck": "taoismo",
+  "tags": "1boy, solo, jade emperor, chinese emperor god, long black beard, serene face, (mian crown, flat rectangular board on top with strings of jade beads hanging in front of the face:1.5), (holding a white jade hu tablet vertically in both hands:1.4), (yellow imperial robe with embroidered golden dragons:1.3), seated on a jade throne, (palace above the clouds:1.3), golden light",
+  "essencial": "imperador celestial chinês de barba, coroa mian (tábua com franjas de contas), manto amarelo com dragões, tábua de jade, trono, palácio nas nuvens",
+  "neg": "antlers, horns, spiky crown, tablet computer, screen, green lines, vertical lines, wires, playing card, symbol, spiky crown, strings from ceiling, hanging threads"
+ },
+ "hin_kali": {
+  "deck": "hinduismo",
+  "tags": "1girl, solo, kali, hindu goddess, (dark blue skin:1.4), (4 arms:1.4), fierce face, (red tongue sticking out:1.4), third eye, wild long black hair, (necklace of skulls around her neck:1.4), (curved sword raised in one hand:1.3), (red sari, fully clothed, covered midriff:1.3), gold jewelry, cremation ground at night, fire, smoke",
+  "essencial": "deusa de pele azul-escura/negra, quatro braços, língua para fora, terceiro olho, colar de crânios, espada curva; peito coberto, sem gore",
+  "neg": "six arms, eight arms, many arms, extra arms, bare midriff, navel, hood, hidden face"
+ },
+ "hin_shiva_nataraja": {
+  "deck": "hinduismo",
+  "tags": "1boy, solo, shiva nataraja, hindu god, (blue skin:1.5), (4 arms:1.5), (cosmic dance pose, left leg raised across the body:1.3), (ring of fire around him:1.4), (small two-headed hand drum damaru in upper right hand:1.4), (flame held in upper left hand:1.3), third eye, matted hair with crescent moon, snake around neck, (tiger skin loincloth:1.3), gold jewelry, (right foot on a small dwarf demon:1.3)",
+  "essencial": "deus de pele azul, quatro braços, pose de dança com uma perna erguida, anel de fogo, tambor damaru, chama, terceiro olho",
+  "neg": "six arms, eight arms, many arms, extra arms, merged arms, nude, naked, hourglass, sand timer, drum kit, cymbal, drum set"
+ },
+ "bru_a_morrigan": {
+  "deck": "bruxaria",
+  "tags": "1girl, solo, the morrigan, celtic goddess of war, (black crow feather cloak:1.3), long black hair, blue woad war paint, celtic armor, (spear raised:1.2), (flock of ravens:1.3), standing in a river ford, broken shields and swords in the water, misty battlefield at dawn",
+  "essencial": "deusa guerreira celta, capa de penas de corvo, corvos, lança, vau de rio com armas/escudos quebrados"
+ },
+ "bru_hecate": {
+  "deck": "bruxaria",
+  "tags": "hecate, greek goddess of witchcraft, (three women standing back to back:1.4), dark purple and black robes, (each holding a burning wooden torch:1.3), silver crescent moon crown, (two black dogs at their feet:1.4), (large iron keys hanging from belts:1.3), (crossroads, three dirt roads meeting:1.4), full moon, night mist, (silver crescent moon crown:1.3), adult women, stern faces",
+  "essencial": "deusa grega tripla (três faces ou três figuras), tochas acesas, encruzilhada, cães negros, chaves, lua crescente",
+  "neg": "swords, blades, weapons, sword, armor, cross, christian cross, crucifix, cute, moe, loli, young girl"
+ },
+ "alt_babalon": {
+  "deck": "alta_magia",
+  "tags": "1girl, solo, babalon, scarlet woman, long red hair, golden crown, (crimson gown fully clothed:1.3), (holding a golden chalice glowing with red light:1.3), (riding a black seven-headed beast:1.4), seven heads, occult temple, candles, red and gold light, mysterious",
+  "essencial": "mulher de vermelho com coroa, cálice dourado com luz vermelha, montada numa besta de sete cabeças; vestida, sem nudez"
+ },
+ "alt_anjo_guardiao": {
+  "deck": "alta_magia",
+  "tags": "guardian angel, solo, (faceless, face hidden in radiant light:1.4), (being of golden light:1.3), white robe, (huge golden wings spread protectively:1.4), arms open, standing before a tall gothic window at dawn, sunrise light rays, sacred geometry, motes of light",
+  "essencial": "anjo de luz dourada com rosto oculto pelo brilho, grandes asas abertas protegendo, túnica branca, amanhecer/janela"
+ }
+}

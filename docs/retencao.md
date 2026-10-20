@@ -53,7 +53,10 @@ Decisões fechadas com o autor (2026-10-20). Números são o ponto de partida; o
 
 ## Foil: decisões (2026-10-20)
 - Chance de foil: **1 em 50 cartas** (2% por carta). Só vem foil a carta que já tem arte S.A.R.S aprovada.
-- Primeiro as **12 lendárias** (geradas e revisadas por agentes); as outras entram aos poucos.
+- Primeiro as **12 lendárias** (ultra raras) — **feitas**: arte nova do zero, sem nada da arte normal, em `arte/foil/<id>.png`.
+  Processo: prompt próprio em tags por entidade (`arte/foil_lendarias.json`, com o que é essencial e negativos por carta);
+  S.A.R.S puro (`gerar_foil_lendarias.py`) quando acerta; nas difíceis, composição nova com Krea 2 sem LoRA + redesenho
+  S.A.R.S leve (`foil_hibrido.py`). Revisão por agentes pela identidade mitológica; anatomia conferida (Shiva/Kali 4 braços).
 - Lendária foil: frame full-art. Comum foil: frame original com pílula arco-íris + brilho holográfico.
 
 ## Fases (um release por fase)

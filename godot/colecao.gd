@@ -9,7 +9,7 @@ const CW := 74.0
 const CH := 104.0
 const PASSO := 112.0
 const TOPO := 96.0
-const BASE := 594.0
+static var BASE := 594.0          # base da área rolável: o menu ajusta à altura útil (acima da barra)
 
 var f                               # o menu (fluxo.gd)
 var aba := "alta_magia"

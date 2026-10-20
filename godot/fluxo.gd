@@ -41,8 +41,103 @@ func _enquadrar() -> void:
 		var k := vs.y / win.y
 		topo = seg.position.y * k
 		base = maxf(0.0, (win.y - seg.end.y) * k)
-	var livre := vs.y - topo - base
-	position = Vector2(roundf((vs.x - W) / 2.0), roundf(topo + maxf(0.0, (livre - H) / 2.0)))
+	alt_util = maxf(float(H), vs.y - topo - base)
+	pos_base = Vector2(roundf((vs.x - W) / 2.0), roundf(topo))
+	position = pos_base
+	if OS.get_environment("GD_DEBUG_TELA") != "":
+		print("TELA vs=", vs, " win=", win, " seg=", DisplayServer.get_display_safe_area(), " topo=", topo, " base=", base, " alt=", alt_util)
+
+
+## Tela cheia: o conteúdo começa logo abaixo da área segura (câmera/notch) e a barra de abas fica colada na base,
+## acima da barra de gestos. Em telas mais altas que 640, o espaço extra vai para o meio (leque) e as grades.
+var alt_util := 640.0
+var pos_base := Vector2.ZERO
+const ALT_BARRA := 52.0
+const ABAS_MENU := [["titulo", "inicio", "Início"], ["colecao", "colecao", "Coleção"], ["decks", "decks", "Decks"],
+	["loja", "loja", "Loja"], ["opcoes", "opcoes", "Opções"]]
+var barra: Node2D
+var aba_sel := 0.0                    # posição animada do destaque (índice contínuo)
+var deslize := 0.0                    # deslocamento horizontal da troca de aba (px, volta a 0)
+var _aba_toque := -1
+
+
+func y_barra() -> float:
+	return alt_util - ALT_BARRA
+
+
+func extra() -> float:
+	return maxf(0.0, (y_barra() - 588.0) / 2.0)
+
+
+func _indice_aba(e: String) -> int:
+	for k in ABAS_MENU.size():
+		if ABAS_MENU[k][0] == e:
+			return k
+	return -1
+
+
+func barra_visivel() -> bool:
+	return _indice_aba(estado) >= 0
+
+
+func trocar_aba(k: int) -> void:
+	var atual := _indice_aba(estado)
+	if k == atual or k < 0:
+		return
+	vibrar(12, 0.4)
+	deslize = 70.0 * signf(k - atual)
+	var dest: String = ABAS_MENU[k][0]
+	if dest == "colecao":
+		col.abrir_aba(col.aba)
+	_ir(dest)
+	transicao = 0.45
+
+
+func _desenhar_barra() -> void:
+	if not barra_visivel():
+		return
+	var y0 := 0.0
+	barra.draw_rect(Rect2(-400, y0, 1200, ALT_BARRA + 200), Color(0.06, 0.045, 0.07, 0.98))
+	barra.draw_rect(Rect2(-400, y0, 1200, 1), Color(0.89, 0.72, 0.35, 0.45))
+	# destaque deslizando: pílula dourada no topo + brilho de fundo da aba
+	var x := aba_sel * 72.0
+	barra.draw_rect(Rect2(x + 10, y0 + 4, 52, ALT_BARRA - 10), Color(1.0, 0.85, 0.4, 0.08))
+	barra.draw_rect(Rect2(x + 14, y0, 44, 2), OURO[0])
+	for k in ABAS_MENU.size():
+		var ativa := k == _indice_aba(estado)
+		var perto := 1.0 - clampf(absf(aba_sel - k), 0, 1)
+		var cor: Color = Color(0.62, 0.58, 0.62).lerp(OURO[0], perto)
+		var c := Vector2(k * 72 + 36, y0 + 18 - perto * 3 + (1.0 if _aba_toque == k else 0.0))
+		barra.draw_set_transform(c, 0.0, Vector2.ONE * (1.0 + 0.18 * perto))
+		mpr.icone(barra, ABAS_MENU[k][1], Vector2.ZERO, cor)
+		barra.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+		PixelFonte.centrado(barra, Vector2(k * 72 + 36, y0 + 38), Sessao.t(ABAS_MENU[k][2]).to_upper(), cor, 1)
+		if ABAS_MENU[k][1] == "loja" and Sessao.boosters_gratis() > 0:
+			barra.draw_circle(c + Vector2(10, -8), 3.5, Color("#e04040"))
+		if ativa:
+			pass
+
+
+## Toques na barra (coordenadas da tela → da barra). Devolve true se a barra consumiu o toque.
+func _entrada_barra(ev: InputEvent) -> bool:
+	if not barra_visivel() or not ("position" in ev):
+		return false
+	var p: Vector2 = get_canvas_transform().affine_inverse() * (ev.position as Vector2) - barra.position
+	var dentro := p.y >= 0 and p.y <= ALT_BARRA + 40 and p.x >= 0 and p.x < 360
+	if ev is InputEventScreenTouch or (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT):
+		if ev.pressed:
+			if not dentro:
+				return false
+			_aba_toque = clampi(int(p.x / 72), 0, 4)
+			vibrar(8, 0.3)
+			return true
+		if _aba_toque >= 0:
+			var k := _aba_toque
+			_aba_toque = -1
+			if dentro and clampi(int(p.x / 72), 0, 4) == k:
+				trocar_aba(k)
+			return true
+	return false
 
 
 var col: Colecao
@@ -65,6 +160,11 @@ func _ready() -> void:
 	col = Colecao.new(self)
 	mp = MenuPerfil.new(self)
 	mpr = MenuPrincipal.new(self)
+	barra = Node2D.new()
+	barra.top_level = true                   # não desliza com o conteúdo na troca de aba
+	barra.z_index = 90
+	barra.draw.connect(_desenhar_barra)
+	add_child(barra)
 	visor = Visor.new()
 	visor.f = self
 	add_child(visor)
@@ -118,6 +218,14 @@ func _ready() -> void:
 		Sessao.perfil["nome"] = OS.get_environment("GD_TESTE_NOME")
 		mp.nome_edit.text = Sessao.perfil["nome"]
 		mp.nome_edit.grab_focus()
+	if OS.get_environment("GD_PRINTS") != "":                 # teste: salva prints da viewport inteira (telas altas)
+		for k in OS.get_environment("GD_PRINTS").split(","):
+			var tt := float(k)
+			get_tree().create_timer(tt).timeout.connect(func() -> void:
+				get_viewport().get_texture().get_image().save_png(OS.get_environment("GD_PRINTS_DIR") + "/p_%05.2f.png" % tt))
+	if OS.get_environment("GD_TESTE_ABAS") != "":             # teste: percorre as abas pela barra
+		for k in [1, 3, 2, 4, 0]:
+			get_tree().create_timer(1.2 + [1, 3, 2, 4, 0].find(k) * 1.4).timeout.connect(trocar_aba.bind(k))
 	if OS.get_environment("GD_TESTE_VISOR") != "":            # teste: abre, sobe a lore, volta, fecha puxando
 		mp.abrir_deck(0)
 		_teste_visor()
@@ -150,6 +258,14 @@ func _process(delta: float) -> void:
 		bo.atualizar(delta)
 	if estado == "titulo":
 		mpr.atualizar(delta)
+	var alvo_aba := _indice_aba(estado)
+	if alvo_aba >= 0:
+		aba_sel = lerpf(aba_sel, alvo_aba, minf(1.0, delta * 12.0))
+	deslize = lerpf(deslize, 0.0, minf(1.0, delta * 10.0))
+	position = pos_base + Vector2(deslize, 0)
+	barra.position = pos_base + Vector2(0, y_barra())
+	Colecao.BASE = minf(594.0 + extra() * 2.0, y_barra() - 6.0)
+	barra.queue_redraw()
 	if estado == "chave":
 		ta.atualizar(delta)
 	if estado == "colecao":
@@ -172,22 +288,17 @@ func _ir(novo: String) -> void:
 	match novo:
 		"titulo":
 			_botao(Rect2(8, 4, 344, 36), "", func() -> void: _ir("perfil"), {"desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: mp.barra_titulo()})
-			_botao(Rect2(60, 444, 240, 34), "", mpr.jogar, {"desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mpr.botao_jogar(b, r, pr)})
-			_botao(Rect2(44, 488, 272, 28), "", func() -> void: _ir("decks"), {"desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mpr.botao_deck(b, r, pr)})
-			var abas := [["inicio", "Início", func() -> void: pass], ["colecao", "Coleção", func() -> void: col.abrir_aba(col.aba); _ir("colecao")],
-				["decks", "Decks", func() -> void: _ir("decks")], ["loja", "Loja", func() -> void: _ir("loja")], ["opcoes", "Opções", func() -> void: _ir("opcoes")]]
-			for k in abas.size():
-				_botao(Rect2(k * 72, 590, 72, 46), abas[k][1], abas[k][2], {"aba_menu": abas[k][0], "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mpr.aba(b, r, pr)})
+			mpr.centro = Vector2(180, 300 + extra())
+			_botao(Rect2(60, 444 + extra() * 1.6, 240, 34), "", mpr.jogar, {"desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mpr.botao_jogar(b, r, pr)})
+			_botao(Rect2(44, 488 + extra() * 1.6, 272, 28), "", func() -> void: trocar_aba(2), {"desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mpr.botao_deck(b, r, pr)})
 		"opcoes":
 			_botao(Rect2(110, 150, 140, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("opcoes"), {"idioma": true})
-			_botao(Rect2(110, 604, 140, 26), "Voltar", func() -> void: _ir("titulo"))
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
 			for i in Colecao.ABAS.size():
 				var d: String = Colecao.ABAS[i]
 				_botao(Rect2(14 + i * 48, 48, 44, 22), "", func() -> void: col.abrir_aba(d); _ir("colecao"), {"aba": d})
-			_botao(Rect2(110, 604, 140, 26), "Voltar", func() -> void: _ir("titulo"))
 		"lore":
 			_botao(Rect2(110, 604, 140, 26), "Voltar", func() -> void: _ir("colecao"))
 		"perfil":
@@ -207,7 +318,6 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(90, 404, 180, 30), "Comprar booster", bo.comprar)
 			if Sessao.boosters_gratis() > 0:
 				_botao(Rect2(90, 512, 180, 30), Sessao.t("Abrir grátis (%d)") % Sessao.boosters_gratis(), bo.comprar.bind(true))
-			_botao(Rect2(110, 600, 140, 26), "Voltar", func() -> void: _ir("titulo"))
 		"booster":
 			if bo.etapa == "fim":
 				for k in 3:
@@ -221,7 +331,6 @@ func _ir(novo: String) -> void:
 			for i in Sessao.perfil["decks"].size():
 				_botao(Rect2(30, 92 + i * 46, 300, 40), "", mp.abrir_deck.bind(i), {"deck_idx": i, "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mp.botao_deck(b, r, pr)})
 			_botao(Rect2(90, 470, 180, 30), "Novo deck", mp.novo_deck)
-			_botao(Rect2(110, 604, 140, 26), "Voltar", func() -> void: _ir("titulo"))
 		"deck_edit":
 			_botao(Rect2(60, 4, 240, 28), "", mp.renomear_deck, {"desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
 			_botao(Rect2(70, 54, 104, 22), "Coleção", mp.trocar_aba.bind("cartas"), {"aba_deck": "cartas"})
@@ -407,6 +516,8 @@ func _unhandled_input(ev: InputEvent) -> void:
 				visor.soltar(pv)
 		elif ev is InputEventScreenDrag or ev is InputEventMouseMotion:
 			visor.mover(pv)
+		return
+	if _entrada_barra(ev):
 		return
 	if estado == "titulo" and _entrada_leque(ev):
 		return
@@ -765,10 +876,6 @@ func _cabecalho(titulo: String, sub: String) -> void:
 
 
 func _titulo() -> void:
-	# barra inferior: fundo e filete
-	draw_rect(Rect2(-400, 586, 1200, 200), Color(0.07, 0.05, 0.08, 0.96))
-	draw_rect(Rect2(-400, 586, 1200, 1), Color(0.89, 0.72, 0.35, 0.5))
-	draw_rect(Rect2(0, 588, 72, 2), OURO[0])                       # aba ativa: Início
 	_texto_central(Vector2(180, 126), Sessao.t("o torneio do Códice"), Color(0.85, 0.78, 0.66, _entrada(4)))
 	mpr.desenhar()
 	mp._desenhar_aviso()

@@ -530,7 +530,8 @@ func _entrada_recorte(ev: InputEvent) -> bool:
 			var em_botao := false
 			for b in botoes:
 				em_botao = em_botao or (b["rect"] as Rect2).grow(4).has_point(p)
-			if em_botao or (not MenuPerfil.AREA_RECORTE.has_point(p) and mp.toques.is_empty()):
+			# o ajuste só começa DENTRO da janela de recorte; o 2º dedo da pinça pode cair fora
+			if em_botao or (not MenuPerfil.MOLDURA.has_point(p) and mp.toques.is_empty()):
 				return false                            # botão (Confirmar, −, +, Cancelar): segue para os botões
 		elif not mp.toques.has(idx):
 			return false                                # soltou um toque que não era do recorte (ex.: botão)

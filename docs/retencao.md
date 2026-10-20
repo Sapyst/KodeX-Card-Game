@@ -66,4 +66,4 @@ C = comum (custo até 3) · R = rara (custo 4+) · SR = Lendária · UR = Lendá
 ## Fases (um release por fase)
 1. Perfil (nome + foto com recorte 3:4), auto-save, moedas (inclusive por partida arcade), montar decks, coleção possuída.
 2. Loja e abertura de booster com corte (tudo bem animado). **Feito na v0.5.0** (`godot/booster.gd`).
-3. Torneio arcade de 8.
+3. Torneio arcade de 8. **Feito na v0.6.0** (`godot/torneio_arcade.gd`): 7 NPCs (6 campeões + O Viajante, deck misto), chave salva, NPC × NPC sorteado.

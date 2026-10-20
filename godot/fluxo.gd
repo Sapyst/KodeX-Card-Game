@@ -48,6 +48,7 @@ func _enquadrar() -> void:
 var col: Colecao
 var mp: MenuPerfil
 var bo: Booster
+var ta: TorneioArcade
 var _rolando := false                 # dedo encostado na Coleção (arrastando a grade)
 var _rol_ini := Vector2.ZERO
 var _rol_ult := Vector2.ZERO
@@ -62,6 +63,7 @@ func _ready() -> void:
 	col = Colecao.new(self)
 	mp = MenuPerfil.new(self)
 	bo = Booster.new(self)
+	ta = TorneioArcade.new(self)
 	arcade["meu_deck"] = str(int(Sessao.perfil["deck_ativo"]))
 	# logo KodeX desenhado num nó próprio com filtro linear (o resto da UI é pixel, filtro nearest)
 	logo_tex = load("res://assets/logo.png") if ResourceLoader.exists("res://assets/logo.png") else null
@@ -77,6 +79,8 @@ func _ready() -> void:
 		_pos_luta_torneio()
 	elif Sessao.resultado != "" and Sessao.modo == "arcade":
 		_pos_luta_arcade()
+	elif Sessao.resultado != "" and Sessao.modo == "arcade_t":
+		ta.pos_partida()
 	elif str(Sessao.perfil.get("nome", "")) == "":
 		_ir("perfil")                                       # primeira vez: cria o perfil
 	else:
@@ -86,6 +90,16 @@ func _ready() -> void:
 			mp.abrir_deck(0)
 		else:
 			_ir(OS.get_environment("GD_FLUXO_TELA"))
+	if OS.get_environment("GD_TA_TESTE") != "":               # teste: chave com as quartas (e semifinal) se resolvendo
+		Sessao.novo_torneio_arcade()
+		_ir("chave")
+		get_tree().create_timer(0.8).timeout.connect(func() -> void:
+			Sessao.resultado = "vitoria"
+			ta.pos_partida())
+		if OS.get_environment("GD_TA_TESTE") == "2":
+			get_tree().create_timer(5.0).timeout.connect(func() -> void:
+				Sessao.resultado = "derrota"
+				ta.pos_partida())
 	if OS.get_environment("GD_BOOSTER_AUTO") != "":           # teste: compra e abre um booster sozinho
 		_ir("loja")
 		get_tree().create_timer(0.6).timeout.connect(bo.comprar)
@@ -121,6 +135,8 @@ func _process(delta: float) -> void:
 	mp.atualizar(delta, _rolando)
 	if estado == "booster":
 		bo.atualizar(delta)
+	if estado == "chave":
+		ta.atualizar(delta)
 	if estado == "colecao":
 		col.atualizar(delta, _rolando)
 	elif estado == "lore":
@@ -207,8 +223,21 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(20, 150, 320, 40), "", func() -> void: _ciclar("oponente"), {"campo": "oponente"})
 			_botao(Rect2(20, 220, 320, 40), "", func() -> void: _ciclar("meu_deck"), {"campo": "meu_deck"})
 			_botao(Rect2(20, 290, 320, 40), "", func() -> void: _ciclar("deck_dele"), {"campo": "deck_dele"})
-			_botao(Rect2(90, 380, 180, 32), "Jogar", _comecar_arcade)
-			_botao(Rect2(90, 424, 180, 26), "Voltar", func() -> void: _ir("titulo"))
+			_botao(Rect2(90, 372, 180, 30), "Jogar", _comecar_arcade)
+			_botao(Rect2(90, 412, 180, 30), "Continuar torneio" if Sessao.ta_ativo() else "Torneio de 8", _torneio_arcade)
+			_botao(Rect2(90, 454, 180, 26), "Voltar", func() -> void: _ir("titulo"))
+		"chave":
+			var d := Sessao.ta()
+			if ta.anim.is_empty() and not d.is_empty():
+				if d["fim"]:
+					_botao(Rect2(100, 596, 160, 28), "Concluir", ta.concluir)
+				elif d["eliminado"]:
+					_botao(Rect2(100, 590, 160, 26), "Ver o resto", ta.ver_resto)
+					_botao(Rect2(244, 618, 100, 18), "Sair", ta.concluir)
+				else:
+					_botao(Rect2(100, 560, 160, 30), "Lutar!", ta.lutar)
+					_botao(Rect2(16, 604, 100, 24), "Voltar", func() -> void: _ir("arcade"))
+					_botao(Rect2(244, 604, 100, 24), "Desistir", ta.concluir)
 		"falas":
 			pass
 
@@ -510,6 +539,20 @@ func _entrada_booster(ev: InputEvent) -> bool:
 	return false
 
 
+## Torneio arcade de 8: começa um novo (precisa de deck completo) ou continua o salvo.
+func _torneio_arcade() -> void:
+	if not Sessao.ta_ativo():
+		var ok := false
+		for i in Sessao.perfil["decks"].size():
+			ok = ok or Sessao.deck_valido(i)
+		if not ok:
+			mp.avisar(Sessao.t("Monte um deck com 32 cartas primeiro."))
+			return
+		Sessao.novo_torneio_arcade()
+	ta.faixa_t = -1.0
+	_ir("chave")
+
+
 ## Torneio da história: usa o deck em uso do jogador (precisa estar completo).
 func _torneio() -> void:
 	var ok := false
@@ -547,6 +590,8 @@ func _draw() -> void:
 			col.desenhar_grade(self)
 		"lore":
 			col.desenhar_lore(self)
+		"chave":
+			ta.desenhar()
 		"loja":
 			bo.desenhar_loja()
 		"booster":
@@ -796,11 +841,18 @@ func _texto_central(c: Vector2, s: String, cor: Color, esc: int = 1) -> void:
 
 
 # ================= teste automático (GD_FLUXO_AUTO=torneio|arcade) =================
+func _btn(textos: Array) -> Vector2:
+	for bt in botoes:
+		if bt["texto"] in textos:
+			return (bt["rect"] as Rect2).get_center()
+	return Vector2(-1, -1)
+
+
 func _autoplay() -> void:
 	var alvo := OS.get_environment("GD_FLUXO_AUTO")
 	await get_tree().create_timer(1.2).timeout
 	if estado == "titulo":
-		tocar(botoes[0]["rect"].get_center() if alvo == "torneio" else botoes[1]["rect"].get_center())
+		tocar(_btn(["Torneio"]) if alvo == "torneio" else _btn(["Arcade"]))
 	while is_inside_tree():
 		await get_tree().create_timer(0.35).timeout
 		if not is_inside_tree():
@@ -812,9 +864,20 @@ func _autoplay() -> void:
 			tocar(botoes[3]["rect"].get_center())
 		elif estado == "arcade":
 			await get_tree().create_timer(1.0).timeout
-			tocar(botoes[0]["rect"].get_center())
-			await get_tree().create_timer(0.6).timeout
-			tocar(botoes[3]["rect"].get_center())
+			if alvo == "torneio8":
+				if Sessao.has_meta("ta_feito"):
+					get_tree().quit()
+					return
+				tocar(_btn(["Torneio de 8", "Continuar torneio"]))
+			else:
+				tocar(_btn(["Jogar"]))
+		elif estado == "chave" and ta.anim.is_empty():
+			await get_tree().create_timer(1.2).timeout
+			var p := _btn(["Lutar!", "Ver o resto", "Concluir"])
+			if p.x >= 0:
+				if _btn(["Concluir"]) == p:
+					Sessao.set_meta("ta_feito", true)
+				tocar(p)
 
 
 ## Logo: entra crescendo (0,45 s, ease-out-back) e depois “respira” ±1,5% ; o X pulsa levemente.

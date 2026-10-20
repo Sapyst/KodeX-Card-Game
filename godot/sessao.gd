@@ -241,6 +241,11 @@ func carregar_perfil() -> void:
 	for cid in perfil["colecao"]:
 		perfil["colecao"][cid] = int(perfil["colecao"][cid])
 	perfil["moedas"] = int(perfil["moedas"])
+	if perfil.has("tarcade"):                          # JSON devolve floats: a chave usa índices inteiros
+		var d: Dictionary = perfil["tarcade"]
+		for r in (d["rodadas"] as Array).size():
+			d["rodadas"][r] = (d["rodadas"][r] as Array).map(func(v) -> int: return int(v))
+		d["rodada"] = int(d["rodada"])
 	perfil["deck_ativo"] = int(perfil["deck_ativo"])
 
 
@@ -412,3 +417,114 @@ func trocar_repetida(cid: String, foil: bool) -> bool:
 	perfil["moedas"] = moedas() + valor_troca(cid, foil)
 	salvar()
 	return true
+
+
+
+# ================= torneio arcade de 8 (Fase 3) =================
+## perfil["tarcade"]: {participantes: [8 ids], rodadas: [[8 índices], [4], [2], [1]] (-1 = a definir),
+## margem: {"r-m": cornucópia que sobrou ao vencedor}, rodada, eliminado, premio, fim}. "jogador" = você.
+const PREMIO_TA := [0, 30, 70, 150]          # saiu nas quartas / semifinal / final (vice) / campeão
+const NPCS_TA := ["indigena", "cristianismo", "taoismo", "hinduismo", "bruxaria", "alta_magia", "viajante"]
+
+
+func ta() -> Dictionary:
+	return perfil.get("tarcade", {})
+
+
+func ta_ativo() -> bool:
+	return not ta().is_empty() and not ta().get("fim", false)
+
+
+func novo_torneio_arcade() -> void:
+	var parts: Array = ["jogador"] + NPCS_TA.duplicate()
+	parts.shuffle()
+	var ordem: Array = []
+	for i in 8:
+		ordem.append(i)
+	perfil["tarcade"] = {"participantes": parts, "rodadas": [ordem, [-1, -1, -1, -1], [-1, -1], [-1]], "margem": {},
+		"rodada": 0, "eliminado": false, "premio": -1, "fim": false}
+	salvar()
+
+
+func ta_nome(pid: String) -> String:
+	if pid == "jogador":
+		var n := str(perfil.get("nome", ""))
+		return n if n != "" else t("Você")
+	if pid == "viajante":
+		return t("O Viajante")
+	return str(personagem(pid).get("nome", pid))
+
+
+## Índice (em participantes) do adversário do jogador na rodada atual, ou -1.
+func ta_adversario() -> int:
+	var d := ta()
+	var r: int = int(d["rodada"])
+	if r > 2 or d["eliminado"]:
+		return -1
+	var slots: Array = d["rodadas"][r]
+	var eu: int = (d["participantes"] as Array).find("jogador")
+	var k := slots.find(eu)
+	if k < 0:
+		return -1
+	return int(slots[k ^ 1])
+
+
+func preparar_partida_ta() -> void:
+	var d := ta()
+	var adv: String = d["participantes"][ta_adversario()]
+	modo = "arcade_t"
+	oponente = adv if adv != "viajante" else DECKS[rng.randi_range(0, 5)]
+	deck_jogador = deck_ativo_ids()
+	deck_jogador_nome = tradicao_do_deck(deck_jogador)
+	deck_oponente = montar_deck("misto" if adv == "viajante" else adv)
+	resultado = ""
+
+
+## Resolve a rodada atual: a partida do jogador pelo `jogador_venceu` (null = jogador já eliminado) e as outras
+## sorteadas (50%). Devolve [{m, vencedor, perdedor, margem}] na ordem para animar. Avança a rodada e dá o prêmio.
+func ta_resolver_rodada(jogador_venceu) -> Array:
+	var d := ta()
+	var r: int = int(d["rodada"])
+	var slots: Array = d["rodadas"][r]
+	var eu: int = (d["participantes"] as Array).find("jogador")
+	var res: Array = []
+	for m in slots.size() / 2:
+		var a: int = int(slots[2 * m])
+		var b: int = int(slots[2 * m + 1])
+		var venc: int
+		if (a == eu or b == eu) and jogador_venceu != null:
+			venc = eu if jogador_venceu else (b if a == eu else a)
+		else:
+			venc = a if rng.randf() < 0.5 else b
+		var perd := b if venc == a else a
+		d["rodadas"][r + 1][m] = venc
+		var margem := rng.randi_range(1, 12)
+		d["margem"]["%d-%d" % [r, m]] = margem
+		res.append({"m": m, "vencedor": venc, "perdedor": perd, "margem": margem})
+		if perd == eu:
+			d["eliminado"] = true
+			d["premio"] = PREMIO_TA[r]
+	d["rodada"] = r + 1
+	if r + 1 == 3:
+		d["fim"] = true
+		if int(d["rodadas"][3][0]) == eu:
+			d["premio"] = PREMIO_TA[3]
+	salvar()
+	return res
+
+
+## Paga o prêmio uma vez (quando o jogador sai ou vence).
+func ta_pagar() -> int:
+	var d := ta()
+	var p := int(d.get("premio", -1))
+	if p > 0 and not d.get("pago", false):
+		perfil["moedas"] = moedas() + p
+		d["pago"] = true
+		salvar()
+		return p
+	return 0
+
+
+func ta_encerrar() -> void:
+	perfil.erase("tarcade")
+	salvar()

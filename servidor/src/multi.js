@@ -213,12 +213,12 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro)
     }
     if (sub === "/acoes") {                            // long-poll: ações com seq > desde
       const desde = parseInt(url.searchParams.get("desde") || "0", 10);
-      for (let k = 0; k < ESPERA_POLL * 4; k++) {
+      for (let k = 0; k < ESPERA_POLL * 20; k++) {        // confere a cada 50 ms: a jogada chega quase na hora
         const r = (await env.DB.prepare("SELECT seq, jogador, dados FROM acoes WHERE pid=? AND seq > ? ORDER BY seq").bind(pid, desde).all()).results;
         const i = await infoPartida(env, pid, id);
         if (r.length || i.estado !== "jogando") return json({ ok: true, acoes: r.map((a) => ({ seq: a.seq, jogador: a.jogador, dados: JSON.parse(a.dados) })), partida: i });
-        await dormir(250);
-        if (k % 8 === 7) await contato(pid);
+        await dormir(50);
+        if (k % 40 === 39) await contato(pid);
       }
       return json({ ok: true, acoes: [], partida: await infoPartida(env, pid, id) });
     }

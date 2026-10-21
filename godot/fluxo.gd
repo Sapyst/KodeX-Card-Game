@@ -152,6 +152,9 @@ var _rol_ult := Vector2.ZERO
 var _rol_moveu := false
 var logo_no: Node2D
 var logo_tex: Texture2D
+var perg: Pergaminho
+var novidades: Array = []              # dados/novidades.json (mais nova primeiro)
+var _avisos_feitos := false            # novidades + presente já verificados nesta sessão do app
 
 
 func _ready() -> void:
@@ -170,6 +173,10 @@ func _ready() -> void:
 	add_child(visor)
 	bo = Booster.new(self)
 	ta = TorneioArcade.new(self)
+	perg = Pergaminho.new(self)
+	add_child(perg)
+	novidades = JSON.parse_string(FileAccess.get_file_as_string("res://dados/novidades.json"))
+	Relogio.sincronizar()                                    # hora do servidor para o presente diário (sem travar)
 	arcade["meu_deck"] = str(int(Sessao.perfil["deck_ativo"]))
 	# logo KodeX desenhado num nó próprio com filtro linear (o resto da UI é pixel, filtro nearest)
 	logo_tex = load("res://assets/logo.png") if ResourceLoader.exists("res://assets/logo.png") else null
@@ -236,6 +243,10 @@ func _ready() -> void:
 		col.abrir_aba(OS.get_environment("GD_COL_ABA") if OS.get_environment("GD_COL_ABA") != "" else "alta_magia")
 		col.abrir_carta(OS.get_environment("GD_COL_CARTA"))
 		_ir("lore")
+	if OS.get_environment("GD_PERG_TESTE") != "":             # teste: "2.5:fechar;4:rolar:300;6:todas;8:privacidade"
+		for passo in OS.get_environment("GD_PERG_TESTE").split(";"):
+			var pt := passo.split(":")
+			get_tree().create_timer(float(pt[0])).timeout.connect(_passo_perg.bind(pt))
 	var auto := OS.get_environment("GD_FLUXO_AUTO")      # teste automático: toca sozinho
 	if auto != "":
 		_autoplay()
@@ -294,8 +305,15 @@ func _ir(novo: String) -> void:
 			mpr.centro = Vector2(180, 300 + extra())
 			_botao(Rect2(60, 444 + extra() * 1.6, 240, 34), "", mpr.jogar, {"desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mpr.botao_jogar(b, r, pr)})
 			_botao(Rect2(44, 488 + extra() * 1.6, 272, 28), "", func() -> void: trocar_aba(2), {"desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mpr.botao_deck(b, r, pr)})
+			_botao(Rect2(8, 46, 32, 32), "", abrir_novidades.bind(true), {"desenho": _botao_redondo.bind("pergaminho")})
+			_botao(Rect2(8, 90, 32, 32), "", verificar_presente.bind(true), {"desenho": _botao_redondo.bind("presente")})
+			if not _avisos_feitos and OS.get_environment("GD_FLUXO_AUTO") == "":
+				_avisos_feitos = true
+				get_tree().create_timer(0.5).timeout.connect(_avisos_titulo)
 		"opcoes":
 			_botao(Rect2(110, 150, 140, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("opcoes"), {"idioma": true})
+			_botao(Rect2(110, 200, 140, 26), "Novidades", abrir_novidades.bind(true))
+			_botao(Rect2(110, 236, 140, 26), "Privacidade", abrir_privacidade)
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
@@ -382,6 +400,129 @@ func _ir(novo: String) -> void:
 					_botao(Rect2(220, 600, 120, 24), "Desistir", ta.concluir)
 		"falas":
 			pass
+
+
+# ================= pergaminhos: novidades, presente diário, privacidade =================
+func _versao() -> String:
+	return str(ProjectSettings.get_setting("application/config/version", ""))
+
+
+## Ao chegar no Início pela 1ª vez no app: mostra as novidades das versões ainda não vistas e, ao fechar, o presente.
+func _avisos_titulo() -> void:
+	if estado != "titulo" or perg.aberto():
+		return
+	if str(Sessao.perfil.get("versao_vista", "")) != _versao():
+		abrir_novidades(false, verificar_presente.bind(false))
+	else:
+		verificar_presente(false)
+
+
+## todas = arquivo completo (botão); senão só as versões depois da última vista (ou a atual, se não houver registro).
+func abrir_novidades(todas := true, depois := Callable()) -> void:
+	var en := Sessao.idioma == "en"
+	var vista := str(Sessao.perfil.get("versao_vista", ""))
+	var lista: Array = []
+	for e in novidades:
+		if not todas and (e["versao"] == vista or (vista == "" and not lista.is_empty())):
+			break
+		lista.append(e)
+	var blocos: Array = [["titulo", "News" if en else "Novidades"]]
+	for e in lista:
+		var cab: String = "v" + str(e["versao"])
+		if e["versao"] == _versao() and todas:
+			cab += " - " + ("current" if en else "atual")
+		blocos.append(["versao", cab, str(e["data"])])
+		for item in e["en" if en else "pt"]:
+			blocos.append(["item", item])
+	if not todas:
+		blocos.append(["divisor"])
+		blocos.append(["centro", "All versions: scroll button on Home." if en else "Todas as versões: botão de pergaminho no Início."])
+	Sessao.perfil["versao_vista"] = _versao()
+	Sessao.salvar()
+	perg.abrir(blocos, depois)
+
+
+## Pede a hora ao servidor e paga o presente pendente. manual = tocado no botão: mostra também "volte amanhã"/sem rede.
+func verificar_presente(manual := true) -> void:
+	var r: Dictionary = await Sessao.resgatar()
+	if OS.get_environment("GD_DEBUG_PRESENTE") != "":
+		print("PRESENTE ", r, " moedas=", Sessao.moedas(), " boosters=", Sessao.boosters_gratis(), " dia=", Relogio.dia(), " semana=", Relogio.semana())
+	var en := Sessao.idioma == "en"
+	if perg.aberto():
+		return
+	if r.has("offline"):
+		if manual:
+			perg.abrir([["titulo", "Gift" if en else "Presente"], ["centro", "No connection." if en else "Sem conexão."],
+				["centro", "The gift uses the internet time, so connect and try again. Nothing is lost: up to 3 days stack up." if en
+				else "O presente usa a hora da internet: conecte-se e tente de novo. Nada se perde: acumula até 3 dias."]])
+		return
+	if r.is_empty():
+		if manual:
+			var h := Relogio.segundos_ate_amanha()
+			var b := Relogio.segundos_ate_segunda()
+			perg.abrir([["titulo", "Gift" if en else "Presente"],
+				["centro", "Today's gift is already yours." if en else "O presente de hoje já é seu."],
+				["espaco"],
+				["centro", ("Next coins in %dh %02dmin." if en else "Próximas moedas em %dh %02dmin.") % [h / 3600, (h % 3600) / 60]],
+				["centro", ("Next free booster in %d days and %dh." if en else "Próximo booster grátis em %d dias e %dh.") % [b / 86400, (b % 86400) / 3600]],
+				["espaco"],
+				["centro", "Resets at midnight (Brasília time)." if en else "Vira à meia-noite (horário de Brasília)."]])
+		return
+	var blocos: Array = [["titulo", "Gift" if en else "Presente"]]
+	if int(r["moedas"]) > 0:
+		blocos.append(["destaque", "+%d" % int(r["moedas"]), "moeda"])
+		var dias := int(r["dias"])
+		blocos.append(["centro", ("coins - %d days stacked" % dias if dias > 1 else "coins - daily gift") if en
+			else ("moedas - %d dias acumulados" % dias if dias > 1 else "moedas - presente do dia")])
+	if int(r["booster"]) > 0:
+		blocos.append(["espaco"])
+		blocos.append(["destaque", "+1", "booster"])
+		blocos.append(["centro", "free booster of the week - open it in the Shop" if en else "booster grátis da semana - abra na Loja"])
+	blocos.append(["divisor"])
+	blocos.append(["centro", "Come back tomorrow for more coins." if en else "Volte amanhã para mais moedas."])
+	perg.abrir(blocos)
+	Sessao.vibrar_pulsos(2, 30, 0.6)
+
+
+func abrir_privacidade() -> void:
+	var d: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://dados/privacidade.json"))
+	var en := Sessao.idioma == "en"
+	var blocos: Array = [["titulo", "Privacy" if en else "Privacidade"],
+		["centro", ("Updated on %s" if en else "Atualizada em %s") % d["atualizada"]]]
+	for par in d["en" if en else "pt"]:
+		blocos.append([par[0], par[1]])
+	perg.abrir(blocos)
+
+
+## Botão redondo do Início (novidades / presente): disco escuro com aro dourado, ícone e, no presente, bolinha
+## vermelha pulando quando há prêmio ou o tempo até o próximo.
+func _botao_redondo(_b: Dictionary, r: Rect2, pressao: float, qual: String) -> void:
+	var c := r.get_center() + Vector2(0, pressao)
+	var pend := Sessao.recompensas_pendentes()
+	var tem := not pend.is_empty() and (int(pend["dias"]) > 0 or int(pend["booster"]) > 0)
+	var novo := qual == "pergaminho" and str(Sessao.perfil.get("versao_vista", "")) != _versao()
+	var pula := (absf(sin(tempo * 5.0)) * -3.0) if (qual == "presente" and tem) else 0.0
+	c.y += pula
+	draw_circle(c, 15.0, Color(0.05, 0.03, 0.05, 0.9))
+	draw_arc(c, 15.0, 0, TAU, 32, OURO[2] if not tem else OURO[0], 1.5)
+	draw_circle(c, 13.0, Color("#241a20").darkened(0.3 * pressao))
+	mpr.icone(self, qual, c, OURO[0])
+	if (qual == "presente" and tem) or novo:
+		draw_circle(c + Vector2(10, -10), 4.0, ESCURO)
+		draw_circle(c + Vector2(10, -10), 3.0, Color("#e04040"))
+	if qual == "presente" and not tem and Relogio.sincronizado():
+		var h := Relogio.segundos_ate_amanha()
+		var s := "%dH" % (h / 3600) if h >= 3600 else "%dM" % maxi(1, h / 60)
+		PixelFonte.centrado(self, c + Vector2(0, 21), s, Color(0.85, 0.78, 0.66, 0.85), 1, ESCURO)
+
+
+func _passo_perg(pt: PackedStringArray) -> void:
+	match pt[1]:
+		"fechar": perg.fechar()
+		"rolar": perg.rolagem = perg._limitar(float(pt[2]))
+		"todas": abrir_novidades(true)
+		"privacidade": abrir_privacidade()
+		"presente": verificar_presente(true)
 
 
 func _comecar_torneio(deck: String) -> void:
@@ -517,6 +658,10 @@ func _avancar_fala() -> void:
 func _unhandled_input(ev: InputEvent) -> void:
 	# no celular cada toque chega também como mouse emulado (device -1): sem isto o toque contava duas vezes
 	if (ev is InputEventMouseButton or ev is InputEventMouseMotion) and ev.device == InputEvent.DEVICE_ID_EMULATION:
+		return
+	if perg.aberto():                                        # pergaminho por cima de tudo
+		if "position" in ev:
+			perg.entrada(ev, get_canvas_transform().affine_inverse() * (ev.position as Vector2) - pos_base)
 		return
 	if visor.aberto():                                       # visor de carta por cima de tudo
 		var pv: Vector2 = get_canvas_transform().affine_inverse() * (ev.position as Vector2) - position if "position" in ev else Vector2.ZERO

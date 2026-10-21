@@ -211,28 +211,64 @@ func vibrar_pulsos(n: int, ms: int, forca: float = 0.5, pausa: float = 0.07) -> 
 
 
 
-# ================= perfil, coleção, moedas e decks (auto-save em user://perfil.json) =================
-const SAVE := "user://perfil.json"
+# ================= perfil, coleção, moedas e decks (auto-save cifrado em user://perfil.dat) =================
+## O save é cifrado (AES-256 do Godot, com conferência de integridade): editar o arquivo invalida a leitura.
+## Guarda sempre o save anterior (.bak) para não perder o progresso se a gravação for interrompida.
+## Isto só afasta curiosos: a chave vive dentro do jogo. A proteção de verdade virá com a economia no servidor (Fase B).
+const SAVE := "user://perfil.dat"
+const SAVE_BAK := "user://perfil.dat.bak"
+const SAVE_ANTIGO := "user://perfil.json"          # até a v0.7.8 o save era JSON aberto: migra uma vez e apaga
 const FOTO := "user://foto.png"
 const MOEDAS_INICIO := 200
 const MOEDAS_ARCADE := 15
+const MOEDAS_DIA := 50                             # presente diário (vira à 00:00 de Brasília)
+const ACUMULO_DIAS := 3                            # dias sem abrir o jogo acumulam até 3 presentes
 const DECK_TAM := 32
+const PROTEGIDOS := ["moedas", "boosters_gratis"]  # valores guardados disfarçados na memória (contra editores de memória)
 var perfil: Dictionary = {}
+var _prot := {}                                    # chave → [valor XOR máscara, máscara, conferência]
 signal perfil_mudou
+
+
+func _chave() -> String:
+	# montada em partes para não aparecer como texto corrido dentro do executável
+	var p := PackedStringArray(["k0", "d3", "X", "-s4p", "yst", "-c0d", "1c3"])
+	return ("".join(p) + str(0x5f3759df)).sha256_text()
 
 
 func _perfil_novo() -> Dictionary:
 	var colecao := {}
 	for cid in db["decks"]["alta_magia"]:
 		colecao[cid] = int(colecao.get(cid, 0)) + 1
-	return {"versao": 1, "nome": "", "tem_foto": false, "moedas": MOEDAS_INICIO, "colecao": colecao, "foils": {},
-		"decks": [{"nome": "Alta Magia", "cartas": (db["decks"]["alta_magia"] as Array).duplicate()}], "deck_ativo": 0}
+	return {"versao": 2, "nome": "", "tem_foto": false, "moedas": MOEDAS_INICIO, "colecao": colecao, "foils": {},
+		"decks": [{"nome": "Alta Magia", "cartas": (db["decks"]["alta_magia"] as Array).duplicate()}], "deck_ativo": 0,
+		"versao_vista": str(ProjectSettings.get_setting("application/config/version", ""))}
+
+
+func _ler_cifrado(caminho: String):
+	if not FileAccess.file_exists(caminho):
+		return null
+	var f := FileAccess.open_encrypted_with_pass(caminho, FileAccess.READ, _chave())
+	if f == null:                                  # adulterado ou corrompido: a conferência do Godot falha
+		return null
+	var d = JSON.parse_string(f.get_as_text())
+	f.close()
+	return d if d is Dictionary else null
 
 
 func carregar_perfil() -> void:
 	perfil = {}
-	if OS.get_environment("GD_PERFIL_NOVO") == "" and FileAccess.file_exists(SAVE):
-		var d = JSON.parse_string(FileAccess.get_file_as_string(SAVE))
+	if OS.get_environment("GD_PERFIL_NOVO") == "":
+		var d = _ler_cifrado(SAVE)
+		if d == null:
+			d = _ler_cifrado(SAVE_BAK)
+			if d != null:                                  # principal ruim, cópia boa: descarta o ruim (não vira .bak)
+				DirAccess.remove_absolute(SAVE)
+		if d == null and not FileAccess.file_exists(SAVE) and not FileAccess.file_exists(SAVE_BAK) \
+				and FileAccess.file_exists(SAVE_ANTIGO):
+			d = JSON.parse_string(FileAccess.get_file_as_string(SAVE_ANTIGO))   # migração do save aberto antigo
+		elif d == null and FileAccess.file_exists(SAVE):
+			DirAccess.rename_absolute(SAVE, SAVE + ".invalido")              # guarda o arquivo ruim, não sobrescreve às cegas
 		if d is Dictionary:
 			perfil = d
 	if perfil.is_empty():
@@ -240,42 +276,101 @@ func carregar_perfil() -> void:
 	# JSON devolve números como float: normaliza contagens
 	for cid in perfil["colecao"]:
 		perfil["colecao"][cid] = int(perfil["colecao"][cid])
-	perfil["moedas"] = int(perfil["moedas"])
+	for k in PROTEGIDOS:                               # tira do dicionário e guarda disfarçado
+		_gravar(k, int(perfil.get(k, 0)))
+		perfil.erase(k)
 	if perfil.has("tarcade"):                          # JSON devolve floats: a chave usa índices inteiros
 		var d: Dictionary = perfil["tarcade"]
 		for r in (d["rodadas"] as Array).size():
 			d["rodadas"][r] = (d["rodadas"][r] as Array).map(func(v) -> int: return int(v))
 		d["rodada"] = int(d["rodada"])
 	perfil["deck_ativo"] = int(perfil["deck_ativo"])
+	if FileAccess.file_exists(SAVE_ANTIGO):
+		salvar()
+		DirAccess.remove_absolute(SAVE_ANTIGO)
 
 
-## Auto-save: grava o perfil inteiro a cada mudança (arquivo temporário + renomeia, para não corromper).
+## Auto-save: grava o perfil inteiro a cada mudança (arquivo temporário + renomeia, com o anterior em .bak).
 func salvar() -> void:
+	var copia := perfil.duplicate(true)
+	for k in PROTEGIDOS:
+		copia[k] = _ler(k)
 	var tmp := SAVE + ".tmp"
-	var f := FileAccess.open(tmp, FileAccess.WRITE)
+	var f := FileAccess.open_encrypted_with_pass(tmp, FileAccess.WRITE, _chave())
 	if f == null:
 		return
-	f.store_string(JSON.stringify(perfil, " "))
+	f.store_string(JSON.stringify(copia))
 	f.close()
+	if FileAccess.file_exists(SAVE):
+		DirAccess.remove_absolute(SAVE_BAK)
+		DirAccess.rename_absolute(SAVE, SAVE_BAK)
 	DirAccess.rename_absolute(tmp, SAVE)
 	perfil_mudou.emit()
 
 
+## Valor disfarçado: na memória fica só (valor XOR máscara aleatória) + uma conferência. Procurar "250" num editor de
+## memória não acha nada; se alguém mexer mesmo assim, a conferência falha e o valor volta ao último salvo.
+func _gravar(k: String, n: int) -> void:
+	var m := rng.randi() | (rng.randi() << 31)
+	_prot[k] = [n ^ m, m, (n ^ 0x2D5A3C1B) + m * 7]
+
+
+func _ler(k: String) -> int:
+	if not _prot.has(k):
+		return 0
+	var v: Array = _prot[k]
+	var n: int = v[0] ^ v[1]
+	if (n ^ 0x2D5A3C1B) + int(v[1]) * 7 != int(v[2]):
+		var salvo = _ler_cifrado(SAVE)
+		n = int(salvo.get(k, 0)) if salvo is Dictionary else 0
+		_gravar(k, n)
+	return n
+
+
 func moedas() -> int:
-	return int(perfil.get("moedas", 0))
+	return _ler("moedas")
 
 
 func ganhar_moedas(n: int) -> void:
-	perfil["moedas"] = moedas() + n
+	_gravar("moedas", moedas() + n)
 	salvar()
 
 
 func gastar_moedas(n: int) -> bool:
 	if moedas() < n:
 		return false
-	perfil["moedas"] = moedas() - n
+	_gravar("moedas", moedas() - n)
 	salvar()
 	return true
+
+
+# ================= presente diário e booster semanal (hora do servidor, ver relogio.gd) =================
+## perfil["resgates"] = {dia, semana}: últimos números de dia/semana (Brasília) já pagos.
+## Só calcula com hora confiável; sem internet não paga (e nada se perde: acumula até ACUMULO_DIAS).
+func recompensas_pendentes() -> Dictionary:
+	if not Relogio.sincronizado():
+		return {}
+	var r: Dictionary = perfil.get("resgates", {})
+	var d := Relogio.dia()
+	var s := Relogio.semana()
+	var dias := clampi(d - int(r.get("dia", d - 1)), 0, ACUMULO_DIAS)
+	var bo := 1 if s > int(r.get("semana", s - 1)) else 0
+	return {"dias": dias, "moedas": dias * MOEDAS_DIA, "booster": bo}
+
+
+## Pede a hora ao servidor de novo (nunca confia em tempo contado localmente para pagar) e paga o que estiver pendente.
+## Devolve {"moedas", "booster", "dias"} pagos, {} sem nada a pagar, ou {"offline": true} sem conexão.
+func resgatar() -> Dictionary:
+	if not await Relogio.sincronizar():
+		return {"offline": true}
+	var p := recompensas_pendentes()
+	if p.is_empty() or (p["dias"] == 0 and p["booster"] == 0):
+		return {}
+	perfil["resgates"] = {"dia": Relogio.dia(), "semana": Relogio.semana()}
+	_gravar("moedas", moedas() + int(p["moedas"]))
+	_gravar("boosters_gratis", boosters_gratis() + int(p["booster"]))
+	salvar()
+	return p
 
 
 func copias(cid: String) -> int:
@@ -366,13 +461,13 @@ func valor_troca(cid: String, foil: bool) -> int:
 ## Compra e sorteia um booster: 3 cartas (Abismo fora), pelo menos 1 Entidade. As cartas já entram na coleção (e o
 ## save é gravado) antes da animação, para não se perderem se o app fechar. Devolve [{id, foil, nova}] ou [] sem moedas.
 func boosters_gratis() -> int:
-	return int(perfil.get("boosters_gratis", 0))
+	return _ler("boosters_gratis")
 
 
 func usar_booster_gratis() -> bool:
 	if boosters_gratis() <= 0:
 		return false
-	perfil["boosters_gratis"] = boosters_gratis() - 1
+	_gravar("boosters_gratis", boosters_gratis() - 1)
 	salvar()
 	return true
 
@@ -426,7 +521,7 @@ func trocar_repetida(cid: String, foil: bool) -> bool:
 	perfil["colecao"][cid] = copias(cid) - 1
 	if foil:
 		perfil["foils"][cid] = maxi(0, int(perfil["foils"].get(cid, 0)) - 1)
-	perfil["moedas"] = moedas() + valor_troca(cid, foil)
+	_gravar("moedas", moedas() + valor_troca(cid, foil))
 	salvar()
 	return true
 
@@ -530,9 +625,9 @@ func ta_pagar() -> int:
 	var d := ta()
 	var p := int(d.get("premio", -1))
 	if p > 0 and not d.get("pago", false):
-		perfil["moedas"] = moedas() + p
+		_gravar("moedas", moedas() + p)
 		if p >= PREMIO_TA[3]:                            # campeão também ganha um booster
-			perfil["boosters_gratis"] = boosters_gratis() + 1
+			_gravar("boosters_gratis", boosters_gratis() + 1)
 		d["pago"] = true
 		salvar()
 		return p

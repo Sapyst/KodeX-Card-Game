@@ -249,6 +249,20 @@ func icone(ci: CanvasItem, qual: String, c: Vector2, cor: Color) -> void:
 			ci.draw_rect(Rect2(c + Vector2(-7, -3), Vector2(14, 11)), cor)
 			ci.draw_arc(c + Vector2(0, -3), 4.0, PI, TAU, 8, cor, 2.0)
 			ci.draw_rect(Rect2(c + Vector2(-1, 1), Vector2(2, 3)), esc)
+		"pergaminho":
+			ci.draw_rect(Rect2(c + Vector2(-5, -5), Vector2(10, 10)), Color("#e8d2a6"))
+			for k in 3:
+				ci.draw_rect(Rect2(c + Vector2(-3, -3 + k * 3), Vector2(6 - (k % 2) * 2, 1)), Color("#6a4426"))
+			ci.draw_rect(Rect2(c + Vector2(-7, -8), Vector2(14, 3)), cor)
+			ci.draw_rect(Rect2(c + Vector2(-7, 5), Vector2(14, 3)), cor)
+			ci.draw_rect(Rect2(c + Vector2(-8, -8), Vector2(1, 3)), cor.darkened(0.4))
+			ci.draw_rect(Rect2(c + Vector2(7, 5), Vector2(1, 3)), cor.darkened(0.4))
+		"presente":
+			ci.draw_rect(Rect2(c + Vector2(-7, -2), Vector2(14, 9)), Color("#b03040"))
+			ci.draw_rect(Rect2(c + Vector2(-8, -5), Vector2(16, 4)), Color("#d04050"))
+			ci.draw_rect(Rect2(c + Vector2(-1, -5), Vector2(3, 12)), cor)
+			ci.draw_arc(c + Vector2(-3, -7), 2.5, PI * 0.2, PI * 1.9, 8, cor, 1.5)
+			ci.draw_arc(c + Vector2(4, -7), 2.5, PI * 1.1, PI * 2.8, 8, cor, 1.5)
 		"opcoes":
 			ci.draw_circle(c, 6.0, cor)
 			ci.draw_circle(c, 2.5, esc)

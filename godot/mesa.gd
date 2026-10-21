@@ -80,6 +80,9 @@ var acabou := false
 var botao_fim := Rect2(296, 318, 50, 14)
 var segurando_t := 0.0
 var segurando_ini := Vector2.ZERO
+var nivel_ia := [1, 1]                 # 0 Aprendiz · 1 Mestre · 2 Arquimago (por lado; o jogador só usa com GD_AUTO)
+var estilo_ia := ["equilibrado", "equilibrado"]
+var rng_ia := RandomNumberGenerator.new()
 var hud: MesaHud
 var perg: Pergaminho                  # regras e resumo da partida (numa CanvasLayer: fora da câmera)
 var alt_util := 640.0                 # usados pelo Pergaminho (mesma interface do menu)
@@ -91,7 +94,14 @@ var _som: AudioStreamPlayer
 
 
 func _ready() -> void:
-	rng.seed = 7 if OS.get_environment("GD_SEED") == "" else OS.get_environment("GD_SEED").to_int()
+	# partida de verdade: embaralhamento novo a cada vez (antes era sempre a semente 7 = mesma ordem e mesma mão);
+	# testes fixam com GD_SEED; o Desafio do dia usa a semente do dia (igual para todo mundo)
+	if OS.get_environment("GD_SEED") != "":
+		rng.seed = OS.get_environment("GD_SEED").to_int()
+	elif _extras().has("semente"):
+		rng.seed = int(_extras()["semente"])
+	else:
+		rng.randomize()
 	ruido.frequency = 3.0
 	ambiente = CanvasModulate.new()
 	ambiente.color = Color.BLACK
@@ -112,6 +122,16 @@ func _ready() -> void:
 	if OS.get_environment("GD_VELOCIDADE") != "":          # testes automáticos: acelera animações e timers
 		_vel_teste = maxf(0.1, OS.get_environment("GD_VELOCIDADE").to_float())
 	aplicar_tempo()
+	rng_ia.seed = rng.seed + 991
+	if modo_partida and Sessao.modo != "" and Sessao.modo != "tutorial":
+		nivel_ia[1] = Sessao.dificuldade
+		estilo_ia[1] = Sessao.estilo_ia(Sessao.oponente)
+	for lado in 2:                                           # teste: GD_IA_0 / GD_IA_1 = "nivel:estilo"
+		var cfg_ia := OS.get_environment("GD_IA_%d" % lado)
+		if cfg_ia != "":
+			nivel_ia[lado] = int(cfg_ia.split(":")[0])
+			if cfg_ia.contains(":"):
+				estilo_ia[lado] = cfg_ia.split(":")[1]
 	hud = MesaHud.new(self)
 	add_child(hud)
 	var camada := CanvasLayer.new()
@@ -143,6 +163,9 @@ func _ready() -> void:
 	add_child(camera)
 	camera.make_current()
 	await _intro()
+	if modo_partida and Sessao.modo == "enigma":
+		await _enigma()
+		return
 	await _cascata_deck()
 	await _riffle()
 	await _riffle()
@@ -232,6 +255,7 @@ func _ready() -> void:
 		await _mulligan()
 		await _partida()
 		Sessao.resultado = "vitoria" if vencedor == 0 else ("derrota" if vencedor == 1 else "empate")
+		Sessao.extras["fim_cornucopia"] = cornucopia[0]       # Peregrinação: a vida continua na próxima parada
 		if (Sessao.modo != "" and not auto_jogador) or OS.get_environment("GD_RESUMO") != "":
 			await get_tree().create_timer(0.6).timeout
 			await _resumo()
@@ -642,6 +666,7 @@ func _ir_para_deck() -> void:
 		elif Sessao.modo != "":
 			_dar_ids(deck_jog, Sessao.deck_jogador, 0)
 			_dar_ids(deck_opon, Sessao.deck_oponente, 1)
+			_aplicar_extras_deck()
 		else:
 			_dar_dados(deck_jog, OS.get_environment("GD_DECK_A") if OS.get_environment("GD_DECK_A") != "" else "indigena", 0)
 			_dar_dados(deck_opon, OS.get_environment("GD_DECK_B") if OS.get_environment("GD_DECK_B") != "" else "cristianismo", 1)
@@ -703,6 +728,9 @@ func _comprar_mao() -> void:
 		_arco(o, lo[0], 0.42, 20, lo[1], 0.62)
 		_rearrumar(mao_opon.slice(0, mao_opon.size() - 1), _layout_mao_opon, 0.62)
 		await get_tree().create_timer(0.5).timeout
+	for lado in 2:                                    # Arquimago: 1 carta a mais na mão inicial
+		if modo_partida and vantagem_arquimago(lado) and not _deck_de(lado).is_empty():
+			await _receber_comprada(lado, _deck_de(lado).pop_back(), false)
 	# a mão "assenta": batida leve de escala em sequência
 	for c in mao_jog:
 		var t := create_tween()
@@ -1608,6 +1636,9 @@ func _espaco_livre(arr: Array) -> int:
 func _partida() -> void:
 	ativo = 0
 	turno_n = 0
+	for lado in 2:                                    # Arquimago: +3 de Cornucópia (menos quando o modo fixa a vida)
+		if vantagem_arquimago(lado) and not _extras().has("cornucopia"):
+			cornucopia[lado] += 3
 	while not acabou:
 		turno_n += 1
 		if turno_n > TURNOS_MAX:
@@ -1648,6 +1679,8 @@ func _inicio_turno(d: int) -> void:
 	fe[d] = fe_max[d]
 	if d == 1 and turno_n == 2:
 		fe[d] += 1
+	if d == 0 and turno_n == 1 and _bencao("fe1"):        # Bênção: +1 Fé no 1º turno
+		fe[d] += 1
 	selo_no_turno = false
 	for c in motor.campo(d):
 		c.cansada = false
@@ -1658,6 +1691,8 @@ func _inicio_turno(d: int) -> void:
 	efeitos.numero(Vector2(180, LINHA_Y - 4), "SEU TURNO" if d == 0 else "TURNO DELE", Color("#ffe39a") if d == 0 else Color("#cfe0ff"), 2)
 	await get_tree().create_timer(0.6).timeout
 	if not (d == 0 and turno_n == 1):
+		await _comprar(d)
+	elif _bencao("compra1"):                            # Bênção: compra 1 no 1º turno (quem começa não compraria)
 		await _comprar(d)
 	if acabou:
 		return
@@ -2286,6 +2321,10 @@ func _jogar_entidade(c: Carta, d: int, i: int, sacrificios: Array = []) -> void:
 		c.queue_free()
 		return
 	await _por_em_campo(c, d, i)
+	if d == 0 and _bencao("impeto1") and not _impeto_usado:   # Bênção: a 1ª Entidade da batalha ataca na hora
+		_impeto_usado = true
+		c.cansada = false
+		efeitos.numero(c.position + Vector2(0, -46), Sessao.t("BÊNÇÃO"), Color("#ffe39a"), 1)
 	if c.lendaria and not acabou:                  # Lendária: entrada especial (raios, carta grande, faixa)
 		await _entrada_lendaria(c)
 	elif d == 1:
@@ -2506,6 +2545,7 @@ const LIMIAR_RITO := 1.5
 
 func _turno_ia(d: int) -> void:
 	ocupado = true
+	_acoes_ia = 0
 	await get_tree().create_timer(0.4).timeout
 	for _k in 60:
 		if acabou:
@@ -2514,6 +2554,7 @@ func _turno_ia(d: int) -> void:
 		if acao.is_empty():
 			break
 		_conta(d, "ia_" + str(acao["tipo"]))
+		_acoes_ia += 1
 		if acao["tipo"] == "jogar":
 			var carta: Carta = acao["carta"]
 			if d == 1 and (carta.lendaria or carta.custo >= 5):
@@ -2543,8 +2584,16 @@ func _turno_ia(d: int) -> void:
 	ocupado = false
 
 
-## Uma ação por vez: letal na Cornucópia > melhor jogada (pontuação > 0) > melhor ataque.
+## Nível da IA por lado: 0 Aprendiz (erra de propósito), 1 Mestre (heurística gulosa), 2 Arquimago (planeja o turno).
 func _ia_escolher(d: int) -> Dictionary:
+	match int(nivel_ia[d]):
+		0: return _ia_aprendiz(d)
+		2: return _ia_arquimago(d)
+	return _ia_escolher_mestre(d)
+
+
+## Mestre: uma ação por vez: letal na Cornucópia > melhor jogada (pontuação > 0) > melhor ataque.
+func _ia_escolher_mestre(d: int) -> Dictionary:
 	var ini := 1 - d
 	var prontos: Array = motor.campo(d).filter(func(e: Carta) -> bool: return motor.pode_atacar(e))
 	if _campo_vazio(ini) and not prontos.is_empty():
@@ -2583,7 +2632,8 @@ func _ia_melhor_jogada(d: int) -> Dictionary:
 				var pc: Carta = port
 				opcoes.append([1.5 + carta.custo * 0.5 + pc.atk * 0.3 + (1.5 if motor.pode_atacar(pc) else 0.0), pc])
 		elif carta.tipo == "entidade":
-			var base := 2.0 + carta.custo + carta.keywords.size() * 0.5
+			var base := 2.0 + carta.custo + carta.keywords.size() * 0.5 + (_peso(d, "impeto") if carta.tem("impeto") else 0.0) \
+				+ (_peso(d, "guarda") if carta.tem("guarda") else 0.0)
 			var sac := int(carta.dados.get("sacrificio", 0))
 			if sac > 0:
 				var vs: Array = motor.campo(d).map(func(e: Carta) -> float: return motor.valor(e))
@@ -2592,7 +2642,7 @@ func _ia_melhor_jogada(d: int) -> Dictionary:
 					base -= float(vs[k]) * 0.5
 			opcoes.append([base, null])
 		elif carta.tipo == "selo":
-			opcoes.append([1.5 + carta.custo * 0.5, null])
+			opcoes.append([1.5 + carta.custo * 0.5 + _peso(d, "selo"), null])
 		else:
 			opcoes.append([_ia_utilidade_rito(d, carta), null])
 		for o in opcoes:
@@ -2621,10 +2671,11 @@ func _ia_utilidade_acao(d: int, a: Dictionary) -> float:
 	var deles: Array = motor.campo(ini)
 	var inimigos: Array = deles.filter(func(e: Carta) -> bool: return not e.protegida()) if alvo in ["enemy_entity", "enemy_entity_random"] else deles
 	var n := int(a.get("n", 0))
+	var rem := _peso(d, "remocao")
 	match op:
 		"damage":
 			if alvo == "enemy_cornucopia":
-				return 2.0 + (10.0 if cornucopia[ini] <= n else 0.0)
+				return 2.0 * _peso(d, "face") + (10.0 if cornucopia[ini] <= n else 0.0)
 			if alvo == "all_enemy_entities":
 				var s := 0.0
 				for e in deles:
@@ -2640,7 +2691,7 @@ func _ia_utilidade_acao(d: int, a: Dictionary) -> float:
 			if not inimigos.is_empty():
 				for e in inimigos:
 					if (e as Carta).vida() <= n:
-						return 3.0
+						return 3.0 * rem
 				return 1.0
 			return 0.0
 		"heal":
@@ -2680,7 +2731,7 @@ func _ia_utilidade_acao(d: int, a: Dictionary) -> float:
 				return 2.0 if not meus.is_empty() else 0.0
 			if op == "swap_control" and not motor.tem_slot(d):
 				return 0.0
-			return {"destroy": 4.0, "swap_control": 4.0, "bounce": 2.0, "freeze": 1.5, "silence": 1.5, "set_stats": 2.0}[op]
+			return {"destroy": 4.0, "swap_control": 4.0, "bounce": 2.0, "freeze": 1.5, "silence": 1.5, "set_stats": 2.0}[op] * rem
 		"summon":
 			return 2.0 if motor.tem_slot(d) else 0.0
 		"revive":
@@ -2711,7 +2762,7 @@ func _ia_plano_ataque(c: Carta) -> Dictionary:
 	if c.atk <= 0 and c.efeitos.is_empty() and c.reliquia.is_empty():
 		return {"acao": "nada", "nota": 0.0}
 	if _pode_atacar(c, null) == "":
-		return {"acao": "direto", "alvo": null, "nota": 10.0 + c.atk}
+		return {"acao": "direto", "alvo": null, "nota": (10.0 + c.atk) * _peso(c.dono, "face")}
 	var inimigo := 1 - c.dono
 	var melhor: Carta = null
 	var nota := 0.0
@@ -2723,12 +2774,12 @@ func _ia_plano_ataque(c: Carta) -> Dictionary:
 		var morre := alvo.atk >= c.vida()
 		var n := 0.0
 		if mata and not morre:
-			n = 8.0 + motor.valor(alvo)
+			n = (8.0 + motor.valor(alvo)) * _peso(c.dono, "mata")
 		elif mata and morre:
-			var diff := motor.valor(alvo) - motor.valor(c)
-			n = 2.0 + diff if diff >= 0 else 0.0
+			var diff := motor.valor(alvo) - motor.valor(c) * _peso(c.dono, "perda")
+			n = 2.0 + diff if diff >= -_peso(c.dono, "troca") else 0.0
 		elif not morre:
-			n = 1.0 + c.atk * 0.5 if c.atk > 0 else 0.0
+			n = (1.0 + c.atk * 0.5) * _peso(c.dono, "face") if c.atk > 0 else 0.0
 		if n > nota:
 			nota = n
 			melhor = alvo
@@ -2743,7 +2794,7 @@ var _ultima_provocacao := -100.0
 ## Fala curta do oponente (lore.json → provocacoes[i]): 0 = carta forte, 1 = golpe na Cornucópia, 2 = perdeu carta.
 ## No máximo uma a cada 6 s, para não virar ruído.
 func _provocar(i: int) -> void:
-	if Sessao.modo == "" or tempo - _ultima_provocacao < 6.0:
+	if Sessao.modo in ["", "enigma"] or tempo - _ultima_provocacao < 6.0:
 		return
 	var p: Dictionary = Sessao.personagem(Sessao.oponente)
 	var lista: Array = p.get("provocacoes", [])
@@ -3046,7 +3097,7 @@ func _resumo() -> void:
 	b.append(["item", ("Attacks: %d" if en else "Ataques: %d") % (int(estat[0].get("ataques", 0)) + int(estat[0].get("golpes_diretos", 0)))])
 	if Sessao.modo == "arcade" and vencedor == 0:
 		b.append(["espaco"])
-		b.append(["destaque", "+%d" % Sessao.MOEDAS_ARCADE, "moeda"])
+		b.append(["destaque", "+%d" % Sessao.moedas_arcade(), "moeda"])
 		b.append(["centro", "Arcade coins" if en else "moedas do Arcade"])
 	perg.abrir(b)
 	await perg.fechou
@@ -3064,6 +3115,9 @@ func _passo_hud(pt: PackedStringArray) -> void:
 		"emotes": hud.pressionar(hud.rect_emote().get_center())
 		"hist": hud.hist_aberto = int(pt[2])
 		"tocar": hud.pressionar(Vector2(180, 600))
+		"atacar": await _atacar(campo_ent[0][int(pt[2])], campo_ent[1][int(pt[3])])
+		"golpe": await _golpe_direto(campo_ent[0][int(pt[2])], 1)
+		"fim": fim_turno_pedido.emit()
 		"lendaria":
 			var c := _carta_db(pt[2], 1, proj(DECK_OPON), 0.6)
 			c.virada_para_cima = true
@@ -3082,3 +3136,270 @@ func _passo_hud(pt: PackedStringArray) -> void:
 			origem = "campo"
 			origem_idx = 0
 			ponteiro = pos_ent(1, 1)
+
+
+# ================= IA: personalidade, Aprendiz e Arquimago =================
+## Pesos por estilo (multiplicam as notas da heurística). agressivo: Cornucópia acima de tudo e aceita trocas ruins;
+## controle: matar e remover vale mais, perder Entidade dói; selos: arma o campo de Selos e protege com Guarda.
+const PESOS_IA := {
+	"equilibrado": {"face": 1.0, "mata": 1.0, "perda": 1.0, "troca": 0.0, "remocao": 1.0, "selo": 0.0, "impeto": 0.0, "guarda": 0.0},
+	"agressivo": {"face": 1.6, "mata": 0.8, "perda": 0.7, "troca": 1.5, "remocao": 0.8, "selo": -0.5, "impeto": 1.5, "guarda": 0.0},
+	"controle": {"face": 0.8, "mata": 1.35, "perda": 1.3, "troca": 0.0, "remocao": 1.5, "selo": 0.5, "impeto": 0.0, "guarda": 1.0},
+	"selos": {"face": 0.9, "mata": 1.1, "perda": 1.15, "troca": 0.0, "remocao": 1.1, "selo": 2.5, "impeto": 0.0, "guarda": 1.5},
+}
+
+
+func _peso(d: int, k: String) -> float:
+	return float(PESOS_IA.get(estilo_ia[d], PESOS_IA["equilibrado"]).get(k, 1.0))
+
+
+## Aprendiz: a mesma heurística, com erros de propósito: às vezes não vê o letal (50%), joga uma carta qualquer em vez
+## da melhor (30%), ataca um alvo qualquer (30%) ou encerra o turno cedo depois de já ter agido (20%).
+var _acoes_ia := 0
+
+
+func _ia_aprendiz(d: int) -> Dictionary:
+	if _acoes_ia > 0 and rng_ia.randf() < 0.20:
+		return {}
+	var ini := 1 - d
+	var prontos: Array = motor.campo(d).filter(func(e: Carta) -> bool: return motor.pode_atacar(e))
+	if rng_ia.randf() < 0.5 and _campo_vazio(ini) and not prontos.is_empty():
+		var total := 0
+		for e in prontos:
+			total += (e as Carta).atk
+		if total >= cornucopia[ini]:
+			for e in prontos:
+				if _pode_atacar(e, null) == "" and (e as Carta).atk > 0:
+					return {"tipo": "atacar", "atacante": e, "alvo": null}
+	var jogaveis: Array = _mao_de(d).filter(func(c: Carta) -> bool: return _motivo_jogar(c, d) == "" and c.tipo != "reliquia")
+	if not jogaveis.is_empty() and rng_ia.randf() < 0.30:
+		return {"tipo": "jogar", "carta": jogaveis[rng_ia.randi_range(0, jogaveis.size() - 1)], "alvo": null}
+	var jogada := _ia_melhor_jogada(d)
+	if not jogada.is_empty():
+		return jogada
+	for e in prontos:
+		if rng_ia.randf() < 0.30:
+			var alvos: Array = motor.campo(ini).filter(func(x: Carta) -> bool: return _pode_atacar(e, x) == "")
+			if not alvos.is_empty():
+				return {"tipo": "atacar", "atacante": e, "alvo": alvos[rng_ia.randi_range(0, alvos.size() - 1)]}
+	var melhor := {}
+	var nota := 0.0
+	for e in prontos:
+		var plano := _ia_plano_ataque(e)
+		if plano["acao"] != "nada" and float(plano["nota"]) > nota:
+			nota = plano["nota"]
+			melhor = {"tipo": "atacar", "atacante": e, "alvo": plano.get("alvo")}
+	return melhor
+
+
+## Arquimago: as jogadas do Mestre (a escolha de "conjunto de cartas" foi testada e perdia: 41% contra o Mestre) e
+## 1) letal planejado: soma o melhor plano de ataques do turno inteiro (cada combinação atacante → alvo/Cornucópia/nada,
+## com Guarda, dano simultâneo e golpe direto só com o campo limpo) aos Ritos de dano na Cornucópia que cabem na Fé;
+## 2) ataques pelo plano do turno, não um por um. Vantagem declarada (como modos difíceis de outros jogos): começa com
+## +3 de Cornucópia e 1 carta a mais na mão inicial (ver _comprar_mao e _partida).
+var _arq_modo := OS.get_environment("GD_ARQ_MODO")      # teste: "sem_vantagem" desliga a vantagem do Arquimago
+
+
+func _ia_arquimago(d: int) -> Dictionary:
+	var plano := _ia_plano_ataques(d)
+	if plano.get("letal", false):
+		return plano["primeiro"]
+	# letal com Ritos de dano direto: rito primeiro, os ataques vêm na próxima escolha
+	var face_plano := int(plano.get("face", 0))
+	var fe_livre: int = fe[d]
+	var dano_ritos := 0
+	var primeiro_rito: Carta = null
+	for c in _mao_de(d):
+		var carta: Carta = c
+		if carta.tipo != "rito" or _motivo_jogar(carta, d) != "" or carta.custo > fe_livre:
+			continue
+		var n := _ia_dano_cornucopia(carta)
+		if n > 0:
+			dano_ritos += n
+			fe_livre -= carta.custo
+			if primeiro_rito == null:
+				primeiro_rito = carta
+	if primeiro_rito != null and face_plano + dano_ritos >= cornucopia[1 - d]:
+		return {"tipo": "jogar", "carta": primeiro_rito, "alvo": null}
+	var jogada := _ia_melhor_jogada(d)
+	if not jogada.is_empty():
+		return jogada
+	if float(plano.get("nota", 0.0)) > 0.0:
+		return plano["primeiro"]
+	return {}
+
+
+func _ia_dano_cornucopia(c: Carta) -> int:
+	var n := 0
+	for ef in c.dados.get("efeitos", []):
+		for a in ef["acoes"]:
+			if str(a["op"]) == "damage" and str(a.get("alvo", "")) == "enemy_cornucopia":
+				n += int(a.get("n", 0))
+	return n
+
+
+func vantagem_arquimago(d: int) -> bool:
+	return int(nivel_ia[d]) == 2 and _arq_modo != "sem_vantagem" and (d == 1 or auto_jogador)
+
+
+## Plano de ataques do turno inteiro. Devolve {primeiro: ação, nota, letal}.
+func _ia_plano_ataques(d: int) -> Dictionary:
+	var ini := 1 - d
+	var atacantes: Array = motor.campo(d).filter(func(e: Carta) -> bool: return motor.pode_atacar(e) and e.atk > 0 \
+		and not e.sem_ataque and not e.atacou)
+	atacantes.sort_custom(func(a: Carta, b: Carta) -> bool: return a.atk > b.atk)
+	if atacantes.size() > 4:
+		atacantes.resize(4)
+	if atacantes.is_empty():
+		return {}
+	var inimigos: Array = motor.campo(ini)
+	var hp: Array = inimigos.map(func(e: Carta) -> int: return e.vida())
+	var guarda: Array = inimigos.map(func(e: Carta) -> bool: return e.virada_para_cima and e.tem("guarda"))
+	var estado := {"melhor": -INF, "seq": [], "letal": false, "face": 0}
+	_ia_busca(d, atacantes, 0, inimigos, hp, guarda, 0, 0.0, [], estado)
+	var seq: Array = estado["seq"]
+	for passo in seq:
+		if int(passo[1]) != -2:
+			var alvo = null if int(passo[1]) == -1 else inimigos[int(passo[1])]
+			return {"primeiro": {"tipo": "atacar", "atacante": passo[0], "alvo": alvo}, "nota": estado["melhor"], "letal": estado["letal"],
+				"face": estado["face"]}
+	return {"nota": 0.0}
+
+
+func _ia_busca(d: int, atq: Array, k: int, inim: Array, hp: Array, guarda: Array, face: int, nota: float, seq: Array, est: Dictionary) -> void:
+	if k == atq.size():
+		var letal: bool = face >= int(cornucopia[1 - d])
+		var total := nota + face * 1.2 * _peso(d, "face") + (1000.0 if letal else 0.0)
+		if total > float(est["melhor"]):
+			est["melhor"] = total
+			est["seq"] = seq.duplicate()
+			est["letal"] = letal
+			est["face"] = face
+		return
+	var a: Carta = atq[k]
+	# nada
+	seq.append([a, -2])
+	_ia_busca(d, atq, k + 1, inim, hp, guarda, face, nota, seq, est)
+	seq.pop_back()
+	var vivos := 0
+	var guardas_vivas := false
+	for i in inim.size():
+		if int(hp[i]) > 0:
+			vivos += 1
+			guardas_vivas = guardas_vivas or bool(guarda[i])
+	if vivos == 0:
+		seq.append([a, -1])
+		_ia_busca(d, atq, k + 1, inim, hp, guarda, face + a.atk, nota, seq, est)
+		seq.pop_back()
+		return
+	for i in inim.size():
+		if int(hp[i]) <= 0 or (guardas_vivas and not bool(guarda[i])):
+			continue
+		var e: Carta = inim[i]
+		var mata := a.atk >= int(hp[i])
+		var morre := e.atk >= a.vida()
+		var n := 0.0
+		if mata:
+			n += (motor.valor(e) + 3.0) * _peso(d, "mata")
+		else:
+			n += 0.25 * a.atk
+		if morre:
+			n -= (motor.valor(a) + 1.0) * _peso(d, "perda")
+		var antes: int = hp[i]
+		hp[i] = int(hp[i]) - a.atk
+		seq.append([a, i])
+		_ia_busca(d, atq, k + 1, inim, hp, guarda, face, nota + n, seq, est)
+		seq.pop_back()
+		hp[i] = antes
+
+
+# ================= regras extras dos modos solo (Sessao.extras) =================
+const MODOS_SOLO := ["livre", "diario", "lendario", "peregrinacao", "choronzon", "enigma"]
+var _impeto_usado := false
+
+
+func _extras() -> Dictionary:
+	return Sessao.extras if (modo_partida and Sessao.modo in MODOS_SOLO) else {}
+
+
+func _bencao(b: String) -> bool:
+	return b in (_extras().get("bencaos", []) as Array)
+
+
+## Cornucópia inicial, Lendária garantida na mão inicial do oponente e Bênçãos que mexem nas cartas do jogador.
+func _aplicar_extras_deck() -> void:
+	var ex := _extras()
+	if ex.has("cornucopia"):
+		cornucopia = [int(ex["cornucopia"][0]), int(ex["cornucopia"][1])]
+	for cid in ex.get("mao_garantida", []):
+		for k in deck_opon.size():
+			if deck_opon[k].id == cid:                       # vai para o topo (as compras saem de pop_back)
+				var c := deck_opon[k]
+				deck_opon.remove_at(k)
+				deck_opon.append(c)
+				break
+	if _bencao("selo-1") or _bencao("vida1"):
+		for c in deck_jog:
+			if c.tipo == "selo" and _bencao("selo-1"):
+				c.custo = maxi(0, c.custo - 1)
+			if c.tipo == "entidade" and _bencao("vida1"):
+				c.vida_base += 1
+				c.sincronizar()
+	for c in deck_opon:
+		c.queue_redraw()
+	if OS.get_environment("GD_MODO_TESTE") != "":
+		print("EXTRAS cornucopia=", cornucopia, " topo_opon=", deck_opon[deck_opon.size() - 1].id, " selos_jog=",
+			deck_jog.filter(func(c: Carta) -> bool: return c.tipo == "selo").map(func(c: Carta) -> int: return c.custo))
+
+
+# ================= Enigma: "vença neste turno" (dados/enigmas.json) =================
+## Mesa montada: suas Entidades prontas, as dele, sua mão, sua Fé e a Cornucópia dele. Um turno só. Zerou a Cornucópia
+## inimiga = resolvido; tocou FIM TURNO sem vencer = escolhe tentar de novo (recarrega a mesa) ou sair.
+func _enigma() -> void:
+	var e: Dictionary = _extras().get("enigma", {})
+	cornucopia = [15, int(e.get("corn", 5))]
+	for k in 6:                                          # deck com algumas cartas: compras de Rito não causam fadiga
+		var f := _nova_carta(proj(DECK_JOG) + Vector2(0, -int(k / 3)), ESC_CAMPO * escala_em(DECK_JOG.y))
+		f.definir(db["cartas"]["tao_lan_caihe"], 0)
+		f.empilhada = k > 0
+		f.z_index = k
+		deck_jog.append(f)
+	for lado in 2:
+		var ids: Array = e.get("meu_campo" if lado == 0 else "campo_dele", [])
+		for i in ids.size():
+			var c := _carta_db(ids[i], lado, proj(DECK_JOG if lado == 0 else DECK_OPON), esc_em(pos_ent(lado, i)))
+			c.virada_para_cima = true
+			await _por_em_campo(c, lado, i)
+			c.cansada = false
+	for cid in e.get("mao", []):
+		var c := _carta_db(cid, 0, proj(DECK_JOG), 1.0)
+		c.virada_para_cima = true
+		await _entrar_na_mao(0, c)
+	fe_max[0] = int(e.get("fe", 0))
+	fe[0] = fe_max[0]
+	ativo = 0
+	turno_n = 3
+	var tit: Array = e.get("titulo", ["Enigma", "Puzzle"])
+	efeitos.numero(Vector2(180, LINHA_Y - 4), str(tit[1] if Sessao.idioma == "en" else tit[0]).to_upper(), Color("#ffe39a"), 2)
+	_atualizar_apagadas()
+	if int(Sessao.extras.get("tentativas", 0)) >= 2:          # 3ª tentativa em diante: mostra a dica
+		var dica: Array = e.get("dica", ["", ""])
+		perg.abrir([["titulo", "Hint" if Sessao.idioma == "en" else "Dica"], ["centro", str(dica[1] if Sessao.idioma == "en" else dica[0])]])
+	while true:
+		await fim_turno_pedido
+		if acabou:
+			break
+		var de_novo := await pedir_sim_nao(Sessao.t("AINDA NÃO"), Sessao.t("A CORNUCÓPIA DELE NÃO ZEROU"), Sessao.t("TENTAR DE NOVO"), Sessao.t("SAIR"))
+		if de_novo:
+			Sessao.extras["tentativas"] = int(Sessao.extras.get("tentativas", 0)) + 1
+			get_tree().reload_current_scene()
+			return
+		vencedor = 1
+		break
+	Sessao.resultado = "vitoria" if vencedor == 0 else "derrota"
+	print("ENIGMA ", Sessao.extras.get("enigma_id", ""), " vencedor=", vencedor, " cornucopia=", cornucopia)
+	await get_tree().create_timer(0.8).timeout
+	if OS.get_environment("GD_SAIR_NO_FIM") != "":
+		get_tree().quit()
+		return
+	get_tree().change_scene_to_file("res://fluxo.tscn")

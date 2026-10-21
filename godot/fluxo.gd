@@ -22,10 +22,11 @@ var falas: Array = []                      # fila de {quem, texto, cor, retrato}
 var fala_vis := 0.0                        # caracteres visíveis (máquina de escrever, 45/s)
 var depois_falas: Callable
 var tempo := 0.0
-var arcade := {"oponente": "aleatorio", "meu_deck": "0", "deck_dele": "do_personagem"}
+var arcade := {"oponente": "aleatorio", "meu_deck": "0", "deck_dele": "do_personagem", "dificuldade": "1"}
 const OPC := {
 	"oponente": ["aleatorio", "indigena", "cristianismo", "taoismo", "hinduismo", "bruxaria", "alta_magia"],
 	"deck_dele": ["do_personagem", "tematico_aleatorio", "misto"],
+	"dificuldade": ["0", "1", "2"],
 }
 
 
@@ -153,6 +154,7 @@ var _rol_moveu := false
 var logo_no: Node2D
 var logo_tex: Texture2D
 var perg: Pergaminho
+var solo: ModosSolo
 var novidades: Array = []              # dados/novidades.json (mais nova primeiro)
 var _avisos_feitos := false            # novidades + presente já verificados nesta sessão do app
 
@@ -177,6 +179,7 @@ func _ready() -> void:
 	ta = TorneioArcade.new(self)
 	perg = Pergaminho.new(self)
 	add_child(perg)
+	solo = ModosSolo.new(self)
 	novidades = JSON.parse_string(FileAccess.get_file_as_string("res://dados/novidades.json"))
 	Relogio.sincronizar()                                    # hora do servidor para o presente diário (sem travar)
 	arcade["meu_deck"] = str(int(Sessao.perfil["deck_ativo"]))
@@ -196,6 +199,10 @@ func _ready() -> void:
 		_pos_luta_arcade()
 	elif Sessao.resultado != "" and Sessao.modo == "arcade_t":
 		ta.pos_partida()
+	elif Sessao.resultado != "" and Sessao.modo in ModosSolo.MODOS:
+		_ir("titulo")
+		_avisos_feitos = true
+		solo.pos_partida()
 	elif str(Sessao.perfil.get("nome", "")) == "":
 		_ir("perfil")                                       # primeira vez: cria o perfil
 	else:
@@ -240,6 +247,22 @@ func _ready() -> void:
 		col.abrir_aba(OS.get_environment("GD_COL_ABA") if OS.get_environment("GD_COL_ABA") != "" else "alta_magia")
 		col.abrir_carta(OS.get_environment("GD_COL_CARTA"))
 		_ir("lore")
+	if OS.get_environment("GD_SOLO_TESTE") != "":            # teste: "pere:indigena" | "premio" | "bencao" | "diario" | "lendarios" | "livre" | "capitulo" | "creditos"
+		var st := OS.get_environment("GD_SOLO_TESTE").split(":")
+		match st[0]:
+			"pere": solo.comecar_pere(st[1])
+			"premio":
+				solo.comecar_pere("indigena")
+				solo._preparar_premio_cartas(true)
+				_ir("pere_premio")
+			"bencao":
+				solo.comecar_pere("indigena")
+				solo.tipo_premio = "bencao"
+				solo.opcoes = ["fe1", "impeto1", "vida1"]
+				_ir("pere_premio")
+			"capitulo": _capitulo(3, "indigena", func() -> void: _ir("titulo"))
+			"creditos": _creditos(func() -> void: _ir("titulo"))
+			_: _ir(st[0])
 	if OS.get_environment("GD_PERG_TESTE") != "":             # teste: "2.5:fechar;4:rolar:300;6:todas;8:privacidade"
 		for passo in OS.get_environment("GD_PERG_TESTE").split(";"):
 			var pt := passo.split(":")
@@ -381,9 +404,10 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(20, 150, 320, 40), "", func() -> void: _ciclar("oponente"), {"campo": "oponente"})
 			_botao(Rect2(20, 220, 320, 40), "", func() -> void: _ciclar("meu_deck"), {"campo": "meu_deck"})
 			_botao(Rect2(20, 290, 320, 40), "", func() -> void: _ciclar("deck_dele"), {"campo": "deck_dele"})
-			_botao(Rect2(90, 372, 180, 30), "Jogar", _comecar_arcade)
-			_botao(Rect2(90, 412, 180, 30), "Continuar torneio" if Sessao.ta_ativo() else "Torneio de 8", _torneio_arcade)
-			_botao(Rect2(90, 454, 180, 26), "Voltar", func() -> void: _ir("titulo"))
+			_botao(Rect2(20, 360, 320, 40), "", func() -> void: _ciclar("dificuldade"), {"campo": "dificuldade"})
+			_botao(Rect2(90, 428, 180, 30), "Jogar", _comecar_arcade)
+			_botao(Rect2(90, 468, 180, 30), "Continuar torneio" if Sessao.ta_ativo() else "Torneio de 8", _torneio_arcade)
+			_botao(Rect2(90, 510, 180, 26), "Voltar", func() -> void: _ir("titulo"))
 		"chave":
 			var d := Sessao.ta()
 			if ta.anim.is_empty() and not d.is_empty():
@@ -399,6 +423,20 @@ func _ir(novo: String) -> void:
 					_botao(Rect2(100, 556, 160, 30), "Lutar!", ta.lutar)
 					_botao(Rect2(20, 600, 120, 24), "Voltar", func() -> void: _ir("arcade"))
 					_botao(Rect2(220, 600, 120, 24), "Desistir", ta.concluir)
+		"solo":
+			solo.botoes_lista()
+		"pere":
+			solo.botoes_pere()
+		"pere_premio":
+			solo.botoes_premio()
+		"diario":
+			solo.botoes_diario()
+		"lendarios":
+			solo.botoes_lendarios()
+		"livre":
+			solo.botoes_livre()
+		"enigmas":
+			solo.botoes_enigmas()
 		"falas":
 			pass
 
@@ -540,7 +578,93 @@ func _pre_luta_torneio() -> void:
 		lista.append({"quem": p.get("nome", op), "texto": t, "cor": Color(p.get("cor", "#e2b85a")), "retrato": op})
 	if p.has("resposta_jogador"):
 		lista.append({"quem": Sessao.t("Você"), "texto": p["resposta_jogador"], "cor": CREME, "retrato": ""})
-	_falar(lista, func() -> void: _jogar())
+	_capitulo(Sessao.torneio_idx + 1, op, func() -> void: _falar(lista, func() -> void: _jogar()))
+
+
+# ================= história em capítulos =================
+const ROMANOS := ["I", "II", "III", "IV", "V", "VI"]
+var capitulo := {}                      # {n, op, depois}
+var creditos_y := 0.0
+
+
+## Card de capítulo antes de cada luta do Torneio: numeral, retrato do campeão, nome e título. Toque continua.
+func _capitulo(n: int, op: String, depois: Callable) -> void:
+	capitulo = {"n": n, "op": op, "depois": depois}
+	_ir("capitulo")
+
+
+func _fim_capitulo() -> void:
+	if t_estado < 0.6 or capitulo.is_empty():
+		return
+	var cb: Callable = capitulo["depois"]
+	capitulo = {}
+	vibrar(12, 0.4)
+	cb.call()
+
+
+func _desenhar_capitulo() -> void:
+	if capitulo.is_empty():
+		return
+	var e := _entrada(0)
+	var p := Sessao.personagem(capitulo["op"])
+	var cor := Color(p.get("cor", "#e2b85a"))
+	var cy := 300.0 + extra()
+	PixelFonte.centrado(self, Vector2(180, cy - 170 - 10 * (1.0 - e)), Sessao.t("CAPÍTULO") + " " + ROMANOS[clampi(int(capitulo["n"]) - 1, 0, 5)], Color(OURO[0], e), 3, ESCURO)
+	var w := 120.0 * e
+	draw_line(Vector2(180 - w, cy - 148), Vector2(180 + w, cy - 148), Color(OURO[2], e), 1.0)
+	var tex := Carta.textura("retrato", capitulo["op"], "png")
+	var r := Rect2(110, cy - 132, 140, 186)
+	if tex:
+		draw_rect(r.grow(3), Color(cor, e))
+		draw_rect(r.grow(1), ESCURO)
+		draw_texture_rect(tex, r, false, Color(1, 1, 1, e))
+	PixelFonte.centrado(self, Vector2(180, r.end.y + 20), PixelFonte.normalizar(str(p.get("nome", ""))), Color(cor.lightened(0.3), e), 2, ESCURO)
+	_texto_central(Vector2(180, r.end.y + 40), str(p.get("titulo", "")), Color(0.85, 0.78, 0.66, e))
+	if t_estado > 0.8:
+		_texto_central(Vector2(180, r.end.y + 76), Sessao.t("toque para continuar"), Color(OURO[0], 0.5 + 0.4 * sin(tempo * 4.0)))
+
+
+const CREDITOS := [["KODEX", ""], ["o torneio do Códice", "the tournament of the Codex"], ["", ""],
+	["um jogo de Sapyst", "a game by Sapyst"], ["", ""],
+	["Design, código e direção", "Design, code and direction"], ["Sapyst", "Sapyst"], ["", ""],
+	["Arte das cartas", "Card art"], ["geração local (ComfyUI) revisada por Sapyst", "local generation (ComfyUI) curated by Sapyst"], ["", ""],
+	["Fontes", "Fonts"], ["pixel art própria; Source Serif 4 (SIL OFL)", "own pixel fonts; Source Serif 4 (SIL OFL)"], ["", ""],
+	["Motor", "Engine"], ["Godot Engine (MIT)", "Godot Engine (MIT)"], ["", ""],
+	["Mitologias", "Mythologies"], ["indígena brasileira, cristã, taoísta, hindu,", "Brazilian Indigenous, Christian, Taoist, Hindu,"],
+	["bruxaria e alta magia, com respeito", "witchcraft and high magic, with respect"], ["", ""], ["", ""],
+	["Obrigado por jogar.", "Thank you for playing."]]
+
+
+func _creditos(depois: Callable) -> void:
+	capitulo = {"depois": depois}
+	creditos_y = 0.0
+	_ir("creditos")
+
+
+func _desenhar_creditos() -> void:
+	creditos_y += get_process_delta_time() * 22.0
+	var y0 := 640.0 + extra() * 2.0 - creditos_y
+	for k in CREDITOS.size():
+		var par: Array = CREDITOS[k]
+		var s: String = par[1] if Sessao.idioma == "en" else par[0]
+		var y := y0 + k * 18.0
+		if s == "" or y < -20 or y > 700 + extra() * 2.0:
+			continue
+		if k == 0:
+			PixelFonte.centrado(self, Vector2(180, y), s, OURO[0], 4, ESCURO)
+		else:
+			var titulo: bool = k + 1 < CREDITOS.size() and CREDITOS[k + 1][0] != "" and (k == 0 or CREDITOS[k - 1][0] == "")
+			_texto_central(Vector2(180, y), s, OURO[1] if titulo else CREME)
+	if y0 + CREDITOS.size() * 18.0 < 260.0:
+		_texto_central(Vector2(180, 560 + extra()), Sessao.t("toque para continuar"), Color(OURO[0], 0.5 + 0.4 * sin(tempo * 4.0)))
+
+
+func _fim_creditos() -> void:
+	if t_estado < 1.0 or capitulo.is_empty():
+		return
+	var cb: Callable = capitulo["depois"]
+	capitulo = {}
+	cb.call()
 
 
 func _pos_luta_torneio() -> void:
@@ -556,9 +680,11 @@ func _pos_luta_torneio() -> void:
 		Sessao.salvar_torneio()
 		if Sessao.torneio_idx >= Sessao.torneio_ordem.size():
 			Sessao.encerrar_torneio()
+			Sessao.perfil["torneio_vencido"] = true             # abre o Choronzon nos modos Solo
+			Sessao.salvar()
 			for t in Sessao.lore.get("epilogo_vitoria", [Sessao.t("Você venceu o torneio.")]):
 				lista.append({"quem": Sessao.t("Narrador"), "texto": t, "cor": OURO[0], "retrato": ""})
-			_falar(lista, func() -> void: Sessao.modo = ""; _ir("titulo"))
+			_falar(lista, func() -> void: Sessao.modo = ""; _creditos(func() -> void: _ir("titulo")))
 		else:
 			_falar(lista, func() -> void: Sessao.preparar_luta_torneio(); _pre_luta_torneio())
 	else:
@@ -582,7 +708,7 @@ func _comecar_arcade() -> void:
 		_ciclar("meu_deck")
 	if not Sessao.deck_valido(int(arcade["meu_deck"])):
 		return
-	Sessao.preparar_arcade(arcade["meu_deck"], arcade["oponente"], arcade["deck_dele"])
+	Sessao.preparar_arcade(arcade["meu_deck"], arcade["oponente"], arcade["deck_dele"], int(arcade["dificuldade"]))
 	var op := Sessao.oponente
 	var p := Sessao.personagem(op)
 	var lista: Array = []
@@ -600,8 +726,8 @@ func _pos_luta_arcade() -> void:
 		lista.append({"quem": p.get("nome", op), "texto": t, "cor": Color(p.get("cor", "#e2b85a")), "retrato": op})
 	lista.append({"quem": "Arcade", "texto": Sessao.t("Vitória!" if Sessao.resultado == "vitoria" else ("Derrota." if Sessao.resultado == "derrota" else "Empate.")), "cor": OURO[0], "retrato": ""})
 	if Sessao.resultado == "vitoria":
-		Sessao.ganhar_moedas(Sessao.MOEDAS_ARCADE)
-		lista.append({"quem": "Arcade", "texto": Sessao.t("+%d moedas! Agora você tem %d.") % [Sessao.MOEDAS_ARCADE, Sessao.moedas()], "cor": OURO[0], "retrato": ""})
+		Sessao.ganhar_moedas(Sessao.moedas_arcade())
+		lista.append({"quem": "Arcade", "texto": Sessao.t("+%d moedas! Agora você tem %d.") % [Sessao.moedas_arcade(), Sessao.moedas()], "cor": OURO[0], "retrato": ""})
 	Sessao.resultado = ""
 	_falar(lista, func() -> void: _ir("arcade"))
 
@@ -723,6 +849,10 @@ func apertar(p: Vector2) -> void:
 		return
 	if estado == "falas":
 		_avancar_fala(); return
+	if estado == "capitulo":
+		_fim_capitulo(); return
+	if estado == "creditos":
+		_fim_creditos(); return
 	for i in botoes.size():
 		if (botoes[i]["rect"] as Rect2).has_point(p):
 			apertado = i
@@ -965,6 +1095,8 @@ func _draw() -> void:
 			_cabecalho(Sessao.t("Escolha o seu deck"), Sessao.t("seis tradições, um Códice"))
 		"arcade":
 			_cabecalho("Arcade", Sessao.t("toque nas opções para trocar"))
+			if arcade["dificuldade"] == "2":
+				_texto_central(Vector2(180, 410), Sessao.t("Arquimago começa com +3 de vida e 1 carta a mais."), Color("#ff9a8a"))
 		"colecao":
 			PixelFonte.centrado(self, Vector2(180, 24), Sessao.t("Coleção").to_upper(), OURO[0], 3, ESCURO)
 			col.desenhar_grade(self)
@@ -972,6 +1104,24 @@ func _draw() -> void:
 			col.desenhar_lore(self)
 		"chave":
 			ta.desenhar()
+		"solo":
+			_cabecalho("Solo", Sessao.t("modos para jogar sozinho"))
+		"capitulo":
+			_desenhar_capitulo()
+		"creditos":
+			_desenhar_creditos()
+		"pere":
+			solo.desenhar_pere()
+		"pere_premio":
+			solo.desenhar_premio()
+		"diario":
+			solo.desenhar_diario()
+		"lendarios":
+			solo.desenhar_lendarios()
+		"livre":
+			solo.desenhar_livre()
+		"enigmas":
+			solo.desenhar_enigmas()
 		"loja":
 			bo.desenhar_loja()
 		"booster":
@@ -1109,7 +1259,7 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 	if b.has("campo"):
 		var dentro := _painel(r, false, pressao)
 		var campo: String = b["campo"]
-		var rotulo: String = Sessao.t({"oponente": "Oponente", "meu_deck": "Seu deck", "deck_dele": "Deck do oponente"}[campo])
+		var rotulo: String = Sessao.t({"oponente": "Oponente", "meu_deck": "Seu deck", "deck_dele": "Deck do oponente", "dificuldade": "Dificuldade"}[campo])
 		Fonte57.desenhar(self, dentro.position + Vector2(8, 4), rotulo, Color("#b8a888"))
 		var txt := _nome_opcao(campo, arcade[campo])
 		Fonte57.desenhar(self, dentro.position + Vector2(8, 19), txt, OURO[0], ESCURO)
@@ -1155,6 +1305,8 @@ func _nome_opcao(campo: String, v: String) -> String:
 		if i >= 0 and i < Sessao.perfil["decks"].size():
 			return str(Sessao.perfil["decks"][i]["nome"])
 		return "-"
+	if campo == "dificuldade":
+		return Sessao.t(["Aprendiz", "Mestre", "Arquimago"][int(v)]) + "  (+%d)" % Sessao.MOEDAS_DIFICULDADE[int(v)]
 	if v == "aleatorio":
 		return Sessao.t("Aleatório")
 	if v == "misto":

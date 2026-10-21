@@ -30,8 +30,9 @@ func modos() -> Array:
 		adv = Sessao.torneio_ordem[mini(Sessao.torneio_idx, 5)]
 	return [
 		{"nome": "Torneio", "sub": torneio_sub, "retrato": adv, "cor": Color("#8b1a1a"), "acao": f._torneio},
-		{"nome": "Arcade", "sub": Sessao.t("partida rápida  +15"), "retrato": "bruxaria", "cor": Color("#5a3a7a"), "acao": func() -> void: f._ir("arcade")},
+		{"nome": "Arcade", "sub": Sessao.t("partida rápida  +10 a 25"), "retrato": "bruxaria", "cor": Color("#5a3a7a"), "acao": func() -> void: f._ir("arcade")},
 		{"nome": "Torneio de 8", "sub": Sessao.t("continuar chave") if Sessao.ta_ativo() else Sessao.t("chave  até 150"), "retrato": "taoismo", "cor": Color("#1f6a5a"), "acao": f._torneio_arcade},
+		{"nome": "Solo", "sub": Sessao.t("peregrinação, desafios e mais"), "retrato": "hinduismo", "cor": Color("#6a3a10"), "acao": func() -> void: f._ir("solo")},
 		{"nome": "Tutorial", "sub": Sessao.t("aprenda com Silas"), "retrato": "alta_magia", "cor": Color("#3a3050"), "acao": f._comecar_tutorial},
 	]
 

@@ -19,6 +19,18 @@ var deck_oponente: Array = []
 var oponente := "cristianismo"        # chave do personagem (= deck dele)
 var resultado := ""                  # "vitoria" | "derrota" | "empate" — preenchido pela mesa
 
+var dificuldade := 1                 # IA do oponente: 0 Aprendiz · 1 Mestre · 2 Arquimago
+const ESTILOS_IA := {"indigena": "agressivo", "hinduismo": "agressivo", "cristianismo": "controle",
+	"alta_magia": "controle", "taoismo": "selos", "bruxaria": "selos"}
+const MOEDAS_DIFICULDADE := [10, 15, 25]
+const DIFICULDADE_TORNEIO := [0, 1, 1, 2, 2, 2]  # lutas 1 a 6 da história
+const DIFICULDADE_TA := [0, 1, 2]                # quartas, semifinal, final do Torneio de 8
+
+
+func estilo_ia(op: String) -> String:
+	return ESTILOS_IA.get(op, "equilibrado")
+
+
 # torneio
 var torneio_ordem: Array = []        # 6 oponentes; o último é sempre alta_magia
 var torneio_idx := 0
@@ -50,6 +62,19 @@ func _ready() -> void:
 			var tt := float(k)
 			get_tree().create_timer(tt, true, false, true).timeout.connect(func() -> void:
 				get_viewport().get_texture().get_image().save_png(OS.get_environment("GD_PRINTS_DIR") + "/p_%05.2f.png" % tt))
+	if OS.get_environment("GD_MODO_TESTE") == "peregrinacao":  # teste: regras extras da Peregrinação
+		preparar_modo("peregrinacao", deck_tematico("indigena"), "hinduismo", deck_tematico("hinduismo"), 2,
+			{"cornucopia": [12, 18], "bencaos": ["fe1", "compra1", "impeto1", "selo-1", "vida1"], "mao_garantida": ["hin_kali"]})
+	if OS.get_environment("GD_MODO_TESTE") == "choronzon":
+		var dk: Array = montar_deck("misto")
+		var ab: Array = db["decks"].get("abismo", [])
+		for k in mini(ab.size(), 4):
+			dk[dk.size() - 1 - k] = ab[k]
+		preparar_modo("choronzon", deck_tematico("cristianismo"), "choronzon", dk, 2, {"cornucopia": [15, 30]})
+	if OS.get_environment("GD_ENIGMA") != "":            # teste: abre a mesa direto no enigma de índice N
+		var lista: Array = JSON.parse_string(FileAccess.get_file_as_string("res://dados/enigmas.json"))
+		var e: Dictionary = lista[int(OS.get_environment("GD_ENIGMA"))]
+		preparar_modo("enigma", [], "alta_magia", [], 1, {"enigma": e, "enigma_id": e["id"]})
 	if OS.get_environment("GD_TUTORIAL") != "":          # teste: abre a mesa direto no tutorial
 		preparar_tutorial()
 
@@ -209,6 +234,7 @@ func encerrar_torneio() -> void:
 
 func preparar_luta_torneio() -> void:
 	oponente = torneio_ordem[torneio_idx]
+	dificuldade = DIFICULDADE_TORNEIO[mini(torneio_idx, 5)]
 	deck_jogador = deck_ativo_ids()
 	deck_oponente = montar_deck(oponente)
 	resultado = ""
@@ -233,8 +259,9 @@ func _deck_ordenado(deck: String, fim: Array) -> Array:
 	return resto + fim
 
 
-func preparar_arcade(meu_deck: String, opon: String, deck_opon: String) -> void:
+func preparar_arcade(meu_deck: String, opon: String, deck_opon: String, nivel := 1) -> void:
 	modo = "arcade"
+	dificuldade = clampi(nivel, 0, 2)
 	oponente = DECKS[rng.randi_range(0, 5)] if opon == "aleatorio" else opon
 	var d_op := deck_opon
 	if d_op == "do_personagem":
@@ -246,6 +273,27 @@ func preparar_arcade(meu_deck: String, opon: String, deck_opon: String) -> void:
 	deck_jogador_nome = tradicao_do_deck(deck_jogador)
 	deck_oponente = montar_deck(d_op)
 	resultado = ""
+
+
+# ================= modos solo (docs/modos_solo.md) =================
+## Regras extras que a mesa lê no começo da partida: cornucopia [jog, opon], mao_garantida (ids na mão inicial do
+## oponente), bencaos (Peregrinação), sigilo_a_cada (Choronzon), semente (Desafio do dia).
+var extras: Dictionary = {}
+
+
+func preparar_modo(m: String, meu: Array, opon: String, deck_op: Array, nivel: int, ext := {}) -> void:
+	modo = m
+	deck_jogador = meu.duplicate()
+	deck_jogador_nome = tradicao_do_deck(deck_jogador)
+	oponente = opon
+	deck_oponente = deck_op.duplicate()
+	dificuldade = clampi(nivel, 0, 2)
+	extras = ext.duplicate(true)
+	resultado = ""
+
+
+func deck_tematico(trad: String) -> Array:
+	return (db["decks"][trad] as Array).duplicate()
 
 
 # ================= vibração (resposta tátil no celular) =================
@@ -277,6 +325,9 @@ const SAVE_ANTIGO := "user://perfil.json"          # até a v0.7.8 o save era JS
 const FOTO := "user://foto.png"
 const MOEDAS_INICIO := 200
 const MOEDAS_ARCADE := 15
+func moedas_arcade() -> int:
+	return MOEDAS_DIFICULDADE[clampi(dificuldade, 0, 2)]
+
 const MOEDAS_DIA := 50                             # presente diário (vira à 00:00 de Brasília)
 const ACUMULO_DIAS := 3                            # dias sem abrir o jogo acumulam até 3 presentes
 const DECK_TAM := 32
@@ -448,7 +499,7 @@ func adicionar_carta(cid: String, n := 1, foil := false) -> void:
 func copias_em_uso(cid: String, exceto := -1) -> int:
 	var n := 0
 	for i in perfil["decks"].size():
-		if i != exceto:
+		if i != exceto and not deck_livre(i):           # deck livre não usa cópias da coleção
 			n += (perfil["decks"][i]["cartas"] as Array).count(cid)
 	return n
 
@@ -462,11 +513,19 @@ func pode_por_no_deck(cid: String, idx: int) -> bool:
 	var limite := 1 if c["lendaria"] else 2
 	if deck.count(cid) >= limite:
 		return false
+	if deck_livre(idx):
+		return true
 	return deck.count(cid) + copias_em_uso(cid, idx) < copias(cid)
 
 
-func deck_valido(idx: int) -> bool:
-	return idx >= 0 and idx < perfil["decks"].size() and (perfil["decks"][idx]["cartas"] as Array).size() == DECK_TAM
+## Deck livre (Modo livre): monta com qualquer carta, mesmo sem tê-la; só vale no Modo livre.
+func deck_livre(idx: int) -> bool:
+	return idx >= 0 and idx < perfil["decks"].size() and bool(perfil["decks"][idx].get("livre", false))
+
+
+func deck_valido(idx: int, aceita_livre := false) -> bool:
+	return idx >= 0 and idx < perfil["decks"].size() and (perfil["decks"][idx]["cartas"] as Array).size() == DECK_TAM \
+		and (aceita_livre or not deck_livre(idx))
 
 
 func deck_ativo_ids() -> Array:
@@ -640,6 +699,7 @@ func preparar_partida_ta() -> void:
 	var d := ta()
 	var adv: String = d["participantes"][ta_adversario()]
 	modo = "arcade_t"
+	dificuldade = DIFICULDADE_TA[clampi(int(d["rodada"]), 0, 2)]
 	oponente = adv if adv != "viajante" else DECKS[rng.randi_range(0, 5)]
 	deck_jogador = deck_ativo_ids()
 	deck_jogador_nome = tradicao_do_deck(deck_jogador)

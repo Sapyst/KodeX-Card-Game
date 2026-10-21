@@ -1,5 +1,37 @@
 [
  {
+  "versao": "0.10.0-alpha",
+  "data": "21/10/2026",
+  "pt": [
+   "Três níveis de IA: Aprendiz, Mestre e Arquimago. O Arquimago planeja o turno inteiro e começa com +3 de vida e 1 carta a mais.",
+   "Cada campeão tem personalidade: agressivo, controlador ou guardião de Selos.",
+   "A dificuldade sobe ao longo do Torneio e do Torneio de 8. No Arcade você escolhe (10, 15 ou 25 moedas).",
+   "Novo card Solo no Início, com 6 modos.",
+   "Peregrinação: 8 paradas, caminhos, cartas novas, Bênçãos e um chefe. A vida continua de uma batalha para a outra.",
+   "Desafio do dia: a mesma partida para todo mundo, 30 moedas por vitória por dia.",
+   "Desafios lendários: vença o Arquimago e conquiste cada uma das 12 Lendárias.",
+   "Enigmas: 9 desafios de vencer neste turno, com dica depois de 2 tentativas.",
+   "Modo livre: decks com qualquer carta para testar ideias, sem prêmio.",
+   "Choronzon: chefe secreto que abre depois de vencer o Torneio.",
+   "Torneio em capítulos, com créditos no fim.",
+   "Correção: as partidas agora embaralham de verdade (antes a ordem das cartas se repetia)."
+  ],
+  "en": [
+   "Three AI levels: Apprentice, Master and Archmage. The Archmage plans the whole turn and starts with +3 life and 1 extra card.",
+   "Each champion has a personality: aggressive, controlling or Seal keeper.",
+   "Difficulty rises through the Tournament and the 8-player Tournament. In Arcade you choose (10, 15 or 25 coins).",
+   "New Solo card on Home, with 6 modes.",
+   "Pilgrimage: 8 stops, paths, new cards, Blessings and a boss. Your life carries over between battles.",
+   "Daily challenge: the same match for everyone, 30 coins for a win once a day.",
+   "Legendary challenges: beat the Archmage and conquer each of the 12 Legendaries.",
+   "Puzzles: 9 win-this-turn challenges, with a hint after 2 tries.",
+   "Free mode: decks with any card to test ideas, no rewards.",
+   "Choronzon: a secret boss that unlocks after you win the Tournament.",
+   "Tournament in chapters, with credits at the end.",
+   "Fix: matches now really shuffle (before, the card order repeated)."
+  ]
+ },
+ {
   "versao": "0.9.0-alpha",
   "data": "21/10/2026",
   "pt": [

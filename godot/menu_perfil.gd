@@ -527,6 +527,9 @@ func botao_deck(b: Dictionary, r: Rect2, pressao: float) -> void:
 	var info := "%d/%d" % [n, Sessao.DECK_TAM]
 	var cor_info := Color(0.81, 0.88, 1.0) if n == Sessao.DECK_TAM else Color("#ff9a8a")
 	Fonte57.desenhar(f, dentro.position + Vector2(36, 19), info + ("" if n == Sessao.DECK_TAM else "  " + Sessao.t("incompleto")), cor_info, f.ESCURO)
+	if Sessao.deck_livre(i):
+		var sl := Sessao.t("LIVRE")
+		PixelFonte.desenhar(f, Vector2(dentro.end.x - PixelFonte.largura(sl) - 6, dentro.end.y - 11), sl, Color("#9ad0ff"))
 	if ativo:
 		var s := Sessao.t("EM USO")
 		PixelFonte.desenhar(f, Vector2(dentro.end.x - PixelFonte.largura(s) - 6, dentro.position.y + 6), s, f.OURO[0])
@@ -556,8 +559,10 @@ func _montar_lista() -> void:
 			if not cid in _ids:
 				_ids.append(cid)
 	else:
+		var livre := Sessao.deck_livre(deck_idx)              # deck livre: todas as cartas (menos o Abismo)
 		for cid in Sessao.db["cartas"]:
-			if Sessao.copias(cid) > 0 and (filtro == "" or str(Sessao.db["cartas"][cid]["cultura"]) == filtro):
+			var cul := str(Sessao.db["cartas"][cid]["cultura"])
+			if (Sessao.copias(cid) > 0 or (livre and cul != "abismo")) and (filtro == "" or cul == filtro):
 				_ids.append(cid)
 	rolagem = limitar(rolagem)
 
@@ -603,6 +608,8 @@ func tocar_grade(p: Vector2) -> void:
 			{"texto": "- TIRAR", "acao": tirar.bind(cid), "ativo": func() -> bool: return deck.has(cid)}],
 			func() -> String:
 				var livres := Sessao.copias(cid) - Sessao.copias_em_uso(cid, deck_idx) - deck.count(cid)
+				if Sessao.deck_livre(deck_idx):
+					return Sessao.t("NO DECK %d") % deck.count(cid)
 				return Sessao.t("NO DECK %d  -  LIVRES %d") % [deck.count(cid), maxi(livres, 0)])
 		return
 
@@ -662,6 +669,8 @@ func desenhar_deck_edit() -> void:
 		var s := ""
 		if aba_deck == "deck":
 			s = "x%d" % no_deck
+		elif Sessao.deck_livre(deck_idx):
+			s = "x%d" % no_deck if no_deck > 0 else "+"
 		else:
 			var livres := Sessao.copias(cid) - Sessao.copias_em_uso(cid, deck_idx) - no_deck
 			s = "%d+%d" % [no_deck, livres] if no_deck > 0 else "x%d" % livres
@@ -688,6 +697,9 @@ func renomear_deck() -> void:
 
 
 func usar_deck() -> void:
+	if Sessao.deck_livre(deck_idx):
+		avisar(Sessao.t("Deck livre: use no Modo livre (Solo)."))
+		return
 	if not Sessao.deck_valido(deck_idx):
 		avisar(Sessao.t("O deck precisa de exatamente 32 cartas."))
 		return

@@ -594,16 +594,8 @@ func desenhar_livre() -> void:
 
 
 func novo_deck_livre() -> void:
-	if Sessao.perfil["decks"].size() >= 8:
-		f.mp.avisar(Sessao.t("Máximo de 8 decks."))
-		return
-	var n := 1
-	for d in Sessao.perfil["decks"]:
-		if d.get("livre", false):
-			n += 1
-	Sessao.perfil["decks"].append({"nome": Sessao.t("Livre %d") % n, "cartas": [], "livre": true})
-	Sessao.salvar()
-	f.mp.abrir_deck(Sessao.perfil["decks"].size() - 1)
+	f.mp.gaveta = "livre"
+	f.mp.novo_deck()
 
 
 func jogar_livre() -> void:

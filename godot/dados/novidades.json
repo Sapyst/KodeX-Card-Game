@@ -1,5 +1,19 @@
 [
  {
+  "versao": "0.14.0-alpha",
+  "data": "21/10/2026",
+  "pt": [
+   "Decks livres: nova gaveta na tela Decks. Monte decks com qualquer carta do jogo (32 por deck, Lendária 1 cópia, demais 2), mesmo sem tê-las.",
+   "Na gaveta livre, Novo deck, Sugerido e Importar criam decks livres. Eles valem no Modo livre (botão Jogar no Modo livre no editor).",
+   "Até 8 decks em cada gaveta."
+  ],
+  "en": [
+   "Free decks: a new drawer in the Decks screen. Build decks with any card in the game (32 per deck, 1 copy of a Legendary, 2 of the rest), even ones you don't own.",
+   "In the free drawer, New deck, Suggested and Import create free decks. They count in Free mode (Play in Free mode button in the editor).",
+   "Up to 8 decks in each drawer."
+  ]
+ },
+ {
   "versao": "0.13.1-alpha",
   "data": "21/10/2026",
   "pt": [

@@ -269,6 +269,10 @@ func _ready() -> void:
 				_ir("loja"); confirmar(Sessao.t("Comprar 1 booster?"), Sessao.t("por %d de ouro") % Sessao.BOOSTER_PRECO, func() -> void: pass)
 			"fala":
 				_falar([{"quem": "Moema Arani", "texto": "A mata responde a quem pisa com respeito. Você pisou como quem tem pressa. Volte quando souber ouvir o rio.", "cor": Color("#3f8f3a"), "retrato": "indigena"}], func() -> void: pass)
+			"gaveta_livre":
+				mp.gaveta = "livre"; mp.deck_sugerido("hinduismo"); mp.novo_deck(); _ir("decks")
+			"editor_livre":
+				mp.gaveta = "livre"; mp.deck_sugerido("bruxaria")
 			"colecao_f":
 				col.posse = "tenho"; col.tipo = "entidade"; col.abrir_aba("alta_magia"); _ir("colecao")
 			"busca":
@@ -465,11 +469,17 @@ func _ir(novo: String) -> void:
 					_botao(Rect2(110, 574, 140, 26), "Abrir outro", func() -> void:
 						confirmar(Sessao.t("Comprar 1 booster?"), Sessao.t("por %d de ouro") % Sessao.BOOSTER_PRECO, func() -> void: bo.concluir(); bo.comprar()))
 		"decks":
-			for i in Sessao.perfil["decks"].size():
-				_botao(Rect2(30, 92 + i * 46, 300, 40), "", mp.abrir_deck.bind(i), {"deck_idx": i, "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mp.botao_deck(b, r, pr)})
-			_botao(Rect2(16, 476, 106, 28), "Novo deck", mp.novo_deck)
-			_botao(Rect2(127, 476, 106, 28), "Sugerido", func() -> void: _ir("sugerir"))
-			_botao(Rect2(238, 476, 106, 28), "Importar", mp.colar_codigo, {"web_nome": "codigo"} if OS.has_feature("web") else {})
+			_botao(Rect2(40, 86, 136, 20), "", func() -> void: mp.gaveta = "colecao"; _ir("decks"); transicao = 0.0,
+				{"aba_loja": "colecao", "atual": mp.gaveta == "colecao", "desenho": _botao_gaveta})
+			_botao(Rect2(184, 86, 136, 20), "", func() -> void: mp.gaveta = "livre"; _ir("decks"); transicao = 0.0,
+				{"aba_loja": "livre", "atual": mp.gaveta == "livre", "desenho": _botao_gaveta})
+			var vis: Array = mp.indices_gaveta()
+			for j in vis.size():
+				var i: int = vis[j]
+				_botao(Rect2(30, 114 + j * 46, 300, 40), "", mp.abrir_deck.bind(i), {"deck_idx": i, "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mp.botao_deck(b, r, pr)})
+			_botao(Rect2(16, 498, 106, 28), "Novo deck", mp.novo_deck)
+			_botao(Rect2(127, 498, 106, 28), "Sugerido", func() -> void: _ir("sugerir"))
+			_botao(Rect2(238, 498, 106, 28), "Importar", mp.colar_codigo, {"web_nome": "codigo"} if OS.has_feature("web") else {})
 		"deck_edit":
 			_botao(Rect2(60, 4, 240, 28), "", mp.renomear_deck, {"web_nome": "deck", "desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
 			_botao(Rect2(70, 54, 104, 22), "Coleção", mp.trocar_aba.bind("cartas"), {"aba_deck": "cartas"})
@@ -480,7 +490,13 @@ func _ir(novo: String) -> void:
 					_botao(Rect2(16 + i * 55, 82, 51, 20), "", mp.trocar_filtro.bind(d), {"filtro": d})
 			_botao(Rect2(16, 538, 106, 26), "Completar", mp.completar)
 			_botao(Rect2(127, 538, 106, 26), "Código", mp.copiar_codigo)
-			_botao(Rect2(16, 570, 150, 26), "Usar este deck", mp.usar_deck)
+			if Sessao.deck_livre(mp.deck_idx):            # deck livre: vai direto para o Modo livre com ele escolhido
+				_botao(Rect2(16, 570, 150, 26), "Jogar no Modo livre", func() -> void:
+					if not Sessao.deck_valido(mp.deck_idx, true):
+						mp.avisar(mp.motivo_invalido(mp.deck_idx)); return
+					solo.livre["meu"] = str(mp.deck_idx); _ir("livre"))
+			else:
+				_botao(Rect2(16, 570, 150, 26), "Usar este deck", mp.usar_deck)
 			_botao(Rect2(172, 570, 80, 26), "Excluir", func() -> void:
 				confirmar(Sessao.t("Excluir este deck?"), str(Sessao.perfil["decks"][mp.deck_idx]["nome"]), mp.excluir_deck))
 			_botao(Rect2(258, 570, 86, 26), "Voltar", func() -> void: _ir("decks"))
@@ -699,6 +715,18 @@ func _desenhar_confirma() -> void:
 func _abas_loja(atual: String) -> void:
 	_botao(Rect2(70, 86, 108, 20), "Boosters", func() -> void: _ir("loja"), {"aba_loja": "boosters", "atual": atual == "boosters", "desenho": _botao_aba_loja})
 	_botao(Rect2(182, 86, 108, 20), "Cosméticos", func() -> void: _ir("cosmeticos"), {"aba_loja": "cosmeticos", "atual": atual == "cosmeticos", "desenho": _botao_aba_loja})
+
+
+func _botao_gaveta(b: Dictionary, r: Rect2, pressao: float) -> void:
+	var ativo: bool = b["atual"]
+	var livre: bool = b["aba_loja"] == "livre"
+	var dd := _painel(r, ativo, pressao, (Color("#1f3a50") if livre else Color("#3a2a40")) if ativo else Color("#1e161e"))
+	var s := Sessao.t("DECKS LIVRES") if livre else Sessao.t("DA COLEÇÃO")
+	var n: int = 0
+	for i in Sessao.perfil["decks"].size():
+		if Sessao.deck_livre(i) == livre:
+			n += 1
+	PixelFonte.centrado(self, dd.get_center() + Vector2(0, 1), s + " %d" % n, (Color("#9ad0ff") if livre else OURO[0]) if ativo else Color("#b8b0c0"), 1)
 
 
 func _botao_aba_loja(b: Dictionary, r: Rect2, pressao: float) -> void:

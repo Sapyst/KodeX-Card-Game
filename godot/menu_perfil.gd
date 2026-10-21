@@ -529,8 +529,34 @@ func confirmar_recorte() -> void:
 
 
 # ---------------- decks ----------------
+## Gaveta da tela Decks: "colecao" (cartas que você tem) ou "livre" (qualquer carta do jogo, 32 por deck; só no Modo livre).
+var gaveta := "colecao"
+const MAX_POR_GAVETA := 8
+
+
+func indices_gaveta() -> Array:
+	var out: Array = []
+	for i in Sessao.perfil["decks"].size():
+		if Sessao.deck_livre(i) == (gaveta == "livre"):
+			out.append(i)
+	return out
+
+
+## Cria um deck vazio na gaveta atual; devolve o índice ou -1 se a gaveta já tem 8.
+func _novo_na_gaveta(nome: String) -> int:
+	if indices_gaveta().size() >= MAX_POR_GAVETA:
+		avisar(Sessao.t("Máximo de 8 decks nesta gaveta."))
+		return -1
+	var d := {"nome": nome, "cartas": []}
+	if gaveta == "livre":
+		d["livre"] = true
+	Sessao.perfil["decks"].append(d)
+	Sessao.salvar()
+	return Sessao.perfil["decks"].size() - 1
+
+
 func desenhar_decks() -> void:
-	f._cabecalho(Sessao.t("Seus decks"), Sessao.t("toque num deck para editar"))
+	f._cabecalho(Sessao.t("Seus decks"), Sessao.t("qualquer carta do jogo, 32 por deck") if gaveta == "livre" else Sessao.t("toque num deck para editar"))
 	_desenhar_aviso()
 
 
@@ -565,12 +591,10 @@ func botao_deck(b: Dictionary, r: Rect2, pressao: float) -> void:
 
 
 func novo_deck() -> void:
-	if Sessao.perfil["decks"].size() >= 8:
-		avisar(Sessao.t("Máximo de 8 decks."))
-		return
-	Sessao.perfil["decks"].append({"nome": Sessao.t("Deck %d") % (Sessao.perfil["decks"].size() + 1), "cartas": []})
-	Sessao.salvar()
-	abrir_deck(Sessao.perfil["decks"].size() - 1)
+	var nome := (Sessao.t("Livre %d") if gaveta == "livre" else Sessao.t("Deck %d")) % (indices_gaveta().size() + 1)
+	var i := _novo_na_gaveta(nome)
+	if i >= 0:
+		abrir_deck(i)
 
 
 func abrir_deck(i: int) -> void:
@@ -840,11 +864,9 @@ func completar() -> void:
 
 ## Deck sugerido: um deck novo da tradição, montado com as cartas que você tem (o temático dela primeiro).
 func deck_sugerido(trad: String) -> void:
-	if Sessao.perfil["decks"].size() >= 8:
-		avisar(Sessao.t("Máximo de 8 decks."))
+	var i := _novo_na_gaveta(Sessao.nome_deck(trad) + " " + (Sessao.t("livre") if gaveta == "livre" else Sessao.t("sugerido")))
+	if i < 0:
 		return
-	Sessao.perfil["decks"].append({"nome": Sessao.nome_deck(trad) + " " + Sessao.t("sugerido"), "cartas": []})
-	var i: int = Sessao.perfil["decks"].size() - 1
 	var deck: Array = Sessao.perfil["decks"][i]["cartas"]
 	for cid in Sessao.deck_tematico(trad):
 		if Sessao.pode_por_no_deck(cid, i):
@@ -902,12 +924,10 @@ func importar_codigo(c: String) -> void:
 	if b.size() == 0 or b.size() % 3 != 0:
 		avisar(Sessao.t("Código inválido: copie um código KDX1 antes."))
 		return
-	if Sessao.perfil["decks"].size() >= 8:
-		avisar(Sessao.t("Máximo de 8 decks."))
-		return
 	var ids := _ids_ordenados()
-	Sessao.perfil["decks"].append({"nome": Sessao.t("Importado"), "cartas": []})
-	var i: int = Sessao.perfil["decks"].size() - 1
+	var i := _novo_na_gaveta(Sessao.t("Importado"))
+	if i < 0:
+		return
 	var deck: Array = Sessao.perfil["decks"][i]["cartas"]
 	var faltou := 0
 	for k in range(0, b.size(), 3):

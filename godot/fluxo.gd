@@ -223,6 +223,9 @@ func _ready() -> void:
 			var tt := float(k)
 			get_tree().create_timer(tt).timeout.connect(func() -> void:
 				get_viewport().get_texture().get_image().save_png(OS.get_environment("GD_PRINTS_DIR") + "/p_%05.2f.png" % tt))
+	if OS.get_environment("GD_TESTE_AVATAR") != "":
+		_ir("avatar")
+		get_tree().create_timer(1.5).timeout.connect(mp.aplicar_avatar.bind("taoismo"))
 	if OS.get_environment("GD_TESTE_ABAS") != "":             # teste: percorre as abas pela barra
 		for k in [1, 3, 2, 4, 0]:
 			get_tree().create_timer(1.2 + [1, 3, 2, 4, 0].find(k) * 1.4).timeout.connect(trocar_aba.bind(k))
@@ -303,12 +306,18 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(110, 604, 140, 26), "Voltar", func() -> void: _ir("colecao"))
 		"perfil":
 			mp.entrar_perfil()
-			_botao(Rect2(110, 266, 140, 24), "Escolher foto", mp.escolher_foto)
+			_botao(Rect2(110, 266, 140, 24), "Escolher imagem", func() -> void: _ir("avatar"))
 			_botao(Rect2(90, 420, 180, 30), "Continuar", func() -> void:
 				if str(Sessao.perfil.get("nome", "")).strip_edges() == "":
 					mp.avisar(Sessao.t("Escreva seu nome."))
 				else:
 					_ir("titulo"))
+		"avatar":
+			for k in MenuPerfil.AVATARES.size():
+				_botao(Rect2(62 + (k % 2) * 136, 96 + (k / 2) * 178, 100, 133), "", mp.aplicar_avatar.bind(MenuPerfil.AVATARES[k]),
+					{"avatar": MenuPerfil.AVATARES[k], "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mp.botao_avatar(b, r, pr)})
+			_botao(Rect2(70, 466, 220, 30), "Enviar foto do aparelho", mp.escolher_foto, {"web_upload": true})
+			_botao(Rect2(110, 510, 140, 26), "Voltar", func() -> void: _ir("perfil"))
 		"recorte":
 			_botao(Rect2(96, 440, 40, 26), "-", func() -> void: mp.zoom(1.0 / 1.15))
 			_botao(Rect2(224, 440, 40, 26), "+", func() -> void: mp.zoom(1.15))
@@ -567,6 +576,8 @@ func apertar(p: Vector2) -> void:
 		if (botoes[i]["rect"] as Rect2).has_point(p):
 			apertado = i
 			vibrar(10, 0.35)
+			if botoes[i].has("web_upload"):
+				mp.armar_upload_web()             # web/iPhone: o seletor abre quando o dedo sai, dentro do gesto
 			return
 
 
@@ -809,6 +820,8 @@ func _draw() -> void:
 			bo.desenhar_booster()
 		"perfil":
 			mp.desenhar_perfil()
+		"avatar":
+			mp.desenhar_avatares()
 		"recorte":
 			mp.desenhar_recorte()
 		"decks":

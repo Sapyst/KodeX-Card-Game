@@ -59,6 +59,59 @@ func _init(menu) -> void:
 	_carregar_foto()
 
 
+const AVATARES := ["alta_magia", "taoismo", "bruxaria", "indigena"]
+
+
+## Imagem padrão: o retrato do personagem (recortado do topo, 3:4) sobre o fundo na cor da tradição.
+func imagem_avatar(id: String) -> Image:
+	var tex := Carta.textura("retrato", id, "png")
+	var out := Image.create(300, 400, false, Image.FORMAT_RGBA8)
+	var cor: Color = Color(Sessao.personagem(id).get("cor", "#3a3050")).darkened(0.35)
+	out.fill(cor)
+	for y in 400:                                         # degradê escuro para baixo
+		out.fill_rect(Rect2i(0, y, 300, 1), cor.darkened(0.55 * float(y) / 400.0))
+	if tex:
+		var im := tex.get_image()
+		im.convert(Image.FORMAT_RGBA8)
+		var w := im.get_width()
+		var lado := int(w * 0.86)
+		var reg := im.get_region(Rect2i(int(w * 0.07), 0, lado, mini(int(lado * 4.0 / 3.0), im.get_height())))
+		reg.resize(300, int(300.0 * reg.get_height() / reg.get_width()), Image.INTERPOLATE_LANCZOS)
+		out.blend_rect(reg, Rect2i(0, 0, reg.get_width(), mini(reg.get_height(), 400)), Vector2i(0, 0))
+	return out
+
+
+func aplicar_avatar(id: String) -> void:
+	imagem_avatar(id).save_png(Sessao.FOTO)
+	Sessao.perfil["tem_foto"] = true
+	Sessao.perfil["avatar"] = id
+	Sessao.salvar()
+	_carregar_foto()
+	f.vibrar(18, 0.6)
+	f._ir("perfil")
+
+
+var _tex_avatar := {}
+
+
+func botao_avatar(b: Dictionary, r: Rect2, pressao: float) -> void:
+	var id: String = b["avatar"]
+	if not _tex_avatar.has(id):
+		_tex_avatar[id] = ImageTexture.create_from_image(imagem_avatar(id))
+	var sel: bool = str(Sessao.perfil.get("avatar", "")) == id
+	var rr := Rect2(r.position + Vector2(0, pressao), r.size)
+	moldura_foto(rr, _tex_avatar[id])
+	if sel:
+		var pul := 0.6 + 0.4 * sin(f.tempo * 4.0)
+		f.draw_rect(rr.grow(6), Color(1.0, 0.85, 0.4, 0.5 * pul), false, 2.0)
+	PixelFonte.centrado(f, Vector2(rr.get_center().x, rr.end.y + 10), PixelFonte.normalizar(str(Sessao.personagem(id).get("nome", id)).split(" ")[0]), f.OURO[0] if sel else f.CREME, 1, f.ESCURO)
+
+
+func desenhar_avatares() -> void:
+	f._cabecalho(Sessao.t("Sua imagem"), Sessao.t("escolha uma ou envie uma foto"))
+	_desenhar_aviso()
+
+
 func _carregar_foto() -> void:
 	foto_tex = null
 	if Sessao.perfil.get("tem_foto", false) and FileAccess.file_exists(Sessao.FOTO):
@@ -224,11 +277,31 @@ var _cb_web: JavaScriptObject = null
 
 
 func _escolher_web() -> void:
-	_cb_web = JavaScriptBridge.create_callback(_ao_arquivo_web)
-	JavaScriptBridge.get_interface("window").kodexFoto = _cb_web
-	JavaScriptBridge.eval("""(function(){var i=document.createElement('input');i.type='file';i.accept='image/*';
-		i.onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();
-		r.onload=function(){window.kodexFoto(r.result)};r.readAsDataURL(f);};i.click();})()""", true)
+	armar_upload_web()                       # fallback (navegadores que aceitam click() fora do gesto)
+	JavaScriptBridge.eval("if(window.kodexInput){window.kodexInput.click();}", true)
+
+
+## Safari/iPhone só abre o seletor de arquivo se input.click() acontecer DENTRO do gesto do usuário. O Godot recebe
+## o toque depois que o navegador já o processou, então armamos um ouvinte no "pointerup"/"touchend" do próprio
+## documento quando o dedo ENCOSTA no botão: o click() roda quando o dedo sai, ainda dentro do gesto.
+func armar_upload_web() -> void:
+	if not OS.has_feature("web"):
+		return
+	if _cb_web == null:
+		_cb_web = JavaScriptBridge.create_callback(_ao_arquivo_web)
+		JavaScriptBridge.get_interface("window").kodexFoto = _cb_web
+	JavaScriptBridge.eval("""(function(){
+		var i=window.kodexInput;
+		if(!i){i=document.createElement('input');i.type='file';i.accept='image/*';
+			i.style.position='fixed';i.style.left='-1000px';i.style.top='0';i.style.opacity='0';
+			document.body.appendChild(i);window.kodexInput=i;
+			i.addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();
+				r.onload=function(){window.kodexFoto(r.result)};r.readAsDataURL(f);i.value='';});}
+		var abrir=function(){document.removeEventListener('pointerup',abrir,true);document.removeEventListener('touchend',abrir,true);
+			window.kodexArmado=false;i.click();};
+		if(!window.kodexArmado){window.kodexArmado=true;
+			document.addEventListener('pointerup',abrir,true);document.addEventListener('touchend',abrir,true);}
+	})()""", true)
 
 
 func _ao_arquivo_web(args: Array) -> void:

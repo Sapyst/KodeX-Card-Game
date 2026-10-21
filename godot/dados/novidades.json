@@ -1,5 +1,19 @@
 [
  {
+  "versao": "0.12.1-alpha",
+  "data": "21/10/2026",
+  "pt": [
+   "Artes novas: Baba Yaga, Dantalion, Homúnculo e Flechas de Houyi.",
+   "Artes revisadas: Lan Caihe, Paimon, Ibirapema e Shiva Nataraja.",
+   "Só o Curupira continua com a arte em revisão."
+  ],
+  "en": [
+   "New art: Baba Yaga, Dantalion, Homunculus and Arrows of Houyi.",
+   "Revised art: Lan Caihe, Paimon, Ibirapema and Shiva Nataraja.",
+   "Only the Curupira still has art under review."
+  ]
+ },
+ {
   "versao": "0.12.0-alpha",
   "data": "21/10/2026",
   "pt": [

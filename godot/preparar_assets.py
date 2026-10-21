@@ -15,7 +15,7 @@ for d in (out_arte, out_carta, out_ret):
 n1 = n2 = n3 = 0
 for f in glob.glob(os.path.join(RAIZ, "arte", "*", "*.png")):
     deck = os.path.basename(os.path.dirname(f))
-    if deck.startswith("_") or deck in ("frame", "logo", "personagens") or os.path.basename(f).startswith("_"):
+    if deck.startswith("_") or deck in ("frame", "logo", "personagens", "versos", "som", "sons", "foil") or os.path.basename(f).startswith("_"):
         continue
     im = Image.open(f).convert("RGB")
     p = im.resize((96, 128), Image.LANCZOS).resize((48, 64), Image.LANCZOS)

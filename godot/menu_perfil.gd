@@ -74,7 +74,7 @@ const AVATARES := ["alta_magia", "taoismo", "bruxaria", "indigena"]
 
 
 ## Imagem padrão: o retrato do personagem (recortado do topo, 3:4) sobre o fundo na cor da tradição.
-func imagem_avatar(id: String) -> Image:
+static func imagem_avatar(id: String) -> Image:
 	var tex := Carta.textura("retrato", id, "png")
 	var out := Image.create(300, 400, false, Image.FORMAT_RGBA8)
 	var cor: Color = Color(Sessao.personagem(id).get("cor", "#3a3050")).darkened(0.35)
@@ -247,7 +247,7 @@ func sair_texto() -> void:
 
 
 func desenhar_perfil() -> void:
-	f._cabecalho(Sessao.t("Seu perfil"), Sessao.t("nome e foto ficam só neste aparelho"))
+	f._cabecalho(Sessao.t("Seu perfil"), Sessao.t("quem joga online com você vê nome e foto"))
 	moldura_foto(Rect2(120, 98, 120, 160), foto_tex)
 	var r := campo_nome()
 	var dentro: Rect2 = f._painel(r, nome_edit.has_focus(), 0.0)

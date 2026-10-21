@@ -12,16 +12,18 @@ const BASE_Y := 606.0
 const ESC_TOPO := 0.84
 
 # espaços em coordenadas "planas" da mesa
-const ENT_OPON := [Vector2(68, 200), Vector2(143, 200), Vector2(218, 200), Vector2(293, 200)]
-const SELO_OPON := [Vector2(143, 110), Vector2(218, 110)]
-const ENT_JOG := [Vector2(68, 382), Vector2(143, 382), Vector2(218, 382), Vector2(293, 382)]
-const SELO_JOG := [Vector2(143, 474), Vector2(218, 474)]
-const DECK_JOG := Vector2(306, 474)
-const CEMIT_JOG := Vector2(55, 474)
-const DECK_OPON := Vector2(55, 110)
-const CEMIT_OPON := Vector2(306, 110)
+# as duas metades são espelhadas em volta da linha do meio (y 291): cada lado tem a sua faixa na borda da mesa para o
+# retrato (em cima, menor pela perspectiva); a mão do jogador fica abaixo da faixa dele
+const ENT_OPON := [Vector2(68, 212), Vector2(143, 212), Vector2(218, 212), Vector2(293, 212)]
+const SELO_OPON := [Vector2(143, 126), Vector2(218, 126)]
+const ENT_JOG := [Vector2(68, 370), Vector2(143, 370), Vector2(218, 370), Vector2(293, 370)]
+const SELO_JOG := [Vector2(143, 458), Vector2(218, 458)]
+const DECK_JOG := Vector2(306, 458)
+const CEMIT_JOG := Vector2(55, 458)
+const DECK_OPON := Vector2(55, 126)
+const CEMIT_OPON := Vector2(306, 126)
 const LINHA_Y := 291.0
-const ESC_CAMPO := 0.84
+const ESC_CAMPO := 0.88
 const LUZ_PRINCIPAL := Vector2(180, -34)
 
 # paleta
@@ -182,6 +184,7 @@ func _ready() -> void:
 		rede.emote.connect(hud.emote_oponente)
 		rede.fim_servidor.connect(_fim_servidor)
 		await rede.iniciar(online_info, bool(online_info.get("retomar", false)))
+	_preparar_retratos()
 	await _intro()
 	if modo_partida and Sessao.modo == "enigma":
 		await _enigma()
@@ -710,13 +713,13 @@ func _ir_para_deck() -> void:
 func _layout_mao(n: int, k: int) -> Array:
 	var meio := (n - 1) / 2.0
 	var d := k - meio
-	return [Vector2(180 + d * 52, 566 + absf(d) * absf(d) * 3), deg_to_rad(d * 7.0)]
+	return [Vector2(180 + d * 52, 600 + absf(d) * absf(d) * 3), deg_to_rad(d * 7.0)]
 
 
 func _layout_mao_opon(n: int, k: int) -> Array:
 	var meio := (n - 1) / 2.0
 	var d := k - meio
-	return [Vector2(180 + d * 34, 6 - absf(d) * absf(d) * 2), PI - deg_to_rad(d * 6.0)]
+	return [Vector2(180 + d * 34, -6 - absf(d) * absf(d) * 2), PI - deg_to_rad(d * 6.0)]
 
 
 func _rearrumar(mao: Array[Carta], layout: Callable, esc: float) -> void:
@@ -777,6 +780,7 @@ func _pos_placar(dono: int) -> Vector2:
 
 
 func _desenhar_placar() -> void:
+	_desenhar_retratos()
 	for d in 2:
 		var p := _pos_placar(d)
 		var s := str(maxi(cornucopia[d], 0))
@@ -2322,7 +2326,7 @@ func _soltar_da_mao_partida(c: Carta, p: Vector2) -> void:
 				_enviar({"tipo": "jogar", "k": mao_jog.find(c), "i": i})
 				await _jogar_entidade(c, 0, i)
 				return
-			if not (p.y > LINHA_Y and p.y < 520):
+			if not (p.y > LINHA_Y and p.y < 548):
 				await _recusar(c)
 				return
 			var t := create_tween().set_parallel(true)
@@ -3011,6 +3015,8 @@ func aplicar_tempo() -> void:
 	var v := _vel_teste * Sessao.velocidade_mesa()
 	if acelerar_ia and ativo == 1:
 		v *= 2.5
+	if rede != null and (rede.recebidas.size() > 2 or not rede.proprias.is_empty()):
+		v *= 4.0                                   # alcançando: várias jogadas na fila
 	Engine.time_scale = 0.0 if pausado else v
 
 
@@ -3089,9 +3095,7 @@ func _mulligan() -> void:
 		refeito = true
 	else:
 		if online_partida():
-			get_tree().create_timer(25.0, true, false, true).timeout.connect(func() -> void:
-				if hud.mulligan:
-					escolhido.emit(false))
+			_contagem_mulligan(25)
 		v = await escolhido
 	var trocar: Array = hud.marcadas.duplicate() if v == true else []
 	if online_partida() and not refeito:
@@ -3973,7 +3977,9 @@ func _fim_online() -> void:
 		await get_tree().create_timer(1.0).timeout
 		get_tree().quit()
 		return
-	await _resumo_online()
+	var ganho: int = [20, 5, 10][0 if vencedor == 0 else (1 if vencedor == 1 else 2)]
+	Sessao.premio("online", {"pid": rede.pid}, ganho)
+	await _resumo_online(ganho)
 	var rev := await pedir_sim_nao(Sessao.t("REVANCHE?"), Sessao.t("OS DOIS PRECISAM ACEITAR"), Sessao.t("REVANCHE"), Sessao.t("MENU"))
 	if not rev:
 		Nuvem.mp("POST", "/v1/partida/%s/revanche" % rede.pid, {"recusar": true})
@@ -4011,7 +4017,7 @@ func _voltar_menu() -> void:
 
 
 ## Relatório com as duas colunas (você × adversário): o mesmo números que o outro aparelho vê, do lado dele.
-func _resumo_online() -> void:
+func _resumo_online(ganho := 0) -> void:
 	var en := Sessao.idioma == "en"
 	var adv := str(online_info.get("adversario", "?"))
 	var titulo: Array = {0: ["Vitória", "Victory"], 1: ["Derrota", "Defeat"], 2: ["Empate", "Draw"]}.get(vencedor, ["Empate", "Draw"])
@@ -4027,6 +4033,9 @@ func _resumo_online() -> void:
 		["item", ("Entities destroyed: %d × %d" if en else "Entidades destruídas: %d × %d") % [int(estat[1].get("mortes", 0)), int(estat[0].get("mortes", 0))]],
 		["item", ("Attacks: %d × %d" if en else "Ataques: %d × %d") % [atq.call(0), atq.call(1)]],
 		["item", ("Cornucopia left: %d × %d" if en else "Cornucópia no fim: %d × %d") % [maxi(cornucopia[0], 0), maxi(cornucopia[1], 0)]]]
+	if ganho > 0:
+		b.append(["espaco"])
+		b.append(["destaque", "+%d" % ganho, "moeda"])
 	if dessinc:
 		b.append(["espaco"])
 		b.append(["centro", "The two devices disagreed during this match (desync). Please report it." if en else "Os dois aparelhos divergiram nesta partida (dessincronia). Avise para corrigirmos."])
@@ -4133,3 +4142,128 @@ func _responder_auto() -> void:
 				alvo_tocado.emit(c)
 		elif not efeitos.escolha.is_empty():
 			escolhido.emit(efeitos.escolha[0]["valor"])
+
+
+# ================= retratos: quem está de fato na mesa (você embaixo, o adversário em cima) =================
+const RET_TAM := Vector2(36, 48)                       # foto 3:4 (px nativos); a plaquinha cobre o pé da foto
+var ret_tex: Array = [null, null]
+var ret_nome: Array = ["", ""]
+
+
+## Você: a sua foto/imagem do perfil e o seu nome. Adversário: online, a foto e o nome da pessoa; contra a IA, o retrato
+## e o nome do personagem (Choronzon: a arte da carta). Sem foto = silhueta.
+func _preparar_retratos() -> void:
+	if not modo_partida or Sessao.modo == "":
+		return
+	ret_nome[0] = str(Sessao.perfil.get("nome", "")).strip_edges()
+	if ret_nome[0] == "":
+		ret_nome[0] = Sessao.t("Você")
+	if Sessao.perfil.get("tem_foto", false) and FileAccess.file_exists(Sessao.FOTO):
+		var im := Image.load_from_file(Sessao.FOTO)
+		if im:
+			ret_tex[0] = ImageTexture.create_from_image(im)
+	if online_partida():
+		ret_nome[1] = str(online_info.get("adversario", "?"))
+		var b64 := str(online_info.get("foto_op", ""))
+		if b64 != "":
+			var im := Image.new()
+			if im.load_jpg_from_buffer(Marshalls.base64_to_raw(b64)) == OK:
+				ret_tex[1] = ImageTexture.create_from_image(im)
+		return
+	var op := Sessao.oponente
+	ret_nome[1] = str(Sessao.personagem(op).get("nome", Sessao.nome_deck(op)))
+	if Carta.textura("retrato", op, "png") != null:
+		ret_tex[1] = ImageTexture.create_from_image(MenuPerfil.imagem_avatar(op))
+	elif op == "choronzon":
+		ret_tex[1] = Carta.textura("arte", "aby_choronzon", "png")
+
+
+## Retrato no meio da faixa da borda de cada lado: o seu embaixo (entre os Selos e a mão), o do adversário em cima,
+## menor pela perspectiva da mesa.
+func ret_rect(d: int) -> Rect2:
+	var y := 524.0 if d == 0 else 62.0
+	var tam := (RET_TAM * escala_em(y)).round()
+	return Rect2((Vector2(180, y) - tam / 2).round(), tam)
+
+
+func _desenhar_retratos() -> void:
+	for d in 2:
+		if ret_nome[d] == "":
+			continue
+		var r := ret_rect(d)
+		if ativo == d and not acabou:                  # de quem é a vez: brilho dourado pulsando em volta
+			var a := 0.35 + 0.3 * sin(tempo * 4.0)
+			placar.draw_rect(r.grow(5), Color(1.0, 0.85, 0.4, a * 0.5))
+			placar.draw_rect(r.grow(4), Color(1.0, 0.85, 0.4, a), false, 1.0)
+		placar.draw_rect(r.grow(3), ESCURO)
+		placar.draw_rect(r.grow(2), OURO[2])
+		placar.draw_rect(r.grow(1), OURO[1], false, 1.0)
+		placar.draw_rect(r, Color("#1a1218"))
+		if ret_tex[d] != null:
+			placar.draw_texture_rect(ret_tex[d], r, false)
+		else:                                          # silhueta: cabeça e ombros
+			var c := r.get_center()
+			placar.draw_circle(c + Vector2(0, -6), 6.0, Color("#3a2c36"))
+			placar.draw_colored_polygon(PackedVector2Array([c + Vector2(-11, 17), c + Vector2(-9, 4), c + Vector2(0, 1),
+				c + Vector2(9, 4), c + Vector2(11, 17)]), Color("#3a2c36"))
+		for cc in [r.position, Vector2(r.end.x, r.position.y)]:   # losangos nos cantos de cima
+			placar.draw_colored_polygon(PackedVector2Array([cc + Vector2(0, -3), cc + Vector2(3, 0), cc + Vector2(0, 3), cc + Vector2(-3, 0)]), OURO[0])
+		_plaquinha(Vector2(r.get_center().x, r.end.y - 1), ret_nome[d])
+		if d == 1 and rede != null:
+			_status_adversario(r)
+
+
+## Plaquinha de madeira com o nome entalhado: tábua com veio, luz em cima, sombra embaixo, 2 pregos dourados; as letras
+## são cavadas (tinta escura com a borda de baixo clara, como o corte na madeira pegando luz).
+func _plaquinha(centro: Vector2, nome: String) -> void:
+	var w := float(Fonte57.largura(nome) + 20)
+	var pr := Rect2(roundf(centro.x - w / 2), roundf(centro.y - 6), w, 12)
+	placar.draw_rect(pr.grow(1), ESCURO)
+	placar.draw_rect(pr, MADEIRA[0])
+	for k in 3:                                         # veio da madeira
+		placar.draw_line(Vector2(pr.position.x + 2, pr.position.y + 3 + k * 3), Vector2(pr.end.x - 2, pr.position.y + 3 + k * 3), MADEIRA[1], 1.0)
+	placar.draw_rect(Rect2(pr.position, Vector2(pr.size.x, 1)), MADEIRA[3].lightened(0.25))
+	placar.draw_rect(Rect2(pr.position + Vector2(0, pr.size.y - 1), Vector2(pr.size.x, 1)), MADEIRA[2].darkened(0.3))
+	for x in [pr.position.x + 3, pr.end.x - 4]:          # pregos
+		placar.draw_rect(Rect2(x, pr.position.y + 5, 2, 2), OURO[1])
+		placar.draw_rect(Rect2(x, pr.position.y + 5, 1, 1), OURO[0])
+	var tv := Fonte57.tinta_v(nome)
+	var pos := Vector2(roundf(centro.x - Fonte57.largura(nome) / 2.0), roundf(pr.get_center().y - (tv.x + tv.y + 1) / 2.0))
+	Fonte57.desenhar(placar, pos + Vector2(0, 1), nome, MADEIRA[3].lightened(0.35))   # borda do corte pegando luz
+	Fonte57.desenhar(placar, pos, nome, Color("#24130c"))                              # fundo do entalhe
+
+
+## Online: "..." enquanto o adversário pensa no turno dele; "sem sinal" quando o aparelho dele sumiu.
+func _status_adversario(r: Rect2) -> void:
+	if acabou:
+		return
+	var txt := ""
+	if rede.op_ausente >= 10:
+		txt = Sessao.t("SEM SINAL %ds") % rede.op_ausente
+	elif ativo == 1 and rede.recebidas.is_empty() and not ocupado:
+		txt = "." .repeat(1 + int(tempo * 3) % 3)
+	if txt == "":
+		return
+	var c := Vector2(r.end.x + 6, r.position.y + 2)
+	var w := PixelFonte.largura(txt) + 6
+	placar.draw_rect(Rect2(c, Vector2(w, 9)).grow(1), ESCURO)
+	placar.draw_rect(Rect2(c, Vector2(w, 9)), Color("#f2e6c8") if txt.begins_with(".") else Color("#5a1a1a"))
+	PixelFonte.desenhar(placar, c + Vector2(3, 2), txt, ESCURO if txt.begins_with(".") else Color("#ffb0a0"))
+
+
+## Online: a mão inicial tem 25 s, contados no subtítulo; esgotou = mantém a mão.
+func _contagem_mulligan(seg: int) -> void:
+	var fim := Time.get_ticks_msec() + seg * 1000
+	while hud.mulligan and not acabou:
+		var resta := ceili((fim - Time.get_ticks_msec()) / 1000.0)
+		if resta <= 0:
+			escolhido.emit(false)
+			return
+		efeitos.faixa_alvo["sub"] = Sessao.t("TOQUE ATÉ 2 CARTAS PARA TROCAR") + "  ·  %d S" % resta
+		await get_tree().create_timer(0.25, true, false, true).timeout
+
+
+## Voltou do segundo plano: o laço da rede pede de novo na hora (sem esperar o pedido antigo vencer).
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_RESUMED and rede != null:
+		rede.cutucar()

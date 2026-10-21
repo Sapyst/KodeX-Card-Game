@@ -227,7 +227,7 @@ func _draw() -> void:
 				draw_line(cc + Vector2(-6, -6), cc + Vector2(6, 6), VERMELHO, 3.0)
 				draw_line(cc + Vector2(6, -6), cc + Vector2(-6, 6), VERMELHO, 3.0)
 	if not fala_jog.is_empty():
-		_balao(Vector2(180, 512), fala_jog["texto"], fala_jog["t"])
+		_balao(Vector2(180, 488), fala_jog["texto"], fala_jog["t"])
 	# botões do canto (somem no fim da partida)
 	if not m.acabou:
 		_botao_canto(rect_menu(), "menu")

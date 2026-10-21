@@ -507,6 +507,17 @@ func preparar_online(info: Dictionary, retomar := false) -> void:
 	online_salvo(str(info.get("pid", "")))
 
 
+## Foto do perfil para o adversário online: JPEG 60×80 em base64 (~3 KB). "" = sem foto (ele vê a silhueta).
+func foto_online() -> String:
+	if not perfil.get("tem_foto", false) or not FileAccess.file_exists(FOTO):
+		return ""
+	var im := Image.load_from_file(FOTO)
+	if im == null:
+		return ""
+	im.resize(60, 80, Image.INTERPOLATE_LANCZOS)
+	return Marshalls.raw_to_base64(im.save_jpg_to_buffer(0.75))
+
+
 ## Partida online em andamento (para voltar a ela se o app fechar). "" = nenhuma. Fica só neste aparelho.
 func online_salvo(pid = null) -> String:
 	var cfg := ConfigFile.new()

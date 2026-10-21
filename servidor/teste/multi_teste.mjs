@@ -14,13 +14,14 @@ const deck = D.deck_inicial;
 
 const a = await conta("Ana", "BR"), b = await conta("Bia", "BR"), c = await conta("Cid", "JP");
 // sala por código
-const s = await pedir(a, "/v1/sala/criar", { deck });
+const s = await pedir(a, "/v1/sala/criar", { deck, nome: "Ana", foto: "AAAA" });
 ok(s.ok && /^[A-Z]{4}$/.test(s.codigo), "sala criada " + s.codigo);
 const espera = pedir(a, `/v1/partida/${s.partida.pid}?estado=sala`);       // long-poll do dono
 const e = await pedir(b, "/v1/sala/entrar", { codigo: s.codigo.toLowerCase(), deck });
 ok(e.ok && e.partida.estado === "jogando" && e.partida.eu === 1, "amiga entrou na sala");
 const ea = await espera;
 ok(ea.partida.estado === "jogando" && ea.partida.adversario === "Bia", "dono soube pelo long-poll");
+ok(e.partida.foto_op === "AAAA" && ea.partida.foto_op === "", "foto vai só para o adversário");
 ok(ea.partida.semente === e.partida.semente && ea.partida.primeiro === e.partida.primeiro, "mesma semente nos dois");
 const pid = s.partida.pid;
 // ações em ordem, long-poll e reenvio sem duplicar
@@ -38,6 +39,13 @@ ok(r2.acoes.length === 2 && r2.acoes[1].seq === 2, "reenvio não duplicou, ordem
 await pedir(b, `/v1/partida/${pid}/acao`, { n: 1, dados: { tipo: "desistir" } });
 const f = await pedir(a, `/v1/partida/${pid}/acoes?desde=2`);
 ok(f.partida.estado === "fim" && f.partida.vencedor === 0, "desistência dá vitória ao outro");
+// prêmio online: o servidor confere o resultado (Ana venceu por desistência) e paga uma vez só
+const pa1 = await pedir(a, "/v1/op", { tipo: "premio", motivo: "online", pid });
+const pa2 = await pedir(a, "/v1/op", { tipo: "premio", motivo: "online", pid });
+const pb1 = await pedir(b, "/v1/op", { tipo: "premio", motivo: "online", pid });
+ok(pa1.resultado?.moedas === 20 && pa2.resultado?.moedas === 0 && pb1.resultado?.moedas === 5, `prêmio online: vitória 20, repetido 0, derrota 5 (${pa1.resultado?.moedas}/${pa2.resultado?.moedas}/${pb1.resultado?.moedas})`);
+const pc = await pedir(c, "/v1/op", { tipo: "premio", motivo: "online", pid });
+ok(!pc.resultado?.moedas, "quem não jogou a partida não ganha");
 const rv1 = await pedir(a, `/v1/partida/${pid}/revanche`, {});
 ok(!rv1.partida.revanche_pid && rv1.partida.revanche === 1, "revanche espera o outro");
 const [rv2, rv3] = await Promise.all([pedir(b, `/v1/partida/${pid}/revanche`, {}), pedir(a, `/v1/partida/${pid}`)]);

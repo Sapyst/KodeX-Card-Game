@@ -295,6 +295,8 @@ func _ready() -> void:
 		for passo in OS.get_environment("GD_PERG_TESTE").split(";"):
 			var pt := passo.split(":")
 			get_tree().create_timer(float(pt[0])).timeout.connect(_passo_perg.bind(pt))
+	if OS.get_environment("GD_AVATAR_TESTE") != "":          # teste: usa uma das imagens padrão como foto do perfil
+		mp.aplicar_avatar(OS.get_environment("GD_AVATAR_TESTE"))
 	if OS.get_environment("GD_ONLINE_TESTE") != "":          # teste: "buscar" | "sala:<arquivo>" | "entrar:<arquivo>"
 		_teste_online(OS.get_environment("GD_ONLINE_TESTE"))
 	var auto := OS.get_environment("GD_FLUXO_AUTO")      # teste automático: toca sozinho

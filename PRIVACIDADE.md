@@ -10,7 +10,7 @@ O KodeX não exige email nem senha (são opcionais), não mostra anúncios e nã
 
 ### O que fica no seu aparelho
 
-Nome de jogador, imagem ou foto do perfil, moedas, coleção, decks, progresso e opções. A foto escolhida é recortada e salva só no aparelho, nunca é enviada.
+Nome de jogador, imagem ou foto do perfil, moedas, coleção, decks, progresso e opções. A foto escolhida é recortada e salva no aparelho; só vai para fora numa partida online, em tamanho pequeno, para o seu adversário (veja Partidas online).
 
 ### Conta online (quando o servidor do jogo estiver ligado)
 
@@ -20,7 +20,7 @@ Para trocar de aparelho, o jogo gera um código de 8 letras que vale por 10 minu
 
 ### Partidas online
 
-Para achar adversário perto de você, o servidor usa o país da conexão (informado pela Cloudflare) só enquanto você está na fila de busca. Seu adversário vê o seu nome de jogador e as cartas que você joga. As jogadas da partida ficam no servidor para reconexão e conferência; não guardamos o país depois da busca.
+Para achar adversário perto de você, o servidor usa o país da conexão (informado pela Cloudflare) só enquanto você está na fila de busca. Seu adversário vê o seu nome de jogador, a sua imagem de perfil (a foto vai em tamanho pequeno, 60×80, só para quem joga com você, e é apagada do servidor até 3 horas depois da partida) e as cartas que você joga. As jogadas da partida ficam no servidor para reconexão e conferência; não guardamos o país depois da busca.
 
 ### Kode e email (opcionais)
 
@@ -52,7 +52,7 @@ KodeX requires no email or password (both optional), shows no ads and uses no tr
 
 ### What stays on your device
 
-Player name, profile picture or photo, coins, collection, decks, progress and options. The chosen photo is cropped and saved only on your device and is never sent.
+Player name, profile picture or photo, coins, collection, decks, progress and options. The chosen photo is cropped and saved on your device; it only leaves it in an online match, small, for your opponent (see Online matches).
 
 ### Online account (when the game server is on)
 
@@ -62,7 +62,7 @@ To switch devices, the game creates an 8-letter code valid for 10 minutes. In Op
 
 ### Online matches
 
-To find opponents near you, the server uses the connection's country (provided by Cloudflare) only while you are in the search queue. Your opponent sees your player name and the cards you play. Match moves stay on the server for reconnection and checks; we do not keep your country after the search.
+To find opponents near you, the server uses the connection's country (provided by Cloudflare) only while you are in the search queue. Your opponent sees your player name, your profile picture (sent small, 60×80, only to the person you play with, and erased from the server up to 3 hours after the match) and the cards you play. Match moves stay on the server for reconnection and checks; we do not keep your country after the search.
 
 ### Kode and email (optional)
 

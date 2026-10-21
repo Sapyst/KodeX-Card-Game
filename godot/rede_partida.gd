@@ -22,6 +22,8 @@ var proprias: Array = []            # reconexão: minhas ações já enviadas, r
 var conectado := true
 var encerrada := false
 var _parar := false
+var _ger := 0                       # cutucar() começa um pedido novo; a resposta do antigo é ignorada
+var op_ausente := 0                 # segundos sem notícia do aparelho do adversário (servidor)
 var _log := OS.get_environment("GD_REDE_LOG") != ""
 
 
@@ -73,9 +75,10 @@ func _laco_enviar() -> void:
 
 
 func _laco_receber() -> void:
-	while not _parar:
+	var g := _ger
+	while not _parar and g == _ger:
 		var r: Dictionary = await Nuvem.mp("GET", "/v1/partida/%s/acoes?desde=%d" % [pid, desde], {}, 30.0)
-		if _parar:
+		if _parar or g != _ger:
 			return
 		if _log:
 			print("REDE recebeu desde=", desde, " ok=", r.get("ok", "vazio"), " n=", (r.get("acoes", []) as Array).size(), " erro=", r.get("erro", ""))
@@ -100,6 +103,7 @@ func _laco_receber() -> void:
 		if novas:
 			chegou.emit()
 		var p: Dictionary = r.get("partida", {})
+		op_ausente = int(p.get("op_ausente", 0))
 		if str(p.get("estado", "")) in ["fim", "cancelada"]:      # a mesa aplica o que restou na fila e encerra
 			encerrada = true
 			var v := int(p.get("vencedor", -1))
@@ -127,3 +131,10 @@ func avisar_fim(vencedor_local: int) -> void:
 func parar() -> void:
 	_parar = true
 	chegou.emit()
+
+
+func cutucar() -> void:
+	if _parar or encerrada:
+		return
+	_ger += 1
+	_laco_receber()

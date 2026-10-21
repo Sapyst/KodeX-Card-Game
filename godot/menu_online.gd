@@ -104,7 +104,7 @@ func buscar() -> void:
 	var g := _ger
 	aceitei = false
 	_mudar("buscando")
-	var r: Dictionary = await Nuvem.mp("POST", "/v1/mm/buscar", {"deck": _deck(), "nome": str(Sessao.perfil.get("nome", ""))}, 10.0)
+	var r: Dictionary = await Nuvem.mp("POST", "/v1/mm/buscar", {"deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "foto": Sessao.foto_online()}, 10.0)
 	if g != _ger:
 		return
 	if not r.get("ok", false):
@@ -134,7 +134,7 @@ func _laco_busca(g: int) -> void:
 				if str(partida.get("estado", "")) == "aceitar":
 					aceitei = false
 					_mudar("encontrada")
-					Sessao.vibrar_pulsos(2, 40, 0.8)
+					Sessao.vibrar_pulsos(3, 60, 1.0)
 					_prazo(g + 1)
 					_ger += 1                      # a busca para; a fase "encontrada" segue com a nova geração
 					if _teste != "":
@@ -199,7 +199,7 @@ func criar_sala() -> void:
 	_ger += 1
 	var g := _ger
 	_mudar("conectando")
-	var r: Dictionary = await Nuvem.mp("POST", "/v1/sala/criar", {"deck": _deck(), "nome": str(Sessao.perfil.get("nome", ""))}, 10.0)
+	var r: Dictionary = await Nuvem.mp("POST", "/v1/sala/criar", {"deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "foto": Sessao.foto_online()}, 10.0)
 	if g != _ger:
 		return
 	if not r.get("ok", false):
@@ -240,11 +240,12 @@ func entrar_sala(cod := "") -> void:
 	_ger += 1
 	var g := _ger
 	_mudar("conectando")
-	var r: Dictionary = await Nuvem.mp("POST", "/v1/sala/entrar", {"codigo": cod.to_upper(), "deck": _deck(), "nome": str(Sessao.perfil.get("nome", ""))}, 10.0)
+	var r: Dictionary = await Nuvem.mp("POST", "/v1/sala/entrar", {"codigo": cod.to_upper(), "deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "foto": Sessao.foto_online()}, 10.0)
 	if g != _ger:
 		return
 	if not r.get("ok", false):
-		f.mp.avisar(Sessao.t(str(r.get("erro", "sem conexão"))))
+		var e := str(r.get("erro", "sem conexão"))
+		f.mp.avisar(Sessao.t("Sala %s não encontrada: confira as 4 letras.") % cod.to_upper() if e == "sala não encontrada" else Sessao.t(e))
 		_mudar("")
 		return
 	_comecar(r["partida"])

@@ -21,7 +21,9 @@ const PREMIOS = {
   lendario: { teto: 5 },
   enigma: { teto: 12 },
   choronzon: { teto: 3 },
+  online: { teto: 10 },              // partida online: o servidor confere o resultado na tabela partidas
 };
+const MOEDAS_ONLINE = [20, 5, 10];   // vitória, derrota, empate
 const LIVRES = ["nome", "tem_foto", "decks", "deck_ativo", "verso", "novas", "pacote", "tarcade", "torneio", "versao_vista",
   "pere", "torneio_vencido", "pere_fim", "historico", "estat"];
 
@@ -146,6 +148,12 @@ async function premio(env, id, p, d) {
     const eid = String(d.enigma || "").slice(0, 8);
     if (!eid || reg[eid]) return { moedas: 0, repetido: true };
     reg[eid] = true; out.moedas = 10;
+  } else if (d.motivo === "online") {
+    const pt = await env.DB.prepare("SELECT j0, j1, estado, vencedor, pago0, pago1 FROM partidas WHERE pid=?").bind(String(d.pid || "")).first();
+    const lado = pt ? (pt.j0 === id ? 0 : pt.j1 === id ? 1 : -1) : -1;
+    if (lado < 0 || pt.estado !== "fim" || pt.vencedor < 0 || pt[`pago${lado}`]) return { moedas: 0, repetido: true };
+    await env.DB.prepare(`UPDATE partidas SET pago${lado}=1 WHERE pid=?`).bind(String(d.pid)).run();
+    out.moedas = MOEDAS_ONLINE[pt.vencedor === 2 ? 2 : (pt.vencedor === lado ? 0 : 1)];
   } else if (d.motivo === "choronzon") {
     if (!p.choronzon_vencido) {
       p.choronzon_vencido = true; (p.titulos ||= []).push("selador_do_abismo"); out.moedas = 200; out.booster = 2;

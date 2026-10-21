@@ -508,5 +508,8 @@
  "deck inválido (32 cartas)": "invalid deck (32 cards)",
  "sala não encontrada": "room not found",
  "é a sua própria sala": "that's your own room",
- "partida indisponível": "match unavailable"
+ "partida indisponível": "match unavailable",
+ "SEM SINAL %ds": "NO SIGNAL %ds",
+ "Sala %s não encontrada: confira as 4 letras.": "Room %s not found: check the 4 letters.",
+ "quem joga online com você vê nome e foto": "online opponents see your name and photo"
 }

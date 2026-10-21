@@ -1,5 +1,15 @@
 [
  {
+  "versao": "0.14.1-alpha",
+  "data": "21/10/2026",
+  "pt": [
+   "Textos dos botões e caixas dos menus centralizados na horizontal e na vertical."
+  ],
+  "en": [
+   "Button and menu box labels centered horizontally and vertically."
+  ]
+ },
+ {
   "versao": "0.14.0-alpha",
   "data": "21/10/2026",
   "pt": [

@@ -126,6 +126,21 @@ static func grande() -> int:
 	return 2 if Sessao.texto_grande else 1
 
 
+## Linhas de pixel realmente acesas do texto (relativas a pos.y): [primeira, última]. Para centralizar pela tinta:
+## minúsculas e descendentes (g, p, ç) não ficam baixas como na centralização pela altura teórica de 7 px.
+static func tinta_v(s: String) -> Vector2i:
+	var lo := 99
+	var hi := -99
+	for ch in s:
+		var g: Array = G.get(ch, G["?"])
+		var off := g.size() - 7
+		for yy in g.size():
+			if (g[yy] as String).contains("1"):
+				lo = mini(lo, yy - off)
+				hi = maxi(hi, yy - off)
+	return Vector2i(0, 6) if lo > hi else Vector2i(lo, hi)
+
+
 static func largura(s: String, esc := 1) -> int:
 	return _largura(s) * esc
 

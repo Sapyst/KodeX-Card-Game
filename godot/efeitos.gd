@@ -175,7 +175,7 @@ func _draw() -> void:
 		draw_rect(rd.grow(1), Color("#140c10"))
 		draw_rect(rd, Color("#24161f"))
 		draw_rect(Rect2(rd.position, Vector2(rd.size.x, 1)), Color(1.0, 0.85, 0.4, pulso))
-		PixelFonte.centrado(self, rd.get_center() + Vector2(0, 1), Sessao.t(dica), Color("#ffe39a"))
+		PixelFonte.centrado(self, rd.get_center(), Sessao.t(dica), Color("#ffe39a"))
 	# botões de escolha (face, PULAR); itens com "tex" são cartas da galeria
 	for b in escolha:
 		if b.has("tex"):
@@ -185,7 +185,7 @@ func _draw() -> void:
 		draw_rect(r, Color("#3d1f33"))
 		draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), Color("#e2b85a"))
 		draw_rect(Rect2(r.position + Vector2(0, r.size.y - 1), Vector2(r.size.x, 1)), Color("#9c7430"))
-		PixelFonte.centrado(self, r.get_center() + Vector2(0, 1), Sessao.t(str(b["texto"])), Color("#ffe39a"), 1)
+		PixelFonte.centrado(self, r.get_center(), Sessao.t(str(b["texto"])), Color("#ffe39a"), 1)
 	if not vitrine.is_empty():
 		_desenhar_vitrine()
 	if zoom != null and is_instance_valid(zoom):

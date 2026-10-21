@@ -210,7 +210,7 @@ func botao_jogar(_b: Dictionary, r: Rect2, pressao: float) -> void:
 	if PixelFonte.largura(s, 2) > larg:                 # não cabe: tenta só o modo; senão fonte menor
 		s = modo if PixelFonte.largura(modo, 2) <= larg else s
 	var e := 2 if PixelFonte.largura(s, 2) <= larg else 1
-	PixelFonte.centrado(f, dentro.get_center() + Vector2(0, 1), s, f.OURO[0], e, f.ESCURO)
+	PixelFonte.centrado(f, dentro.get_center(), s, f.OURO[0], e, f.ESCURO)
 
 
 func botao_deck(_b: Dictionary, r: Rect2, pressao: float) -> void:

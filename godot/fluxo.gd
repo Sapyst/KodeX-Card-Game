@@ -707,9 +707,9 @@ func _desenhar_confirma() -> void:
 	Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(s) / 2.0), dd.position.y + 14 + 9 * eg), s, Color(0.85, 0.78, 0.66), ESCURO)
 	var bs := _rects_confirma()
 	var b0 := _painel(bs[0], true, 0.0, Color("#3a2410"))
-	_texto_central(b0.get_center() + Vector2(0, 1), Sessao.t("Sim"), OURO[0])
+	_texto_central(b0.get_center(), Sessao.t("Sim"), OURO[0])
 	var b1 := _painel(bs[1], false, 0.0)
-	_texto_central(b1.get_center() + Vector2(0, 1), Sessao.t("Não"), CREME)
+	_texto_central(b1.get_center(), Sessao.t("Não"), CREME)
 
 
 func _abas_loja(atual: String) -> void:
@@ -726,13 +726,13 @@ func _botao_gaveta(b: Dictionary, r: Rect2, pressao: float) -> void:
 	for i in Sessao.perfil["decks"].size():
 		if Sessao.deck_livre(i) == livre:
 			n += 1
-	PixelFonte.centrado(self, dd.get_center() + Vector2(0, 1), s + " %d" % n, (Color("#9ad0ff") if livre else OURO[0]) if ativo else Color("#b8b0c0"), 1)
+	PixelFonte.centrado(self, dd.get_center(), s + " %d" % n, (Color("#9ad0ff") if livre else OURO[0]) if ativo else Color("#b8b0c0"), 1)
 
 
 func _botao_aba_loja(b: Dictionary, r: Rect2, pressao: float) -> void:
 	var ativo: bool = b["atual"]
 	var dd := _painel(r, ativo, pressao, Color("#3a2a40") if ativo else Color("#1e161e"))
-	PixelFonte.centrado(self, dd.get_center() + Vector2(0, 1), Sessao.t("BOOSTERS" if b["aba_loja"] == "boosters" else "COSMÉTICOS"),
+	PixelFonte.centrado(self, dd.get_center(), Sessao.t("BOOSTERS" if b["aba_loja"] == "boosters" else "COSMÉTICOS"),
 		OURO[0] if ativo else Color("#b8b0c0"), 1)
 
 
@@ -844,7 +844,7 @@ func _botao_filtro(b: Dictionary, r: Rect2, pressao: float) -> void:
 		draw_line(lupa + Vector2(2, 1), lupa + Vector2(4, 3), OURO[1], 1.0)
 		PixelFonte.desenhar(self, dd.position + Vector2(14, dd.size.y / 2.0 - 2), PixelFonte.normalizar(s).substr(0, 20), OURO[0] if ativo else Color("#b8b0c0"))
 	else:
-		PixelFonte.centrado(self, dd.get_center() + Vector2(0, 1), s, OURO[0] if ativo else Color("#b8b0c0"), 1)
+		PixelFonte.centrado(self, dd.get_center(), s, OURO[0] if ativo else Color("#b8b0c0"), 1)
 
 
 func _passo_perg(pt: PackedStringArray) -> void:
@@ -1604,16 +1604,16 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 		var dd := _painel(r, ativa, pressao, cor_f.darkened(0.2 if ativa else 0.6))
 		var rot: String = Sessao.t(b["texto"]) if b.has("aba_deck") else PixelFonte.normalizar(Sessao.nome_deck(b["filtro"])).substr(0, 3)
 		if b.has("aba_deck"):
-			_texto_central(dd.get_center() + Vector2(0, 1), rot, OURO[0] if ativa else Color("#b8b0c0"))
+			_texto_central(dd.get_center(), rot, OURO[0] if ativa else Color("#b8b0c0"))
 		else:
-			PixelFonte.centrado(self, dd.get_center() + Vector2(0, 1), rot, OURO[0] if ativa else Color("#b8b0c0"), 1, ESCURO)
+			PixelFonte.centrado(self, dd.get_center(), rot, OURO[0] if ativa else Color("#b8b0c0"), 1, ESCURO)
 		return
 	if b.has("aba"):
 		var ativa: bool = b["aba"] == col.aba
 		var cor_aba: Color = Color(Sessao.personagem(b["aba"]).get("cor", "#6a6070")) if b["aba"] != "abismo" else Color("#5a2a7a")
 		var dch := _painel(r, ativa, pressao, cor_aba.darkened(0.25 if ativa else 0.65))
 		var rotulo := PixelFonte.normalizar(Sessao.nome_deck(b["aba"]) if b["aba"] != "abismo" else Sessao.t("Abismo")).substr(0, 3)
-		PixelFonte.centrado(self, dch.get_center() + Vector2(0, 1), rotulo, OURO[0] if ativa else Color("#b8b0c0"), 1, ESCURO)
+		PixelFonte.centrado(self, dch.get_center(), rotulo, OURO[0] if ativa else Color("#b8b0c0"), 1, ESCURO)
 		if Colecao.tem_novas(b["aba"]):
 			draw_circle(r.position + Vector2(r.size.x - 3, 3), 3.0, Color("#e04040"))
 		return
@@ -1626,7 +1626,7 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 		return
 	var principal: bool = b["texto"] in ["Torneio", "Jogar", "Tentar de novo"]
 	var dentro := _painel(r, principal, pressao, Color("#3a2410") if principal else Color("#241a20"))
-	_texto_central(dentro.get_center() + Vector2(0, 1), Sessao.t(b["texto"]), OURO[0] if principal else CREME)
+	_texto_central(dentro.get_center(), Sessao.t(b["texto"]), OURO[0] if principal else CREME)
 
 
 func _nome_opcao(campo: String, v: String) -> String:
@@ -1693,8 +1693,9 @@ func _desenhar_fala(f: Dictionary) -> void:
 
 
 func _texto_central(c: Vector2, s: String, cor: Color, esc: int = 1) -> void:
-	if esc == 1:
-		Fonte57.desenhar(self, (c - Vector2(Fonte57.largura(s), 7) / 2).round(), s, cor, ESCURO)
+	if esc == 1:                                       # centrado em x pela largura e em y pela tinta real do texto
+		var tv := Fonte57.tinta_v(s)
+		Fonte57.desenhar(self, Vector2(roundf(c.x - Fonte57.largura(s) / 2.0), roundf(c.y - (tv.x + tv.y + 1) / 2.0)), s, cor, ESCURO)
 	else:
 		PixelFonte.centrado(self, c, s, cor, esc, ESCURO)
 

@@ -327,4 +327,4 @@ func _draw() -> void:
 		draw_rect(_btn.grow(1), Color("#140c10"))
 		draw_rect(_btn, Color("#3d1f33"))
 		draw_rect(Rect2(_btn.position, Vector2(_btn.size.x, 1)), Color("#e2b85a"))
-		PixelFonte.centrado(self, _btn.get_center() + Vector2(0, 1), Sessao.t("PULAR") if modo == "escolher" else Sessao.t("FECHAR"), Color("#ffe39a"), 1)
+		PixelFonte.centrado(self, _btn.get_center(), Sessao.t("PULAR") if modo == "escolher" else Sessao.t("FECHAR"), Color("#ffe39a"), 1)

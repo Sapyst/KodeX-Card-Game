@@ -538,4 +538,4 @@ func botao_troca(b: Dictionary, r: Rect2, pressao: float) -> void:
 	var s := ("+%d" % Sessao.valor_troca(c["id"], c["foil"])) if trocar else Sessao.t("Guardar")
 	if trocar:
 		f.mp.moeda(dentro.get_center() + Vector2(-Fonte57.largura(s) / 2.0 - 8, 0))
-	f._texto_central(dentro.get_center() + Vector2(0, 1), s, f.OURO[0] if trocar else f.CREME)
+	f._texto_central(dentro.get_center(), s, f.OURO[0] if trocar else f.CREME)

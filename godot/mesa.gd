@@ -774,7 +774,7 @@ func _desenhar_placar() -> void:
 		placar.draw_rect(r, Color("#5a3a1a") if vez else (Color("#3a2a50") if ia and acelerar_ia else Color("#2a2430")))
 		placar.draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), OURO[1] if vez else (Color("#b8a0ff") if ia else Color("#4a4450")))
 		var rot := "FIM TURNO" if vez else (("RÁPIDO" if acelerar_ia else ">> RÁPIDO") if ia else "AGUARDE")
-		PixelFonte.centrado(placar, r.get_center() + Vector2(0, 1), Sessao.t(rot), Color("#ffe39a") if vez else (Color("#d8c8ff") if ia else Color("#8a8090")))
+		PixelFonte.centrado(placar, r.get_center(), Sessao.t(rot), Color("#ffe39a") if vez else (Color("#d8c8ff") if ia else Color("#8a8090")))
 
 
 # ================= posições do campo =================

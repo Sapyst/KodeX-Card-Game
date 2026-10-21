@@ -339,7 +339,7 @@ func _faixa_reliquia(x0: int, y0: int) -> void:
 	draw_rect(r.grow(1), Color("#140c10"))
 	draw_rect(r, Color("#5a3a1a"))
 	draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), Color("#ffe39a"))
-	PixelFonte.centrado(self, r.get_center() + Vector2(0, 1), n, Color("#ffe39a"))
+	PixelFonte.centrado(self, r.get_center(), n, Color("#ffe39a"))
 
 
 ## Selo com número em dígitos 2× (6×10 px cada) e contorno escuro. r.position = canto (esquerdo, ou direito se `direita`).

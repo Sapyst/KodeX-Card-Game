@@ -442,4 +442,4 @@ func _desenhar_menu(tl: Rect2) -> void:
 		draw_rect(r.grow(1), ESCURO)
 		draw_rect(r, Color("#5a1c1c") if perigo else Color("#2e2230"))
 		draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), Color("#c86a5a") if perigo else OURO[2])
-		PixelFonte.centrado(self, r.get_center() + Vector2(0, 1), Sessao.t(b[1]), OURO[0] if not perigo else Color("#ffd0c0"), 1)
+		PixelFonte.centrado(self, r.get_center(), Sessao.t(b[1]), OURO[0] if not perigo else Color("#ffd0c0"), 1)

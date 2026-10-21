@@ -230,7 +230,7 @@ func _draw() -> void:
 			draw_rect(br.grow(1), Color(0.08, 0.05, 0.07, al))
 			draw_rect(br, Color(0.24, 0.12, 0.2, al) if ok else Color(0.14, 0.12, 0.14, al))
 			draw_rect(Rect2(br.position, Vector2(br.size.x, 1)), Color(0.89, 0.72, 0.35, al if ok else al * 0.3))
-			PixelFonte.centrado(self, br.get_center() + Vector2(0, 1), Sessao.t(bt["texto"]), Color(1.0, 0.89, 0.6, al if ok else al * 0.35), 1)
+			PixelFonte.centrado(self, br.get_center(), Sessao.t(bt["texto"]), Color(1.0, 0.89, 0.6, al if ok else al * 0.35), 1)
 		# dica de gesto com setas quicando
 		var bob := absf(sin(f.tempo * 4.0)) * 3
 		PixelFonte.centrado(self, Vector2(180, 552 - bob), "^", Color(1.0, 0.85, 0.4, al), 2)

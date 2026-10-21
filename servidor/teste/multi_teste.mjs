@@ -1,12 +1,24 @@
 // Teste do multiplayer no servidor local: node teste/multi_teste.mjs [url]
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 const D = JSON.parse(readFileSync(new URL("../src/dados.js", import.meta.url), "utf8").replace(/^[\s\S]*?export default /, "").replace(/;\s*$/, ""));
 const U = process.argv[2] || "http://127.0.0.1:8787";
 let falhas = 0;
 const ok = (c, m) => { console.log((c ? "OK      " : "FALHOU  ") + m); if (!c) falhas++; };
+// contas de teste guardadas em ~/.cache (o servidor limita 20 contas novas por dia por conexão)
+const ARQ = (process.env.HOME || ".") + "/.cache/kodex_teste_contas.json";
+let salvas = {};
+try { salvas = JSON.parse(readFileSync(ARQ, "utf8")); } catch {}
 async function conta(nome, pais) {
-  const r = await (await fetch(U + "/v1/conta", { method: "POST", body: JSON.stringify({ perfil_local: { nome } }) })).json();
-  return { auth: `KDX ${r.id}:${r.segredo}`, pais };
+  const chave = U + "|" + nome;
+  if (!salvas[chave]) {
+    const r = await (await fetch(U + "/v1/conta", { method: "POST", body: JSON.stringify({ perfil_local: { nome } }) })).json();
+    if (!r.ok) throw new Error("não deu para criar conta: " + r.erro);
+    salvas[chave] = `KDX ${r.id}:${r.segredo}`;
+    writeFileSync(ARQ, JSON.stringify(salvas));
+  }
+  const c = { auth: salvas[chave], pais };
+  await fetch(U + "/v1/mm/cancelar", { method: "POST", headers: { authorization: c.auth }, body: "{}" });   // sai de fila antiga
+  return c;
 }
 const pedir = async (c, cam, corpo) => (await fetch(U + cam, { method: corpo ? "POST" : "GET",
   headers: { authorization: c.auth, "cf-ipcountry": c.pais }, body: corpo ? JSON.stringify(corpo) : undefined })).json();

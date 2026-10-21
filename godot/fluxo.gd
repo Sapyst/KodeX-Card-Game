@@ -261,6 +261,16 @@ func _ready() -> void:
 				solo.opcoes = ["fe1", "impeto1", "vida1"]
 				_ir("pere_premio")
 			"capitulo": _capitulo(3, "indigena", func() -> void: _ir("titulo"))
+			"colecao_f":
+				col.posse = "tenho"; col.tipo = "entidade"; col.abrir_aba("alta_magia"); _ir("colecao")
+			"busca":
+				col.definir_busca("anjo"); _ir("colecao")
+			"deck_curva":
+				mp.abrir_deck(0); mp.trocar_aba("deck")
+			"sugerido":
+				mp.deck_sugerido("alta_magia")
+			"codigo":
+				mp.abrir_deck(0); mp.copiar_codigo()
 			"creditos": _creditos(func() -> void: _ir("titulo"))
 			_: _ir(st[0])
 	if OS.get_environment("GD_PERG_TESTE") != "":             # teste: "2.5:fechar;4:rolar:300;6:todas;8:privacidade"
@@ -272,8 +282,21 @@ func _ready() -> void:
 		_autoplay()
 
 
+var inclinacao_foil := Vector2.ZERO        # -1..1: inclinação do celular (acelerômetro) ou mouse; usada nas foils
+
+
 func _process(delta: float) -> void:
 	tempo += delta
+	var acc := Input.get_accelerometer()
+	var alvo_inc := Vector2.ZERO
+	if acc.length() > 1.0:                              # celular: gravidade projetada (≈ ±9,8 m/s² deitado de lado)
+		alvo_inc = Vector2(clampf(-acc.x / 5.0, -1.0, 1.0), clampf((acc.z + 4.0) / 5.0, -1.0, 1.0))
+	else:
+		var vs := get_viewport_rect().size
+		var mp_ := get_viewport().get_mouse_position()
+		if vs.x > 0:
+			alvo_inc = Vector2(clampf(mp_.x / vs.x * 2.0 - 1.0, -1.0, 1.0), clampf(mp_.y / vs.y * 2.0 - 1.0, -1.0, 1.0))
+	inclinacao_foil = inclinacao_foil.lerp(alvo_inc, minf(1.0, delta * 6.0))
 	if logo_no:
 		logo_no.queue_redraw()
 	t_estado += delta
@@ -344,6 +367,14 @@ func _ir(novo: String) -> void:
 			for i in Colecao.ABAS.size():
 				var d: String = Colecao.ABAS[i]
 				_botao(Rect2(14 + i * 48, 48, 44, 22), "", func() -> void: col.abrir_aba(d); _ir("colecao"), {"aba": d})
+			var filtros := [["posse", 14, 70], ["tipo", 88, 76], ["custo", 168, 70], ["busca", 242, 104]]
+			for fl in filtros:
+				var q: String = fl[0]
+				var acao := (func() -> void: col.ciclar(q); _ir("colecao"); transicao = 0.0) if q != "busca" else mp.editar_busca
+				var ex := {"filtro_col": q, "desenho": _botao_filtro}
+				if q == "busca" and OS.has_feature("web"):
+					ex["web_nome"] = "busca"
+				_botao(Rect2(fl[1], 76, fl[2], 18), "", acao, ex)
 		"lore":
 			_botao(Rect2(110, 604, 140, 26), "Voltar", func() -> void: _ir("colecao"))
 		"perfil":
@@ -369,6 +400,10 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(110, 524, 140, 24), "Cancelar", func() -> void: _ir("perfil"))
 		"loja":
 			_botao(Rect2(90, 404, 180, 30), "Comprar booster", bo.comprar)
+			_botao(Rect2(70, 440, 220, 22), "", func() -> void:
+				var ops := [""] + Sessao.DECKS
+				Sessao.perfil["pacote"] = ops[(ops.find(str(Sessao.perfil.get("pacote", ""))) + 1) % ops.size()]
+				Sessao.salvar(); _ir("loja"); transicao = 0.0, {"desenho": _botao_pacote})
 			if Sessao.boosters_gratis() > 0:
 				_botao(Rect2(90, 512, 180, 30), Sessao.t("Abrir grátis (%d)") % Sessao.boosters_gratis(), bo.comprar.bind(true))
 		"booster":
@@ -383,7 +418,9 @@ func _ir(novo: String) -> void:
 		"decks":
 			for i in Sessao.perfil["decks"].size():
 				_botao(Rect2(30, 92 + i * 46, 300, 40), "", mp.abrir_deck.bind(i), {"deck_idx": i, "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mp.botao_deck(b, r, pr)})
-			_botao(Rect2(90, 470, 180, 30), "Novo deck", mp.novo_deck)
+			_botao(Rect2(16, 476, 106, 28), "Novo deck", mp.novo_deck)
+			_botao(Rect2(127, 476, 106, 28), "Sugerido", func() -> void: _ir("sugerir"))
+			_botao(Rect2(238, 476, 106, 28), "Importar", mp.colar_codigo, {"web_nome": "codigo"} if OS.has_feature("web") else {})
 		"deck_edit":
 			_botao(Rect2(60, 4, 240, 28), "", mp.renomear_deck, {"web_nome": "deck", "desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
 			_botao(Rect2(70, 54, 104, 22), "Coleção", mp.trocar_aba.bind("cartas"), {"aba_deck": "cartas"})
@@ -392,9 +429,16 @@ func _ir(novo: String) -> void:
 				for i in 6:
 					var d: String = Sessao.DECKS[i]
 					_botao(Rect2(16 + i * 55, 82, 51, 20), "", mp.trocar_filtro.bind(d), {"filtro": d})
+			_botao(Rect2(16, 538, 106, 26), "Completar", mp.completar)
+			_botao(Rect2(127, 538, 106, 26), "Código", mp.copiar_codigo)
 			_botao(Rect2(16, 570, 150, 26), "Usar este deck", mp.usar_deck)
 			_botao(Rect2(172, 570, 80, 26), "Excluir", mp.excluir_deck)
 			_botao(Rect2(258, 570, 86, 26), "Voltar", func() -> void: _ir("decks"))
+		"sugerir":
+			for i in 6:
+				var d: String = Sessao.DECKS[i]
+				_botao(Rect2(16 + (i % 2) * 168, 96 + (i / 2) * 150, 160, 140), Sessao.nome_deck(d), mp.deck_sugerido.bind(d), {"deck": d})
+			_botao(Rect2(110, 560, 140, 26), "Voltar", func() -> void: _ir("decks"))
 		"escolha_deck":
 			for i in 6:
 				var d: String = Sessao.DECKS[i]
@@ -466,6 +510,11 @@ func abrir_novidades(todas := true, depois := Callable()) -> void:
 			break
 		lista.append(e)
 	var blocos: Array = [["titulo", "News" if en else "Novidades"]]
+	if not todas and Sessao.premiar_versao():               # versão nova: +30 Koins e +50 de ouro
+		blocos.append(["destaque", "+%d" % Sessao.KOINS_VERSAO, "koin"])
+		blocos.append(["destaque", "+%d" % Sessao.MOEDAS_VERSAO, "moeda"])
+		blocos.append(["centro", "update gift" if en else "presente da atualização"])
+		blocos.append(["divisor"])
 	for e in lista:
 		var cab: String = "v" + str(e["versao"])
 		if e["versao"] == _versao() and todas:
@@ -505,7 +554,8 @@ func verificar_presente(manual := true) -> void:
 				["centro", ("Next coins in %dh %02dmin." if en else "Próximas moedas em %dh %02dmin.") % [h / 3600, (h % 3600) / 60]],
 				["centro", ("Next free booster in %d days and %dh." if en else "Próximo booster grátis em %d dias e %dh.") % [b / 86400, (b % 86400) / 3600]],
 				["espaco"],
-				["centro", "Resets at midnight (Brasília time)." if en else "Vira à meia-noite (horário de Brasília)."]])
+				["centro", ("Next Koins: %d on Friday." if en else "Koins da semana: %d na sexta.") % Sessao.KOINS_SEMANA],
+				["centro", "Resets at midnight, New York time." if en else "Vira à meia-noite de Nova York."]])
 		return
 	var blocos: Array = [["titulo", "Gift" if en else "Presente"]]
 	if int(r["moedas"]) > 0:
@@ -513,6 +563,12 @@ func verificar_presente(manual := true) -> void:
 		var dias := int(r["dias"])
 		blocos.append(["centro", ("coins - %d days stacked" % dias if dias > 1 else "coins - daily gift") if en
 			else ("moedas - %d dias acumulados" % dias if dias > 1 else "moedas - presente do dia")])
+	if int(r.get("koins", 0)) > 0:
+		blocos.append(["espaco"])
+		blocos.append(["destaque", "+%d" % int(r["koins"]), "koin"])
+		var ks := int(r.get("koins_semana", 0))
+		blocos.append(["centro", ("Koins (%d of them for the week)" % ks if ks > 0 else "Koins of the day") if en
+			else ("Koins (%d da semana)" % ks if ks > 0 else "Koins do dia")])
 	if int(r["booster"]) > 0:
 		blocos.append(["espaco"])
 		blocos.append(["destaque", "+1", "booster"])
@@ -538,7 +594,7 @@ func abrir_privacidade() -> void:
 func _botao_redondo(_b: Dictionary, r: Rect2, pressao: float, qual: String) -> void:
 	var c := r.get_center() + Vector2(0, pressao)
 	var pend := Sessao.recompensas_pendentes()
-	var tem := not pend.is_empty() and (int(pend["dias"]) > 0 or int(pend["booster"]) > 0)
+	var tem := not pend.is_empty() and (int(pend["dias"]) > 0 or int(pend["booster"]) > 0 or int(pend.get("koins", 0)) > 0)
 	var novo := qual == "pergaminho" and str(Sessao.perfil.get("versao_vista", "")) != _versao()
 	var pula := (absf(sin(tempo * 5.0)) * -3.0) if (qual == "presente" and tem) else 0.0
 	c.y += pula
@@ -553,6 +609,30 @@ func _botao_redondo(_b: Dictionary, r: Rect2, pressao: float, qual: String) -> v
 		var h := Relogio.segundos_ate_amanha()
 		var s := "%dH" % (h / 3600) if h >= 3600 else "%dM" % maxi(1, h / 60)
 		PixelFonte.centrado(self, c + Vector2(0, 21), s, Color(0.85, 0.78, 0.66, 0.85), 1, ESCURO)
+
+
+func _botao_pacote(_b: Dictionary, r: Rect2, pressao: float) -> void:
+	var trad := str(Sessao.perfil.get("pacote", ""))
+	var cor: Color = Carta.COR_CULTURA.get(trad, Color("#241a20"))
+	var dd := _painel(r, false, pressao, cor.darkened(0.55))
+	var s := Sessao.t("Pacote") + ": " + (Sessao.t("todas as tradições") if trad == "" else Sessao.nome_deck(trad))
+	Fonte57.desenhar(self, Vector2(roundf(dd.get_center().x - Fonte57.largura(s) / 2.0), dd.position.y + 4), s, OURO[0], ESCURO)
+	Fonte57.desenhar(self, Vector2(dd.end.x - 10, dd.position.y + 4), ">", OURO[1])
+
+
+func _botao_filtro(b: Dictionary, r: Rect2, pressao: float) -> void:
+	var q: String = b["filtro_col"]
+	var ativo := (q == "posse" and col.posse != "todas") or (q == "tipo" and col.tipo != "") or (q == "custo" and col.custo != "") \
+		or (q == "busca" and col.busca != "")
+	var dd := _painel(r, ativo, pressao, Color("#3a2a40") if ativo else Color("#1e161e"))
+	var s := col.rotulo_filtro(q)
+	if q == "busca":
+		var lupa := dd.position + Vector2(7, dd.size.y / 2.0)
+		draw_arc(lupa + Vector2(0, -1), 3.0, 0, TAU, 10, OURO[1], 1.0)
+		draw_line(lupa + Vector2(2, 1), lupa + Vector2(4, 3), OURO[1], 1.0)
+		PixelFonte.desenhar(self, dd.position + Vector2(14, dd.size.y / 2.0 - 2), PixelFonte.normalizar(s).substr(0, 20), OURO[0] if ativo else Color("#b8b0c0"))
+	else:
+		PixelFonte.centrado(self, dd.get_center() + Vector2(0, 1), s, OURO[0] if ativo else Color("#b8b0c0"), 1)
 
 
 func _passo_perg(pt: PackedStringArray) -> void:
@@ -917,7 +997,20 @@ func _toque_colecao(p: Vector2, pressed: bool) -> void:
 		var cid := col.tocar(p)
 		if cid != "":
 			var k := col._ids.find(cid)
-			visor.abrir(cid, col._rect_carta(k).intersection(Rect2(0, Colecao.TOPO, 360, Colecao.BASE - Colecao.TOPO)))
+			Sessao.vista(cid)
+			var bts: Array = []
+			if Sessao.db["cartas"].has(cid) and Sessao.db["cartas"][cid]["cultura"] != "abismo":
+				var ganho: int = Sessao.ESSENCIA_DESFAZ[Sessao.raridade(cid, false)]
+				bts = [
+					{"texto": Sessao.t("DESFAZER +%d") % ganho, "acao": func() -> void:
+						var g := Sessao.desfazer_carta(cid)
+						if g > 0:
+							vibrar(14, 0.4), "ativo": func() -> bool: return Sessao.pode_desfazer(cid)},
+					{"texto": Sessao.t("CRIAR -%d") % Sessao.custo_criar(cid), "acao": func() -> void:
+						if Sessao.criar_carta(cid):
+							vibrar(20, 0.6), "ativo": func() -> bool: return Sessao.pode_criar(cid)}]
+			visor.abrir(cid, col._rect_carta(k).intersection(Rect2(0, Colecao.TOPO, 360, Colecao.BASE - Colecao.TOPO)), bts,
+				func() -> String: return Sessao.t("TENHO %d  -  ESSÊNCIA %d") % [Sessao.copias(cid), Sessao.essencia()])
 
 
 ## Recorte da foto: 1 dedo arrasta, 2 dedos aproximam (pinça), roda do mouse dá zoom. Toques fora da janela vão
@@ -1095,8 +1188,6 @@ func _draw() -> void:
 			_cabecalho(Sessao.t("Escolha o seu deck"), Sessao.t("seis tradições, um Códice"))
 		"arcade":
 			_cabecalho("Arcade", Sessao.t("toque nas opções para trocar"))
-			if arcade["dificuldade"] == "2":
-				_texto_central(Vector2(180, 410), Sessao.t("Arquimago começa com +3 de vida e 1 carta a mais."), Color("#ff9a8a"))
 		"colecao":
 			PixelFonte.centrado(self, Vector2(180, 24), Sessao.t("Coleção").to_upper(), OURO[0], 3, ESCURO)
 			col.desenhar_grade(self)
@@ -1106,6 +1197,8 @@ func _draw() -> void:
 			ta.desenhar()
 		"solo":
 			_cabecalho("Solo", Sessao.t("modos para jogar sozinho"))
+		"sugerir":
+			_cabecalho(Sessao.t("Deck sugerido"), Sessao.t("montado com as cartas que você tem"))
 		"capitulo":
 			_desenhar_capitulo()
 		"creditos":
@@ -1286,6 +1379,8 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 		var dch := _painel(r, ativa, pressao, cor_aba.darkened(0.25 if ativa else 0.65))
 		var rotulo := PixelFonte.normalizar(Sessao.nome_deck(b["aba"]) if b["aba"] != "abismo" else Sessao.t("Abismo")).substr(0, 3)
 		PixelFonte.centrado(self, dch.get_center() + Vector2(0, 1), rotulo, OURO[0] if ativa else Color("#b8b0c0"), 1, ESCURO)
+		if Colecao.tem_novas(b["aba"]):
+			draw_circle(r.position + Vector2(r.size.x - 3, 3), 3.0, Color("#e04040"))
 		return
 	if b.has("idioma"):
 		var din := _painel(r, false, pressao)

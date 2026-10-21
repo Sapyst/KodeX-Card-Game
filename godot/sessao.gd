@@ -328,10 +328,15 @@ const MOEDAS_ARCADE := 15
 func moedas_arcade() -> int:
 	return MOEDAS_DIFICULDADE[clampi(dificuldade, 0, 2)]
 
-const MOEDAS_DIA := 50                             # presente diário (vira à 00:00 de Brasília)
+const MOEDAS_DIA := 50                             # presente diário (vira à 00:00 de Nova York)
+## Koins: moeda dos cosméticos. 10 por dia (acumula até 3 dias), 100 por semana (vira na sexta), +30 a cada versão nova.
+const KOINS_DIA := 10
+const KOINS_SEMANA := 100
+const KOINS_VERSAO := 30
+const MOEDAS_VERSAO := 50
 const ACUMULO_DIAS := 3                            # dias sem abrir o jogo acumulam até 3 presentes
 const DECK_TAM := 32
-const PROTEGIDOS := ["moedas", "boosters_gratis"]  # valores guardados disfarçados na memória (contra editores de memória)
+const PROTEGIDOS := ["moedas", "boosters_gratis", "essencia", "koins"]  # valores guardados disfarçados na memória (contra editores de memória)
 var perfil: Dictionary = {}
 var _prot := {}                                    # chave → [valor XOR máscara, máscara, conferência]
 signal perfil_mudou
@@ -349,7 +354,8 @@ func _perfil_novo() -> Dictionary:
 		colecao[cid] = int(colecao.get(cid, 0)) + 1
 	return {"versao": 2, "nome": "", "tem_foto": false, "moedas": MOEDAS_INICIO, "colecao": colecao, "foils": {},
 		"decks": [{"nome": "Alta Magia", "cartas": (db["decks"]["alta_magia"] as Array).duplicate()}], "deck_ativo": 0,
-		"versao_vista": str(ProjectSettings.get_setting("application/config/version", ""))}
+		"versao_vista": str(ProjectSettings.get_setting("application/config/version", "")),
+		"versao_premiada": str(ProjectSettings.get_setting("application/config/version", ""))}
 
 
 func _ler_cifrado(caminho: String):
@@ -466,7 +472,9 @@ func recompensas_pendentes() -> Dictionary:
 	var s := Relogio.semana()
 	var dias := clampi(d - int(r.get("dia", d - 1)), 0, ACUMULO_DIAS)
 	var bo := 1 if s > int(r.get("semana", s - 1)) else 0
-	return {"dias": dias, "moedas": dias * MOEDAS_DIA, "booster": bo}
+	var sx := Relogio.semana_sexta()
+	var ks := KOINS_SEMANA if sx > int(r.get("sexta", sx - 1)) else 0
+	return {"dias": dias, "moedas": dias * MOEDAS_DIA, "booster": bo, "koins": dias * KOINS_DIA + ks, "koins_semana": ks}
 
 
 ## Pede a hora ao servidor de novo (nunca confia em tempo contado localmente para pagar) e paga o que estiver pendente.
@@ -475,11 +483,12 @@ func resgatar() -> Dictionary:
 	if not await Relogio.sincronizar():
 		return {"offline": true}
 	var p := recompensas_pendentes()
-	if p.is_empty() or (p["dias"] == 0 and p["booster"] == 0):
+	if p.is_empty() or (p["dias"] == 0 and p["booster"] == 0 and p["koins"] == 0):
 		return {}
-	perfil["resgates"] = {"dia": Relogio.dia(), "semana": Relogio.semana()}
+	perfil["resgates"] = {"dia": Relogio.dia(), "semana": Relogio.semana(), "sexta": Relogio.semana_sexta()}
 	_gravar("moedas", moedas() + int(p["moedas"]))
 	_gravar("boosters_gratis", boosters_gratis() + int(p["booster"]))
+	_gravar("koins", koins() + int(p["koins"]))
 	salvar()
 	return p
 
@@ -489,6 +498,8 @@ func copias(cid: String) -> int:
 
 
 func adicionar_carta(cid: String, n := 1, foil := false) -> void:
+	if copias(cid) == 0:
+		marcar_nova(cid)
 	perfil["colecao"][cid] = copias(cid) + n
 	if foil:
 		perfil["foils"][cid] = int(perfil["foils"].get(cid, 0)) + n
@@ -554,6 +565,92 @@ func tradicao_do_deck(ids: Array) -> String:
 
 # ================= boosters (Fase 2) =================
 const BOOSTER_PRECO := 100
+const CHANCE_TRADICAO := 0.7
+const GARANTIA_LENDARIA := 10
+## Essência: desfazer uma cópia REPETIDA (sobra fora dos decks) dá Essência; criar uma carta específica custa Essência.
+const ESSENCIA_DESFAZ := {"C": 5, "R": 10, "SR": 40, "UR": 100}
+const ESSENCIA_CRIA := {"C": 40, "R": 100, "SR": 400}
+
+
+func essencia() -> int:
+	return _ler("essencia")
+
+
+func koins() -> int:
+	return _ler("koins")
+
+
+func gastar_koins(n: int) -> bool:
+	if koins() < n:
+		return false
+	_gravar("koins", koins() - n)
+	salvar()
+	return true
+
+
+## Presente de versão nova: +30 Koins e +50 de ouro, uma vez por versão (quem acabou de criar o perfil não recebe).
+func premiar_versao() -> bool:
+	var v := str(ProjectSettings.get_setting("application/config/version", ""))
+	if str(perfil.get("versao_premiada", "")) == v or str(perfil.get("versao_vista", "")) == v:
+		return false
+	perfil["versao_premiada"] = v
+	_gravar("koins", koins() + KOINS_VERSAO)
+	_gravar("moedas", moedas() + MOEDAS_VERSAO)
+	salvar()
+	return true
+
+
+func pode_desfazer(cid: String) -> bool:
+	return copias(cid) > 1 and copias(cid) - 1 >= copias_em_uso(cid)
+
+
+## Desfaz uma cópia repetida: primeiro uma normal; a foil só se não sobrar cópia normal.
+func desfazer_carta(cid: String) -> int:
+	if not pode_desfazer(cid):
+		return 0
+	var foils_n := int(perfil["foils"].get(cid, 0))
+	var foil := copias(cid) - foils_n <= 0
+	var ganho: int = ESSENCIA_DESFAZ[raridade(cid, foil)]
+	perfil["colecao"][cid] = copias(cid) - 1
+	if foil:
+		perfil["foils"][cid] = int(perfil["foils"][cid]) - 1
+	_gravar("essencia", essencia() + ganho)
+	salvar()
+	return ganho
+
+
+func custo_criar(cid: String) -> int:
+	return ESSENCIA_CRIA[raridade(cid, false)]
+
+
+## Cria uma cópia (até ter o máximo de um deck: Lendária 1, demais 2). Abismo não se cria.
+func pode_criar(cid: String) -> bool:
+	var c: Dictionary = db["cartas"][cid]
+	return c["cultura"] != "abismo" and copias(cid) < (1 if c["lendaria"] else 2) and essencia() >= custo_criar(cid)
+
+
+func criar_carta(cid: String) -> bool:
+	if not pode_criar(cid):
+		return false
+	_gravar("essencia", essencia() - custo_criar(cid))
+	adicionar_carta(cid)
+	return true
+
+
+func marcar_nova(cid: String) -> void:
+	var nv: Dictionary = perfil.get("novas", {})
+	nv[cid] = true
+	perfil["novas"] = nv
+
+
+func eh_nova(cid: String) -> bool:
+	return (perfil.get("novas", {}) as Dictionary).has(cid)
+
+
+func vista(cid: String) -> void:
+	if eh_nova(cid):
+		(perfil["novas"] as Dictionary).erase(cid)
+		salvar()
 const CHANCE_FOIL := 0.02          # 1 em 50 cartas; só cartas com arte foil aprovada (assets/carta_foil)
 const CHANCE_LENDARIA := 0.05
 const TROCA := {"comum": 20, "lendaria": 60, "foil": 150}
@@ -591,9 +688,11 @@ func usar_booster_gratis() -> bool:
 	return true
 
 
-func comprar_booster(gratis := false) -> Array:
+func comprar_booster(gratis := false, trad := "") -> Array:
 	if not gratis and not gastar_moedas(BOOSTER_PRECO):
 		return []
+	if trad == "":
+		trad = str(perfil.get("pacote", ""))
 	var comuns: Array = []
 	var lendarias: Array = []
 	var foils: Array = []
@@ -608,14 +707,30 @@ func comprar_booster(gratis := false) -> Array:
 		else:
 			comuns.append(cid)
 	var saida: Array = []
+	# pacote de uma tradição: cada carta tem 70% de chance de sair dela (o resto, de todas)
+	var da_trad := func(lista: Array) -> Array:
+		if trad == "" or rng.randf() >= CHANCE_TRADICAO:
+			return lista
+		var f: Array = lista.filter(func(cid: String) -> bool: return db["cartas"][cid]["cultura"] == trad)
+		return f if not f.is_empty() else lista
 	for k in 3:
 		var r := rng.randf()
 		if r < CHANCE_FOIL and not foils.is_empty():
-			saida.append({"id": foils[rng.randi_range(0, foils.size() - 1)], "foil": true})
+			var lf: Array = da_trad.call(foils)
+			saida.append({"id": lf[rng.randi_range(0, lf.size() - 1)], "foil": true})
 		elif r < CHANCE_FOIL + CHANCE_LENDARIA:
-			saida.append({"id": lendarias[rng.randi_range(0, lendarias.size() - 1)], "foil": false})
+			var ll: Array = da_trad.call(lendarias)
+			saida.append({"id": ll[rng.randi_range(0, ll.size() - 1)], "foil": false})
 		else:
-			saida.append({"id": comuns[rng.randi_range(0, comuns.size() - 1)], "foil": false})
+			var lc: Array = da_trad.call(comuns)
+			saida.append({"id": lc[rng.randi_range(0, lc.size() - 1)], "foil": false})
+	# garantia: no máximo GARANTIA_LENDARIA boosters seguidos sem Lendária (o 10º traz uma na última carta)
+	var tem_lend := saida.any(func(e: Dictionary) -> bool: return db["cartas"][e["id"]]["lendaria"])
+	if not tem_lend and int(perfil.get("sem_lendaria", 0)) >= GARANTIA_LENDARIA - 1:
+		var ll2: Array = da_trad.call(lendarias)
+		saida[2] = {"id": ll2[rng.randi_range(0, ll2.size() - 1)], "foil": false}
+		tem_lend = true
+	perfil["sem_lendaria"] = 0 if tem_lend else int(perfil.get("sem_lendaria", 0)) + 1
 	if not saida.any(func(e: Dictionary) -> bool: return db["cartas"][e["id"]]["tipo"] == "entidade"):
 		var ents := comuns.filter(func(cid: String) -> bool: return db["cartas"][cid]["tipo"] == "entidade")
 		for k in range(2, -1, -1):                       # troca a última carta comum (não foil) por uma Entidade
@@ -626,6 +741,8 @@ func comprar_booster(gratis := false) -> Array:
 		saida = [{"id": comuns[0], "foil": false}, {"id": lendarias[1], "foil": false}, {"id": foils[0] if not foils.is_empty() else lendarias[0], "foil": not foils.is_empty()}]
 	for e in saida:
 		e["nova"] = copias(e["id"]) == 0
+		if e["nova"]:
+			marcar_nova(e["id"])
 		perfil["colecao"][e["id"]] = copias(e["id"]) + 1
 		if e["foil"]:
 			perfil["foils"][e["id"]] = int(perfil["foils"].get(e["id"], 0)) + 1

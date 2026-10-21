@@ -9,7 +9,9 @@ const GW := 60.0                                  # grade do editor de deck: car
 const GH := 84.0
 const GPASSO := 96.0
 const GTOPO := 110.0
-const GBASE := 560.0
+const GBASE := 532.0
+const ALVO_TIPOS := {"entidade": 14, "selo": 6, "rito": 8, "reliquia": 4}   # regras.md: distribuição de um deck
+const CURVA_ENT := [[1, 2, 4], [3, 4, 6], [5, 6, 3], [7, 8, 1]]             # Entidades: [custo de, até, quantas]
 
 var f                                             # o menu
 var nome_edit: LineEdit
@@ -42,6 +44,9 @@ func _init(menu) -> void:
 	nome_edit.modulate = Color(1, 1, 1, 0)        # invisível: o texto é desenhado com a fonte pixel do jogo
 	nome_edit.visible = false
 	nome_edit.text_changed.connect(func(t: String) -> void:
+		if editando == "busca":
+			f.col.definir_busca(t)
+			return
 		if editando == "deck":
 			Sessao.perfil["decks"][deck_idx]["nome"] = t
 		else:
@@ -164,6 +169,18 @@ func moeda(c: Vector2) -> void:
 	f.draw_rect(Rect2(c + Vector2(-0.5, -2), Vector2(1, 4)), Color("#9c7430"))
 
 
+## Koin: moeda dos cosméticos (losango roxo com K), desenhada em qualquer CanvasItem.
+static func icone_koin(ci: CanvasItem, c: Vector2, r := 5.0) -> void:
+	var pts := PackedVector2Array([c + Vector2(0, -r - 1), c + Vector2(r, 0), c + Vector2(0, r + 1), c + Vector2(-r, 0)])
+	ci.draw_colored_polygon(pts, Color("#3a1a5a"))
+	var pts2 := PackedVector2Array([c + Vector2(0, -r + 0.5), c + Vector2(r - 1.5, 0), c + Vector2(0, r - 0.5), c + Vector2(-r + 1.5, 0)])
+	ci.draw_colored_polygon(pts2, Color("#b070ff"))
+	ci.draw_colored_polygon(PackedVector2Array([c + Vector2(0, -r + 0.5), c + Vector2(r - 1.5, 0), c]), Color("#e0c0ff"))
+	ci.draw_rect(Rect2(c + Vector2(-1.5, -2.5), Vector2(1, 5)), Color("#2a0a40"))
+	ci.draw_line(c + Vector2(-0.5, 0), c + Vector2(1.5, -2.5), Color("#2a0a40"), 1.0)
+	ci.draw_line(c + Vector2(-0.5, 0), c + Vector2(1.5, 2.5), Color("#2a0a40"), 1.0)
+
+
 ## Barra no topo do título: foto, nome e moedas. Tocar abre o perfil.
 func barra_titulo() -> void:
 	moldura_foto(MINI, foto_tex, false)
@@ -174,6 +191,11 @@ func barra_titulo() -> void:
 	var w := Fonte57.largura(m)
 	moeda(Vector2(338 - w - 10, 18))
 	Fonte57.desenhar(f, Vector2(340 - w, 15), m, f.OURO[0], f.ESCURO)
+	var k := str(Sessao.koins())
+	var wk := Fonte57.largura(k)
+	var xk := 338 - w - 24 - wk
+	icone_koin(f, Vector2(xk - 10, 18))
+	Fonte57.desenhar(f, Vector2(xk - 2, 15), k, Color("#e0c0ff"), f.ESCURO)
 
 
 ## Texto 2× centrado + cursor de digitação: barra vertical "|" de 2×16 px piscando (0,5 s aceso / 0,5 s apagado)
@@ -298,19 +320,26 @@ func armar_nome_web(qual: String) -> void:
 	if _cb_nome == null:
 		_cb_nome = JavaScriptBridge.create_callback(_ao_nome_web)
 		JavaScriptBridge.get_interface("window").kodexNome = _cb_nome
-	var atual := str(Sessao.perfil.get("nome", "")) if qual == "perfil" else str(Sessao.perfil["decks"][deck_idx]["nome"])
-	var titulo := Sessao.t("Seu nome") if qual == "perfil" else Sessao.t("Nome do deck")
+	var atual: String = str(Sessao.perfil.get("nome", "")) if qual == "perfil" else (f.col.busca if qual == "busca" else ("" if qual == "codigo" else str(Sessao.perfil["decks"][deck_idx]["nome"])))
+	var titulo: String = Sessao.t("Seu nome") if qual == "perfil" else (Sessao.t("Buscar carta") if qual == "busca" else (Sessao.t("Cole o código do deck") if qual == "codigo" else Sessao.t("Nome do deck")))
 	JavaScriptBridge.eval("""(function(){
 		var t=%s, v=%s;
 		var abrir=function(){document.removeEventListener('pointerup',abrir,true);document.removeEventListener('touchend',abrir,true);
 			window.kodexNomeArmado=false;var r=window.prompt(t,v);if(r!==null){window.kodexNome(r);}};
 		if(!window.kodexNomeArmado){window.kodexNomeArmado=true;
 			document.addEventListener('pointerup',abrir,true);document.addEventListener('touchend',abrir,true);}
-	})()""" % [JSON.stringify(titulo + " (máx. 16)"), JSON.stringify(atual)], true)
+	})()""" % [JSON.stringify(titulo + ("" if qual == "codigo" else " (máx. 16)")), JSON.stringify(atual)], true)
 
 
 func _ao_nome_web(args: Array) -> void:
+	if editando == "codigo":
+		importar_codigo(str(args[0]))
+		return
 	var v := str(args[0]).strip_edges().substr(0, nome_edit.max_length)
+	if editando == "busca":
+		f.col.definir_busca(v)
+		f._ir("colecao")
+		return
 	if editando == "deck":
 		if v != "":
 			Sessao.perfil["decks"][deck_idx]["nome"] = v
@@ -526,7 +555,7 @@ func botao_deck(b: Dictionary, r: Rect2, pressao: float) -> void:
 	Fonte57.desenhar(f, dentro.position + Vector2(36, 6), str(d["nome"]), f.OURO[0] if ativo else f.CREME, f.ESCURO)
 	var info := "%d/%d" % [n, Sessao.DECK_TAM]
 	var cor_info := Color(0.81, 0.88, 1.0) if n == Sessao.DECK_TAM else Color("#ff9a8a")
-	Fonte57.desenhar(f, dentro.position + Vector2(36, 19), info + ("" if n == Sessao.DECK_TAM else "  " + Sessao.t("incompleto")), cor_info, f.ESCURO)
+	Fonte57.desenhar(f, dentro.position + Vector2(36, 19), info + ("" if n == Sessao.DECK_TAM else "  " + Sessao.t("faltam %d") % (Sessao.DECK_TAM - n)), cor_info, f.ESCURO)
 	if Sessao.deck_livre(i):
 		var sl := Sessao.t("LIVRE")
 		PixelFonte.desenhar(f, Vector2(dentro.end.x - PixelFonte.largura(sl) - 6, dentro.end.y - 11), sl, Color("#9ad0ff"))
@@ -653,6 +682,8 @@ func desenhar_deck_edit() -> void:
 	# barra de progresso do deck
 	f.draw_rect(Rect2(80, 44, 200, 4), Color(1, 1, 1, 0.1))
 	f.draw_rect(Rect2(80, 44, 200.0 * n / Sessao.DECK_TAM, 4), cor)
+	if aba_deck == "deck":
+		desenhar_curva(82)
 	for k in _ids.size():
 		var r := _rect(k)
 		if r.end.y < GTOPO or r.position.y > GBASE:
@@ -684,6 +715,19 @@ func desenhar_deck_edit() -> void:
 	_desenhar_aviso()
 
 
+## Busca na Coleção: o campo invisível fica sobre o botão de busca (no celular abre o teclado); na web, caixa nativa.
+func editar_busca() -> void:
+	editando = "busca"
+	if OS.has_feature("web"):
+		return
+	nome_edit.text = f.col.busca
+	nome_edit.position = Vector2(242, 76)
+	nome_edit.size = Vector2(104, 18)
+	nome_edit.visible = true
+	nome_edit.grab_focus()
+	nome_edit.caret_column = nome_edit.text.length()
+
+
 func renomear_deck() -> void:
 	editando = "deck"
 	if OS.has_feature("web"):
@@ -701,13 +745,216 @@ func usar_deck() -> void:
 		avisar(Sessao.t("Deck livre: use no Modo livre (Solo)."))
 		return
 	if not Sessao.deck_valido(deck_idx):
-		avisar(Sessao.t("O deck precisa de exatamente 32 cartas."))
+		avisar(motivo_invalido(deck_idx))
 		return
 	Sessao.perfil["deck_ativo"] = deck_idx
 	Sessao.salvar()
 	f.vibrar(18, 0.6)
 	avisar(Sessao.t("Deck em uso!"))
 	f._ir("deck_edit")
+
+
+## Por que o deck não vale (para o aviso): faltam cartas (os limites de cópia já são barrados ao adicionar).
+func motivo_invalido(i: int) -> String:
+	var n := (Sessao.perfil["decks"][i]["cartas"] as Array).size()
+	if n < Sessao.DECK_TAM:
+		return Sessao.t("Faltam %d cartas (o deck tem %d de 32).") % [Sessao.DECK_TAM - n, n]
+	return Sessao.t("O deck precisa de exatamente 32 cartas.")
+
+
+func _tipo(cid: String) -> String:
+	return str(Sessao.db["cartas"][cid]["tipo"])
+
+
+func _custo(cid: String) -> int:
+	return int(Sessao.db["cartas"][cid]["custo"])
+
+
+## Completa o deck até 32 com cópias livres da coleção (ou qualquer carta, no deck livre): primeiro a tradição que mais
+## aparece no deck, respeitando 14 Entidades / 6 Selos / 8 Ritos / 4 Relíquias e a curva das Entidades
+## (custo 1–2: 4 · 3–4: 6 · 5–6: 3 · 7–8: 1); o que faltar de um tipo é completado com qualquer carta.
+func completar_deck(i: int, trad_pref := "") -> int:
+	var deck: Array = Sessao.perfil["decks"][i]["cartas"]
+	var livre := Sessao.deck_livre(i)
+	var trad := trad_pref if trad_pref != "" else (Sessao.tradicao_do_deck(deck) if not deck.is_empty() else "")
+	var antes := deck.size()
+	var todas: Array = []
+	for cid in Sessao.db["cartas"]:
+		if Sessao.db["cartas"][cid]["cultura"] != "abismo" and (livre or Sessao.copias(cid) > 0):
+			todas.append(cid)
+	# da tradição primeiro; dentro dela, Entidades mais caras primeiro e o resto mais barato primeiro
+	todas.sort_custom(func(a: String, b: String) -> bool:
+		var ta: bool = trad != "" and Sessao.db["cartas"][a]["cultura"] == trad
+		var tb: bool = trad != "" and Sessao.db["cartas"][b]["cultura"] == trad
+		if ta != tb:
+			return ta
+		return _custo(a) > _custo(b) if _tipo(a) == "entidade" else _custo(a) < _custo(b))
+	# 1) Entidades pela curva
+	for faixa in CURVA_ENT:
+		var tem := 0
+		for c in deck:
+			if _tipo(c) == "entidade" and _custo(c) >= int(faixa[0]) and _custo(c) <= int(faixa[1]):
+				tem += 1
+		for rodada in 2:                                   # 2 passadas: a 2ª põe a segunda cópia
+			for cid in todas:
+				if tem >= int(faixa[2]) or deck.size() >= Sessao.DECK_TAM:
+					break
+				if _tipo(cid) == "entidade" and _custo(cid) >= int(faixa[0]) and _custo(cid) <= int(faixa[1]) \
+						and (rodada == 1 or not cid in deck) and Sessao.pode_por_no_deck(cid, i):
+					deck.append(cid)
+					tem += 1
+	# 2) cada tipo até o alvo
+	for t in ALVO_TIPOS:
+		var falta: int = int(ALVO_TIPOS[t])
+		for c in deck:
+			if _tipo(c) == t:
+				falta -= 1
+		for rodada in 2:
+			for cid in todas:
+				if falta <= 0 or deck.size() >= Sessao.DECK_TAM:
+					break
+				if _tipo(cid) == t and (rodada == 1 or not cid in deck) and Sessao.pode_por_no_deck(cid, i):
+					deck.append(cid)
+					falta -= 1
+	# 3) o que ainda faltar: qualquer carta
+	for rodada in 2:
+		for cid in todas:
+			if deck.size() >= Sessao.DECK_TAM:
+				break
+			if (rodada == 1 or not cid in deck) and Sessao.pode_por_no_deck(cid, i):
+				deck.append(cid)
+	Sessao.salvar()
+	return deck.size() - antes
+
+
+func completar() -> void:
+	var n := completar_deck(deck_idx)
+	f.vibrar(14, 0.4)
+	_montar_lista()
+	f._ir("deck_edit")
+	if (Sessao.perfil["decks"][deck_idx]["cartas"] as Array).size() == Sessao.DECK_TAM:
+		avisar(Sessao.t("+%d cartas: deck completo.") % n)
+	else:
+		avisar(Sessao.t("+%d cartas. Faltam cartas na coleção para chegar a 32.") % n)
+
+
+## Deck sugerido: um deck novo da tradição, montado com as cartas que você tem (o temático dela primeiro).
+func deck_sugerido(trad: String) -> void:
+	if Sessao.perfil["decks"].size() >= 8:
+		avisar(Sessao.t("Máximo de 8 decks."))
+		return
+	Sessao.perfil["decks"].append({"nome": Sessao.nome_deck(trad) + " " + Sessao.t("sugerido"), "cartas": []})
+	var i: int = Sessao.perfil["decks"].size() - 1
+	var deck: Array = Sessao.perfil["decks"][i]["cartas"]
+	for cid in Sessao.deck_tematico(trad):
+		if Sessao.pode_por_no_deck(cid, i):
+			deck.append(cid)
+	completar_deck(i, trad)
+	abrir_deck(i)
+	var n := deck.size()
+	if n < Sessao.DECK_TAM:
+		avisar(Sessao.t("Montei %d de 32: as outras cópias já estão em outros decks.") % n)
+
+
+# ---------- código de deck: "KDX1-" + base64 de trios (índice da carta na lista ordenada de ids: 2 bytes, cópias) ----------
+static func _ids_ordenados() -> Array:
+	var ids: Array = Sessao.db["cartas"].keys()
+	ids.sort()
+	return ids
+
+
+func codigo_deck(i: int) -> String:
+	var ids := _ids_ordenados()
+	var conta := {}
+	for cid in Sessao.perfil["decks"][i]["cartas"]:
+		conta[cid] = int(conta.get(cid, 0)) + 1
+	var b := PackedByteArray()
+	for cid in conta:
+		var k := ids.find(cid)
+		if k >= 0:
+			b.append(k % 256)
+			b.append(k / 256)
+			b.append(int(conta[cid]))
+	return "KDX1-" + Marshalls.raw_to_base64(b).replace("+", "-").replace("/", "_").replace("=", "")
+
+
+func copiar_codigo() -> void:
+	var c := codigo_deck(deck_idx)
+	DisplayServer.clipboard_set(c)
+	var blocos: Array = [["titulo", Sessao.t("Código do deck")], ["centro", str(Sessao.perfil["decks"][deck_idx]["nome"])], ["espaco"]]
+	for k in range(0, c.length(), 34):                     # código longo sem espaços: quebra em linhas de 34
+		blocos.append(["centro", c.substr(k, 34)])
+	blocos.append(["espaco"])
+	blocos.append(["centro", Sessao.t("Copiado. Cole em Decks > Importar.")])
+	f.perg.abrir(blocos)
+
+
+## Importa um código: cria um deck novo com as cartas que você tem (as que faltam são contadas no aviso).
+func importar_codigo(c: String) -> void:
+	c = c.strip_edges().replace(" ", "").replace("\n", "")
+	if not c.begins_with("KDX1-"):
+		avisar(Sessao.t("Código inválido: copie um código KDX1 antes."))
+		return
+	var b64 := c.substr(5).replace("-", "+").replace("_", "/")
+	while b64.length() % 4 != 0:
+		b64 += "="
+	var b := Marshalls.base64_to_raw(b64)
+	if b.size() == 0 or b.size() % 3 != 0:
+		avisar(Sessao.t("Código inválido: copie um código KDX1 antes."))
+		return
+	if Sessao.perfil["decks"].size() >= 8:
+		avisar(Sessao.t("Máximo de 8 decks."))
+		return
+	var ids := _ids_ordenados()
+	Sessao.perfil["decks"].append({"nome": Sessao.t("Importado"), "cartas": []})
+	var i: int = Sessao.perfil["decks"].size() - 1
+	var deck: Array = Sessao.perfil["decks"][i]["cartas"]
+	var faltou := 0
+	for k in range(0, b.size(), 3):
+		var idx := int(b[k]) + int(b[k + 1]) * 256
+		if idx >= ids.size():
+			continue
+		for n in int(b[k + 2]):
+			if Sessao.pode_por_no_deck(ids[idx], i):
+				deck.append(ids[idx])
+			else:
+				faltou += 1
+	Sessao.salvar()
+	abrir_deck(i)
+	if faltou > 0:
+		avisar(Sessao.t("Importado. Faltaram %d cartas que você não tem.") % faltou)
+	else:
+		avisar(Sessao.t("Importado completo!"))
+
+
+func colar_codigo() -> void:
+	if OS.has_feature("web"):
+		return                                              # web: armar_nome_web("codigo") abriu a caixa nativa no toque
+	importar_codigo(DisplayServer.clipboard_get())
+
+
+## Curva de Fé e contagem por tipo (aba "No deck"): barras por custo 0–8.
+func desenhar_curva(y: float) -> void:
+	var deck: Array = Sessao.perfil["decks"][deck_idx]["cartas"]
+	var por_custo: Array = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+	var tipos := {"entidade": 0, "selo": 0, "rito": 0, "reliquia": 0}
+	for cid in deck:
+		por_custo[mini(_custo(cid), 8)] += 1
+		tipos[_tipo(cid)] = int(tipos.get(_tipo(cid), 0)) + 1
+	var maxv := 1
+	for v in por_custo:
+		maxv = maxi(maxv, int(v))
+	for k in 9:
+		var h := 12.0 * int(por_custo[k]) / maxv
+		var x := 18.0 + k * 12.0
+		f.draw_rect(Rect2(x, y + 12 - h, 8, maxf(h, 1.0)), Color("#7aa8ff") if int(por_custo[k]) > 0 else Color(1, 1, 1, 0.12))
+		PixelFonte.desenhar(f, Vector2(x + 2, y + 15), str(k), Color(0.7, 0.66, 0.62))
+	var lt := [["E", "entidade", 14], ["S", "selo", 6], ["R", "rito", 8], ["REL", "reliquia", 4]]
+	var xx := 132.0
+	for t in lt:
+		var s := "%s %d/%d" % [Sessao.t(t[0]), int(tipos[t[1]]), int(t[2])]
+		PixelFonte.desenhar(f, Vector2(xx, y + 7), s, f.OURO[0] if int(tipos[t[1]]) == int(t[2]) else f.CREME)
+		xx += PixelFonte.largura(s) + 8
 
 
 func excluir_deck() -> void:

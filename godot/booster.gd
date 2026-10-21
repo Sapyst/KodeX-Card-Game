@@ -325,8 +325,19 @@ func _tex(c: Dictionary) -> Texture2D:
 
 
 ## Brilho foil sobre uma carta: faixa arco-íris diagonal correndo + estrelinhas.
+## Brilho holográfico das foils. Segue a inclinação do celular (acelerômetro) ou o mouse no computador
+## (fluxo.inclinacao_foil, -1..1): a faixa de arco-íris desliza e um reflexo largo corre para o lado inclinado.
 func brilho_foil(ci: CanvasItem, r: Rect2) -> void:
-	var fase := fmod(f.tempo / 1.6, 1.0)
+	var inc: Vector2 = f.inclinacao_foil if "inclinacao_foil" in f else Vector2.ZERO
+	var fase := fmod(f.tempo / 1.6 + inc.x * 0.45 + 2.0, 1.0)
+	# reflexo largo e suave que acompanha a inclinação
+	var cx := r.get_center().x + inc.x * r.size.x * 0.45
+	for k in 10:
+		var w := 26.0 - k * 2.4
+		var x0 := clampf(cx - w / 2.0, r.position.x, r.end.x)
+		var x1 := clampf(cx + w / 2.0, r.position.x, r.end.x)
+		if x1 > x0:
+			ci.draw_rect(Rect2(x0, r.position.y, x1 - x0, r.size.y), Color.from_hsv(fmod(0.55 + inc.y * 0.3 + k * 0.03, 1.0), 0.35, 1.0, 0.025))
 	for k in 18:
 		var x := r.position.x + (fase * 1.6 - 0.3) * r.size.x + k
 		var cor := Color.from_hsv(fmod(k / 18.0 + f.tempo * 0.3, 1.0), 0.6, 1.0, 0.16)
@@ -350,10 +361,13 @@ func desenhar_loja() -> void:
 	pacote(f, c + Vector2(0, bob), sin(f.tempo * 0.9) * 0.04)
 	f.mp.moeda(Vector2(158, 377))
 	Fonte57.desenhar(f, Vector2(168, 374), str(Sessao.BOOSTER_PRECO), f.OURO[0], f.ESCURO)
-	var linhas := [Sessao.t("3 cartas de todas as tradições"), Sessao.t("pelo menos 1 Entidade"),
-		Sessao.t("Lendária: 5% por carta  ·  Foil: 2%")]
+	var trad := str(Sessao.perfil.get("pacote", ""))
+	var falta: int = Sessao.GARANTIA_LENDARIA - int(Sessao.perfil.get("sem_lendaria", 0))
+	var linhas := [Sessao.t("3 cartas de todas as tradições") if trad == "" else Sessao.t("cada carta: 70% de %s") % Sessao.nome_deck(trad),
+		Sessao.t("Lendária: 5% por carta  ·  Foil: 2%"),
+		Sessao.t("Lendária garantida no próximo booster") if falta <= 1 else Sessao.t("Lendária garantida em até %d boosters") % falta]
 	for k in linhas.size():
-		f._texto_central(Vector2(180, 456 + k * 12), linhas[k], Color(0.81, 0.88, 1.0, 0.85))
+		f._texto_central(Vector2(180, 474 + k * 12), linhas[k], Color(0.81, 0.88, 1.0, 0.85))
 	var m := str(Sessao.moedas())
 	f.mp.moeda(Vector2(338 - Fonte57.largura(m) - 10, 18))
 	Fonte57.desenhar(f, Vector2(340 - Fonte57.largura(m), 15), m, f.OURO[0], f.ESCURO)

@@ -208,6 +208,8 @@ func _icone(ci: CanvasItem, qual: String, c: Vector2) -> void:
 			ci.draw_circle(c, 6.0, Color("#e2b85a"))
 			ci.draw_circle(c + Vector2(-1.5, -1.5), 3.0, Color("#ffe39a"))
 			ci.draw_rect(Rect2(c + Vector2(-0.5, -3), Vector2(1.5, 6)), Color("#9c7430"))
+		"koin":
+			MenuPerfil.icone_koin(ci, c, 7.0)
 		"booster":
 			ci.draw_rect(Rect2(c + Vector2(-6, -8), Vector2(12, 16)), Color("#2a1a2a"))
 			ci.draw_rect(Rect2(c + Vector2(-5, -7), Vector2(10, 14)), Color("#7a4ab0"))

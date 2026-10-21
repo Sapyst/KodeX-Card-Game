@@ -3,10 +3,12 @@
 ## Níveis
 - **Aprendiz (0):** heurística do Mestre com erros de propósito: não vê o letal 50% das vezes, joga uma carta qualquer
   30%, ataca um alvo qualquer 30% e encerra o turno cedo 20% (depois de já ter agido).
-- **Mestre (1):** heurística gulosa (port do HeurBot de `sim/bots.py`): letal > melhor jogada > melhor ataque.
-- **Arquimago (2):** jogadas do Mestre + plano de ataques do turno inteiro (testa todas as combinações atacante →
-  alvo/Cornucópia/nada, com Guarda e dano simultâneo) + letal somando Ritos de dano na Cornucópia.
-  **Vantagem declarada:** +3 de Cornucópia e 1 carta a mais na mão inicial (avisado na tela do Arcade).
+- **Mestre (1):** heurística gulosa (port do HeurBot de `sim/bots.py`), com poucos erros de propósito: carta qualquer 12%,
+  alvo qualquer 12%, encerra cedo 5% (ERROS_MESTRE).
+- **Arquimago (2):** mesmas regras de todos (a vantagem de +3 vida/+1 carta foi retirada a pedido do autor: dificuldade
+  nunca muda regra). Jogadas do Mestre sem erros + plano de ataques do turno inteiro em todas as ordens (P), com peso de
+  ameaça (A) e controle do campo (B), olhar a resposta do oponente nos 8 melhores planos (L), mulligan (M) e letal
+  somando Ritos de dano na Cornucópia.
 
 ## Personalidades (pesos em `PESOS_IA`, mesa.gd)
 agressivo (Indígena, Hinduísmo) · controle (Cristianismo, Alta Magia) · selos (Taoismo, Bruxaria) · equilibrado (demais).
@@ -34,3 +36,11 @@ motor clonado (simular o turno do oponente), não só heurística.
 
 Como repetir: `partida.sh seed ia0 ia1 deckA deckB` com `GD_AUTO=1 GD_IA_0 GD_IA_1 GD_DECK_A GD_DECK_B GD_SEED
 GD_VELOCIDADE=40 GD_SAIR_NO_FIM=1` e `--headless res://mesa.tscn`; 20 em paralelo leva ~1,5 min por 120 partidas.
+
+## Medição final (mesmas regras, 2026-10-21)
+| Confronto | n | Vitórias do 1º | IC 95% | z |
+|---|---|---|---|---|
+| Arquimago (M,A,B,P,L) × Mestre sem erros | 200 | 54,0% | ±6,9 | +1,13 |
+| cada melhoria sozinha × Mestre sem erros | 200 cada | 46–49% | ±6,9 | não significativo |
+| **Arquimago × Mestre (com erros)** | 200 | **58,5%** | ±6,8 | +2,40 |
+| **Mestre (com erros) × Aprendiz** | 200 | **67,5%** | ±6,5 | +4,95 |

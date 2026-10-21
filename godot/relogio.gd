@@ -8,7 +8,8 @@ extends Node
 signal sincronizou(ok: bool)
 
 const FONTES := ["https://cloudflare.com/cdn-cgi/trace", "https://1.1.1.1/cdn-cgi/trace"]
-const FUSO := -3 * 3600                 # dia e semana viram à 00:00 de Brasília (sem horário de verão desde 2019)
+## Dia e semana viram à 00:00 de Nova York (America/New_York, com horário de verão: EDT UTC−4 do 2º domingo de março
+## às 2h até o 1º domingo de novembro às 2h; fora disso EST UTC−5).
 const ESPERA := 6.0                     # segundos de limite por pedido
 
 var _base := -1.0                       # hora do servidor (unix, s) no instante _ticks
@@ -37,18 +38,46 @@ func agora() -> float:
 	return _base + (Time.get_ticks_msec() - _ticks) / 1000.0
 
 
-## Número do dia (dias desde 1970 no horário de Brasília).
+static func fuso_ny(ts: float) -> int:
+	var ano := int(Time.get_datetime_dict_from_unix_time(int(ts))["year"])
+	var inicio := _domingo(ano, 3, 2) + 7 * 3600        # 2h EST = 7h UTC
+	var fim := _domingo(ano, 11, 1) + 6 * 3600          # 2h EDT = 6h UTC
+	return -4 * 3600 if ts >= inicio and ts < fim else -5 * 3600
+
+
+## Meia-noite UTC do n-ésimo domingo do mês.
+static func _domingo(ano: int, mes: int, n: int) -> int:
+	var t := Time.get_unix_time_from_datetime_dict({"year": ano, "month": mes, "day": 1, "hour": 0, "minute": 0, "second": 0})
+	var dsem := int(Time.get_datetime_dict_from_unix_time(t)["weekday"])   # 0 = domingo
+	return int(t) + ((7 - dsem) % 7 + 7 * (n - 1)) * 86400
+
+
+func _local() -> float:
+	return agora() + fuso_ny(agora())
+
+
+## Número do dia (dias desde 1970 no horário de Nova York).
 func dia() -> int:
-	return int(floor((agora() + FUSO) / 86400.0))
+	return int(floor(_local() / 86400.0))
 
 
-## Número da semana, começando na segunda-feira (1/1/1970 foi quinta: dia 4 = segunda).
+## Semana do booster, começando na segunda-feira (1/1/1970 foi quinta: dia 4 = segunda).
 func semana() -> int:
 	return int(floor((dia() + 3) / 7.0))
 
 
+## Semana dos Koins, começando na sexta-feira (dia 1 = sexta, 2/1/1970).
+func semana_sexta() -> int:
+	return int(floor((dia() - 1) / 7.0))
+
+
 func segundos_ate_amanha() -> int:
-	return int(86400.0 - fposmod(agora() + FUSO, 86400.0))
+	return int(86400.0 - fposmod(_local(), 86400.0))
+
+
+func segundos_ate_sexta() -> int:
+	var dias_na_semana := posmod(dia() - 1, 7)          # 0 = sexta
+	return (6 - dias_na_semana) * 86400 + segundos_ate_amanha()
 
 
 func segundos_ate_segunda() -> int:

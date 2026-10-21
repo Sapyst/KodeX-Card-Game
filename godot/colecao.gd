@@ -8,7 +8,7 @@ const ABAS := ["indigena", "cristianismo", "taoismo", "hinduismo", "bruxaria", "
 const CW := 74.0
 const CH := 104.0
 const PASSO := 112.0
-const TOPO := 96.0
+const TOPO := 112.0
 static var BASE := 594.0          # base da área rolável: o menu ajusta à altura útil (acima da barra)
 
 var f                               # o menu (fluxo.gd)
@@ -18,6 +18,14 @@ var vel := 0.0
 var carta := ""                     # id aberto na página de lore
 var rolagem_lore := 0.0
 var _ids: Array = []
+# filtros (botões embaixo das abas): posse, tipo, faixa de custo e busca por nome (busca vale para todas as tradições)
+const POSSE := ["todas", "tenho", "faltam"]
+const TIPOS := ["", "entidade", "selo", "rito", "reliquia"]
+const CUSTOS := ["", "0-2", "3-4", "5+"]
+var posse := "todas"
+var tipo := ""
+var custo := ""
+var busca := ""
 
 
 func _init(menu) -> void:
@@ -29,12 +37,76 @@ func abrir_aba(d: String) -> void:
 	rolagem = 0.0
 	vel = 0.0
 	_ids.clear()
+	var b := _sem_acento(busca)
 	for cid in Sessao.db["cartas"]:
-		if str(Sessao.db["cartas"][cid]["cultura"]) == d:
-			_ids.append(cid)
-	for nome in Sessao.tokens:
-		if str(Sessao.tokens[nome]["cultura"]) == d:
-			_ids.append(Sessao.tokens[nome]["id"])
+		var c: Dictionary = Sessao.db["cartas"][cid]
+		if b != "":
+			if c["cultura"] == "abismo" or not _sem_acento(str(c["nome"])).contains(b):
+				continue
+		elif str(c["cultura"]) != d:
+			continue
+		if posse == "tenho" and Sessao.copias(cid) == 0 or posse == "faltam" and Sessao.copias(cid) > 0:
+			continue
+		if tipo != "" and c["tipo"] != tipo:
+			continue
+		var cu := int(c["custo"])
+		if custo == "0-2" and cu > 2 or custo == "3-4" and (cu < 3 or cu > 4) or custo == "5+" and cu < 5:
+			continue
+		_ids.append(cid)
+	if b == "" and posse == "todas" and tipo == "" and custo == "":
+		for nome in Sessao.tokens:
+			if str(Sessao.tokens[nome]["cultura"]) == d:
+				_ids.append(Sessao.tokens[nome]["id"])
+
+
+static func _sem_acento(s: String) -> String:
+	var t := s.to_lower()
+	for par in [["á", "a"], ["à", "a"], ["â", "a"], ["ã", "a"], ["é", "e"], ["ê", "e"], ["í", "i"], ["ó", "o"], ["ô", "o"],
+			["õ", "o"], ["ú", "u"], ["ü", "u"], ["ç", "c"]]:
+		t = t.replace(par[0], par[1])
+	return t.strip_edges()
+
+
+func ciclar(qual: String) -> void:
+	match qual:
+		"posse": posse = POSSE[(POSSE.find(posse) + 1) % POSSE.size()]
+		"tipo": tipo = TIPOS[(TIPOS.find(tipo) + 1) % TIPOS.size()]
+		"custo": custo = CUSTOS[(CUSTOS.find(custo) + 1) % CUSTOS.size()]
+	abrir_aba(aba)
+
+
+func definir_busca(t: String) -> void:
+	busca = t.substr(0, 16)
+	abrir_aba(aba)
+
+
+func rotulo_filtro(qual: String) -> String:
+	match qual:
+		"posse": return Sessao.t({"todas": "TODAS", "tenho": "TENHO", "faltam": "FALTAM"}[posse])
+		"tipo": return Sessao.t({"": "TIPO", "entidade": "ENTIDADE", "selo": "SELO", "rito": "RITO", "reliquia": "RELÍQUIA"}[tipo])
+		"custo": return Sessao.t("CUSTO") + (" " + custo if custo != "" else "")
+	return (busca.to_upper() if busca != "" else Sessao.t("BUSCAR"))
+
+
+## % da coleção possuída: [possui, total] da tradição (ou de tudo, com d = "")
+static func progresso(d := "") -> Array:
+	var tem := 0
+	var tot := 0
+	for cid in Sessao.db["cartas"]:
+		var cu := str(Sessao.db["cartas"][cid]["cultura"])
+		if cu == "abismo" or (d != "" and cu != d):
+			continue
+		tot += 1
+		if Sessao.copias(cid) > 0:
+			tem += 1
+	return [tem, tot]
+
+
+static func tem_novas(d: String) -> bool:
+	for cid in (Sessao.perfil.get("novas", {}) as Dictionary):
+		if Sessao.db["cartas"].has(cid) and Sessao.db["cartas"][cid]["cultura"] == d:
+			return true
+	return false
 
 
 func _altura_conteudo() -> float:
@@ -89,14 +161,20 @@ func desenhar_grade(ci: CanvasItem) -> void:
 	for cid in _ids:
 		if str(cid).begins_with("tok_"):
 			n_tok += 1
-	var possui := 0
-	for cid in _ids:
-		if not str(cid).begins_with("tok_") and Sessao.copias(cid) > 0:
-			possui += 1
-	var info := Sessao.t("POSSUI %d DE %d") % [possui, _ids.size() - n_tok]
-	if n_tok > 0:
+	var pr := progresso(d if busca == "" else "")
+	var pt := progresso()
+	var info := Sessao.t("POSSUI %d DE %d") % [pr[0], pr[1]] + " (%d%%)" % roundi(100.0 * pr[0] / maxi(1, pr[1]))
+	info += "  -  " + Sessao.t("TOTAL") + " %d%%" % roundi(100.0 * pt[0] / maxi(1, pt[1]))
+	if busca != "" or posse != "todas" or tipo != "" or custo != "":
+		info = Sessao.t("%d CARTAS") % _ids.size() + "  -  " + info
+	elif n_tok > 0:
 		info += "  -  " + Sessao.t("%d TOKENS") % n_tok
-	PixelFonte.centrado(ci, Vector2(180, 86), info, Color(0.81, 0.88, 1.0, 0.8), 1)
+	PixelFonte.centrado(ci, Vector2(180, 103), info, Color(0.81, 0.88, 1.0, 0.8), 1)
+	# Essência no canto de cima
+	var es := str(Sessao.essencia())
+	var xe := 344.0 - PixelFonte.largura(es, 1)
+	ci.draw_colored_polygon(PackedVector2Array([Vector2(xe - 8, 21), Vector2(xe - 4, 17), Vector2(xe, 21), Vector2(xe - 4, 25)]), Color("#9ad0ff"))
+	PixelFonte.desenhar(ci, Vector2(xe + 3, 19), es, Color("#cfe8ff"), 1)
 	var pulso := 0.5 + 0.5 * sin(f.tempo * 3.0)
 	for k in _ids.size():
 		var r := _rect_carta(k)
@@ -110,6 +188,10 @@ func desenhar_grade(ci: CanvasItem) -> void:
 			_recortado(ci, tex, r, TOPO, BASE)
 		if not cid.begins_with("tok_"):
 			var tem := Sessao.copias(cid)
+			if Sessao.eh_nova(cid) and r.end.y - 12 > TOPO and r.end.y < BASE:   # recém-chegada: etiqueta NOVA
+				var sn := Sessao.t("NOVA")
+				ci.draw_rect(Rect2(r.position.x + 1, r.end.y - 11, PixelFonte.largura(sn) + 6, 10), Color("#c83030"))
+				PixelFonte.desenhar(ci, Vector2(r.position.x + 4, r.end.y - 8), sn, Color("#ffe0d0"))
 			if tem == 0:
 				ci.draw_rect(visivel, Color(0.02, 0.01, 0.03, 0.62))          # ainda não possui: escurecida com cadeado
 				var cc := r.get_center()

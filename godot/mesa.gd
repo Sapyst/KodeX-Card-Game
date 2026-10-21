@@ -253,6 +253,9 @@ func _ready() -> void:
 		return
 	if modo_partida:
 		await _mulligan()
+		for lado in 2:                                     # Arquimago usa o mulligan (a mesma regra do jogador)
+			if int(nivel_ia[lado]) == 2 and _arq_tem("M") and (lado == 1 or auto_jogador) and Sessao.modo != "tutorial":
+				await _mulligan_ia(lado)
 		await _partida()
 		Sessao.resultado = "vitoria" if vencedor == 0 else ("derrota" if vencedor == 1 else "empate")
 		Sessao.extras["fim_cornucopia"] = cornucopia[0]       # Peregrinação: a vida continua na próxima parada
@@ -728,9 +731,6 @@ func _comprar_mao() -> void:
 		_arco(o, lo[0], 0.42, 20, lo[1], 0.62)
 		_rearrumar(mao_opon.slice(0, mao_opon.size() - 1), _layout_mao_opon, 0.62)
 		await get_tree().create_timer(0.5).timeout
-	for lado in 2:                                    # Arquimago: 1 carta a mais na mão inicial
-		if modo_partida and vantagem_arquimago(lado) and not _deck_de(lado).is_empty():
-			await _receber_comprada(lado, _deck_de(lado).pop_back(), false)
 	# a mão "assenta": batida leve de escala em sequência
 	for c in mao_jog:
 		var t := create_tween()
@@ -1636,9 +1636,6 @@ func _espaco_livre(arr: Array) -> int:
 func _partida() -> void:
 	ativo = 0
 	turno_n = 0
-	for lado in 2:                                    # Arquimago: +3 de Cornucópia (menos quando o modo fixa a vida)
-		if vantagem_arquimago(lado) and not _extras().has("cornucopia"):
-			cornucopia[lado] += 3
 	while not acabou:
 		turno_n += 1
 		if turno_n > TURNOS_MAX:
@@ -2587,9 +2584,9 @@ func _turno_ia(d: int) -> void:
 ## Nível da IA por lado: 0 Aprendiz (erra de propósito), 1 Mestre (heurística gulosa), 2 Arquimago (planeja o turno).
 func _ia_escolher(d: int) -> Dictionary:
 	match int(nivel_ia[d]):
-		0: return _ia_aprendiz(d)
+		0: return _ia_com_erros(d, ERROS_APRENDIZ)
 		2: return _ia_arquimago(d)
-	return _ia_escolher_mestre(d)
+	return _ia_com_erros(d, ERROS_MESTRE)
 
 
 ## Mestre: uma ação por vez: letal na Cornucópia > melhor jogada (pontuação > 0) > melhor ataque.
@@ -3158,12 +3155,19 @@ func _peso(d: int, k: String) -> float:
 var _acoes_ia := 0
 
 
-func _ia_aprendiz(d: int) -> Dictionary:
-	if _acoes_ia > 0 and rng_ia.randf() < 0.20:
+## Erros de propósito por nível: [não vê o letal, carta qualquer, alvo qualquer, encerra cedo]. O Mestre erra pouco
+## (fica entre o Aprendiz e o Arquimago, que não erra); o Aprendiz erra bastante. GD_ERROS_MESTRE ajusta nos testes.
+const ERROS_APRENDIZ := [0.5, 0.3, 0.3, 0.2]
+var ERROS_MESTRE: Array = (OS.get_environment("GD_ERROS_MESTRE").split(",") as Array).map(func(x) -> float: return float(x)) \
+	if OS.get_environment("GD_ERROS_MESTRE") != "" else [0.0, 0.12, 0.12, 0.05]
+
+
+func _ia_com_erros(d: int, erros: Array) -> Dictionary:
+	if _acoes_ia > 0 and rng_ia.randf() < float(erros[3]):
 		return {}
 	var ini := 1 - d
 	var prontos: Array = motor.campo(d).filter(func(e: Carta) -> bool: return motor.pode_atacar(e))
-	if rng_ia.randf() < 0.5 and _campo_vazio(ini) and not prontos.is_empty():
+	if rng_ia.randf() >= float(erros[0]) and _campo_vazio(ini) and not prontos.is_empty():
 		var total := 0
 		for e in prontos:
 			total += (e as Carta).atk
@@ -3172,13 +3176,13 @@ func _ia_aprendiz(d: int) -> Dictionary:
 				if _pode_atacar(e, null) == "" and (e as Carta).atk > 0:
 					return {"tipo": "atacar", "atacante": e, "alvo": null}
 	var jogaveis: Array = _mao_de(d).filter(func(c: Carta) -> bool: return _motivo_jogar(c, d) == "" and c.tipo != "reliquia")
-	if not jogaveis.is_empty() and rng_ia.randf() < 0.30:
+	if not jogaveis.is_empty() and rng_ia.randf() < float(erros[1]):
 		return {"tipo": "jogar", "carta": jogaveis[rng_ia.randi_range(0, jogaveis.size() - 1)], "alvo": null}
 	var jogada := _ia_melhor_jogada(d)
 	if not jogada.is_empty():
 		return jogada
 	for e in prontos:
-		if rng_ia.randf() < 0.30:
+		if rng_ia.randf() < float(erros[2]):
 			var alvos: Array = motor.campo(ini).filter(func(x: Carta) -> bool: return _pode_atacar(e, x) == "")
 			if not alvos.is_empty():
 				return {"tipo": "atacar", "atacante": e, "alvo": alvos[rng_ia.randi_range(0, alvos.size() - 1)]}
@@ -3192,12 +3196,16 @@ func _ia_aprendiz(d: int) -> Dictionary:
 	return melhor
 
 
-## Arquimago: as jogadas do Mestre (a escolha de "conjunto de cartas" foi testada e perdia: 41% contra o Mestre) e
+## Arquimago: mesmas regras de todo mundo, só joga melhor. As jogadas do Mestre (a escolha de "conjunto de cartas" foi
+## testada e perdia: 41% contra o Mestre) e
 ## 1) letal planejado: soma o melhor plano de ataques do turno inteiro (cada combinação atacante → alvo/Cornucópia/nada,
 ## com Guarda, dano simultâneo e golpe direto só com o campo limpo) aos Ritos de dano na Cornucópia que cabem na Fé;
-## 2) ataques pelo plano do turno, não um por um. Vantagem declarada (como modos difíceis de outros jogos): começa com
-## +3 de Cornucópia e 1 carta a mais na mão inicial (ver _comprar_mao e _partida).
-var _arq_modo := OS.get_environment("GD_ARQ_MODO")      # teste: "sem_vantagem" desliga a vantagem do Arquimago
+## 2) ataques pelo plano do turno. Melhorias ligáveis (GD_ARQ, para medir): M mulligan, A ameaça, B campo, P ordem.
+var _arq := (OS.get_environment("GD_ARQ") if OS.get_environment("GD_ARQ") != "" else "M,A,B,P,L").split(",")
+
+
+func _arq_tem(k: String) -> bool:
+	return k in _arq
 
 
 func _ia_arquimago(d: int) -> Dictionary:
@@ -3238,8 +3246,29 @@ func _ia_dano_cornucopia(c: Carta) -> int:
 	return n
 
 
-func vantagem_arquimago(d: int) -> bool:
-	return int(nivel_ia[d]) == 2 and _arq_modo != "sem_vantagem" and (d == 1 or auto_jogador)
+## M: mulligan da IA (a regra vale para os dois lados): troca até 2 cartas de custo 5+ se a mão não tiver ao menos
+## 2 cartas de custo 3 ou menos; senão troca só as de custo 7+.
+func _mulligan_ia(d: int) -> void:
+	var mao := _mao_de(d)
+	var baratas := mao.filter(func(c: Carta) -> bool: return c.custo <= 3).size()
+	var limite := 5 if baratas < 2 else 7
+	var trocar: Array = mao.filter(func(c: Carta) -> bool: return c.custo >= limite)
+	trocar.sort_custom(func(a: Carta, b: Carta) -> bool: return a.custo > b.custo)
+	if trocar.size() > MULLIGAN_MAX:
+		trocar.resize(MULLIGAN_MAX)
+	if trocar.is_empty():
+		return
+	var deck := _deck_de(d)
+	for c in trocar:
+		mao.erase(c)
+		(c as Carta).empilhada = true
+		(c as Carta).position = proj(DECK_JOG if d == 0 else DECK_OPON)
+		if (c as Carta).virada_para_cima:
+			(c as Carta).virar(0.01)
+		deck.insert(0, c)
+	_embaralhar_deck(d)
+	for k in trocar.size():
+		await _receber_comprada(d, deck.pop_back(), false)
 
 
 ## Plano de ataques do turno inteiro. Devolve {primeiro: ação, nota, letal}.
@@ -3256,7 +3285,20 @@ func _ia_plano_ataques(d: int) -> Dictionary:
 	var hp: Array = inimigos.map(func(e: Carta) -> int: return e.vida())
 	var guarda: Array = inimigos.map(func(e: Carta) -> bool: return e.virada_para_cima and e.tem("guarda"))
 	var estado := {"melhor": -INF, "seq": [], "letal": false, "face": 0}
-	_ia_busca(d, atacantes, 0, inimigos, hp, guarda, 0, 0.0, [], estado)
+	var ordens: Array = [atacantes]
+	if _arq_tem("P") and atacantes.size() > 1:
+		ordens = _permutacoes(atacantes)
+	for ordem in ordens:
+		_ia_busca(d, ordem, 0, inimigos, hp, guarda, 0, 0.0, [], estado)
+	if _arq_tem("L") and not estado["letal"] and estado.has("top"):
+		var melhor_l := -INF
+		for folha in estado["top"]:
+			var v := float(folha[0]) - 0.7 * _ia_resposta(d, inimigos, folha[2], folha[1])
+			if v > melhor_l:
+				melhor_l = v
+				estado["seq"] = folha[1]
+				estado["face"] = folha[3]
+		estado["melhor"] = melhor_l
 	var seq: Array = estado["seq"]
 	for passo in seq:
 		if int(passo[1]) != -2:
@@ -3266,10 +3308,50 @@ func _ia_plano_ataques(d: int) -> Dictionary:
 	return {"nota": 0.0}
 
 
+func _permutacoes(a: Array) -> Array:
+	if a.size() <= 1:
+		return [a.duplicate()]
+	var out: Array = []
+	for i in a.size():
+		var resto := a.duplicate()
+		var x = resto.pop_at(i)
+		for p in _permutacoes(resto):
+			out.append([x] + p)
+	return out
+
+
 func _ia_busca(d: int, atq: Array, k: int, inim: Array, hp: Array, guarda: Array, face: int, nota: float, seq: Array, est: Dictionary) -> void:
 	if k == atq.size():
 		var letal: bool = face >= int(cornucopia[1 - d])
 		var total := nota + face * 1.2 * _peso(d, "face") + (1000.0 if letal else 0.0)
+		if _arq_tem("B"):
+			# campo inimigo limpo = golpe direto no próximo turno com o que sobrar vivo; o nosso vazio = Cornucópia exposta
+			var vivos_inim := 0
+			for i in inim.size():
+				if int(hp[i]) > 0:
+					vivos_inim += 1
+			if vivos_inim == 0 and not inim.is_empty():
+				var potencial := 0
+				for c in motor.campo(d):
+					potencial += (c as Carta).atk
+				total += 0.6 * potencial
+			var mortos_meus := 0
+			for p in seq:
+				if bool(p[2]) if p.size() > 2 else false:
+					mortos_meus += 1
+			if mortos_meus >= motor.campo(d).size() and vivos_inim > 0:
+				var ameaca := 0
+				for i in inim.size():
+					if int(hp[i]) > 0:
+						ameaca += (inim[i] as Carta).atk
+				total -= 1.0 * ameaca
+		if _arq_tem("L") and not letal:                  # guarda os 8 melhores planos para olhar a resposta do oponente
+			var top: Array = est.get("top", [])
+			top.append([total, seq.duplicate(), hp.duplicate(), face])
+			top.sort_custom(func(x: Array, y: Array) -> bool: return float(x[0]) > float(y[0]))
+			if top.size() > 8:
+				top.resize(8)
+			est["top"] = top
 		if total > float(est["melhor"]):
 			est["melhor"] = total
 			est["seq"] = seq.duplicate()
@@ -3300,14 +3382,14 @@ func _ia_busca(d: int, atq: Array, k: int, inim: Array, hp: Array, guarda: Array
 		var morre := e.atk >= a.vida()
 		var n := 0.0
 		if mata:
-			n += (motor.valor(e) + 3.0) * _peso(d, "mata")
+			n += (motor.valor(e) + 3.0 + (1.5 * e.atk if _arq_tem("A") else 0.0)) * _peso(d, "mata")
 		else:
 			n += 0.25 * a.atk
 		if morre:
 			n -= (motor.valor(a) + 1.0) * _peso(d, "perda")
 		var antes: int = hp[i]
 		hp[i] = int(hp[i]) - a.atk
-		seq.append([a, i])
+		seq.append([a, i, morre])
 		_ia_busca(d, atq, k + 1, inim, hp, guarda, face, nota + n, seq, est)
 		seq.pop_back()
 		hp[i] = antes
@@ -3403,3 +3485,64 @@ func _enigma() -> void:
 		get_tree().quit()
 		return
 	get_tree().change_scene_to_file("res://fluxo.tscn")
+
+
+## L (olhar 2 passos): depois do nosso plano, a melhor resposta de ataque do oponente no turno dele (com as Entidades
+## que sobraram dos dois lados). Devolve a nota dele: mortes que ele causa − perdas dele + golpe direto (+ letal).
+func _ia_resposta(d: int, inimigos: Array, hp_inim: Array, seq: Array) -> float:
+	var atq: Array = []                                   # atacantes dele: [atk, hp, valor]
+	for i in inimigos.size():
+		if int(hp_inim[i]) > 0 and (inimigos[i] as Carta).atk > 0:
+			var e: Carta = inimigos[i]
+			atq.append([e.atk, int(hp_inim[i]), motor.valor(e)])
+	var defs: Array = []                                  # nossos que sobram: [atk, hp, valor, guarda]
+	var dano := {}
+	for p in seq:
+		if int(p[1]) >= 0:
+			dano[p[0]] = int(dano.get(p[0], 0)) + (inimigos[int(p[1])] as Carta).atk
+	for c in motor.campo(d):
+		var cc: Carta = c
+		var hp_r := cc.vida() - int(dano.get(cc, 0))
+		if hp_r > 0:
+			defs.append([cc.atk, hp_r, motor.valor(cc), cc.virada_para_cima and cc.tem("guarda")])
+	if atq.is_empty():
+		return 0.0
+	atq.sort_custom(func(x: Array, y: Array) -> bool: return int(x[0]) > int(y[0]))
+	if atq.size() > 4:
+		atq.resize(4)
+	var est := {"melhor": 0.0}
+	_ia_resp_busca(atq, 0, defs, defs.map(func(x: Array) -> int: return int(x[1])), 0, 0.0, int(cornucopia[d]), est)
+	return float(est["melhor"])
+
+
+func _ia_resp_busca(atq: Array, k: int, defs: Array, hp: Array, face: int, nota: float, corn: int, est: Dictionary) -> void:
+	if k == atq.size():
+		var total := nota + face * 1.2 + (1000.0 if face >= corn else 0.0)
+		if total > float(est["melhor"]):
+			est["melhor"] = total
+		return
+	var a: Array = atq[k]
+	_ia_resp_busca(atq, k + 1, defs, hp, face, nota, corn, est)
+	var vivos := 0
+	var guardas := false
+	for i in defs.size():
+		if int(hp[i]) > 0:
+			vivos += 1
+			guardas = guardas or bool(defs[i][3])
+	if vivos == 0:
+		_ia_resp_busca(atq, k + 1, defs, hp, face + int(a[0]), nota, corn, est)
+		return
+	for i in defs.size():
+		if int(hp[i]) <= 0 or (guardas and not bool(defs[i][3])):
+			continue
+		var n := 0.0
+		if int(a[0]) >= int(hp[i]):
+			n += float(defs[i][2]) + 3.0
+		else:
+			n += 0.25 * int(a[0])
+		if int(defs[i][0]) >= int(a[1]):
+			n -= float(a[2]) + 1.0
+		var antes: int = hp[i]
+		hp[i] = int(hp[i]) - int(a[0])
+		_ia_resp_busca(atq, k + 1, defs, hp, face, nota + n, corn, est)
+		hp[i] = antes

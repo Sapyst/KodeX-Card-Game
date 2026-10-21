@@ -1,5 +1,33 @@
 [
  {
+  "versao": "0.11.0-alpha",
+  "data": "21/10/2026",
+  "pt": [
+   "IA com as mesmas regras para todos: o Arquimago não tem mais vantagem, vence por jogar melhor (planeja o turno, usa o mulligan, olha a resposta do oponente). O Mestre erra um pouco.",
+   "Koins, a moeda dos cosméticos: 10 por dia (acumula até 3 dias) e 100 toda sexta. O dia vira à meia-noite de Nova York.",
+   "Cada versão nova dá +30 Koins e +50 de ouro.",
+   "Essência: desfaça cartas repetidas e crie a carta que quiser (no visor da Coleção).",
+   "Garantia de Lendária: no máximo 10 boosters seguidos sem uma.",
+   "Booster de uma tradição: escolha o pacote na Loja (70% das cartas vêm dela).",
+   "Coleção com filtros (tenho, faltam, tipo, custo), busca por nome, porcentagem completa e etiqueta NOVA.",
+   "Foils brilham conforme você inclina o celular.",
+   "Decks: curva de Fé, botão Completar, deck sugerido por tradição, código para compartilhar e importar.",
+   "Enigmas: agora são 12."
+  ],
+  "en": [
+   "AI with the same rules for everyone: the Archmage no longer gets an advantage, it wins by playing better (plans the turn, uses the mulligan, looks at the opponent's reply). The Master makes a few mistakes.",
+   "Koins, the cosmetics currency: 10 a day (stacks up to 3 days) and 100 every Friday. Days reset at midnight, New York time.",
+   "Every new version gives +30 Koins and +50 gold.",
+   "Essence: disenchant duplicate cards and craft the card you want (in the Collection viewer).",
+   "Legendary guarantee: at most 10 boosters in a row without one.",
+   "Tradition boosters: pick the pack in the Shop (70% of the cards come from it).",
+   "Collection with filters (owned, missing, type, cost), name search, completion percentage and a NEW tag.",
+   "Foils shine as you tilt your phone.",
+   "Decks: Faith curve, Complete button, suggested deck per tradition, share and import codes.",
+   "Puzzles: now 12."
+  ]
+ },
+ {
   "versao": "0.10.0-alpha",
   "data": "21/10/2026",
   "pt": [

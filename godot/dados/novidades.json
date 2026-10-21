@@ -1,5 +1,15 @@
 [
  {
+  "versao": "0.13.1-alpha",
+  "data": "21/10/2026",
+  "pt": [
+   "Peregrinação: quando o deck acaba, o cemitério volta embaralhado de graça, sem custo de Cornucópia (só neste modo)."
+  ],
+  "en": [
+   "Pilgrimage: when the deck runs out, the graveyard is reshuffled for free, with no Cornucopia cost (this mode only)."
+  ]
+ },
+ {
   "versao": "0.13.0-alpha",
   "data": "21/10/2026",
   "pt": [

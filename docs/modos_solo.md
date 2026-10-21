@@ -13,6 +13,7 @@ Desafios lendários, Enigmas, Modo livre e, depois de vencer o Torneio, **Choron
 - **8 paradas** em sequência; em cada uma, escolhe entre **2 caminhos** sorteados: Batalha (Mestre), Elite (Arquimago,
   prêmio maior), Santuário (+5 de Cornucópia), Mercador (troca 1 carta por outra entre 3).
 - A **Cornucópia persiste** entre as batalhas (começa em 15, máximo 20). Zerou = fim da peregrinação.
+- **Deck vazio reembaralha de graça** (sem pagar 5 de Cornucópia, sem exigir 6+), para os dois lados — regra só deste modo.
 - Depois de cada vitória: escolhe **1 de 3 cartas** (de todas as tradições, sem Abismo) para **trocar** por uma carta do
   deck à sua escolha, ou pular.
 - **Bênçãos** (relíquias passivas), 1 por Elite vencida, escolhida entre 3: +1 Fé no 1º turno; +3 Cornucópia máxima;

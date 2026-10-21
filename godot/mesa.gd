@@ -1762,7 +1762,9 @@ func _comprar(d: int) -> void:
 	var deck := _deck_de(d)
 	if deck.is_empty() and modo_partida and _pode_reembaralhar(d):
 		var sim := true
-		if motor.humano(d):
+		if _reemb_gratis():
+			pass                                         # Peregrinação: grátis, não há o que decidir
+		elif motor.humano(d):
 			sim = await pedir_sim_nao("DECK VAZIO", "REEMBARALHAR O CEMITÉRIO: -%d CORNUCÓPIA" % CUSTO_REEMBARALHAR,
 				"REEMBARALHAR", "NÃO  (-2)")
 		elif cemit[d].size() < 3 and cornucopia[d] < 10:
@@ -1786,17 +1788,26 @@ const CUSTO_REEMBARALHAR := 5
 
 
 func _pode_reembaralhar(d: int) -> bool:
-	return cornucopia[d] >= CUSTO_REEMBARALHAR + 1 and cemit[d].any(func(e: Dictionary) -> bool: return not e["dados"].get("token", false))
+	var tem_cartas: bool = cemit[d].any(func(e: Dictionary) -> bool: return not e["dados"].get("token", false))
+	if _reemb_gratis():
+		return tem_cartas
+	return cornucopia[d] >= CUSTO_REEMBARALHAR + 1 and tem_cartas
+
+
+## Regra só da Peregrinação: deck vazio reembaralha o cemitério de graça (sem pagar Cornucópia), para os dois lados.
+func _reemb_gratis() -> bool:
+	return modo_partida and Sessao.modo == "peregrinacao"
 
 
 ## Paga 5 de Cornucópia; as cartas do cemitério voam (viradas para baixo, uma a cada 0,04 s) para o deck, que embaralha.
 func _reembaralhar(d: int) -> void:
-	cornucopia[d] -= CUSTO_REEMBARALHAR
-	placar_pulo[d] = 1.0
+	if not _reemb_gratis():
+		cornucopia[d] -= CUSTO_REEMBARALHAR
+		placar_pulo[d] = 1.0
+		efeitos.numero(_pos_placar(d) + Vector2(36, 2), "-%d" % CUSTO_REEMBARALHAR, Color("#ff5050"), 2)
 	tremor = 2.5
 	Sessao.vibrar(40, 0.7)
 	efeitos.flash(Color("#7a5aa8"), 0.25)
-	efeitos.numero(_pos_placar(d) + Vector2(36, 2), "-%d" % CUSTO_REEMBARALHAR, Color("#ff5050"), 2)
 	efeitos.numero(Vector2(180, LINHA_Y + (40 if d == 0 else -40)), "REEMBARALHAR", Color("#e0c8ff"), 2)
 	tocar_som("embaralhar_2")
 	var cem := proj(CEMIT_JOG if d == 0 else CEMIT_OPON)

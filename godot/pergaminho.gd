@@ -26,6 +26,7 @@ const T_FECHA := 0.28
 const T_SOME := 0.12
 
 static var _papel: ImageTexture
+signal fechou
 
 var f                                 # o menu (fluxo.gd)
 var fase := ""                        # "" fechado | surge | racha | abre | aberto | fecha | some
@@ -273,7 +274,14 @@ static func _gerar_papel() -> ImageTexture:
 
 
 # ---------------- animação ----------------
-func _process(delta: float) -> void:
+var _us := 0
+
+
+func _process(_delta: float) -> void:
+	# tempo real (não o do motor): o pergaminho anima mesmo com a mesa pausada (Engine.time_scale = 0)
+	var agora := Time.get_ticks_usec()
+	var delta := clampf((agora - _us) / 1000000.0, 0.0, 0.1) if _us > 0 else 0.0
+	_us = agora
 	position = f.pos_base
 	if fase == "":
 		return
@@ -306,6 +314,7 @@ func _process(delta: float) -> void:
 				abertura = 0.0
 				var cb := _ao_fechar
 				_ao_fechar = Callable()
+				fechou.emit()
 				if cb.is_valid():
 					cb.call()
 	queue_redraw()

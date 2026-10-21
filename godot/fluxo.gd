@@ -158,6 +158,8 @@ var _avisos_feitos := false            # novidades + presente já verificados ne
 
 
 func _ready() -> void:
+	if OS.get_environment("GD_VELOCIDADE") == "":
+		Engine.time_scale = 1.0                                # a mesa acelera as animações; o menu volta ao normal
 	if OS.get_environment("GD_NOME_TESTE") != "":
 		Sessao.perfil["nome"] = OS.get_environment("GD_NOME_TESTE")
 	col = Colecao.new(self)
@@ -225,11 +227,6 @@ func _ready() -> void:
 		Sessao.perfil["nome"] = OS.get_environment("GD_TESTE_NOME")
 		mp.nome_edit.text = Sessao.perfil["nome"]
 		mp.nome_edit.grab_focus()
-	if OS.get_environment("GD_PRINTS") != "":                 # teste: salva prints da viewport inteira (telas altas)
-		for k in OS.get_environment("GD_PRINTS").split(","):
-			var tt := float(k)
-			get_tree().create_timer(tt).timeout.connect(func() -> void:
-				get_viewport().get_texture().get_image().save_png(OS.get_environment("GD_PRINTS_DIR") + "/p_%05.2f.png" % tt))
 	if OS.get_environment("GD_TESTE_AVATAR") != "":
 		_ir("avatar")
 		get_tree().create_timer(1.5).timeout.connect(mp.aplicar_avatar.bind("taoismo"))
@@ -312,8 +309,12 @@ func _ir(novo: String) -> void:
 				get_tree().create_timer(0.5).timeout.connect(_avisos_titulo)
 		"opcoes":
 			_botao(Rect2(110, 150, 140, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("opcoes"), {"idioma": true})
-			_botao(Rect2(110, 200, 140, 26), "Novidades", abrir_novidades.bind(true))
-			_botao(Rect2(110, 236, 140, 26), "Privacidade", abrir_privacidade)
+			_botao(Rect2(90, 196, 180, 26), "Vibração: ligada" if Sessao.vibracao else "Vibração: desligada",
+				func() -> void: Sessao.alternar_vibracao(); _ir("opcoes"); transicao = 0.0)
+			_botao(Rect2(90, 230, 180, 26), "Animações: rápidas" if Sessao.animacao_rapida else "Animações: normais",
+				func() -> void: Sessao.alternar_animacao(); _ir("opcoes"); transicao = 0.0)
+			_botao(Rect2(90, 280, 180, 26), "Novidades", abrir_novidades.bind(true))
+			_botao(Rect2(90, 314, 180, 26), "Privacidade", abrir_privacidade)
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
@@ -552,7 +553,9 @@ func _pos_luta_torneio() -> void:
 			lista.append({"quem": p.get("nome", op), "texto": t, "cor": cor, "retrato": op})
 		Sessao.torneio_idx += 1
 		Sessao.resultado = ""
+		Sessao.salvar_torneio()
 		if Sessao.torneio_idx >= Sessao.torneio_ordem.size():
+			Sessao.encerrar_torneio()
 			for t in Sessao.lore.get("epilogo_vitoria", [Sessao.t("Você venceu o torneio.")]):
 				lista.append({"quem": Sessao.t("Narrador"), "texto": t, "cor": OURO[0], "retrato": ""})
 			_falar(lista, func() -> void: Sessao.modo = ""; _ir("titulo"))
@@ -571,6 +574,7 @@ func _botoes_derrota() -> void:
 	botoes.clear()
 	_botao(Rect2(90, 380, 180, 30), "Tentar de novo", func() -> void: Sessao.preparar_luta_torneio(); _jogar())
 	_botao(Rect2(90, 422, 180, 30), "Menu", func() -> void: Sessao.modo = ""; _ir("titulo"))
+	_botao(Rect2(90, 464, 180, 26), "Recomeçar torneio", func() -> void: Sessao.encerrar_torneio(); Sessao.modo = ""; _torneio())
 
 
 func _comecar_arcade() -> void:
@@ -929,6 +933,11 @@ func _torneio() -> void:
 		ok = ok or Sessao.deck_valido(i)
 	if not ok:
 		mp.avisar(Sessao.t("Monte um deck com 32 cartas primeiro."))
+		return
+	if Sessao.torneio_ativo():                               # torneio salvo: continua da luta em que parou
+		Sessao.modo = "torneio"
+		Sessao.preparar_luta_torneio()
+		_pre_luta_torneio()
 		return
 	_falar_lista(Sessao.lore.get("prologo", []), Sessao.t("Narrador"), OURO[0], "", func() -> void: _comecar_torneio(""))
 

@@ -80,6 +80,14 @@ var acabou := false
 var botao_fim := Rect2(296, 318, 50, 14)
 var segurando_t := 0.0
 var segurando_ini := Vector2.ZERO
+var hud: MesaHud
+var perg: Pergaminho                  # regras e resumo da partida (numa CanvasLayer: fora da câmera)
+var alt_util := 640.0                 # usados pelo Pergaminho (mesma interface do menu)
+var pos_base := Vector2.ZERO
+var pausado := false
+var acelerar_ia := false              # botão ">> RÁPIDO" no turno do oponente: 2,5× até a sua vez
+var _vel_teste := 1.0
+var _som: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -102,7 +110,22 @@ func _ready() -> void:
 		db = Sessao.db                        # já no idioma escolhido
 	motor = MotorEfeitos.new(self)
 	if OS.get_environment("GD_VELOCIDADE") != "":          # testes automáticos: acelera animações e timers
-		Engine.time_scale = maxf(0.1, OS.get_environment("GD_VELOCIDADE").to_float())
+		_vel_teste = maxf(0.1, OS.get_environment("GD_VELOCIDADE").to_float())
+	aplicar_tempo()
+	hud = MesaHud.new(self)
+	add_child(hud)
+	var camada := CanvasLayer.new()
+	camada.layer = 20
+	add_child(camada)
+	perg = Pergaminho.new(self)
+	camada.add_child(perg)
+	if OS.get_environment("GD_HUD_TESTE") != "":              # teste: "14:menu;16:regras;19:fechar;20:emote:1;22:hist:0;24:lendaria:ind_tupa"
+		for passo in OS.get_environment("GD_HUD_TESTE").split(";"):
+			var pt := passo.split(":")
+			get_tree().create_timer(float(pt[0]), true, false, true).timeout.connect(_passo_hud.bind(pt))
+	_som = AudioStreamPlayer.new()
+	_som.volume_db = -6.0
+	add_child(_som)
 	placar = Node2D.new()
 	placar.z_index = 50
 	placar.draw.connect(_desenhar_placar)
@@ -206,10 +229,14 @@ func _ready() -> void:
 		get_tree().quit()
 		return
 	if modo_partida:
+		await _mulligan()
 		await _partida()
 		Sessao.resultado = "vitoria" if vencedor == 0 else ("derrota" if vencedor == 1 else "empate")
+		if (Sessao.modo != "" and not auto_jogador) or OS.get_environment("GD_RESUMO") != "":
+			await get_tree().create_timer(0.6).timeout
+			await _resumo()
 		if Sessao.modo != "" and OS.get_environment("GD_SAIR_NO_FIM") == "":
-			await get_tree().create_timer(1.5).timeout
+			await get_tree().create_timer(0.3).timeout
 			get_tree().change_scene_to_file("res://fluxo.tscn")
 			return
 		if OS.get_environment("GD_SAIR_NO_FIM") != "":
@@ -325,6 +352,12 @@ func _process(delta: float) -> void:
 	_atualizar_pilhas()
 	if modo_partida:
 		_atualizar_zoom(delta)
+		_atualizar_previa()
+		hud.sem_jogadas = minha_vez and turno_n > 0 and not hud.mulligan and _jogaveis.is_empty() and _t_destaque > 0.0 \
+			and not campo_ent[0].any(func(e) -> bool: return e != null and (e as Carta).destaque == 2)
+	var vs := get_viewport_rect().size
+	alt_util = vs.y
+	pos_base = Vector2(roundf((vs.x - 360.0) / 2.0), 0.0)
 	# carta segurada: segue o dedo com atraso, inclina conforme a velocidade
 	if segurando != null:
 		var alvo := ponteiro + Vector2(0, -14)
@@ -518,6 +551,8 @@ func _bater_monte() -> void:
 
 # ---------------- embaralhar ----------------
 func _riffle() -> void:
+	if not _som.playing:
+		tocar_som("embaralhar_1")
 	var meio := deck_jog.size() / 2 + rng.randi_range(-3, 3)
 	var esq: Array[Carta] = deck_jog.slice(0, meio)
 	var dir: Array[Carta] = deck_jog.slice(meio)
@@ -701,10 +736,15 @@ func _desenhar_placar() -> void:
 	if modo_partida:
 		var r := botao_fim
 		var vez := ativo == 0 and not acabou
+		var ia := ativo == 1 and not acabou
+		if vez and hud.sem_jogadas:                      # sem jogadas: o botão pulsa em dourado
+			var a := 0.35 + 0.35 * sin(tempo * 5.0)
+			placar.draw_rect(r.grow(3), Color(1.0, 0.85, 0.4, a))
 		placar.draw_rect(r.grow(1), ESCURO)
-		placar.draw_rect(r, Color("#5a3a1a") if vez else Color("#2a2430"))
-		placar.draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), OURO[1] if vez else Color("#4a4450"))
-		PixelFonte.centrado(placar, r.get_center() + Vector2(0, 1), Sessao.t("FIM TURNO" if vez else "AGUARDE"), Color("#ffe39a") if vez else Color("#8a8090"))
+		placar.draw_rect(r, Color("#5a3a1a") if vez else (Color("#3a2a50") if ia and acelerar_ia else Color("#2a2430")))
+		placar.draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), OURO[1] if vez else (Color("#b8a0ff") if ia else Color("#4a4450")))
+		var rot := "FIM TURNO" if vez else (("RÁPIDO" if acelerar_ia else ">> RÁPIDO") if ia else "AGUARDE")
+		PixelFonte.centrado(placar, r.get_center() + Vector2(0, 1), Sessao.t(rot), Color("#ffe39a") if vez else (Color("#d8c8ff") if ia else Color("#8a8090")))
 
 
 # ================= posições do campo =================
@@ -732,6 +772,10 @@ func _unhandled_input(ev: InputEvent) -> void:
 	if (ev is InputEventMouseButton or ev is InputEventMouseMotion) and ev.device == InputEvent.DEVICE_ID_EMULATION:
 		return
 	var pos_ev: Vector2 = ev.position if "position" in ev else Vector2.ZERO
+	if perg.aberto():                            # regras/resumo por cima de tudo (CanvasLayer: posição de tela)
+		if "position" in ev:
+			perg.entrada(ev, pos_ev - pos_base)
+		return
 	if carrossel.aberto():                       # carrossel recebe o evento cru (pinça, roda, arraste)
 		carrossel.evento(ev, get_canvas_transform().affine_inverse() * pos_ev)
 		return
@@ -749,6 +793,24 @@ func pressionar(p: Vector2) -> void:
 	ponteiro = p
 	if carrossel.aberto():
 		carrossel.pressionar(p)
+		return
+	if modo_partida and hud.pressionar(p):
+		return
+	if hud.mulligan:                            # mão inicial: marcar até 2 cartas ou tocar um dos botões
+		for b in efeitos.escolha:
+			if (b["rect"] as Rect2).grow(3).has_point(p):
+				escolhido.emit(b["valor"])
+				return
+		for k in range(mao_jog.size() - 1, -1, -1):
+			var cm: Carta = mao_jog[k]
+			if cm.contem(p):
+				if cm in hud.marcadas:
+					hud.marcadas.erase(cm)
+				elif hud.marcadas.size() < MULLIGAN_MAX:
+					hud.marcadas.append(cm)
+				Sessao.vibrar(10, 0.35)
+				efeitos.escolha[1]["texto"] = Sessao.t("TROCAR (%d)") % hud.marcadas.size()
+				return
 		return
 	if zoom_travado:                          # qualquer toque fecha a carta ampliada
 		zoom_travado = false
@@ -780,6 +842,10 @@ func pressionar(p: Vector2) -> void:
 		if ativo == 0 and not ocupado and not acabou:
 			Sessao.vibrar(10, 0.4)
 			fim_turno_pedido.emit()
+		elif ativo == 1 and not acabou:            # turno do oponente: liga/desliga o modo rápido
+			acelerar_ia = not acelerar_ia
+			Sessao.vibrar(10, 0.4)
+			aplicar_tempo()
 		return
 	if modo_partida and segurando == null and alvos_pedidos.is_empty() and efeitos.escolha.is_empty() and tut == null:
 		for d in 2:                               # tocar numa pilha de cemitério abre o carrossel
@@ -1073,6 +1139,7 @@ func _atacar(c: Carta, alvo: Carta) -> void:
 	c.atacou = true
 	if modo_partida:
 		_conta(c.dono, "ataques")
+		hud.registrar(c.dono, c.id, "ataque", alvo.id)
 		if not await motor.antes_do_ataque(c, alvo):          # Selo/efeito cancelou o ataque
 			await _checar_fim()
 			return
@@ -1249,6 +1316,7 @@ func _golpe_direto(c: Carta, alvo_dono: int) -> void:
 	c.atacou = true
 	if modo_partida:
 		_conta(c.dono, "golpes_diretos")
+		hud.registrar(c.dono, c.id, "golpe")
 		if not await motor.antes_do_ataque(c, null):
 			await _checar_fim()
 			return
@@ -1573,6 +1641,9 @@ func _partida() -> void:
 ## Início do turno: Fé máx +1 (teto 8) e restaura; o 2º jogador ganha +1 Fé temporária no 1º turno dele;
 ## Entidades acordam (congeladas perdem este turno); compra 1 (quem começa não compra no 1º turno); "início do turno".
 func _inicio_turno(d: int) -> void:
+	if d == 0 and acelerar_ia:
+		acelerar_ia = false
+		aplicar_tempo()
 	fe_max[d] = mini(FE_TETO, fe_max[d] + 1)
 	fe[d] = fe_max[d]
 	if d == 1 and turno_n == 2:
@@ -1693,6 +1764,7 @@ func _reembaralhar(d: int) -> void:
 	efeitos.flash(Color("#7a5aa8"), 0.25)
 	efeitos.numero(_pos_placar(d) + Vector2(36, 2), "-%d" % CUSTO_REEMBARALHAR, Color("#ff5050"), 2)
 	efeitos.numero(Vector2(180, LINHA_Y + (40 if d == 0 else -40)), "REEMBARALHAR", Color("#e0c8ff"), 2)
+	tocar_som("embaralhar_2")
 	var cem := proj(CEMIT_JOG if d == 0 else CEMIT_OPON)
 	var dest := proj(DECK_JOG if d == 0 else DECK_OPON)
 	var deck := _deck_de(d)
@@ -1879,6 +1951,8 @@ func _por_em_campo(c: Carta, d: int, i: int) -> void:
 
 ## Selo dispara: sobe, vira para cima com clarão roxo e brilho, mostra o nome.
 func _revelar_selo(s: Carta) -> void:
+	if modo_partida:
+		hud.registrar(s.dono, s.id, "selo_revelado")
 	s.z_index = 760
 	Sessao.vibrar(30, 0.6)
 	efeitos.flash(Color("#7a5aa8"), 0.22)
@@ -2196,6 +2270,7 @@ func _soltar_da_mao_partida(c: Carta, p: Vector2) -> void:
 ## oponente → (se não anulada) Despertar. `i` < 0 ou ocupado: primeiro espaço livre.
 func _jogar_entidade(c: Carta, d: int, i: int, sacrificios: Array = []) -> void:
 	_conta(d, "entidades")
+	hud.registrar(d, c.id, "entidade")
 	_pagar(d, c.custo)
 	_mao_de(d).erase(c)
 	_rearrumar_de(d)
@@ -2211,7 +2286,9 @@ func _jogar_entidade(c: Carta, d: int, i: int, sacrificios: Array = []) -> void:
 		c.queue_free()
 		return
 	await _por_em_campo(c, d, i)
-	if d == 1:
+	if c.lendaria and not acabou:                  # Lendária: entrada especial (raios, carta grande, faixa)
+		await _entrada_lendaria(c)
+	elif d == 1:
 		await _vitrine(c, 1.0, Color("#ff9a8a"))
 	if c.tem("impeto"):
 		efeitos.numero(c.position + Vector2(0, -34), "ÍMPETO", Color("#ffe39a"), 1)
@@ -2236,6 +2313,7 @@ func _jogar_entidade(c: Carta, d: int, i: int, sacrificios: Array = []) -> void:
 
 func _jogar_selo(c: Carta, d: int, i: int) -> void:
 	_conta(d, "selos")
+	hud.registrar(d, c.id, "selo")
 	_pagar(d, c.custo)
 	_mao_de(d).erase(c)
 	_rearrumar_de(d)
@@ -2254,6 +2332,7 @@ func _jogar_selo(c: Carta, d: int, i: int) -> void:
 ## efeito (alvo já escolhido pelo arraste em `pre`) → cemitério.
 func _jogar_rito(c: Carta, d: int, pre = null, tipo_pre := "") -> void:
 	_conta(d, "ritos")
+	hud.registrar(d, c.id, "rito")
 	_pagar(d, c.custo)
 	_mao_de(d).erase(c)
 	_rearrumar_de(d)
@@ -2302,6 +2381,7 @@ func _jogar_rito(c: Carta, d: int, pre = null, tipo_pre := "") -> void:
 ## Relíquia: voa até a portadora, encolhe e vira a faixa dourada sob ela → Selos enemy_plays_reliquia → on_equip.
 func _jogar_reliquia(c: Carta, d: int, port: Carta) -> void:
 	_conta(d, "reliquias")
+	hud.registrar(d, c.id, "reliquia", port.id if port != null else "")
 	_pagar(d, c.custo)
 	_mao_de(d).erase(c)
 	_rearrumar_de(d)
@@ -2772,3 +2852,233 @@ func _jogar_selo_roteiro(c: Carta, d: int, i: int) -> void:
 	var dest := pos_selo(d, i)
 	await _arco(c, dest + Vector2(0, -24), 0.35, 20, 0.0, esc_em(dest) * 1.25).finished
 	await _cair(c, dest, false)
+
+
+# ================= menu, tempo, regras, mulligan, resumo, lendárias (HUD em mesa_hud.gd) =================
+const MULLIGAN_MAX := 2                       # regras.md: pode trocar até 2 cartas da mão inicial, uma vez
+
+
+func vibrar(ms: int, forca: float = 0.5) -> void:
+	Sessao.vibrar(ms, forca)
+
+
+## Velocidade da mesa = teste × opção "animações rápidas" (1,5×) × botão RÁPIDO no turno do oponente (2,5×); pausa = 0.
+func aplicar_tempo() -> void:
+	var v := _vel_teste * Sessao.velocidade_mesa()
+	if acelerar_ia and ativo == 1:
+		v *= 2.5
+	Engine.time_scale = 0.0 if pausado else v
+
+
+func pausar(sim: bool) -> void:
+	pausado = sim
+	aplicar_tempo()
+
+
+func desistir() -> void:
+	if tut != null:                            # tutorial: sai direto para o menu
+		Engine.time_scale = 1.0
+		Sessao.modo = ""
+		Sessao.resultado = ""
+		get_tree().change_scene_to_file("res://fluxo.tscn")
+		return
+	_encerrar(1, Sessao.t("DESISTÊNCIA"))
+
+
+func tocar_som(nome: String) -> void:
+	var arq := "res://audio/sfx/%s.wav" % nome
+	if _som and ResourceLoader.exists(arq):
+		_som.stream = load(arq)
+		_som.play()
+
+
+## Prévia ao arrastar uma Entidade do campo: dano dos dois lados e caveira em quem morre (ou o motivo da recusa).
+func _atualizar_previa() -> void:
+	hud.previa = {}
+	if segurando == null or origem != "campo" or not segurando.virada_para_cima or ativo != 0:
+		return
+	var c := segurando
+	var i := _inimigo_sob(ponteiro)
+	if i >= 0:
+		var alvo: Carta = campo_ent[1][i]
+		var motivo := _pode_atacar(c, alvo)
+		if motivo != "":
+			hud.previa = {"motivo": motivo, "alvo": alvo}
+		else:
+			hud.previa = {"alvo": alvo, "da": c.atk, "dd": alvo.atk, "letal_alvo": alvo.vida() - c.atk <= 0,
+				"letal_atk": c.vida() - alvo.atk <= 0}
+	elif _campo_vazio(1) and ponteiro.y < LINHA_Y:
+		var motivo := _pode_atacar(c, null)
+		hud.previa = {"motivo": motivo, "alvo": null} if motivo != "" else {"direto": true, "da": c.atk}
+
+
+## Mulligan: depois da mão inicial, o jogador marca até 2 cartas; elas voltam ao deck, ele embaralha e compra o mesmo número.
+func _mulligan() -> void:
+	if Sessao.modo == "tutorial" or auto_jogador or OS.get_environment("GD_SEM_MULLIGAN") != "":
+		return
+	hud.mulligan = true
+	hud.marcadas.clear()
+	efeitos.t_escolha = 0.0
+	efeitos.faixa_alvo = {"titulo": Sessao.t("MÃO INICIAL"), "sub": Sessao.t("TOQUE ATÉ 2 CARTAS PARA TROCAR"), "y": LINHA_Y}
+	efeitos.escolha = [{"rect": Rect2(70, LINHA_Y + 20, 104, 16), "texto": Sessao.t("MANTER"), "valor": false},
+		{"rect": Rect2(186, LINHA_Y + 20, 104, 16), "texto": Sessao.t("TROCAR (%d)") % 0, "valor": true}]
+	if OS.get_environment("GD_MULLIGAN_AUTO") != "":           # teste: "0,2" marca essas cartas e troca
+		for k in OS.get_environment("GD_MULLIGAN_AUTO").split(","):
+			hud.marcadas.append(mao_jog[int(k)])
+		efeitos.escolha[1]["texto"] = Sessao.t("TROCAR (%d)") % hud.marcadas.size()
+		get_tree().create_timer(1.5).timeout.connect(func() -> void: escolhido.emit(true))
+	var v = await escolhido
+	var trocar: Array = hud.marcadas.duplicate() if v == true else []
+	hud.mulligan = false
+	hud.marcadas.clear()
+	efeitos.faixa_alvo = {}
+	efeitos.escolha.clear()
+	if trocar.is_empty():
+		return
+	ocupado = true
+	tocar_som("embaralhar_2")
+	var dest := proj(DECK_JOG)
+	var esc := ESC_CAMPO * escala_em(DECK_JOG.y)
+	for c in trocar:
+		mao_jog.erase(c)
+		(c as Carta).z_index = 600
+		(c as Carta).virar(0.2)
+		_arco(c, dest, 0.38, 30, 0.0, esc)
+		await get_tree().create_timer(0.12).timeout
+	_rearrumar_de(0)
+	await get_tree().create_timer(0.45).timeout
+	for c in trocar:
+		(c as Carta).empilhada = true
+		deck_jog.insert(0, c)
+	_embaralhar_deck(0)
+	efeitos.numero(proj(DECK_JOG) + Vector2(0, -40), Sessao.t("EMBARALHANDO"), Color("#e0c8ff"), 1)
+	await get_tree().create_timer(0.35).timeout
+	for k in trocar.size():
+		await _receber_comprada(0, deck_jog.pop_back(), false)
+	ocupado = false
+
+
+## Lendária entrando em campo: o HUD mostra a carta grande com raios (2 s); vibra e treme no impacto.
+func _entrada_lendaria(c: Carta) -> void:
+	hud.entrada_lendaria(c)
+	Sessao.vibrar_pulsos(2, 40, 0.8, 0.08)
+	await get_tree().create_timer(0.45).timeout
+	tremor = 6.0
+	efeitos.flash(Color("#ffe39a") if c.dono == 0 else Color("#ff9a6a"), 0.3)
+	efeitos.faiscas(c.position, 30, Color("#ffe39a"))
+	await get_tree().create_timer(1.55).timeout
+
+
+func abrir_regras() -> void:
+	perg.abrir(_blocos_regras())
+
+
+func _blocos_regras() -> Array:
+	if Sessao.idioma == "en":
+		return [["titulo", "Rules"],
+			["sub", "Goal"], ["txt", "Bring the enemy Cornucopia (15) down to 0. Summoning Choronzon wins on the spot."],
+			["sub", "Faith"], ["txt", "Your mana. Max Faith goes up by 1 every turn (up to 8) and refills. Every card costs Faith."],
+			["sub", "Turn"], ["txt", "Draw 1 card, then play cards and attack in any order. Hand limit is 7."],
+			["sub", "Card types"],
+			["item", "Entity: fights on the field (4 slots). Enters tired: attacks next turn."],
+			["item", "Seal: face down, fires on the enemy turn when its trigger happens. 1 per turn, 2 slots."],
+			["item", "Rite: instant effect, then goes to the graveyard."],
+			["item", "Relic: equips an allied Entity."],
+			["sub", "Combat"],
+			["txt", "Drag one of your Entities onto an enemy one. Both deal damage at the same time. Direct hits on the Cornucopia only when the enemy has no Entities."],
+			["sub", "Keywords"],
+			["item", "Haste: can attack the turn it enters."],
+			["item", "Guard: enemies must attack it first."],
+			["item", "Rebirth: when it dies, goes back to your hand (once)."],
+			["item", "Stealth: can't be targeted by enemy effects until it attacks."],
+			["item", "Awaken: effect when summoned from the hand."],
+			["item", "Last Breath: effect when it dies."],
+			["item", "Sacrifice N: sacrifice N allied Entities to summon it."],
+			["item", "Uses N: a Relic with N charges."],
+			["sub", "Empty deck"],
+			["txt", "With 6+ Cornucopia you may pay 5 to reshuffle the graveyard into the deck. Otherwise each missing card deals 2 damage."],
+			["sub", "Tips"],
+			["item", "Hold a card to read it."], ["item", "Tap a graveyard to see it."],
+			["item", "Left column: the last plays. Tap one to see the card."]]
+	return [["titulo", "Regras"],
+		["sub", "Objetivo"], ["txt", "Zere a Cornucópia inimiga (15). Invocar Choronzon vence na hora."],
+		["sub", "Fé"], ["txt", "É o seu recurso. A Fé máxima sobe 1 por turno (até 8) e se renova. Toda carta custa Fé."],
+		["sub", "Turno"], ["txt", "Compre 1 carta; depois jogue cartas e ataque na ordem que quiser. A mão tem limite de 7."],
+		["sub", "Tipos de carta"],
+		["item", "Entidade: luta no campo (4 espaços). Entra cansada: ataca no turno seguinte."],
+		["item", "Selo: fica virado e dispara no turno inimigo quando o gatilho acontece. 1 por turno, 2 espaços."],
+		["item", "Rito: efeito imediato; depois vai ao cemitério."],
+		["item", "Relíquia: equipa uma Entidade aliada."],
+		["sub", "Combate"],
+		["txt", "Arraste uma Entidade sua sobre uma inimiga. As duas causam dano ao mesmo tempo. Golpe direto na Cornucópia só quando o inimigo não tem Entidades."],
+		["sub", "Palavras-chave"],
+		["item", "Ímpeto: pode atacar no turno em que entra."],
+		["item", "Guarda: os inimigos precisam atacá-la primeiro."],
+		["item", "Renascer: ao morrer, volta para a sua mão (uma vez)."],
+		["item", "Furtivo: não pode ser alvo de efeitos inimigos até atacar."],
+		["item", "Despertar: efeito ao ser invocada da mão."],
+		["item", "Último Sopro: efeito ao morrer."],
+		["item", "Sacrifício N: sacrifique N Entidades aliadas para invocá-la."],
+		["item", "Usos N: Relíquia com N cargas."],
+		["sub", "Deck vazio"],
+		["txt", "Com 6 ou mais de Cornucópia, você pode pagar 5 para reembaralhar o cemitério no deck. Senão, cada carta que faltar causa 2 de dano."],
+		["sub", "Dicas"],
+		["item", "Segure uma carta para ler."], ["item", "Toque num cemitério para vê-lo."],
+		["item", "Coluna da esquerda: as últimas jogadas. Toque numa para ver a carta."]]
+
+
+## Resumo no fim da partida (pergaminho): resultado, turnos, cartas jogadas, dano, mortes e moedas do Arcade.
+func _resumo() -> void:
+	var en := Sessao.idioma == "en"
+	var p: Dictionary = Sessao.personagem(Sessao.oponente)
+	var titulo: Array = {0: ["Vitória", "Victory"], 1: ["Derrota", "Defeat"], 2: ["Empate", "Draw"]}.get(vencedor, ["Empate", "Draw"])
+	var jog := func(d: int) -> int:
+		return int(estat[d].get("entidades", 0)) + int(estat[d].get("selos", 0)) + int(estat[d].get("ritos", 0)) + int(estat[d].get("reliquias", 0))
+	var b: Array = [["titulo", titulo[1 if en else 0]]]
+	if p.has("nome"):
+		b.append(["centro", ("against %s" if en else "contra %s") % p["nome"]])
+	b.append(["divisor"])
+	b.append(["item", ("Turns: %d" if en else "Turnos: %d") % turno_n])
+	b.append(["item", ("Cards played: %d (opponent %d)" if en else "Cartas jogadas: %d (oponente %d)") % [jog.call(0), jog.call(1)]])
+	b.append(["item", ("Damage to the enemy Cornucopia: %d" if en else "Dano na Cornucópia inimiga: %d") % (15 - maxi(cornucopia[1], 0))])
+	b.append(["item", ("Damage taken: %d" if en else "Dano recebido: %d") % (15 - maxi(cornucopia[0], 0))])
+	b.append(["item", ("Enemy Entities destroyed: %d" if en else "Entidades inimigas destruídas: %d") % int(estat[1].get("mortes", 0))])
+	b.append(["item", ("Attacks: %d" if en else "Ataques: %d") % (int(estat[0].get("ataques", 0)) + int(estat[0].get("golpes_diretos", 0)))])
+	if Sessao.modo == "arcade" and vencedor == 0:
+		b.append(["espaco"])
+		b.append(["destaque", "+%d" % Sessao.MOEDAS_ARCADE, "moeda"])
+		b.append(["centro", "Arcade coins" if en else "moedas do Arcade"])
+	perg.abrir(b)
+	await perg.fechou
+
+
+func _passo_hud(pt: PackedStringArray) -> void:
+	match pt[1]:
+		"menu": hud.pressionar(hud.rect_menu().get_center())
+		"continuar": hud._acao_menu("continuar")
+		"desistir": hud._acao_menu("desistir")
+		"regras": hud._acao_menu("regras")
+		"fechar": perg.fechar()
+		"rolar": perg.rolagem = perg._limitar(float(pt[2]))
+		"emote": hud.emote_jogador(int(pt[2]))
+		"emotes": hud.pressionar(hud.rect_emote().get_center())
+		"hist": hud.hist_aberto = int(pt[2])
+		"tocar": hud.pressionar(Vector2(180, 600))
+		"lendaria":
+			var c := _carta_db(pt[2], 1, proj(DECK_OPON), 0.6)
+			c.virada_para_cima = true
+			await _por_em_campo(c, 1, _espaco_livre(campo_ent[1]))
+			hud.registrar(1, c.id, "entidade")
+			await _entrada_lendaria(c)
+		"previa":
+			var a := _carta_db(pt[2], 0, pos_ent(0, 0), esc_em(pos_ent(0, 0)))
+			a.virada_para_cima = true
+			await _por_em_campo(a, 0, 0)
+			var b := _carta_db(pt[3], 1, pos_ent(1, 1), esc_em(pos_ent(1, 1)))
+			b.virada_para_cima = true
+			await _por_em_campo(b, 1, 1)
+			a.cansada = false
+			segurando = a
+			origem = "campo"
+			origem_idx = 0
+			ponteiro = pos_ent(1, 1)

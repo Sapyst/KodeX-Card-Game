@@ -37,12 +37,19 @@ func _ready() -> void:
 	var cfg := ConfigFile.new()
 	if cfg.load(CONFIG) == OK:
 		idioma = str(cfg.get_value("geral", "idioma", ""))
+		vibracao = bool(cfg.get_value("geral", "vibracao", true))
+		animacao_rapida = bool(cfg.get_value("geral", "animacao_rapida", false))
 	if idioma == "":
 		idioma = "pt" if OS.get_locale_language() == "pt" else "en"     # 1ª vez: idioma do celular
 	if OS.get_environment("GD_IDIOMA") != "":
 		idioma = OS.get_environment("GD_IDIOMA")
 	carregar_dados()
 	carregar_perfil()
+	if OS.get_environment("GD_PRINTS") != "":            # teste: prints da viewport inteira em qualquer cena (s desde o início)
+		for k in OS.get_environment("GD_PRINTS").split(","):
+			var tt := float(k)
+			get_tree().create_timer(tt, true, false, true).timeout.connect(func() -> void:
+				get_viewport().get_texture().get_image().save_png(OS.get_environment("GD_PRINTS_DIR") + "/p_%05.2f.png" % tt))
 	if OS.get_environment("GD_TUTORIAL") != "":          # teste: abre a mesa direto no tutorial
 		preparar_tutorial()
 
@@ -68,6 +75,35 @@ func carregar_dados() -> void:
 			if en.has(cid):
 				db["cartas"][cid]["nome"] = en[cid]["nome"]
 				db["cartas"][cid]["texto"] = en[cid]["texto"]
+
+
+## Opções (user://config.cfg): vibração ligada/desligada e animações normais/rápidas (a mesa roda 1,5× mais rápido).
+var vibracao := true
+var animacao_rapida := false
+const VEL_RAPIDA := 1.5
+
+
+func _gravar_opcao(chave: String, v) -> void:
+	var cfg := ConfigFile.new()
+	cfg.load(CONFIG)
+	cfg.set_value("geral", chave, v)
+	cfg.save(CONFIG)
+
+
+func alternar_vibracao() -> void:
+	vibracao = not vibracao
+	_gravar_opcao("vibracao", vibracao)
+	if vibracao:
+		vibrar(40, 0.6)
+
+
+func alternar_animacao() -> void:
+	animacao_rapida = not animacao_rapida
+	_gravar_opcao("animacao_rapida", animacao_rapida)
+
+
+func velocidade_mesa() -> float:
+	return VEL_RAPIDA if animacao_rapida else 1.0
 
 
 func trocar_idioma() -> void:
@@ -148,7 +184,27 @@ func novo_torneio(_deck_escolhido := "") -> void:
 	campeoes.shuffle()
 	torneio_ordem = campeoes + ["alta_magia"]
 	torneio_idx = 0
+	salvar_torneio()
 	preparar_luta_torneio()
+
+
+func torneio_ativo() -> bool:
+	return not torneio_ordem.is_empty() and torneio_idx < torneio_ordem.size()
+
+
+## O Torneio da história fica no save: fechar o app no meio não volta para a luta 1.
+func salvar_torneio() -> void:
+	if torneio_ativo():
+		perfil["torneio"] = {"ordem": torneio_ordem, "idx": torneio_idx, "deck": deck_jogador_nome}
+	else:
+		perfil.erase("torneio")
+	salvar()
+
+
+func encerrar_torneio() -> void:
+	torneio_ordem = []
+	torneio_idx = 0
+	salvar_torneio()
 
 
 func preparar_luta_torneio() -> void:
@@ -198,7 +254,7 @@ var _sem_vibrar := OS.get_environment("GD_AUTO") != "" or OS.get_environment("GD
 
 ## Vibração curta (ms, força 0..1). Não vibra em teste automático (GD_AUTO) nem na demo (GD_DEMO).
 func vibrar(ms: int, forca: float = 0.5) -> void:
-	if _sem_vibrar:
+	if _sem_vibrar or not vibracao:
 		return
 	Input.vibrate_handheld(ms, clampf(forca, 0.0, 1.0))
 
@@ -285,6 +341,10 @@ func carregar_perfil() -> void:
 			d["rodadas"][r] = (d["rodadas"][r] as Array).map(func(v) -> int: return int(v))
 		d["rodada"] = int(d["rodada"])
 	perfil["deck_ativo"] = int(perfil["deck_ativo"])
+	if perfil.has("torneio"):
+		torneio_ordem = (perfil["torneio"]["ordem"] as Array).duplicate()
+		torneio_idx = int(perfil["torneio"]["idx"])
+		deck_jogador_nome = str(perfil["torneio"].get("deck", deck_jogador_nome))
 	if FileAccess.file_exists(SAVE_ANTIGO):
 		salvar()
 		DirAccess.remove_absolute(SAVE_ANTIGO)

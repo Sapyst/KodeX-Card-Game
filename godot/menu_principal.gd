@@ -25,7 +25,7 @@ func _init(menu) -> void:
 func modos() -> Array:
 	var torneio_sub := Sessao.t("6 campeões, 1 Códice")
 	var adv := "alta_magia"
-	if Sessao.modo == "torneio" and not Sessao.torneio_ordem.is_empty():
+	if Sessao.torneio_ativo():
 		torneio_sub = Sessao.t("Luta %d de 6") % (Sessao.torneio_idx + 1)
 		adv = Sessao.torneio_ordem[mini(Sessao.torneio_idx, 5)]
 	return [

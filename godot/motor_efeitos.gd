@@ -516,6 +516,7 @@ func morrer(c: Carta, renascer := true) -> void:
 	if not c.em_campo:
 		return
 	var controlador := c.dono
+	m._conta(controlador, "mortes")
 	var silenciada := c.silenciada
 	var efs: Array = c.efeitos.duplicate()
 	var rel: Dictionary = c.reliquia

@@ -170,7 +170,8 @@ func botoes_pere() -> void:
 		f._botao(Rect2(x, 330, w, 92), "", seguir.bind(cams[k]), {"caminho": cams[k], "desenho": botao_caminho})
 	f._botao(Rect2(60, 520, 110, 26), "Ver deck", ver_deck)
 	f._botao(Rect2(190, 520, 110, 26), "Abandonar", func() -> void:
-		Sessao.perfil.erase("pere"); Sessao.salvar(); f._ir("solo"))
+		f.confirmar(Sessao.t("Abandonar a Peregrinação?"), Sessao.t("o progresso atual se perde"), func() -> void:
+			Sessao.perfil.erase("pere"); Sessao.salvar(); f._ir("solo")))
 	f._botao(Rect2(110, 560, 140, 26), "Voltar", func() -> void: f._ir("solo"))
 
 
@@ -312,7 +313,7 @@ func botoes_premio() -> void:
 			f._botao(Rect2(30, 150 + k * 80, 300, 66), "", escolher_bencao.bind(opcoes[k]), {"bencao": opcoes[k], "desenho": botao_bencao})
 		return
 	for k in opcoes.size():
-		f._botao(Rect2(14 + k * 112, 140, 108, 236), "", escolher_carta.bind(k), {"premio": k, "desenho": botao_premio})
+		f._botao(Rect2(14 + k * 112, 140, 108, 236), "", escolher_carta.bind(k), {"premio": k, "carta_id": opcoes[k]["id"], "desenho": botao_premio})
 	f._botao(Rect2(110, 420, 140, 26), "Pular", escolher_carta.bind(-1))
 
 
@@ -487,7 +488,7 @@ func lendarias() -> Array:
 func botoes_lendarios() -> void:
 	var l := lendarias()
 	for k in l.size():
-		f._botao(Rect2(16 + (k % 4) * 84, 92 + (k / 4) * 132, 76, 124), "", jogar_lendario.bind(l[k]), {"lend": l[k], "desenho": botao_lendario})
+		f._botao(Rect2(16 + (k % 4) * 84, 92 + (k / 4) * 132, 76, 124), "", jogar_lendario.bind(l[k]), {"lend": l[k], "carta_id": l[k], "desenho": botao_lendario})
 	f._botao(Rect2(110, 92 + 3 * 132 + 8, 140, 26), "Voltar", func() -> void: f._ir("solo"))
 
 

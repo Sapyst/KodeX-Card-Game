@@ -248,8 +248,35 @@ func _desenhar_zoom() -> void:
 		# carta inteira no frame do mapa (300×420), centrada; fundo escurecido atrás
 		draw_rect(Rect2(-400, -400, 1200, 1500), Color(0.04, 0.02, 0.06, 0.55))
 		var r := Rect2(30, 110, 300, 420)
+		if Sessao.texto_grande:                          # acessibilidade: carta menor + texto dela em 2× embaixo
+			r = Rect2(95, 20, 170, 238)
 		draw_rect(r.grow(2), Color("#140c10"))
 		draw_texture_rect(tex, r, false)
+		if Sessao.texto_grande:
+			var linhas := Fonte57.quebrar(c.texto, 316, 2)
+			var kw := ""
+			for k in c.keywords:
+				kw += Sessao.t({"guarda": "GUARDA", "impeto": "ÍMPETO", "furtivo": "FURTIVO", "renascer": "RENASCER"}.get(k, "")) + " "
+			var info := "%s  %s %d" % [Sessao.t({"entidade": "ENTIDADE", "selo": "SELO", "rito": "RITO", "reliquia": "RELÍQUIA"}.get(c.tipo, "")), Sessao.t("CUSTO"), c.custo]
+			if c.tipo == "entidade":
+				info += "  ATK %d  DEF %d" % [c.atk, maxi(c.vida(), 0)]
+			var h := 16 + 22 + (14 if kw != "" else 0) + linhas.size() * 22 + 10
+			var p := Rect2(12, r.end.y + 10, 336, h)
+			draw_rect(p.grow(2), Color("#140c10"))
+			draw_rect(p, Color("#24161f"))
+			draw_rect(Rect2(p.position, Vector2(p.size.x, 1)), Color("#e2b85a"))
+			var y := p.position.y + 8
+			PixelFonte.desenhar(self, Vector2(22, y), c.nome, Color("#ffe39a"), 2)
+			y += 16
+			PixelFonte.desenhar(self, Vector2(22, y), info, Color("#cfe0ff"), 2)
+			y += 18
+			if kw != "":
+				PixelFonte.desenhar(self, Vector2(22, y), kw.strip_edges(), Color("#ffd9a0"), 2)
+				y += 14
+			for ln in linhas:
+				Fonte57.desenhar(self, Vector2(22, y), ln, Color("#f2e6c8"), Color("#140c10"), 2)
+				y += 22
+			return
 		if c.tipo == "entidade" and c.dano > 0:
 			var s := "VIDA ATUAL %d" % maxi(c.vida(), 0)
 			var w := PixelFonte.largura(s, 2) + 12

@@ -50,6 +50,8 @@ func _ready() -> void:
 	if cfg.load(CONFIG) == OK:
 		idioma = str(cfg.get_value("geral", "idioma", ""))
 		vibracao = bool(cfg.get_value("geral", "vibracao", true))
+		texto_grande = bool(cfg.get_value("geral", "texto_grande", false))
+		daltonico = bool(cfg.get_value("geral", "daltonico", false))
 		animacao_rapida = bool(cfg.get_value("geral", "animacao_rapida", false))
 	if idioma == "":
 		idioma = "pt" if OS.get_locale_language() == "pt" else "en"     # 1ª vez: idioma do celular
@@ -62,6 +64,9 @@ func _ready() -> void:
 			var tt := float(k)
 			get_tree().create_timer(tt, true, false, true).timeout.connect(func() -> void:
 				get_viewport().get_texture().get_image().save_png(OS.get_environment("GD_PRINTS_DIR") + "/p_%05.2f.png" % tt))
+	if OS.get_environment("GD_ACESS") != "":             # teste: "texto,dalt"
+		texto_grande = OS.get_environment("GD_ACESS").contains("texto")
+		daltonico = OS.get_environment("GD_ACESS").contains("dalt")
 	if OS.get_environment("GD_VERSO") != "":             # teste: equipa um verso e dá Koins
 		perfil["versos"] = [OS.get_environment("GD_VERSO"), "codice"]
 		perfil["verso"] = OS.get_environment("GD_VERSO")
@@ -109,6 +114,8 @@ func carregar_dados() -> void:
 ## Opções (user://config.cfg): vibração ligada/desligada e animações normais/rápidas (a mesa roda 1,5× mais rápido).
 var vibracao := true
 var animacao_rapida := false
+var texto_grande := false              # acessibilidade: textos longos em 2× (Fonte57.grande)
+var daltonico := false                 # acessibilidade: cores de destaque trocadas por pares azul/laranja + ícones
 const VEL_RAPIDA := 1.5
 
 
@@ -124,6 +131,16 @@ func alternar_vibracao() -> void:
 	_gravar_opcao("vibracao", vibracao)
 	if vibracao:
 		vibrar(40, 0.6)
+
+
+func alternar_texto() -> void:
+	texto_grande = not texto_grande
+	_gravar_opcao("texto_grande", texto_grande)
+
+
+func alternar_daltonico() -> void:
+	daltonico = not daltonico
+	_gravar_opcao("daltonico", daltonico)
 
 
 func alternar_animacao() -> void:

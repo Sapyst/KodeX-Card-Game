@@ -253,13 +253,18 @@ func _linhas_lore() -> Array:
 	var en := Sessao.idioma == "en"
 	var out: Array = []                     # [tipo, texto]
 	out.append(["titulo", str(e.get("titulo_en" if en else "titulo_pt", ""))])
-	for ln in Fonte57.quebrar(str(e.get("lore_en" if en else "lore_pt", "")), 318):
+	var eg := Fonte57.grande()
+	if eg > 1 and Sessao.db["cartas"].has(carta):         # texto grande: o texto da carta antes da lore
+		for ln in Fonte57.quebrar(str(Sessao.db["cartas"][carta].get("texto", "")), 318, eg):
+			out.append(["carta", ln])
+		out.append(["espaco", ""])
+	for ln in Fonte57.quebrar(str(e.get("lore_en" if en else "lore_pt", "")), 318, eg):
 		out.append(["texto", ln])
 	var cur := str(e.get("curiosidade_en" if en else "curiosidade_pt", ""))
 	if cur != "":
 		out.append(["espaco", ""])
 		out.append(["cur_titulo", Sessao.t("CURIOSIDADE")])
-		for ln in Fonte57.quebrar(cur, 300):
+		for ln in Fonte57.quebrar(cur, 300, eg):
 			out.append(["cur", ln])
 	if carta in Sessao.arte_revisao:
 		out.append(["espaco", ""])
@@ -268,7 +273,7 @@ func _linhas_lore() -> Array:
 
 
 func _altura_lore() -> float:
-	return 200.0 + 30 + _linhas_lore().size() * 11 + 20
+	return 200.0 + 30 + _linhas_lore().size() * 11 * Fonte57.grande() + 20
 
 
 func limitar_lore(alvo: float) -> float:
@@ -314,14 +319,16 @@ func desenhar_lore(ci: CanvasItem) -> void:
 					var w := Fonte57.largura(s)
 					Fonte57.desenhar(ci, Vector2(180 - w / 2.0, y), s, f.OURO[1], f.ESCURO)
 				"texto":
-					Fonte57.desenhar(ci, Vector2(21, y), s, f.CREME, f.ESCURO)
+					Fonte57.desenhar(ci, Vector2(21, y), s, f.CREME, f.ESCURO, Fonte57.grande())
+				"carta":
+					Fonte57.desenhar(ci, Vector2(21, y), s, Color("#ffe9b8"), f.ESCURO, Fonte57.grande())
 				"cur_titulo":
 					ci.draw_rect(Rect2(16, y - 3, 328, 1), Color(0.89, 0.72, 0.35, 0.6))
 					PixelFonte.desenhar(ci, Vector2(21, y + 2), s, f.OURO[0])
 				"cur":
-					ci.draw_rect(Rect2(16, y - 2, 3, 11), Color(0.89, 0.72, 0.35, 0.8))
-					Fonte57.desenhar(ci, Vector2(28, y), s, Color("#ffe9b8"), f.ESCURO)
+					ci.draw_rect(Rect2(16, y - 2, 3, 11 * Fonte57.grande()), Color(0.89, 0.72, 0.35, 0.8))
+					Fonte57.desenhar(ci, Vector2(28, y), s, Color("#ffe9b8"), f.ESCURO, Fonte57.grande())
 				"revisao":
 					Fonte57.desenhar(ci, Vector2(21, y), s, Color("#ff9a8a"), f.ESCURO)
-		y += 11 if tipo != "titulo" else 14
+		y += 11 * Fonte57.grande() if tipo in ["texto", "carta", "cur"] else (11 if tipo != "titulo" else 14)
 	_barra_rolagem(ci, rolagem_lore, _altura_lore(), y0, BASE)

@@ -3114,6 +3114,7 @@ func _passo_hud(pt: PackedStringArray) -> void:
 		"emotes": hud.pressionar(hud.rect_emote().get_center())
 		"hist": hud.hist_aberto = int(pt[2])
 		"tocar": hud.pressionar(Vector2(180, 600))
+		"zoom": efeitos.zoom = campo_ent[0][0] if campo_ent[0][0] != null else mao_jog[0]
 		"atacar": await _atacar(campo_ent[0][int(pt[2])], campo_ent[1][int(pt[3])])
 		"golpe": await _golpe_direto(campo_ent[0][int(pt[2])], 1)
 		"fim": fim_turno_pedido.emit()

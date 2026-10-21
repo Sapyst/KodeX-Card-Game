@@ -112,11 +112,22 @@ func _draw() -> void:
 	if destaque > 0:
 		var tt := Time.get_ticks_msec() / 1000.0
 		var pulso := 0.55 + 0.45 * sin(tt * TAU / 1.1)
-		var cor := Color(1.0, 0.85, 0.4) if destaque == 1 else Color(1.0, 0.5, 0.2)
+		# modo daltônico: "pronta para atacar" vira azul-ciano (dourado × laranja se confundem) e os dois ganham ícone
+		var cor := Color(1.0, 0.85, 0.4) if destaque == 1 else (Color(0.3, 0.78, 1.0) if Sessao.daltonico else Color(1.0, 0.5, 0.2))
 		var r := Rect2(x0, y0, LARG, ALT + ESPESSURA)
 		draw_rect(r.grow(1), Color(cor.lightened(0.3), 0.6 + 0.4 * pulso), false, 2.0)
 		draw_rect(r.grow(3), Color(cor, 0.55 * pulso), false, 2.0)
 		draw_rect(r.grow(5), Color(cor, 0.25 * pulso), false, 2.0)
+		if Sessao.daltonico:
+			var ic := Vector2(x0 + LARG - 7, y0 - 6)
+			draw_circle(ic, 6.0, Color("#140c10"))
+			draw_circle(ic, 5.0, cor)
+			if destaque == 1:                       # seta para cima: dá para jogar
+				draw_colored_polygon(PackedVector2Array([ic + Vector2(0, -3), ic + Vector2(3, 1), ic + Vector2(-3, 1)]), Color("#140c10"))
+				draw_rect(Rect2(ic + Vector2(-1, 1), Vector2(2, 2)), Color("#140c10"))
+			else:                                   # espada: pode atacar
+				draw_line(ic + Vector2(-3, 3), ic + Vector2(3, -3), Color("#140c10"), 1.5)
+				draw_line(ic + Vector2(-3, -1), ic + Vector2(-1, 1), Color("#140c10"), 1.0)
 	var dormindo := cansada and not tem("impeto")
 	if virada_para_cima and (dormindo or atacou):
 		draw_rect(Rect2(x0, y0, LARG, ALT), Color(0.05, 0.03, 0.1, 0.35))

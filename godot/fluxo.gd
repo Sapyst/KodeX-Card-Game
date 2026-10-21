@@ -265,6 +265,10 @@ func _ready() -> void:
 			"capitulo": _capitulo(3, "indigena", func() -> void: _ir("titulo"))
 			"cosmetico":
 				cos_sel = st[1]; _ir("cosmetico")
+			"confirma":
+				_ir("loja"); confirmar(Sessao.t("Comprar 1 booster?"), Sessao.t("por %d de ouro") % Sessao.BOOSTER_PRECO, func() -> void: pass)
+			"fala":
+				_falar([{"quem": "Moema Arani", "texto": "A mata responde a quem pisa com respeito. Você pisou como quem tem pressa. Volte quando souber ouvir o rio.", "cor": Color("#3f8f3a"), "retrato": "indigena"}], func() -> void: pass)
 			"colecao_f":
 				col.posse = "tenho"; col.tipo = "entidade"; col.abrir_aba("alta_magia"); _ir("colecao")
 			"busca":
@@ -327,6 +331,11 @@ func _process(delta: float) -> void:
 	barra.position = pos_base + Vector2(0, y_barra())
 	Colecao.BASE = minf(594.0 + extra() * 2.0, y_barra() - 6.0)
 	barra.queue_redraw()
+	if apertado >= 0 and apertado < botoes.size() and botoes[apertado].has("carta_id") and Time.get_ticks_msec() - _aperto_t > 450:
+		var bl: Dictionary = botoes[apertado]
+		apertado = -1
+		vibrar(16, 0.5)
+		visor.abrir(str(bl["carta_id"]), bl["rect"])
 	if estado == "chave":
 		ta.atualizar(delta)
 	if estado == "colecao":
@@ -359,12 +368,16 @@ func _ir(novo: String) -> void:
 				get_tree().create_timer(0.5).timeout.connect(_avisos_titulo)
 		"opcoes":
 			_botao(Rect2(110, 150, 140, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("opcoes"), {"idioma": true})
-			_botao(Rect2(90, 196, 180, 26), "Vibração: ligada" if Sessao.vibracao else "Vibração: desligada",
+			_botao(Rect2(90, 190, 180, 26), "Vibração: ligada" if Sessao.vibracao else "Vibração: desligada",
 				func() -> void: Sessao.alternar_vibracao(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 230, 180, 26), "Animações: rápidas" if Sessao.animacao_rapida else "Animações: normais",
+			_botao(Rect2(90, 222, 180, 26), "Animações: rápidas" if Sessao.animacao_rapida else "Animações: normais",
 				func() -> void: Sessao.alternar_animacao(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 280, 180, 26), "Novidades", abrir_novidades.bind(true))
-			_botao(Rect2(90, 314, 180, 26), "Privacidade", abrir_privacidade)
+			_botao(Rect2(90, 254, 180, 26), "Texto: grande" if Sessao.texto_grande else "Texto: normal",
+				func() -> void: Sessao.alternar_texto(); _ir("opcoes"); transicao = 0.0)
+			_botao(Rect2(90, 286, 180, 26), "Modo daltônico: ligado" if Sessao.daltonico else "Modo daltônico: desligado",
+				func() -> void: Sessao.alternar_daltonico(); _ir("opcoes"); transicao = 0.0)
+			_botao(Rect2(90, 334, 180, 26), "Novidades", abrir_novidades.bind(true))
+			_botao(Rect2(90, 366, 180, 26), "Privacidade", abrir_privacidade)
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
@@ -404,7 +417,8 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(110, 524, 140, 24), "Cancelar", func() -> void: _ir("perfil"))
 		"loja":
 			_abas_loja("boosters")
-			_botao(Rect2(90, 404, 180, 30), "Comprar booster", bo.comprar)
+			_botao(Rect2(90, 404, 180, 30), "Comprar booster", func() -> void:
+				confirmar(Sessao.t("Comprar 1 booster?"), Sessao.t("por %d de ouro") % Sessao.BOOSTER_PRECO, bo.comprar))
 			_botao(Rect2(70, 440, 220, 22), "", func() -> void:
 				var ops := [""] + Sessao.DECKS
 				Sessao.perfil["pacote"] = ops[(ops.find(str(Sessao.perfil.get("pacote", ""))) + 1) % ops.size()]
@@ -421,10 +435,12 @@ func _ir(novo: String) -> void:
 			var it2 := Cosmeticos.item(cos_sel)
 			if not Sessao.tem_verso(cos_sel):
 				_botao(Rect2(90, 470, 180, 30), "", func() -> void:
-					if Sessao.comprar_verso(cos_sel):
-						vibrar(30, 0.7); Sessao.vibrar_pulsos(2, 30, 0.6); _ir("cosmetico")
-					else:
-						mp.avisar(Sessao.t("Koins insuficientes.")); vibrar(30, 0.6), {"comprar_verso": int(it2["preco"]), "desenho": _botao_comprar_verso})
+					if Sessao.koins() < int(it2["preco"]):
+						mp.avisar(Sessao.t("Koins insuficientes.")); vibrar(30, 0.6); return
+					confirmar(Sessao.t("Comprar %s?") % Cosmeticos.nome(cos_sel), Sessao.t("por %d Koins") % int(it2["preco"]), func() -> void:
+						if Sessao.comprar_verso(cos_sel):
+							vibrar(30, 0.7); Sessao.vibrar_pulsos(2, 30, 0.6); _ir("cosmetico")),
+					{"comprar_verso": int(it2["preco"]), "desenho": _botao_comprar_verso})
 			elif Sessao.verso_equipado() != cos_sel:
 				_botao(Rect2(90, 470, 180, 30), "Equipar", func() -> void: Sessao.equipar_verso(cos_sel); vibrar(18, 0.5); _ir("cosmetico"))
 			_botao(Rect2(110, 512, 140, 26), "Voltar", func() -> void: _ir("cosmeticos"))
@@ -434,9 +450,20 @@ func _ir(novo: String) -> void:
 					if not bo.cartas[k]["nova"]:
 						_botao(Rect2(Booster.X_CARTAS[k] - 42, Booster.Y_CARTAS + Booster.CH / 2 + 24, 84, 22), "", bo.alternar_troca.bind(k),
 							{"carta": k, "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: bo.botao_troca(b, r, pr)})
-				_botao(Rect2(90, 536, 180, 30), "Concluir", bo.concluir)
+				_botao(Rect2(90, 536, 180, 30), "Concluir", func() -> void:
+					var n := 0
+					var ganho := 0
+					for c in bo.cartas:
+						if c["trocar"] and not c["nova"]:
+							n += 1
+							ganho += Sessao.valor_troca(c["id"], c["foil"])
+					if n == 0:
+						bo.concluir()
+					else:
+						confirmar(Sessao.t("Trocar %d repetidas?") % n, Sessao.t("+%d moedas") % ganho, bo.concluir))
 				if Sessao.moedas() >= Sessao.BOOSTER_PRECO:
-					_botao(Rect2(110, 574, 140, 26), "Abrir outro", func() -> void: bo.concluir(); bo.comprar())
+					_botao(Rect2(110, 574, 140, 26), "Abrir outro", func() -> void:
+						confirmar(Sessao.t("Comprar 1 booster?"), Sessao.t("por %d de ouro") % Sessao.BOOSTER_PRECO, func() -> void: bo.concluir(); bo.comprar()))
 		"decks":
 			for i in Sessao.perfil["decks"].size():
 				_botao(Rect2(30, 92 + i * 46, 300, 40), "", mp.abrir_deck.bind(i), {"deck_idx": i, "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mp.botao_deck(b, r, pr)})
@@ -454,7 +481,8 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(16, 538, 106, 26), "Completar", mp.completar)
 			_botao(Rect2(127, 538, 106, 26), "Código", mp.copiar_codigo)
 			_botao(Rect2(16, 570, 150, 26), "Usar este deck", mp.usar_deck)
-			_botao(Rect2(172, 570, 80, 26), "Excluir", mp.excluir_deck)
+			_botao(Rect2(172, 570, 80, 26), "Excluir", func() -> void:
+				confirmar(Sessao.t("Excluir este deck?"), str(Sessao.perfil["decks"][mp.deck_idx]["nome"]), mp.excluir_deck))
 			_botao(Rect2(258, 570, 86, 26), "Voltar", func() -> void: _ir("decks"))
 		"sugerir":
 			for i in 6:
@@ -634,6 +662,38 @@ func _botao_redondo(_b: Dictionary, r: Rect2, pressao: float, qual: String) -> v
 
 
 var cos_sel := "classico"
+var confirma := {}                        # {titulo, sub, sim}: "tem certeza?" antes de ações caras
+
+
+func confirmar(titulo: String, sub: String, sim: Callable) -> void:
+	confirma = {"titulo": titulo, "sub": sub, "sim": sim}
+	apertado = -1
+	vibrar(10, 0.3)
+
+
+func _rect_confirma() -> Rect2:
+	return Rect2(40, 250 + extra(), 280, 108)
+
+
+func _rects_confirma() -> Array:
+	var r := _rect_confirma()
+	return [Rect2(r.position.x + 20, r.end.y - 38, 110, 26), Rect2(r.end.x - 130, r.end.y - 38, 110, 26)]
+
+
+func _desenhar_confirma() -> void:
+	draw_rect(Rect2(-position, get_viewport_rect().size), Color(0.02, 0.01, 0.03, 0.7))
+	var r := _rect_confirma()
+	var dd := _painel(r, true, 0.0, Color("#1e161e"))
+	var eg := Fonte57.grande()
+	var t: String = confirma["titulo"]
+	Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(t, eg) / 2.0), dd.position.y + 10), t, OURO[0], ESCURO, eg)
+	var s: String = confirma["sub"]
+	Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(s) / 2.0), dd.position.y + 14 + 9 * eg), s, Color(0.85, 0.78, 0.66), ESCURO)
+	var bs := _rects_confirma()
+	var b0 := _painel(bs[0], true, 0.0, Color("#3a2410"))
+	_texto_central(b0.get_center() + Vector2(0, 1), Sessao.t("Sim"), OURO[0])
+	var b1 := _painel(bs[1], false, 0.0)
+	_texto_central(b1.get_center() + Vector2(0, 1), Sessao.t("Não"), CREME)
 
 
 func _abas_loja(atual: String) -> void:
@@ -724,6 +784,24 @@ func _botao_pacote(_b: Dictionary, r: Rect2, pressao: float) -> void:
 	var s := Sessao.t("Pacote") + ": " + (Sessao.t("todas as tradições") if trad == "" else Sessao.nome_deck(trad))
 	Fonte57.desenhar(self, Vector2(roundf(dd.get_center().x - Fonte57.largura(s) / 2.0), dd.position.y + 4), s, OURO[0], ESCURO)
 	Fonte57.desenhar(self, Vector2(dd.end.x - 10, dd.position.y + 4), ">", OURO[1])
+
+
+## Confirmação por 2 toques nos botões do visor: o 1º troca o texto para "TOQUE DE NOVO", o 2º (até 3 s) executa.
+func _dois_toques(b: Dictionary, acao: Callable) -> void:
+	var agora := Time.get_ticks_msec()
+	if b.get("armado", 0) > 0 and agora - int(b["armado"]) < 3000:
+		b["armado"] = 0
+		b["texto"] = b.get("texto_orig", b["texto"])
+		acao.call()
+		return
+	b["texto_orig"] = b.get("texto_orig", b["texto"])
+	b["texto"] = Sessao.t("TOQUE DE NOVO")
+	b["armado"] = agora
+	vibrar(10, 0.3)
+	get_tree().create_timer(3.0).timeout.connect(func() -> void:
+		if int(b.get("armado", 0)) == agora:
+			b["armado"] = 0
+			b["texto"] = b["texto_orig"])
 
 
 func _botao_filtro(b: Dictionary, r: Rect2, pressao: float) -> void:
@@ -886,7 +964,9 @@ func _botoes_derrota() -> void:
 	botoes.clear()
 	_botao(Rect2(90, 380, 180, 30), "Tentar de novo", func() -> void: Sessao.preparar_luta_torneio(); _jogar())
 	_botao(Rect2(90, 422, 180, 30), "Menu", func() -> void: Sessao.modo = ""; _ir("titulo"))
-	_botao(Rect2(90, 464, 180, 26), "Recomeçar torneio", func() -> void: Sessao.encerrar_torneio(); Sessao.modo = ""; _torneio())
+	_botao(Rect2(90, 464, 180, 26), "Recomeçar torneio", func() -> void:
+		confirmar(Sessao.t("Recomeçar o Torneio?"), Sessao.t("o progresso atual se perde"), func() -> void:
+			Sessao.encerrar_torneio(); Sessao.modo = ""; _torneio()))
 
 
 func _comecar_arcade() -> void:
@@ -989,7 +1069,7 @@ func _unhandled_input(ev: InputEvent) -> void:
 		elif ev is InputEventScreenDrag or ev is InputEventMouseMotion:
 			visor.mover(pv)
 		return
-	if _entrada_barra(ev):
+	if confirma.is_empty() and _entrada_barra(ev):
 		return
 	if estado == "titulo" and _entrada_leque(ev):
 		return
@@ -1031,6 +1111,16 @@ func _unhandled_input(ev: InputEvent) -> void:
 
 ## Dedo encostou: botão afunda 1 px, escurece e vibra 10 ms.
 func apertar(p: Vector2) -> void:
+	if not confirma.is_empty():                      # janela de confirmação por cima de tudo
+		var cb: Callable = confirma["sim"]
+		if _rects_confirma()[0].has_point(p):
+			confirma = {}
+			vibrar(18, 0.6)
+			cb.call()
+		elif _rects_confirma()[1].has_point(p) or not _rect_confirma().has_point(p):
+			confirma = {}
+			vibrar(10, 0.3)
+		return
 	if transicao > 0.5:
 		return
 	if estado == "falas":
@@ -1042,6 +1132,7 @@ func apertar(p: Vector2) -> void:
 	for i in botoes.size():
 		if (botoes[i]["rect"] as Rect2).has_point(p):
 			apertado = i
+			_aperto_t = Time.get_ticks_msec()
 			vibrar(10, 0.35)
 			if botoes[i].has("web_upload"):
 				mp.armar_upload_web()             # web/iPhone: o seletor abre quando o dedo sai, dentro do gesto
@@ -1052,6 +1143,7 @@ func apertar(p: Vector2) -> void:
 
 ## Dedo saiu: se ainda estava em cima do mesmo botão, dispara (com 70 ms para o “afundar” aparecer).
 var _soltando := {}                    # botão que acabou de ser solto (continua desenhado afundado por 70 ms)
+var _aperto_t := 0                     # toque longo (0,45 s) num botão com "carta_id" abre o visor em vez de disparar
 
 
 func soltar_toque(p: Vector2) -> void:
@@ -1107,14 +1199,16 @@ func _toque_colecao(p: Vector2, pressed: bool) -> void:
 			var bts: Array = []
 			if Sessao.db["cartas"].has(cid) and Sessao.db["cartas"][cid]["cultura"] != "abismo":
 				var ganho: int = Sessao.ESSENCIA_DESFAZ[Sessao.raridade(cid, false)]
-				bts = [
-					{"texto": Sessao.t("DESFAZER +%d") % ganho, "acao": func() -> void:
-						var g := Sessao.desfazer_carta(cid)
-						if g > 0:
-							vibrar(14, 0.4), "ativo": func() -> bool: return Sessao.pode_desfazer(cid)},
-					{"texto": Sessao.t("CRIAR -%d") % Sessao.custo_criar(cid), "acao": func() -> void:
-						if Sessao.criar_carta(cid):
-							vibrar(20, 0.6), "ativo": func() -> bool: return Sessao.pode_criar(cid)}]
+				# custam Essência: o 1º toque arma ("TOQUE DE NOVO"), o 2º em até 3 s confirma
+				var b_des := {"texto": Sessao.t("DESFAZER +%d") % ganho, "ativo": func() -> bool: return Sessao.pode_desfazer(cid)}
+				b_des["acao"] = _dois_toques.bind(b_des, func() -> void:
+					if Sessao.desfazer_carta(cid) > 0:
+						vibrar(14, 0.4))
+				var b_cri := {"texto": Sessao.t("CRIAR -%d") % Sessao.custo_criar(cid), "ativo": func() -> bool: return Sessao.pode_criar(cid)}
+				b_cri["acao"] = _dois_toques.bind(b_cri, func() -> void:
+					if Sessao.criar_carta(cid):
+						vibrar(20, 0.6))
+				bts = [b_des, b_cri]
 			visor.abrir(cid, col._rect_carta(k).intersection(Rect2(0, Colecao.TOPO, 360, Colecao.BASE - Colecao.TOPO)), bts,
 				func() -> String: return Sessao.t("TENHO %d  -  ESSÊNCIA %d") % [Sessao.copias(cid), Sessao.essencia()])
 
@@ -1347,6 +1441,8 @@ func _draw() -> void:
 		_desenhar_botao(botoes[i], i)
 	if estado == "falas" and not falas.is_empty():
 		_desenhar_fala(falas[0])
+	if not confirma.is_empty():
+		_desenhar_confirma()
 	if transicao > 0.0:
 		draw_rect(Rect2(-position, get_viewport_rect().size), Color(0.03, 0.02, 0.05, transicao))
 
@@ -1541,10 +1637,14 @@ func _desenhar_fala(f: Dictionary) -> void:
 			var h := 300.0
 			var w := h * tex.get_width() / tex.get_height()
 			var resp := sin(tempo * 1.8) * 1.5
-			var pos := Vector2(180 - w / 2.0 + (1.0 - e) * 40.0, 506 - h + resp)
+			var topo_caixa := 624.0 - maxf(116.0, 20.0 + Fonte57.quebrar(f["texto"] as String, 320, Fonte57.grande()).size() * 11 * Fonte57.grande() + 14)
+			var pos := Vector2(180 - w / 2.0 + (1.0 - e) * 40.0, topo_caixa - 2 - h + resp)
 			draw_texture_rect(tex, Rect2(pos + Vector2(6, 4), Vector2(w, h)), false, Color(0, 0, 0, 0.35 * e))
 			draw_texture_rect(tex, Rect2(pos, Vector2(w, h)), false, Color(1, 1, 1, e))
-	var caixa := Rect2(10, 508, 340, 116)
+	var eg := Fonte57.grande()
+	var linhas_f := Fonte57.quebrar(f["texto"] as String, 320, eg)
+	var alt_caixa := maxf(116.0, 20.0 + linhas_f.size() * 11 * eg + 14)
+	var caixa := Rect2(10, 624 - alt_caixa, 340, alt_caixa)
 	var dentro := _painel(caixa, true, 0.0, Color("#1c141a"))
 	draw_rect(Rect2(dentro.position, Vector2(dentro.size.x, 1)), cor)
 	# placa do nome
@@ -1555,9 +1655,9 @@ func _desenhar_fala(f: Dictionary) -> void:
 	Fonte57.desenhar(self, placa.position + Vector2(7, 4), nome, Color.WHITE, ESCURO)
 	var texto: String = (f["texto"] as String).substr(0, int(fala_vis))
 	var y := dentro.position.y + 10
-	for ln in Fonte57.quebrar(texto, int(dentro.size.x) - 20):
-		Fonte57.desenhar(self, Vector2(dentro.position.x + 10, y), ln, CREME, ESCURO)
-		y += 11
+	for ln in Fonte57.quebrar(texto, int(dentro.size.x) - 20, eg):
+		Fonte57.desenhar(self, Vector2(dentro.position.x + 10, y), ln, CREME, ESCURO, eg)
+		y += 11 * eg
 	if fala_vis >= (f["texto"] as String).length():
 		var dy: int = [0, 0, 1, 2, 2, 1][int(tempo * 9.0) % 6]
 		var q := dentro.end + Vector2(-14, -10 + dy)

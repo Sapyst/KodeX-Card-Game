@@ -121,7 +121,16 @@ const G := {
 }
 
 
-static func largura(s: String) -> int:
+## Acessibilidade: com "Texto grande" ligado nas Opções, os textos longos (cartas, lore, pergaminhos, falas) usam 2×.
+static func grande() -> int:
+	return 2 if Sessao.texto_grande else 1
+
+
+static func largura(s: String, esc := 1) -> int:
+	return _largura(s) * esc
+
+
+static func _largura(s: String) -> int:
 	var w := 0
 	for ch in s:
 		var g: Array = G.get(ch, G["?"])
@@ -130,7 +139,10 @@ static func largura(s: String) -> int:
 
 
 ## pos = topo-esquerda da linha (7 px de altura). sombra: 1 px para baixo/direita.
-static func desenhar(ci: CanvasItem, pos: Vector2, s: String, cor: Color, sombra := Color(0, 0, 0, 0)) -> void:
+static func desenhar(ci: CanvasItem, pos: Vector2, s: String, cor: Color, sombra := Color(0, 0, 0, 0), esc := 1) -> void:
+	if esc != 1:
+		_desenhar_esc(ci, pos, s, cor, sombra, esc)
+		return
 	var x := pos.x
 	for ch in s:
 		var g: Array = G.get(ch, G["?"])
@@ -145,13 +157,29 @@ static func desenhar(ci: CanvasItem, pos: Vector2, s: String, cor: Color, sombra
 		x += (g[0] as String).length() + 1
 
 
-## Quebra por largura real em px.
-static func quebrar(s: String, larg: int) -> PackedStringArray:
+static func _desenhar_esc(ci: CanvasItem, pos: Vector2, s: String, cor: Color, sombra: Color, esc: int) -> void:
+	var x := pos.x
+	for ch in s:
+		var g: Array = G.get(ch, G["?"])
+		var off := g.size() - 7
+		for yy in g.size():
+			var row: String = g[yy]
+			for xx in row.length():
+				if row[xx] == "1":
+					var r := Rect2(x + xx * esc, pos.y + (yy - off) * esc, esc, esc)
+					if sombra.a > 0.0:
+						ci.draw_rect(Rect2(r.position + Vector2(esc, esc) * 0.5, r.size), sombra)
+					ci.draw_rect(r, cor)
+		x += ((g[0] as String).length() + 1) * esc
+
+
+## Quebra por largura real em px (esc: tamanho do texto, a largura disponível não muda).
+static func quebrar(s: String, larg: int, esc := 1) -> PackedStringArray:
 	var out := PackedStringArray()
 	var atual := ""
 	for p in s.split(" ", false):
 		var t := (atual + " " + p).strip_edges()
-		if largura(t) <= larg:
+		if largura(t, esc) <= larg:
 			atual = t
 		else:
 			out.append(atual)

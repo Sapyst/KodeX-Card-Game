@@ -359,5 +359,21 @@
  "Em uso nas suas cartas.": "Equipped on your cards.",
  "Você já tem este verso.": "You already own this back.",
  "Você tem %d Koins.": "You have %d Koins.",
- "Koins: 10 por dia e 100 toda sexta.": "Koins: 10 a day and 100 every Friday."
+ "Koins: 10 por dia e 100 toda sexta.": "Koins: 10 a day and 100 every Friday.",
+ "Texto: grande": "Text: large",
+ "Texto: normal": "Text: normal",
+ "Modo daltônico: ligado": "Colorblind mode: on",
+ "Modo daltônico: desligado": "Colorblind mode: off",
+ "Comprar 1 booster?": "Buy 1 booster?",
+ "por %d de ouro": "for %d gold",
+ "Comprar %s?": "Buy %s?",
+ "por %d Koins": "for %d Koins",
+ "Trocar %d repetidas?": "Trade %d duplicates?",
+ "Excluir este deck?": "Delete this deck?",
+ "Recomeçar o Torneio?": "Restart the Tournament?",
+ "o progresso atual se perde": "current progress will be lost",
+ "Sim": "Yes",
+ "Não": "No",
+ "TOQUE DE NOVO": "TAP AGAIN",
+ "Abandonar a Peregrinação?": "Abandon the Pilgrimage?"
 }

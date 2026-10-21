@@ -108,8 +108,12 @@ func _rect_botao() -> Rect2:
 
 
 # ---------------- layout e textura ----------------
+var _eg := 1                         # tamanho do texto (2 com "Texto grande")
+
+
 func _montar() -> void:
 	_desenho.clear()
+	_eg = Fonte57.grande()
 	var y := 16.0
 	for b in _blocos:
 		var tipo: String = b[0]
@@ -125,25 +129,25 @@ func _montar() -> void:
 				_desenho.append(["pontilhado", Vector2(M, y + 9), ""])
 				y += 15
 			"item":
-				var linhas := Fonte57.quebrar(s, TW - 9)
-				_desenho.append(["marca", Vector2(M + 1, y + 2), ""])
+				var linhas := Fonte57.quebrar(s, TW - 9, _eg)
+				_desenho.append(["marca", Vector2(M + 1, y + 2 * _eg), ""])
 				for ln in linhas:
 					_desenho.append(["texto", Vector2(M + 9, y), ln])
-					y += 10
+					y += 10 * _eg
 				y += 3
 			"txt":
-				for ln in Fonte57.quebrar(s, TW):
+				for ln in Fonte57.quebrar(s, TW, _eg):
 					_desenho.append(["texto", Vector2(M, y), ln])
-					y += 10
+					y += 10 * _eg
 				y += 5
 			"sub":
 				y += 2
 				_desenho.append(["sub", Vector2(M, y), s])
 				y += 11
 			"centro":
-				for ln in Fonte57.quebrar(s, TW):
+				for ln in Fonte57.quebrar(s, TW, _eg):
 					_desenho.append(["centro", Vector2(PW / 2.0, y), ln])
-					y += 10
+					y += 10 * _eg
 				y += 4
 			"destaque":
 				_desenho.append(["destaque", Vector2(PW / 2.0, y + 6), s, b[2] if b.size() > 2 else ""])
@@ -188,11 +192,11 @@ func _desenhar_conteudo() -> void:
 				_tela.draw_colored_polygon(PackedVector2Array([p + Vector2(2, 0), p + Vector2(4, 2), p + Vector2(2, 4),
 					p + Vector2(0, 2)]), CERA)
 			"texto":
-				Fonte57.desenhar(_tela, p, d[2], TINTA)
+				Fonte57.desenhar(_tela, p, d[2], TINTA, Color(0, 0, 0, 0), _eg)
 			"sub":
 				PixelFonte.desenhar(_tela, p, d[2], TINTA_TIT, 1)
 			"centro":
-				Fonte57.desenhar(_tela, Vector2(roundf(p.x - Fonte57.largura(d[2]) / 2.0), p.y), d[2], TINTA)
+				Fonte57.desenhar(_tela, Vector2(roundf(p.x - Fonte57.largura(d[2], _eg) / 2.0), p.y), d[2], TINTA, Color(0, 0, 0, 0), _eg)
 			"destaque":
 				var s: String = d[2]
 				var w := PixelFonte.largura(s, 2)

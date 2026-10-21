@@ -250,19 +250,25 @@ func _painel_lore(y: float, al: float) -> void:
 	var tit := str(e.get("titulo_en" if en else "titulo_pt", ""))
 	Fonte57.desenhar(self, Vector2(180 - Fonte57.largura(tit) / 2.0, y + 36), tit, Color(0.89, 0.72, 0.35, al), Color("#140c10"))
 	var yy := y + 54
-	for ln in Fonte57.quebrar(str(e.get("lore_en" if en else "lore_pt", "")), 316):
-		Fonte57.desenhar(self, Vector2(22, yy), ln, Color(0.95, 0.9, 0.78, al), Color("#140c10"))
-		yy += 11
+	var eg := Fonte57.grande()
+	if eg > 1 and Sessao.db["cartas"].has(cid):          # texto grande: o texto da carta também, legível
+		for ln in Fonte57.quebrar(str(Sessao.db["cartas"][cid].get("texto", "")), 316, eg):
+			Fonte57.desenhar(self, Vector2(22, yy), ln, Color(1.0, 0.92, 0.7, al), Color("#140c10"), eg)
+			yy += 11 * eg
+		yy += 8
+	for ln in Fonte57.quebrar(str(e.get("lore_en" if en else "lore_pt", "")), 316, eg):
+		Fonte57.desenhar(self, Vector2(22, yy), ln, Color(0.95, 0.9, 0.78, al), Color("#140c10"), eg)
+		yy += 11 * eg
 	var cur := str(e.get("curiosidade_en" if en else "curiosidade_pt", ""))
 	if cur != "":
 		yy += 6
 		draw_rect(Rect2(18, yy - 2, 324, 1), Color(0.89, 0.72, 0.35, 0.5 * al))
 		PixelFonte.desenhar(self, Vector2(22, yy + 3), Sessao.t("CURIOSIDADE"), Color(1.0, 0.85, 0.4, al))
 		yy += 13
-		for ln in Fonte57.quebrar(cur, 300):
-			draw_rect(Rect2(18, yy - 2, 3, 11), Color(0.89, 0.72, 0.35, 0.8 * al))
-			Fonte57.desenhar(self, Vector2(28, yy), ln, Color(1.0, 0.91, 0.72, al), Color("#140c10"))
-			yy += 11
+		for ln in Fonte57.quebrar(cur, 300, eg):
+			draw_rect(Rect2(18, yy - 2, 3, 11 * eg), Color(0.89, 0.72, 0.35, 0.8 * al))
+			Fonte57.desenhar(self, Vector2(28, yy), ln, Color(1.0, 0.91, 0.72, al), Color("#140c10"), eg)
+			yy += 11 * eg
 	var bob := absf(sin(f.tempo * 4.0)) * 2
 	PixelFonte.centrado(self, Vector2(180, 624 + bob), Sessao.t("BAIXO: CARTA  -  CIMA: FECHAR"), Color(0.81, 0.88, 1.0, 0.6 * al), 1)
 

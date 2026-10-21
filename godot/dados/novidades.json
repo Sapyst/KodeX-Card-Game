@@ -1,5 +1,23 @@
 [
  {
+  "versao": "0.13.0-alpha",
+  "data": "21/10/2026",
+  "pt": [
+   "Acessibilidade em Opções.",
+   "Texto grande: o texto das cartas aparece em letra grande ao segurar uma carta na mesa e no visor; lore, pergaminhos e falas também ficam 2× maiores.",
+   "Modo daltônico: a carta pronta para atacar fica azul (não mais laranja) e os destaques ganham ícone (seta para jogar, espada para atacar).",
+   "Confirmação antes de gastar: booster, verso, troca de repetidas, excluir deck, abandonar a Peregrinação e recomeçar o Torneio. Criar e desfazer cartas pedem um segundo toque.",
+   "Toque longo em cartas de prêmio e nos Desafios lendários abre a carta grande, sem escolher."
+  ],
+  "en": [
+   "Accessibility in Options.",
+   "Large text: card text shows in big letters when you hold a card at the table and in the viewer; lore, scrolls and dialogue are also 2× larger.",
+   "Colorblind mode: a card ready to attack turns blue (no longer orange) and highlights get icons (arrow to play, sword to attack).",
+   "Confirmation before spending: booster, card back, trading duplicates, deleting a deck, abandoning the Pilgrimage and restarting the Tournament. Crafting and disenchanting ask for a second tap.",
+   "Long press on reward cards and Legendary challenges opens the big card without picking it."
+  ]
+ },
+ {
   "versao": "0.12.1-alpha",
   "data": "21/10/2026",
   "pt": [

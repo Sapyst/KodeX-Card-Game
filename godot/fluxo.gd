@@ -307,6 +307,8 @@ func _ir(novo: String) -> void:
 		"perfil":
 			mp.entrar_perfil()
 			_botao(Rect2(110, 266, 140, 24), "Escolher imagem", func() -> void: _ir("avatar"))
+			if OS.has_feature("web"):                   # web/iPhone: o campo vira um botão que abre a caixa nativa
+				_botao(mp.campo_nome(), "", func() -> void: pass, {"web_nome": "perfil", "desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
 			_botao(Rect2(90, 420, 180, 30), "Continuar", func() -> void:
 				if str(Sessao.perfil.get("nome", "")).strip_edges() == "":
 					mp.avisar(Sessao.t("Escreva seu nome."))
@@ -341,7 +343,7 @@ func _ir(novo: String) -> void:
 				_botao(Rect2(30, 92 + i * 46, 300, 40), "", mp.abrir_deck.bind(i), {"deck_idx": i, "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mp.botao_deck(b, r, pr)})
 			_botao(Rect2(90, 470, 180, 30), "Novo deck", mp.novo_deck)
 		"deck_edit":
-			_botao(Rect2(60, 4, 240, 28), "", mp.renomear_deck, {"desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
+			_botao(Rect2(60, 4, 240, 28), "", mp.renomear_deck, {"web_nome": "deck", "desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
 			_botao(Rect2(70, 54, 104, 22), "Coleção", mp.trocar_aba.bind("cartas"), {"aba_deck": "cartas"})
 			_botao(Rect2(186, 54, 104, 22), "No deck", mp.trocar_aba.bind("deck"), {"aba_deck": "deck"})
 			if mp.aba_deck == "cartas":
@@ -578,6 +580,8 @@ func apertar(p: Vector2) -> void:
 			vibrar(10, 0.35)
 			if botoes[i].has("web_upload"):
 				mp.armar_upload_web()             # web/iPhone: o seletor abre quando o dedo sai, dentro do gesto
+			if botoes[i].has("web_nome"):
+				mp.armar_nome_web(botoes[i]["web_nome"])
 			return
 
 

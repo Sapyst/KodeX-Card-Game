@@ -263,7 +263,31 @@ func apagar_conta() -> bool:
 	return false
 
 
+## Pedido com 1 nova tentativa: se não conectou, relê o endereço do servidor (o túnel do PC muda de endereço quando
+## religa) e, se mudou, repete no endereço novo.
 func _pedir(metodo: String, caminho: String, corpo := {}, relativo := true, autenticado := true) -> Dictionary:
+	var r := await _pedir_uma(metodo, caminho, corpo, relativo, autenticado)
+	if r.is_empty() and relativo and OS.get_environment("GD_SERVIDOR") == "" and await _reler_endereco():
+		r = await _pedir_uma(metodo, caminho, corpo, relativo, autenticado)
+	return r
+
+
+var _ultima_releitura := -100000
+
+
+func _reler_endereco() -> bool:
+	if Time.get_ticks_msec() - _ultima_releitura < 30000:         # no máximo 1 releitura a cada 30 s
+		return false
+	_ultima_releitura = Time.get_ticks_msec()
+	var r := await _pedir_uma("GET", URL_CONFIG + "?t=%d" % Time.get_unix_time_from_system(), {}, false, false)
+	var novo := str(r.get("url", "")).trim_suffix("/")
+	if novo != "" and novo != url:
+		url = novo
+		return true
+	return false
+
+
+func _pedir_uma(metodo: String, caminho: String, corpo := {}, relativo := true, autenticado := true) -> Dictionary:
 	var http := HTTPRequest.new()
 	http.timeout = ESPERA
 	add_child(http)

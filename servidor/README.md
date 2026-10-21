@@ -3,6 +3,16 @@
 Fonte da verdade da economia (moedas, Koins, Essência, boosters, coleção, versos, prêmios com teto diário) e save na
 nuvem com conta anônima. Sem servidor configurado, o jogo funciona offline como antes.
 
+## No ar pelo PC (agora)
+Serviço do usuário `kodex-servidor` (systemd --user) roda `vigia.sh`: sobe o Worker local, abre o túnel da Cloudflare,
+publica o endereço em `servidor.json`, religa o que cair (verifica a cada 60 s) e faz backup diário em `backups/`.
+```bash
+systemctl --user status kodex-servidor     # ver
+systemctl --user restart kodex-servidor    # religar
+./desligar.sh                              # desligar tudo (e: systemctl --user disable kodex-servidor)
+```
+Logs em `logs/` (vigia, servidor, túnel). Email de verdade: `.dev.vars` com RESEND_KEY e REMETENTE.
+
 ## Rodar no PC (sem conta Cloudflare)
 ```bash
 npm install

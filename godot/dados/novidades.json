@@ -1,5 +1,15 @@
 [
  {
+  "versao": "0.16.1-alpha",
+  "data": "21/10/2026",
+  "pt": [
+   "Conexão mais resistente: se o servidor do jogo mudar de endereço, o jogo encontra o novo sozinho e tenta de novo."
+  ],
+  "en": [
+   "Sturdier connection: if the game server changes address, the game finds the new one by itself and tries again."
+  ]
+ },
+ {
   "versao": "0.16.0-alpha",
   "data": "21/10/2026",
   "pt": [

@@ -110,6 +110,8 @@ func _rect_emotes(k: int) -> Rect2:
 
 # ---------------- registro ----------------
 func registrar(dono: int, cid: String, tipo: String, alvo := "") -> void:
+	if m.log_partida.size() < 400:                    # log completo da partida (vai para o histórico do perfil)
+		m.log_partida.append([m.turno_n, dono, tipo, cid, alvo])
 	historico.push_front({"dono": dono, "cid": cid, "tipo": tipo, "alvo": alvo, "t": 0.0})
 	if historico.size() > MAX_HIST:
 		historico.resize(MAX_HIST)

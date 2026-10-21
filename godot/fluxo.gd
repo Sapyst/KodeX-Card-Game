@@ -157,6 +157,7 @@ var logo_no: Node2D
 var logo_tex: Texture2D
 var perg: Pergaminho
 var solo: ModosSolo
+var hist: Historico
 var novidades: Array = []              # dados/novidades.json (mais nova primeiro)
 var _avisos_feitos := false            # novidades + presente já verificados nesta sessão do app
 
@@ -182,6 +183,7 @@ func _ready() -> void:
 	perg = Pergaminho.new(self)
 	add_child(perg)
 	solo = ModosSolo.new(self)
+	hist = Historico.new(self)
 	novidades = JSON.parse_string(FileAccess.get_file_as_string("res://dados/novidades.json"))
 	Relogio.sincronizar()                                    # hora do servidor para o presente diário (sem travar)
 	arcade["meu_deck"] = str(int(Sessao.perfil["deck_ativo"]))
@@ -273,6 +275,8 @@ func _ready() -> void:
 				mp.gaveta = "livre"; mp.deck_sugerido("hinduismo"); mp.novo_deck(); _ir("decks")
 			"editor_livre":
 				mp.gaveta = "livre"; mp.deck_sugerido("bruxaria")
+			"historico_log":
+				_ir("historico"); hist.abrir_log(0)
 			"colecao_f":
 				col.posse = "tenho"; col.tipo = "entidade"; col.abrir_aba("alta_magia"); _ir("colecao")
 			"busca":
@@ -380,10 +384,12 @@ func _ir(novo: String) -> void:
 				func() -> void: Sessao.alternar_texto(); _ir("opcoes"); transicao = 0.0)
 			_botao(Rect2(90, 286, 180, 26), "Modo daltônico: ligado" if Sessao.daltonico else "Modo daltônico: desligado",
 				func() -> void: Sessao.alternar_daltonico(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 334, 180, 26), "Novidades", abrir_novidades.bind(true))
-			_botao(Rect2(90, 366, 180, 26), "Privacidade", abrir_privacidade)
+			_botao(Rect2(90, 318, 180, 26), "Tempo por turno: 75 s" if Sessao.tempo_turno else "Tempo por turno: sem limite",
+				func() -> void: Sessao.alternar_tempo_turno(); _ir("opcoes"); transicao = 0.0)
+			_botao(Rect2(90, 360, 180, 26), "Novidades", abrir_novidades.bind(true))
+			_botao(Rect2(90, 392, 180, 26), "Privacidade", abrir_privacidade)
 			if Nuvem.url != "":                          # conta na nuvem (só quando há servidor)
-				_botao(Rect2(90, 420, 180, 26), "Conta e login", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
+				_botao(Rect2(90, 446, 180, 26), "Conta e login", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
@@ -405,6 +411,7 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(110, 266, 140, 24), "Escolher imagem", func() -> void: _ir("avatar"))
 			if OS.has_feature("web"):                   # web/iPhone: o campo vira um botão que abre a caixa nativa
 				_botao(mp.campo_nome(), "", func() -> void: pass, {"web_nome": "perfil", "desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
+			_botao(Rect2(90, 466, 180, 26), "Histórico e estatísticas", func() -> void: _ir("historico"))
 			_botao(Rect2(90, 420, 180, 30), "Continuar", func() -> void:
 				if str(Sessao.perfil.get("nome", "")).strip_edges() == "":
 					mp.avisar(Sessao.t("Escreva seu nome."))
@@ -502,6 +509,8 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(172, 570, 80, 26), "Excluir", func() -> void:
 				confirmar(Sessao.t("Excluir este deck?"), str(Sessao.perfil["decks"][mp.deck_idx]["nome"]), mp.excluir_deck))
 			_botao(Rect2(258, 570, 86, 26), "Voltar", func() -> void: _ir("decks"))
+		"historico":
+			hist.botoes()
 		"conta":
 			var y := 150
 			var itens: Array = []
@@ -1620,6 +1629,8 @@ func _draw() -> void:
 			_cabecalho("Solo", Sessao.t("modos para jogar sozinho"))
 		"sugerir":
 			_cabecalho(Sessao.t("Deck sugerido"), Sessao.t("montado com as cartas que você tem"))
+		"historico":
+			hist.desenhar()
 		"conta":
 			_cabecalho(Sessao.t("Conta"), (Sessao.t("online") + " · " + Nuvem.id_curto()) if Nuvem.online else Sessao.t("sem conexão"))
 			_texto_central(Vector2(180, 104), Sessao.t("Kode") + ": " + (Nuvem.kode if Nuvem.kode != "" else Sessao.t("não criado")), Color("#e0c0ff"))
@@ -1734,7 +1745,7 @@ func _opcoes() -> void:
 	_cabecalho(Sessao.t("Opções"), Sessao.t("idioma e informações"))
 	if Nuvem.url != "":
 		var st := (Sessao.t("Conta online") + " · " + Nuvem.id_curto()) if Nuvem.online and Nuvem.ativo() else Sessao.t("Conta: sem conexão")
-		_texto_central(Vector2(180, 406), st, Color("#9ad0ff") if Nuvem.online else Color("#ff9a8a"))
+		_texto_central(Vector2(180, 432), st, Color("#9ad0ff") if Nuvem.online else Color("#ff9a8a"))
 	Fonte57.desenhar(self, Vector2(110, 134), Sessao.t("Idioma"), Color("#b8a888"))
 	var ver := "KodeX v" + str(ProjectSettings.get_setting("application/config/version", ""))
 	_texto_central(Vector2(180, 560), ver, Color(0.89, 0.72, 0.35, 0.7))

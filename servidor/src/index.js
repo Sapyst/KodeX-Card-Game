@@ -22,7 +22,7 @@ const PREMIOS = {
   choronzon: { teto: 3 },
 };
 const LIVRES = ["nome", "tem_foto", "decks", "deck_ativo", "verso", "novas", "pacote", "tarcade", "torneio", "versao_vista",
-  "pere", "torneio_vencido", "pere_fim"];
+  "pere", "torneio_vencido", "pere_fim", "historico", "estat"];
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const json = (obj, status = 200) => new Response(JSON.stringify(obj), {
@@ -162,6 +162,8 @@ async function premio(env, id, p, d) {
 function aplicarLivres(p, campos) {
   for (const k of LIVRES) if (k in campos) p[k] = campos[k];
   p.nome = String(p.nome || "").slice(0, 16);
+  if (Array.isArray(p.historico)) p.historico = p.historico.slice(0, 30);
+  if (JSON.stringify(p.historico || []).length > 400000) p.historico = (p.historico || []).slice(0, 10);
   if (!Array.isArray(p.decks)) p.decks = [];
   p.decks = p.decks.slice(0, 16).map((d) => ({ ...d, nome: String(d.nome || "").slice(0, 16),
     cartas: (Array.isArray(d.cartas) ? d.cartas : []).filter((c) => carta(c)).slice(0, 32) }));

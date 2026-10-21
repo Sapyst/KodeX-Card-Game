@@ -84,6 +84,9 @@ var nivel_ia := [1, 1]                 # 0 Aprendiz · 1 Mestre · 2 Arquimago (
 var estilo_ia := ["equilibrado", "equilibrado"]
 var rng_ia := RandomNumberGenerator.new()
 var hud: MesaHud
+var log_partida: Array = []           # [turno, dono, tipo, carta, alvo] de cada jogada (histórico do perfil)
+var _inicio_ms := 0
+var _corn_ini := [15, 15]               # vida no começo da partida (modos com vida diferente de 15)
 var perg: Pergaminho                  # regras e resumo da partida (numa CanvasLayer: fora da câmera)
 var alt_util := 640.0                 # usados pelo Pergaminho (mesma interface do menu)
 var pos_base := Vector2.ZERO
@@ -258,6 +261,7 @@ func _ready() -> void:
 				await _mulligan_ia(lado)
 		await _partida()
 		Sessao.resultado = "vitoria" if vencedor == 0 else ("derrota" if vencedor == 1 else "empate")
+		_registrar_partida()
 		Sessao.extras["fim_cornucopia"] = cornucopia[0]       # Peregrinação: a vida continua na próxima parada
 		if (Sessao.modo != "" and not auto_jogador) or OS.get_environment("GD_RESUMO") != "":
 			await get_tree().create_timer(0.6).timeout
@@ -377,6 +381,7 @@ func _process(delta: float) -> void:
 				var cc: Carta = c
 				cc.aura_arcoiris = cc.virada_para_cima and (cc.atk > cc.atk_base or cc.defe > cc.vida_base)
 	_atualizar_pilhas()
+	_atualizar_relogio()
 	if modo_partida:
 		_atualizar_zoom(delta)
 		_atualizar_previa()
@@ -773,6 +778,16 @@ func _desenhar_placar() -> void:
 		placar.draw_rect(r.grow(1), ESCURO)
 		placar.draw_rect(r, Color("#5a3a1a") if vez else (Color("#3a2a50") if ia and acelerar_ia else Color("#2a2430")))
 		placar.draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), OURO[1] if vez else (Color("#b8a0ff") if ia else Color("#4a4450")))
+		if vez and relogio_ativo and restante < AVISO_TEMPO:      # corda queimando: últimos 20 s do turno
+			var fr := clampf(restante / AVISO_TEMPO, 0.0, 1.0)
+			var corda := Rect2(r.position.x, r.position.y - 7, r.size.x * fr, 3)
+			placar.draw_rect(Rect2(r.position.x, r.position.y - 7, r.size.x, 3), Color(0.1, 0.06, 0.05, 0.8))
+			placar.draw_rect(corda, Color("#c8a060"))
+			var ponta := Vector2(corda.end.x, corda.position.y + 1)
+			var chama := 0.5 + 0.5 * sin(tempo * 25.0)
+			placar.draw_circle(ponta, 2.5 + chama, Color(1.0, 0.55, 0.15, 0.9))
+			placar.draw_circle(ponta, 1.5, Color(1.0, 0.95, 0.6))
+			PixelFonte.centrado(placar, Vector2(r.get_center().x, r.position.y - 13), "%d" % ceili(restante), Color(1.0, 0.7, 0.4), 1)
 		var rot := "FIM TURNO" if vez else (("RÁPIDO" if acelerar_ia else ">> RÁPIDO") if ia else "AGUARDE")
 		PixelFonte.centrado(placar, r.get_center(), Sessao.t(rot), Color("#ffe39a") if vez else (Color("#d8c8ff") if ia else Color("#8a8090")))
 
@@ -1638,6 +1653,8 @@ func _espaco_livre(arr: Array) -> int:
 func _partida() -> void:
 	ativo = 0
 	turno_n = 0
+	_inicio_ms = Time.get_ticks_msec()
+	_corn_ini = cornucopia.duplicate()
 	while not acabou:
 		turno_n += 1
 		if turno_n > TURNOS_MAX:
@@ -1651,7 +1668,9 @@ func _partida() -> void:
 			break
 		if ativo == 0 and not auto_jogador:
 			_atualizar_apagadas()
+			_iniciar_relogio()
 			await fim_turno_pedido
+			relogio_ativo = false
 		else:
 			await _turno_ia(ativo)
 		if acabou:
@@ -3101,8 +3120,8 @@ func _resumo() -> void:
 	b.append(["divisor"])
 	b.append(["item", ("Turns: %d" if en else "Turnos: %d") % turno_n])
 	b.append(["item", ("Cards played: %d (opponent %d)" if en else "Cartas jogadas: %d (oponente %d)") % [jog.call(0), jog.call(1)]])
-	b.append(["item", ("Damage to the enemy Cornucopia: %d" if en else "Dano na Cornucópia inimiga: %d") % (15 - maxi(cornucopia[1], 0))])
-	b.append(["item", ("Damage taken: %d" if en else "Dano recebido: %d") % (15 - maxi(cornucopia[0], 0))])
+	b.append(["item", ("Damage to the enemy Cornucopia: %d" if en else "Dano na Cornucópia inimiga: %d") % (int(_corn_ini[1]) - maxi(cornucopia[1], 0))])
+	b.append(["item", ("Damage taken: %d" if en else "Dano recebido: %d") % (int(_corn_ini[0]) - maxi(cornucopia[0], 0))])
 	b.append(["item", ("Enemy Entities destroyed: %d" if en else "Entidades inimigas destruídas: %d") % int(estat[1].get("mortes", 0))])
 	b.append(["item", ("Attacks: %d" if en else "Ataques: %d") % (int(estat[0].get("ataques", 0)) + int(estat[0].get("golpes_diretos", 0)))])
 	if Sessao.modo == "arcade" and vencedor == 0:
@@ -3560,3 +3579,84 @@ func _ia_resp_busca(atq: Array, k: int, defs: Array, hp: Array, face: int, nota:
 		hp[i] = int(hp[i]) - int(a[0])
 		_ia_resp_busca(atq, k + 1, defs, hp, face, nota + n, corn, est)
 		hp[i] = antes
+
+
+# ================= tempo por turno (universal: contra a IA e online) =================
+## 75 s por turno do jogador (tempo real: não acelera com as animações rápidas e para com o menu de pausa, só offline).
+## Nos últimos 20 s a corda queima ao lado do FIM TURNO. Acabou: cancela o que estiver pendente e passa o turno.
+const TEMPO_TURNO := 75.0
+const AVISO_TEMPO := 20.0
+var relogio_ativo := false
+var restante := 0.0
+var _relogio_us := 0
+
+
+func _limite_turno() -> bool:
+	return modo_partida and tut == null and Sessao.modo != "enigma" and (online_partida() or Sessao.tempo_turno)
+
+
+func online_partida() -> bool:
+	return false                                   # etapa 2 (multiplayer) liga isto
+
+
+func _iniciar_relogio() -> void:
+	if _limite_turno():
+		restante = TEMPO_TURNO if OS.get_environment("GD_TEMPO_TURNO") == "" else float(OS.get_environment("GD_TEMPO_TURNO"))
+		if OS.get_environment("GD_TEMPO_TURNO") != "":
+			print("RELOGIO turno ", turno_n, " limite ", restante)
+		relogio_ativo = true
+		_relogio_us = Time.get_ticks_usec()
+
+
+func _atualizar_relogio() -> void:
+	var agora := Time.get_ticks_usec()
+	var dt := (agora - _relogio_us) / 1000000.0
+	_relogio_us = agora
+	if not relogio_ativo or acabou or (pausado and not online_partida()):
+		return
+	var antes := restante
+	restante -= dt
+	if antes > 10.0 and restante <= 10.0:
+		Sessao.vibrar(30, 0.5)
+	if restante <= 0.0:
+		_tempo_esgotado()
+
+
+func _tempo_esgotado() -> void:
+	relogio_ativo = false
+	efeitos.numero(Vector2(180, LINHA_Y - 4), Sessao.t("TEMPO!"), Color("#ffb070"), 2)
+	Sessao.vibrar_pulsos(2, 40, 0.7)
+	if not alvos_pedidos.is_empty():
+		alvo_tocado.emit(null)
+	if not efeitos.escolha.is_empty():
+		escolhido.emit(efeitos.escolha[efeitos.escolha.size() - 1]["valor"])
+	if carrossel.aberto():
+		carrossel.selecionado.emit(-1)
+	if segurando != null:
+		var c := segurando
+		segurando = null
+		if origem == "mao":
+			_recusar(c)
+		else:
+			_voltar_ao_espaco(c)
+	while ocupado and not acabou:
+		await get_tree().process_frame
+	if not acabou and ativo == 0:
+		fim_turno_pedido.emit()
+
+
+# ================= histórico do perfil =================
+func _registrar_partida() -> void:
+	if not modo_partida or tut != null or (auto_jogador and OS.get_environment("GD_REGISTRAR") == "") or Sessao.modo in ["", "tutorial", "enigma"]:
+		return
+	var p: Dictionary = Sessao.personagem(Sessao.oponente)
+	var jog := func(d: int) -> int:
+		return int(estat[d].get("entidades", 0)) + int(estat[d].get("selos", 0)) + int(estat[d].get("ritos", 0)) + int(estat[d].get("reliquias", 0))
+	Sessao.registrar_partida({
+		"t": int(Time.get_unix_time_from_system()), "modo": Sessao.modo, "contra": "jogador" if online_partida() else "ia",
+		"adversario": str(p.get("nome", Sessao.nome_deck(Sessao.oponente))), "nivel": int(nivel_ia[1]),
+		"resultado": Sessao.resultado, "turnos": turno_n, "duracao": int((Time.get_ticks_msec() - _inicio_ms) / 1000),
+		"deck": Sessao.deck_jogador_nome, "deck_op": Sessao.oponente,
+		"stats": {"cartas": jog.call(0), "cartas_op": jog.call(1), "dano": int(_corn_ini[1]) - maxi(cornucopia[1], 0), "recebido": int(_corn_ini[0]) - maxi(cornucopia[0], 0),
+			"mortes": int(estat[1].get("mortes", 0)), "perdas": int(estat[0].get("mortes", 0))},
+		"log": log_partida})

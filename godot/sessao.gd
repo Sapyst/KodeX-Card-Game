@@ -51,6 +51,7 @@ func _ready() -> void:
 		idioma = str(cfg.get_value("geral", "idioma", ""))
 		vibracao = bool(cfg.get_value("geral", "vibracao", true))
 		texto_grande = bool(cfg.get_value("geral", "texto_grande", false))
+		tempo_turno = bool(cfg.get_value("geral", "tempo_turno", true))
 		daltonico = bool(cfg.get_value("geral", "daltonico", false))
 		animacao_rapida = bool(cfg.get_value("geral", "animacao_rapida", false))
 	if idioma == "":
@@ -115,6 +116,7 @@ func carregar_dados() -> void:
 var vibracao := true
 var animacao_rapida := false
 var texto_grande := false              # acessibilidade: textos longos em 2× (Fonte57.grande)
+var tempo_turno := true                # limite de 75 s por turno contra a IA (online é sempre ligado)
 var daltonico := false                 # acessibilidade: cores de destaque trocadas por pares azul/laranja + ícones
 const VEL_RAPIDA := 1.5
 
@@ -131,6 +133,11 @@ func alternar_vibracao() -> void:
 	_gravar_opcao("vibracao", vibracao)
 	if vibracao:
 		vibrar(40, 0.6)
+
+
+func alternar_tempo_turno() -> void:
+	tempo_turno = not tempo_turno
+	_gravar_opcao("tempo_turno", tempo_turno)
 
 
 func alternar_texto() -> void:
@@ -188,6 +195,8 @@ func nome_deck(d: String) -> String:
 
 
 func personagem(deck: String) -> Dictionary:
+	if deck == "choronzon":
+		return {"nome": "Choronzon", "titulo": "o Habitante do Abismo" if idioma == "pt" else "the Dweller in the Abyss", "cor": "#c070ff"}
 	return lore.get("personagens", {}).get(deck, {"nome": NOME_DECK.get(deck, deck), "titulo": "", "cor": "#e2b85a"})
 
 
@@ -463,7 +472,7 @@ func salvar_so_local() -> void:
 const CAMPOS_SERVIDOR := ["colecao", "foils", "versos", "resgates", "sem_lendaria", "lendarios", "enigmas", "diario_dia",
 	"versao_premiada", "choronzon_vencido", "titulos", "novas"]
 const CAMPOS_LIVRES := ["nome", "decks", "deck_ativo", "verso", "pacote", "tarcade", "torneio", "versao_vista", "pere",
-	"torneio_vencido"]
+	"torneio_vencido", "historico", "estat"]
 
 
 func adotar_servidor(srv: Dictionary, tudo := false) -> void:
@@ -481,6 +490,25 @@ func adotar_servidor(srv: Dictionary, tudo := false) -> void:
 	if tudo:
 		perfil["deck_ativo"] = int(perfil.get("deck_ativo", 0))
 	salvar_so_local()
+
+
+## Histórico do perfil: últimas 30 partidas (com log) e contadores por tipo de adversário, modo e adversário.
+func registrar_partida(reg: Dictionary) -> void:
+	var h: Array = perfil.get("historico", [])
+	h.push_front(reg)
+	if h.size() > 30:
+		h.resize(30)
+	perfil["historico"] = h
+	var e: Dictionary = perfil.get("estat", {})
+	var r: String = {"vitoria": "v", "derrota": "d"}.get(reg["resultado"], "e")
+	for chave in [["contra", reg["contra"]], ["modos", reg["modo"]], ["adversarios", reg["adversario"]]]:
+		var grupo: Dictionary = e.get(chave[0], {})
+		var linha: Dictionary = grupo.get(chave[1], {"v": 0, "d": 0, "e": 0})
+		linha[r] = int(linha.get(r, 0)) + 1
+		grupo[chave[1]] = linha
+		e[chave[0]] = grupo
+	perfil["estat"] = e
+	salvar()
 
 
 ## Repete no servidor uma operação feita no aparelho; o perfil que volta corrige qualquer diferença.

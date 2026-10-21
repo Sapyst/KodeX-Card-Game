@@ -450,5 +450,15 @@
  "login por email ainda não configurado": "email login is not set up yet",
  "email inválido": "invalid email",
  "espere 1 minuto para pedir outro código": "wait 1 minute to ask for another code",
- "usuário: 3 a 16 letras minúsculas, números ou _": "username: 3 to 16 lowercase letters, numbers or _"
+ "usuário: 3 a 16 letras minúsculas, números ou _": "username: 3 to 16 lowercase letters, numbers or _",
+ "TEMPO!": "TIME!",
+ "Tempo por turno: 75 s": "Turn timer: 75 s",
+ "Tempo por turno: sem limite": "Turn timer: no limit",
+ "Histórico e estatísticas": "History and stats",
+ "Histórico": "History",
+ "suas partidas e números": "your matches and numbers",
+ "ÚLTIMAS PARTIDAS": "LAST MATCHES",
+ "IA": "AI",
+ "jogador": "player",
+ "turnos": "turns"
 }

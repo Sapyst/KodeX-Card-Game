@@ -1,5 +1,17 @@
 [
  {
+  "versao": "0.17.0-alpha",
+  "data": "21/10/2026",
+  "pt": [
+   "Tempo por turno: 75 segundos, com a corda queimando nos últimos 20. Acabou o tempo, o turno passa sozinho. Dá para desligar nas Opções (contra a IA).",
+   "Histórico e estatísticas no Perfil: partidas contra a IA e contra jogadores, por modo e por adversário, e as últimas 30 partidas com data, hora e o log jogada a jogada."
+  ],
+  "en": [
+   "Turn timer: 75 seconds, with the rope burning in the last 20. When time runs out, the turn passes by itself. You can turn it off in Options (against the AI).",
+   "History and stats in the Profile: matches against the AI and against players, by mode and by opponent, and the last 30 matches with date, time and a play-by-play log."
+  ]
+ },
+ {
   "versao": "0.16.1-alpha",
   "data": "21/10/2026",
   "pt": [

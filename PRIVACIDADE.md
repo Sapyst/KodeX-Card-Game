@@ -6,7 +6,7 @@ Atualizada em / Updated on: 21/10/2026
 
 ### Resumo
 
-O KodeX não pede email nem senha, não mostra anúncios e não usa rastreamento nem análise de uso.
+O KodeX não exige email nem senha (são opcionais), não mostra anúncios e não usa rastreamento nem análise de uso.
 
 ### O que fica no seu aparelho
 
@@ -17,6 +17,12 @@ Nome de jogador, imagem ou foto do perfil, moedas, coleção, decks, progresso e
 O jogo cria uma conta anônima: um número aleatório e um segredo, guardados cifrados no aparelho. No servidor do jogo (Cloudflare) ficam o nome de jogador, as moedas, os Koins, a coleção, os decks e o progresso dos modos, para valer em outro aparelho e evitar trapaça. Não guardamos email, telefone, localização nem a foto.
 
 Para trocar de aparelho, o jogo gera um código de 8 letras que vale por 10 minutos. Em Opções > Excluir conta, tudo o que está no servidor é apagado na hora.
+
+### Kode e email (opcionais)
+
+Kode: você escolhe um usuário e uma senha. O jogo embaralha a senha e a frase de 12 palavras (200 mil rodadas de SHA-256) antes de enviar; o servidor guarda só esse resultado com sal, nunca a senha nem a frase. Quem perder a senha e a frase perde a conta.
+
+Email: se você ligar um email, ele fica guardado no servidor só para mandar o código de login de 6 dígitos (pelo serviço de envio Resend). Não mandamos propaganda. Excluir a conta apaga o email.
 
 ### Internet
 
@@ -38,7 +44,7 @@ Antes de qualquer recurso novo que use dados (como email ou newsletter), esta po
 
 ### Summary
 
-KodeX asks for no email or password, shows no ads and uses no tracking or usage analytics.
+KodeX requires no email or password (both optional), shows no ads and uses no tracking or usage analytics.
 
 ### What stays on your device
 
@@ -49,6 +55,12 @@ Player name, profile picture or photo, coins, collection, decks, progress and op
 The game creates an anonymous account: a random number and a secret, stored encrypted on your device. The game server (Cloudflare) keeps your player name, coins, Koins, collection, decks and mode progress, so they work on another device and to prevent cheating. We do not store email, phone, location or your photo.
 
 To switch devices, the game creates an 8-letter code valid for 10 minutes. In Options > Delete account, everything on the server is erased right away.
+
+### Kode and email (optional)
+
+Kode: you pick a username and a password. The game scrambles the password and the 12-word phrase (200,000 rounds of SHA-256) before sending; the server keeps only that result with a salt, never the password or the phrase. Losing both the password and the phrase means losing the account.
+
+Email: if you link an email, the server keeps it only to send the 6-digit login code (through the Resend email service). We send no advertising. Deleting the account erases the email.
 
 ### Internet
 

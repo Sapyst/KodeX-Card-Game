@@ -4,7 +4,8 @@ extends Node
 ## no GitHub ({"url": "..."}). Sem endereço, o jogo funciona offline como antes (ativo() = false).
 ## Com servidor, ele é a fonte da verdade da economia: cada operação (booster, presente, prêmio, Essência, verso...) vai
 ## para /v1/op e o perfil que volta é adotado (Sessao.adotar_servidor). Nome, decks e opções vão por /v1/livre.
-## Credenciais (id + segredo) ficam cifradas em user://conta.dat; nada de email nesta fase.
+## Credenciais (id + segredo) ficam cifradas em user://conta.dat. Lista de palavras da frase: BIP39 português
+## (github.com/bitcoin/bips, bip-0039/portuguese.txt).
 
 signal mudou                                   # conectou, desconectou ou adotou um perfil novo
 
@@ -79,8 +80,16 @@ func iniciar() -> void:
 			Sessao.adotar_servidor(r["perfil"])
 	else:
 		var r := await _pedir("GET", "/v1/perfil")
+		if str(r.get("erro", "")) == "não autenticado":   # conta apagada ou de outro servidor: cria uma nova levando o progresso
+			id = ""
+			_segredo = ""
+			DirAccess.remove_absolute(ARQ_CONTA)
+			await iniciar()
+			return
 		if r.get("ok", false):
 			Sessao.adotar_servidor(r["perfil"])
+			kode = str(r.get("kode", ""))
+			email_mask = str(r.get("email", ""))
 			await _reenviar_pendentes()
 	mudou.emit()
 
@@ -124,6 +133,103 @@ func livres_mudaram() -> void:
 		if Sessao.perfil.has(k):
 			campos[k] = Sessao.perfil[k]
 	await _pedir("POST", "/v1/livre", {"campos": campos})
+
+
+# ---------------- conta Kode (usuário + senha; frase de 12 palavras para trocar/recuperar) ----------------
+var kode := ""                                 # usuário Kode desta conta ("" = sem Kode)
+var email_mask := ""                           # email ligado, mascarado (t***@x.com)
+const RODADAS := 200000                        # reforço da senha/frase no aparelho (SHA-256 encadeado, ~0,1 s)
+
+
+## Reforça um texto com 200 mil rodadas de SHA-256 (o servidor nunca vê a senha nem a frase).
+static func reforcar(texto: String) -> String:
+	var b := texto.to_utf8_buffer()
+	for k in RODADAS:
+		var h := HashingContext.new()
+		h.start(HashingContext.HASH_SHA256)
+		h.update(b)
+		b = h.finish()
+	return b.hex_encode()
+
+
+static func normalizar_frase(f: String) -> String:
+	var p := PackedStringArray()
+	for w in f.to_lower().replace(",", " ").replace("\n", " ").split(" ", false):
+		p.append(w.strip_edges())
+	return " ".join(p)
+
+
+## 12 palavras da lista BIP39 em português, sorteadas com bytes criptográficos (128 bits de entropia).
+static func gerar_frase() -> String:
+	var lista := FileAccess.get_file_as_string("res://dados/bip39_pt.txt").split("\n", false)
+	var bytes := Crypto.new().generate_random_bytes(24)
+	var w := PackedStringArray()
+	for k in 12:
+		w.append(lista[(int(bytes[k * 2]) * 256 + int(bytes[k * 2 + 1])) % lista.size()].strip_edges())
+	return " ".join(w)
+
+
+func atualizar_info() -> void:
+	var r := await _pedir("GET", "/v1/perfil")
+	if r.get("ok", false):
+		kode = str(r.get("kode", ""))
+		email_mask = str(r.get("email", ""))
+		mudou.emit()
+
+
+func kode_criar(usuario: String, senha: String, frase: String) -> String:
+	var u := usuario.to_lower()
+	var r := await _pedir("POST", "/v1/kode/criar", {"usuario": u, "chave_senha": reforcar("kodex|%s|%s" % [u, senha]),
+		"chave_frase": reforcar("kodex-frase|%s|%s" % [u, normalizar_frase(frase)])})
+	if r.get("ok", false):
+		kode = u
+		mudou.emit()
+		return ""
+	return str(r.get("erro", "sem conexão"))
+
+
+func _entrou(r: Dictionary) -> void:
+	id = str(r["id"])
+	_segredo = str(r["segredo"])
+	_gravar_conta()
+	Sessao.adotar_servidor(r["perfil"], true)
+	await atualizar_info()
+
+
+func kode_entrar(usuario: String, senha: String) -> String:
+	var u := usuario.to_lower()
+	var r := await _pedir("POST", "/v1/kode/entrar", {"usuario": u, "chave_senha": reforcar("kodex|%s|%s" % [u, senha])}, true, false)
+	if r.get("ok", false):
+		await _entrou(r)
+		return ""
+	return str(r.get("erro", "sem conexão"))
+
+
+func kode_recuperar(usuario: String, frase: String, nova_senha: String) -> String:
+	var u := usuario.to_lower()
+	var r := await _pedir("POST", "/v1/kode/recuperar", {"usuario": u,
+		"chave_frase": reforcar("kodex-frase|%s|%s" % [u, normalizar_frase(frase)]),
+		"nova_chave_senha": reforcar("kodex|%s|%s" % [u, nova_senha])}, true, false)
+	if r.get("ok", false):
+		await _entrou(r)
+		return ""
+	return str(r.get("erro", "sem conexão"))
+
+
+# ---------------- email (código de 6 dígitos) ----------------
+func email_pedir(email: String) -> Dictionary:
+	return await _pedir("POST", "/v1/email/pedir", {"email": email.strip_edges()}, true, false)
+
+
+func email_confirmar(email: String, codigo: String) -> String:
+	var r := await _pedir("POST", "/v1/email/confirmar", {"email": email.strip_edges(), "codigo": codigo.strip_edges()})
+	if r.get("entrou", false):
+		await _entrou(r)
+		return ""
+	if r.get("ligou", false):
+		await atualizar_info()
+		return ""
+	return str(r.get("erro", "sem conexão"))
 
 
 func codigo_transferencia() -> String:

@@ -1,5 +1,23 @@
 [
  {
+  "versao": "0.16.0-alpha",
+  "data": "21/10/2026",
+  "pt": [
+   "Conta online (Opções > Conta e login). Sem conta, você joga como convidado e o progresso já fica salvo no servidor do jogo.",
+   "Kode: crie usuário e senha. Para trocar ou recuperar a senha, use a frase secreta de 12 palavras que aparece uma vez só.",
+   "Email (opcional): ligue um email para entrar em outro aparelho com um código de 6 dígitos.",
+   "Código de aparelho: passe a conta para outro celular com um código de 8 letras.",
+   "Política de privacidade atualizada."
+  ],
+  "en": [
+   "Online account (Options > Account and login). Without an account you play as a guest and your progress is already saved on the game server.",
+   "Kode: create a username and password. To change or recover the password, use the 12-word secret phrase shown only once.",
+   "Email (optional): link an email to log in on another device with a 6-digit code.",
+   "Device code: move your account to another phone with an 8-letter code.",
+   "Privacy policy updated."
+  ]
+ },
+ {
   "versao": "0.15.0-alpha",
   "data": "21/10/2026",
   "pt": [

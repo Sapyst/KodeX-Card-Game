@@ -230,6 +230,19 @@ async function op(env, id, p, d) {
   return { erro: "operação desconhecida" };
 }
 
+// ---------- email (opcional): código de 6 dígitos ----------
+// Envio pelo Resend (env.RESEND_KEY + env.REMETENTE). Sem chave: em MODO_DEV=1 (só no PC, nunca público) o código volta
+// na resposta para testar; fora disso o login por email responde "ainda não configurado".
+const emailValido = (e) => /^[^\s@]{1,64}@[^\s@]{1,190}\.[a-z]{2,24}$/i.test(e);
+async function enviarCodigo(env, email, codigo) {
+  if (!env.RESEND_KEY) return env.MODO_DEV === "1" ? "dev" : "";
+  const r = await fetch("https://api.resend.com/emails", {
+    method: "POST", headers: { authorization: `Bearer ${env.RESEND_KEY}`, "content-type": "application/json" },
+    body: JSON.stringify({ from: env.REMETENTE || "KodeX <onboarding@resend.dev>", to: [email], subject: "Seu código do KodeX",
+      text: `Seu código do KodeX: ${codigo}\n\nVale por 10 minutos. Se não foi você, ignore este email.` }) });
+  return r.ok ? "ok" : "";
+}
+
 // ---------- contas ----------
 const hex = (buf) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
 const sha = async (s) => hex(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)));
@@ -241,6 +254,18 @@ async function autenticar(req, env) {
   const c = await env.DB.prepare("SELECT segredo_hash FROM contas WHERE id=?").bind(m[1]).first();
   return c && c.segredo_hash === (await sha(m[2])) ? m[1] : null;
 }
+// Limite por conexão (IP visto pela Cloudflare, guardado só como hash, por dia) contra criação em massa.
+async function limiteIp(req, env, motivo, teto) {
+  const ip = req.headers.get("cf-connecting-ip") || req.headers.get("x-forwarded-for") || "local";
+  const chave = "ip:" + (await sha("kodex-ip:" + ip)).slice(0, 24);
+  const hoje = dia();
+  const lim = await env.DB.prepare("SELECT n FROM limites WHERE id=? AND dia=? AND motivo=?").bind(chave, hoje, motivo).first();
+  if ((lim?.n | 0) >= teto) return false;
+  await env.DB.prepare("INSERT INTO limites (id, dia, motivo, n) VALUES (?, ?, ?, 1) ON CONFLICT(id, dia, motivo) DO UPDATE SET n = n + 1")
+    .bind(chave, hoje, motivo).run();
+  return true;
+}
+
 async function lerPerfil(env, id) {
   const r = await env.DB.prepare("SELECT dados FROM perfis WHERE id=?").bind(id).first();
   return r ? JSON.parse(r.dados) : null;
@@ -277,6 +302,7 @@ export default {
     try {
       if (url.pathname === "/v1/saude") return json({ ok: true, agora: agora(), dia: dia() });
       if (url.pathname === "/v1/conta" && req.method === "POST") {
+        if (!(await limiteIp(req, env, "conta", 20))) return erro("muitas contas criadas hoje nesta conexão", 429);
         const id = aleatorio(12), segredo = aleatorio(32);
         const p = corpo.perfil_local ? importarLocal(corpo.perfil_local) : perfilNovo();
         await env.DB.prepare("INSERT INTO contas (id, segredo_hash, criado) VALUES (?, ?, ?)").bind(id, await sha(segredo), Math.floor(agora())).run();
@@ -292,10 +318,93 @@ export default {
         await env.DB.prepare("UPDATE contas SET segredo_hash=? WHERE id=?").bind(await sha(segredo), c.id).run();
         return json({ ok: true, id: c.id, segredo, perfil: await lerPerfil(env, c.id) });
       }
+      if (url.pathname === "/v1/email/pedir" && req.method === "POST") {
+        const email = String(corpo.email || "").trim().toLowerCase();
+        if (!emailValido(email)) return erro("email inválido");
+        if (!(await limiteIp(req, env, "email", 20))) return erro("muitos pedidos, tente mais tarde", 429);
+        const ant = await env.DB.prepare("SELECT pedido FROM email_codigos WHERE email=?").bind(email).first();
+        if (ant && agora() - ant.pedido < 60) return erro("espere 1 minuto para pedir outro código", 429);
+        const codigo = String(100000 + (crypto.getRandomValues(new Uint32Array(1))[0] % 900000));
+        const envio = await enviarCodigo(env, email, codigo);
+        if (!envio) return erro("login por email ainda não configurado", 503);
+        await env.DB.prepare("INSERT INTO email_codigos (email, codigo_hash, expira, tentativas, pedido) VALUES (?, ?, ?, 0, ?) ON CONFLICT(email) DO UPDATE SET codigo_hash=excluded.codigo_hash, expira=excluded.expira, tentativas=0, pedido=excluded.pedido")
+          .bind(email, await sha(codigo + email), Math.floor(agora()) + 600, Math.floor(agora())).run();
+        const ja = await env.DB.prepare("SELECT id FROM emails WHERE email=?").bind(email).first();
+        return json({ ok: true, existe: !!ja, ...(envio === "dev" ? { dev_codigo: codigo } : {}) });
+      }
+      if (url.pathname === "/v1/email/confirmar" && req.method === "POST") {
+        // email já ligado a uma conta → entra nela (novo segredo); senão → liga o email à conta deste aparelho
+        const email = String(corpo.email || "").trim().toLowerCase();
+        const c = await env.DB.prepare("SELECT codigo_hash, expira, tentativas FROM email_codigos WHERE email=?").bind(email).first();
+        if (!c || c.expira < agora() || c.tentativas >= 5) return erro("código vencido, peça outro", 410);
+        if (c.codigo_hash !== (await sha(String(corpo.codigo || "").trim() + email))) {
+          await env.DB.prepare("UPDATE email_codigos SET tentativas = tentativas + 1 WHERE email=?").bind(email).run();
+          return erro("código errado", 403);
+        }
+        await env.DB.prepare("DELETE FROM email_codigos WHERE email=?").bind(email).run();
+        const ligado = await env.DB.prepare("SELECT id FROM emails WHERE email=?").bind(email).first();
+        if (ligado) {
+          const segredo = aleatorio(32);
+          await env.DB.prepare("UPDATE contas SET segredo_hash=? WHERE id=?").bind(await sha(segredo), ligado.id).run();
+          return json({ ok: true, entrou: true, id: ligado.id, segredo, perfil: await lerPerfil(env, ligado.id) });
+        }
+        const eu = await autenticar(req, env);
+        if (!eu) return erro("abra o jogo conectado para ligar o email", 401);
+        await env.DB.prepare("DELETE FROM emails WHERE id=?").bind(eu).run();       // uma conta, um email
+        await env.DB.prepare("INSERT INTO emails (email, id, criado) VALUES (?, ?, ?)").bind(email, eu, Math.floor(agora())).run();
+        return json({ ok: true, ligou: true });
+      }
+      // ---------- conta Kode ----------
+      const usuarioValido = (u) => /^[a-z0-9_]{3,16}$/.test(u);
+      const chaveValida = (k) => /^[0-9a-f]{64}$/.test(k);
+      if (url.pathname === "/v1/kode/entrar" && req.method === "POST") {
+        const u = String(corpo.usuario || "").toLowerCase();
+        if (!usuarioValido(u) || !chaveValida(String(corpo.chave_senha || ""))) return erro("usuário ou senha errados", 403);
+        if (!(await limiteIp(req, env, "kode_entrar", 60))) return erro("muitas tentativas, tente mais tarde", 429);
+        const k = await env.DB.prepare("SELECT * FROM kodes WHERE usuario=?").bind(u).first();
+        if (!k) return erro("usuário ou senha errados", 403);
+        if (k.bloqueado_ate > agora()) return erro("muitas tentativas: espere 15 minutos", 429);
+        if (k.senha_hash !== (await sha(k.sal + corpo.chave_senha))) {
+          const f = k.falhas + 1;
+          await env.DB.prepare("UPDATE kodes SET falhas=?, bloqueado_ate=? WHERE usuario=?").bind(f % 5, f >= 5 ? Math.floor(agora()) + 900 : 0, u).run();
+          return erro("usuário ou senha errados", 403);
+        }
+        await env.DB.prepare("UPDATE kodes SET falhas=0 WHERE usuario=?").bind(u).run();
+        const segredo = aleatorio(32);
+        await env.DB.prepare("UPDATE contas SET segredo_hash=? WHERE id=?").bind(await sha(segredo), k.id).run();
+        return json({ ok: true, id: k.id, segredo, perfil: await lerPerfil(env, k.id) });
+      }
+      if (url.pathname === "/v1/kode/recuperar" && req.method === "POST") {   // trocar ou recuperar a senha pela frase
+        const u = String(corpo.usuario || "").toLowerCase();
+        if (!usuarioValido(u) || !chaveValida(String(corpo.chave_frase || "")) || !chaveValida(String(corpo.nova_chave_senha || "")))
+          return erro("dados inválidos");
+        if (!(await limiteIp(req, env, "kode_recuperar", 20))) return erro("muitas tentativas, tente mais tarde", 429);
+        const k = await env.DB.prepare("SELECT * FROM kodes WHERE usuario=?").bind(u).first();
+        if (!k || k.frase_hash !== (await sha(k.sal + corpo.chave_frase))) return erro("usuário ou frase errados", 403);
+        const segredo = aleatorio(32);
+        await env.DB.prepare("UPDATE kodes SET senha_hash=?, falhas=0, bloqueado_ate=0 WHERE usuario=?").bind(await sha(k.sal + corpo.nova_chave_senha), u).run();
+        await env.DB.prepare("UPDATE contas SET segredo_hash=? WHERE id=?").bind(await sha(segredo), k.id).run();
+        return json({ ok: true, id: k.id, segredo, perfil: await lerPerfil(env, k.id) });
+      }
       const id = await autenticar(req, env);
       if (!id) return erro("não autenticado", 401);
+      if (url.pathname === "/v1/kode/criar" && req.method === "POST") {        // protege a conta deste aparelho com um Kode
+        const u = String(corpo.usuario || "").toLowerCase();
+        if (!usuarioValido(u)) return erro("usuário: 3 a 16 letras minúsculas, números ou _");
+        if (!chaveValida(String(corpo.chave_senha || "")) || !chaveValida(String(corpo.chave_frase || ""))) return erro("dados inválidos");
+        if (await env.DB.prepare("SELECT 1 FROM kodes WHERE usuario=?").bind(u).first()) return erro("esse usuário já existe", 409);
+        if (await env.DB.prepare("SELECT 1 FROM kodes WHERE id=?").bind(id).first()) return erro("esta conta já tem um Kode", 409);
+        const sal = aleatorio(16);
+        await env.DB.prepare("INSERT INTO kodes (usuario, id, sal, senha_hash, frase_hash, criado) VALUES (?, ?, ?, ?, ?, ?)")
+          .bind(u, id, sal, await sha(sal + corpo.chave_senha), await sha(sal + corpo.chave_frase), Math.floor(agora())).run();
+        return json({ ok: true, usuario: u });
+      }
       const p = await lerPerfil(env, id);
-      if (url.pathname === "/v1/perfil") return json({ ok: true, perfil: p, dia: dia() });
+      if (url.pathname === "/v1/perfil") {
+        const em = await env.DB.prepare("SELECT email FROM emails WHERE id=?").bind(id).first();
+        const ko = await env.DB.prepare("SELECT usuario FROM kodes WHERE id=?").bind(id).first();
+        return json({ ok: true, perfil: p, dia: dia(), email: em ? em.email.replace(/^(.).*(@.*)$/, "$1***$2") : "", kode: ko ? ko.usuario : "" });
+      }
       if (url.pathname === "/v1/livre" && req.method === "POST") {
         aplicarLivres(p, corpo.campos || {});
         await gravarPerfil(env, id, p);
@@ -313,7 +422,7 @@ export default {
         return json({ ok: true, codigo: cod, expira_em: 600 });
       }
       if (url.pathname === "/v1/apagar" && req.method === "POST") {   // excluir a conta (exigência da Play Store)
-        for (const t of ["perfis", "limites", "codigos"]) await env.DB.prepare(`DELETE FROM ${t} WHERE id=?`).bind(id).run();
+        for (const t of ["perfis", "limites", "codigos", "emails", "kodes"]) await env.DB.prepare(`DELETE FROM ${t} WHERE id=?`).bind(id).run();
         await env.DB.prepare("DELETE FROM contas WHERE id=?").bind(id).run();
         return json({ ok: true });
       }

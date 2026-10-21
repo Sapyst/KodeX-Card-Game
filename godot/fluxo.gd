@@ -383,12 +383,7 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(90, 334, 180, 26), "Novidades", abrir_novidades.bind(true))
 			_botao(Rect2(90, 366, 180, 26), "Privacidade", abrir_privacidade)
 			if Nuvem.url != "":                          # conta na nuvem (só quando há servidor)
-				_botao(Rect2(90, 420, 180, 24), "Código para outro aparelho", _codigo_conta)
-				_botao(Rect2(90, 450, 180, 24), "Usar código", mp.editar_codigo_conta, {"web_nome": "codigo_conta"} if OS.has_feature("web") else {})
-				_botao(Rect2(90, 480, 180, 24), "Excluir conta", func() -> void:
-					confirmar(Sessao.t("Excluir a conta?"), Sessao.t("apaga o progresso no servidor"), func() -> void:
-						if await Nuvem.apagar_conta():
-							mp.avisar(Sessao.t("Conta excluída.")); _ir("opcoes")))
+				_botao(Rect2(90, 420, 180, 26), "Conta e login", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
@@ -507,6 +502,25 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(172, 570, 80, 26), "Excluir", func() -> void:
 				confirmar(Sessao.t("Excluir este deck?"), str(Sessao.perfil["decks"][mp.deck_idx]["nome"]), mp.excluir_deck))
 			_botao(Rect2(258, 570, 86, 26), "Voltar", func() -> void: _ir("decks"))
+		"conta":
+			var y := 150
+			var itens: Array = []
+			if Nuvem.kode == "":
+				itens.append(["Criar Kode (usuário e senha)", _criar_kode])
+			itens.append(["Entrar com Kode", _entrar_kode])
+			itens.append(["Trocar ou recuperar senha", _recuperar_kode])
+			itens.append(["Ligar email" if Nuvem.email_mask == "" else "Trocar email", _email.bind(false)])
+			itens.append(["Entrar com email", _email.bind(true)])
+			itens.append(["Código para outro aparelho", _codigo_conta])
+			itens.append(["Usar código de aparelho", _usar_codigo_aparelho])
+			for it in itens:
+				_botao(Rect2(70, y, 220, 26), it[0], it[1])
+				y += 32
+			_botao(Rect2(70, y + 14, 220, 26), "Excluir conta", func() -> void:
+				confirmar(Sessao.t("Excluir a conta?"), Sessao.t("apaga o progresso no servidor"), func() -> void:
+					if await Nuvem.apagar_conta():
+						mp.avisar(Sessao.t("Conta excluída.")); _ir("opcoes")))
+			_botao(Rect2(110, y + 54, 140, 26), "Voltar", func() -> void: _ir("opcoes"))
 		"sugerir":
 			for i in 6:
 				var d: String = Sessao.DECKS[i]
@@ -724,6 +738,154 @@ func _abas_loja(atual: String) -> void:
 	_botao(Rect2(182, 86, 108, 20), "Cosméticos", func() -> void: _ir("cosmeticos"), {"aba_loja": "cosmeticos", "atual": atual == "cosmeticos", "desenho": _botao_aba_loja})
 
 
+# ---------- caixa de digitação (um campo por vez) ----------
+signal texto_pronto(t: String)
+var pedido := {}                          # {titulo, secreto}: caixa aberta
+var campo_txt: LineEdit
+
+
+## Pede um texto. Web: caixa nativa do navegador. Celular/PC: campo do jogo (teclado do sistema). "" = cancelou.
+func pedir_texto(titulo: String, secreto := false, maximo := 160) -> String:
+	if OS.has_feature("web"):
+		var r = JavaScriptBridge.eval("window.prompt(%s, '') || ''" % JSON.stringify(titulo), true)
+		return str(r).strip_edges() if r != null else ""
+	if campo_txt == null:
+		campo_txt = LineEdit.new()
+		campo_txt.modulate = Color(1, 1, 1, 0)
+		campo_txt.text_submitted.connect(func(t: String) -> void: _fim_pedido(t))
+		add_child(campo_txt)
+	campo_txt.text = ""
+	campo_txt.secret = secreto
+	campo_txt.max_length = maximo
+	campo_txt.position = Vector2(40, 270 + extra())
+	campo_txt.size = Vector2(280, 24)
+	campo_txt.visible = true
+	campo_txt.grab_focus()
+	pedido = {"titulo": titulo, "secreto": secreto}
+	var t: String = await texto_pronto
+	return t.strip_edges()
+
+
+func _fim_pedido(t: String) -> void:
+	if pedido.is_empty():
+		return
+	pedido = {}
+	campo_txt.release_focus()
+	campo_txt.visible = false
+	texto_pronto.emit(t)
+
+
+func _rects_pedido() -> Array:
+	var y := 306.0 + extra()
+	return [Rect2(60, y, 110, 26), Rect2(190, y, 110, 26)]
+
+
+func _desenhar_pedido() -> void:
+	draw_rect(Rect2(-position, get_viewport_rect().size), Color(0.02, 0.01, 0.03, 0.75))
+	var r := Rect2(30, 226 + extra(), 300, 120)
+	var dd := _painel(r, true, 0.0, Color("#1e161e"))
+	var linhas := Fonte57.quebrar(str(pedido["titulo"]), 280)
+	for k in linhas.size():
+		Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(linhas[k]) / 2.0), dd.position.y + 6 + k * 10), linhas[k], OURO[0], ESCURO)
+	var caixa := Rect2(40, 270 + extra(), 280, 24)
+	draw_rect(caixa, Color("#0c080a"))
+	draw_rect(caixa, OURO[2], false, 1.0)
+	var t := campo_txt.text if campo_txt else ""
+	var vis := "*".repeat(t.length()) if pedido["secreto"] else t
+	while Fonte57.largura(vis) > 266:
+		vis = vis.substr(1)
+	Fonte57.desenhar(self, caixa.position + Vector2(7, 9), vis + ("|" if int(tempo * 2) % 2 == 0 else ""), CREME)
+	var bs := _rects_pedido()
+	var b0 := _painel(bs[0], true, 0.0, Color("#3a2410"))
+	_texto_central(b0.get_center(), Sessao.t("OK"), OURO[0])
+	var b1 := _painel(bs[1], false, 0.0)
+	_texto_central(b1.get_center(), Sessao.t("Cancelar"), CREME)
+
+
+func _avisar_erro(e: String) -> void:
+	mp.avisar(Sessao.t(e) if e != "" else Sessao.t("Pronto!"))
+	_ir("conta")
+
+
+func _usar_codigo_aparelho() -> void:
+	var c := await pedir_texto(Sessao.t("Código do aparelho (8 letras)"), false, 8)
+	if c != "":
+		entrar_conta(c)
+
+
+## Criar Kode: usuário → senha (2×) → mostra a frase de 12 palavras → confere 1 palavra sorteada → cria.
+func _criar_kode() -> void:
+	var u := await pedir_texto(Sessao.t("Escolha um usuário (3 a 16: letras minúsculas, números, _)"), false, 16)
+	if u == "":
+		return
+	var s1 := await pedir_texto(Sessao.t("Crie uma senha (8 caracteres ou mais)"), true, 64)
+	if s1.length() < 8:
+		mp.avisar(Sessao.t("A senha precisa de 8 caracteres ou mais.")); return
+	var s2 := await pedir_texto(Sessao.t("Repita a senha"), true, 64)
+	if s1 != s2:
+		mp.avisar(Sessao.t("As senhas não batem.")); return
+	var frase := Nuvem.gerar_frase()
+	var w := frase.split(" ")
+	var blocos: Array = [["titulo", Sessao.t("Sua frase secreta")],
+		["centro", Sessao.t("Anote estas 12 palavras em papel, na ordem. Sem elas não dá para trocar nem recuperar a senha.")], ["espaco"]]
+	for k in 12:
+		blocos.append(["item", "%d. %s" % [k + 1, w[k]]])
+	blocos.append(["espaco"])
+	blocos.append(["centro", Sessao.t("Ninguém do KodeX vai pedir essa frase.")])
+	perg.abrir(blocos)
+	await perg.fechou
+	var n := randi_range(1, 12)
+	var conf := await pedir_texto(Sessao.t("Para conferir: qual é a palavra número %d?") % n)
+	if conf.to_lower() != w[n - 1]:
+		mp.avisar(Sessao.t("Palavra errada. O Kode não foi criado.")); return
+	mp.avisar(Sessao.t("Criando..."))
+	_avisar_erro(await Nuvem.kode_criar(u, s1, frase))
+
+
+func _entrar_kode() -> void:
+	var u := await pedir_texto(Sessao.t("Usuário Kode"), false, 16)
+	if u == "":
+		return
+	var s := await pedir_texto(Sessao.t("Senha"), true, 64)
+	if s == "":
+		return
+	mp.avisar(Sessao.t("Entrando..."))
+	_avisar_erro(await Nuvem.kode_entrar(u, s))
+
+
+func _recuperar_kode() -> void:
+	var u := await pedir_texto(Sessao.t("Usuário Kode"), false, 16)
+	if u == "":
+		return
+	var f := await pedir_texto(Sessao.t("As 12 palavras, na ordem, separadas por espaço"), false, 200)
+	if f.split(" ", false).size() != 12:
+		mp.avisar(Sessao.t("São 12 palavras.")); return
+	var s1 := await pedir_texto(Sessao.t("Nova senha (8 caracteres ou mais)"), true, 64)
+	if s1.length() < 8:
+		mp.avisar(Sessao.t("A senha precisa de 8 caracteres ou mais.")); return
+	mp.avisar(Sessao.t("Conferindo..."))
+	_avisar_erro(await Nuvem.kode_recuperar(u, f, s1))
+
+
+## Email: pede o endereço, manda o código de 6 dígitos e confere. entrar=true: entra na conta ligada a esse email.
+func _email(entrar: bool) -> void:
+	var e := await pedir_texto(Sessao.t("Seu email"), false, 254)
+	if e == "":
+		return
+	var r: Dictionary = await Nuvem.email_pedir(e)
+	if not r.get("ok", false):
+		mp.avisar(Sessao.t(str(r.get("erro", "sem conexão")))); return
+	if entrar and not r.get("existe", false):
+		mp.avisar(Sessao.t("Nenhuma conta com esse email.")); return
+	var titulo := Sessao.t("Código de 6 dígitos enviado para o email")
+	if r.has("dev_codigo"):
+		titulo += " (teste: %s)" % str(r["dev_codigo"])
+	var c := await pedir_texto(titulo, false, 6)
+	if c == "":
+		return
+	_avisar_erro(await Nuvem.email_confirmar(e, c))
+
+
 func _codigo_conta() -> void:
 	var c := await Nuvem.codigo_transferencia()
 	if c == "":
@@ -735,7 +897,7 @@ func _codigo_conta() -> void:
 func entrar_conta(codigo: String) -> void:
 	if await Nuvem.entrar(codigo):
 		mp.avisar(Sessao.t("Conta carregada!"))
-		_ir("opcoes")
+		_ir("conta")
 	else:
 		mp.avisar(Sessao.t("Código inválido ou vencido."))
 
@@ -1120,7 +1282,7 @@ func _unhandled_input(ev: InputEvent) -> void:
 		elif ev is InputEventScreenDrag or ev is InputEventMouseMotion:
 			visor.mover(pv)
 		return
-	if confirma.is_empty() and _entrada_barra(ev):
+	if confirma.is_empty() and pedido.is_empty() and _entrada_barra(ev):
 		return
 	if estado == "titulo" and _entrada_leque(ev):
 		return
@@ -1162,6 +1324,14 @@ func _unhandled_input(ev: InputEvent) -> void:
 
 ## Dedo encostou: botão afunda 1 px, escurece e vibra 10 ms.
 func apertar(p: Vector2) -> void:
+	if not pedido.is_empty():                        # caixa de digitação aberta
+		if _rects_pedido()[0].has_point(p):
+			_fim_pedido(campo_txt.text)
+		elif _rects_pedido()[1].has_point(p):
+			_fim_pedido("")
+		elif campo_txt:
+			campo_txt.grab_focus()
+		return
 	if not confirma.is_empty():                      # janela de confirmação por cima de tudo
 		var cb: Callable = confirma["sim"]
 		if _rects_confirma()[0].has_point(p):
@@ -1450,6 +1620,11 @@ func _draw() -> void:
 			_cabecalho("Solo", Sessao.t("modos para jogar sozinho"))
 		"sugerir":
 			_cabecalho(Sessao.t("Deck sugerido"), Sessao.t("montado com as cartas que você tem"))
+		"conta":
+			_cabecalho(Sessao.t("Conta"), (Sessao.t("online") + " · " + Nuvem.id_curto()) if Nuvem.online else Sessao.t("sem conexão"))
+			_texto_central(Vector2(180, 104), Sessao.t("Kode") + ": " + (Nuvem.kode if Nuvem.kode != "" else Sessao.t("não criado")), Color("#e0c0ff"))
+			_texto_central(Vector2(180, 118), Sessao.t("Email") + ": " + (Nuvem.email_mask if Nuvem.email_mask != "" else Sessao.t("não ligado")), Color("#9ad0ff"))
+			_texto_central(Vector2(180, 134), Sessao.t("Sem conta, você joga como convidado neste aparelho."), Color(0.72, 0.66, 0.6))
 		"capitulo":
 			_desenhar_capitulo()
 		"creditos":
@@ -1494,6 +1669,8 @@ func _draw() -> void:
 		_desenhar_fala(falas[0])
 	if not confirma.is_empty():
 		_desenhar_confirma()
+	if not pedido.is_empty():
+		_desenhar_pedido()
 	if transicao > 0.0:
 		draw_rect(Rect2(-position, get_viewport_rect().size), Color(0.03, 0.02, 0.05, transicao))
 

@@ -6,3 +6,11 @@ CREATE TABLE IF NOT EXISTS limites (id TEXT NOT NULL, dia INTEGER NOT NULL, moti
   PRIMARY KEY (id, dia, motivo));
 -- códigos de transferência para outro aparelho (8 letras, 10 minutos)
 CREATE TABLE IF NOT EXISTS codigos (codigo TEXT PRIMARY KEY, id TEXT NOT NULL, expira INTEGER NOT NULL);
+-- login por email (opcional): email ligado a uma conta e códigos de 6 dígitos (hash, 10 min, 5 tentativas)
+CREATE TABLE IF NOT EXISTS emails (email TEXT PRIMARY KEY, id TEXT NOT NULL, criado INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS email_codigos (email TEXT PRIMARY KEY, codigo_hash TEXT NOT NULL, expira INTEGER NOT NULL,
+  tentativas INTEGER NOT NULL, pedido INTEGER NOT NULL);
+-- conta Kode: usuário + senha; trocar/recuperar a senha exige a frase de 12 palavras (BIP39). O jogo reforça senha e
+-- frase (milhares de rodadas de SHA-256) antes de enviar; aqui fica só o hash com sal do que chegou.
+CREATE TABLE IF NOT EXISTS kodes (usuario TEXT PRIMARY KEY, id TEXT NOT NULL, sal TEXT NOT NULL, senha_hash TEXT NOT NULL,
+  frase_hash TEXT NOT NULL, criado INTEGER NOT NULL, falhas INTEGER NOT NULL DEFAULT 0, bloqueado_ate INTEGER NOT NULL DEFAULT 0);

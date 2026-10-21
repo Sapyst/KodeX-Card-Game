@@ -7,7 +7,7 @@
   ],
   [
    "txt",
-   "O KodeX não pede email nem senha, não mostra anúncios e não usa rastreamento nem análise de uso."
+   "O KodeX não exige email nem senha (são opcionais), não mostra anúncios e não usa rastreamento nem análise de uso."
   ],
   [
    "sub",
@@ -28,6 +28,18 @@
   [
    "txt",
    "Para trocar de aparelho, o jogo gera um código de 8 letras que vale por 10 minutos. Em Opções > Excluir conta, tudo o que está no servidor é apagado na hora."
+  ],
+  [
+   "sub",
+   "Kode e email (opcionais)"
+  ],
+  [
+   "txt",
+   "Kode: você escolhe um usuário e uma senha. O jogo embaralha a senha e a frase de 12 palavras (200 mil rodadas de SHA-256) antes de enviar; o servidor guarda só esse resultado com sal, nunca a senha nem a frase. Quem perder a senha e a frase perde a conta."
+  ],
+  [
+   "txt",
+   "Email: se você ligar um email, ele fica guardado no servidor só para mandar o código de login de 6 dígitos (pelo serviço de envio Resend). Não mandamos propaganda. Excluir a conta apaga o email."
   ],
   [
    "sub",
@@ -69,7 +81,7 @@
   ],
   [
    "txt",
-   "KodeX asks for no email or password, shows no ads and uses no tracking or usage analytics."
+   "KodeX requires no email or password (both optional), shows no ads and uses no tracking or usage analytics."
   ],
   [
    "sub",
@@ -90,6 +102,18 @@
   [
    "txt",
    "To switch devices, the game creates an 8-letter code valid for 10 minutes. In Options > Delete account, everything on the server is erased right away."
+  ],
+  [
+   "sub",
+   "Kode and email (optional)"
+  ],
+  [
+   "txt",
+   "Kode: you pick a username and a password. The game scrambles the password and the 12-word phrase (200,000 rounds of SHA-256) before sending; the server keeps only that result with a salt, never the password or the phrase. Losing both the password and the phrase means losing the account."
+  ],
+  [
+   "txt",
+   "Email: if you link an email, the server keeps it only to send the 6-digit login code (through the Resend email service). We send no advertising. Deleting the account erases the email."
   ],
   [
    "sub",

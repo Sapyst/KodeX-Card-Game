@@ -1,5 +1,23 @@
 [
  {
+  "versao": "0.12.0-alpha",
+  "data": "21/10/2026",
+  "pt": [
+   "Loja de cosméticos (aba Cosméticos na Loja): 9 versos de carta novos para comprar com Koins e equipar.",
+   "4 versos desenhados em pixel art: Códice, Mandala, Constelação e Azulejo (150 Koins).",
+   "3 versos ilustrados: Árvore da Vida, Vitral e Dragão de Jade (300 Koins).",
+   "2 versos lendários animados: Ouroboros e Lótus Cósmica, com brilho, faíscas e aura (800 Koins).",
+   "O verso equipado aparece nas suas cartas na mesa e nos boosters."
+  ],
+  "en": [
+   "Cosmetics shop (Cosmetics tab in the Shop): 9 new card backs to buy with Koins and equip.",
+   "4 pixel art backs: Codex, Mandala, Constellation and Azulejo (150 Koins).",
+   "3 illustrated backs: Tree of Life, Stained Glass and Jade Dragon (300 Koins).",
+   "2 animated legendary backs: Ouroboros and Cosmic Lotus, with shine, sparkles and aura (800 Koins).",
+   "Your equipped back shows on your cards at the table and in boosters."
+  ]
+ },
+ {
   "versao": "0.11.0-alpha",
   "data": "21/10/2026",
   "pt": [

@@ -152,6 +152,9 @@ func _moldura(x0: int, y0: int, fundo: Color) -> void:
 
 
 func _verso(x0: int, y0: int) -> void:
+	# verso equipado na loja de cosméticos (só nas cartas do jogador; efeitos animados fora das cartas empilhadas)
+	if dono_real == 0 and Cosmeticos.desenhar(self, Sessao.verso_equipado(), Rect2(x0, y0, LARG, ALT), not empilhada):
+		return
 	_moldura(x0, y0, VERSO_FUNDO)
 	# filete dourado com cantos recortados
 	draw_rect(Rect2(x0 + 4, y0 + 3, LARG - 8, 1), OURO)

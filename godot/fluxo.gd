@@ -71,6 +71,8 @@ func extra() -> float:
 
 
 func _indice_aba(e: String) -> int:
+	if e in ["cosmeticos", "cosmetico"]:
+		e = "loja"
 	for k in ABAS_MENU.size():
 		if ABAS_MENU[k][0] == e:
 			return k
@@ -261,6 +263,8 @@ func _ready() -> void:
 				solo.opcoes = ["fe1", "impeto1", "vida1"]
 				_ir("pere_premio")
 			"capitulo": _capitulo(3, "indigena", func() -> void: _ir("titulo"))
+			"cosmetico":
+				cos_sel = st[1]; _ir("cosmetico")
 			"colecao_f":
 				col.posse = "tenho"; col.tipo = "entidade"; col.abrir_aba("alta_magia"); _ir("colecao")
 			"busca":
@@ -399,6 +403,7 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(90, 484, 180, 30), "Confirmar", mp.confirmar_recorte)
 			_botao(Rect2(110, 524, 140, 24), "Cancelar", func() -> void: _ir("perfil"))
 		"loja":
+			_abas_loja("boosters")
 			_botao(Rect2(90, 404, 180, 30), "Comprar booster", bo.comprar)
 			_botao(Rect2(70, 440, 220, 22), "", func() -> void:
 				var ops := [""] + Sessao.DECKS
@@ -406,6 +411,23 @@ func _ir(novo: String) -> void:
 				Sessao.salvar(); _ir("loja"); transicao = 0.0, {"desenho": _botao_pacote})
 			if Sessao.boosters_gratis() > 0:
 				_botao(Rect2(90, 512, 180, 30), Sessao.t("Abrir grátis (%d)") % Sessao.boosters_gratis(), bo.comprar.bind(true))
+		"cosmeticos":
+			_abas_loja("cosmeticos")
+			for k in Cosmeticos.VERSOS.size():
+				var it: Dictionary = Cosmeticos.VERSOS[k]
+				_botao(Rect2(18 + (k % 4) * 84, 120 + (k / 4) * 140, 72, 128), "", func() -> void: cos_sel = it["id"]; _ir("cosmetico"),
+					{"verso": it["id"], "desenho": _botao_verso})
+		"cosmetico":
+			var it2 := Cosmeticos.item(cos_sel)
+			if not Sessao.tem_verso(cos_sel):
+				_botao(Rect2(90, 470, 180, 30), "", func() -> void:
+					if Sessao.comprar_verso(cos_sel):
+						vibrar(30, 0.7); Sessao.vibrar_pulsos(2, 30, 0.6); _ir("cosmetico")
+					else:
+						mp.avisar(Sessao.t("Koins insuficientes.")); vibrar(30, 0.6), {"comprar_verso": int(it2["preco"]), "desenho": _botao_comprar_verso})
+			elif Sessao.verso_equipado() != cos_sel:
+				_botao(Rect2(90, 470, 180, 30), "Equipar", func() -> void: Sessao.equipar_verso(cos_sel); vibrar(18, 0.5); _ir("cosmetico"))
+			_botao(Rect2(110, 512, 140, 26), "Voltar", func() -> void: _ir("cosmeticos"))
 		"booster":
 			if bo.etapa == "fim":
 				for k in 3:
@@ -609,6 +631,90 @@ func _botao_redondo(_b: Dictionary, r: Rect2, pressao: float, qual: String) -> v
 		var h := Relogio.segundos_ate_amanha()
 		var s := "%dH" % (h / 3600) if h >= 3600 else "%dM" % maxi(1, h / 60)
 		PixelFonte.centrado(self, c + Vector2(0, 21), s, Color(0.85, 0.78, 0.66, 0.85), 1, ESCURO)
+
+
+var cos_sel := "classico"
+
+
+func _abas_loja(atual: String) -> void:
+	_botao(Rect2(70, 86, 108, 20), "Boosters", func() -> void: _ir("loja"), {"aba_loja": "boosters", "atual": atual == "boosters", "desenho": _botao_aba_loja})
+	_botao(Rect2(182, 86, 108, 20), "Cosméticos", func() -> void: _ir("cosmeticos"), {"aba_loja": "cosmeticos", "atual": atual == "cosmeticos", "desenho": _botao_aba_loja})
+
+
+func _botao_aba_loja(b: Dictionary, r: Rect2, pressao: float) -> void:
+	var ativo: bool = b["atual"]
+	var dd := _painel(r, ativo, pressao, Color("#3a2a40") if ativo else Color("#1e161e"))
+	PixelFonte.centrado(self, dd.get_center() + Vector2(0, 1), Sessao.t("BOOSTERS" if b["aba_loja"] == "boosters" else "COSMÉTICOS"),
+		OURO[0] if ativo else Color("#b8b0c0"), 1)
+
+
+func _koins_topo() -> void:
+	var k := str(Sessao.koins())
+	var w := Fonte57.largura(k)
+	MenuPerfil.icone_koin(self, Vector2(338 - w - 10, 18))
+	Fonte57.desenhar(self, Vector2(340 - w, 15), k, Color("#e0c0ff"), ESCURO)
+
+
+## Miniatura do verso na grade: carta 72×101, nome e preço (ou TEM / EM USO); lendários com borda pulsando.
+func _botao_verso(b: Dictionary, r: Rect2, pressao: float) -> void:
+	var id: String = b["verso"]
+	var it := Cosmeticos.item(id)
+	var cr := Rect2(r.position + Vector2(0, pressao), Vector2(72, 101))
+	var lend: bool = it.get("lendario", false)
+	if lend:
+		draw_rect(cr.grow(2), Color(1.0, 0.85, 0.4, 0.45 + 0.35 * sin(tempo * 3.0)))
+	draw_rect(cr.grow(1), ESCURO)
+	if not Cosmeticos.desenhar(self, id, cr):
+		bo.verso_classico(self, cr)
+	var eq := Sessao.verso_equipado() == id
+	var nome := Cosmeticos.nome(id)
+	Fonte57.desenhar(self, Vector2(roundf(cr.get_center().x - Fonte57.largura(nome) / 2.0), cr.end.y + 4), nome, OURO[0] if lend else CREME, ESCURO)
+	var s := ""
+	var cor := Color("#e0c0ff")
+	if eq:
+		s = Sessao.t("EM USO"); cor = OURO[0]
+	elif Sessao.tem_verso(id):
+		s = Sessao.t("TEM"); cor = Color("#9ad0ff")
+	else:
+		s = str(int(it["preco"]))
+	var w := PixelFonte.largura(s) + (12 if s.is_valid_int() else 0)
+	var x := roundf(cr.get_center().x - w / 2.0)
+	if s.is_valid_int():
+		MenuPerfil.icone_koin(self, Vector2(x + 4, cr.end.y + 19), 4.0)
+		x += 12
+	PixelFonte.desenhar(self, Vector2(x, cr.end.y + 17), s, cor)
+
+
+func _botao_comprar_verso(b: Dictionary, r: Rect2, pressao: float) -> void:
+	var dd := _painel(r, true, pressao, Color("#3a1a5a"))
+	var s := Sessao.t("Comprar") + "  " + str(b["comprar_verso"])
+	var w := Fonte57.largura(s) + 14
+	var x := roundf(dd.get_center().x - w / 2.0)
+	Fonte57.desenhar(self, Vector2(x, dd.get_center().y - 3), s, OURO[0], ESCURO)
+	MenuPerfil.icone_koin(self, Vector2(x + w - 5, dd.get_center().y + 1), 4.5)
+
+
+func _desenhar_cosmetico() -> void:
+	var it := Cosmeticos.item(cos_sel)
+	var lend: bool = it.get("lendario", false)
+	_cabecalho(Cosmeticos.nome(cos_sel), Sessao.t("verso lendário animado") if lend else Sessao.t("verso de carta"))
+	_koins_topo()
+	var r := Rect2(100, 100, 160, 225)
+	if lend:
+		for k in 3:
+			draw_rect(r.grow(3 + k * 2), Color(1.0, 0.85, 0.4, (0.25 - k * 0.07) * (0.6 + 0.4 * sin(tempo * 3.0))), false, 2.0)
+	draw_rect(r.grow(1), ESCURO)
+	if not Cosmeticos.desenhar(self, cos_sel, r):
+		bo.verso_classico(self, r)
+	var s := ""
+	if Sessao.verso_equipado() == cos_sel:
+		s = Sessao.t("Em uso nas suas cartas.")
+	elif Sessao.tem_verso(cos_sel):
+		s = Sessao.t("Você já tem este verso.")
+	else:
+		s = Sessao.t("Você tem %d Koins.") % Sessao.koins()
+	_texto_central(Vector2(180, 350), s, Color(0.85, 0.78, 0.66))
+	_texto_central(Vector2(180, 366), Sessao.t("Koins: 10 por dia e 100 toda sexta."), Color(0.72, 0.66, 0.6, 0.8))
 
 
 func _botao_pacote(_b: Dictionary, r: Rect2, pressao: float) -> void:
@@ -1217,6 +1323,11 @@ func _draw() -> void:
 			solo.desenhar_enigmas()
 		"loja":
 			bo.desenhar_loja()
+		"cosmeticos":
+			_cabecalho(Sessao.t("Cosméticos"), Sessao.t("versos de carta por Koins"))
+			_koins_topo()
+		"cosmetico":
+			_desenhar_cosmetico()
 		"booster":
 			bo.desenhar_booster()
 		"perfil":

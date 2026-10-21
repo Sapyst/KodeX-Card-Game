@@ -62,6 +62,10 @@ func _ready() -> void:
 			var tt := float(k)
 			get_tree().create_timer(tt, true, false, true).timeout.connect(func() -> void:
 				get_viewport().get_texture().get_image().save_png(OS.get_environment("GD_PRINTS_DIR") + "/p_%05.2f.png" % tt))
+	if OS.get_environment("GD_VERSO") != "":             # teste: equipa um verso e dá Koins
+		perfil["versos"] = [OS.get_environment("GD_VERSO"), "codice"]
+		perfil["verso"] = OS.get_environment("GD_VERSO")
+		_gravar("koins", 420)
 	if OS.get_environment("GD_MODO_TESTE") == "peregrinacao":  # teste: regras extras da Peregrinação
 		preparar_modo("peregrinacao", deck_tematico("indigena"), "hinduismo", deck_tematico("hinduismo"), 2,
 			{"cornucopia": [12, 18], "bencaos": ["fe1", "compra1", "impeto1", "selo-1", "vida1"], "mao_garantida": ["hin_kali"]})
@@ -578,6 +582,32 @@ func essencia() -> int:
 
 func koins() -> int:
 	return _ler("koins")
+
+
+# ---------- cosméticos (cosmeticos.gd): perfil["versos"] = ids comprados, perfil["verso"] = equipado ----------
+func verso_equipado() -> String:
+	return str(perfil.get("verso", "classico"))
+
+
+func tem_verso(id: String) -> bool:
+	return id == "classico" or id in (perfil.get("versos", []) as Array)
+
+
+func comprar_verso(id: String) -> bool:
+	if tem_verso(id) or not gastar_koins(int(Cosmeticos.item(id)["preco"])):
+		return false
+	var l: Array = perfil.get("versos", [])
+	l.append(id)
+	perfil["versos"] = l
+	perfil["verso"] = id
+	salvar()
+	return true
+
+
+func equipar_verso(id: String) -> void:
+	if tem_verso(id):
+		perfil["verso"] = id
+		salvar()
 
 
 func gastar_koins(n: int) -> bool:

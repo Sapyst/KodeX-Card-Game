@@ -305,6 +305,13 @@ func _crimp(ci: CanvasItem, y: float, cima: bool, alfa: float) -> void:
 
 func verso(ci: CanvasItem, r: Rect2, alfa := 1.0) -> void:
 	ci.draw_rect(r.grow(1), Color(0.05, 0.03, 0.07, alfa))
+	if Cosmeticos.desenhar(ci, Sessao.verso_equipado(), r, true, alfa):
+		return
+	verso_classico(ci, r, alfa)
+
+
+## Verso padrão (Clássico): roxo com moldura e anéis dourados.
+func verso_classico(ci: CanvasItem, r: Rect2, alfa := 1.0) -> void:
 	ci.draw_rect(r, Color(0.16, 0.1, 0.2, alfa))
 	ci.draw_rect(r.grow(-4), Color(0.89, 0.72, 0.35, 0.8 * alfa), false, 1.0)
 	var c := r.get_center()

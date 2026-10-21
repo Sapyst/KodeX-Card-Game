@@ -653,6 +653,8 @@ func _ir_para_deck() -> void:
 	var esc_o := ESC_CAMPO * escala_em(DECK_OPON.y)
 	for i in N_CARTAS:
 		var c := _nova_carta(Vector2(-60, -80), esc_o)
+		c.dono = 1
+		c.dono_real = 1                                  # verso do oponente (o jogador usa o verso equipado)
 		c.rotation = -0.5
 		c.z_index = i
 		c.empilhada = i > 0

@@ -284,6 +284,8 @@ func _escolher_web() -> void:
 ## Safari/iPhone só abre o seletor de arquivo se input.click() acontecer DENTRO do gesto do usuário. O Godot recebe
 ## o toque depois que o navegador já o processou, então armamos um ouvinte no "pointerup"/"touchend" do próprio
 ## documento quando o dedo ENCOSTA no botão: o click() roda quando o dedo sai, ainda dentro do gesto.
+## O input fica DENTRO da página (o Safari ignora click() em elemento solto) e aceita só JPEG/PNG/WebP: assim o
+## iPhone converte as fotos HEIC para JPEG na hora de escolher (o Godot não abre HEIC).
 func armar_upload_web() -> void:
 	if not OS.has_feature("web"):
 		return
@@ -292,7 +294,7 @@ func armar_upload_web() -> void:
 		JavaScriptBridge.get_interface("window").kodexFoto = _cb_web
 	JavaScriptBridge.eval("""(function(){
 		var i=window.kodexInput;
-		if(!i){i=document.createElement('input');i.type='file';i.accept='image/*';
+		if(!i){i=document.createElement('input');i.type='file';i.id='kodexFotoInput';i.accept='image/jpeg,image/png,image/webp';
 			i.style.position='fixed';i.style.left='-1000px';i.style.top='0';i.style.opacity='0';
 			document.body.appendChild(i);window.kodexInput=i;
 			i.addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();
@@ -306,6 +308,9 @@ func armar_upload_web() -> void:
 
 func _ao_arquivo_web(args: Array) -> void:
 	var dados := str(args[0])
+	if dados.begins_with("data:image/heic") or dados.begins_with("data:image/heif"):
+		avisar(Sessao.t("Formato HEIC não suportado. Use JPEG ou PNG."))
+		return
 	var virgula := dados.find(",")
 	if virgula < 0:
 		avisar(Sessao.t("Não consegui abrir essa imagem."))

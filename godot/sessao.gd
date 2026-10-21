@@ -444,7 +444,62 @@ func salvar() -> void:
 		DirAccess.rename_absolute(SAVE, SAVE_BAK)
 	DirAccess.rename_absolute(tmp, SAVE)
 	perfil_mudou.emit()
+	if not _sem_nuvem and Nuvem.ativo():
+		Nuvem.livres_mudaram()
 
+
+var _sem_nuvem := false
+
+
+## Grava só no aparelho (sem avisar o servidor): usado ao adotar o perfil que veio dele.
+func salvar_so_local() -> void:
+	_sem_nuvem = true
+	salvar()
+	_sem_nuvem = false
+
+
+## Campos que o servidor controla (economia e progresso que dá prêmio). `tudo` = entrar numa conta de outro aparelho:
+## traz também nome, decks e opções.
+const CAMPOS_SERVIDOR := ["colecao", "foils", "versos", "resgates", "sem_lendaria", "lendarios", "enigmas", "diario_dia",
+	"versao_premiada", "choronzon_vencido", "titulos", "novas"]
+const CAMPOS_LIVRES := ["nome", "decks", "deck_ativo", "verso", "pacote", "tarcade", "torneio", "versao_vista", "pere",
+	"torneio_vencido"]
+
+
+func adotar_servidor(srv: Dictionary, tudo := false) -> void:
+	for k in CAMPOS_SERVIDOR + (CAMPOS_LIVRES if tudo else ["verso"]):
+		if srv.has(k):
+			perfil[k] = srv[k]
+		elif k in CAMPOS_SERVIDOR:
+			perfil.erase(k)
+	for cid in perfil.get("colecao", {}):
+		perfil["colecao"][cid] = int(perfil["colecao"][cid])
+	for cid in perfil.get("foils", {}):
+		perfil["foils"][cid] = int(perfil["foils"][cid])
+	for k in PROTEGIDOS:
+		_gravar(k, int(srv.get(k, 0)))
+	if tudo:
+		perfil["deck_ativo"] = int(perfil.get("deck_ativo", 0))
+	salvar_so_local()
+
+
+## Repete no servidor uma operação feita no aparelho; o perfil que volta corrige qualquer diferença.
+func _espelhar(tipo: String, dados: Dictionary) -> void:
+	if Nuvem.ativo():
+		Nuvem.op(tipo, dados, true)
+
+
+## Prêmio de partida/modo: credita na hora (offline também) e manda ao servidor, que confere o teto do dia e devolve
+## o perfil certo (se passar do teto, o valor volta ao que o servidor diz).
+func premio(motivo: String, dados: Dictionary, moedas_local: int, boosters_local := 0) -> void:
+	_gravar("moedas", moedas() + moedas_local)
+	if boosters_local > 0:
+		_gravar("boosters_gratis", boosters_gratis() + boosters_local)
+	salvar()
+	if Nuvem.ativo():
+		var d := dados.duplicate()
+		d["motivo"] = motivo
+		Nuvem.op("premio", d, true)
 
 ## Valor disfarçado: na memória fica só (valor XOR máscara aleatória) + uma conferência. Procurar "250" num editor de
 ## memória não acha nada; se alguém mexer mesmo assim, a conferência falha e o valor volta ao último salvo.
@@ -501,6 +556,11 @@ func recompensas_pendentes() -> Dictionary:
 ## Pede a hora ao servidor de novo (nunca confia em tempo contado localmente para pagar) e paga o que estiver pendente.
 ## Devolve {"moedas", "booster", "dias"} pagos, {} sem nada a pagar, ou {"offline": true} sem conexão.
 func resgatar() -> Dictionary:
+	if Nuvem.ativo():                              # online: o servidor paga pela hora dele
+		var rs: Dictionary = await Nuvem.op("resgatar")
+		if rs.is_empty():
+			return {"offline": true}
+		return {} if int(rs.get("dias", 0)) == 0 and int(rs.get("booster", 0)) == 0 and int(rs.get("koins", 0)) == 0 else rs
 	if not await Relogio.sincronizar():
 		return {"offline": true}
 	var p := recompensas_pendentes()
@@ -618,6 +678,7 @@ func comprar_verso(id: String) -> bool:
 	perfil["versos"] = l
 	perfil["verso"] = id
 	salvar()
+	_espelhar("verso", {"verso": id})
 	return true
 
 
@@ -644,6 +705,7 @@ func premiar_versao() -> bool:
 	_gravar("koins", koins() + KOINS_VERSAO)
 	_gravar("moedas", moedas() + MOEDAS_VERSAO)
 	salvar()
+	_espelhar("versao", {"versao": v})
 	return true
 
 
@@ -663,6 +725,7 @@ func desfazer_carta(cid: String) -> int:
 		perfil["foils"][cid] = int(perfil["foils"][cid]) - 1
 	_gravar("essencia", essencia() + ganho)
 	salvar()
+	_espelhar("desfazer", {"carta": cid})
 	return ganho
 
 
@@ -681,6 +744,7 @@ func criar_carta(cid: String) -> bool:
 		return false
 	_gravar("essencia", essencia() - custo_criar(cid))
 	adicionar_carta(cid)
+	_espelhar("criar", {"carta": cid})
 	return true
 
 
@@ -806,6 +870,7 @@ func trocar_repetida(cid: String, foil: bool) -> bool:
 		perfil["foils"][cid] = maxi(0, int(perfil["foils"].get(cid, 0)) - 1)
 	_gravar("moedas", moedas() + valor_troca(cid, foil))
 	salvar()
+	_espelhar("trocar", {"carta": cid, "foil": foil})
 	return true
 
 
@@ -909,11 +974,8 @@ func ta_pagar() -> int:
 	var d := ta()
 	var p := int(d.get("premio", -1))
 	if p > 0 and not d.get("pago", false):
-		_gravar("moedas", moedas() + p)
-		if p >= PREMIO_TA[3]:                            # campeão também ganha um booster
-			_gravar("boosters_gratis", boosters_gratis() + 1)
 		d["pago"] = true
-		salvar()
+		premio("torneio8", {"posicao": PREMIO_TA.find(p)}, p, 1 if p >= PREMIO_TA[3] else 0)   # campeão também leva um booster
 		return p
 	return 0
 

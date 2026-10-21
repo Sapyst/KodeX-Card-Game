@@ -6,50 +6,62 @@ Atualizada em / Updated on: 21/10/2026
 
 ### Resumo
 
-O KodeX não tem conta, não coleta dados pessoais, não mostra anúncios e não usa rastreamento nem análise de uso.
+O KodeX não pede email nem senha, não mostra anúncios e não usa rastreamento nem análise de uso.
 
 ### O que fica no seu aparelho
 
-Nome de jogador, imagem ou foto do perfil, moedas, coleção, decks, progresso e idioma. Tudo é gravado só no aparelho (no navegador, na versão web) e nunca é enviado a ninguém. A foto escolhida é recortada e salva localmente.
+Nome de jogador, imagem ou foto do perfil, moedas, coleção, decks, progresso e opções. A foto escolhida é recortada e salva só no aparelho, nunca é enviada.
+
+### Conta online (quando o servidor do jogo estiver ligado)
+
+O jogo cria uma conta anônima: um número aleatório e um segredo, guardados cifrados no aparelho. No servidor do jogo (Cloudflare) ficam o nome de jogador, as moedas, os Koins, a coleção, os decks e o progresso dos modos, para valer em outro aparelho e evitar trapaça. Não guardamos email, telefone, localização nem a foto.
+
+Para trocar de aparelho, o jogo gera um código de 8 letras que vale por 10 minutos. Em Opções > Excluir conta, tudo o que está no servidor é apagado na hora.
 
 ### Internet
 
-Para o presente diário e o booster semanal, o jogo pergunta a hora certa a um servidor da Cloudflare (cloudflare.com). Esse pedido não leva nenhum dado seu; como todo acesso à internet, a Cloudflare vê o endereço IP da conexão, conforme a política de privacidade dela. O jogo não guarda nem envia mais nada.
+Para a hora certa (presentes diários), o jogo consulta um servidor da Cloudflare. Ao abrir, ele lê no GitHub (projeto Sapyst/KodeX-Card-Game) o endereço do servidor do jogo. Como em todo acesso à internet, esses serviços veem o endereço IP da conexão, conforme as políticas de privacidade deles. Nós não guardamos o IP.
 
 ### Seus direitos (LGPD)
 
-Como nada sai do aparelho, você tem controle total: apagar os dados do app (ou desinstalar) remove tudo. Dúvidas podem ser enviadas pela página do projeto no GitHub (Sapyst/KodeX-Card-Game).
+Você pode ver e corrigir seu nome no jogo, levar a conta para outro aparelho e excluir tudo pela opção Excluir conta. Desinstalar o app apaga os dados do aparelho. Dúvidas: página do projeto no GitHub (Sapyst/KodeX-Card-Game).
 
 ### Crianças
 
-O jogo não coleta dados de ninguém, inclusive de crianças.
+O jogo não pede nenhum dado pessoal de ninguém, inclusive de crianças.
 
 ### Mudanças
 
-Antes de qualquer recurso online novo (conta, save na nuvem, email), esta política será atualizada e o aviso aparecerá no pergaminho de novidades. Nada será coletado sem o seu consentimento.
+Antes de qualquer recurso novo que use dados (como email ou newsletter), esta política será atualizada e o aviso aparecerá no pergaminho de novidades. Nada será coletado sem o seu consentimento.
 
 ## English
 
 ### Summary
 
-KodeX has no accounts, collects no personal data, shows no ads and uses no tracking or usage analytics.
+KodeX asks for no email or password, shows no ads and uses no tracking or usage analytics.
 
 ### What stays on your device
 
-Player name, profile picture or photo, coins, collection, decks, progress and language. Everything is stored only on your device (in the browser, on the web version) and is never sent to anyone. The chosen photo is cropped and saved locally.
+Player name, profile picture or photo, coins, collection, decks, progress and options. The chosen photo is cropped and saved only on your device and is never sent.
+
+### Online account (when the game server is on)
+
+The game creates an anonymous account: a random number and a secret, stored encrypted on your device. The game server (Cloudflare) keeps your player name, coins, Koins, collection, decks and mode progress, so they work on another device and to prevent cheating. We do not store email, phone, location or your photo.
+
+To switch devices, the game creates an 8-letter code valid for 10 minutes. In Options > Delete account, everything on the server is erased right away.
 
 ### Internet
 
-For the daily gift and the weekly booster, the game asks a Cloudflare server (cloudflare.com) for the correct time. That request carries none of your data; like any internet access, Cloudflare sees the connection's IP address, under its own privacy policy. The game stores or sends nothing else.
+For the correct time (daily gifts), the game asks a Cloudflare server. When it opens, it reads the game server address from GitHub (project Sapyst/KodeX-Card-Game). Like any internet access, these services see the connection's IP address, under their own privacy policies. We do not store your IP.
 
 ### Your rights (LGPD/GDPR)
 
-Since nothing leaves your device, you are in full control: clearing the app data (or uninstalling) removes everything. Questions can be sent through the project's GitHub page (Sapyst/KodeX-Card-Game).
+You can see and fix your name in the game, move the account to another device and delete everything with Delete account. Uninstalling the app removes the data on the device. Questions: the project's GitHub page (Sapyst/KodeX-Card-Game).
 
 ### Children
 
-The game collects no data from anyone, children included.
+The game asks no personal data from anyone, children included.
 
 ### Changes
 
-Before any new online feature (account, cloud save, email), this policy will be updated and the notice will appear in the news scroll. Nothing will be collected without your consent.
+Before any new feature that uses data (such as email or a newsletter), this policy will be updated and the notice will appear in the news scroll. Nothing will be collected without your consent.

@@ -47,6 +47,12 @@ func _init(menu) -> void:
 		if editando == "busca":
 			f.col.definir_busca(t)
 			return
+		if editando == "codigo_conta":
+			if t.strip_edges().length() >= 8:
+				nome_edit.release_focus()
+				nome_edit.visible = false
+				f.entrar_conta(t.strip_edges())
+			return
 		if editando == "deck":
 			Sessao.perfil["decks"][deck_idx]["nome"] = t
 		else:
@@ -320,20 +326,23 @@ func armar_nome_web(qual: String) -> void:
 	if _cb_nome == null:
 		_cb_nome = JavaScriptBridge.create_callback(_ao_nome_web)
 		JavaScriptBridge.get_interface("window").kodexNome = _cb_nome
-	var atual: String = str(Sessao.perfil.get("nome", "")) if qual == "perfil" else (f.col.busca if qual == "busca" else ("" if qual == "codigo" else str(Sessao.perfil["decks"][deck_idx]["nome"])))
-	var titulo: String = Sessao.t("Seu nome") if qual == "perfil" else (Sessao.t("Buscar carta") if qual == "busca" else (Sessao.t("Cole o código do deck") if qual == "codigo" else Sessao.t("Nome do deck")))
+	var atual: String = str(Sessao.perfil.get("nome", "")) if qual == "perfil" else (f.col.busca if qual == "busca" else ("" if qual in ["codigo", "codigo_conta"] else str(Sessao.perfil["decks"][deck_idx]["nome"])))
+	var titulo: String = Sessao.t("Seu nome") if qual == "perfil" else (Sessao.t("Buscar carta") if qual == "busca" else (Sessao.t("Cole o código do deck") if qual == "codigo" else (Sessao.t("Código da conta (8 letras)") if qual == "codigo_conta" else Sessao.t("Nome do deck"))))
 	JavaScriptBridge.eval("""(function(){
 		var t=%s, v=%s;
 		var abrir=function(){document.removeEventListener('pointerup',abrir,true);document.removeEventListener('touchend',abrir,true);
 			window.kodexNomeArmado=false;var r=window.prompt(t,v);if(r!==null){window.kodexNome(r);}};
 		if(!window.kodexNomeArmado){window.kodexNomeArmado=true;
 			document.addEventListener('pointerup',abrir,true);document.addEventListener('touchend',abrir,true);}
-	})()""" % [JSON.stringify(titulo + ("" if qual == "codigo" else " (máx. 16)")), JSON.stringify(atual)], true)
+	})()""" % [JSON.stringify(titulo + ("" if qual in ["codigo", "codigo_conta"] else " (máx. 16)")), JSON.stringify(atual)], true)
 
 
 func _ao_nome_web(args: Array) -> void:
 	if editando == "codigo":
 		importar_codigo(str(args[0]))
+		return
+	if editando == "codigo_conta":
+		f.entrar_conta(str(args[0]).strip_edges())
 		return
 	var v := str(args[0]).strip_edges().substr(0, nome_edit.max_length)
 	if editando == "busca":
@@ -740,6 +749,18 @@ func desenhar_deck_edit() -> void:
 
 
 ## Busca na Coleção: o campo invisível fica sobre o botão de busca (no celular abre o teclado); na web, caixa nativa.
+func editar_codigo_conta() -> void:
+	editando = "codigo_conta"
+	if OS.has_feature("web"):
+		return
+	nome_edit.text = ""
+	nome_edit.position = Vector2(90, 450)
+	nome_edit.size = Vector2(180, 24)
+	nome_edit.visible = true
+	nome_edit.grab_focus()
+	avisar(Sessao.t("Digite o código de 8 letras."))
+
+
 func editar_busca() -> void:
 	editando = "busca"
 	if OS.has_feature("web"):

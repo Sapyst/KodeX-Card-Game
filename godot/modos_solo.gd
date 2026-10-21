@@ -395,8 +395,7 @@ func pos_pere() -> void:
 	p["corn"] = clampi(int(ex.get("fim_cornucopia", p["corn"])), 1, int(p["corn_max"]))
 	p["vitorias"] = int(p["vitorias"]) + 1
 	if caminho == "chefe":
-		Sessao.ganhar_moedas(MOEDAS_CHEFE_PERE + MOEDAS_VITORIA_PERE)
-		Sessao._gravar("boosters_gratis", Sessao.boosters_gratis() + 1)
+		Sessao.premio("pere_chefe", {}, MOEDAS_CHEFE_PERE + MOEDAS_VITORIA_PERE, 1)
 		Sessao.perfil.erase("pere")
 		Sessao.salvar()
 		f._ir("solo")
@@ -404,7 +403,7 @@ func pos_pere() -> void:
 			["destaque", "+%d" % (MOEDAS_CHEFE_PERE + MOEDAS_VITORIA_PERE), "moeda"], ["espaco"], ["destaque", "+1", "booster"],
 			["centro", _l(["booster grátis - abra na Loja", "free booster - open it in the Shop"])]])
 		return
-	Sessao.ganhar_moedas(MOEDAS_VITORIA_PERE)
+	Sessao.premio("pere_vitoria", {}, MOEDAS_VITORIA_PERE)
 	_avancar()
 	if caminho == "elite":
 		tipo_premio = "bencao"
@@ -471,7 +470,7 @@ func pos_diario() -> void:
 	f._ir("diario")
 	if venceu and int(Sessao.perfil.get("diario_dia", -1)) != dia:
 		Sessao.perfil["diario_dia"] = dia
-		Sessao.ganhar_moedas(MOEDAS_DIARIO)
+		Sessao.premio("diario", {}, MOEDAS_DIARIO)
 		f.perg.abrir([["titulo", _l(["Desafio do dia", "Daily challenge"])], ["destaque", "+%d" % MOEDAS_DIARIO, "moeda"],
 			["centro", _l(["Volte amanhã para um novo desafio.", "Come back tomorrow for a new challenge."])]])
 
@@ -529,13 +528,15 @@ func pos_lendario() -> void:
 	reg[cid] = int(reg.get(cid, 0)) + 1
 	Sessao.perfil["lendarios"] = reg
 	var nome := str(Sessao.db["cartas"][cid]["nome"])
+	if Nuvem.ativo():
+		Nuvem.op("premio", {"motivo": "lendario", "carta": cid}, true)
 	if primeira and Sessao.copias(cid) == 0:
 		Sessao.adicionar_carta(cid)
 		f.perg.abrir([["titulo", _l(["Lendária conquistada", "Legendary conquered"])], ["centro", nome],
 			["centro", _l(["A carta entrou na sua coleção.", "The card joined your collection."])]])
 	else:
 		var m: int = MOEDAS_LENDARIO[0] if primeira else MOEDAS_LENDARIO[1]
-		Sessao.ganhar_moedas(m)
+		Sessao.ganhar_moedas(m)                   # o servidor confere e devolve o valor certo (op "lendario" acima)
 		f.perg.abrir([["titulo", _l(["Desafio vencido", "Challenge won"])], ["centro", nome], ["destaque", "+%d" % m, "moeda"]])
 
 
@@ -644,14 +645,12 @@ func pos_choronzon() -> void:
 		var t: Array = Sessao.perfil.get("titulos", [])
 		t.append("selador_do_abismo")
 		Sessao.perfil["titulos"] = t
-		Sessao.ganhar_moedas(200)
-		Sessao._gravar("boosters_gratis", Sessao.boosters_gratis() + 2)
-		Sessao.salvar()
+		Sessao.premio("choronzon", {}, 200, 2)
 		f.perg.abrir([["titulo", _l(["Abismo selado", "Abyss sealed"])],
 			["centro", _l(["Título: Selador do Abismo", "Title: Sealer of the Abyss"])],
 			["destaque", "+200", "moeda"], ["espaco"], ["destaque", "+2", "booster"]])
 	else:
-		Sessao.ganhar_moedas(25)
+		Sessao.premio("choronzon", {}, 25)
 		f.perg.abrir([["titulo", "Choronzon"], ["destaque", "+25", "moeda"]])
 
 
@@ -712,7 +711,7 @@ func pos_enigma() -> void:
 		return
 	reg[id] = true
 	Sessao.perfil["enigmas"] = reg
-	Sessao.ganhar_moedas(MOEDAS_ENIGMA)
+	Sessao.premio("enigma", {"enigma": id}, MOEDAS_ENIGMA)
 	f.perg.abrir([["titulo", _l(["Resolvido", "Solved"])], ["destaque", "+%d" % MOEDAS_ENIGMA, "moeda"]])
 
 

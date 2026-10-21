@@ -1,5 +1,17 @@
 [
  {
+  "versao": "0.15.0-alpha",
+  "data": "21/10/2026",
+  "pt": [
+   "Preparação para o modo online: conta anônima, save na nuvem, troca de aparelho por código e economia conferida pelo servidor. Ainda desligado: liga quando o servidor do jogo for ao ar.",
+   "Política de privacidade atualizada para a conta online."
+  ],
+  "en": [
+   "Getting ready for online play: anonymous account, cloud save, switching devices with a code and server-checked economy. Still off: it turns on when the game server goes live.",
+   "Privacy policy updated for the online account."
+  ]
+ },
+ {
   "versao": "0.14.1-alpha",
   "data": "21/10/2026",
   "pt": [

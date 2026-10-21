@@ -382,6 +382,13 @@ func _ir(novo: String) -> void:
 				func() -> void: Sessao.alternar_daltonico(); _ir("opcoes"); transicao = 0.0)
 			_botao(Rect2(90, 334, 180, 26), "Novidades", abrir_novidades.bind(true))
 			_botao(Rect2(90, 366, 180, 26), "Privacidade", abrir_privacidade)
+			if Nuvem.url != "":                          # conta na nuvem (só quando há servidor)
+				_botao(Rect2(90, 420, 180, 24), "Código para outro aparelho", _codigo_conta)
+				_botao(Rect2(90, 450, 180, 24), "Usar código", mp.editar_codigo_conta, {"web_nome": "codigo_conta"} if OS.has_feature("web") else {})
+				_botao(Rect2(90, 480, 180, 24), "Excluir conta", func() -> void:
+					confirmar(Sessao.t("Excluir a conta?"), Sessao.t("apaga o progresso no servidor"), func() -> void:
+						if await Nuvem.apagar_conta():
+							mp.avisar(Sessao.t("Conta excluída.")); _ir("opcoes")))
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
@@ -717,6 +724,22 @@ func _abas_loja(atual: String) -> void:
 	_botao(Rect2(182, 86, 108, 20), "Cosméticos", func() -> void: _ir("cosmeticos"), {"aba_loja": "cosmeticos", "atual": atual == "cosmeticos", "desenho": _botao_aba_loja})
 
 
+func _codigo_conta() -> void:
+	var c := await Nuvem.codigo_transferencia()
+	if c == "":
+		mp.avisar(Sessao.t("Sem conexão.")); return
+	perg.abrir([["titulo", Sessao.t("Outro aparelho")], ["centro", Sessao.t("No outro aparelho: Opções > Usar código.")], ["espaco"],
+		["destaque", c, ""], ["espaco"], ["centro", Sessao.t("Vale por 10 minutos. Este aparelho será desconectado.")]])
+
+
+func entrar_conta(codigo: String) -> void:
+	if await Nuvem.entrar(codigo):
+		mp.avisar(Sessao.t("Conta carregada!"))
+		_ir("opcoes")
+	else:
+		mp.avisar(Sessao.t("Código inválido ou vencido."))
+
+
 func _botao_gaveta(b: Dictionary, r: Rect2, pressao: float) -> void:
 	var ativo: bool = b["atual"]
 	var livre: bool = b["aba_loja"] == "livre"
@@ -1020,7 +1043,7 @@ func _pos_luta_arcade() -> void:
 		lista.append({"quem": p.get("nome", op), "texto": t, "cor": Color(p.get("cor", "#e2b85a")), "retrato": op})
 	lista.append({"quem": "Arcade", "texto": Sessao.t("Vitória!" if Sessao.resultado == "vitoria" else ("Derrota." if Sessao.resultado == "derrota" else "Empate.")), "cor": OURO[0], "retrato": ""})
 	if Sessao.resultado == "vitoria":
-		Sessao.ganhar_moedas(Sessao.moedas_arcade())
+		Sessao.premio("arcade", {"nivel": Sessao.dificuldade}, Sessao.moedas_arcade())
 		lista.append({"quem": "Arcade", "texto": Sessao.t("+%d moedas! Agora você tem %d.") % [Sessao.moedas_arcade(), Sessao.moedas()], "cor": OURO[0], "retrato": ""})
 	Sessao.resultado = ""
 	_falar(lista, func() -> void: _ir("arcade"))
@@ -1532,6 +1555,9 @@ func _titulo() -> void:
 
 func _opcoes() -> void:
 	_cabecalho(Sessao.t("Opções"), Sessao.t("idioma e informações"))
+	if Nuvem.url != "":
+		var st := (Sessao.t("Conta online") + " · " + Nuvem.id_curto()) if Nuvem.online and Nuvem.ativo() else Sessao.t("Conta: sem conexão")
+		_texto_central(Vector2(180, 406), st, Color("#9ad0ff") if Nuvem.online else Color("#ff9a8a"))
 	Fonte57.desenhar(self, Vector2(110, 134), Sessao.t("Idioma"), Color("#b8a888"))
 	var ver := "KodeX v" + str(ProjectSettings.get_setting("application/config/version", ""))
 	_texto_central(Vector2(180, 560), ver, Color(0.89, 0.72, 0.35, 0.7))

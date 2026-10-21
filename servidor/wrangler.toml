@@ -1,0 +1,9 @@
+# Servidor do KodeX (Cloudflare Worker + banco D1). Local: npx wrangler dev  ·  Publicar (depois do login): npx wrangler deploy
+name = "kodex-servidor"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "kodex"
+database_id = "local-ate-publicar"      # trocar pelo id real em `npx wrangler d1 create kodex`

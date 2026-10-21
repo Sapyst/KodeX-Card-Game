@@ -3,7 +3,7 @@ config_version=5
 
 [application]
 config/name="KodeX"
-config/version="0.14.1-alpha"
+config/version="0.15.0-alpha"
 run/main_scene="res://carregamento.tscn"
 boot_splash/show_image=false
 boot_splash/bg_color=Color(0.051, 0.043, 0.071, 1)
@@ -14,6 +14,7 @@ config/features=PackedStringArray("4.7", "Mobile")
 
 Relogio="*res://relogio.gd"
 Sessao="*res://sessao.gd"
+Nuvem="*res://nuvem.gd"
 
 [display]
 window/size/viewport_width=360

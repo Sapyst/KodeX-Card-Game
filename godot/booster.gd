@@ -51,9 +51,23 @@ func y_corte() -> float:
 
 # ---------------- ciclo ----------------
 func comprar(gratis := false) -> void:
-	if gratis and not Sessao.usar_booster_gratis():
-		gratis = false
-	var r: Array = Sessao.comprar_booster(gratis)
+	var r: Array = []
+	if Nuvem.ativo():                              # online: o servidor sorteia (e cobra); o jogo só anima
+		if gratis and Sessao.boosters_gratis() <= 0:
+			gratis = false
+		if not gratis and Sessao.moedas() < Sessao.BOOSTER_PRECO:
+			f.mp.avisar(Sessao.t("Moedas insuficientes.")); f.vibrar(30, 0.6); return
+		var res: Dictionary = await Nuvem.op("booster", {"gratis": gratis, "pacote": str(Sessao.perfil.get("pacote", ""))})
+		if res.is_empty():
+			f.mp.avisar(Sessao.t("Sem conexão: boosters precisam de internet.")); f.vibrar(30, 0.6); return
+		if res.has("erro"):
+			f.mp.avisar(Sessao.t(str(res["erro"]))); f.vibrar(30, 0.6); return
+		for e in res["cartas"]:
+			r.append({"id": str(e["id"]), "foil": bool(e["foil"]), "nova": bool(e["nova"])})
+	else:
+		if gratis and not Sessao.usar_booster_gratis():
+			gratis = false
+		r = Sessao.comprar_booster(gratis)
 	if r.is_empty():
 		f.mp.avisar(Sessao.t("Moedas insuficientes."))
 		f.vibrar(30, 0.6)

@@ -58,7 +58,7 @@ func tem_slot(d: int) -> bool:
 
 
 func humano(d: int) -> bool:
-	return d == 0 and m.modo_partida and not m.auto_jogador
+	return m.modo_partida and (m.online_partida() or (d == 0 and not m.auto_jogador))   # online os dois lados são gente
 
 
 func entidades_cemiterio(d: int) -> Array:
@@ -303,11 +303,19 @@ func _escolher(dono: int, cands: Array, acao: Dictionary, ctx: Dictionary) -> Ar
 			if is_same(c, prev):
 				return [prev]
 	var esc = null
-	if humano(dono) and ctx.get("interativo", false):      # o jogador toca o alvo (mesmo com 1 só: pode PULAR)
-		if cands[0] is Carta:
+	if m.decisao_da_rede(dono) and ctx.get("interativo", false):   # online: a escolha do adversário chega pela rede
+		var v: int = await m.esc_rede(dono)
+		if v < 0 or v >= cands.size():
+			return []
+		esc = cands[v]
+	elif humano(dono) and ctx.get("interativo", false):      # o jogador toca o alvo (mesmo com 1 só: pode PULAR)
+		if m.auto_jogador:                                    # teste online com a IA jogando por mim
+			esc = cands[0] if cands.size() == 1 else ia_alvo(dono, cands, acao)
+		elif cands[0] is Carta:
 			esc = await m.pedir_alvo(cands, _dica_alvo(acao), "PULAR", ctx.get("fonte"))
 		else:
 			esc = await m.pedir_cemiterio(cands)
+		m.enviar_esc(m._indice(cands, esc))
 		if esc == null:
 			return []
 	elif cands.size() == 1:

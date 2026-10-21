@@ -14,3 +14,11 @@ CREATE TABLE IF NOT EXISTS email_codigos (email TEXT PRIMARY KEY, codigo_hash TE
 -- frase (milhares de rodadas de SHA-256) antes de enviar; aqui fica só o hash com sal do que chegou.
 CREATE TABLE IF NOT EXISTS kodes (usuario TEXT PRIMARY KEY, id TEXT NOT NULL, sal TEXT NOT NULL, senha_hash TEXT NOT NULL,
   frase_hash TEXT NOT NULL, criado INTEGER NOT NULL, falhas INTEGER NOT NULL DEFAULT 0, bloqueado_ate INTEGER NOT NULL DEFAULT 0);
+
+-- multiplayer: fila de busca, partidas (lockstep) e ações em ordem
+CREATE TABLE IF NOT EXISTS fila (id TEXT PRIMARY KEY, nome TEXT, deck TEXT, pais TEXT, cont TEXT, entrou INTEGER, visto INTEGER, partida TEXT);
+CREATE TABLE IF NOT EXISTS partidas (pid TEXT PRIMARY KEY, codigo TEXT, j0 TEXT, j1 TEXT, nome0 TEXT, nome1 TEXT, deck0 TEXT, deck1 TEXT,
+  semente INTEGER, primeiro INTEGER, estado TEXT, aceite0 INTEGER DEFAULT 0, aceite1 INTEGER DEFAULT 0, prazo INTEGER,
+  contato0 INTEGER, contato1 INTEGER, vencedor INTEGER DEFAULT -1, criado INTEGER, revanche0 INTEGER DEFAULT 0, revanche1 INTEGER DEFAULT 0,
+  revanche_pid TEXT);
+CREATE TABLE IF NOT EXISTS acoes (pid TEXT, seq INTEGER, jogador INTEGER, dados TEXT, ts INTEGER, PRIMARY KEY (pid, seq));

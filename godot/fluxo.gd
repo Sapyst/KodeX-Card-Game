@@ -158,6 +158,7 @@ var logo_tex: Texture2D
 var perg: Pergaminho
 var solo: ModosSolo
 var hist: Historico
+var onl: MenuOnline
 var novidades: Array = []              # dados/novidades.json (mais nova primeiro)
 var _avisos_feitos := false            # novidades + presente já verificados nesta sessão do app
 
@@ -184,6 +185,7 @@ func _ready() -> void:
 	add_child(perg)
 	solo = ModosSolo.new(self)
 	hist = Historico.new(self)
+	onl = MenuOnline.new(self)
 	novidades = JSON.parse_string(FileAccess.get_file_as_string("res://dados/novidades.json"))
 	Relogio.sincronizar()                                    # hora do servidor para o presente diário (sem travar)
 	arcade["meu_deck"] = str(int(Sessao.perfil["deck_ativo"]))
@@ -293,6 +295,8 @@ func _ready() -> void:
 		for passo in OS.get_environment("GD_PERG_TESTE").split(";"):
 			var pt := passo.split(":")
 			get_tree().create_timer(float(pt[0])).timeout.connect(_passo_perg.bind(pt))
+	if OS.get_environment("GD_ONLINE_TESTE") != "":          # teste: "buscar" | "sala:<arquivo>" | "entrar:<arquivo>"
+		_teste_online(OS.get_environment("GD_ONLINE_TESTE"))
 	var auto := OS.get_environment("GD_FLUXO_AUTO")      # teste automático: toca sozinho
 	if auto != "":
 		_autoplay()
@@ -511,6 +515,8 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(258, 570, 86, 26), "Voltar", func() -> void: _ir("decks"))
 		"historico":
 			hist.botoes()
+		"online":
+			onl.botoes()
 		"conta":
 			var y := 150
 			var itens: Array = []
@@ -1631,6 +1637,8 @@ func _draw() -> void:
 			_cabecalho(Sessao.t("Deck sugerido"), Sessao.t("montado com as cartas que você tem"))
 		"historico":
 			hist.desenhar()
+		"online":
+			onl.desenhar()
 		"conta":
 			_cabecalho(Sessao.t("Conta"), (Sessao.t("online") + " · " + Nuvem.id_curto()) if Nuvem.online else Sessao.t("sem conexão"))
 			_texto_central(Vector2(180, 104), Sessao.t("Kode") + ": " + (Nuvem.kode if Nuvem.kode != "" else Sessao.t("não criado")), Color("#e0c0ff"))
@@ -1838,7 +1846,7 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 		Fonte57.desenhar(self, din.position + Vector2(din.size.x - 10 - Fonte57.largura("EN-US"), 4), "EN-US", OURO[0] if not pt else Color("#6a6070"), ESCURO)
 		Fonte57.desenhar(self, din.position + Vector2(din.size.x / 2 - 2, 4), "|", Color("#6a6070"))
 		return
-	var principal: bool = b["texto"] in ["Torneio", "Jogar", "Tentar de novo"]
+	var principal: bool = b["texto"] in ["Torneio", "Jogar", "Tentar de novo"] or b.get("ouro", false)
 	var dentro := _painel(r, principal, pressao, Color("#3a2410") if principal else Color("#241a20"))
 	_texto_central(dentro.get_center(), Sessao.t(b["texto"]), OURO[0] if principal else CREME)
 
@@ -1968,3 +1976,23 @@ func _desenhar_logo() -> void:
 	var w := 248.0 * esc
 	var h := w * logo_tex.get_height() / logo_tex.get_width()
 	logo_no.draw_texture_rect(logo_tex, Rect2(Vector2(180 - w / 2.0, 94 - h / 2.0), Vector2(w, h)), false, Color(1, 1, 1, u))
+
+
+## Teste online: espera a conta no servidor e entra na busca, cria a sala ou entra na sala (código lido de um arquivo).
+func _teste_online(cfg: String) -> void:
+	while not Nuvem.ativo():
+		await get_tree().create_timer(0.3).timeout
+	if Sessao.resultado != "":                         # voltou de uma partida de teste: encerra
+		get_tree().quit()
+		return
+	_ir("online")
+	var pt := cfg.split(":")
+	match pt[0]:
+		"buscar": onl.buscar()
+		"retomar": onl.retomar()
+		"sala": onl.criar_sala()
+		"entrar":
+			while not FileAccess.file_exists(pt[1]):
+				await get_tree().create_timer(0.3).timeout
+			await get_tree().create_timer(0.5).timeout
+			onl.entrar_sala(FileAccess.get_file_as_string(pt[1]).strip_edges())

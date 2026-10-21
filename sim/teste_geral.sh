@@ -25,6 +25,17 @@ item "tempo por turno" "RELOGIO turno 3" env GD_TEMPO_TURNO=4 GD_SEM_MULLIGAN=1 
 for T in titulo colecao decks loja cosmeticos opcoes solo pere:indigena diario lendarios livre enigmas historico arcade perfil sugerir; do
   item "tela $T" "" env GD_SOLO_TESTE=$T GD_NOME_TESTE=Teste timeout 30 "$G" --headless --path . res://fluxo.tscn --quit-after 120
 done
+# online: duas instâncias (contas fixas em ~/.cache, para não criar contas novas a cada teste) jogam uma partida inteira pela sala no servidor local
+if curl -s -m 3 http://127.0.0.1:8787/v1/saude | grep -q '"ok":true'; then
+  T=$(mktemp -d); C="$HOME/.cache/kodex_teste_online"; mkdir -p "$C"; OB="env -u GD_SEM_REDE GD_SERVIDOR=http://127.0.0.1:8787 GD_AUTO=1 GD_VELOCIDADE=14 GD_SAIR_NO_FIM=1"
+  $OB XDG_DATA_HOME=$C/a GD_NOME_TESTE=Ana GD_DECK_ONLINE=taoismo GD_ONLINE_TESTE=sala:$T/cod timeout 300 "$G" --headless --path . > $T/a.log 2>&1 &
+  $OB XDG_DATA_HOME=$C/b GD_NOME_TESTE=Bia GD_TOQUE_AUTO=1 GD_AUTO= GD_DECK_ONLINE=bruxaria GD_ONLINE_TESTE=entrar:$T/cod timeout 300 "$G" --headless --path . > $T/b.log 2>&1 &
+  wait
+  ha=$(grep -o "hash=[0-9]*" $T/a.log); hb=$(grep -o "hash=[0-9]*" $T/b.log)
+  if [ -n "$ha" ] && [ "$ha" = "$hb" ] && ! grep -q "DESSINCRONIA\|SCRIPT ERROR" $T/a.log $T/b.log; then echo "OK      partida online (IA × toque, mesmo estado nos dois)"
+  else echo "FALHOU  partida online"; grep -h "ONLINE FIM\|DESSINCRONIA\|SCRIPT ERROR" -A1 $T/a.log $T/b.log | head -6; falhas=$((falhas+1)); fi
+  rm -rf $T
+fi
 U=$(python3 -c "import json;print(json.load(open('../servidor.json'))['url'])" 2>/dev/null)
 if curl -s -m 10 "$U/v1/saude" | grep -q '"ok":true'; then echo "OK      servidor no ar ($U)"; else echo "FALHOU  servidor no ar"; falhas=$((falhas+1)); fi
 echo "----"; [ $falhas -eq 0 ] && echo "TUDO OK" || echo "$falhas FALHA(S)"

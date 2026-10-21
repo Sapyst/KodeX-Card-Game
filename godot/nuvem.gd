@@ -265,11 +265,18 @@ func apagar_conta() -> bool:
 
 ## Pedido com 1 nova tentativa: se não conectou, relê o endereço do servidor (o túnel do PC muda de endereço quando
 ## religa) e, se mudou, repete no endereço novo.
-func _pedir(metodo: String, caminho: String, corpo := {}, relativo := true, autenticado := true) -> Dictionary:
-	var r := await _pedir_uma(metodo, caminho, corpo, relativo, autenticado)
+func _pedir(metodo: String, caminho: String, corpo := {}, relativo := true, autenticado := true, espera := ESPERA) -> Dictionary:
+	var r := await _pedir_uma(metodo, caminho, corpo, relativo, autenticado, espera)
 	if r.is_empty() and relativo and OS.get_environment("GD_SERVIDOR") == "" and await _reler_endereco():
-		r = await _pedir_uma(metodo, caminho, corpo, relativo, autenticado)
+		r = await _pedir_uma(metodo, caminho, corpo, relativo, autenticado, espera)
 	return r
+
+
+## Multiplayer (busca, sala, partida): pedido autenticado com espera própria (long-poll segura até ~20 s no servidor).
+func mp(metodo: String, caminho: String, corpo := {}, espera := ESPERA) -> Dictionary:
+	if not ativo():
+		return {}
+	return await _pedir(metodo, caminho, corpo, true, true, espera)
 
 
 var _ultima_releitura := -100000
@@ -287,9 +294,9 @@ func _reler_endereco() -> bool:
 	return false
 
 
-func _pedir_uma(metodo: String, caminho: String, corpo := {}, relativo := true, autenticado := true) -> Dictionary:
+func _pedir_uma(metodo: String, caminho: String, corpo := {}, relativo := true, autenticado := true, espera := ESPERA) -> Dictionary:
 	var http := HTTPRequest.new()
-	http.timeout = ESPERA
+	http.timeout = espera
 	add_child(http)
 	var cab := PackedStringArray(["content-type: application/json"])
 	if autenticado and id != "":

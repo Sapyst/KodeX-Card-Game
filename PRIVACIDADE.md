@@ -18,6 +18,10 @@ O jogo cria uma conta anônima: um número aleatório e um segredo, guardados ci
 
 Para trocar de aparelho, o jogo gera um código de 8 letras que vale por 10 minutos. Em Opções > Excluir conta, tudo o que está no servidor é apagado na hora.
 
+### Partidas online
+
+Para achar adversário perto de você, o servidor usa o país da conexão (informado pela Cloudflare) só enquanto você está na fila de busca. Seu adversário vê o seu nome de jogador e as cartas que você joga. As jogadas da partida ficam no servidor para reconexão e conferência; não guardamos o país depois da busca.
+
 ### Kode e email (opcionais)
 
 Kode: você escolhe um usuário e uma senha. O jogo embaralha a senha e a frase de 12 palavras (200 mil rodadas de SHA-256) antes de enviar; o servidor guarda só esse resultado com sal, nunca a senha nem a frase. Quem perder a senha e a frase perde a conta.
@@ -55,6 +59,10 @@ Player name, profile picture or photo, coins, collection, decks, progress and op
 The game creates an anonymous account: a random number and a secret, stored encrypted on your device. The game server (Cloudflare) keeps your player name, coins, Koins, collection, decks and mode progress, so they work on another device and to prevent cheating. We do not store email, phone, location or your photo.
 
 To switch devices, the game creates an 8-letter code valid for 10 minutes. In Options > Delete account, everything on the server is erased right away.
+
+### Online matches
+
+To find opponents near you, the server uses the connection's country (provided by Cloudflare) only while you are in the search queue. Your opponent sees your player name and the cards you play. Match moves stay on the server for reconnection and checks; we do not keep your country after the search.
 
 ### Kode and email (optional)
 

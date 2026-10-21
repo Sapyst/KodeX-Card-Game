@@ -31,3 +31,11 @@ npx wrangler deploy
 Depois, publique `servidor.json` na raiz do repositório com `{"url": "https://..."}`: o jogo lê esse endereço ao abrir.
 
 `gerar_dados.py` atualiza `src/dados.js` (cartas, foils, preços dos versos, versões) a partir do jogo.
+
+## Multiplayer (src/multi.js)
+Fila de busca (país → continente após 5 s → mundo após 15 s), aceitar/recusar (12 s), sala por código de 4 letras e
+partida em passo travado: o servidor só guarda e repassa as ações em ordem (`acoes`, seq), com long-poll de até 20 s.
+2 min sem contato de um lado = vitória do outro. Revanche: os dois pedem → nova partida com os mesmos decks.
+Teste: `node teste/multi_teste.mjs` (servidor local ligado).
+**Ao migrar para a Cloudflare:** o long-poll consulta o D1 a cada 0,25–0,5 s; no plano grátis (10 ms de CPU por pedido)
+pode estourar. Se acontecer, trocar o long-poll por Durable Objects (uma sala por partida, WebSocket) ou encurtar a espera.

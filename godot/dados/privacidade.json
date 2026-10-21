@@ -31,6 +31,14 @@
   ],
   [
    "sub",
+   "Partidas online"
+  ],
+  [
+   "txt",
+   "Para achar adversário perto de você, o servidor usa o país da conexão (informado pela Cloudflare) só enquanto você está na fila de busca. Seu adversário vê o seu nome de jogador e as cartas que você joga. As jogadas da partida ficam no servidor para reconexão e conferência; não guardamos o país depois da busca."
+  ],
+  [
+   "sub",
    "Kode e email (opcionais)"
   ],
   [
@@ -102,6 +110,14 @@
   [
    "txt",
    "To switch devices, the game creates an 8-letter code valid for 10 minutes. In Options > Delete account, everything on the server is erased right away."
+  ],
+  [
+   "sub",
+   "Online matches"
+  ],
+  [
+   "txt",
+   "To find opponents near you, the server uses the connection's country (provided by Cloudflare) only while you are in the search queue. Your opponent sees your player name and the cards you play. Match moves stay on the server for reconnection and checks; we do not keep your country after the search."
   ],
   [
    "sub",

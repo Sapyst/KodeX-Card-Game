@@ -49,7 +49,12 @@ var deck_jog: Array[Carta] = []
 var deck_opon: Array[Carta] = []
 var mao_jog: Array[Carta] = []
 var mao_opon: Array[Carta] = []
-var rng := RandomNumberGenerator.new()
+var rng := RandomNumberGenerator.new()          # lógica (alvo/descarte aleatório): mesma semente nos dois aparelhos
+var rng_vis := RandomNumberGenerator.new()      # só enfeite (madeira, cascata, riffle): pode divergir sem problema
+var rng_deck: Array = [RandomNumberGenerator.new(), RandomNumberGenerator.new()]   # embaralhar: uma sequência por deck
+var rede: RedePartida = null                    # partida online (passo travado)
+var online_info: Dictionary = {}
+var dessinc := false
 var ruido := FastNoiseLite.new()
 var tempo := 0.0
 var efeitos: Efeitos
@@ -105,6 +110,12 @@ func _ready() -> void:
 		rng.seed = int(_extras()["semente"])
 	else:
 		rng.randomize()
+	if online_partida():
+		online_info = Sessao.extras.get("online", {})
+		rng.seed = int(online_info.get("semente", 1))
+	rng_vis.randomize()
+	for d in 2:                       # cada deck tem a sua sequência (índice GLOBAL do jogador): a ordem não importa
+		rng_deck[d].seed = rng.seed * 31 + 7 + _global(d) * 1000003
 	ruido.frequency = 3.0
 	ambiente = CanvasModulate.new()
 	ambiente.color = Color.BLACK
@@ -165,6 +176,12 @@ func _ready() -> void:
 	camera.ignore_rotation = false
 	add_child(camera)
 	camera.make_current()
+	if online_partida():
+		rede = RedePartida.new()
+		add_child(rede)
+		rede.emote.connect(hud.emote_oponente)
+		rede.fim_servidor.connect(_fim_servidor)
+		await rede.iniciar(online_info, bool(online_info.get("retomar", false)))
 	await _intro()
 	if modo_partida and Sessao.modo == "enigma":
 		await _enigma()
@@ -255,13 +272,20 @@ func _ready() -> void:
 		get_tree().quit()
 		return
 	if modo_partida:
+		if OS.get_environment("GD_TOQUE_AUTO") != "":
+			_responder_auto()
 		await _mulligan()
+		if online_partida():
+			await _mulligan_remoto()
 		for lado in 2:                                     # Arquimago usa o mulligan (a mesma regra do jogador)
-			if int(nivel_ia[lado]) == 2 and _arq_tem("M") and (lado == 1 or auto_jogador) and Sessao.modo != "tutorial":
+			if int(nivel_ia[lado]) == 2 and _arq_tem("M") and (lado == 1 or auto_jogador) and Sessao.modo != "tutorial" and not online_partida():
 				await _mulligan_ia(lado)
 		await _partida()
 		Sessao.resultado = "vitoria" if vencedor == 0 else ("derrota" if vencedor == 1 else "empate")
 		_registrar_partida()
+		if online_partida():
+			await _fim_online()
+			return
 		Sessao.extras["fim_cornucopia"] = cornucopia[0]       # Peregrinação: a vida continua na próxima parada
 		if (Sessao.modo != "" and not auto_jogador) or OS.get_environment("GD_RESUMO") != "":
 			await get_tree().create_timer(0.6).timeout
@@ -421,14 +445,14 @@ func _desenhar_tabuleiro() -> void:
 		var x := 8 + 344.0 * k / n_tab
 		t.draw_line(proj(Vector2(x, TOPO_Y)), proj(Vector2(x, BASE_Y)), MADEIRA[2], 1.0)
 	for k in 160:                                                   # veios
-		var px := rng.randf_range(10, 350)
-		var py := rng.randf_range(TOPO_Y + 4, BASE_Y - 8)
-		t.draw_line(proj(Vector2(px, py)), proj(Vector2(px, py + rng.randf_range(4, 14))), MADEIRA[0] if k % 3 else MADEIRA[3], 1.0)
+		var px := rng_vis.randf_range(10, 350)
+		var py := rng_vis.randf_range(TOPO_Y + 4, BASE_Y - 8)
+		t.draw_line(proj(Vector2(px, py)), proj(Vector2(px, py + rng_vis.randf_range(4, 14))), MADEIRA[0] if k % 3 else MADEIRA[3], 1.0)
 	# veludo da área de jogo + bordado dourado
 	var vel := PackedVector2Array([proj(Vector2(22, TOPO_Y + 16)), proj(Vector2(338, TOPO_Y + 16)), proj(Vector2(338, BASE_Y - 16)), proj(Vector2(22, BASE_Y - 16))])
 	t.draw_colored_polygon(vel, VELUDO[0])
 	for k in 220:                                                   # textura do veludo
-		var p := proj(Vector2(rng.randf_range(24, 336), rng.randf_range(TOPO_Y + 18, BASE_Y - 18)))
+		var p := proj(Vector2(rng_vis.randf_range(24, 336), rng_vis.randf_range(TOPO_Y + 18, BASE_Y - 18)))
 		t.draw_rect(Rect2(p, Vector2(1, 1)), VELUDO[1])
 	t.draw_polyline(vel + PackedVector2Array([vel[0]]), OURO[2], 1.0)
 	var vel2 := PackedVector2Array([proj(Vector2(25, TOPO_Y + 19)), proj(Vector2(335, TOPO_Y + 19)), proj(Vector2(335, BASE_Y - 19)), proj(Vector2(25, BASE_Y - 19))])
@@ -556,11 +580,11 @@ func _z_monte() -> void:
 # ---------------- deck: cascata ----------------
 func _cascata_deck() -> void:
 	for i in N_CARTAS:
-		var c := _nova_carta(Vector2(CENTRO.x + rng.randf_range(-70, 70), -90), 1.0)
-		c.rotation = rng.randf_range(-0.6, 0.6)
+		var c := _nova_carta(Vector2(CENTRO.x + rng_vis.randf_range(-70, 70), -90), 1.0)
+		c.rotation = rng_vis.randf_range(-0.6, 0.6)
 		c.z_index = i
 		deck_jog.append(c)
-		_arco(c, _pos_monte(i), 0.42, 40, rng.randf_range(-0.04, 0.04), 1.0, Tween.TRANS_QUAD, Tween.EASE_OUT)
+		_arco(c, _pos_monte(i), 0.42, 40, rng_vis.randf_range(-0.04, 0.04), 1.0, Tween.TRANS_QUAD, Tween.EASE_OUT)
 		await get_tree().create_timer(0.03).timeout
 	await get_tree().create_timer(0.45).timeout
 	_z_monte()
@@ -585,7 +609,7 @@ func _bater_monte() -> void:
 func _riffle() -> void:
 	if not _som.playing:
 		tocar_som("embaralhar_1")
-	var meio := deck_jog.size() / 2 + rng.randi_range(-3, 3)
+	var meio := deck_jog.size() / 2 + rng_vis.randi_range(-3, 3)
 	var esq: Array[Carta] = deck_jog.slice(0, meio)
 	var dir: Array[Carta] = deck_jog.slice(meio)
 	# separa em duas metades que levantam e inclinam
@@ -604,8 +628,8 @@ func _riffle() -> void:
 	var a := 0
 	var b := 0
 	while a < esq.size() or b < dir.size():
-		var lado_esq := (rng.randf() < 0.5 and a < esq.size()) or b >= dir.size()
-		for k in rng.randi_range(1, 3):
+		var lado_esq := (rng_vis.randf() < 0.5 and a < esq.size()) or b >= dir.size()
+		for k in rng_vis.randi_range(1, 3):
 			if lado_esq and a < esq.size():
 				nova.append(esq[a]); a += 1
 			elif not lado_esq and b < dir.size():
@@ -614,7 +638,7 @@ func _riffle() -> void:
 		var c: Carta = nova[i]
 		c.z_index = 200 + i
 		c.empilhada = false
-		_arco(c, _pos_monte(i) + Vector2(rng.randi_range(-2, 2), 0), 0.16, 8, rng.randf_range(-0.05, 0.05), 1.0, Tween.TRANS_QUAD, Tween.EASE_IN)
+		_arco(c, _pos_monte(i) + Vector2(rng_vis.randi_range(-2, 2), 0), 0.16, 8, rng_vis.randf_range(-0.05, 0.05), 1.0, Tween.TRANS_QUAD, Tween.EASE_IN)
 		await get_tree().create_timer(0.022).timeout
 	await get_tree().create_timer(0.2).timeout
 	deck_jog = nova
@@ -624,7 +648,7 @@ func _riffle() -> void:
 func _cortes() -> void:
 	# 3 cortes: um bloco de baixo sai pela direita, sobe e cai por cima do monte
 	for k in 3:
-		var tam := rng.randi_range(7, 12)
+		var tam := rng_vis.randi_range(7, 12)
 		var bloco: Array[Carta] = deck_jog.slice(0, tam)
 		for c in bloco:
 			deck_jog.erase(c)
@@ -778,7 +802,7 @@ func _desenhar_placar() -> void:
 		placar.draw_rect(r.grow(1), ESCURO)
 		placar.draw_rect(r, Color("#5a3a1a") if vez else (Color("#3a2a50") if ia and acelerar_ia else Color("#2a2430")))
 		placar.draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), OURO[1] if vez else (Color("#b8a0ff") if ia else Color("#4a4450")))
-		if vez and relogio_ativo and restante < AVISO_TEMPO:      # corda queimando: últimos 20 s do turno
+		if (vez or online_partida()) and relogio_ativo and restante < AVISO_TEMPO:      # corda queimando: últimos 20 s do turno
 			var fr := clampf(restante / AVISO_TEMPO, 0.0, 1.0)
 			var corda := Rect2(r.position.x, r.position.y - 7, r.size.x * fr, 3)
 			placar.draw_rect(Rect2(r.position.x, r.position.y - 7, r.size.x, 3), Color(0.1, 0.06, 0.05, 0.8))
@@ -1048,6 +1072,7 @@ func _soltar_do_campo(c: Carta, p: Vector2) -> void:
 	var livre := _espaco_sob(p, func(i: int) -> Vector2: return pos_ent(0, i), 4, campo_ent[0])
 	var inimigo := _inimigo_sob(p)
 	if livre >= 0:                                                       # mudar de lugar
+		_enviar({"tipo": "mover", "de": origem_idx, "para": livre})
 		campo_ent[0][origem_idx] = null
 		campo_ent[0][livre] = c
 		var dest := pos_ent(0, livre)
@@ -1058,6 +1083,7 @@ func _soltar_do_campo(c: Carta, p: Vector2) -> void:
 		if motivo != "":
 			efeitos.numero(c.position + Vector2(0, -40), motivo, Color("#ffd0a0"), 1)
 			await _recusar(c); return
+		_enviar({"tipo": "atacar", "de": origem_idx, "alvo": inimigo})
 		await _voltar_ao_espaco(c)
 		await _atacar(c, campo_ent[1][inimigo])
 	elif _campo_vazio(1) and c.virada_para_cima and p.y < LINHA_Y:
@@ -1065,6 +1091,7 @@ func _soltar_do_campo(c: Carta, p: Vector2) -> void:
 		if motivo != "":
 			efeitos.numero(c.position + Vector2(0, -40), motivo, Color("#ffd0a0"), 1)
 			await _recusar(c); return
+		_enviar({"tipo": "golpe", "de": origem_idx})
 		await _voltar_ao_espaco(c)
 		await _golpe_direto(c, 1)
 	else:
@@ -1619,7 +1646,7 @@ func _dar_dados(nos: Array[Carta], deck_nome: String, dono: int) -> void:
 func _dar_ids(nos: Array[Carta], lista: Array, dono: int) -> void:
 	var ids: Array = lista.duplicate()
 	for i in range(ids.size() - 1, 0, -1):
-		var j := rng.randi_range(0, i)
+		var j: int = rng_deck[dono].randi_range(0, i)
 		var tmp = ids[i]
 		ids[i] = ids[j]
 		ids[j] = tmp
@@ -1652,6 +1679,8 @@ func _espaco_livre(arr: Array) -> int:
 
 func _partida() -> void:
 	ativo = 0
+	if online_partida():
+		ativo = 0 if int(online_info.get("primeiro", 0)) == rede.eu else 1
 	turno_n = 0
 	_inicio_ms = Time.get_ticks_msec()
 	_corn_ini = cornucopia.duplicate()
@@ -1666,12 +1695,25 @@ func _partida() -> void:
 		ocupado = false
 		if acabou:
 			break
-		if ativo == 0 and not auto_jogador:
+		var terminou := false
+		if ativo == 0 and online_partida() and not rede.proprias.is_empty():   # reconexão: refaz as minhas jogadas já enviadas
+			terminou = await _turno_rede(0)
+		if terminou or acabou:
+			pass
+		elif ativo == 0 and not auto_jogador:
 			_atualizar_apagadas()
+			if OS.get_environment("GD_TOQUE_AUTO") != "":
+				_toque_auto()
 			_iniciar_relogio()
 			await fim_turno_pedido
 			relogio_ativo = false
+			if online_partida() and not acabou:
+				_enviar({"tipo": "fim", "h": _hash_estado()})
+		elif online_partida() and ativo == 1:
+			await _turno_rede(1)
 		else:
+			if ativo == 0 and online_partida():
+				_teste_queda()
 			await _turno_ia(ativo)
 		if acabou:
 			break
@@ -1695,7 +1737,7 @@ func _inicio_turno(d: int) -> void:
 		aplicar_tempo()
 	fe_max[d] = mini(FE_TETO, fe_max[d] + 1)
 	fe[d] = fe_max[d]
-	if d == 1 and turno_n == 2:
+	if turno_n == 2:                                     # quem joga em segundo: +1 Fé no 1º turno dele
 		fe[d] += 1
 	if d == 0 and turno_n == 1 and _bencao("fe1"):        # Bênção: +1 Fé no 1º turno
 		fe[d] += 1
@@ -1708,7 +1750,7 @@ func _inicio_turno(d: int) -> void:
 	_atualizar_apagadas()
 	efeitos.numero(Vector2(180, LINHA_Y - 4), "SEU TURNO" if d == 0 else "TURNO DELE", Color("#ffe39a") if d == 0 else Color("#cfe0ff"), 2)
 	await get_tree().create_timer(0.6).timeout
-	if not (d == 0 and turno_n == 1):
+	if turno_n != 1:                                     # quem começa não compra no 1º turno
 		await _comprar(d)
 	elif _bencao("compra1"):                            # Bênção: compra 1 no 1º turno (quem começa não compraria)
 		await _comprar(d)
@@ -1753,6 +1795,9 @@ func _encerrar(v: int, motivo := "") -> void:
 		return
 	acabou = true
 	vencedor = v
+	if rede != null:
+		rede.avisar_fim(v)
+		rede.chegou.emit()
 	alvos_pedidos.clear()
 	efeitos.escolha.clear()
 	efeitos.dica = ""
@@ -1783,9 +1828,15 @@ func _comprar(d: int) -> void:
 		var sim := true
 		if _reemb_gratis():
 			pass                                         # Peregrinação: grátis, não há o que decidir
+		elif decisao_da_rede(d):
+			sim = await esc_rede(d) == 1
+		elif motor.humano(d) and auto_jogador:            # teste online: a IA decide e manda
+			sim = not (cemit[d].size() < 3 and cornucopia[d] < 10)
+			enviar_esc(1 if sim else 0)
 		elif motor.humano(d):
 			sim = await pedir_sim_nao("DECK VAZIO", "REEMBARALHAR O CEMITÉRIO: -%d CORNUCÓPIA" % CUSTO_REEMBARALHAR,
 				"REEMBARALHAR", "NÃO  (-2)")
+			enviar_esc(1 if sim else 0)
 		elif cemit[d].size() < 3 and cornucopia[d] < 10:
 			sim = false                                  # IA: com quase nada no cemitério, prefere a fadiga
 		if sim:
@@ -1856,7 +1907,7 @@ func _reembaralhar(d: int) -> void:
 		if c.virada_para_cima:
 			c.virar(0.2)
 		deck.append(c)
-		_arco(c, dest + Vector2(0, -k / 3), 0.38, 30, rng.randf_range(-0.3, 0.3), esc_em(dest))
+		_arco(c, dest + Vector2(0, -k / 3), 0.38, 30, rng_vis.randf_range(-0.3, 0.3), esc_em(dest))
 		efeitos.faiscas(c.position, 4, Color("#c8b0f0"))
 		await get_tree().create_timer(0.04).timeout
 	await get_tree().create_timer(0.45).timeout
@@ -1983,7 +2034,7 @@ func _desfazer(c: Carta) -> void:
 func _embaralhar_deck(d: int) -> void:
 	var deck := _deck_de(d)
 	for i in range(deck.size() - 1, 0, -1):
-		var j := rng.randi_range(0, i)
+		var j: int = rng_deck[d].randi_range(0, i)
 		var tmp := deck[i]
 		deck[i] = deck[j]
 		deck[j] = tmp
@@ -2268,6 +2319,7 @@ func _soltar_da_mao_partida(c: Carta, p: Vector2) -> void:
 				if i < 0:
 					await _recusar(c)
 					return
+				_enviar({"tipo": "jogar", "k": mao_jog.find(c), "i": i})
 				await _jogar_entidade(c, 0, i)
 				return
 			if not (p.y > LINHA_Y and p.y < 520):
@@ -2289,18 +2341,22 @@ func _soltar_da_mao_partida(c: Carta, p: Vector2) -> void:
 				escolhidas.append(s)
 				(s as Carta).brilho = 0.5
 			var slot := _espaco_sob(p, func(k: int) -> Vector2: return pos_ent(0, k), 4, campo_ent[0])
+			_enviar({"tipo": "jogar", "k": mao_jog.find(c), "i": slot, "sac": escolhidas.map(func(e: Carta) -> int: return campo_ent[0].find(e))})
 			await _jogar_entidade(c, 0, slot, escolhidas)
 		"selo":
 			var i := _espaco_sob(p, func(k: int) -> Vector2: return pos_selo(0, k), 2, campo_selo[0])
 			if i < 0:
 				await _recusar(c)
 				return
+			_enviar({"tipo": "jogar", "k": mao_jog.find(c), "i": i})
 			await _jogar_selo(c, 0, i)
 		"reliquia":
-			var port := _carta_sob(p, _portadoras(0))
+			var ports := _portadoras(0)
+			var port := _carta_sob(p, ports)
 			if port == null:
 				await _recusar(c)
 				return
+			_enviar({"tipo": "jogar", "k": mao_jog.find(c), "p": ports.find(port)})
 			await _jogar_reliquia(c, 0, port)
 		_:
 			match _rito_modo(c, 0):
@@ -2308,13 +2364,16 @@ func _soltar_da_mao_partida(c: Carta, p: Vector2) -> void:
 					if not AREA_CAMPO.has_point(p):
 						await _recusar(c)
 						return
+					_enviar({"tipo": "jogar", "k": mao_jog.find(c)})
 					await _jogar_rito(c, 0)
 				"alvo":
 					var tipo := MotorEfeitos.alvo_escolhido(c.dados)
-					var alvo := _carta_sob(p, motor.candidatos(tipo, 0, c.dados))
+					var cands_r := motor.candidatos(tipo, 0, c.dados)
+					var alvo := _carta_sob(p, cands_r)
 					if alvo == null:
 						await _recusar(c)
 						return
+					_enviar({"tipo": "jogar", "k": mao_jog.find(c), "t": tipo, "a": cands_r.find(alvo)})
 					await _jogar_rito(c, 0, alvo, tipo)
 				"cemiterio":
 					if not _rect_espaco(proj(CEMIT_JOG)).grow(10).has_point(p):
@@ -2325,6 +2384,7 @@ func _soltar_da_mao_partida(c: Carta, p: Vector2) -> void:
 					if e == null:
 						await _recusar(c)
 						return
+					_enviar({"tipo": "jogar", "k": mao_jog.find(c), "t": "ally_graveyard_entity", "a": _indice(cands, e)})
 					await _jogar_rito(c, 0, e, "ally_graveyard_entity")
 				_:
 					await _recusar(c)
@@ -2584,6 +2644,8 @@ func _turno_ia(d: int) -> void:
 			break
 		_conta(d, "ia_" + str(acao["tipo"]))
 		_acoes_ia += 1
+		if online_partida():                          # teste online: a IA joga por mim e a jogada vai pela rede
+			_enviar(_codificar_ia(d, acao))
 		if acao["tipo"] == "jogar":
 			var carta: Carta = acao["carta"]
 			if d == 1 and (carta.lendaria or carta.custo >= 5):
@@ -2610,6 +2672,8 @@ func _turno_ia(d: int) -> void:
 				await _atacar(c, acao["alvo"])
 		await get_tree().create_timer(0.35).timeout
 	await get_tree().create_timer(0.3).timeout
+	if online_partida() and not acabou:
+		_enviar({"tipo": "fim", "h": _hash_estado()})
 	ocupado = false
 
 
@@ -2951,7 +3015,7 @@ func aplicar_tempo() -> void:
 
 
 func pausar(sim: bool) -> void:
-	pausado = sim
+	pausado = sim and not online_partida()        # online o jogo não para (o outro lado continua)
 	aplicar_tempo()
 
 
@@ -2962,6 +3026,8 @@ func desistir() -> void:
 		Sessao.resultado = ""
 		get_tree().change_scene_to_file("res://fluxo.tscn")
 		return
+	if online_partida():
+		_enviar({"tipo": "desistir"})
 	_encerrar(1, Sessao.t("DESISTÊNCIA"))
 
 
@@ -2994,6 +3060,12 @@ func _atualizar_previa() -> void:
 
 ## Mulligan: depois da mão inicial, o jogador marca até 2 cartas; elas voltam ao deck, ele embaralha e compra o mesmo número.
 func _mulligan() -> void:
+	if online_partida() and auto_jogador:
+		if not rede.proprias.is_empty() and str(rede.proprias[0].get("tipo", "")) == "mull":
+			rede.proprias.pop_front()                  # reconexão: a escolha já foi enviada
+		else:
+			_enviar({"tipo": "mull", "k": []})
+		return
 	if Sessao.modo == "tutorial" or auto_jogador or OS.get_environment("GD_SEM_MULLIGAN") != "":
 		return
 	hud.mulligan = true
@@ -3007,8 +3079,23 @@ func _mulligan() -> void:
 			hud.marcadas.append(mao_jog[int(k)])
 		efeitos.escolha[1]["texto"] = Sessao.t("TROCAR (%d)") % hud.marcadas.size()
 		get_tree().create_timer(1.5).timeout.connect(func() -> void: escolhido.emit(true))
-	var v = await escolhido
+	var v
+	var refeito := false
+	if online_partida() and not rede.proprias.is_empty() and str(rede.proprias[0].get("tipo", "")) == "mull":
+		for k in rede.proprias.pop_front().get("k", []):
+			if int(k) < mao_jog.size():
+				hud.marcadas.append(mao_jog[int(k)])
+		v = true
+		refeito = true
+	else:
+		if online_partida():
+			get_tree().create_timer(25.0, true, false, true).timeout.connect(func() -> void:
+				if hud.mulligan:
+					escolhido.emit(false))
+		v = await escolhido
 	var trocar: Array = hud.marcadas.duplicate() if v == true else []
+	if online_partida() and not refeito:
+		_enviar({"tipo": "mull", "k": trocar.map(func(c: Carta) -> int: return mao_jog.find(c))})
 	hud.mulligan = false
 	hud.marcadas.clear()
 	efeitos.faixa_alvo = {}
@@ -3289,8 +3376,14 @@ func _mulligan_ia(d: int) -> void:
 	trocar.sort_custom(func(a: Carta, b: Carta) -> bool: return a.custo > b.custo)
 	if trocar.size() > MULLIGAN_MAX:
 		trocar.resize(MULLIGAN_MAX)
+	await _trocar_mao(d, trocar)
+
+
+## Devolve as cartas ao deck, embaralha (sequência do deck) e compra o mesmo número.
+func _trocar_mao(d: int, trocar: Array) -> void:
 	if trocar.is_empty():
 		return
+	var mao := _mao_de(d)
 	var deck := _deck_de(d)
 	for c in trocar:
 		mao.erase(c)
@@ -3596,7 +3689,7 @@ func _limite_turno() -> bool:
 
 
 func online_partida() -> bool:
-	return false                                   # etapa 2 (multiplayer) liga isto
+	return modo_partida and Sessao.modo == "online"
 
 
 func _iniciar_relogio() -> void:
@@ -3624,6 +3717,8 @@ func _atualizar_relogio() -> void:
 
 func _tempo_esgotado() -> void:
 	relogio_ativo = false
+	if ativo != 0:                                 # online: a corda do adversário só aparece; quem passa é o aparelho dele
+		return
 	efeitos.numero(Vector2(180, LINHA_Y - 4), Sessao.t("TEMPO!"), Color("#ffb070"), 2)
 	Sessao.vibrar_pulsos(2, 40, 0.7)
 	if not alvos_pedidos.is_empty():
@@ -3650,6 +3745,8 @@ func _registrar_partida() -> void:
 	if not modo_partida or tut != null or (auto_jogador and OS.get_environment("GD_REGISTRAR") == "") or Sessao.modo in ["", "tutorial", "enigma"]:
 		return
 	var p: Dictionary = Sessao.personagem(Sessao.oponente)
+	if online_partida():
+		p = {"nome": str(online_info.get("adversario", "?"))}
 	var jog := func(d: int) -> int:
 		return int(estat[d].get("entidades", 0)) + int(estat[d].get("selos", 0)) + int(estat[d].get("ritos", 0)) + int(estat[d].get("reliquias", 0))
 	Sessao.registrar_partida({
@@ -3660,3 +3757,379 @@ func _registrar_partida() -> void:
 		"stats": {"cartas": jog.call(0), "cartas_op": jog.call(1), "dano": int(_corn_ini[1]) - maxi(cornucopia[1], 0), "recebido": int(_corn_ini[0]) - maxi(cornucopia[0], 0),
 			"mortes": int(estat[1].get("mortes", 0)), "perdas": int(estat[0].get("mortes", 0))},
 		"log": log_partida})
+
+
+# ================= online (passo travado: os dois aparelhos rodam a mesma partida e trocam só as ações) =================
+## Aqui o jogador local é sempre o lado 0 (embaixo). _global(d) = índice do jogador no servidor (0 = quem criou/pareou
+## primeiro): usado para tudo que precisa ser igual nos dois aparelhos (semente de cada deck, conferência do estado).
+func _global(d: int) -> int:
+	return d ^ int(online_info.get("eu", 0))
+
+
+func _enviar(dados: Dictionary) -> void:
+	if rede != null:
+		rede.enviar(dados)
+
+
+func enviar_esc(v: int) -> void:
+	_enviar({"tipo": "esc", "v": v})
+
+
+## Posição de um candidato na lista (cartas e entradas do cemitério comparadas por identidade). -1 = nenhum.
+func _indice(lista: Array, x) -> int:
+	if x == null:
+		return -1
+	for k in lista.size():
+		if is_same(lista[k], x):
+			return k
+	return -1
+
+
+## A escolha deste lado vem da rede? Adversário: sempre. Eu: só ao refazer jogadas já enviadas (reconexão).
+func decisao_da_rede(d: int) -> bool:
+	return rede != null and (d == 1 or not rede.proprias.is_empty())
+
+
+func _proxima_rede(d: int) -> Dictionary:
+	if d == 0:
+		return rede.proprias.pop_front() if not rede.proprias.is_empty() else {}
+	return await rede.proxima()
+
+
+func esc_rede(d: int) -> int:
+	var a: Dictionary = await _proxima_rede(d)
+	if a.is_empty():
+		return -1
+	if str(a.get("tipo", "")) != "esc":
+		_dessincronia("esperava uma escolha, veio " + str(a.get("tipo", "")))
+		return -1
+	return int(a.get("v", -1))
+
+
+## Turno vindo da rede (adversário; ou o meu ao reconectar). true = terminou com "fim"; false = acabaram as minhas
+## jogadas guardadas (reconexão no meio do turno: o resto é no toque).
+func _turno_rede(d: int) -> bool:
+	ocupado = true
+	if d == 1:
+		_iniciar_relogio()
+	var terminou := true
+	while not acabou:
+		aplicar_tempo()
+		var a: Dictionary = await _proxima_rede(d)
+		if a.is_empty():
+			terminou = d == 1
+			break
+		var tipo := str(a.get("tipo", ""))
+		if tipo == "fim":
+			if a.has("h") and int(a["h"]) != _hash_estado():
+				_dessincronia("estado diferente no fim do turno %d" % turno_n)
+			break
+		if tipo == "desistir":
+			await _encerrar(0 if d == 1 else 1, Sessao.t("O ADVERSÁRIO DESISTIU") if d == 1 else Sessao.t("DESISTÊNCIA"))
+			break
+		await _aplicar_acao(d, a)
+		await get_tree().create_timer(0.25).timeout
+	relogio_ativo = false
+	ocupado = false
+	aplicar_tempo()
+	return terminou
+
+
+## Aplica uma ação recebida no lado d (as mesmas funções que o toque e a IA usam: o resultado é o mesmo nos dois aparelhos).
+func _aplicar_acao(d: int, a: Dictionary) -> void:
+	match str(a.get("tipo", "")):
+		"jogar":
+			var mao := _mao_de(d)
+			var k := int(a.get("k", -1))
+			if k < 0 or k >= mao.size():
+				_dessincronia("carta %d fora da mão (%d)" % [k, mao.size()])
+				return
+			var c: Carta = mao[k]
+			match c.tipo:
+				"entidade":
+					var sacs: Array = []
+					for s in a.get("sac", []):
+						var e = campo_ent[d][clampi(int(s), 0, 3)]
+						if e != null:
+							sacs.append(e)
+					await _jogar_entidade(c, d, int(a.get("i", -1)), sacs)
+				"selo":
+					var i := int(a.get("i", -1))
+					if i < 0 or i > 1 or campo_selo[d][i] != null:
+						i = _espaco_livre(campo_selo[d])
+					if i < 0:
+						_dessincronia("sem espaço de Selo")
+						return
+					await _jogar_selo(c, d, i)
+				"reliquia":
+					var ports := _portadoras(d)
+					var pi := int(a.get("p", -1))
+					if pi < 0 or pi >= ports.size():
+						_dessincronia("portadora %d inexistente" % pi)
+						return
+					await _jogar_reliquia(c, d, ports[pi])
+				_:
+					var t := str(a.get("t", ""))
+					if t == "":
+						await _jogar_rito(c, d)
+					else:
+						var cands := motor.candidatos(t, d, c.dados)
+						var ai := int(a.get("a", -1))
+						if ai < 0 or ai >= cands.size():
+							_dessincronia("alvo do rito inexistente")
+							await _jogar_rito(c, d)
+						else:
+							await _jogar_rito(c, d, cands[ai], t)
+		"mover":
+			var de := clampi(int(a.get("de", 0)), 0, 3)
+			var para := clampi(int(a.get("para", 0)), 0, 3)
+			var c = campo_ent[d][de]
+			if c == null or campo_ent[d][para] != null:
+				_dessincronia("mover inválido")
+				return
+			campo_ent[d][de] = null
+			campo_ent[d][para] = c
+			var dest := pos_ent(d, para)
+			await _arco(c, dest, 0.28, 18, 0.0, esc_em(dest)).finished
+			_impacto(c, dest, 0.5)
+		"atacar", "golpe":
+			var c = campo_ent[d][clampi(int(a.get("de", 0)), 0, 3)]
+			if c == null:
+				_dessincronia("atacante inexistente")
+				return
+			if a["tipo"] == "golpe":
+				if d == 1:
+					_provocar(1)
+				await _golpe_direto(c, 1 - d)
+			else:
+				var alvo = campo_ent[1 - d][clampi(int(a.get("alvo", 0)), 0, 3)]
+				if alvo == null:
+					_dessincronia("alvo do ataque inexistente")
+					return
+				await _atacar(c, alvo)
+		"mull", "esc":
+			_dessincronia("ação fora de hora: " + str(a["tipo"]))
+		_:
+			pass
+
+
+## Mão inicial do adversário: espera a escolha dele (mostra que está esperando) e troca as mesmas cartas.
+func _mulligan_remoto() -> void:
+	if rede.recebidas.is_empty():
+		efeitos.faixa_alvo = {"titulo": Sessao.t("AGUARDANDO"), "sub": Sessao.t("O ADVERSÁRIO ESTÁ ESCOLHENDO A MÃO"), "y": LINHA_Y}
+	var a: Dictionary = await rede.proxima()
+	efeitos.faixa_alvo = {}
+	if a.is_empty():
+		return
+	if str(a.get("tipo", "")) != "mull":
+		_dessincronia("esperava a mão inicial")
+		rede.recebidas.push_front(a)
+		return
+	var trocar: Array = []
+	for k in a.get("k", []):
+		if int(k) >= 0 and int(k) < mao_opon.size() and not (mao_opon[int(k)] in trocar):
+			trocar.append(mao_opon[int(k)])
+	ocupado = true
+	await _trocar_mao(1, trocar)
+	ocupado = false
+
+
+## Retrato do estado na ordem GLOBAL dos jogadores (igual nos dois aparelhos se nada divergiu).
+func _hash_estado() -> int:
+	var partes: Array = []
+	for g in 2:
+		var d := g ^ int(online_info.get("eu", 0))
+		partes.append([cornucopia[d], fe[d], fe_max[d], _mao_de(d).size(), _deck_de(d).size(), cemit[d].size(),
+			(campo_ent[d] as Array).map(func(c) -> String: return "" if c == null else "%s:%d:%d" % [(c as Carta).id, (c as Carta).atk, (c as Carta).vida()]),
+			(campo_selo[d] as Array).map(func(c) -> String: return "" if c == null else (c as Carta).id)])
+	return hash(str(partes))
+
+
+func _dessincronia(msg: String) -> void:
+	print("DESSINCRONIA: ", msg)
+	if not dessinc:
+		dessinc = true
+		efeitos.numero(Vector2(180, LINHA_Y - 30), Sessao.t("DESSINCRONIA"), Color("#ff7070"), 2)
+
+
+## O servidor encerrou (desistência, abandono por queda de 2 min, ou o outro aparelho viu o fim antes).
+func _fim_servidor(v: int, queda: bool) -> void:
+	while not acabou and (ocupado or (ativo == 1 and not rede.recebidas.is_empty())):
+		await get_tree().create_timer(0.3, true, false, true).timeout
+	if acabou:
+		return
+	var motivo := ""
+	if queda:
+		motivo = Sessao.t("O ADVERSÁRIO SAIU") if v == 1 else Sessao.t("SEM CONEXÃO")
+	await _encerrar(0 if v == 1 else (1 if v == 0 else 2), motivo)
+
+
+## Fim da partida online: relatório dos dois lados e revanche (os dois precisam aceitar) ou menu.
+func _fim_online() -> void:
+	rede.parar()
+	await get_tree().create_timer(0.6).timeout
+	if OS.get_environment("GD_SAIR_NO_FIM") != "":
+		print("ONLINE FIM vencedor=", vencedor, " turnos=", turno_n, " hash=", _hash_estado(), " dessinc=", dessinc)
+		await get_tree().create_timer(1.0).timeout
+		get_tree().quit()
+		return
+	await _resumo_online()
+	var rev := await pedir_sim_nao(Sessao.t("REVANCHE?"), Sessao.t("OS DOIS PRECISAM ACEITAR"), Sessao.t("REVANCHE"), Sessao.t("MENU"))
+	if not rev:
+		Nuvem.mp("POST", "/v1/partida/%s/revanche" % rede.pid, {"recusar": true})
+		_voltar_menu()
+		return
+	efeitos.faixa_alvo = {"titulo": Sessao.t("REVANCHE"), "sub": Sessao.t("ESPERANDO O ADVERSÁRIO..."), "y": LINHA_Y}
+	_veu(1.0)
+	var r: Dictionary = await Nuvem.mp("POST", "/v1/partida/%s/revanche" % rede.pid, {}, 10.0)
+	var info: Dictionary = r.get("partida", {})
+	var limite := Time.get_ticks_msec() + 30000
+	while str(info.get("revanche_pid", "")) == "" and int(info.get("revanche", 0)) >= 0 and Time.get_ticks_msec() < limite:
+		var r2: Dictionary = await Nuvem.mp("GET", "/v1/partida/%s?estado=fim&rev=%d" % [rede.pid, int(info.get("revanche", 0))], {}, 25.0)
+		if r2.is_empty():
+			await get_tree().create_timer(1.0).timeout
+		else:
+			info = r2.get("partida", info)
+	var novo := str(info.get("revanche_pid", ""))
+	if novo != "":
+		var r3: Dictionary = await Nuvem.mp("GET", "/v1/partida/%s" % novo, {}, 10.0)
+		if r3.get("ok", false):
+			Sessao.preparar_online(r3["partida"])
+			get_tree().change_scene_to_file("res://mesa.tscn")
+			return
+	efeitos.faixa_alvo = {"titulo": Sessao.t("SEM REVANCHE"), "sub": Sessao.t("O ADVERSÁRIO NÃO ACEITOU"), "y": LINHA_Y}
+	await get_tree().create_timer(2.0).timeout
+	_voltar_menu()
+
+
+func _voltar_menu() -> void:
+	Engine.time_scale = 1.0
+	Sessao.modo = ""
+	Sessao.extras = {}
+	Sessao.online_salvo("")
+	get_tree().change_scene_to_file("res://fluxo.tscn")
+
+
+## Relatório com as duas colunas (você × adversário): o mesmo números que o outro aparelho vê, do lado dele.
+func _resumo_online() -> void:
+	var en := Sessao.idioma == "en"
+	var adv := str(online_info.get("adversario", "?"))
+	var titulo: Array = {0: ["Vitória", "Victory"], 1: ["Derrota", "Defeat"], 2: ["Empate", "Draw"]}.get(vencedor, ["Empate", "Draw"])
+	var jog := func(d: int) -> int:
+		return int(estat[d].get("entidades", 0)) + int(estat[d].get("selos", 0)) + int(estat[d].get("ritos", 0)) + int(estat[d].get("reliquias", 0))
+	var atq := func(d: int) -> int:
+		return int(estat[d].get("ataques", 0)) + int(estat[d].get("golpes_diretos", 0))
+	var b: Array = [["titulo", titulo[1 if en else 0]], ["centro", ("against %s" if en else "contra %s") % adv],
+		["centro", "%d %s  ·  %d min" % [turno_n, Sessao.t("turnos"), int((Time.get_ticks_msec() - _inicio_ms) / 60000)]], ["divisor"],
+		["sub", ("You  ×  %s" if en else "Você  ×  %s") % adv],
+		["item", ("Cards played: %d × %d" if en else "Cartas jogadas: %d × %d") % [jog.call(0), jog.call(1)]],
+		["item", ("Damage dealt: %d × %d" if en else "Dano causado: %d × %d") % [int(_corn_ini[1]) - maxi(cornucopia[1], 0), int(_corn_ini[0]) - maxi(cornucopia[0], 0)]],
+		["item", ("Entities destroyed: %d × %d" if en else "Entidades destruídas: %d × %d") % [int(estat[1].get("mortes", 0)), int(estat[0].get("mortes", 0))]],
+		["item", ("Attacks: %d × %d" if en else "Ataques: %d × %d") % [atq.call(0), atq.call(1)]],
+		["item", ("Cornucopia left: %d × %d" if en else "Cornucópia no fim: %d × %d") % [maxi(cornucopia[0], 0), maxi(cornucopia[1], 0)]]]
+	if dessinc:
+		b.append(["espaco"])
+		b.append(["centro", "The two devices disagreed during this match (desync). Please report it." if en else "Os dois aparelhos divergiram nesta partida (dessincronia). Avise para corrigirmos."])
+	perg.abrir(b)
+	await perg.fechou
+
+
+## Jogada da IA no formato da rede (mesmos parâmetros que _turno_ia usa em seguida).
+func _codificar_ia(d: int, acao: Dictionary) -> Dictionary:
+	if acao["tipo"] == "jogar":
+		var carta: Carta = acao["carta"]
+		var r := {"tipo": "jogar", "k": _mao_de(d).find(carta)}
+		match carta.tipo:
+			"entidade":
+				var vitimas: Array = motor.campo(d)
+				vitimas.sort_custom(func(a: Carta, b: Carta) -> bool: return motor.valor(a) < motor.valor(b))
+				r["i"] = -1
+				r["sac"] = vitimas.slice(0, int(carta.dados.get("sacrificio", 0))).map(func(e: Carta) -> int: return campo_ent[d].find(e))
+			"selo":
+				r["i"] = _espaco_livre(campo_selo[d])
+			"reliquia":
+				r["p"] = _portadoras(d).find(acao["alvo"])
+		return r
+	var c: Carta = acao["atacante"]
+	if acao["alvo"] == null:
+		return {"tipo": "golpe", "de": campo_ent[d].find(c)}
+	return {"tipo": "atacar", "de": campo_ent[d].find(c), "alvo": campo_ent[1 - d].find(acao["alvo"])}
+
+
+## Testes online: GD_DESISTIR_TURNO=n desiste no meu turno n; GD_CAIR_TURNO=n fecha o jogo no meu turno n (simula
+## o app morrendo no meio da partida, para testar a volta com GD_ONLINE_TESTE=retomar).
+func _teste_queda() -> void:
+	if OS.get_environment("GD_DESISTIR_TURNO") != "" and turno_n >= int(OS.get_environment("GD_DESISTIR_TURNO")):
+		desistir()
+	if OS.get_environment("GD_CAIR_TURNO") != "" and turno_n >= int(OS.get_environment("GD_CAIR_TURNO")):
+		print("CAIU no turno ", turno_n)
+		get_tree().quit()
+
+
+# ================= teste: "dedo automático" (GD_TOQUE_AUTO=1) =================
+## Joga o meu turno pelo CAMINHO DO TOQUE (pressionar → arrastar → soltar), com a jogada que a IA escolheria. Serve para
+## testar o online com as mesmas funções que a pessoa usa (o GD_AUTO pula o toque e chama as funções direto).
+func _toque_auto() -> void:
+	await get_tree().create_timer(0.6).timeout
+	var tentativas := 0
+	while not acabou and ativo == 0 and tentativas < 30:
+		tentativas += 1
+		while (ocupado or not alvos_pedidos.is_empty() or not efeitos.escolha.is_empty() or carrossel.aberto()) and not acabou:
+			await get_tree().process_frame
+		if acabou or ativo != 0:
+			return
+		var acao := _ia_escolher(0)
+		if acao.is_empty():
+			break
+		var c: Carta
+		var destino := Vector2.ZERO
+		if acao["tipo"] == "jogar":
+			c = acao["carta"]
+			match c.tipo:
+				"entidade":
+					var i := _espaco_livre(campo_ent[0])
+					destino = pos_ent(0, i if i >= 0 else 0)
+				"selo":
+					destino = pos_selo(0, maxi(0, _espaco_livre(campo_selo[0])))
+				"reliquia":
+					destino = (acao["alvo"] as Carta).position
+				_:
+					match _rito_modo(c, 0):
+						"alvo":
+							var cands := motor.candidatos(MotorEfeitos.alvo_escolhido(c.dados), 0, c.dados)
+							destino = (cands[0] as Carta).position if not cands.is_empty() else Vector2(180, 300)
+						"cemiterio":
+							destino = proj(CEMIT_JOG)
+						_:
+							destino = Vector2(180, LINHA_Y + 70)
+		else:
+			c = acao["atacante"]
+			destino = (acao["alvo"] as Carta).position if acao["alvo"] != null else Vector2(180, LINHA_Y - 70)
+		pressionar(c.position)
+		if segurando != c:
+			break
+		await get_tree().process_frame
+		mover(destino)
+		ponteiro = destino
+		soltar(destino)
+		await get_tree().create_timer(0.3).timeout
+	while (ocupado or not alvos_pedidos.is_empty()) and not acabou:
+		await get_tree().process_frame
+	if not acabou and ativo == 0:
+		pressionar(botao_fim.get_center())
+
+
+## Responde sozinho às perguntas do toque (alvo, sim/não, cemitério, mão inicial, relatório, revanche): sempre a 1ª opção.
+func _responder_auto() -> void:
+	while is_inside_tree():
+		await get_tree().create_timer(0.25).timeout
+		if perg.aberto():
+			perg.fechar()
+		elif carrossel.aberto():
+			carrossel.selecionado.emit(0)
+		elif not alvos_pedidos.is_empty():
+			var c = alvos_pedidos[0]
+			if is_instance_valid(c):
+				alvo_tocado.emit(c)
+		elif not efeitos.escolha.is_empty():
+			escolhido.emit(efeitos.escolha[0]["valor"])

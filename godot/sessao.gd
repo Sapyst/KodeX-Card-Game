@@ -493,6 +493,30 @@ func adotar_servidor(srv: Dictionary, tudo := false) -> void:
 
 
 ## Histórico do perfil: últimas 30 partidas (com log) e contadores por tipo de adversário, modo e adversário.
+## Partida online (lista "partida" do servidor: pid, eu, semente, primeiro, adversario, deck_eu, deck_op).
+func preparar_online(info: Dictionary, retomar := false) -> void:
+	modo = "online"
+	deck_jogador = (info.get("deck_eu", []) as Array).duplicate()
+	deck_jogador_nome = tradicao_do_deck(deck_jogador)
+	deck_oponente = (info.get("deck_op", []) as Array).duplicate()
+	oponente = tradicao_do_deck(deck_oponente)
+	dificuldade = 1
+	extras = {"online": info.duplicate()}
+	extras["online"]["retomar"] = retomar
+	resultado = ""
+	online_salvo(str(info.get("pid", "")))
+
+
+## Partida online em andamento (para voltar a ela se o app fechar). "" = nenhuma. Fica só neste aparelho.
+func online_salvo(pid = null) -> String:
+	var cfg := ConfigFile.new()
+	cfg.load("user://online.cfg")
+	if pid != null:
+		cfg.set_value("partida", "pid", str(pid))
+		cfg.save("user://online.cfg")
+	return str(cfg.get_value("partida", "pid", ""))
+
+
 func registrar_partida(reg: Dictionary) -> void:
 	var h: Array = perfil.get("historico", [])
 	h.push_front(reg)

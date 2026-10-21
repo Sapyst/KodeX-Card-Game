@@ -1,5 +1,23 @@
 [
  {
+  "versao": "0.18.0-alpha",
+  "data": "21/10/2026",
+  "pt": [
+   "Online! Nova carta-modo no menu: busque partida (primeiro gente do seu país, depois do continente, depois do mundo) e aceite ou recuse em 12 segundos.",
+   "Jogue com um amigo: um cria a sala e passa o código de 4 letras; o outro entra com o código.",
+   "Caiu a conexão? O jogo tenta de novo sozinho. Fechou o app? Volte em Online > Voltar à partida. Sem voltar em 2 minutos, a vitória é do outro.",
+   "Fim da partida com o relatório dos dois lados e revanche (os dois precisam aceitar). Emotes vão para o adversário de verdade.",
+   "Histórico: partidas online contam como \"contra jogadores\", com o nome de quem você enfrentou."
+  ],
+  "en": [
+   "Online! New mode card in the menu: find a match (first people in your country, then your continent, then the world) and accept or decline within 12 seconds.",
+   "Play with a friend: one creates a room and shares the 4-letter code; the other joins with it.",
+   "Lost connection? The game retries by itself. Closed the app? Go back through Online > Back to the match. If you don't return within 2 minutes, the other player wins.",
+   "End of match with a report from both sides and a rematch (both must accept). Emotes go to your real opponent.",
+   "History: online matches count as \"against players\", with the name of who you faced."
+  ]
+ },
+ {
   "versao": "0.17.0-alpha",
   "data": "21/10/2026",
   "pt": [

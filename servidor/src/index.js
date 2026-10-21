@@ -3,6 +3,7 @@
 // Conta anônima: id + segredo (o servidor guarda só o SHA-256 do segredo). Sem email nesta fase.
 // Tudo o que depende de hora usa a hora do servidor no fuso de Nova York (com horário de verão).
 import D from "./dados.js";
+import { rotaMulti } from "./multi.js";
 
 const R = {
   MOEDAS_INICIO: 200, MOEDAS_DIA: 50, ACUMULO_DIAS: 3, KOINS_DIA: 10, KOINS_SEMANA: 100, KOINS_VERSAO: 30, MOEDAS_VERSAO: 50,
@@ -423,8 +424,12 @@ export default {
         await env.DB.prepare("INSERT INTO codigos (codigo, id, expira) VALUES (?, ?, ?)").bind(cod, id, Math.floor(agora()) + 600).run();
         return json({ ok: true, codigo: cod, expira_em: 600 });
       }
+      if (url.pathname.startsWith("/v1/mm/") || url.pathname.startsWith("/v1/sala/") || url.pathname.startsWith("/v1/partida/")) {
+        const r = await rotaMulti(req, env, url, corpo, id, p || {}, D, json, erro);
+        if (r) return r;
+      }
       if (url.pathname === "/v1/apagar" && req.method === "POST") {   // excluir a conta (exigência da Play Store)
-        for (const t of ["perfis", "limites", "codigos", "emails", "kodes"]) await env.DB.prepare(`DELETE FROM ${t} WHERE id=?`).bind(id).run();
+        for (const t of ["perfis", "limites", "codigos", "emails", "kodes", "fila"]) await env.DB.prepare(`DELETE FROM ${t} WHERE id=?`).bind(id).run();
         await env.DB.prepare("DELETE FROM contas WHERE id=?").bind(id).run();
         return json({ ok: true });
       }

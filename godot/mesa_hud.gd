@@ -125,6 +125,9 @@ func emote_jogador(k: int) -> void:
 	_ultimo_emote = t
 	fala_jog = {"texto": EMOTES[k][1 if Sessao.idioma == "en" else 0], "t": 0.0}
 	Sessao.vibrar(10, 0.3)
+	if m.online_partida():                             # online: a fala vai para o adversário (gente de verdade)
+		m.rede.enviar({"tipo": "emote", "k": k})
+		return
 	if Sessao.modo != "" and randf() < 0.6:            # o oponente responde 60% das vezes, 1,2 s depois
 		var linha: Array = RESPOSTAS[k][randi() % RESPOSTAS[k].size()]
 		get_tree().create_timer(1.2).timeout.connect(func() -> void:
@@ -132,6 +135,14 @@ func emote_jogador(k: int) -> void:
 				return
 			var p: Dictionary = Sessao.personagem(Sessao.oponente)
 			m.efeitos.falar(p.get("nome", ""), linha[1 if Sessao.idioma == "en" else 0], Color(p.get("cor", "#e2b85a")), Sessao.oponente))
+
+
+## Emote recebido do adversário online: balão do lado de lá com o nome dele.
+func emote_oponente(k: int) -> void:
+	if m.acabou or k < 0 or k >= EMOTES.size():
+		return
+	var p: Dictionary = Sessao.personagem(Sessao.oponente)
+	m.efeitos.falar(str(m.online_info.get("adversario", "")), EMOTES[k][1 if Sessao.idioma == "en" else 0], Color(p.get("cor", "#e2b85a")), Sessao.oponente)
 
 
 func entrada_lendaria(c: Carta) -> void:
@@ -233,6 +244,9 @@ func _draw() -> void:
 		var r: Rect2 = m.botao_fim
 		var a := 0.6 + 0.4 * sin(t * 5.0)
 		PixelFonte.centrado(self, r.get_center() + Vector2(0, -14), Sessao.t("SEM JOGADAS"), Color(OURO[0], a), 1, ESCURO)
+	if m.rede != null and not m.rede.conectado and not m.acabou:      # online: sem conexão, tentando de novo
+		var a2 := 0.55 + 0.45 * sin(t * 6.0)
+		PixelFonte.centrado(self, Vector2(180, 64), Sessao.t("RECONECTANDO..."), Color(1.0, 0.6, 0.4, a2), 1, ESCURO)
 	if hist_aberto >= 0 and hist_aberto < historico.size():
 		_desenhar_carta_hist(historico[hist_aberto], tl)
 	if not lendaria.is_empty():

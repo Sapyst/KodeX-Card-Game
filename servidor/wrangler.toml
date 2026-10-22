@@ -17,3 +17,12 @@ ESPERA_S = "10"
 # varredura de comportamento alarmante (moderacao.js) a cada 30 min
 [triggers]
 crons = ["*/30 * * * *"]
+
+# sala de cada partida online com juiz (src/sala.js)
+[[durable_objects.bindings]]
+name = "SALA"
+class_name = "SalaPartida"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["SalaPartida"]

@@ -6,6 +6,7 @@ import D from "./dados.js";
 import { rotaMulti } from "./multi.js";
 import { rotaAdmin } from "./admin.js";
 import { sinal, punicao, varredura } from "./moderacao.js";
+export { SalaPartida } from "./sala.js";
 
 const R = {
   MOEDAS_INICIO: 200, MOEDAS_DIA: 50, ACUMULO_DIAS: 3, KOINS_DIA: 10, KOINS_SEMANA: 100, KOINS_VERSAO: 30, MOEDAS_VERSAO: 50,
@@ -345,7 +346,9 @@ const sha = async (s) => hex(await crypto.subtle.digest("SHA-256", new TextEncod
 const aleatorio = (n) => hex(crypto.getRandomValues(new Uint8Array(n)));
 
 async function autenticar(req, env) {
-  const m = /^KDX ([0-9a-f]{24}):([0-9a-f]{64})$/.exec(req.headers.get("authorization") || "");
+  // WebSocket no navegador não manda cabeçalho: a sala aceita a mesma credencial em ?auth= (só por HTTPS)
+  const bruto = req.headers.get("authorization") || new URL(req.url).searchParams.get("auth") || "";
+  const m = /^KDX ([0-9a-f]{24}):([0-9a-f]{64})$/.exec(bruto);
   if (!m) return null;
   const c = await env.DB.prepare("SELECT segredo_hash FROM contas WHERE id=?").bind(m[1]).first();
   return c && c.segredo_hash === (await sha(m[2])) ? m[1] : null;
@@ -540,6 +543,20 @@ export default {
         const cod = [...crypto.getRandomValues(new Uint8Array(8))].map((b) => letras[b % letras.length]).join("");
         await env.DB.prepare("INSERT INTO codigos (codigo, id, expira) VALUES (?, ?, ?)").bind(cod, id, Math.floor(agora()) + 600).run();
         return json({ ok: true, codigo: cod, expira_em: 600 });
+      }
+      const ws = /^\/v1\/partida\/([0-9a-f]{20})\/ws$/.exec(url.pathname);
+      if (ws) {                                                    // sala com juiz (Durable Object por partida)
+        const pt = await env.DB.prepare("SELECT * FROM partidas WHERE pid=?").bind(ws[1]).first();
+        if (!pt || !pt.juiz) return erro("partida não encontrada", 404);
+        const lado = pt.j0 === id ? 0 : pt.j1 === id ? 1 : -1;
+        if (lado < 0) return erro("esta partida não é sua", 403);
+        if (pt.estado !== "jogando" && pt.estado !== "fim") return erro("partida ainda não começou", 409);
+        const setup = { pid: pt.pid, decks: [JSON.parse(pt.deck0), JSON.parse(pt.deck1)], semente: pt.semente, primeiro: pt.primeiro };
+        const h = new Headers(req.headers);
+        h.set("x-jogador", String(lado));
+        h.set("x-setup", JSON.stringify(setup));
+        const sala = env.SALA.get(env.SALA.idFromName(pt.pid));
+        return sala.fetch(new Request(req.url, { method: req.method, headers: h }));
       }
       if (url.pathname.startsWith("/v1/mm/") || url.pathname.startsWith("/v1/sala/") || url.pathname.startsWith("/v1/partida/")) {
         const r = await rotaMulti(req, env, url, corpo, id, p || {}, D, json, erro, pun?.tipo === "shadow");

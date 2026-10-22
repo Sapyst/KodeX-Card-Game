@@ -92,7 +92,13 @@ export class Partida {
     this.prof_dano = 0;
     this.eventos = [];
     this.estat = [{}, {}];
+    // revelações por jogador: o que o celular de cada um precisa saber, na ordem em que o motor dele vai pedir
+    // (compras próprias, sorteios, descartes, buscas, Selos do adversário que disparam, ritual de Choronzon)
+    this.rev = [[], []];
   }
+
+  revelar(quem, o) { for (const j of quem) this.rev[j].push(o); }
+  sortearLogica(n) { const v = this.sorteio.int(n); this.revelar([0, 1], { r: "rng", n, v }); return v; }
 
   ev(tipo, dados = {}) { this.eventos.push({ tipo, ...dados }); }
   conta(d, k) { this.estat[d][k] = (this.estat[d][k] | 0) + 1; }
@@ -159,6 +165,7 @@ export class Partida {
       yield* this.inicioTurno(this.ativo);
       if (this.acabou) break;
       this.ev("turno", { jogador: this.ativo, n: this.turno_n });
+      this.revelar([0, 1], { r: "turno", n: this.turno_n, canon: this.canonPublico() });
       while (!this.acabou) {                    // ações do jogador da vez até "fim"
         const a = yield { tipo: "acao", jogador: this.ativo };
         if (!a || a.tipo === "fim") break;
@@ -257,13 +264,15 @@ export class Partida {
     this.checarFim();
   }
   receberComprada(d, c, queimar = true) {
-    if (queimar && this.mao[d].length >= MAO_MAX) {   // mão cheia: a comprada queima
+    if (queimar && this.mao[d].length >= MAO_MAX) {   // mão cheia: a comprada queima (vai aberta ao cemitério)
       this.cemit[d].push({ dados: c.dados, no: null });
       c._liberada = true;
+      this.revelar([0, 1], { r: "compra", lado: d, id: c.id, queima: true });
       this.ev("queima", { jogador: d, uid: c.uid, id: c.id });
       return;
     }
     this.mao[d].push(c);
+    this.revelar([d], { r: "compra", lado: d, id: c.id });          // só quem comprou vê qual é
     this.ev("compra", { jogador: d, uid: c.uid, id: c.id });
   }
   entrarNaMao(d, c) {
@@ -274,6 +283,7 @@ export class Partida {
     this.ev("volta_mao", { jogador: d, uid: c.uid, id: c.id });
   }
   descartar(d, c) {
+    this.revelar([0, 1], { r: "descarte", lado: d, k: this.mao[d].indexOf(c), id: c.id });
     this.mao[d].splice(this.mao[d].indexOf(c), 1);
     this.cemit[d].push({ dados: c.dados, no: null });
     c._liberada = true;
@@ -638,7 +648,7 @@ export class Partida {
   }
   aleatorio(cands) {
     if (!cands.length) return [];
-    return [cands[this.sorteio.int(cands.length)]];
+    return [cands[this.sortearLogica(cands.length)]];
   }
   iaAlvo(_dono, cands, acao) {
     const op = acao.op, alvo = String(acao.alvo ?? "");
@@ -711,9 +721,11 @@ export class Partida {
     for (const s of selos) {
       if (this.acabou) return;
       const ef = s.efeitos.length ? s.efeitos[0] : null;
-      if (!ef || ef.gatilho !== gat || s.turno_posto === this.turno_n || !this.campo_selo[idx].includes(s)) continue;
       const ctx = { ...ctxBase, self: null, dono: idx, fonte: s, gatilho: gat };
-      if (!this.condOk(ef.cond, ctx)) continue;
+      const dispara = !!ef && ef.gatilho === gat && s.turno_posto !== this.turno_n && this.campo_selo[idx].includes(s) && this.condOk(ef.cond, ctx);
+      // o adversário não sabe que Selo é: para cada um que o motor dele olhar, diz se disparou (e então qual é)
+      this.revelar([1 - idx], dispara ? { r: "selo", lado: idx, dispara: true, id: s.id } : { r: "selo", lado: idx, dispara: false });
+      if (!dispara) continue;
       const slot = this.campo_selo[idx].indexOf(s);
       this.campo_selo[idx][slot] = null;
       this.cemit[idx].push({ dados: s.dados, no: null });
@@ -793,7 +805,7 @@ export class Partida {
         for (let k = 0; k < (a.n ?? 1); k++) {
           const mao = this.mao[1 - dono];
           if (!mao.length) break;
-          this.descartar(1 - dono, mao[this.sorteio.int(mao.length)]);
+          this.descartar(1 - dono, mao[this.sorteio.int(mao.length)]);   // o índice vai na revelação do descarte
         }
         return;
       case "gain_fe": {
@@ -862,7 +874,8 @@ export class Partida {
     const deck = this.deck[d];
     const cands = deck.filter((c) => (a.tipo == null || c.tipo === a.tipo) && (a.custo_max == null || c.custo <= (a.custo_max | 0)) &&
       (a.keyword == null || c.keywords.includes(a.keyword)));
-    if (!cands.length) return;
+    if (!cands.length) { this.revelar([0, 1], { r: "busca", lado: d, achou: false }); return; }
+    this.revelar([0, 1], { r: "busca", lado: d, achou: true });
     const jog = cands.filter((c) => c.custo <= this.fe_max[d] + 1);   // a mais cara jogável no próximo turno (senão a mais barata)
     let esc = cands[0];
     if (jog.length) { for (const c of jog) if (c.custo > esc.custo || !jog.includes(esc)) esc = c; }
@@ -928,6 +941,7 @@ export class Partida {
     const tri = this.campo(d).some((c) => c.reliquia && c.reliquia.dados.id === CHORONZON.reliquia);
     const cir = this.campo_selo[d].some((s) => s && s.id === CHORONZON.selo);
     const chor = this.mao[d].find((c) => c.id === CHORONZON.entidade) || null;
+    this.revelar([1 - d], { r: "ritual", lado: d, ok: !!(tri && cir && chor), k: chor ? this.mao[d].indexOf(chor) : -1 });
     if (tri && cir && chor) {
       this.mao[d].splice(this.mao[d].indexOf(chor), 1);
       let i = this.espacoLivre(this.campo_ent[d]);
@@ -950,6 +964,18 @@ export class Partida {
     return `T${this.turno_n}A${this.ativo}|` + lado(0) + "|" + lado(1);
   }
 }
+
+Partida.prototype.canonPublico = function () {
+  /** Só o que os dois podem ver: mãos e decks viram tamanhos, Selos viram "?". O celular monta o mesmo texto. */
+  const lado = (d) => {
+    const ent = this.campo_ent[d].map((c) => (c ? [c.id, c.atk, c.defe, c.dano, [...c.keywords].sort().join("+") + "|" + [...c.aura_keywords].sort().join("+"),
+      (c.cansada ? "c" : "") + (c.atacou ? "a" : "") + (c.congelada ? "g" : "") + (c.sem_ataque ? "x" : "") + (c.silenciada ? "s" : "") +
+      (c.ja_atacou ? "j" : "") + (c.roubada_temp ? "R" : "") + (c.reliquia ? "r:" + c.reliquia.dados.id + ":" + (c.reliquia.usos ?? "-") : "")].join("/") : "_"));
+    return [this.cornucopia[d], this.fe[d], this.fe_max[d], this.mao[d].length, this.deck[d].length,
+      this.cemit[d].map((e) => e.dados.id).join(","), ent.join(";"), this.campo_selo[d].map((s) => (s ? "?" : "_")).join(",")].join("#");
+  };
+  return `T${this.turno_n}A${this.ativo}|` + lado(0) + "|" + lado(1);
+};
 
 export function alvoEscolhido(dados) {
   for (const ef of dados.efeitos || []) for (const a of ef.acoes) if (ALVOS_ESCOLHIDOS.includes(String(a.alvo ?? ""))) return a.alvo;

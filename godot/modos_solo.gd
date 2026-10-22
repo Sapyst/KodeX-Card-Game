@@ -395,6 +395,7 @@ func pos_pere() -> void:
 	p["corn"] = clampi(int(ex.get("fim_cornucopia", p["corn"])), 1, int(p["corn_max"]))
 	p["vitorias"] = int(p["vitorias"]) + 1
 	if caminho == "chefe":
+		Sessao.perfil["pere_fim"] = int(Sessao.perfil.get("pere_fim", 0)) + 1      # conta para a conquista
 		Sessao.premio("pere_chefe", {}, MOEDAS_CHEFE_PERE + MOEDAS_VITORIA_PERE, 1)
 		Sessao.perfil.erase("pere")
 		Sessao.salvar()

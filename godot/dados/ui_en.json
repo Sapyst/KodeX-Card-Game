@@ -511,5 +511,8 @@
  "partida indisponível": "match unavailable",
  "SEM SINAL %ds": "NO SIGNAL %ds",
  "Sala %s não encontrada: confira as 4 letras.": "Room %s not found: check the 4 letters.",
- "quem joga online com você vê nome e foto": "online opponents see your name and photo"
+ "quem joga online com você vê nome e foto": "online opponents see your name and photo",
+ "Nv": "Lv",
+ "Trocar esta missão?": "Swap this mission?",
+ "só 1 troca por dia": "only 1 swap per day"
 }

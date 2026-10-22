@@ -470,9 +470,9 @@ func salvar_so_local() -> void:
 ## Campos que o servidor controla (economia e progresso que dá prêmio). `tudo` = entrar numa conta de outro aparelho:
 ## traz também nome, decks e opções.
 const CAMPOS_SERVIDOR := ["colecao", "foils", "versos", "resgates", "sem_lendaria", "lendarios", "enigmas", "diario_dia",
-	"versao_premiada", "choronzon_vencido", "titulos", "novas"]
+	"versao_premiada", "choronzon_vencido", "titulos", "novas", "prog_pagos"]
 const CAMPOS_LIVRES := ["nome", "decks", "deck_ativo", "verso", "pacote", "tarcade", "torneio", "versao_vista", "pere",
-	"torneio_vencido", "historico", "estat"]
+	"torneio_vencido", "historico", "estat", "prog", "titulo", "pere_fim"]
 
 
 func adotar_servidor(srv: Dictionary, tudo := false) -> void:
@@ -528,7 +528,7 @@ func online_salvo(pid = null) -> String:
 	return str(cfg.get_value("partida", "pid", ""))
 
 
-func registrar_partida(reg: Dictionary) -> void:
+func registrar_partida(reg: Dictionary) -> Array:
 	var h: Array = perfil.get("historico", [])
 	h.push_front(reg)
 	if h.size() > 30:
@@ -544,6 +544,7 @@ func registrar_partida(reg: Dictionary) -> void:
 		e[chave[0]] = grupo
 	perfil["estat"] = e
 	salvar()
+	return Progresso.partida(reg)
 
 
 ## Repete no servidor uma operação feita no aparelho; o perfil que volta corrige qualquer diferença.
@@ -629,7 +630,17 @@ func resgatar() -> Dictionary:
 	var p := recompensas_pendentes()
 	if p.is_empty() or (p["dias"] == 0 and p["booster"] == 0 and p["koins"] == 0):
 		return {}
-	perfil["resgates"] = {"dia": Relogio.dia(), "semana": Relogio.semana(), "sexta": Relogio.semana_sexta()}
+	var r0: Dictionary = perfil.get("resgates", {})
+	var seq := int(r0.get("seq", 0))
+	if int(p["dias"]) > 0:                         # dias seguidos (igual ao servidor): a cada 7, +1 booster e +20 Koins
+		seq = seq + 1 if Relogio.dia() - int(r0.get("dia", Relogio.dia() - 1)) == 1 else 1
+		if seq % 7 == 0:
+			p["booster"] = int(p["booster"]) + 1
+			p["koins"] = int(p["koins"]) + 20
+			p["bonus_seq"] = true
+	p["seq"] = seq
+	perfil["resgates"] = {"dia": Relogio.dia(), "semana": Relogio.semana(), "sexta": Relogio.semana_sexta(), "seq": seq,
+		"max": maxi(int(r0.get("max", 0)), seq)}
 	_gravar("moedas", moedas() + int(p["moedas"]))
 	_gravar("boosters_gratis", boosters_gratis() + int(p["booster"]))
 	_gravar("koins", koins() + int(p["koins"]))
@@ -921,6 +932,7 @@ func comprar_booster(gratis := false, trad := "") -> Array:
 		if e["foil"]:
 			perfil["foils"][e["id"]] = int(perfil["foils"].get(e["id"], 0)) + 1
 	salvar()
+	Progresso.contar("boosters")
 	return saida
 
 

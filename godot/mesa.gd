@@ -359,6 +359,9 @@ func _criar_luzes() -> void:
 
 
 func _process(delta: float) -> void:
+	if modo_partida and _corn_visto != -999 and cornucopia[0] < _corn_visto:
+		_sofreu = true
+	_corn_visto = cornucopia[0]
 	tempo += delta
 	# tremulação de vela: duas frequências de ruído somadas (lenta + rápida) na energia e um balanço de 2–3 px
 	for i in luzes.size():
@@ -1688,6 +1691,8 @@ func _partida() -> void:
 	turno_n = 0
 	_inicio_ms = Time.get_ticks_msec()
 	_corn_ini = cornucopia.duplicate()
+	_sofreu = false                                   # vida inicial dos modos (Peregrinação) não conta como dano
+	_corn_visto = cornucopia[0]
 	while not acabou:
 		turno_n += 1
 		if turno_n > TURNOS_MAX:
@@ -2398,6 +2403,8 @@ func _soltar_da_mao_partida(c: Carta, p: Vector2) -> void:
 ## oponente → (se não anulada) Despertar. `i` < 0 ou ocupado: primeiro espaço livre.
 func _jogar_entidade(c: Carta, d: int, i: int, sacrificios: Array = []) -> void:
 	_conta(d, "entidades")
+	if c.lendaria:
+		_conta(d, "lendarias")
 	hud.registrar(d, c.id, "entidade")
 	_pagar(d, c.custo)
 	_mao_de(d).erase(c)
@@ -3211,14 +3218,15 @@ func _resumo() -> void:
 	b.append(["divisor"])
 	b.append(["item", ("Turns: %d" if en else "Turnos: %d") % turno_n])
 	b.append(["item", ("Cards played: %d (opponent %d)" if en else "Cartas jogadas: %d (oponente %d)") % [jog.call(0), jog.call(1)]])
-	b.append(["item", ("Damage to the enemy Cornucopia: %d" if en else "Dano na Cornucópia inimiga: %d") % (int(_corn_ini[1]) - maxi(cornucopia[1], 0))])
-	b.append(["item", ("Damage taken: %d" if en else "Dano recebido: %d") % (int(_corn_ini[0]) - maxi(cornucopia[0], 0))])
+	b.append(["item", ("Damage to the enemy Cornucopia: %d" if en else "Dano na Cornucópia inimiga: %d") % maxi(0, int(_corn_ini[1]) - maxi(cornucopia[1], 0))])
+	b.append(["item", ("Damage taken: %d" if en else "Dano recebido: %d") % maxi(0, int(_corn_ini[0]) - maxi(cornucopia[0], 0))])
 	b.append(["item", ("Enemy Entities destroyed: %d" if en else "Entidades inimigas destruídas: %d") % int(estat[1].get("mortes", 0))])
 	b.append(["item", ("Attacks: %d" if en else "Ataques: %d") % (int(estat[0].get("ataques", 0)) + int(estat[0].get("golpes_diretos", 0)))])
 	if Sessao.modo == "arcade" and vencedor == 0:
 		b.append(["espaco"])
 		b.append(["destaque", "+%d" % Sessao.moedas_arcade(), "moeda"])
 		b.append(["centro", "Arcade coins" if en else "moedas do Arcade"])
+	_blocos_progresso(b)
 	perg.abrir(b)
 	await perg.fechou
 
@@ -3745,6 +3753,11 @@ func _tempo_esgotado() -> void:
 
 
 # ================= histórico do perfil =================
+var _sofreu := false                       # a sua Cornucópia caiu em algum momento (cura não apaga)
+var _corn_visto := -999
+var prog_eventos: Array = []                # XP, missões, nível e conquistas desta partida (vão para o resumo)
+
+
 func _registrar_partida() -> void:
 	if not modo_partida or tut != null or (auto_jogador and OS.get_environment("GD_REGISTRAR") == "") or Sessao.modo in ["", "tutorial", "enigma"]:
 		return
@@ -3753,14 +3766,20 @@ func _registrar_partida() -> void:
 		p = {"nome": str(online_info.get("adversario", "?"))}
 	var jog := func(d: int) -> int:
 		return int(estat[d].get("entidades", 0)) + int(estat[d].get("selos", 0)) + int(estat[d].get("ritos", 0)) + int(estat[d].get("reliquias", 0))
-	Sessao.registrar_partida({
+	prog_eventos = Sessao.registrar_partida({
 		"t": int(Time.get_unix_time_from_system()), "modo": Sessao.modo, "contra": "jogador" if online_partida() else "ia",
 		"adversario": str(p.get("nome", Sessao.nome_deck(Sessao.oponente))), "nivel": int(nivel_ia[1]),
 		"resultado": Sessao.resultado, "turnos": turno_n, "duracao": int((Time.get_ticks_msec() - _inicio_ms) / 1000),
 		"deck": Sessao.deck_jogador_nome, "deck_op": Sessao.oponente,
 		"stats": {"cartas": jog.call(0), "cartas_op": jog.call(1), "dano": int(_corn_ini[1]) - maxi(cornucopia[1], 0), "recebido": int(_corn_ini[0]) - maxi(cornucopia[0], 0),
-			"mortes": int(estat[1].get("mortes", 0)), "perdas": int(estat[0].get("mortes", 0))},
+			"mortes": int(estat[1].get("mortes", 0)), "perdas": int(estat[0].get("mortes", 0)),
+			"entidades": int(estat[0].get("entidades", 0)), "ritos": int(estat[0].get("ritos", 0)), "selos": int(estat[0].get("selos", 0)),
+			"reliquias": int(estat[0].get("reliquias", 0)), "golpes": int(estat[0].get("golpes_diretos", 0)),
+			"lendarias": int(estat[0].get("lendarias", 0)), "cornucopia": cornucopia[0], "sofreu": _sofreu},
 		"log": log_partida})
+	if OS.get_environment("GD_SAIR_NO_FIM") != "":
+		for e in prog_eventos:
+			print("PROG ", e.get("tipo"), " ", e.get("texto", e.get("xp", "")), " ", Progresso.premio_txt(e.get("premio", {})))
 
 
 # ================= online (passo travado: os dois aparelhos rodam a mesma partida e trocam só as ações) =================
@@ -4036,6 +4055,7 @@ func _resumo_online(ganho := 0) -> void:
 	if ganho > 0:
 		b.append(["espaco"])
 		b.append(["destaque", "+%d" % ganho, "moeda"])
+	_blocos_progresso(b)
 	if dessinc:
 		b.append(["espaco"])
 		b.append(["centro", "The two devices disagreed during this match (desync). Please report it." if en else "Os dois aparelhos divergiram nesta partida (dessincronia). Avise para corrigirmos."])
@@ -4267,3 +4287,29 @@ func _contagem_mulligan(seg: int) -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_RESUMED and rede != null:
 		rede.cutucar()
+
+
+## Resumo: XP ganho com a barra do nível, missões cumpridas, nível novo, maestria e conquistas (com o prêmio de cada).
+func _blocos_progresso(b: Array) -> void:
+	if prog_eventos.is_empty():
+		return
+	var en := Sessao.idioma == "en"
+	b.append(["divisor"])
+	var xp := 0
+	for e in prog_eventos:
+		if e["tipo"] == "xp":
+			xp += int(e["xp"])
+	var nv: Array = Progresso.nivel_de(int(Progresso.p().get("xp", 0)))
+	b.append(["sub", ("Level %d  ·  +%d XP  (%d/%d)" if en else "Nível %d  ·  +%d XP  (%d/%d)") % [nv[0], xp, nv[1], nv[2]]])
+	for e in prog_eventos:
+		match str(e["tipo"]):
+			"missao":
+				b.append(["item", ("Weekly done: %s" if en else "Semanal cumprida: %s") % e["texto"] if e.get("semanal", false)
+					else ("Mission done: %s" if en else "Missão cumprida: %s") % e["texto"]])
+				b.append(["centro", Progresso.premio_txt(e["premio"])])
+			"nivel", "maestria":
+				b.append(["item", ("Up! %s" if en else "Subiu! %s") % e["texto"]])
+				b.append(["centro", Progresso.premio_txt(e["premio"])])
+			"conquista":
+				b.append(["item", ("Achievement: %s" if en else "Conquista: %s") % e["texto"]])
+				b.append(["centro", Progresso.premio_txt(e["premio"])])

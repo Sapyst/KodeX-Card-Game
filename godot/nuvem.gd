@@ -129,7 +129,7 @@ func livres_mudaram() -> void:
 	_livres_pendente = false
 	var campos := {}
 	for k in ["nome", "tem_foto", "decks", "deck_ativo", "verso", "novas", "pacote", "tarcade", "torneio", "versao_vista",
-			"pere", "torneio_vencido", "historico", "estat"]:
+			"pere", "torneio_vencido", "historico", "estat", "prog", "titulo", "pere_fim"]:
 		if Sessao.perfil.has(k):
 			campos[k] = Sessao.perfil[k]
 	await _pedir("POST", "/v1/livre", {"campos": campos})

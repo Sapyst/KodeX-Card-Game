@@ -9,7 +9,12 @@ foils = sorted(f[:-5] for f in os.listdir(os.path.join(G, "assets", "carta_foil"
 cos = open(os.path.join(G, "cosmeticos.gd"), encoding="utf-8").read()
 versos = {m.group(1): int(m.group(2)) for m in re.finditer(r'"id": "(\w+)", "nome": \[[^\]]*\], "preco": (\d+)', cos)}
 versoes = [e["versao"] for e in json.load(open(os.path.join(G, "dados", "novidades.json"), encoding="utf-8"))]
-out = {"cartas": cartas, "foils": foils, "deck_inicial": db["decks"]["alta_magia"], "versos": versos, "versoes": versoes}
+prog = json.load(open(os.path.join(G, "dados", "progressao.json"), encoding="utf-8"))
+for grupo in ("diarias", "semanais", "conquistas"):                       # o servidor não precisa dos textos
+    prog[grupo] = [{k: v for k, v in m.items() if k not in ("pt", "en")} for m in prog[grupo]]
+prog.pop("titulos", None); prog.pop("_doc", None)
+prog["tradicoes"] = list(prog["tradicoes"])
+out = {"prog": prog, "cartas": cartas, "foils": foils, "deck_inicial": db["decks"]["alta_magia"], "versos": versos, "versoes": versoes}
 open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "src", "dados.js"), "w", encoding="utf-8").write(
     "// gerado por gerar_dados.py — não editar à mão\nexport default " + json.dumps(out, ensure_ascii=False) + ";\n")
 print(len(cartas), "cartas,", len(foils), "foils,", len(versos), "versos,", len(versoes), "versões")

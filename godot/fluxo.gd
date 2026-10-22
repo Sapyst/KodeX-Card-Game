@@ -159,6 +159,7 @@ var perg: Pergaminho
 var solo: ModosSolo
 var hist: Historico
 var onl: MenuOnline
+var prg: MenuProgresso
 var novidades: Array = []              # dados/novidades.json (mais nova primeiro)
 var _avisos_feitos := false            # novidades + presente já verificados nesta sessão do app
 
@@ -186,6 +187,7 @@ func _ready() -> void:
 	solo = ModosSolo.new(self)
 	hist = Historico.new(self)
 	onl = MenuOnline.new(self)
+	prg = MenuProgresso.new(self)
 	novidades = JSON.parse_string(FileAccess.get_file_as_string("res://dados/novidades.json"))
 	Relogio.sincronizar()                                    # hora do servidor para o presente diário (sem travar)
 	arcade["meu_deck"] = str(int(Sessao.perfil["deck_ativo"]))
@@ -277,6 +279,8 @@ func _ready() -> void:
 				mp.gaveta = "livre"; mp.deck_sugerido("hinduismo"); mp.novo_deck(); _ir("decks")
 			"editor_livre":
 				mp.gaveta = "livre"; mp.deck_sugerido("bruxaria")
+			"progresso":
+				prg.aba = st[1] if st.size() > 1 else "missoes"; _ir("progresso")
 			"historico_log":
 				_ir("historico"); hist.abrir_log(0)
 			"colecao_f":
@@ -377,6 +381,8 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(44, 488 + extra() * 1.6, 272, 28), "", func() -> void: trocar_aba(2), {"desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mpr.botao_deck(b, r, pr)})
 			_botao(Rect2(8, 46, 32, 32), "", abrir_novidades.bind(true), {"desenho": _botao_redondo.bind("pergaminho")})
 			_botao(Rect2(8, 90, 32, 32), "", verificar_presente.bind(true), {"desenho": _botao_redondo.bind("presente")})
+			_botao(Rect2(8, 134, 32, 32), "", func() -> void: _ir("progresso"), {"desenho": _botao_redondo.bind("progresso")})
+			_avisar_progresso.call_deferred()
 			if not _avisos_feitos and OS.get_environment("GD_FLUXO_AUTO") == "":
 				_avisos_feitos = true
 				get_tree().create_timer(0.5).timeout.connect(_avisos_titulo)
@@ -519,6 +525,8 @@ func _ir(novo: String) -> void:
 			hist.botoes()
 		"online":
 			onl.botoes()
+		"progresso":
+			prg.botoes()
 		"conta":
 			var y := 150
 			var itens: Array = []
@@ -662,6 +670,14 @@ func verificar_presente(manual := true) -> void:
 				["centro", "Resets at midnight, New York time." if en else "Vira à meia-noite de Nova York."]])
 		return
 	var blocos: Array = [["titulo", "Gift" if en else "Presente"]]
+	var seq := int(r.get("seq", 0))
+	if seq > 0:                                       # dias seguidos: 7 marcas, as de hoje acesas
+		blocos.append(["centro", ("%d days in a row" if en else "%d dias seguidos") % seq])
+		var k7 := ((seq - 1) % 7) + 1
+		blocos.append(["centro", ("day %d of 7 · bonus on the 7th" if en else "dia %d de 7 · bônus no 7º") % k7])
+		if r.get("bonus_seq", false):
+			blocos.append(["centro", "7th day bonus: +1 booster and +20 Koins!" if en else "Bônus do 7º dia: +1 booster e +20 Koins!"])
+		blocos.append(["espaco"])
 	if int(r["moedas"]) > 0:
 		blocos.append(["destaque", "+%d" % int(r["moedas"]), "moeda"])
 		var dias := int(r["dias"])
@@ -709,6 +725,10 @@ func _botao_redondo(_b: Dictionary, r: Rect2, pressao: float, qual: String) -> v
 	if (qual == "presente" and tem) or novo:
 		draw_circle(c + Vector2(10, -10), 4.0, ESCURO)
 		draw_circle(c + Vector2(10, -10), 3.0, Color("#e04040"))
+	if qual == "progresso":                            # missões do dia cumpridas, embaixo do botão
+		var lista := Progresso.diarias()
+		var n := lista.filter(func(m: Dictionary) -> bool: return Progresso.feita("dia", str(m["id"]))).size()
+		PixelFonte.centrado(self, c + Vector2(0, 21), "%d/3" % n, Color(0.85, 0.78, 0.66, 0.85), 1, ESCURO)
 	if qual == "presente" and not tem and Relogio.sincronizado():
 		var h := Relogio.segundos_ate_amanha()
 		var s := "%dH" % (h / 3600) if h >= 3600 else "%dM" % maxi(1, h / 60)
@@ -1641,6 +1661,8 @@ func _draw() -> void:
 			hist.desenhar()
 		"online":
 			onl.desenhar()
+		"progresso":
+			prg.desenhar()
 		"conta":
 			_cabecalho(Sessao.t("Conta"), (Sessao.t("online") + " · " + Nuvem.id_curto()) if Nuvem.online else Sessao.t("sem conexão"))
 			_texto_central(Vector2(180, 104), Sessao.t("Kode") + ": " + (Nuvem.kode if Nuvem.kode != "" else Sessao.t("não criado")), Color("#e0c0ff"))
@@ -1998,3 +2020,19 @@ func _teste_online(cfg: String) -> void:
 				await get_tree().create_timer(0.3).timeout
 			await get_tree().create_timer(0.5).timeout
 			onl.entrar_sala(FileAccess.get_file_as_string(pt[1]).strip_edges())
+
+
+## Conquistas que fecharam fora da partida (coleção, booster, Peregrinação, dias seguidos): mostra num pergaminho.
+func _avisar_progresso() -> void:
+	if perg.aberto() or OS.get_environment("GD_FLUXO_AUTO") != "":
+		return
+	var ev := Progresso.verificar()
+	if ev.is_empty():
+		return
+	var en := Sessao.idioma == "en"
+	var b: Array = [["titulo", "Achievements" if en else "Conquistas"]]
+	for e in ev:
+		b.append(["item", e["texto"]])
+		b.append(["centro", Progresso.premio_txt(e["premio"])])
+	perg.abrir(b)
+	vibrar(20, 0.6)

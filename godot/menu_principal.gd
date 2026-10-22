@@ -265,6 +265,12 @@ func icone(ci: CanvasItem, qual: String, c: Vector2, cor: Color) -> void:
 			ci.draw_rect(Rect2(c + Vector2(-1, -5), Vector2(3, 12)), cor)
 			ci.draw_arc(c + Vector2(-3, -7), 2.5, PI * 0.2, PI * 1.9, 8, cor, 1.5)
 			ci.draw_arc(c + Vector2(4, -7), 2.5, PI * 1.1, PI * 2.8, 8, cor, 1.5)
+		"progresso":                                   # medalha com fita
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-5, -9), c + Vector2(-1, -9), c + Vector2(1, -2), c + Vector2(-3, -2)]), Color("#b03040"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(5, -9), c + Vector2(1, -9), c + Vector2(-1, -2), c + Vector2(3, -2)]), Color("#d04050"))
+			ci.draw_circle(c + Vector2(0, 3), 6.0, cor)
+			ci.draw_circle(c + Vector2(0, 3), 4.0, cor.darkened(0.3))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(0, 0), c + Vector2(2, 3), c + Vector2(0, 6), c + Vector2(-2, 3)]), cor)
 		"opcoes":
 			ci.draw_circle(c, 6.0, cor)
 			ci.draw_circle(c, 2.5, esc)

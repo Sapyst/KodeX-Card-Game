@@ -25,7 +25,7 @@ const PREMIOS = {
 };
 const MOEDAS_ONLINE = [20, 5, 10];   // vitória, derrota, empate
 const LIVRES = ["nome", "tem_foto", "decks", "deck_ativo", "verso", "novas", "pacote", "tarcade", "torneio", "versao_vista",
-  "pere", "torneio_vencido", "pere_fim", "historico", "estat"];
+  "pere", "torneio_vencido", "pere_fim", "historico", "estat", "prog", "titulo"];
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const json = (obj, status = 200) => new Response(JSON.stringify(obj), {
@@ -114,12 +114,88 @@ function resgatar(p) {
   const dias = clamp(d - (r.dia ?? d - 1), 0, R.ACUMULO_DIAS);
   const bo = s > (r.semana ?? s - 1) ? 1 : 0;
   const ks = sx > (r.sexta ?? sx - 1) ? R.KOINS_SEMANA : 0;
-  if (!dias && !bo && !ks) return { dias: 0, moedas: 0, booster: 0, koins: 0, koins_semana: 0 };
-  p.resgates = { dia: d, semana: s, sexta: sx };
+  if (!dias && !bo && !ks) return { dias: 0, moedas: 0, booster: 0, koins: 0, koins_semana: 0, seq: r.seq | 0 };
+  // dias seguidos: entrou ontem → +1; pulou um dia → recomeça em 1. A cada 7: +1 booster e +20 Koins.
+  let seq = r.seq | 0, bonus = false;
+  if (dias > 0) {
+    seq = d - (r.dia ?? d - 1) === 1 ? seq + 1 : 1;
+    bonus = seq % D.prog.sequencia.a_cada === 0;
+  }
+  p.resgates = { dia: d, semana: s, sexta: sx, seq, max: Math.max(r.max | 0, seq) };
+  const bb = bonus ? D.prog.sequencia.booster : 0, kb = bonus ? D.prog.sequencia.koins : 0;
   p.moedas += dias * R.MOEDAS_DIA;
-  p.boosters_gratis = (p.boosters_gratis | 0) + bo;
-  p.koins = (p.koins | 0) + dias * R.KOINS_DIA + ks;
-  return { dias, moedas: dias * R.MOEDAS_DIA, booster: bo, koins: dias * R.KOINS_DIA + ks, koins_semana: ks };
+  p.boosters_gratis = (p.boosters_gratis | 0) + bo + bb;
+  p.koins = (p.koins | 0) + dias * R.KOINS_DIA + ks + kb;
+  return { dias, moedas: dias * R.MOEDAS_DIA, booster: bo + bb, koins: dias * R.KOINS_DIA + ks + kb, koins_semana: ks, seq, bonus_seq: bonus };
+}
+
+// ---------- progressão (missões, nível, maestria, conquistas) — mesmos números do jogo (dados.js "prog") ----------
+// Sorteio igual ao do jogo (progresso.gd): as missões do dia/semana saem da data, então o jogo não inventa missão.
+function sorteio(semente, n, tam) {
+  let s = (semente * 7919 + 17) % 2147483647;
+  if (s <= 0) s += 2147483646;
+  const out = [];
+  while (out.length < Math.min(n, tam)) {
+    s = (s * 48271) % 2147483647;
+    const i = s % tam;
+    if (!out.includes(i)) out.push(i);
+  }
+  return out;
+}
+function premioNivel(n) {
+  const r = n % 10 === 0 ? { booster: 1, koins: 30 } : n % 5 === 0 ? { booster: 1 } : { moedas: 40 };
+  const t = D.prog.nivel.titulos[String(n)];
+  if (t) r.titulo = t;
+  return r;
+}
+const TETO_PROG = { nivel: 5, maestria: 6, conquista: 15 };
+async function progresso(env, id, p, d) {
+  const P = D.prog, pagos = (p.prog_pagos ||= {}), hoje = dia();
+  let chave = "", r = null;
+  if (d.k === "missao") {
+    const dd = d.dia | 0;
+    if (dd !== hoje && dd !== hoje - 1) return { erro: "dia errado" };
+    const m = sorteio(dd, 4, P.diarias.length).map((i) => P.diarias[i]).find((x) => x.id === d.id);
+    if (!m) return { erro: "missão não é deste dia" };
+    if (Object.keys(pagos).filter((k) => k.startsWith(`m:${dd}:`)).length >= 3) return { moedas: 0, repetido: true };
+    chave = `m:${dd}:${m.id}`; r = m;
+  } else if (d.k === "semanal") {
+    const ss = d.semana | 0, s = semana();
+    if (ss !== s && ss !== s - 1) return { erro: "semana errada" };
+    const m = sorteio(ss + 100000, 3, P.semanais.length).map((i) => P.semanais[i]).find((x) => x.id === d.id);
+    if (!m) return { erro: "missão não é desta semana" };
+    chave = `s:${ss}:${m.id}`; r = m;
+  } else if (d.k === "nivel") {
+    const n = d.nivel | 0;
+    if (n < 2 || n > 1000) return { erro: "nível inválido" };
+    chave = `n:${n}`; r = premioNivel(n);
+  } else if (d.k === "maestria") {
+    const t = String(d.trad || ""), n = d.nivel | 0;
+    if (!P.tradicoes.includes(t) || n < 1 || n > P.maestria.premios.length) return { erro: "maestria inválida" };
+    chave = `x:${t}:${n}`; r = { ...P.maestria.premios[n - 1] };
+    if (r.titulo) r.titulo += t;
+  } else if (d.k === "conquista") {
+    const c = P.conquistas.find((x) => x.id === d.id);
+    if (!c) return { erro: "conquista inválida" };
+    chave = `c:${c.id}`; r = c;
+  } else return { erro: "tipo inválido" };
+  if (pagos[chave]) return { moedas: 0, repetido: true };
+  const teto = TETO_PROG[d.k];
+  if (teto) {
+    const motivo = "prog_" + d.k;
+    const lim = await env.DB.prepare("SELECT n FROM limites WHERE id=? AND dia=? AND motivo=?").bind(id, hoje, motivo).first();
+    if ((lim?.n | 0) >= teto) return { moedas: 0, teto: true };
+    await env.DB.prepare("INSERT INTO limites (id, dia, motivo, n) VALUES (?, ?, ?, 1) ON CONFLICT(id, dia, motivo) DO UPDATE SET n = n + 1")
+      .bind(id, hoje, motivo).run();
+  }
+  pagos[chave] = hoje;
+  for (const k of Object.keys(pagos)) if ((k[0] === "m" || k[0] === "s") && pagos[k] < hoje - 21) delete pagos[k];   // poda
+  const out = { moedas: r.moedas | 0, booster: r.booster | 0, koins: r.koins | 0 };
+  p.moedas += out.moedas;
+  p.boosters_gratis = (p.boosters_gratis | 0) + out.booster;
+  p.koins = (p.koins | 0) + out.koins;
+  if (r.titulo) { const t = (p.titulos ||= []); if (!t.includes(r.titulo)) t.push(r.titulo); out.titulo = r.titulo; }
+  return out;
 }
 
 async function premio(env, id, p, d) {
@@ -237,6 +313,7 @@ async function op(env, id, p, d) {
       return { moedas: R.MOEDAS_VERSAO, koins: R.KOINS_VERSAO };
     }
     case "premio": return premio(env, id, p, d);
+    case "progresso": return progresso(env, id, p, d);
   }
   return { erro: "operação desconhecida" };
 }
@@ -268,6 +345,7 @@ async function autenticar(req, env) {
 // Limite por conexão (IP visto pela Cloudflare, guardado só como hash, por dia) contra criação em massa.
 async function limiteIp(req, env, motivo, teto) {
   const ip = req.headers.get("cf-connecting-ip") || req.headers.get("x-forwarded-for") || "local";
+  if (["local", "127.0.0.1", "::1"].includes(ip)) return true;   // o próprio PC (testes); jogadores sempre vêm pelo túnel com o IP deles
   const chave = "ip:" + (await sha("kodex-ip:" + ip)).slice(0, 24);
   const hoje = dia();
   const lim = await env.DB.prepare("SELECT n FROM limites WHERE id=? AND dia=? AND motivo=?").bind(chave, hoje, motivo).first();

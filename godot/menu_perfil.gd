@@ -192,7 +192,9 @@ func barra_titulo() -> void:
 	moldura_foto(MINI, foto_tex, false)
 	var nome := str(Sessao.perfil.get("nome", ""))
 	Fonte57.desenhar(f, Vector2(42, 12), nome if nome != "" else Sessao.t("Jogador"), f.OURO[0], f.ESCURO)
-	Fonte57.desenhar(f, Vector2(42, 24), Sessao.t("ver perfil"), Color(0.72, 0.66, 0.53, 0.8), f.ESCURO)
+	var tit := str(Sessao.perfil.get("titulo", ""))           # nível e título em uso embaixo do nome
+	var linha := (Sessao.t("Nv") + " %d" % Progresso.nivel()) + ("  ·  " + Progresso.nome_titulo(tit) if tit != "" else "")
+	Fonte57.desenhar(f, Vector2(42, 24), linha, Color("#e0c88a") if tit != "" else Color(0.72, 0.66, 0.53, 0.8), f.ESCURO)
 	var m := str(Sessao.moedas())
 	var w := Fonte57.largura(m)
 	moeda(Vector2(338 - w - 10, 18))

@@ -1,0 +1,765 @@
+{
+ "_doc": "Gerado por dados/gerar_progressao.py. O servidor usa os mesmos números (servidor/gerar_dados.py).",
+ "xp": {
+  "vitoria": 30,
+  "empate": 20,
+  "derrota": 15,
+  "online": 10,
+  "missao": 20,
+  "semanal": 60
+ },
+ "nivel": {
+  "base": 100,
+  "passo": 25,
+  "teto": 400,
+  "titulos": {
+   "5": "iniciado",
+   "10": "adepto",
+   "20": "hierofante",
+   "30": "magus",
+   "50": "mestre_do_codice"
+  }
+ },
+ "maestria": {
+  "limites": [
+   100,
+   300,
+   600,
+   1000,
+   1500
+  ],
+  "premios": [
+   {
+    "moedas": 50
+   },
+   {
+    "moedas": 100
+   },
+   {
+    "booster": 1
+   },
+   {
+    "koins": 30
+   },
+   {
+    "booster": 1,
+    "titulo": "mestre_"
+   }
+  ]
+ },
+ "sequencia": {
+  "a_cada": 7,
+  "booster": 1,
+  "koins": 20
+ },
+ "diarias": [
+  {
+   "id": "vencer_2",
+   "cont": "vitorias",
+   "alvo": 2,
+   "pt": "Vença 2 partidas",
+   "en": "Win 2 matches",
+   "moedas": 30
+  },
+  {
+   "id": "jogar_3",
+   "cont": "partidas",
+   "alvo": 3,
+   "pt": "Jogue 3 partidas",
+   "en": "Play 3 matches",
+   "moedas": 20
+  },
+  {
+   "id": "entidades_10",
+   "cont": "entidades",
+   "alvo": 10,
+   "pt": "Invoque 10 Entidades",
+   "en": "Summon 10 Entities",
+   "moedas": 20
+  },
+  {
+   "id": "ritos_5",
+   "cont": "ritos",
+   "alvo": 5,
+   "pt": "Lance 5 Ritos",
+   "en": "Cast 5 Rites",
+   "moedas": 25
+  },
+  {
+   "id": "selos_3",
+   "cont": "selos",
+   "alvo": 3,
+   "pt": "Coloque 3 Selos",
+   "en": "Set 3 Seals",
+   "moedas": 25
+  },
+  {
+   "id": "reliquias_3",
+   "cont": "reliquias",
+   "alvo": 3,
+   "pt": "Equipe 3 Relíquias",
+   "en": "Equip 3 Relics",
+   "moedas": 25
+  },
+  {
+   "id": "dano_20",
+   "cont": "dano",
+   "alvo": 20,
+   "pt": "Cause 20 de dano na Cornucópia inimiga",
+   "en": "Deal 20 damage to the enemy Cornucopia",
+   "moedas": 25
+  },
+  {
+   "id": "destruir_8",
+   "cont": "mortes",
+   "alvo": 8,
+   "pt": "Destrua 8 Entidades inimigas",
+   "en": "Destroy 8 enemy Entities",
+   "moedas": 25
+  },
+  {
+   "id": "golpes_5",
+   "cont": "golpes",
+   "alvo": 5,
+   "pt": "Dê 5 golpes diretos na Cornucópia",
+   "en": "Land 5 direct hits on the Cornucopia",
+   "moedas": 20
+  },
+  {
+   "id": "online_1",
+   "cont": "online_partidas",
+   "alvo": 1,
+   "pt": "Jogue 1 partida online",
+   "en": "Play 1 online match",
+   "moedas": 30
+  },
+  {
+   "id": "solo_1",
+   "cont": "solo_vitorias",
+   "alvo": 1,
+   "pt": "Vença 1 partida de um modo Solo",
+   "en": "Win 1 match in a Solo mode",
+   "moedas": 30
+  },
+  {
+   "id": "vit_indigena",
+   "cont": "vit_indigena",
+   "alvo": 1,
+   "pt": "Vença com um deck de Indígena",
+   "en": "Win with a Indigenous deck",
+   "moedas": 40
+  },
+  {
+   "id": "vit_cristianismo",
+   "cont": "vit_cristianismo",
+   "alvo": 1,
+   "pt": "Vença com um deck de Cristianismo",
+   "en": "Win with a Christianity deck",
+   "moedas": 40
+  },
+  {
+   "id": "vit_taoismo",
+   "cont": "vit_taoismo",
+   "alvo": 1,
+   "pt": "Vença com um deck de Taoísmo",
+   "en": "Win with a Taoism deck",
+   "moedas": 40
+  },
+  {
+   "id": "vit_hinduismo",
+   "cont": "vit_hinduismo",
+   "alvo": 1,
+   "pt": "Vença com um deck de Hinduísmo",
+   "en": "Win with a Hinduism deck",
+   "moedas": 40
+  },
+  {
+   "id": "vit_bruxaria",
+   "cont": "vit_bruxaria",
+   "alvo": 1,
+   "pt": "Vença com um deck de Bruxaria",
+   "en": "Win with a Witchcraft deck",
+   "moedas": 40
+  },
+  {
+   "id": "vit_alta_magia",
+   "cont": "vit_alta_magia",
+   "alvo": 1,
+   "pt": "Vença com um deck de Alta Magia",
+   "en": "Win with a High Magic deck",
+   "moedas": 40
+  }
+ ],
+ "semanais": [
+  {
+   "id": "s_vencer_10",
+   "cont": "vitorias",
+   "alvo": 10,
+   "pt": "Vença 10 partidas",
+   "en": "Win 10 matches",
+   "booster": 1
+  },
+  {
+   "id": "s_jogar_20",
+   "cont": "partidas",
+   "alvo": 20,
+   "pt": "Jogue 20 partidas",
+   "en": "Play 20 matches",
+   "moedas": 100
+  },
+  {
+   "id": "s_lendarias_5",
+   "cont": "lendarias",
+   "alvo": 5,
+   "pt": "Jogue 5 cartas Lendárias",
+   "en": "Play 5 Legendary cards",
+   "moedas": 80,
+   "koins": 10
+  },
+  {
+   "id": "s_destruir_40",
+   "cont": "mortes",
+   "alvo": 40,
+   "pt": "Destrua 40 Entidades inimigas",
+   "en": "Destroy 40 enemy Entities",
+   "moedas": 100
+  },
+  {
+   "id": "s_online_5",
+   "cont": "online_vitorias",
+   "alvo": 5,
+   "pt": "Vença 5 partidas online",
+   "en": "Win 5 online matches",
+   "moedas": 150
+  },
+  {
+   "id": "s_missoes_10",
+   "cont": "missoes",
+   "alvo": 10,
+   "pt": "Complete 10 missões diárias",
+   "en": "Complete 10 daily missions",
+   "booster": 1
+  },
+  {
+   "id": "s_dano_100",
+   "cont": "dano",
+   "alvo": 100,
+   "pt": "Cause 100 de dano na Cornucópia inimiga",
+   "en": "Deal 100 damage to the enemy Cornucopia",
+   "moedas": 100
+  }
+ ],
+ "conquistas": [
+  {
+   "id": "primeira_vitoria",
+   "cont": "vitorias",
+   "alvo": 1,
+   "pt": "Primeira vitória",
+   "en": "First victory",
+   "moedas": 25
+  },
+  {
+   "id": "vitorias_10",
+   "cont": "vitorias",
+   "alvo": 10,
+   "pt": "10 vitórias",
+   "en": "10 victories",
+   "moedas": 50
+  },
+  {
+   "id": "vitorias_50",
+   "cont": "vitorias",
+   "alvo": 50,
+   "pt": "50 vitórias",
+   "en": "50 victories",
+   "moedas": 100
+  },
+  {
+   "id": "vitorias_100",
+   "cont": "vitorias",
+   "alvo": 100,
+   "pt": "100 vitórias",
+   "en": "100 victories",
+   "moedas": 200,
+   "titulo": "veterano"
+  },
+  {
+   "id": "partidas_25",
+   "cont": "partidas",
+   "alvo": 25,
+   "pt": "Jogue 25 partidas",
+   "en": "Play 25 matches",
+   "moedas": 50
+  },
+  {
+   "id": "sequencia_3",
+   "cont": "seq_max",
+   "alvo": 3,
+   "pt": "Vença 3 seguidas",
+   "en": "Win 3 in a row",
+   "moedas": 40
+  },
+  {
+   "id": "sequencia_7",
+   "cont": "seq_max",
+   "alvo": 7,
+   "pt": "Vença 7 seguidas",
+   "en": "Win 7 in a row",
+   "moedas": 120,
+   "titulo": "imparavel"
+  },
+  {
+   "id": "intocavel",
+   "cont": "intocavel",
+   "alvo": 1,
+   "pt": "Vença sem perder Cornucópia",
+   "en": "Win without losing Cornucopia",
+   "moedas": 80
+  },
+  {
+   "id": "por_um_fio",
+   "cont": "por_um_fio",
+   "alvo": 1,
+   "pt": "Vença com 1 de Cornucópia",
+   "en": "Win with 1 Cornucopia left",
+   "moedas": 60
+  },
+  {
+   "id": "relampago",
+   "cont": "rapido",
+   "alvo": 1,
+   "pt": "Vença até o turno 10",
+   "en": "Win by turn 10",
+   "moedas": 60
+  },
+  {
+   "id": "maratona",
+   "cont": "maratona",
+   "alvo": 1,
+   "pt": "Jogue uma partida de 40 turnos",
+   "en": "Play a 40-turn match",
+   "moedas": 40
+  },
+  {
+   "id": "empate",
+   "cont": "empates",
+   "alvo": 1,
+   "pt": "Empate uma partida",
+   "en": "Draw a match",
+   "moedas": 30
+  },
+  {
+   "id": "entidades_100",
+   "cont": "entidades",
+   "alvo": 100,
+   "pt": "Invoque 100 Entidades",
+   "en": "Summon 100 Entities",
+   "moedas": 50
+  },
+  {
+   "id": "ritos_100",
+   "cont": "ritos",
+   "alvo": 100,
+   "pt": "Lance 100 Ritos",
+   "en": "Cast 100 Rites",
+   "moedas": 50
+  },
+  {
+   "id": "selos_50",
+   "cont": "selos",
+   "alvo": 50,
+   "pt": "Coloque 50 Selos",
+   "en": "Set 50 Seals",
+   "moedas": 50
+  },
+  {
+   "id": "reliquias_50",
+   "cont": "reliquias",
+   "alvo": 50,
+   "pt": "Equipe 50 Relíquias",
+   "en": "Equip 50 Relics",
+   "moedas": 50
+  },
+  {
+   "id": "lendarias_10",
+   "cont": "lendarias",
+   "alvo": 10,
+   "pt": "Jogue 10 Lendárias",
+   "en": "Play 10 Legendaries",
+   "moedas": 60
+  },
+  {
+   "id": "destruidor_100",
+   "cont": "mortes",
+   "alvo": 100,
+   "pt": "Destrua 100 Entidades inimigas",
+   "en": "Destroy 100 enemy Entities",
+   "moedas": 80
+  },
+  {
+   "id": "dano_500",
+   "cont": "dano",
+   "alvo": 500,
+   "pt": "Cause 500 de dano",
+   "en": "Deal 500 damage",
+   "moedas": 80
+  },
+  {
+   "id": "golpes_50",
+   "cont": "golpes",
+   "alvo": 50,
+   "pt": "Dê 50 golpes diretos",
+   "en": "Land 50 direct hits",
+   "moedas": 50
+  },
+  {
+   "id": "discipulo_indigena",
+   "cont": "vit_indigena",
+   "alvo": 10,
+   "pt": "10 vitórias com Indígena",
+   "en": "10 wins with Indigenous",
+   "moedas": 40
+  },
+  {
+   "id": "discipulo_cristianismo",
+   "cont": "vit_cristianismo",
+   "alvo": 10,
+   "pt": "10 vitórias com Cristianismo",
+   "en": "10 wins with Christianity",
+   "moedas": 40
+  },
+  {
+   "id": "discipulo_taoismo",
+   "cont": "vit_taoismo",
+   "alvo": 10,
+   "pt": "10 vitórias com Taoísmo",
+   "en": "10 wins with Taoism",
+   "moedas": 40
+  },
+  {
+   "id": "discipulo_hinduismo",
+   "cont": "vit_hinduismo",
+   "alvo": 10,
+   "pt": "10 vitórias com Hinduísmo",
+   "en": "10 wins with Hinduism",
+   "moedas": 40
+  },
+  {
+   "id": "discipulo_bruxaria",
+   "cont": "vit_bruxaria",
+   "alvo": 10,
+   "pt": "10 vitórias com Bruxaria",
+   "en": "10 wins with Witchcraft",
+   "moedas": 40
+  },
+  {
+   "id": "discipulo_alta_magia",
+   "cont": "vit_alta_magia",
+   "alvo": 10,
+   "pt": "10 vitórias com Alta Magia",
+   "en": "10 wins with High Magic",
+   "moedas": 40
+  },
+  {
+   "id": "seis_tradicoes",
+   "cont": "tradicoes_vencidas",
+   "alvo": 6,
+   "pt": "Vença com as 6 tradições",
+   "en": "Win with all 6 traditions",
+   "moedas": 100,
+   "titulo": "peregrino_das_seis"
+  },
+  {
+   "id": "vence_arquimago",
+   "cont": "arquimago_vitorias",
+   "alvo": 1,
+   "pt": "Vença o Arquimago",
+   "en": "Beat the Archmage",
+   "moedas": 60
+  },
+  {
+   "id": "arquimago_10",
+   "cont": "arquimago_vitorias",
+   "alvo": 10,
+   "pt": "Vença o Arquimago 10 vezes",
+   "en": "Beat the Archmage 10 times",
+   "moedas": 150,
+   "titulo": "mata_arquimago"
+  },
+  {
+   "id": "online_primeira",
+   "cont": "online_vitorias",
+   "alvo": 1,
+   "pt": "Primeira vitória online",
+   "en": "First online win",
+   "moedas": 40
+  },
+  {
+   "id": "online_10",
+   "cont": "online_vitorias",
+   "alvo": 10,
+   "pt": "10 vitórias online",
+   "en": "10 online wins",
+   "moedas": 120
+  },
+  {
+   "id": "online_25",
+   "cont": "online_partidas",
+   "alvo": 25,
+   "pt": "Jogue 25 partidas online",
+   "en": "Play 25 online matches",
+   "moedas": 80
+  },
+  {
+   "id": "boosters_10",
+   "cont": "boosters",
+   "alvo": 10,
+   "pt": "Abra 10 boosters",
+   "en": "Open 10 boosters",
+   "moedas": 40
+  },
+  {
+   "id": "boosters_50",
+   "cont": "boosters",
+   "alvo": 50,
+   "pt": "Abra 50 boosters",
+   "en": "Open 50 boosters",
+   "moedas": 100
+  },
+  {
+   "id": "primeira_foil",
+   "cont": "foils",
+   "alvo": 1,
+   "pt": "Tenha uma carta foil",
+   "en": "Own a foil card",
+   "moedas": 50
+  },
+  {
+   "id": "foils_5",
+   "cont": "foils",
+   "alvo": 5,
+   "pt": "Tenha 5 cartas foil",
+   "en": "Own 5 foil cards",
+   "moedas": 120
+  },
+  {
+   "id": "colecionador_100",
+   "cont": "cartas_distintas",
+   "alvo": 100,
+   "pt": "Tenha 100 cartas diferentes",
+   "en": "Own 100 different cards",
+   "moedas": 80
+  },
+  {
+   "id": "colecao_tradicao",
+   "cont": "tradicoes_completas",
+   "alvo": 2,
+   "pt": "Complete outra tradição (além da inicial)",
+   "en": "Complete another tradition (besides the starter)",
+   "moedas": 150
+  },
+  {
+   "id": "colecao_toda",
+   "cont": "tradicoes_completas",
+   "alvo": 6,
+   "pt": "Complete as 6 tradições",
+   "en": "Complete all 6 traditions",
+   "moedas": 500,
+   "titulo": "guardiao_do_codice"
+  },
+  {
+   "id": "enigmas_6",
+   "cont": "enigmas",
+   "alvo": 6,
+   "pt": "Resolva 6 enigmas",
+   "en": "Solve 6 puzzles",
+   "moedas": 80
+  },
+  {
+   "id": "enigmas_todos",
+   "cont": "enigmas",
+   "alvo": 12,
+   "pt": "Resolva todos os 12 enigmas",
+   "en": "Solve all 12 puzzles",
+   "moedas": 200,
+   "titulo": "decifrador"
+  },
+  {
+   "id": "torneio",
+   "cont": "torneio_vencido",
+   "alvo": 1,
+   "pt": "Vença o Torneio",
+   "en": "Win the Tournament",
+   "moedas": 100
+  },
+  {
+   "id": "choronzon",
+   "cont": "choronzon_vencido",
+   "alvo": 1,
+   "pt": "Sele o Abismo (vença Choronzon)",
+   "en": "Seal the Abyss (beat Choronzon)",
+   "moedas": 100
+  },
+  {
+   "id": "peregrinacao",
+   "cont": "pere_fim",
+   "alvo": 1,
+   "pt": "Complete uma Peregrinação",
+   "en": "Complete a Pilgrimage",
+   "moedas": 150
+  },
+  {
+   "id": "nivel_10",
+   "cont": "nivel",
+   "alvo": 10,
+   "pt": "Chegue ao nível 10",
+   "en": "Reach level 10",
+   "moedas": 50
+  },
+  {
+   "id": "nivel_25",
+   "cont": "nivel",
+   "alvo": 25,
+   "pt": "Chegue ao nível 25",
+   "en": "Reach level 25",
+   "moedas": 150
+  },
+  {
+   "id": "dias_7",
+   "cont": "dias_max",
+   "alvo": 7,
+   "pt": "Entre 7 dias seguidos",
+   "en": "Log in 7 days in a row",
+   "moedas": 50
+  },
+  {
+   "id": "dias_30",
+   "cont": "dias_max",
+   "alvo": 30,
+   "pt": "Entre 30 dias seguidos",
+   "en": "Log in 30 days in a row",
+   "moedas": 200,
+   "titulo": "devoto"
+  },
+  {
+   "id": "missoes_50",
+   "cont": "missoes",
+   "alvo": 50,
+   "pt": "Complete 50 missões diárias",
+   "en": "Complete 50 daily missions",
+   "moedas": 100
+  },
+  {
+   "id": "maestria_max",
+   "cont": "maestria_max",
+   "alvo": 5,
+   "pt": "Maestria 5 em uma tradição",
+   "en": "Mastery 5 in one tradition",
+   "moedas": 150
+  }
+ ],
+ "titulos": {
+  "iniciado": [
+   "Iniciado",
+   "Initiate"
+  ],
+  "adepto": [
+   "Adepto",
+   "Adept"
+  ],
+  "hierofante": [
+   "Hierofante",
+   "Hierophant"
+  ],
+  "magus": [
+   "Magus",
+   "Magus"
+  ],
+  "mestre_do_codice": [
+   "Mestre do Códice",
+   "Master of the Codex"
+  ],
+  "veterano": [
+   "Veterano",
+   "Veteran"
+  ],
+  "imparavel": [
+   "Imparável",
+   "Unstoppable"
+  ],
+  "peregrino_das_seis": [
+   "Peregrino das Seis",
+   "Pilgrim of the Six"
+  ],
+  "mata_arquimago": [
+   "Mata-Arquimago",
+   "Archmage Slayer"
+  ],
+  "guardiao_do_codice": [
+   "Guardião do Códice",
+   "Keeper of the Codex"
+  ],
+  "decifrador": [
+   "Decifrador",
+   "Decipherer"
+  ],
+  "devoto": [
+   "Devoto",
+   "Devotee"
+  ],
+  "selador_do_abismo": [
+   "Selador do Abismo",
+   "Sealer of the Abyss"
+  ],
+  "mestre_indigena": [
+   "Mestre do Indígena",
+   "Master of Indigenous"
+  ],
+  "mestre_cristianismo": [
+   "Mestre do Cristianismo",
+   "Master of Christianity"
+  ],
+  "mestre_taoismo": [
+   "Mestre do Taoísmo",
+   "Master of Taoism"
+  ],
+  "mestre_hinduismo": [
+   "Mestre do Hinduísmo",
+   "Master of Hinduism"
+  ],
+  "mestre_bruxaria": [
+   "Mestre da Bruxaria",
+   "Master of Witchcraft"
+  ],
+  "mestre_alta_magia": [
+   "Mestre da Alta Magia",
+   "Master of High Magic"
+  ]
+ },
+ "tradicoes": {
+  "indigena": [
+   "Indígena",
+   "Indigenous"
+  ],
+  "cristianismo": [
+   "Cristianismo",
+   "Christianity"
+  ],
+  "taoismo": [
+   "Taoísmo",
+   "Taoism"
+  ],
+  "hinduismo": [
+   "Hinduísmo",
+   "Hinduism"
+  ],
+  "bruxaria": [
+   "Bruxaria",
+   "Witchcraft"
+  ],
+  "alta_magia": [
+   "Alta Magia",
+   "High Magic"
+  ]
+ }
+}

@@ -516,12 +516,12 @@ func processar_mortes() -> void:
 		if mortos.is_empty():
 			return
 		for c in mortos:
-			if c.em_campo:
+			if is_instance_valid(c) and c.em_campo:     # um token já desfeito pode ter sido liberado no meio da cadeia
 				await morrer(c)
 
 
 func morrer(c: Carta, renascer := true) -> void:
-	if not c.em_campo:
+	if not is_instance_valid(c) or not c.em_campo:
 		return
 	var controlador := c.dono
 	m._conta(controlador, "mortes")

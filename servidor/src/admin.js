@@ -20,13 +20,19 @@ async function punicoesTodas(env) {
 }
 
 const enc = new TextEncoder();
-async function senhaOk(env, dada) {
-  if (!env.ADMIN_KEY || !dada) return false;
+async function igual(dada, certa) {
+  if (!certa || !dada) return false;
   const a = new Uint8Array(await crypto.subtle.digest("SHA-256", enc.encode(String(dada))));
-  const b = new Uint8Array(await crypto.subtle.digest("SHA-256", enc.encode(String(env.ADMIN_KEY))));
+  const b = new Uint8Array(await crypto.subtle.digest("SHA-256", enc.encode(String(certa))));
   let dif = 0;
   for (let i = 0; i < a.length; i++) dif |= a[i] ^ b[i];      // comparação sem atalho (tempo constante)
   return dif === 0;
+}
+// Papéis: ADMIN_KEY = admin (tudo); MOD_KEY (segredo opcional) = moderação, sem o reset de senha do Kode.
+async function papelDe(env, dada) {
+  if (await igual(dada, env.ADMIN_KEY)) return "admin";
+  if (await igual(dada, env.MOD_KEY)) return "mod";
+  return "";
 }
 
 function nivelDe(xp, N) {
@@ -66,7 +72,8 @@ export async function rotaAdmin(req, env, url, corpo, h) {
   const hora = Math.floor(Date.now() / 3600000);
   const tent = await env.DB.prepare("SELECT n FROM limites WHERE id=? AND dia=? AND motivo='admin_falha'").bind(ipk, hora).first();
   if ((tent?.n | 0) >= 5) return erro("muitas tentativas erradas: espere 1 hora", 429);
-  if (!(await senhaOk(env, chave))) {
+  const papel = await papelDe(env, chave);
+  if (!papel) {
     await env.DB.prepare("INSERT INTO limites (id, dia, motivo, n) VALUES (?, ?, 'admin_falha', 1) ON CONFLICT(id, dia, motivo) DO UPDATE SET n = n + 1").bind(ipk, hora).run();
     await new Promise((r) => setTimeout(r, 800));
     return erro("senha de admin errada", 401);
@@ -76,7 +83,7 @@ export async function rotaAdmin(req, env, url, corpo, h) {
 
   if (rota === "resumo") {
     const um = async (sql, ...b) => Object.values((await env.DB.prepare(sql).bind(...b).first()) || { n: 0 })[0] | 0;
-    return json({ ok: true,
+    return json({ ok: true, papel,
       contas: await um("SELECT COUNT(*) n FROM contas"),
       ativas_24h: await um("SELECT COUNT(*) n FROM perfis WHERE atualizado > ?", ag - 86400),
       ativas_7d: await um("SELECT COUNT(*) n FROM perfis WHERE atualizado > ?", ag - 7 * 86400),
@@ -115,6 +122,30 @@ export async function rotaAdmin(req, env, url, corpo, h) {
       if (out.length >= 100) break;
     }
     return json({ ok: true, contas: out });
+  }
+  // Reset do Kode. Moderação e admin: invalida a frase secreta (o jogo pede para gerar 12 palavras novas na próxima vez).
+  // Só admin: também troca a senha por uma temporária. A senha é sorteada e reforçada NO NAVEGADOR do painel (o servidor
+  // recebe só a chave reforçada, como no login) e o jogo obriga a escolher outra no próximo acesso. Desconecta os aparelhos.
+  const mk = /^conta\/([0-9a-f]{24})\/kode_reset$/.exec(rota);
+  if (mk && req.method === "POST") {
+    const id = mk[1];
+    const k = await env.DB.prepare("SELECT usuario FROM kodes WHERE id=?").bind(id).first();
+    if (!k) return erro("esta conta não tem Kode", 404);
+    const comSenha = !!corpo.senha;
+    if (comSenha && papel !== "admin") return erro("só o admin pode trocar a senha", 403);
+    if (comSenha && !/^[0-9a-f]{64}$/.test(String(corpo.chave_senha || ""))) return erro("chave da senha inválida");
+    if (comSenha) {
+      const sal = (await env.DB.prepare("SELECT sal FROM kodes WHERE id=?").bind(id).first()).sal;
+      const hex = (buf) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+      const sh = hex(await crypto.subtle.digest("SHA-256", enc.encode(sal + corpo.chave_senha)));
+      await env.DB.prepare("UPDATE kodes SET senha_hash=?, senha_temp=1, frase_hash='', refazer_frase=1, falhas=0, bloqueado_ate=0 WHERE id=?").bind(sh, id).run();
+      const seg = hex(crypto.getRandomValues(new Uint8Array(32)));                 // derruba as sessões abertas
+      await env.DB.prepare("UPDATE contas SET segredo_hash=? WHERE id=?").bind(hex(await crypto.subtle.digest("SHA-256", enc.encode(seg))), id).run();
+    } else {
+      await env.DB.prepare("UPDATE kodes SET frase_hash='', refazer_frase=1 WHERE id=?").bind(id).run();
+    }
+    await registrar(env, comSenha ? "kode_reset_senha" : "kode_reset_frase", id, { usuario: k.usuario, papel });
+    return json({ ok: true, usuario: k.usuario });
   }
   const mm = /^conta\/([0-9a-f]{24})\/(punir|perdoar|nota|revisado)$/.exec(rota);
   if (mm && req.method === "POST") {

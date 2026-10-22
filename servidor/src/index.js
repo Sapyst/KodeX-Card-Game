@@ -515,8 +515,24 @@ export default {
       const p = await lerPerfil(env, id);
       if (url.pathname === "/v1/perfil") {
         const em = await env.DB.prepare("SELECT email FROM emails WHERE id=?").bind(id).first();
-        const ko = await env.DB.prepare("SELECT usuario FROM kodes WHERE id=?").bind(id).first();
-        return json({ ok: true, perfil: p, dia: dia(), email: em ? em.email.replace(/^(.).*(@.*)$/, "$1***$2") : "", kode: ko ? ko.usuario : "" });
+        const ko = await env.DB.prepare("SELECT usuario, refazer_frase, senha_temp FROM kodes WHERE id=?").bind(id).first();
+        return json({ ok: true, perfil: p, dia: dia(), email: em ? em.email.replace(/^(.).*(@.*)$/, "$1***$2") : "", kode: ko ? ko.usuario : "",
+          kode_refazer_frase: !!ko?.refazer_frase, kode_senha_temp: !!ko?.senha_temp });
+      }
+      // depois de um reset pelo suporte: o jogo grava a frase nova (12 palavras) e, se a senha era temporária, a senha nova
+      if (url.pathname === "/v1/kode/nova_frase" && req.method === "POST") {
+        const ko = await env.DB.prepare("SELECT sal, refazer_frase FROM kodes WHERE id=?").bind(id).first();
+        if (!ko || !ko.refazer_frase) return erro("nada para refazer", 409);
+        if (!chaveValida(String(corpo.chave_frase || ""))) return erro("dados inválidos");
+        await env.DB.prepare("UPDATE kodes SET frase_hash=?, refazer_frase=0 WHERE id=?").bind(await sha(ko.sal + corpo.chave_frase), id).run();
+        return json({ ok: true });
+      }
+      if (url.pathname === "/v1/kode/nova_senha" && req.method === "POST") {
+        const ko = await env.DB.prepare("SELECT sal, senha_temp FROM kodes WHERE id=?").bind(id).first();
+        if (!ko || !ko.senha_temp) return erro("nada para refazer", 409);
+        if (!chaveValida(String(corpo.chave_senha || ""))) return erro("dados inválidos");
+        await env.DB.prepare("UPDATE kodes SET senha_hash=?, senha_temp=0 WHERE id=?").bind(await sha(ko.sal + corpo.chave_senha), id).run();
+        return json({ ok: true });
       }
       if (url.pathname === "/v1/livre" && req.method === "POST") {
         aplicarLivres(p, corpo.campos || {});

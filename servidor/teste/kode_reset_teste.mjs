@@ -1,0 +1,43 @@
+// Teste do reset do Kode pelo painel: node teste/kode_reset_teste.mjs [url] (servidor local por padrão)
+import { createHash, webcrypto } from "node:crypto";
+const U = process.argv[2] || "http://127.0.0.1:8787";
+const ADMIN = process.env.ADMIN_KEY || "teste-local-123", MOD = process.env.MOD_KEY || "mod-local-456";
+const ref = (t) => { let b = Buffer.from(t, "utf8"); for (let i = 0; i < 200000; i++) b = createHash("sha256").update(b).digest(); return b.toString("hex"); };
+const req = async (m, p, corpo, auth) => (await fetch(U + p, { method: m, headers: { "content-type": "application/json", ...(auth ? { authorization: auth } : {}) }, body: corpo ? JSON.stringify(corpo) : undefined })).json();
+let ok = 0, falhas = 0;
+const confere = (nome, cond) => { cond ? ok++ : falhas++; console.log((cond ? "OK    " : "FALHOU") + " " + nome); };
+const c = await req("POST", "/v1/conta", {});
+const auth = (id, seg) => "KDX " + id + ":" + seg;
+let A = auth(c.id, c.segredo);
+const u = "teste" + Math.floor(Math.random() * 1e6);
+confere("criar Kode", (await req("POST", "/v1/kode/criar", { usuario: u, chave_senha: ref(`kodex|${u}|senha123`), chave_frase: ref(`kodex-frase|${u}|a b c`) }, A)).ok);
+// moderador: só frase
+let r = await req("POST", `/admin/api/conta/${c.id}/kode_reset`, { senha: true, chave_senha: "0".repeat(64) }, "Admin " + MOD);
+confere("mod não troca senha", !r.ok && /admin/.test(r.erro));
+r = await req("POST", `/admin/api/conta/${c.id}/kode_reset`, { senha: false }, "Admin " + MOD);
+confere("mod reseta a frase", r.ok);
+let p = await req("GET", "/v1/perfil", null, A);
+confere("jogo vê refazer_frase", p.kode_refazer_frase === true && p.kode_senha_temp === false);
+confere("frase antiga não recupera", !(await req("POST", "/v1/kode/recuperar", { usuario: u, chave_frase: ref(`kodex-frase|${u}|a b c`), nova_chave_senha: ref(`kodex|${u}|x`) })).ok);
+confere("grava frase nova", (await req("POST", "/v1/kode/nova_frase", { chave_frase: ref(`kodex-frase|${u}|d e f`) }, A)).ok);
+confere("frase nova recupera", (await req("POST", "/v1/kode/recuperar", { usuario: u, chave_frase: ref(`kodex-frase|${u}|d e f`), nova_chave_senha: ref(`kodex|${u}|senha123`) })).ok);
+// admin: frase + senha temporária
+const ent0 = await req("POST", "/v1/kode/entrar", { usuario: u, chave_senha: ref(`kodex|${u}|senha123`) });
+A = auth(ent0.id, ent0.segredo);
+r = await req("POST", `/admin/api/conta/${c.id}/kode_reset`, { senha: true, chave_senha: ref(`kodex|${u}|temp9999`) }, "Admin " + ADMIN);
+confere("admin troca a senha", r.ok);
+confere("sessão antiga caiu", (await req("GET", "/v1/perfil", null, A)).ok === false);
+confere("senha antiga não entra", !(await req("POST", "/v1/kode/entrar", { usuario: u, chave_senha: ref(`kodex|${u}|senha123`) })).ok);
+const ent = await req("POST", "/v1/kode/entrar", { usuario: u, chave_senha: ref(`kodex|${u}|temp9999`) });
+confere("senha temporária entra", ent.ok);
+A = auth(ent.id, ent.segredo);
+p = await req("GET", "/v1/perfil", null, A);
+confere("jogo vê senha_temp e refazer", p.kode_senha_temp === true && p.kode_refazer_frase === true);
+confere("grava senha nova", (await req("POST", "/v1/kode/nova_senha", { chave_senha: ref(`kodex|${u}|novasenha`) }, A)).ok);
+confere("não regrava sem reset", !(await req("POST", "/v1/kode/nova_senha", { chave_senha: ref(`kodex|${u}|outra`) }, A)).ok);
+confere("grava frase nova (2)", (await req("POST", "/v1/kode/nova_frase", { chave_frase: ref(`kodex-frase|${u}|g h i`) }, A)).ok);
+confere("senha nova entra", (await req("POST", "/v1/kode/entrar", { usuario: u, chave_senha: ref(`kodex|${u}|novasenha`) })).ok);
+const reg = await req("GET", "/admin/api/registro", null, "Admin " + ADMIN);
+confere("registro sem a senha", reg.ok && !JSON.stringify(reg).includes("temp9999") && reg.registro.some((x) => x.acao === "kode_reset_senha"));
+console.log(`${ok} ok, ${falhas} falhas`);
+process.exit(falhas ? 1 : 0);

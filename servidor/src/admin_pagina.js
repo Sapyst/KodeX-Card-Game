@@ -56,7 +56,9 @@ pre{white-space:pre-wrap;font-size:12px;background:#120d15;padding:8px;border-ra
 </main></div>
 <datalist id="cartasLista"></datalist>
 <script>
-const $=(s)=>document.querySelector(s);let SENHA=localStorage.getItem("kodex_admin")||"";let atual=null;
+const $=(s)=>document.querySelector(s);let SENHA=localStorage.getItem("kodex_admin")||"";let atual=null;let PAPEL="";let atualKode="";
+// entrada pelo site (kodex.sapyst.workers.dev/login): a senha chega no fragmento #k=… (não vai ao servidor) e some da barra
+if(location.hash.startsWith("#k=")){SENHA=decodeURIComponent(location.hash.slice(3));history.replaceState(null,"",location.pathname);localStorage.setItem("kodex_admin",SENHA)}
 const esc=(s)=>String(s??"").replace(/[&<>"']/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const quando=(t)=>{if(!t)return"-";const d=Math.floor(Date.now()/1000)-t;if(d<0){const f=-d;return"em "+(f<86400?Math.ceil(f/3600)+" h":Math.ceil(f/86400)+" dias")}if(d<120)return"agora";if(d<3600)return Math.floor(d/60)+" min";if(d<86400)return Math.floor(d/3600)+" h";return Math.floor(d/86400)+" dias"};
 const data=(t)=>t?new Date(t*1000).toLocaleString("pt-BR"):"-";
@@ -70,12 +72,12 @@ function aba(a){document.querySelectorAll(".aba").forEach(b=>b.classList.toggle(
  if(a==="alertas")carregarAlertas();if(a==="registro")carregarRegistro();if(a==="erros")carregarErros()}
 async function iniciar(){$("#entrar").hidden=true;$("#app").hidden=false;carregarResumo();buscar();
  const c=await api("cartas");$("#cartasLista").innerHTML=(c.cartas||[]).map(x=>'<option value="'+esc(x)+'">').join("")}
-async function carregarResumo(){const r=await api("resumo");const it=[["contas","contas"],["ativas_24h","ativas em 24 h"],["ativas_7d","ativas em 7 dias"],["jogando_agora","online jogando agora"],["na_fila","buscando partida"],["partidas_24h","partidas online 24 h"],["alertas","contas com alerta"],["punidas","contas punidas"],["erros_7d","erros em 7 dias"]];
+async function carregarResumo(){const r=await api("resumo");PAPEL=r.papel||"";document.title="KodeX "+(PAPEL==="mod"?"Moderação":"Admin");const it=[["contas","contas"],["ativas_24h","ativas em 24 h"],["ativas_7d","ativas em 7 dias"],["jogando_agora","online jogando agora"],["na_fila","buscando partida"],["partidas_24h","partidas online 24 h"],["alertas","contas com alerta"],["punidas","contas punidas"],["erros_7d","erros em 7 dias"]];
  $("#resumo").innerHTML=it.map(([k,t])=>'<div class="card"><b>'+(r[k]??0)+'</b><span>'+t+'</span></div>').join("")}
 async function buscar(){const q=new URLSearchParams({q:$("#busca").value,atividade:$("#f_at").value,ban:$("#f_ban").value,nivel_min:$("#f_nv").value||0,moedas_min:$("#f_m").value||0,
  alerta:$("#f_al").checked?1:"",kode:$("#f_kode").checked?1:"",email:$("#f_email").checked?1:""});const r=await api("contas?"+q);
  $("#lista").innerHTML=(r.contas||[]).map(c=>'<tr class="linha" onclick="abrir(\''+c.id+'\')"><td>'+esc(c.nome||"(sem nome)")+(c.kode?' <span class="etq">'+esc(c.kode)+'</span>':'')+banEtq(c.ban)+(c.alerta?' <span class="etq alerta">alerta '+c.alerta+'</span>':'')+'</td><td>'+c.curto+'</td><td>'+c.nivel+'</td><td>'+c.moedas+'</td><td class="apagado">'+quando(c.visto)+'</td></tr>').join("")||'<tr><td colspan="5" class="apagado">Nada encontrado.</td></tr>'}
-async function abrir(id){atual=id;aba("contas");const r=await api("conta/"+id);if(!r.ok){$("#detalhe").innerHTML='<div class="caixa erro">'+esc(r.erro)+'</div>';return}const p=r.perfil;
+async function abrir(id){atual=id;aba("contas");const r=await api("conta/"+id);if(!r.ok){$("#detalhe").innerHTML='<div class="caixa erro">'+esc(r.erro)+'</div>';return}const p=r.perfil;atualKode=r.kode||"";
  const est=p.estat.contra||{};const lin=(o)=>o?((o.v|0)+"V "+(o.d|0)+"D "+(o.e|0)+"E"):"-";const pun=r.punicao;
  $("#detalhe").innerHTML='<div class="caixa"><h2>'+esc(p.nome||"(sem nome)")+' <span class="apagado">· '+r.curto+'</span> '+(pun?banEtq(pun.tipo):'')+(r.alerta?' <span class="etq alerta">alerta '+r.alerta+'</span>':'')+'</h2><div class="kv">'+
  '<span>Kode</span><div>'+esc(r.kode||"-")+'</div><span>Email</span><div>'+esc(r.email||"-")+'</div><span>Criada</span><div>'+data(r.criado)+'</div>'+
@@ -85,6 +87,9 @@ async function abrir(id){atual=id;aba("contas");const r=await api("conta/"+id);i
  '<span>Dias seguidos</span><div>'+p.dias_seguidos+' (máx. '+p.dias_max+')</div><span>Contra IA</span><div>'+lin(est.ia)+'</div><span>Contra gente</span><div>'+lin(est.jogador)+'</div><span>Contra bot</span><div>'+lin(est.bot)+'</div>'+
  '<span>Modos</span><div>'+(p.torneio_vencido?'<span class="etq">Torneio</span>':'')+(p.choronzon_vencido?'<span class="etq">Choronzon</span>':'')+'<span class="etq">'+p.enigmas+' enigmas</span></div>'+
  '<span>Títulos</span><div>'+(p.titulos.map(t=>'<span class="etq">'+esc(t)+'</span>').join("")||"-")+'</div></div></div>'+
+ // Kode (suporte)
+ (r.kode?'<div class="caixa"><h2>Kode · '+esc(r.kode)+'</h2><p class="apagado" style="margin-top:0">Resetar a chave: a frase secreta antiga deixa de valer e o jogo pede 12 palavras novas no próximo acesso.'+(PAPEL==="admin"?' Com senha temporária: também troca a senha por uma sorteada (para mandar por email como suporte); o jogo obriga a escolher outra e os aparelhos abertos saem da conta.':'')+'</p>'+
+ '<button onclick="kodeReset(false)">Resetar chave do Kode</button> '+(PAPEL==="admin"?'<button class="perigo" onclick="kodeReset(true)">Resetar chave + senha temporária</button>':'')+'<div id="k_res" style="margin-top:10px"></div></div>':'')+
  // punição
  '<div class="caixa"><h2>Punição</h2>'+(pun?'<p>'+banEtq(pun.tipo)+' '+(pun.tipo==="hard"?"para sempre":(pun.ate?"até "+data(pun.ate)+" ("+quando(pun.ate)+")":"até tirar"))+'<br><span class="apagado">Motivo:</span> '+esc(pun.motivo)+'</p><button onclick="perdoar()">Tirar a punição</button>':'<p class="apagado">Nenhuma.</p>')+
  '<div class="form" style="margin-top:10px"><label>Tipo<select id="p_tipo"><option value="soft">Soft-ban (por tempo)</option><option value="shadow">Shadow-ban (linha de baixo)</option><option value="hard">Hard-ban (para sempre)</option></select></label>'+
@@ -108,6 +113,21 @@ async function abrir(id){atual=id;aba("contas");const r=await api("conta/"+id);i
  '<div class="caixa"><h2>Correio enviado</h2>'+((p.correio||[]).slice().reverse().map(c=>'<div style="margin-bottom:6px">'+quando(c.ts)+' atrás · '+(c.lido?'<span class="ok">lida</span>':'<span class="apagado">não lida</span>')+'<br>'+esc(c.msg)+'</div>').join("")||'<span class="apagado">Nenhum.</span>')+'</div>'+
  '<div class="caixa"><h2>Últimas partidas</h2>'+((p.historico||[]).map(h=>'<div>'+quando(h.t)+' · '+esc(h.modo)+' · '+esc(h.adversario)+' · '+resultado(h.resultado)+' · '+h.turnos+' turnos</div>').join("")||'<span class="apagado">Nenhuma.</span>')+
  '<h2 style="margin-top:10px">Online</h2>'+((r.online||[]).map(o=>'<div>'+quando(o.quando)+' · contra '+esc(o.contra)+' · '+esc(o.estado)+' · '+resultado(o.resultado)+'</div>').join("")||'<span class="apagado">Nenhuma.</span>')+'</div>'}
+// mesma derivação do jogo (nuvem.gd reforcar): SHA-256 encadeado 200 mil vezes sobre "kodex|usuário|senha"
+async function reforcar(t){let b=new TextEncoder().encode(t);for(let i=0;i<200000;i++)b=new Uint8Array(await crypto.subtle.digest("SHA-256",b));return[...b].map(x=>x.toString(16).padStart(2,"0")).join("")}
+function senhaAleatoria(){const a="abcdefghjkmnpqrstuvwxyz23456789",v=crypto.getRandomValues(new Uint8Array(10));return[...v].map(x=>a[x%a.length]).join("")}
+const MODELO={pt:(u,s)=>"Olá! Aqui é o suporte do KodeX.\n\nRedefinimos o acesso do seu Kode \""+u+"\".\nSenha temporária: "+s+"\n\nAbra o jogo, vá em Opções > Sincronizar conta > Entrar com Kode e use essa senha. O jogo vai pedir uma senha nova e gerar 12 palavras novas: guarde-as em um lugar seguro.\n\nNinguém do KodeX vai pedir a sua senha ou as suas palavras.",
+ en:(u,s)=>"Hi! This is KodeX support.\n\nWe reset access to your Kode \""+u+"\".\nTemporary password: "+s+"\n\nOpen the game, go to Options > Sync account > Sign in with Kode and use this password. The game will ask for a new password and create 12 new words: keep them somewhere safe.\n\nNo one from KodeX will ever ask for your password or your words.",
+ es:(u,s)=>"¡Hola! Te escribe el soporte de KodeX.\n\nRestablecimos el acceso a tu Kode \""+u+"\".\nContraseña temporal: "+s+"\n\nAbre el juego, ve a Opciones > Sincronizar cuenta > Entrar con Kode y usa esta contraseña. El juego te pedirá una contraseña nueva y creará 12 palabras nuevas: guárdalas en un lugar seguro.\n\nNadie de KodeX te pedirá tu contraseña ni tus palabras."};
+async function kodeReset(comSenha){const u=atualKode;if(!u)return;
+ if(!confirm(comSenha?"Resetar a chave E trocar a senha do Kode \""+u+"\" por uma temporária?\nOs aparelhos abertos saem da conta.":"Resetar a chave do Kode \""+u+"\"?\nA frase antiga deixa de valer."))return;
+ const res=$("#k_res");let corpo={senha:false},senha="";
+ if(comSenha){senha=senhaAleatoria();res.innerHTML='<span class="apagado">Gerando a senha (reforço de 200 mil rodadas, alguns segundos)...</span>';corpo={senha:true,chave_senha:await reforcar("kodex|"+u+"|"+senha)}}
+ const r=await api("conta/"+atual+"/kode_reset",corpo);if(!r.ok){res.innerHTML='<span class="erro">'+esc(r.erro)+'</span>';return}
+ if(!comSenha){res.innerHTML='<span class="ok">Chave resetada. O jogo pede 12 palavras novas no próximo acesso.</span>';return}
+ res.innerHTML='<p class="ok" style="margin:0 0 6px">Senha temporária (aparece só agora):</p><div style="display:flex;gap:6px;align-items:center"><code id="k_senha" style="font-size:18px;color:var(--ouro2);background:#120d15;padding:6px 10px;border-radius:6px">'+esc(senha)+'</code><button onclick="navigator.clipboard.writeText($(\'#k_senha\').textContent)">Copiar senha</button></div>'+
+  '<p class="apagado" style="margin:10px 0 4px">Email pronto para mandar: <select id="k_lang" onchange="$(\'#k_email\').value=MODELO[this.value](\''+esc(u)+'\',\''+senha+'\')"><option value="pt">Português</option><option value="en">English</option><option value="es">Español</option></select> <button onclick="navigator.clipboard.writeText($(\'#k_email\').value)">Copiar email</button></p>'+
+  '<textarea id="k_email" style="width:100%;min-height:170px">'+esc(MODELO.pt(u,senha))+'</textarea>'}
 function atalho(m,k,e,b,msg){$("#g_m").value=m;$("#g_k").value=k;$("#g_e").value=e;$("#g_b").value=b;$("#g_msg").value=msg}
 async function presente(){const corpo={moedas:+$("#g_m").value,koins:+$("#g_k").value,essencia:+$("#g_e").value,boosters:+$("#g_b").value,
  cartas:$("#g_c").value.split(",").map(s=>s.trim()).filter(Boolean),mensagem:$("#g_msg").value,de:$("#g_de").value};

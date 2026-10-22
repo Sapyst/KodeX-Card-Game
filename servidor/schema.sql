@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS email_codigos (email TEXT PRIMARY KEY, codigo_hash TE
 -- conta Kode: usuário + senha; trocar/recuperar a senha exige a frase de 12 palavras (BIP39). O jogo reforça senha e
 -- frase (milhares de rodadas de SHA-256) antes de enviar; aqui fica só o hash com sal do que chegou.
 CREATE TABLE IF NOT EXISTS kodes (usuario TEXT PRIMARY KEY, id TEXT NOT NULL, sal TEXT NOT NULL, senha_hash TEXT NOT NULL,
-  frase_hash TEXT NOT NULL, criado INTEGER NOT NULL, falhas INTEGER NOT NULL DEFAULT 0, bloqueado_ate INTEGER NOT NULL DEFAULT 0);
+  frase_hash TEXT NOT NULL, criado INTEGER NOT NULL, falhas INTEGER NOT NULL DEFAULT 0, bloqueado_ate INTEGER NOT NULL DEFAULT 0,
+  refazer_frase INTEGER NOT NULL DEFAULT 0, senha_temp INTEGER NOT NULL DEFAULT 0);
 
 -- multiplayer: fila de busca, partidas (lockstep) e ações em ordem
 CREATE TABLE IF NOT EXISTS fila (id TEXT PRIMARY KEY, nome TEXT, deck TEXT, pais TEXT, cont TEXT, entrou INTEGER, visto INTEGER, partida TEXT,

@@ -144,6 +144,8 @@ func livres_mudaram() -> void:
 # ---------------- conta Kode (usuário + senha; frase de 12 palavras para trocar/recuperar) ----------------
 var kode := ""                                 # usuário Kode desta conta ("" = sem Kode)
 var email_mask := ""                           # email ligado, mascarado (t***@x.com)
+var kode_refazer_frase := false                # suporte resetou a chave: gerar 12 palavras novas
+var kode_senha_temp := false                   # suporte trocou a senha por uma temporária: escolher outra
 const RODADAS := 200000                        # reforço da senha/frase no aparelho (SHA-256 encadeado, ~0,1 s)
 
 
@@ -183,6 +185,8 @@ func atualizar_info() -> void:
 	if r.get("ok", false):
 		kode = str(r.get("kode", ""))
 		email_mask = str(r.get("email", ""))
+		kode_refazer_frase = bool(r.get("kode_refazer_frase", false))
+		kode_senha_temp = bool(r.get("kode_senha_temp", false))
 		mudou.emit()
 
 
@@ -193,6 +197,23 @@ func kode_criar(usuario: String, senha: String, frase: String) -> String:
 	if r.get("ok", false):
 		kode = u
 		mudou.emit()
+		return ""
+	return str(r.get("erro", "sem conexão"))
+
+
+## Depois de um reset pelo suporte (painel): grava a frase nova / a senha nova desta conta.
+func kode_nova_frase(frase: String) -> String:
+	var r := await _pedir("POST", "/v1/kode/nova_frase", {"chave_frase": reforcar("kodex-frase|%s|%s" % [kode, normalizar_frase(frase)])})
+	if r.get("ok", false):
+		kode_refazer_frase = false
+		return ""
+	return str(r.get("erro", "sem conexão"))
+
+
+func kode_nova_senha(senha: String) -> String:
+	var r := await _pedir("POST", "/v1/kode/nova_senha", {"chave_senha": reforcar("kodex|%s|%s" % [kode, senha])})
+	if r.get("ok", false):
+		kode_senha_temp = false
 		return ""
 	return str(r.get("erro", "sem conexão"))
 

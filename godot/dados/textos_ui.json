@@ -3683,5 +3683,45 @@
   "en": "Couldn't generate the secret phrase. The Kode was not created.",
   "pt": "Erro ao gerar a frase secreta. O Kode não foi criado.",
   "es": "No se pudo generar la frase secreta. El Kode no se creó."
+ },
+ "Palavra errada. Tente de novo.": {
+  "en": "Wrong word. Try again.",
+  "pt": "Palavra errada. Tente de novo.",
+  "es": "Palabra incorrecta. Inténtalo de nuevo."
+ },
+ "Senha temporária": {
+  "en": "Temporary password",
+  "pt": "Senha temporária",
+  "es": "Contraseña temporal"
+ },
+ "O suporte redefiniu o acesso ao seu Kode. Escolha uma senha nova.": {
+  "en": "Support has reset access to your Kode. Choose a new password.",
+  "pt": "O suporte redefiniu o acesso ao seu Kode. Escolha uma senha nova.",
+  "es": "El soporte restableció el acceso a tu Kode. Elige una contraseña nueva."
+ },
+ "Senha nova salva.": {
+  "en": "New password saved.",
+  "pt": "Senha nova salva.",
+  "es": "Contraseña nueva guardada."
+ },
+ "Nova frase secreta": {
+  "en": "New secret phrase",
+  "pt": "Nova frase secreta",
+  "es": "Nueva frase secreta"
+ },
+ "Sua frase antiga deixou de valer. Gere 12 palavras novas e guarde-as em um lugar seguro.": {
+  "en": "Your old phrase no longer works. Create 12 new words and keep them somewhere safe.",
+  "pt": "Sua frase antiga deixou de valer. Gere 12 palavras novas e guarde-as em um lugar seguro.",
+  "es": "Tu frase anterior ya no sirve. Genera 12 palabras nuevas y guárdalas en un lugar seguro."
+ },
+ "Frase nova salva.": {
+  "en": "New phrase saved.",
+  "pt": "Frase nova salva.",
+  "es": "Frase nueva guardada."
+ },
+ "nada para refazer": {
+  "en": "Nothing to update.",
+  "pt": "Nada para refazer.",
+  "es": "Nada que actualizar."
  }
 }

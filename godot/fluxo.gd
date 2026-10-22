@@ -718,6 +718,11 @@ func _versao() -> String:
 func _avisos_titulo() -> void:
 	if estado != "titulo" or perg.aberto():
 		return
+	if Nuvem.ativo():                                   # reset do Kode pelo suporte? resolve antes de tudo
+		await Nuvem.atualizar_info()
+		if Nuvem.kode != "" and (Nuvem.kode_senha_temp or Nuvem.kode_refazer_frase):
+			_kode_pendencias()
+			return
 	if str(Sessao.perfil.get("versao_vista", "")) != _versao():
 		abrir_novidades(false, verificar_presente.bind(false))
 	else:
@@ -946,8 +951,36 @@ func _desenhar_pedido() -> void:
 	_texto_central(b1.get_center(), Sessao.t("Cancelar"), CREME)
 
 
+## Reset pelo suporte: com senha temporária, pede uma senha nova; com a chave resetada, gera 12 palavras novas.
+## Se a pessoa cancelar, o jogo pergunta de novo na próxima vez que abrir o Início.
+func _kode_pendencias() -> void:
+	if Nuvem.kode_senha_temp:
+		perg.abrir([["titulo", Sessao.t("Senha temporária")], ["centro", Sessao.t("O suporte redefiniu o acesso ao seu Kode. Escolha uma senha nova.")]])
+		await perg.fechou
+		var s1 := await pedir_texto(Sessao.t("Crie uma senha (8 caracteres ou mais)"), true, 64)
+		if s1.length() < 8:
+			mp.avisar(Sessao.t("A senha precisa de 8 caracteres ou mais.")); return
+		var s2 := await pedir_texto(Sessao.t("Repita a senha"), true, 64)
+		if s1 != s2:
+			mp.avisar(Sessao.t("As senhas não batem.")); return
+		var e1 := await Nuvem.kode_nova_senha(s1)
+		if e1 != "":
+			mp.avisar(Sessao.t(e1)); return
+		mp.avisar(Sessao.t("Senha nova salva."))
+	if Nuvem.kode_refazer_frase:
+		perg.abrir([["titulo", Sessao.t("Nova frase secreta")], ["centro", Sessao.t("Sua frase antiga deixou de valer. Gere 12 palavras novas e guarde-as em um lugar seguro.")]])
+		await perg.fechou
+		var frase := await _frase_nova()
+		if frase == "":
+			return
+		var e2 := await Nuvem.kode_nova_frase(frase)
+		mp.avisar(Sessao.t(e2) if e2 != "" else Sessao.t("Frase nova salva."))
+
+
 func _avisar_erro(e: String) -> void:
 	mp.avisar(Sessao.t(e) if e != "" else Sessao.t("Pronto!"))
+	if e == "" and Nuvem.kode != "" and (Nuvem.kode_senha_temp or Nuvem.kode_refazer_frase):
+		_kode_pendencias.call_deferred()
 	if volta_conta == "entrada":
 		if e == "":
 			concluir_entrada()
@@ -984,10 +1017,19 @@ func _criar_kode() -> void:
 	var s2 := await pedir_texto(Sessao.t("Repita a senha"), true, 64)
 	if s1 != s2:
 		mp.avisar(Sessao.t("As senhas não batem.")); return
+	var frase := await _frase_nova()
+	if frase == "":
+		return
+	mp.avisar(Sessao.t("Criando..."))
+	_avisar_erro(await Nuvem.kode_criar(u, s1, frase))
+
+
+## Gera a frase de 12 palavras, mostra (com Copiar) e confere 1 palavra sorteada. "" = falhou ou a pessoa errou.
+func _frase_nova() -> String:
 	var frase := Nuvem.gerar_frase()
 	var w := frase.split(" ", false)
 	if w.size() != 12 or w.has(""):                # trava: sem as 12 palavras o Kode não é criado
-		mp.avisar(Sessao.t("Erro ao gerar a frase secreta. O Kode não foi criado.")); return
+		mp.avisar(Sessao.t("Erro ao gerar a frase secreta. O Kode não foi criado.")); return ""
 	var blocos: Array = [["titulo", Sessao.t("Sua frase secreta")],
 		["centro", Sessao.t("Anote estas 12 palavras em papel, na ordem. Sem elas não dá para trocar nem recuperar a senha.")], ["espaco"]]
 	for k in 12:
@@ -1004,9 +1046,8 @@ func _criar_kode() -> void:
 	var n := randi_range(1, 12)
 	var conf := await pedir_texto(Sessao.t("Para conferir: qual é a palavra número %d?") % n)
 	if conf.to_lower() != w[n - 1]:
-		mp.avisar(Sessao.t("Palavra errada. O Kode não foi criado.")); return
-	mp.avisar(Sessao.t("Criando..."))
-	_avisar_erro(await Nuvem.kode_criar(u, s1, frase))
+		mp.avisar(Sessao.t("Palavra errada. Tente de novo.")); return ""
+	return frase
 
 
 ## Frase colada de qualquer jeito (uma por linha, numerada "1. palavra", com vírgulas): vira as palavras em ordem,

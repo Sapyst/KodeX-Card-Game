@@ -716,9 +716,12 @@ func _ir_para_deck() -> void:
 			_dar_ids(deck_jog, Sessao.deck_jogador, 0)
 			_dar_ids(deck_opon, Sessao.deck_oponente, 1)
 			_aplicar_extras_deck()
+			_gravar_decks()
 		else:
 			_dar_dados(deck_jog, OS.get_environment("GD_DECK_A") if OS.get_environment("GD_DECK_A") != "" else "indigena", 0)
+
 			_dar_dados(deck_opon, OS.get_environment("GD_DECK_B") if OS.get_environment("GD_DECK_B") != "" else "cristianismo", 1)
+			_gravar_decks()
 
 
 # ---------------- mão inicial ----------------
@@ -1743,6 +1746,8 @@ func _partida() -> void:
 		if acabou:
 			break
 		ativo = 1 - ativo
+	_gravar({"t": "canon", "s": _canon_estado()})
+	_gravar({"t": "fim", "vencedor": vencedor})
 	var r: String = {0: "vitória", 1: "derrota", 2: "empate"}.get(vencedor, "empate")
 	print("FIM DA PARTIDA: %s no turno %d (Cornucópias %d × %d)" % [r, turno_n, cornucopia[0], cornucopia[1]])
 	print("ESTAT jogador: ", estat[0], "  oponente: ", estat[1])
@@ -2064,6 +2069,7 @@ func _embaralhar_deck(d: int) -> void:
 		var tmp := deck[i]
 		deck[i] = deck[j]
 		deck[j] = tmp
+	_gravar({"t": "emb", "d": d, "ids": deck.map(func(c: Carta) -> String: return c.id)})
 	var base := proj(DECK_JOG if d == 0 else DECK_OPON)
 	for i in deck.size():
 		deck[i].position = base + Vector2(0, -int(i / 3))
@@ -2672,6 +2678,8 @@ func _turno_ia(d: int) -> void:
 			break
 		_conta(d, "ia_" + str(acao["tipo"]))
 		_acoes_ia += 1
+		_gravar({"t": "canon", "s": _canon_estado()})
+		_gravar(_codificar_ia(d, acao).merged({"t": "acao", "d": d, "rito_livre": acao["tipo"] == "jogar" and (acao["carta"] as Carta).tipo == "rito"}))
 		if online_partida():                          # teste online: a IA joga por mim e a jogada vai pela rede
 			_enviar(_codificar_ia(d, acao))
 		if acao["tipo"] == "jogar":
@@ -2702,6 +2710,8 @@ func _turno_ia(d: int) -> void:
 	await get_tree().create_timer(0.3).timeout
 	if online_partida() and not acabou:
 		_enviar({"tipo": "fim", "h": _hash_estado()})
+	_gravar({"t": "canon", "s": _canon_estado()})
+	_gravar({"t": "acao", "d": d, "tipo": "fim"})
 	ocupado = false
 
 
@@ -3421,6 +3431,7 @@ func _mulligan_ia(d: int) -> void:
 	trocar.sort_custom(func(a: Carta, b: Carta) -> bool: return a.custo > b.custo)
 	if trocar.size() > MULLIGAN_MAX:
 		trocar.resize(MULLIGAN_MAX)
+	_gravar({"t": "mull", "d": d, "k": trocar.map(func(c: Carta) -> int: return mao.find(c))})
 	await _trocar_mao(d, trocar)
 
 
@@ -4363,3 +4374,62 @@ func _preparar_fim(venc: int) -> void:
 	efeitos.fim = {"tex": ret_tex[venc], "nome": ret_nome[venc], "vitoria": venc == 0, "de": ret_rect(venc).get_center(),
 		"perdedor": ret_rect(1 - venc),
 		"sub": (("You beat %s" if en else "Você venceu %s") % ret_nome[1]) if venc == 0 else (("%s won" if en else "%s venceu") % ret_nome[1])}
+
+
+# ================= gravação para conferir o juiz do servidor (GD_GRAVAR=arquivo) =================
+## Grava decks, embaralhamentos, sorteios, jogadas e o retrato do estado antes de cada jogada. O motor juiz
+## (servidor/src/motor/regras.js) refaz a partida com esses sorteios e tem que chegar ao MESMO retrato.
+var _arq_gravar: FileAccess = null
+
+
+func _gravar(o: Dictionary) -> void:
+	if OS.get_environment("GD_GRAVAR") == "":
+		return
+	if _arq_gravar == null:
+		_arq_gravar = FileAccess.open(OS.get_environment("GD_GRAVAR"), FileAccess.WRITE)
+	_arq_gravar.store_line(JSON.stringify(o))
+	_arq_gravar.flush()
+
+
+func _gravar_decks() -> void:
+	_gravar({"t": "decks", "d0": deck_jog.map(func(c: Carta) -> String: return c.id), "d1": deck_opon.map(func(c: Carta) -> String: return c.id),
+		"corn": cornucopia})
+
+
+## Sorteio da lógica (alvo/descarte aleatório): o mesmo rng de sempre, gravado para a conferência.
+func sortear(n: int) -> int:
+	var v := rng.randi_range(0, n - 1)
+	_gravar({"t": "rng", "n": n, "v": v})
+	return v
+
+
+## Retrato do estado em texto, idêntico ao Partida.canon() do servidor (lados = índices desta mesa).
+func _canon_estado() -> String:
+	var lados := PackedStringArray()
+	for d in 2:
+		var ent := PackedStringArray()
+		for c in campo_ent[d]:
+			if c == null:
+				ent.append("_")
+				continue
+			var kw: Array = (c as Carta).keywords.duplicate()
+			kw.sort()
+			var ak: Array = (c as Carta).aura_keywords.duplicate()
+			ak.sort()
+			var fl := ("c" if c.cansada else "") + ("a" if c.atacou else "") + ("g" if c.congelada else "") + ("x" if c.sem_ataque else "") + \
+				("s" if c.silenciada else "") + ("j" if c.ja_atacou else "") + ("R" if c.roubada_temp else "")
+			if not (c as Carta).reliquia.is_empty():
+				var us = c.reliquia.get("usos")
+				fl += "r:%s:%s" % [str(c.reliquia["dados"]["id"]), "-" if us == null else str(int(us))]
+			ent.append("/".join([c.id, str(c.atk), str(c.defe), str(c.dano), "+".join(kw) + "|" + "+".join(ak), fl]))
+		var mao := PackedStringArray()
+		for c in _mao_de(d):
+			mao.append(c.id)
+		var cem := PackedStringArray()
+		for e in cemit[d]:
+			cem.append(str(e["dados"]["id"]))
+		var sel := PackedStringArray()
+		for s in campo_selo[d]:
+			sel.append("_" if s == null else (s as Carta).id)
+		lados.append("#".join([str(cornucopia[d]), str(fe[d]), str(fe_max[d]), ",".join(mao), str(_deck_de(d).size()), ",".join(cem), ";".join(ent), ",".join(sel)]))
+	return "T%dA%d|" % [turno_n, ativo] + "|".join(lados)

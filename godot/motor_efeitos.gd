@@ -333,7 +333,7 @@ static func _dica_alvo(acao: Dictionary) -> String:
 func _aleatorio(cands: Array) -> Array:
 	if cands.is_empty():
 		return []
-	return [cands[m.rng.randi_range(0, cands.size() - 1)]]
+	return [cands[m.sortear(cands.size())]]
 
 
 ## Escolha de alvo da IA (port de HeurBot.escolher_alvo).
@@ -602,7 +602,7 @@ func executar_acao(a: Dictionary, ctx: Dictionary) -> void:
 				var mao: Array = m._mao_de(1 - dono)
 				if mao.is_empty():
 					break
-				await m._descartar(1 - dono, mao[m.rng.randi_range(0, mao.size() - 1)])
+				await m._descartar(1 - dono, mao[m.sortear(mao.size())])
 		"gain_fe":
 			var n := int(a.get("n", 1))
 			if a.get("perm", false):

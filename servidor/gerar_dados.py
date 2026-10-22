@@ -18,3 +18,12 @@ out = {"prog": prog, "cartas": cartas, "foils": foils, "deck_inicial": db["decks
 open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "src", "dados.js"), "w", encoding="utf-8").write(
     "// gerado por gerar_dados.py — não editar à mão\nexport default " + json.dumps(out, ensure_ascii=False) + ";\n")
 print(len(cartas), "cartas,", len(foils), "foils,", len(versos), "versos,", len(versoes), "versões")
+
+# cartas completas (com efeitos) para o motor juiz do online (src/motor/regras.js)
+cartas_motor = {k: {x: v[x] for x in ("id", "nome", "cultura", "tipo", "custo", "atk", "vida", "lendaria", "keywords", "sacrificio", "efeitos", "usos")}
+                for k, v in db["cartas"].items()}
+tokens = json.load(open(os.path.join(G, "dados", "tokens.json"), encoding="utf-8"))
+tok = {k: {"id": v["id"], "cultura": v.get("cultura", "token")} for k, v in tokens.items()}
+open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "src", "motor", "cartas.js"), "w", encoding="utf-8").write(
+    "// gerado por servidor/gerar_dados.py — não editar à mão. Cartas com efeitos (as regras do juiz) e tokens.\n"
+    "export const CARTAS = " + json.dumps(cartas_motor, ensure_ascii=False) + ";\nexport const TOKENS = " + json.dumps(tok, ensure_ascii=False) + ";\n")

@@ -1,5 +1,18 @@
 [
  {
+  "versao": "0.20.4-alpha",
+  "data": "22/10/2026",
+  "pt": [
+   "Suporte do Kode: se a equipe redefinir o acesso à sua conta, o jogo pede uma senha nova e gera 12 palavras novas na próxima vez que você entrar."
+  ],
+  "en": [
+   "Kode support: if the team resets access to your account, the game asks for a new password and creates 12 new words the next time you sign in."
+  ],
+  "es": [
+   "Soporte del Kode: si el equipo restablece el acceso a tu cuenta, el juego te pide una contraseña nueva y crea 12 palabras nuevas la próxima vez que entres."
+  ]
+ },
+ {
   "versao": "0.20.3-alpha",
   "data": "22/10/2026",
   "pt": [

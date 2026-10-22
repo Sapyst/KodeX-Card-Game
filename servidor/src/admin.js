@@ -2,6 +2,22 @@
 // boost) e ler relatórios de erro. Protegido pela senha ADMIN_KEY (segredo do Worker: `npx wrangler secret put ADMIN_KEY`).
 // O presente entra direto no perfil e vira uma carta no "correio" da conta: o jogo mostra a mensagem ao abrir.
 import { PAGINA_ADMIN } from "./admin_pagina.js";
+import { DESCRICAO, punicao, registrar, varredura } from "./moderacao.js";
+
+// pontuação de alerta por conta: soma dos pesos dos sinais dos últimos 7 dias que vieram depois da última revisão
+async function pontuacoes(env, ag) {
+  const r = (await env.DB.prepare(`SELECT s.id, SUM(s.peso) pts, COUNT(*) n, MAX(s.ts) ult FROM sinais s LEFT JOIN revisoes r ON r.id=s.id
+    WHERE s.ts > ? AND (r.ts IS NULL OR s.ts > r.ts) GROUP BY s.id`).bind(ag - 7 * 86400).all()).results;
+  const m = {};
+  for (const x of r) m[x.id] = { pts: x.pts | 0, n: x.n | 0, ult: x.ult | 0 };
+  return m;
+}
+async function punicoesTodas(env) {
+  const r = (await env.DB.prepare("SELECT id, tipo, ate, motivo FROM punicoes").all()).results;
+  const m = {}, ag = Math.floor(Date.now() / 1000);
+  for (const x of r) if (x.tipo === "hard" || !x.ate || x.ate > ag) m[x.id] = x;
+  return m;
+}
 
 const enc = new TextEncoder();
 async function senhaOk(env, dada) {
@@ -61,10 +77,13 @@ export async function rotaAdmin(req, env, url, corpo, h) {
       jogando_agora: await um("SELECT COUNT(*) n FROM partidas WHERE estado='jogando' AND contato0 > ? AND contato1 > ?", ag - 120, ag - 120),
       partidas_24h: await um("SELECT COUNT(*) n FROM partidas WHERE criado > ? AND estado IN ('jogando','fim')", ag - 86400),
       na_fila: await um("SELECT COUNT(*) n FROM fila WHERE partida IS NULL AND visto > ?", ag - 30),
-      erros_7d: await um("SELECT COUNT(*) n FROM erros WHERE ts > ?", ag - 7 * 86400) });
+      erros_7d: await um("SELECT COUNT(*) n FROM erros WHERE ts > ?", ag - 7 * 86400),
+      alertas: Object.keys(await pontuacoes(env, ag)).length, punidas: Object.keys(await punicoesTodas(env)).length });
   }
   if (rota === "contas") {
     const q = String(url.searchParams.get("q") || "").trim().toLowerCase();
+    const F = Object.fromEntries(url.searchParams);
+    const pts = await pontuacoes(env, ag), puns = await punicoesTodas(env);
     const linhas = (await env.DB.prepare(`SELECT c.id, c.criado, p.atualizado, p.dados, k.usuario kode, e.email
       FROM contas c LEFT JOIN perfis p ON p.id=c.id LEFT JOIN kodes k ON k.id=c.id LEFT JOIN emails e ON e.id=c.id
       ORDER BY p.atualizado DESC LIMIT 500`).all()).results;
@@ -74,11 +93,51 @@ export async function rotaAdmin(req, env, url, corpo, h) {
       const nome = String(p.nome || "");
       if (q && !(nome.toLowerCase().includes(q) || String(l.kode || "").includes(q) || l.id.startsWith(q) ||
         l.id.slice(0, 6).toLowerCase() === q)) continue;
+      const nivel = nivelDe(p.prog?.xp | 0, D.prog.nivel), visto = l.atualizado | 0, pun = puns[l.id], al = pts[l.id];
+      if (F.atividade === "24h" && visto < ag - 86400) continue;
+      if (F.atividade === "7d" && visto < ag - 7 * 86400) continue;
+      if (F.atividade === "inativa" && visto > ag - 30 * 86400) continue;
+      if (F.ban === "nenhum" && pun) continue;
+      if (F.ban && F.ban !== "nenhum" && F.ban !== "todos" && (!pun || (F.ban !== "qualquer" && pun.tipo !== F.ban))) continue;
+      if ((F.nivel_min | 0) > nivel || (F.moedas_min | 0) > (p.moedas | 0)) continue;
+      if (F.kode === "1" && !l.kode) continue;
+      if (F.email === "1" && !l.email) continue;
+      if (F.alerta === "1" && !al) continue;
       out.push({ id: l.id, curto: l.id.slice(0, 6).toUpperCase(), nome, kode: l.kode || "", email: l.email ? l.email.replace(/^(.).*(@.*)$/, "$1***$2") : "",
-        moedas: p.moedas | 0, koins: p.koins | 0, nivel: nivelDe(p.prog?.xp | 0, D.prog.nivel), criado: l.criado, visto: l.atualizado | 0 });
+        moedas: p.moedas | 0, koins: p.koins | 0, nivel, criado: l.criado, visto, ban: pun ? pun.tipo : "", alerta: al ? al.pts : 0 });
       if (out.length >= 100) break;
     }
     return json({ ok: true, contas: out });
+  }
+  const mm = /^conta\/([0-9a-f]{24})\/(punir|perdoar|nota|revisado)$/.exec(rota);
+  if (mm && req.method === "POST") {
+    const [, id, acao] = mm;
+    if (!(await env.DB.prepare("SELECT 1 FROM contas WHERE id=?").bind(id).first())) return erro("conta não encontrada", 404);
+    if (acao === "punir") {
+      const tipo = String(corpo.tipo || "");
+      if (!["soft", "shadow", "hard"].includes(tipo)) return erro("tipo: soft, shadow ou hard");
+      const dias = Math.max(0, Math.min(3650, Number(corpo.dias) || 0));
+      if (tipo === "soft" && !dias) return erro("soft-ban precisa de dias");
+      const ate = tipo === "hard" ? 0 : dias ? ag + Math.round(dias * 86400) : 0;     // shadow sem dias = até tirar
+      const motivo = String(corpo.motivo || "").trim().slice(0, 300);
+      if (!motivo) return erro("escreva o motivo (fica no registro)");
+      await env.DB.prepare("INSERT INTO punicoes (id, tipo, ate, motivo, ts) VALUES (?, ?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET tipo=excluded.tipo, ate=excluded.ate, motivo=excluded.motivo, ts=excluded.ts")
+        .bind(id, tipo, ate, motivo, ag).run();
+      if (tipo !== "shadow") await env.DB.prepare("DELETE FROM fila WHERE id=?").bind(id).run();
+      await registrar(env, "punir:" + tipo, id, { dias, motivo });
+    } else if (acao === "perdoar") {
+      await env.DB.prepare("DELETE FROM punicoes WHERE id=?").bind(id).run();
+      await registrar(env, "perdoar", id, String(corpo.motivo || ""));
+    } else if (acao === "nota") {
+      const texto = String(corpo.texto || "").trim().slice(0, 1000);
+      if (!texto) return erro("nota vazia");
+      await env.DB.prepare("INSERT INTO notas (id, ts, texto) VALUES (?, ?, ?)").bind(id, ag, texto).run();
+      await registrar(env, "nota", id, texto.slice(0, 120));
+    } else {
+      await env.DB.prepare("INSERT INTO revisoes (id, ts) VALUES (?, ?) ON CONFLICT(id) DO UPDATE SET ts=excluded.ts").bind(id, ag).run();
+      await registrar(env, "revisado", id, "");
+    }
+    return json({ ok: true });
   }
   const mc = /^conta\/([0-9a-f]{24})(\/presente)?$/.exec(rota);
   if (mc) {
@@ -92,8 +151,13 @@ export async function rotaAdmin(req, env, url, corpo, h) {
       const pt = (await env.DB.prepare("SELECT pid, nome0, nome1, estado, vencedor, criado, j0 FROM partidas WHERE j0=? OR j1=? ORDER BY criado DESC LIMIT 8")
         .bind(id, id).all()).results.map((x) => ({ quando: x.criado, contra: x.j0 === id ? x.nome1 : x.nome0, estado: x.estado,
           resultado: x.vencedor < 0 ? "-" : x.vencedor === 2 ? "empate" : (x.vencedor === (x.j0 === id ? 0 : 1) ? "vitória" : "derrota") }));
+      const sinais = (await env.DB.prepare("SELECT ts, tipo, detalhe, peso FROM sinais WHERE id=? ORDER BY ts DESC LIMIT 40").bind(id).all()).results
+        .map((x) => ({ ...x, descricao: DESCRICAO[x.tipo] || x.tipo }));
+      const notas = (await env.DB.prepare("SELECT ts, texto FROM notas WHERE id=? ORDER BY ts DESC LIMIT 30").bind(id).all()).results;
+      const rev = await env.DB.prepare("SELECT ts FROM revisoes WHERE id=?").bind(id).first();
       return json({ ok: true, id, curto: id.slice(0, 6).toUpperCase(), kode: k?.usuario || "",
-        email: e ? e.email.replace(/^(.).*(@.*)$/, "$1***$2") : "", criado: c?.criado | 0, perfil: resumoPerfil(p, D), online: pt });
+        email: e ? e.email.replace(/^(.).*(@.*)$/, "$1***$2") : "", criado: c?.criado | 0, perfil: resumoPerfil(p, D), online: pt,
+        punicao: await punicao(env, id), sinais, notas, revisado: rev?.ts | 0, alerta: (await pontuacoes(env, ag))[id]?.pts | 0 });
     }
     if (req.method !== "POST") return erro("use POST", 405);
     // presente: valores com teto por envio (evita erro de digitação gigante), mensagem obrigatória
@@ -112,6 +176,7 @@ export async function rotaAdmin(req, env, url, corpo, h) {
     (p.correio ||= []).push(carta);
     if (p.correio.length > 30) p.correio = p.correio.slice(-30);
     await gravarPerfil(env, id, p);
+    await registrar(env, "presente", id, { ...it, mensagem: msg });
     return json({ ok: true, carta, perfil: resumoPerfil(p, D) });
   }
   if (rota === "erros") {
@@ -119,5 +184,27 @@ export async function rotaAdmin(req, env, url, corpo, h) {
     return json({ ok: true, erros: r.map((x) => ({ ...x, curto: String(x.id || "").slice(0, 6).toUpperCase() })) });
   }
   if (rota === "cartas") return json({ ok: true, cartas: Object.keys(D.cartas) });
+  if (rota === "alertas") {                         // contas com sinais não revisados, da maior pontuação para a menor
+    const pts = await pontuacoes(env, ag), puns = await punicoesTodas(env);
+    const ids = Object.keys(pts).sort((a, b) => pts[b].pts - pts[a].pts).slice(0, 60);
+    const out = [];
+    for (const id of ids) {
+      const pr = await env.DB.prepare("SELECT json_extract(dados,'$.nome') nome FROM perfis WHERE id=?").bind(id).first();
+      const tipos = (await env.DB.prepare("SELECT tipo, COUNT(*) n, SUM(peso) pts FROM sinais WHERE id=? AND ts > ? GROUP BY tipo ORDER BY pts DESC")
+        .bind(id, ag - 7 * 86400).all()).results.map((x) => ({ ...x, descricao: DESCRICAO[x.tipo] || x.tipo }));
+      out.push({ id, curto: id.slice(0, 6).toUpperCase(), nome: pr?.nome || "", ...pts[id], tipos, ban: puns[id]?.tipo || "" });
+    }
+    return json({ ok: true, alertas: out });
+  }
+  if (rota === "registro") {
+    const r = (await env.DB.prepare(`SELECT l.ts, l.acao, l.alvo, l.detalhe, json_extract(p.dados,'$.nome') nome FROM admin_log l
+      LEFT JOIN perfis p ON p.id=l.alvo ORDER BY l.ts DESC LIMIT 150`).all()).results;
+    return json({ ok: true, registro: r.map((x) => ({ ...x, curto: String(x.alvo || "").slice(0, 6).toUpperCase() })) });
+  }
+  if (rota === "varrer" && req.method === "POST") {
+    const r = await varredura(env);
+    await registrar(env, "varredura manual", "", r);
+    return json({ ok: true, ...r });
+  }
   return erro("rota de admin desconhecida", 404);
 }

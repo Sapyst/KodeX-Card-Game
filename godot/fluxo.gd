@@ -160,6 +160,7 @@ var solo: ModosSolo
 var hist: Historico
 var onl: MenuOnline
 var prg: MenuProgresso
+var _avisou_suspensa := false
 # moedas voando: o contador do Início mostra moedas_vis / koins_vis, que alcançam o valor real quando as moedas chegam
 var moedas_vis := 0
 var koins_vis := 0
@@ -2060,6 +2061,21 @@ func _teste_online(cfg: String) -> void:
 ## Antes, as mensagens do painel de administração (correio): uma por vez, com o presente que veio junto.
 func _avisar_progresso() -> void:
 	if perg.aberto() or OS.get_environment("GD_FLUXO_AUTO") != "":
+		return
+	if not Nuvem.suspensa.is_empty() and not _avisou_suspensa:      # moderação: conta suspensa (soft/hard)
+		_avisou_suspensa = true
+		var en := Sessao.idioma == "en"
+		var s: Dictionary = Nuvem.suspensa
+		var ate := int(s.get("ate", 0))
+		var quando := ("permanently" if en else "para sempre") if str(s.get("tipo", "")) == "hard" or ate <= 0 else \
+			(("until %s" if en else "até %s") % Time.get_datetime_string_from_unix_time(ate + int(Time.get_time_zone_from_system().get("bias", 0)) * 60, true).substr(0, 16))
+		var b: Array = [["titulo", "Account suspended" if en else "Conta suspensa"],
+			["centro", ("Your account can't play online %s." if en else "Sua conta não pode jogar online %s.") % quando]]
+		if str(s.get("motivo", "")) != "":
+			b.append(["centro", ("Reason: %s" if en else "Motivo: %s") % str(s["motivo"])])
+		b.append(["espaco"])
+		b.append(["centro", "Offline modes keep working." if en else "Os modos offline continuam funcionando."])
+		perg.abrir(b)
 		return
 	for c in Sessao.perfil.get("correio", []):
 		if not c.get("lido", false):

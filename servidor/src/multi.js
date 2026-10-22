@@ -1,3 +1,4 @@
+import { sinal } from "./moderacao.js";
 // Multiplayer do KodeX: fila de busca com prioridade por região, aceitar/recusar, sala por código e partida por
 // "passo travado" (lockstep): os dois aparelhos rodam a mesma partida com a mesma semente; aqui só passam as AÇÕES, em
 // ordem (seq). Resposta rápida por long-poll (o pedido espera até 20 s pela próxima novidade).
@@ -14,7 +15,7 @@ const QUEDA = 120;                    // s sem contato = desistência
 
 export const ESQUEMA_MULTI = `
 CREATE TABLE IF NOT EXISTS fila (id TEXT PRIMARY KEY, nome TEXT, deck TEXT, pais TEXT, cont TEXT, entrou INTEGER, visto INTEGER, partida TEXT,
-  foto TEXT);
+  foto TEXT, sombra INTEGER DEFAULT 0);
 CREATE TABLE IF NOT EXISTS partidas (pid TEXT PRIMARY KEY, codigo TEXT, j0 TEXT, j1 TEXT, nome0 TEXT, nome1 TEXT, deck0 TEXT, deck1 TEXT,
   semente INTEGER, primeiro INTEGER, estado TEXT, aceite0 INTEGER DEFAULT 0, aceite1 INTEGER DEFAULT 0, prazo INTEGER,
   contato0 INTEGER, contato1 INTEGER, vencedor INTEGER DEFAULT -1, criado INTEGER, revanche0 INTEGER DEFAULT 0, revanche1 INTEGER DEFAULT 0,
@@ -57,8 +58,9 @@ async function novaPartida(env, a, b, estado, pidFixo) {
 
 // tenta parear quem está na fila (sem partida) com o melhor adversário pela região e pelo tempo de espera
 async function parear(env, eu) {
-  const lista = (await env.DB.prepare("SELECT * FROM fila WHERE partida IS NULL AND id != ? AND visto > ? ORDER BY entrou")
-    .bind(eu.id, agora() - 30).all()).results;
+  // shadow-ban: quem está na "linha de baixo" só encontra quem também está (e os bots do próprio jogo)
+  const lista = (await env.DB.prepare("SELECT * FROM fila WHERE partida IS NULL AND id != ? AND visto > ? AND sombra = ? ORDER BY entrou")
+    .bind(eu.id, agora() - 30, eu.sombra ? 1 : 0).all()).results;
   const espera = agora() - eu.entrou;
   const escolha = lista.find((o) => o.pais === eu.pais) || (espera >= 5 ? lista.find((o) => o.cont === eu.cont) : null) ||
     (espera >= 15 ? lista[0] : null) || (lista.find((o) => agora() - o.entrou >= 15) ?? null);
@@ -83,6 +85,7 @@ async function infoPartida(env, pid, id) {
   if (p.estado === "jogando" && agora() - (eu === 0 ? p.contato1 : p.contato0) > QUEDA) {
     await env.DB.prepare("UPDATE partidas SET estado='fim', vencedor=? WHERE pid=?").bind(eu, pid).run();
     p.estado = "fim"; p.vencedor = eu; p.queda = true;
+    await sinal(env, eu === 0 ? p.j1 : p.j0, "abandono", pid, 1);
   }
   if (p.estado === "aceitar" && agora() > p.prazo) {
     await cancelar(env, p, "tempo");
@@ -108,7 +111,7 @@ async function cancelar(env, p, motivo) {
   }
 }
 
-export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro) {
+export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro, sombra = false) {
   const caminho = url.pathname;
   const contato = async (pid) => {
     const p = await env.DB.prepare("SELECT j0 FROM partidas WHERE pid=?").bind(pid).first();
@@ -116,11 +119,11 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro)
   };
 
   if (caminho === "/v1/mm/buscar" && req.method === "POST") {
-    if (!deckValido(corpo.deck, D.cartas)) return erro("deck inválido (32 cartas)");
+    if (!deckValido(corpo.deck, D.cartas)) { await sinal(env, id, "dados_invalidos", "deck", 2); return erro("deck inválido (32 cartas)"); }
     const { pais, cont } = regiao(req);
-    const eu = { id, nome: nomeDe(corpo, perfil), deck: JSON.stringify(corpo.deck), pais, cont, entrou: agora(), foto: fotoDe(corpo) };
-    await env.DB.prepare("INSERT INTO fila (id, nome, deck, pais, cont, entrou, visto, partida, foto) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?) ON CONFLICT(id) DO UPDATE SET nome=excluded.nome, deck=excluded.deck, pais=excluded.pais, cont=excluded.cont, entrou=excluded.entrou, visto=excluded.visto, partida=NULL, foto=excluded.foto")
-      .bind(eu.id, eu.nome, eu.deck, pais, cont, eu.entrou, eu.entrou, eu.foto).run();
+    const eu = { id, nome: nomeDe(corpo, perfil), deck: JSON.stringify(corpo.deck), pais, cont, entrou: agora(), foto: fotoDe(corpo), sombra: sombra ? 1 : 0 };
+    await env.DB.prepare("INSERT INTO fila (id, nome, deck, pais, cont, entrou, visto, partida, foto, sombra) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?, ?) ON CONFLICT(id) DO UPDATE SET nome=excluded.nome, deck=excluded.deck, pais=excluded.pais, cont=excluded.cont, entrou=excluded.entrou, visto=excluded.visto, partida=NULL, foto=excluded.foto, sombra=excluded.sombra")
+      .bind(eu.id, eu.nome, eu.deck, pais, cont, eu.entrou, eu.entrou, eu.foto, eu.sombra).run();
     const pid = await parear(env, eu);
     return json({ ok: true, pais, cont, pid });
   }
@@ -159,7 +162,7 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro)
     return json({ ok: true, partida: await infoPartida(env, p.pid, id) });
   }
   if (caminho === "/v1/sala/criar" && req.method === "POST") {
-    if (!deckValido(corpo.deck, D.cartas)) return erro("deck inválido (32 cartas)");
+    if (!deckValido(corpo.deck, D.cartas)) { await sinal(env, id, "dados_invalidos", "deck", 2); return erro("deck inválido (32 cartas)"); }
     const letras = "ABCDEFGHJKLMNPQRSTUVWXYZ";
     const codigo = [...crypto.getRandomValues(new Uint8Array(4))].map((b) => letras[b % letras.length]).join("");
     const pid = await novaPartida(env, { id, nome: nomeDe(corpo, perfil), deck: JSON.stringify(corpo.deck), codigo, foto: fotoDe(corpo) }, null, "sala");
@@ -167,7 +170,7 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro)
     return json({ ok: true, codigo, partida: await infoPartida(env, pid, id) });
   }
   if (caminho === "/v1/sala/entrar" && req.method === "POST") {
-    if (!deckValido(corpo.deck, D.cartas)) return erro("deck inválido (32 cartas)");
+    if (!deckValido(corpo.deck, D.cartas)) { await sinal(env, id, "dados_invalidos", "deck", 2); return erro("deck inválido (32 cartas)"); }
     const cod = String(corpo.codigo || "").toUpperCase().trim();
     const p = await env.DB.prepare("SELECT * FROM partidas WHERE codigo=? AND estado='sala' AND prazo > ?").bind(cod, agora()).first();
     if (!p) return erro("sala não encontrada", 404);

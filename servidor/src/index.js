@@ -5,6 +5,7 @@
 import D from "./dados.js";
 import { rotaMulti } from "./multi.js";
 import { rotaAdmin } from "./admin.js";
+import { sinal, punicao, varredura } from "./moderacao.js";
 
 const R = {
   MOEDAS_INICIO: 200, MOEDAS_DIA: 50, ACUMULO_DIAS: 3, KOINS_DIA: 10, KOINS_SEMANA: 100, KOINS_VERSAO: 30, MOEDAS_VERSAO: 50,
@@ -205,7 +206,7 @@ async function premio(env, id, p, d) {
   if (!regra) return { erro: "motivo desconhecido" };
   const hoje = dia();
   const lim = await env.DB.prepare("SELECT n FROM limites WHERE id=? AND dia=? AND motivo=?").bind(id, hoje, d.motivo).first();
-  if ((lim?.n | 0) >= regra.teto) return { moedas: 0, teto: true };
+  if ((lim?.n | 0) >= regra.teto) { await sinal(env, id, "teto_premio", d.motivo, 1); return { moedas: 0, teto: true }; }
   await env.DB.prepare("INSERT INTO limites (id, dia, motivo, n) VALUES (?, ?, ?, 1) ON CONFLICT(id, dia, motivo) DO UPDATE SET n = n + 1")
     .bind(id, hoje, d.motivo).run();
   const out = { moedas: 0, booster: 0, koins: 0 };
@@ -391,6 +392,10 @@ function importarLocal(local) {
 }
 
 export default {
+  // varredura de comportamento alarmante (wrangler.toml → [triggers] crons, a cada 30 min)
+  async scheduled(evento, env, ctx) {
+    ctx.waitUntil(varredura(env));
+  },
   async fetch(req, env) {
     if (req.method === "OPTIONS") return json({});
     const url = new URL(req.url);
@@ -467,6 +472,7 @@ export default {
         if (k.senha_hash !== (await sha(k.sal + corpo.chave_senha))) {
           const f = k.falhas + 1;
           await env.DB.prepare("UPDATE kodes SET falhas=?, bloqueado_ate=? WHERE usuario=?").bind(f % 5, f >= 5 ? Math.floor(agora()) + 900 : 0, u).run();
+          if (f >= 5) await sinal(env, k.id, "kode_bloqueio", u, 2);
           return erro("usuário ou senha errados", 403);
         }
         await env.DB.prepare("UPDATE kodes SET falhas=0 WHERE usuario=?").bind(u).run();
@@ -488,6 +494,10 @@ export default {
       }
       const id = await autenticar(req, env);
       if (!id) return erro("não autenticado", 401);
+      // punição: soft (até uma data) e hard (para sempre) bloqueiam tudo menos excluir a conta; shadow só muda a fila
+      const pun = await punicao(env, id);
+      if (pun && pun.tipo !== "shadow" && url.pathname !== "/v1/apagar")
+        return json({ ok: false, erro: "conta suspensa", suspensa: { tipo: pun.tipo, ate: pun.tipo === "hard" ? 0 : pun.ate, motivo: pun.motivo || "" } }, 403);
       if (url.pathname === "/v1/kode/criar" && req.method === "POST") {        // protege a conta deste aparelho com um Kode
         const u = String(corpo.usuario || "").toLowerCase();
         if (!usuarioValido(u)) return erro("usuário: 3 a 16 letras minúsculas, números ou _");
@@ -512,6 +522,7 @@ export default {
       }
       if (url.pathname === "/v1/op" && req.method === "POST") {
         const res = await op(env, id, p, corpo);
+        if (res.erro && corpo.tipo === "progresso") await sinal(env, id, "progresso_invalido", `${corpo.k}: ${res.erro}`, 3);
         if (!res.erro) await gravarPerfil(env, id, p);
         return json({ ok: !res.erro, resultado: res, perfil: p });
       }
@@ -531,7 +542,7 @@ export default {
         return json({ ok: true, codigo: cod, expira_em: 600 });
       }
       if (url.pathname.startsWith("/v1/mm/") || url.pathname.startsWith("/v1/sala/") || url.pathname.startsWith("/v1/partida/")) {
-        const r = await rotaMulti(req, env, url, corpo, id, p || {}, D, json, erro);
+        const r = await rotaMulti(req, env, url, corpo, id, p || {}, D, json, erro, pun?.tipo === "shadow");
         if (r) return r;
       }
       if (url.pathname === "/v1/apagar" && req.method === "POST") {   // excluir a conta (exigência da Play Store)

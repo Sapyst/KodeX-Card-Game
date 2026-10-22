@@ -78,7 +78,8 @@ func botao_linha(b: Dictionary, r: Rect2, pressao: float) -> void:
 	var p: Dictionary = Sessao.perfil["historico"][b["hist_k"]]
 	var res: String = p.get("resultado", "")
 	var cor: Color = Color("#3a8a4a") if res == "vitoria" else (Color("#8a3a3a") if res == "derrota" else Color("#5a5a60"))
-	var dentro: Rect2 = f._painel(r, false, pressao, Color("#1e161e"))
+	var fundo := Color("#1a2a1c") if res == "vitoria" else (Color("#2e1618") if res == "derrota" else Color("#1e161e"))   # verde / vermelho
+	var dentro: Rect2 = f._painel(r, false, pressao, fundo)
 	f.draw_rect(Rect2(dentro.position, Vector2(18, dentro.size.y)), cor)
 	PixelFonte.centrado(f, Vector2(dentro.position.x + 9, dentro.get_center().y), {"vitoria": "V", "derrota": "D"}.get(res, "E"), Color.WHITE, 1)
 	var contra := str(p.get("adversario", "?"))
@@ -91,6 +92,9 @@ func botao_linha(b: Dictionary, r: Rect2, pressao: float) -> void:
 	Fonte57.desenhar(f, dentro.position + Vector2(24, 3), contra, f.CREME, f.ESCURO)
 	var info := "%s  ·  %s  ·  %d %s" % [_data(int(p.get("t", 0))), nome_modo(str(p.get("modo", ""))), int(p.get("turnos", 0)), Sessao.t("turnos")]
 	Fonte57.desenhar(f, dentro.position + Vector2(24, 15), info, Color(0.72, 0.66, 0.6), f.ESCURO)
+	var rt: String = _l({"vitoria": ["VITÓRIA", "WIN"], "derrota": ["DERROTA", "LOSS"]}.get(res, ["EMPATE", "DRAW"]))
+	PixelFonte.desenhar(f, Vector2(dentro.end.x - PixelFonte.largura(rt) - 6, dentro.position.y + 4), rt,
+		Color("#7fcf8a") if res == "vitoria" else (Color("#ff8a7a") if res == "derrota" else Color("#a89a8e")))
 
 
 func _nome_carta(cid: String) -> String:

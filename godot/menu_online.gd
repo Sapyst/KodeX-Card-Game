@@ -28,6 +28,9 @@ func _deck() -> Array:
 
 
 func _pronto() -> bool:
+	if not Nuvem.suspensa.is_empty():
+		f.mp.avisar(Sessao.t("Sua conta está suspensa do online."))
+		return false
 	if not Nuvem.ativo():
 		f.mp.avisar(Sessao.t("Sem conexão com o servidor do jogo."))
 		return false

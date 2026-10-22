@@ -17,6 +17,7 @@ var url := ""
 var id := ""
 var _segredo := ""
 var online := false                            # último pedido chegou ao servidor
+var suspensa := {}                             # {tipo, ate, motivo}: conta suspensa pela moderação (soft/hard)
 var _livres_pendente := false
 
 
@@ -314,4 +315,7 @@ func _pedir_uma(metodo: String, caminho: String, corpo := {}, relativo := true, 
 		return {}
 	online = true
 	var d = JSON.parse_string((res[3] as PackedByteArray).get_string_from_utf8())
+	if d is Dictionary and str(d.get("erro", "")) == "conta suspensa" and suspensa.is_empty():
+		suspensa = d.get("suspensa", {})
+		mudou.emit()
 	return d if d is Dictionary else {}

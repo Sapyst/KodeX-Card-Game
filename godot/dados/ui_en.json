@@ -522,5 +522,6 @@
  "ajuda a corrigir; vai só o texto do erro": "helps fix it; only the error text is sent",
  "Enviado. Obrigado!": "Sent. Thank you!",
  "Sem conexão. Tente de novo depois.": "No connection. Try again later.",
- "Vença %s": "Beat %s"
+ "Vença %s": "Beat %s",
+ "Sua conta está suspensa do online.": "Your account is suspended from online play."
 }

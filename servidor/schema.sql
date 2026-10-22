@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS kodes (usuario TEXT PRIMARY KEY, id TEXT NOT NULL, sa
 
 -- multiplayer: fila de busca, partidas (lockstep) e ações em ordem
 CREATE TABLE IF NOT EXISTS fila (id TEXT PRIMARY KEY, nome TEXT, deck TEXT, pais TEXT, cont TEXT, entrou INTEGER, visto INTEGER, partida TEXT,
-  foto TEXT);
+  foto TEXT, sombra INTEGER DEFAULT 0);
 CREATE TABLE IF NOT EXISTS partidas (pid TEXT PRIMARY KEY, codigo TEXT, j0 TEXT, j1 TEXT, nome0 TEXT, nome1 TEXT, deck0 TEXT, deck1 TEXT,
   semente INTEGER, primeiro INTEGER, estado TEXT, aceite0 INTEGER DEFAULT 0, aceite1 INTEGER DEFAULT 0, prazo INTEGER,
   contato0 INTEGER, contato1 INTEGER, vencedor INTEGER DEFAULT -1, criado INTEGER, revanche0 INTEGER DEFAULT 0, revanche1 INTEGER DEFAULT 0,
@@ -27,3 +27,12 @@ CREATE TABLE IF NOT EXISTS acoes (pid TEXT, seq INTEGER, jogador INTEGER, dados 
 -- relatórios de erro que a pessoa escolheu enviar (Opções > Relatório de erros); ler com:
 -- npx wrangler d1 execute kodex --local --command "SELECT ts, versao, so, texto FROM erros ORDER BY ts DESC LIMIT 5"
 CREATE TABLE IF NOT EXISTS erros (id TEXT, ts INTEGER, versao TEXT, so TEXT, texto TEXT);
+
+-- moderação: sinais de comportamento alarmante, punições, revisões, notas, registro do painel e última olhada
+CREATE TABLE IF NOT EXISTS sinais (id TEXT, dia INTEGER, ts INTEGER, tipo TEXT, detalhe TEXT, peso INTEGER, UNIQUE (id, dia, tipo, detalhe));
+CREATE INDEX IF NOT EXISTS sinais_id ON sinais (id);
+CREATE TABLE IF NOT EXISTS punicoes (id TEXT PRIMARY KEY, tipo TEXT, ate INTEGER, motivo TEXT, ts INTEGER);
+CREATE TABLE IF NOT EXISTS revisoes (id TEXT PRIMARY KEY, ts INTEGER);
+CREATE TABLE IF NOT EXISTS notas (id TEXT, ts INTEGER, texto TEXT);
+CREATE TABLE IF NOT EXISTS admin_log (ts INTEGER, acao TEXT, alvo TEXT, detalhe TEXT);
+CREATE TABLE IF NOT EXISTS vistos (id TEXT PRIMARY KEY, ts INTEGER, moedas INTEGER, xp INTEGER);

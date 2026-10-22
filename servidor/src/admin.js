@@ -60,8 +60,15 @@ export async function rotaAdmin(req, env, url, corpo, h) {
       "x-robots-tag": "noindex", "content-security-policy": "default-src 'self' 'unsafe-inline'; img-src 'self' data:" } });
   if (!url.pathname.startsWith("/admin/api/")) return null;
   const chave = (req.headers.get("authorization") || "").replace(/^Admin /, "");
+  // trava contra chute: 5 senhas erradas na mesma conexão = 1 hora bloqueada (a senha é curta)
+  const ip = req.headers.get("cf-connecting-ip") || "local";
+  const ipk = "adm:" + [...new Uint8Array(await crypto.subtle.digest("SHA-256", enc.encode("kodex-adm:" + ip)))].slice(0, 12).map((b) => b.toString(16).padStart(2, "0")).join("");
+  const hora = Math.floor(Date.now() / 3600000);
+  const tent = await env.DB.prepare("SELECT n FROM limites WHERE id=? AND dia=? AND motivo='admin_falha'").bind(ipk, hora).first();
+  if ((tent?.n | 0) >= 5) return erro("muitas tentativas erradas: espere 1 hora", 429);
   if (!(await senhaOk(env, chave))) {
-    await new Promise((r) => setTimeout(r, 800));              // senha errada: espera (atrapalha chute em massa)
+    await env.DB.prepare("INSERT INTO limites (id, dia, motivo, n) VALUES (?, ?, 'admin_falha', 1) ON CONFLICT(id, dia, motivo) DO UPDATE SET n = n + 1").bind(ipk, hora).run();
+    await new Promise((r) => setTimeout(r, 800));
     return erro("senha de admin errada", 401);
   }
   const rota = url.pathname.slice("/admin/api/".length);

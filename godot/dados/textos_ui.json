@@ -3643,5 +3643,20 @@
   "en": "Your 12 words (press and hold to copy):",
   "pt": "Suas 12 palavras (segure para copiar):",
   "es": "Tus 12 palabras (mantén pulsado para copiar):"
+ },
+ "Som: ligado": {
+  "en": "Sound: on",
+  "pt": "Som: ligado",
+  "es": "Sonido: activado"
+ },
+ "Som: desligado": {
+  "en": "Sound: off",
+  "pt": "Som: desligado",
+  "es": "Sonido: desactivado"
+ },
+ "Sair do jogo?": {
+  "en": "Quit the game?",
+  "pt": "Sair do jogo?",
+  "es": "¿Salir del juego?"
  }
 }

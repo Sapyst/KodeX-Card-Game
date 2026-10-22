@@ -1,5 +1,30 @@
 [
  {
+  "versao": "0.20.1-alpha",
+  "data": "22/10/2026",
+  "pt": [
+   "O jogo agora tem som! Comprar e distribuir cartas, cartas caindo na mesa, ataques, golpes diretos, mortes, curas, Selos, Ritos, Lendárias, vitória, derrota, menus e boosters. Tudo feito do zero, e cada tradição soa diferente.",
+   "Opções > Som: ligado ou desligado.",
+   "Gesto de voltar do Android: fecha o que estiver aberto, volta uma tela e pausa a partida. No Início, pergunta se você quer sair.",
+   "O jogo não fica mais por baixo da barra de status, da câmera nem da barra de gestos.",
+   "Versão web: ao girar o celular, o jogo se ajusta à tela na hora."
+  ],
+  "en": [
+   "The game has sound now! Drawing and dealing cards, cards landing on the table, attacks, direct hits, deaths, heals, Seals, Rites, Legendaries, victory, defeat, menus and boosters. All made from scratch, and every tradition sounds different.",
+   "Options > Sound: on or off.",
+   "Android back gesture: closes whatever is open, goes back one screen and pauses the match. On Home, it asks if you want to quit.",
+   "The game no longer sits under the status bar, the camera or the gesture bar.",
+   "Web version: rotate your phone and the game fits the screen right away."
+  ],
+  "es": [
+   "¡El juego ahora tiene sonido! Robar y repartir cartas, cartas cayendo en la mesa, ataques, golpes directos, muertes, curaciones, Sellos, Ritos, Legendarias, victoria, derrota, menús y sobres. Todo hecho desde cero, y cada tradición suena distinta.",
+   "Opciones > Sonido: activado o desactivado.",
+   "Gesto de volver de Android: cierra lo que esté abierto, vuelve una pantalla y pausa la partida. En Inicio, te pregunta si quieres salir.",
+   "El juego ya no queda debajo de la barra de estado, la cámara ni la barra de gestos.",
+   "Versión web: al girar el celular, el juego se ajusta a la pantalla al instante."
+  ]
+ },
+ {
   "versao": "0.20.0-alpha",
   "data": "22/10/2026",
   "pt": [

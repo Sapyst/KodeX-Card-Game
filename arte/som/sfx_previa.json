@@ -1,0 +1,322 @@
+[
+ {
+  "nome": "carta_comprar_1",
+  "ini": 0.0,
+  "dur": 0.23
+ },
+ {
+  "nome": "carta_comprar_2",
+  "ini": 0.68,
+  "dur": 0.23
+ },
+ {
+  "nome": "carta_comprar_3",
+  "ini": 1.36,
+  "dur": 0.23
+ },
+ {
+  "nome": "carta_comprar_4",
+  "ini": 2.04,
+  "dur": 0.23
+ },
+ {
+  "nome": "deck_cascata",
+  "ini": 2.72,
+  "dur": 1.3596145124716554
+ },
+ {
+  "nome": "embaralhar_corte_1",
+  "ini": 4.529614512471655,
+  "dur": 0.24
+ },
+ {
+  "nome": "embaralhar_corte_2",
+  "ini": 5.219614512471655,
+  "dur": 0.24
+ },
+ {
+  "nome": "embaralhar_corte_3",
+  "ini": 5.909614512471656,
+  "dur": 0.24
+ },
+ {
+  "nome": "carta_cair_campo_leve",
+  "ini": 6.599614512471655,
+  "dur": 0.62
+ },
+ {
+  "nome": "carta_cair_campo_medio",
+  "ini": 7.6696145124716555,
+  "dur": 0.62
+ },
+ {
+  "nome": "carta_cair_campo_pesado",
+  "ini": 8.739614512471656,
+  "dur": 0.62
+ },
+ {
+  "nome": "selo_colocar",
+  "ini": 9.809614512471656,
+  "dur": 0.17
+ },
+ {
+  "nome": "ataque_investida",
+  "ini": 10.429614512471655,
+  "dur": 0.25
+ },
+ {
+  "nome": "ataque_impacto_leve_1",
+  "ini": 11.129614512471655,
+  "dur": 0.08
+ },
+ {
+  "nome": "ataque_impacto_leve_2",
+  "ini": 11.659614512471656,
+  "dur": 0.08
+ },
+ {
+  "nome": "ataque_impacto_medio_1",
+  "ini": 12.189614512471655,
+  "dur": 0.18
+ },
+ {
+  "nome": "ataque_impacto_medio_2",
+  "ini": 12.819614512471656,
+  "dur": 0.18
+ },
+ {
+  "nome": "ataque_impacto_pesado_1",
+  "ini": 13.449614512471655,
+  "dur": 0.9049886621315193
+ },
+ {
+  "nome": "ataque_impacto_pesado_2",
+  "ini": 14.804603174603175,
+  "dur": 0.9049886621315193
+ },
+ {
+  "nome": "golpe_direto_1",
+  "ini": 16.159591836734695,
+  "dur": 1.2499773242630385
+ },
+ {
+  "nome": "golpe_direto_2",
+  "ini": 17.859569160997733,
+  "dur": 1.3399773242630386
+ },
+ {
+  "nome": "golpe_direto_3",
+  "ini": 19.64954648526077,
+  "dur": 1.4299773242630385
+ },
+ {
+  "nome": "cornucopia_dano_1",
+  "ini": 21.52952380952381,
+  "dur": 0.36997732426303853
+ },
+ {
+  "nome": "cornucopia_dano_2",
+  "ini": 22.34950113378685,
+  "dur": 0.43997732426303854
+ },
+ {
+  "nome": "cornucopia_dano_3",
+  "ini": 23.239478458049888,
+  "dur": 0.5099773242630385
+ },
+ {
+  "nome": "cornucopia_cura",
+  "ini": 24.199455782312924,
+  "dur": 0.64
+ },
+ {
+  "nome": "entidade_morte_indigena",
+  "ini": 25.289455782312924,
+  "dur": 0.444172335600907
+ },
+ {
+  "nome": "entidade_morte_cristianismo",
+  "ini": 26.183628117913834,
+  "dur": 0.639795918367347
+ },
+ {
+  "nome": "entidade_morte_taoismo",
+  "ini": 27.273424036281178,
+  "dur": 0.5138095238095238
+ },
+ {
+  "nome": "entidade_morte_hinduismo",
+  "ini": 28.237233560090704,
+  "dur": 0.561859410430839
+ },
+ {
+  "nome": "entidade_morte_bruxaria",
+  "ini": 29.24909297052154,
+  "dur": 0.5067573696145125
+ },
+ {
+  "nome": "entidade_morte_alta_magia",
+  "ini": 30.205850340136056,
+  "dur": 0.592108843537415
+ },
+ {
+  "nome": "entidade_morte_abismo",
+  "ini": 31.24795918367347,
+  "dur": 1.6
+ },
+ {
+  "nome": "turno_inicio_meu",
+  "ini": 33.29795918367347,
+  "dur": 2.1
+ },
+ {
+  "nome": "turno_inicio_dele",
+  "ini": 35.84795918367347,
+  "dur": 2.1
+ },
+ {
+  "nome": "efeito_dano_comum",
+  "ini": 38.39795918367347,
+  "dur": 0.12
+ },
+ {
+  "nome": "efeito_dano_fogo",
+  "ini": 38.96795918367347,
+  "dur": 0.34997732426303857
+ },
+ {
+  "nome": "efeito_dano_trovao",
+  "ini": 39.76793650793651,
+  "dur": 1.6299773242630387
+ },
+ {
+  "nome": "efeito_dano_sagrado",
+  "ini": 41.847913832199545,
+  "dur": 1.6
+ },
+ {
+  "nome": "efeito_dano_sombrio",
+  "ini": 43.89791383219955,
+  "dur": 1.5
+ },
+ {
+  "nome": "efeito_cura_comum",
+  "ini": 45.847913832199545,
+  "dur": 1.5099773242630385
+ },
+ {
+  "nome": "efeito_cura_celestial",
+  "ini": 47.80789115646259,
+  "dur": 2.7599773242630388
+ },
+ {
+  "nome": "efeito_cura_natureza",
+  "ini": 51.017868480725625,
+  "dur": 1.519954648526077
+ },
+ {
+  "nome": "efeito_cura_agua",
+  "ini": 52.9878231292517,
+  "dur": 1.84
+ },
+ {
+  "nome": "efeito_buff",
+  "ini": 55.2778231292517,
+  "dur": 1.28
+ },
+ {
+  "nome": "vitrine_carta_comum",
+  "ini": 57.0078231292517,
+  "dur": 1.8
+ },
+ {
+  "nome": "vitrine_carta_ameaca",
+  "ini": 59.2578231292517,
+  "dur": 1.8
+ },
+ {
+  "nome": "selo_revelar",
+  "ini": 61.5078231292517,
+  "dur": 2.31
+ },
+ {
+  "nome": "rito_lancar",
+  "ini": 64.2678231292517,
+  "dur": 2.183333333333333
+ },
+ {
+  "nome": "lendaria_entrada_minha",
+  "ini": 66.90115646258504,
+  "dur": 3.6
+ },
+ {
+  "nome": "lendaria_entrada_dele",
+  "ini": 70.95115646258503,
+  "dur": 3.6
+ },
+ {
+  "nome": "vitoria",
+  "ini": 75.00115646258503,
+  "dur": 3.9499773242630387
+ },
+ {
+  "nome": "derrota",
+  "ini": 79.40113378684808,
+  "dur": 3.8399773242630384
+ },
+ {
+  "nome": "transicao_tela",
+  "ini": 83.69111111111111,
+  "dur": 0.3
+ },
+ {
+  "nome": "botao_1",
+  "ini": 84.44111111111111,
+  "dur": 0.04
+ },
+ {
+  "nome": "botao_2",
+  "ini": 84.93111111111111,
+  "dur": 0.04
+ },
+ {
+  "nome": "pergaminho_abrir",
+  "ini": 85.42111111111112,
+  "dur": 0.39997732426303856
+ },
+ {
+  "nome": "moedas_voando",
+  "ini": 86.27108843537415,
+  "dur": 0.7431519274376417
+ },
+ {
+  "nome": "booster_comprar",
+  "ini": 87.4642403628118,
+  "dur": 0.48
+ },
+ {
+  "nome": "booster_cortar",
+  "ini": 88.39424036281179,
+  "dur": 0.18
+ },
+ {
+  "nome": "booster_rasgar",
+  "ini": 89.0242403628118,
+  "dur": 0.45
+ },
+ {
+  "nome": "booster_cartas_saem",
+  "ini": 89.92424036281179,
+  "dur": 0.48
+ },
+ {
+  "nome": "booster_revelar_comum",
+  "ini": 90.8542403628118,
+  "dur": 0.12
+ },
+ {
+  "nome": "booster_revelar_raro",
+  "ini": 91.42424036281179,
+  "dur": 2.26
+ }
+]

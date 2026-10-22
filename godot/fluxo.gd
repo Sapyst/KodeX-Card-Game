@@ -454,6 +454,8 @@ func _process(delta: float) -> void:
 
 # ================= estados =================
 func _ir(novo: String) -> void:
+	if novo != estado:
+		Som.tocar("transicao_tela")
 	estado = novo
 	RegistroErros.contexto = "menu:" + novo
 	t_estado = 0.0
@@ -476,22 +478,24 @@ func _ir(novo: String) -> void:
 				get_tree().create_timer(0.5).timeout.connect(_avisos_titulo)
 		"opcoes":
 			_botao(Rect2(110, 150, 140, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("opcoes"), {"idioma": true})
-			_botao(Rect2(90, 190, 180, 26), "Vibração: ligada" if Sessao.vibracao else "Vibração: desligada",
+			_botao(Rect2(90, 190, 180, 26), "Som: ligado" if Sessao.som else "Som: desligado",
+				func() -> void: Sessao.alternar_som(); _ir("opcoes"); transicao = 0.0)
+			_botao(Rect2(90, 222, 180, 26), "Vibração: ligada" if Sessao.vibracao else "Vibração: desligada",
 				func() -> void: Sessao.alternar_vibracao(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 222, 180, 26), "Animações: rápidas" if Sessao.animacao_rapida else "Animações: normais",
+			_botao(Rect2(90, 254, 180, 26), "Animações: rápidas" if Sessao.animacao_rapida else "Animações: normais",
 				func() -> void: Sessao.alternar_animacao(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 254, 180, 26), "Texto: grande" if Sessao.texto_grande else "Texto: normal",
+			_botao(Rect2(90, 286, 180, 26), "Texto: grande" if Sessao.texto_grande else "Texto: normal",
 				func() -> void: Sessao.alternar_texto(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 286, 180, 26), "Modo daltônico: ligado" if Sessao.daltonico else "Modo daltônico: desligado",
+			_botao(Rect2(90, 318, 180, 26), "Modo daltônico: ligado" if Sessao.daltonico else "Modo daltônico: desligado",
 				func() -> void: Sessao.alternar_daltonico(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 318, 180, 26), "Tempo por turno: 75 s" if Sessao.tempo_turno else "Tempo por turno: sem limite",
+			_botao(Rect2(90, 350, 180, 26), "Tempo por turno: 75 s" if Sessao.tempo_turno else "Tempo por turno: sem limite",
 				func() -> void: Sessao.alternar_tempo_turno(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 360, 180, 26), "Novidades", abrir_novidades.bind(true))
-			_botao(Rect2(90, 392, 180, 26), "Privacidade", abrir_privacidade)
+			_botao(Rect2(90, 392, 180, 26), "Novidades", abrir_novidades.bind(true))
+			_botao(Rect2(90, 424, 180, 26), "Privacidade", abrir_privacidade)
 			var ne := RegistroErros.quantos()
-			_botao(Rect2(90, 424, 180, 26), (Sessao.t("Relatório de erros") + " (%d)" % ne) if ne > 0 else Sessao.t("Nenhum erro registrado"), _relatorio_erros)
+			_botao(Rect2(90, 456, 180, 26), (Sessao.t("Relatório de erros") + " (%d)" % ne) if ne > 0 else Sessao.t("Nenhum erro registrado"), _relatorio_erros)
 			if Nuvem.url != "":                          # conta na nuvem (só quando há servidor)
-				_botao(Rect2(90, 456, 180, 26), "Conta e login", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
+				_botao(Rect2(90, 488, 180, 26), "Conta e login", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
@@ -1549,12 +1553,41 @@ func soltar_toque(p: Vector2) -> void:
 	apertado = -1                                # já consumido: um segundo "soltar" não dispara de novo
 	if (b["rect"] as Rect2).grow(8).has_point(p):
 		vibrar(18, 0.6)
+		Som.tocar("botao")
 		_soltando = b
 		await get_tree().create_timer(0.07).timeout
 		_soltando = {}
 		(b["acao"] as Callable).call()
 	else:
 		apertado = -1
+
+
+## Voltar do Android: fecha caixas e pergaminhos, usa o botão Voltar/Cancelar da tela, volta para o Início;
+## no Início pergunta se quer sair. Telas de animação/história ignoram.
+func voltar() -> void:
+	if not pedido.is_empty():
+		_fim_pedido("")
+		return
+	if not confirma.is_empty():
+		confirma = {}
+		return
+	if perg.aberto():
+		perg.fechar()
+		return
+	if estado in ["capitulo", "falas", "creditos", "booster", "recorte", "chave", "pere_premio", "escolha_deck"]:
+		return
+	for b in botoes:
+		if str(b.get("texto", "")) in ["Voltar", "Cancelar"]:
+			Som.tocar("botao")
+			(b["acao"] as Callable).call()
+			return
+	if estado in ["titulo", "entrada"]:
+		confirmar(Sessao.t("Sair do jogo?"), "", func() -> void: get_tree().quit())
+		return
+	if barra_visivel():
+		trocar_aba(0)
+		return
+	_ir("titulo")
 
 
 ## Compatibilidade com o teste automático: toque completo (encostar + soltar).
@@ -2255,6 +2288,7 @@ func _atualizar_moedas(delta: float) -> void:
 				voando.append({"tipo": i, "de": de + Vector2(randf_range(-30, 30), randf_range(-20, 20)), "para": para,
 					"t": -k * 0.06 - i * 0.3, "dur": 0.7, "valor": parte, "curva": randf_range(-80, 80)})
 			vibrar(15, 0.4)
+			Som.tocar("moedas_voando", "", 0.0, 0.35)
 	for v in voando:
 		v["t"] += delta
 		if v["t"] >= v["dur"]:

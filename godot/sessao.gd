@@ -52,11 +52,25 @@ signal formato_mudou(largo: bool)
 var largo := false
 
 
+## Gesto/botão de voltar do Android: a tela atual decide (fecha o que está aberto, volta uma tela, pausa a partida);
+## sem tratamento, não faz nada (o app não fecha sozinho).
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		var cena := get_tree().current_scene
+		if cena and cena.has_method("voltar"):
+			cena.voltar()
+
+
 func _ajustar_escala() -> void:
 	var w := get_tree().root
 	var tam := Vector2(w.size)
 	var novo := tam.x > tam.y * 1.05
-	w.content_scale_stretch = Window.CONTENT_SCALE_STRETCH_FRACTIONAL if novo else Window.CONTENT_SCALE_STRETCH_INTEGER
+	var st := Window.CONTENT_SCALE_STRETCH_FRACTIONAL if novo else Window.CONTENT_SCALE_STRETCH_INTEGER
+	if w.content_scale_stretch != st:
+		w.content_scale_stretch = st
+		var tam_base := w.content_scale_size                 # no navegador a troca só vale depois de recalcular o tamanho:
+		w.content_scale_size = tam_base + Vector2i(1, 0)       # muda e desfaz para forçar o recálculo da escala
+		w.content_scale_size = tam_base
 	if novo != largo:
 		largo = novo
 		formato_mudou.emit(largo)
@@ -82,6 +96,7 @@ func _ready() -> void:
 	if cfg.load(CONFIG) == OK:
 		idioma = str(cfg.get_value("geral", "idioma", ""))
 		vibracao = bool(cfg.get_value("geral", "vibracao", true))
+		som = bool(cfg.get_value("geral", "som", true))
 		texto_grande = bool(cfg.get_value("geral", "texto_grande", false))
 		tempo_turno = bool(cfg.get_value("geral", "tempo_turno", true))
 		daltonico = bool(cfg.get_value("geral", "daltonico", false))
@@ -148,6 +163,7 @@ func carregar_dados() -> void:
 
 ## Opções (user://config.cfg): vibração ligada/desligada e animações normais/rápidas (a mesa roda 1,5× mais rápido).
 var vibracao := true
+var som := true                         # efeitos sonoros (autoload Som)
 var animacao_rapida := false
 var texto_grande := false              # acessibilidade: textos longos em 2× (Fonte57.grande)
 var tempo_turno := true                # limite de 75 s por turno contra a IA (online é sempre ligado)
@@ -167,6 +183,13 @@ func alternar_vibracao() -> void:
 	_gravar_opcao("vibracao", vibracao)
 	if vibracao:
 		vibrar(40, 0.6)
+
+
+func alternar_som() -> void:
+	som = not som
+	_gravar_opcao("som", som)
+	if som:
+		Som.tocar("botao")
 
 
 func alternar_tempo_turno() -> void:

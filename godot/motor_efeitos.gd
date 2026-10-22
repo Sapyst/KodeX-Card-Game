@@ -501,9 +501,19 @@ func pos_dano(e: Carta, n: int, fonte, atacante) -> void:
 	prof_dano -= 1
 
 
+## Tradição da fonte de um efeito (carta, relíquia ou dados), para o som variar: fogo, trovão, luz, sombra...
+func _trad(fonte) -> String:
+	if fonte is Carta:
+		return (fonte as Carta).cultura
+	if fonte is Dictionary:
+		return str(fonte.get("cultura", fonte.get("dados", {}).get("cultura", "") if fonte.get("dados") is Dictionary else ""))
+	return ""
+
+
 func dano_cornucopia(idx: int, n: int) -> void:
 	if n <= 0:
 		return
+	Som.tocar("cornucopia_dano", "1" if n <= 2 else ("2" if n <= 4 else "3"))
 	m.cornucopia[idx] -= n
 	m.placar_pulo[idx] = 1.0
 	m.tremor = maxf(m.tremor, 3.0)
@@ -646,6 +656,8 @@ func executar_acao(a: Dictionary, ctx: Dictionary) -> void:
 			if op == "damage":
 				var n := int(a["n"])
 				var pend: Array = []
+				Som.tocar("efeito_dano", {"hinduismo": "fogo", "indigena": "trovao", "cristianismo": "sagrado", "bruxaria": "sombrio",
+					"alta_magia": "sombrio", "abismo": "sombrio"}.get(_trad(fonte), "comum"))
 				for t in lista:
 					await _feixe(fonte, t, COR_DANO)
 					if t is Carta and t.em_campo:
@@ -683,6 +695,7 @@ func aplicar_em_alvo(op: String, a: Dictionary, t, ctx: Dictionary) -> void:
 	match op:
 		"heal":
 			var n := int(a["n"])
+			Som.tocar("efeito_cura", {"cristianismo": "celestial", "indigena": "natureza", "taoismo": "agua"}.get(_trad(ctx.get("fonte")), "comum"))
 			if t is Carta and t.em_campo:
 				t.dano = maxi(0, t.dano - n)
 				m.efeitos.numero(t.position + Vector2(0, -20), "+%d" % n, COR_CURA)
@@ -709,6 +722,10 @@ func aplicar_em_alvo(op: String, a: Dictionary, t, ctx: Dictionary) -> void:
 					t.temp_vida += vi
 				t.sincronizar()
 				var neg := at < 0 or vi < 0
+				if neg:
+					Som.tocar("efeito_dano", "sombrio", -4.0)
+				else:
+					Som.tocar("efeito_buff")
 				m.efeitos.numero(t.position + Vector2(0, -20), rotulo(a), COR_DEBUFF if neg else COR_BUFF, 1)
 				m.efeitos.faiscas(t.position, 10, COR_DEBUFF if neg else COR_BUFF)
 				m._piscar(t)

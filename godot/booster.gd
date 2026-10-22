@@ -52,6 +52,7 @@ func y_corte() -> float:
 # ---------------- ciclo ----------------
 func comprar(gratis := false) -> void:
 	var r: Array = []
+	Som.tocar("booster_comprar")
 	if Nuvem.ativo():                              # online: o servidor sorteia (e cobra); o jogo só anima
 		if gratis and Sessao.boosters_gratis() <= 0:
 			gratis = false
@@ -201,6 +202,9 @@ func mover(p: Vector2) -> void:
 		peca = {"pos": Vector2.ZERO, "vel": Vector2(randf_range(60, 140) * (1 if inclina >= 0 else -1), -340), "rot": 0.0,
 			"w": randf_range(3.0, 6.0) * (1 if inclina >= 0 else -1)}
 		f.vibrar(45, 0.8)
+		Som.tocar("booster_cortar")
+		Som.tocar("booster_rasgar", "", 0.0, 0.12)
+		Som.tocar("booster_cartas_saem", "", 0.0, 0.6)
 		_mudar("rasga")
 
 
@@ -209,6 +213,7 @@ func _virar(k: int) -> void:
 	c["virada"] = true
 	c["t_virou"] = t
 	var lend: bool = Sessao.db["cartas"][c["id"]]["lendaria"]
+	Som.tocar("booster_revelar", "raro" if lend or c["foil"] else "comum")
 	var p := Vector2(X_CARTAS[k], Y_CARTAS)
 	if c["foil"]:
 		for i in 5:

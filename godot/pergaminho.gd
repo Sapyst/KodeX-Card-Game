@@ -74,6 +74,7 @@ func abrir(blocos: Array, ao_fechar := Callable(), extra := {}) -> void:
 	_blocos = blocos
 	_ao_fechar = ao_fechar
 	_extra = extra
+	Som.tocar("pergaminho_abrir")
 	if _papel == null:
 		_papel = _gerar_papel()
 	_montar()

@@ -601,6 +601,7 @@ func _z_monte() -> void:
 
 # ---------------- deck: cascata ----------------
 func _cascata_deck() -> void:
+	Som.tocar("deck_cascata")
 	for i in N_CARTAS:
 		var c := _nova_carta(Vector2(CENTRO.x + rng_vis.randf_range(-70, 70), -90), 1.0)
 		c.rotation = rng_vis.randf_range(-0.6, 0.6)
@@ -670,6 +671,7 @@ func _riffle() -> void:
 func _cortes() -> void:
 	# 3 cortes: um bloco de baixo sai pela direita, sobe e cai por cima do monte
 	for k in 3:
+		Som.tocar("embaralhar_corte")
 		var tam := rng_vis.randi_range(7, 12)
 		var bloco: Array[Carta] = deck_jog.slice(0, tam)
 		for c in bloco:
@@ -769,6 +771,8 @@ func _comprar_mao() -> void:
 			var ficha: Array = [["entidade", 3, 4], ["entidade", 2, 3], ["selo", 0, 0], ["rito", 0, 0]][k]
 			c.tipo = ficha[0]; c.atk = ficha[1]; c.defe = ficha[2]; c.dono = 0
 		mao_jog.append(c)
+		Som.tocar("carta_comprar")                         # mão inicial: mesmo material do embaralhar
+		Som.tocar("carta_comprar", "", -8.0, 0.06)         # a do oponente, mais longe
 		var t0 := create_tween()
 		t0.tween_property(c, "position:y", c.position.y - 10, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		t0.parallel().tween_property(c, "levantada", 0.6, 0.12)
@@ -1221,6 +1225,10 @@ func _cair(c: Carta, dest: Vector2, para_cima: bool) -> void:
 
 
 func _impacto(c: Carta, dest: Vector2, forca: float) -> void:
+	if not c.virada_para_cima:                          # Selo virado: seco e abafado
+		Som.tocar("selo_colocar")
+	else:
+		Som.tocar("carta_cair_campo", "leve" if c.custo <= 3 or forca < 1.0 else ("medio" if c.custo <= 6 else "pesado"), -3.0 if forca < 1.0 else 0.0)
 	var e := c.scale.x
 	var t := create_tween()
 	t.tween_property(c, "scale", Vector2(e * 1.08, e * 0.9), 0.05)
@@ -1256,6 +1264,7 @@ func _atacar(c: Carta, alvo: Carta) -> void:
 	t.tween_property(c, "position", ini - dir * 8, 0.14).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	t.tween_property(c, "scale", c.scale * 1.12, 0.14)
 	t.tween_property(c, "levantada", 0.8, 0.14)
+	Som.tocar("ataque_investida")
 	await t.finished
 	var contato := alvo.position - dir * 22
 	var t2 := create_tween()
@@ -1264,6 +1273,9 @@ func _atacar(c: Carta, alvo: Carta) -> void:
 	# impacto (simultâneo)
 	var da := c.atk
 	var dd := alvo.atk
+	Som.tocar("ataque_impacto", "leve" if da <= 2 else ("medio" if da <= 4 else "pesado"))
+	if dd > 0:                                           # contragolpe
+		Som.tocar("ataque_impacto", "leve" if dd <= 2 else ("medio" if dd <= 4 else "pesado"), -6.0, 0.03)
 	alvo.dano += da
 	c.dano += dd
 	tremor = 3.5
@@ -1317,6 +1329,7 @@ func _destruir(c: Carta) -> void:
 		t.tween_property(c, "brilho", 1.0, 0.06)
 		t.tween_property(c, "brilho", 0.2, 0.08)
 		await t.finished
+	Som.tocar("entidade_morte", c.cultura if c.cultura != "" else "indigena")
 	efeitos.estilhacar(c.position, c.cores_estilhaco(), int(Carta.LARG * c.scale.x), int(Carta.ALT * c.scale.y))
 	Sessao.vibrar(45, 0.8)
 	tremor = 2.5
@@ -1440,6 +1453,7 @@ func _golpe_direto(c: Carta, alvo_dono: int) -> void:
 	t2.tween_property(c, "position", alvo + Vector2(0, 26 if alvo_dono == 1 else -26), 0.13).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 	await t2.finished
 	cornucopia[alvo_dono] -= c.atk
+	Som.tocar("golpe_direto", "1" if c.atk <= 2 else ("2" if c.atk <= 4 else "3"))
 	placar_pulo[alvo_dono] = 1.0
 	tremor = 5.0
 	Sessao.vibrar(60, 1.0)
@@ -1499,6 +1513,7 @@ func _lancar_rito(c: Carta, alvo_idx: int) -> void:
 func _vitoria() -> void:
 	await get_tree().create_timer(0.3).timeout
 	Sessao.vibrar_pulsos(3, 40, 0.8, 0.09)
+	Som.tocar("vitoria")
 	efeitos.faixa = "VITÓRIA"
 	efeitos.faixa_t = 0.0
 	_preparar_fim(0)
@@ -1515,6 +1530,7 @@ func _vitoria() -> void:
 
 func _derrota() -> void:
 	await get_tree().create_timer(0.3).timeout
+	Som.tocar("derrota")
 	tremor = 6.0
 	efeitos.flash(Color("#300010"), 0.6)
 	var t := create_tween().set_parallel(true)
@@ -1779,6 +1795,7 @@ func _partida() -> void:
 ## Início do turno: Fé máx +1 (teto 8) e restaura; o 2º jogador ganha +1 Fé temporária no 1º turno dele;
 ## Entidades acordam (congeladas perdem este turno); compra 1 (quem começa não compra no 1º turno); "início do turno".
 func _inicio_turno(d: int) -> void:
+	Som.tocar("turno_inicio", "meu" if d == 0 else "dele")
 	if d == 0 and acelerar_ia:
 		acelerar_ia = false
 		aplicar_tempo()
@@ -2016,6 +2033,7 @@ func _receber_comprada(d: int, c: Carta, queimar := true) -> void:
 		cemiterio[d] += 1
 		return
 	mao.append(c)
+	Som.tocar("carta_comprar", "", 0.0 if d == 0 else -7.0)
 	var t0 := create_tween()
 	t0.tween_property(c, "position:y", c.position.y - 10, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	t0.parallel().tween_property(c, "levantada", 0.6, 0.12)
@@ -2133,6 +2151,7 @@ func _revelar_selo(s: Carta) -> void:
 	if modo_partida:
 		hud.registrar(s.dono, s.id, "selo_revelado")
 	s.z_index = 760
+	Som.tocar("selo_revelar")
 	Sessao.vibrar(30, 0.6)
 	efeitos.flash(Color("#7a5aa8"), 0.22)
 	var e := s.scale.x
@@ -2174,6 +2193,8 @@ func _vitrine(c: Carta, dur := 1.15, cor := Color("#ffe39a")) -> void:
 	if tex == null or acabou:
 		return
 	efeitos.vitrine = {"tex": tex, "de": c.global_position, "t": 0.0, "dur": dur, "cor": cor}
+	if c.tipo != "selo" and c.tipo != "rito":            # Selo e Rito já têm som próprio
+		Som.tocar("vitrine_carta", "ameaca" if c.dono == 1 else "comum")
 	Sessao.vibrar(10, 0.3)
 	await get_tree().create_timer(dur).timeout
 	efeitos.vitrine = {}
@@ -2528,6 +2549,7 @@ func _jogar_selo(c: Carta, d: int, i: int) -> void:
 ## efeito (alvo já escolhido pelo arraste em `pre`) → cemitério.
 func _jogar_rito(c: Carta, d: int, pre = null, tipo_pre := "") -> void:
 	_conta(d, "ritos")
+	Som.tocar("rito_lancar")
 	hud.registrar(d, c.id, "rito")
 	_pagar(d, c.custo)
 	_mao_de(d).erase(c)
@@ -3117,6 +3139,22 @@ func aplicar_tempo() -> void:
 	Engine.time_scale = 0.0 if pausado else v
 
 
+## Voltar do Android na partida: fecha carta ampliada, cemitério, pergaminho ou menu; senão abre o menu de pausa.
+func voltar() -> void:
+	if zoom_travado:
+		zoom_travado = false
+		efeitos.zoom = null
+	elif carrossel.aberto():
+		carrossel.fechar()
+	elif perg.aberto():
+		perg.fechar()
+	elif hud.menu != "":
+		hud._acao_menu("continuar")
+	elif not acabou and modo_partida:
+		hud.menu = "pausa"
+		pausar(true)
+
+
 func pausar(sim: bool) -> void:
 	pausado = sim and not online_partida()        # online o jogo não para (o outro lado continua)
 	aplicar_tempo()
@@ -3229,6 +3267,7 @@ func _mulligan() -> void:
 ## Lendária entrando em campo: o HUD mostra a carta grande com raios (2 s); vibra e treme no impacto.
 func _entrada_lendaria(c: Carta) -> void:
 	hud.entrada_lendaria(c)
+	Som.tocar("lendaria_entrada", "minha" if c.dono == 0 else "dele")
 	Sessao.vibrar_pulsos(2, 40, 0.8, 0.08)
 	await get_tree().create_timer(0.45).timeout
 	tremor = 6.0

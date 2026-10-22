@@ -1,5 +1,18 @@
 [
  {
+  "versao": "0.20.2-alpha",
+  "data": "22/10/2026",
+  "pt": [
+   "Opções > Sincronizar conta: crie ou entre com seu Kode para salvar o progresso na nuvem e levar para outro aparelho. Google, E-mail e Apple chegam na versão final."
+  ],
+  "en": [
+   "Options > Sync account: create or sign in with your Kode to save your progress in the cloud and take it to another device. Google, E-mail and Apple arrive in the final version."
+  ],
+  "es": [
+   "Opciones > Sincronizar cuenta: crea o entra con tu Kode para guardar tu progreso en la nube y llevarlo a otro dispositivo. Google, E-mail y Apple llegan en la versión final."
+  ]
+ },
+ {
   "versao": "0.20.1-alpha",
   "data": "22/10/2026",
   "pt": [

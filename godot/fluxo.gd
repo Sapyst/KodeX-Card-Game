@@ -216,7 +216,8 @@ var hist: Historico
 var onl: MenuOnline
 var ent: MenuEntrada
 var volta_conta := "conta"
-var criando_perfil := false                # 1ª vez: o perfil vira a tela dedicada "Crie seu perfil" (sem moedas/histórico)               # "entrada": o Kode foi aberto pela tela de entrada
+var criando_perfil := false
+var _y_nota_conta := 400.0                # 1ª vez: o perfil vira a tela dedicada "Crie seu perfil" (sem moedas/histórico)               # "entrada": o Kode foi aberto pela tela de entrada
 var prg: MenuProgresso
 var _avisou_suspensa := false
 # moedas voando: o contador do Início mostra moedas_vis / koins_vis, que alcançam o valor real quando as moedas chegam
@@ -495,7 +496,7 @@ func _ir(novo: String) -> void:
 			var ne := RegistroErros.quantos()
 			_botao(Rect2(90, 456, 180, 26), (Sessao.t("Relatório de erros") + " (%d)" % ne) if ne > 0 else Sessao.t("Nenhum erro registrado"), _relatorio_erros)
 			if Nuvem.url != "":                          # conta na nuvem (só quando há servidor)
-				_botao(Rect2(90, 488, 180, 26), "Conta e login", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
+				_botao(Rect2(90, 488, 180, 26), "Sincronizar conta", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
@@ -631,24 +632,32 @@ func _ir(novo: String) -> void:
 		"progresso":
 			prg.botoes()
 		"conta":
-			var y := 150
-			var itens: Array = []
+			# Sincronizar conta: o Kode é hoje o único jeito de salvar na nuvem; Google, E-mail e Apple aparecem em cinza
+			var y := 150.0
+			var x := 60.0
+			var w := 240.0
 			if Nuvem.kode == "":
-				itens.append(["Criar Kode (usuário e senha)", _criar_kode])
-			itens.append(["Entrar com Kode", _entrar_kode])
-			itens.append(["Trocar ou recuperar senha", _recuperar_kode])
-			itens.append(["Ligar email" if Nuvem.email_mask == "" else "Trocar email", _email.bind(false)])
-			itens.append(["Entrar com email", _email.bind(true)])
-			itens.append(["Código para outro aparelho", _codigo_conta])
-			itens.append(["Usar código de aparelho", _usar_codigo_aparelho])
-			for it in itens:
-				_botao(Rect2(70, y, 220, 26), it[0], it[1])
+				_botao(Rect2(x, y, w, 28), "", _criar_kode, {"desenho": ent._botao_entrada.bind("kode", "Criar Kode (usuário e senha)", true, true)})
+				y += 34
+			_botao(Rect2(x, y, w, 28), "", _entrar_kode, {"desenho": ent._botao_entrada.bind("kode", "Entrar com Kode", true, false)})
+			y += 34
+			_botao(Rect2(x, y, w, 26), "Trocar ou recuperar senha", _recuperar_kode)
+			y += 40
+			for it in [["google", "Google"], ["email", "E-mail"], ["apple", "Apple"]]:
+				_botao(Rect2(x, y, w, 28), "", func() -> void: mp.avisar(Sessao.t("Disponível na versão final do jogo.")),
+					{"desenho": ent._botao_entrada.bind(it[0], it[1], false, false)})
 				y += 32
-			_botao(Rect2(70, y + 14, 220, 26), "Excluir conta", func() -> void:
+			_y_nota_conta = y + 2
+			y += 30
+			_botao(Rect2(x, y, w, 26), "Código para outro aparelho", _codigo_conta)
+			y += 30
+			_botao(Rect2(x, y, w, 26), "Usar código de aparelho", _usar_codigo_aparelho)
+			y += 30
+			_botao(Rect2(70, y + 8, 220, 26), "Excluir conta", func() -> void:
 				confirmar(Sessao.t("Excluir a conta?"), Sessao.t("apaga o progresso no servidor"), func() -> void:
 					if await Nuvem.apagar_conta():
 						mp.avisar(Sessao.t("Conta excluída.")); _ir("opcoes")))
-			_botao(Rect2(110, y + 54, 140, 26), "Voltar", func() -> void: _ir("opcoes"))
+			_botao(Rect2(110, y + 44, 140, 26), "Voltar", func() -> void: _ir("opcoes"))
 		"sugerir":
 			for i in 6:
 				var d: String = Sessao.DECKS[i]
@@ -1837,10 +1846,15 @@ func _draw() -> void:
 		"progresso":
 			prg.desenhar()
 		"conta":
-			_cabecalho(Sessao.t("Conta"), (Sessao.t("online") + " · " + Nuvem.id_curto()) if Nuvem.online else Sessao.t("sem conexão"))
+			_cabecalho(Sessao.t("Sincronizar conta"), (Sessao.t("online") + " · " + Nuvem.id_curto()) if Nuvem.online else Sessao.t("sem conexão"))
 			_texto_central(Vector2(180, 104), Sessao.t("Kode") + ": " + (Nuvem.kode if Nuvem.kode != "" else Sessao.t("não criado")), Color("#e0c0ff"))
-			_texto_central(Vector2(180, 118), Sessao.t("Email") + ": " + (Nuvem.email_mask if Nuvem.email_mask != "" else Sessao.t("não ligado")), Color("#9ad0ff"))
-			_texto_central(Vector2(180, 134), Sessao.t("Sem conta, você joga como convidado neste aparelho."), Color(0.72, 0.66, 0.6))
+			var expl := Sessao.t("Com um Kode seu progresso fica salvo na nuvem e vai com você para outro aparelho.") if Nuvem.kode == "" \
+				else Sessao.t("Seu progresso está salvo na nuvem com este Kode.")
+			var ls := Fonte57.quebrar(expl, 300)
+			for k in mini(ls.size(), 2):
+				_texto_central(Vector2(180, 120 + k * 11), ls[k], Color(0.72, 0.66, 0.6))
+			for k in Fonte57.quebrar(Sessao.t("Google, E-mail e Apple estarão disponíveis na versão final do jogo."), 300).size():
+				_texto_central(Vector2(180, _y_nota_conta + 4 + k * 11), Fonte57.quebrar(Sessao.t("Google, E-mail e Apple estarão disponíveis na versão final do jogo."), 300)[k], Color(0.62, 0.57, 0.62))
 		"capitulo":
 			_desenhar_capitulo()
 		"creditos":

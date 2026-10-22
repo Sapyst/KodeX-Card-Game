@@ -2055,7 +2055,7 @@
   "es": "Crear Kode (usuario y contraseña)"
  },
  "Entrar com Kode": {
-  "en": "Log in with Kode",
+  "en": "Sign in with Kode",
   "pt": "Entrar com Kode",
   "es": "Entrar con Kode"
  },
@@ -3658,5 +3658,25 @@
   "en": "Quit the game?",
   "pt": "Sair do jogo?",
   "es": "¿Salir del juego?"
+ },
+ "Sincronizar conta": {
+  "en": "Sync account",
+  "pt": "Sincronizar conta",
+  "es": "Sincronizar cuenta"
+ },
+ "Com um Kode seu progresso fica salvo na nuvem e vai com você para outro aparelho.": {
+  "en": "With a Kode your progress is saved in the cloud and goes with you to another device.",
+  "pt": "Com um Kode seu progresso fica salvo na nuvem e vai com você para outro aparelho.",
+  "es": "Con un Kode tu progreso queda guardado en la nube y te acompaña a otro dispositivo."
+ },
+ "Seu progresso está salvo na nuvem com este Kode.": {
+  "en": "Your progress is saved in the cloud with this Kode.",
+  "pt": "Seu progresso está salvo na nuvem com este Kode.",
+  "es": "Tu progreso está guardado en la nube con este Kode."
+ },
+ "Google, E-mail e Apple estarão disponíveis na versão final do jogo.": {
+  "en": "Google, E-mail and Apple will be available in the final version of the game.",
+  "pt": "Google, E-mail e Apple estarão disponíveis na versão final do jogo.",
+  "es": "Google, E-mail y Apple estarán disponibles en la versión final del juego."
  }
 }

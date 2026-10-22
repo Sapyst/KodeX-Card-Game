@@ -22,6 +22,7 @@ const PREMIOS = {
   enigma: { teto: 12 },
   choronzon: { teto: 3 },
   online: { teto: 10 },              // partida online: o servidor confere o resultado na tabela partidas
+  bot: { teto: 10, moedas: (d) => [20, 5, 10][clamp(d.res | 0, 0, 2)] },   // busca online sem ninguém: partida contra bot
 };
 const MOEDAS_ONLINE = [20, 5, 10];   // vitória, derrota, empate
 const LIVRES = ["nome", "tem_foto", "decks", "deck_ativo", "verso", "novas", "pacote", "tarcade", "torneio", "versao_vista",

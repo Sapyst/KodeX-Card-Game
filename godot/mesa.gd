@@ -3253,6 +3253,12 @@ func _resumo() -> void:
 		b.append(["espaco"])
 		b.append(["destaque", "+%d" % Sessao.moedas_arcade(), "moeda"])
 		b.append(["centro", "Arcade coins" if en else "moedas do Arcade"])
+	if Sessao.modo == "bot":                           # prêmio igual ao online (vitória 20, derrota 5, empate 10)
+		var ganho: int = [20, 5, 10][0 if vencedor == 0 else (1 if vencedor == 1 else 2)]
+		Sessao.premio("bot", {"res": 0 if vencedor == 0 else (1 if vencedor == 1 else 2)}, ganho)
+		b.append(["espaco"])
+		b.append(["destaque", "+%d" % ganho, "moeda"])
+		b.append(["centro", "online match coins" if en else "moedas da partida online"])
 	_blocos_progresso(b)
 	perg.abrir(b)
 	await perg.fechou
@@ -3724,7 +3730,7 @@ var _relogio_us := 0
 
 
 func _limite_turno() -> bool:
-	return modo_partida and tut == null and Sessao.modo != "enigma" and (online_partida() or Sessao.tempo_turno)
+	return modo_partida and tut == null and Sessao.modo != "enigma" and (online_partida() or Sessao.modo == "bot" or Sessao.tempo_turno)
 
 
 func online_partida() -> bool:
@@ -3793,10 +3799,12 @@ func _registrar_partida() -> void:
 	var p: Dictionary = Sessao.personagem(Sessao.oponente)
 	if online_partida():
 		p = {"nome": str(online_info.get("adversario", "?"))}
+	elif Sessao.modo == "bot":
+		p = {"nome": str(p.get("nome", Sessao.oponente)) + " - Bot"}
 	var jog := func(d: int) -> int:
 		return int(estat[d].get("entidades", 0)) + int(estat[d].get("selos", 0)) + int(estat[d].get("ritos", 0)) + int(estat[d].get("reliquias", 0))
 	prog_eventos = Sessao.registrar_partida({
-		"t": int(Time.get_unix_time_from_system()), "modo": Sessao.modo, "contra": "jogador" if online_partida() else "ia",
+		"t": int(Time.get_unix_time_from_system()), "modo": Sessao.modo, "contra": "jogador" if online_partida() else ("bot" if Sessao.modo == "bot" else "ia"),
 		"adversario": str(p.get("nome", Sessao.nome_deck(Sessao.oponente))), "nivel": int(nivel_ia[1]),
 		"resultado": Sessao.resultado, "turnos": turno_n, "duracao": int((Time.get_ticks_msec() - _inicio_ms) / 1000),
 		"deck": Sessao.deck_jogador_nome, "deck_op": Sessao.oponente,
@@ -4220,7 +4228,7 @@ func _preparar_retratos() -> void:
 				ret_tex[1] = ImageTexture.create_from_image(im)
 		return
 	var op := Sessao.oponente
-	ret_nome[1] = str(Sessao.personagem(op).get("nome", Sessao.nome_deck(op)))
+	ret_nome[1] = str(Sessao.personagem(op).get("nome", Sessao.nome_deck(op))) + (" - Bot" if Sessao.modo == "bot" else "")
 	if Carta.textura("retrato", op, "png") != null:
 		ret_tex[1] = ImageTexture.create_from_image(MenuPerfil.imagem_avatar(op))
 	elif op == "choronzon":

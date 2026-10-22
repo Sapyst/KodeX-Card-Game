@@ -5,6 +5,7 @@ extends RefCounted
 ## voltar a uma partida que ficou aberta (app fechou no meio). Usa o deck em uso. Servidor: servidor/src/multi.js.
 
 const TEMPO_ACEITAR := 12.0
+const BOT_APOS := 30.0                 # s de busca sem ninguém até oferecer um bot (marcado "Nome - Bot")
 
 var f
 var fase := ""                 # "" | "buscando" | "encontrada" | "sala" | "conectando"
@@ -115,6 +116,7 @@ func buscar() -> void:
 
 
 func _laco_busca(g: int) -> void:
+	_oferecer_bot(g)
 	while g == _ger:
 		var e: Dictionary = await Nuvem.mp("GET", "/v1/mm/estado", {}, 30.0)
 		if g != _ger:
@@ -152,7 +154,39 @@ func _prazo(g: int) -> void:
 		_mudar("")
 
 
+## Ninguém em BOT_APOS s: aparece "Partida encontrada! contra X - Bot" (aceitar entra na partida contra a IA com nome de
+## bot; recusar ou deixar passar volta a buscar gente e só oferece de novo depois de mais 30 s).
+func _oferecer_bot(g: int) -> void:
+	await f.get_tree().create_timer(BOT_APOS).timeout
+	if g != _ger or fase != "buscando":
+		return
+	var op: String = Sessao.DECKS[randi() % Sessao.DECKS.size()]
+	partida = {"bot": true, "oponente": op, "adversario": str(Sessao.personagem(op).get("nome", op)) + " - Bot"}
+	aceitei = false
+	_ger += 1
+	var gb := _ger
+	_mudar("encontrada")
+	Sessao.vibrar_pulsos(2, 40, 0.8)
+	await f.get_tree().create_timer(TEMPO_ACEITAR + 0.5).timeout
+	if gb == _ger and fase == "encontrada" and not aceitei:     # deixou passar: continua buscando gente
+		_voltar_a_buscar()
+
+
+func _voltar_a_buscar() -> void:
+	_ger += 1
+	var g := _ger
+	aceitei = false
+	_mudar("buscando")
+	await _laco_busca(g)
+
+
 func aceitar() -> void:
+	if partida.get("bot", false):                    # bot: sai da fila de gente e joga contra a IA
+		_ger += 1
+		Nuvem.mp("POST", "/v1/mm/cancelar", {})
+		Sessao.preparar_bot(str(partida["oponente"]), _deck())
+		f._jogar()
+		return
 	var g := _ger
 	aceitei = true
 	f._ir("online")
@@ -180,6 +214,9 @@ func aceitar() -> void:
 
 
 func recusar() -> void:
+	if partida.get("bot", false):                    # recusou o bot: segue buscando gente (a fila no servidor continua)
+		_voltar_a_buscar()
+		return
 	_ger += 1
 	Nuvem.mp("POST", "/v1/mm/responder", {"pid": partida.get("pid", ""), "aceitar": false})
 	_mudar("")

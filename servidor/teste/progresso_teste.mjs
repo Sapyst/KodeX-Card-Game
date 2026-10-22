@@ -1,7 +1,7 @@
 // confere o pagamento da progressão no servidor: missão do dia certa paga 1×, missão de outro dia não, teto de 3/dia,
 // nível paga 1×, conquista paga 1× e dá título, sequência de dias no presente
 import { readFileSync } from "node:fs";
-const U = "http://127.0.0.1:8787";
+const U = process.argv[2] || "http://127.0.0.1:8787";
 const D = JSON.parse(readFileSync("/mnt/d/Projetos de Jogos/GodsKodex/servidor/src/dados.js", "utf8").replace(/^[\s\S]*?export default /, "").replace(/;\s*$/, ""));
 let falhas = 0; const ok = (c, m) => { console.log((c ? "OK      " : "FALHOU  ") + m); if (!c) falhas++; };
 const r0 = await (await fetch(U + "/v1/conta", { method: "POST", body: "{}" })).json();

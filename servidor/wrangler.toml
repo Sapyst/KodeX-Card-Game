@@ -6,4 +6,10 @@ compatibility_date = "2026-10-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "kodex"
-database_id = "local-ate-publicar"      # trocar pelo id real em `npx wrangler d1 create kodex`
+database_id = "ccf5bf10-6829-4558-b2ad-8e4b45bf6ba6"   # banco na Cloudflare (o do PC fica em .wrangler/)
+
+# Na Cloudflare (plano grátis: 10 ms de CPU por pedido) o long-poll confere a cada 300 ms por até 10 s.
+# No PC (`wrangler dev`) o arquivo .dev.vars troca para 50 ms / 20 s.
+[vars]
+POLL_MS = "300"
+ESPERA_S = "10"

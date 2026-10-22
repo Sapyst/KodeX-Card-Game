@@ -218,6 +218,10 @@ func _ready() -> void:
 		_pos_luta_arcade()
 	elif Sessao.resultado != "" and Sessao.modo == "arcade_t":
 		ta.pos_partida()
+	elif Sessao.resultado != "" and Sessao.modo == "bot":
+		Sessao.modo = ""
+		Sessao.resultado = ""
+		_ir("online")
 	elif Sessao.resultado != "" and Sessao.modo in ModosSolo.MODOS:
 		_ir("titulo")
 		_avisos_feitos = true

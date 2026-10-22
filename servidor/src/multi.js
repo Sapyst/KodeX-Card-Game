@@ -125,7 +125,7 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro)
     return json({ ok: true, pais, cont, pid });
   }
   if (caminho === "/v1/mm/estado") {                    // long-poll: devolve quando achar partida (ou em 20 s)
-    for (let k = 0; k < ESPERA_POLL * 2; k++) {
+    for (let k = 0; k < parseInt(env.ESPERA_S || "20", 10) * 2; k++) {
       const f = await env.DB.prepare("SELECT * FROM fila WHERE id=?").bind(id).first();
       if (!f) return json({ ok: true, estado: "fora" });
       if (k % 4 === 0) await env.DB.prepare("UPDATE fila SET visto=? WHERE id=?").bind(agora(), id).run();
@@ -185,7 +185,7 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro)
     if (sub === "" ) {                                  // long-poll do estado (sala esperando o amigo, revanche...)
       const desde = String(url.searchParams.get("estado") || "");
       const rev = String(url.searchParams.get("rev") || "");
-      for (let k = 0; k < ESPERA_POLL * 2; k++) {
+      for (let k = 0; k < parseInt(env.ESPERA_S || "20", 10) * 2; k++) {
         const i = await infoPartida(env, pid, id);
         if (i.estado !== desde || (rev !== "" && rev !== String(i.revanche)) || i.revanche_pid) return json({ ok: true, partida: i });
         await dormir(500);
@@ -213,12 +213,14 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro)
     }
     if (sub === "/acoes") {                            // long-poll: ações com seq > desde
       const desde = parseInt(url.searchParams.get("desde") || "0", 10);
-      for (let k = 0; k < ESPERA_POLL * 20; k++) {        // confere a cada 50 ms: a jogada chega quase na hora
+      // confere a cada POLL_MS (PC: 50 ms; Cloudflare grátis: 300 ms, para caber no limite de CPU) durante até ESPERA_S
+      const passo = Math.max(20, parseInt(env.POLL_MS || "50", 10)), voltas = Math.ceil(parseInt(env.ESPERA_S || "20", 10) * 1000 / passo);
+      for (let k = 0; k < voltas; k++) {
         const r = (await env.DB.prepare("SELECT seq, jogador, dados FROM acoes WHERE pid=? AND seq > ? ORDER BY seq").bind(pid, desde).all()).results;
         const i = await infoPartida(env, pid, id);
         if (r.length || i.estado !== "jogando") return json({ ok: true, acoes: r.map((a) => ({ seq: a.seq, jogador: a.jogador, dados: JSON.parse(a.dados) })), partida: i });
-        await dormir(50);
-        if (k % 40 === 39) await contato(pid);
+        await dormir(passo);
+        if (k % Math.ceil(2000 / passo) === 0) await contato(pid);
       }
       return json({ ok: true, acoes: [], partida: await infoPartida(env, pid, id) });
     }

@@ -6,7 +6,7 @@ extends RefCounted
 
 const MODOS := {"arcade": ["Arcade", "Arcade"], "arcade_t": ["Torneio de 8", "8-player Tournament"], "torneio": ["Torneio", "Tournament"],
 	"peregrinacao": ["Peregrinação", "Pilgrimage"], "diario": ["Desafio do dia", "Daily challenge"], "lendario": ["Lendário", "Legendary"],
-	"livre": ["Modo livre", "Free mode"], "choronzon": ["Choronzon", "Choronzon"], "online": ["Online", "Online"]}
+	"livre": ["Modo livre", "Free mode"], "choronzon": ["Choronzon", "Choronzon"], "online": ["Online", "Online"], "bot": ["Online (bot)", "Online (bot)"]}
 const NIVEIS := [["Aprendiz", "Apprentice"], ["Mestre", "Master"], ["Arquimago", "Archmage"]]
 const POR_TELA := 9
 
@@ -82,7 +82,9 @@ func botao_linha(b: Dictionary, r: Rect2, pressao: float) -> void:
 	f.draw_rect(Rect2(dentro.position, Vector2(18, dentro.size.y)), cor)
 	PixelFonte.centrado(f, Vector2(dentro.position.x + 9, dentro.get_center().y), {"vitoria": "V", "derrota": "D"}.get(res, "E"), Color.WHITE, 1)
 	var contra := str(p.get("adversario", "?"))
-	if p.get("contra", "ia") == "ia":
+	if p.get("contra", "ia") == "bot":
+		pass                                             # o nome já termina em " - Bot"
+	elif p.get("contra", "ia") == "ia":
 		contra += "  ·  " + Sessao.t("IA") + " " + _l(NIVEIS[clampi(int(p.get("nivel", 1)), 0, 2)])
 	else:
 		contra += "  ·  " + Sessao.t("jogador")

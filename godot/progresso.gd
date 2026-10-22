@@ -164,7 +164,7 @@ static func partida(reg: Dictionary) -> Array:
 		"entidades": int(st.get("entidades", 0)), "ritos": int(st.get("ritos", 0)), "selos": int(st.get("selos", 0)),
 		"reliquias": int(st.get("reliquias", 0)), "golpes": int(st.get("golpes", 0)), "lendarias": int(st.get("lendarias", 0)),
 		"dano": maxi(0, int(st.get("dano", 0))), "mortes": int(st.get("mortes", 0))}
-	var online: bool = reg.get("contra", "") == "jogador"
+	var online: bool = reg.get("contra", "") in ["jogador", "bot"]      # bot também conta como partida online
 	if online:
 		inc["online_partidas"] = 1
 		inc["online_vitorias"] = int(venceu)

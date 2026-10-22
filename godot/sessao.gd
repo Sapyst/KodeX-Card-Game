@@ -513,6 +513,19 @@ func preparar_online(info: Dictionary, retomar := false) -> void:
 	online_salvo(str(info.get("pid", "")))
 
 
+## Partida contra bot (busca online sem ninguém): IA Mestre com o deck temático e o nome do personagem + " - Bot".
+## Conta como online nas missões, paga o prêmio online (teto do dia no servidor) e entra no histórico como bot.
+func preparar_bot(op: String, meu: Array) -> void:
+	modo = "bot"
+	oponente = op
+	deck_jogador = meu.duplicate()
+	deck_jogador_nome = tradicao_do_deck(deck_jogador)
+	deck_oponente = montar_deck(op)
+	dificuldade = 1
+	extras = {}
+	resultado = ""
+
+
 ## Foto do perfil para o adversário online: JPEG 60×80 em base64 (~3 KB). "" = sem foto (ele vê a silhueta).
 func foto_online() -> String:
 	if not perfil.get("tem_foto", false) or not FileAccess.file_exists(FOTO):

@@ -126,7 +126,7 @@ func emote_jogador(k: int) -> void:
 	fala_jog = {"texto": EMOTES[k][1 if Sessao.idioma == "en" else 0], "t": 0.0}
 	Sessao.vibrar(10, 0.3)
 	if m.online_partida():                             # online: a fala vai para o adversário (gente de verdade)
-		m.rede.enviar({"tipo": "emote", "k": k})
+		m.rede.enviar_emote(k)
 		return
 	if Sessao.modo != "" and randf() < 0.6:            # o oponente responde 60% das vezes, 1,2 s depois
 		var p: Dictionary = Sessao.personagem(Sessao.oponente)

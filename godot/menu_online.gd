@@ -108,7 +108,7 @@ func buscar() -> void:
 	var g := _ger
 	aceitei = false
 	_mudar("buscando")
-	var r: Dictionary = await Nuvem.mp("POST", "/v1/mm/buscar", {"deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "foto": Sessao.foto_online()}, 10.0)
+	var r: Dictionary = await Nuvem.mp("POST", "/v1/mm/buscar", {"deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "foto": Sessao.foto_online(), "juiz": true}, 10.0)
 	if g != _ger:
 		return
 	if not r.get("ok", false):
@@ -239,7 +239,7 @@ func criar_sala() -> void:
 	_ger += 1
 	var g := _ger
 	_mudar("conectando")
-	var r: Dictionary = await Nuvem.mp("POST", "/v1/sala/criar", {"deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "foto": Sessao.foto_online()}, 10.0)
+	var r: Dictionary = await Nuvem.mp("POST", "/v1/sala/criar", {"deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "foto": Sessao.foto_online(), "juiz": true}, 10.0)
 	if g != _ger:
 		return
 	if not r.get("ok", false):
@@ -280,7 +280,7 @@ func entrar_sala(cod := "") -> void:
 	_ger += 1
 	var g := _ger
 	_mudar("conectando")
-	var r: Dictionary = await Nuvem.mp("POST", "/v1/sala/entrar", {"codigo": cod.to_upper(), "deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "foto": Sessao.foto_online()}, 10.0)
+	var r: Dictionary = await Nuvem.mp("POST", "/v1/sala/entrar", {"codigo": cod.to_upper(), "deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "foto": Sessao.foto_online(), "juiz": true}, 10.0)
 	if g != _ger:
 		return
 	if not r.get("ok", false):

@@ -2196,7 +2196,7 @@ func _desenhar_cortina(v: float) -> void:
 			var c := base + Vector2(gx * cel, gy * cel)
 			var atraso := c.distance_to(centro) / dmax * 0.5
 			var u := clampf((v - atraso) / 0.5, 0.0, 1.0)
-			if u <= 0.0:
+			if u <= 0.04:                                 # losango pequeno demais não triangula
 				continue
 			var s := u * cel * 1.02
 			draw_colored_polygon(PackedVector2Array([c + Vector2(0, -s), c + Vector2(s, 0), c + Vector2(0, s), c + Vector2(-s, 0)]), cor)

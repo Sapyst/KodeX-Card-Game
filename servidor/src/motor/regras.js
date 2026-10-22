@@ -267,12 +267,12 @@ export class Partida {
     if (queimar && this.mao[d].length >= MAO_MAX) {   // mão cheia: a comprada queima (vai aberta ao cemitério)
       this.cemit[d].push({ dados: c.dados, no: null });
       c._liberada = true;
-      this.revelar([0, 1], { r: "compra", lado: d, id: c.id, queima: true });
+      this.revelar([0, 1], { r: "compra", lado: d, id: c.id, queima: true, sr: c.sem_renascer });
       this.ev("queima", { jogador: d, uid: c.uid, id: c.id });
       return;
     }
     this.mao[d].push(c);
-    this.revelar([d], { r: "compra", lado: d, id: c.id });          // só quem comprou vê qual é
+    this.revelar([d], { r: "compra", lado: d, id: c.id, sr: c.sem_renascer });   // só quem comprou vê qual é (e se já usou o Renascer)
     this.ev("compra", { jogador: d, uid: c.uid, id: c.id });
   }
   entrarNaMao(d, c) {

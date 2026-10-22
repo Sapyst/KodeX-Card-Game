@@ -21,6 +21,11 @@ var suspensa := {}                             # {tipo, ate, motivo}: conta susp
 var _livres_pendente := false
 
 
+## Credencial da conta para a sala da partida (WebSocket; vai na URL, só por HTTPS).
+func credencial() -> String:
+	return "KDX %s:%s" % [id, _segredo]
+
+
 func ativo() -> bool:
 	return url != "" and id != ""
 

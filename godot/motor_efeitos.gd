@@ -266,13 +266,13 @@ func alvos(alvo, ctx: Dictionary, acao: Dictionary) -> Array:
 		"enemy_entity":
 			return await _escolher(dono, campo(1 - dono).filter(func(e: Carta) -> bool: return not e.protegida() and custo_ok.call(e)), acao, ctx)
 		"enemy_entity_random":
-			return _aleatorio(campo(1 - dono).filter(func(e: Carta) -> bool: return not e.protegida() and custo_ok.call(e)))
+			return await _aleatorio(campo(1 - dono).filter(func(e: Carta) -> bool: return not e.protegida() and custo_ok.call(e)))
 		"all_enemy_entities":
 			return campo(1 - dono)
 		"ally_entity":
 			return await _escolher(dono, campo(dono).filter(func(e: Carta) -> bool: return custo_ok.call(e)), acao, ctx)
 		"ally_entity_random":
-			return _aleatorio(campo(dono).filter(func(e: Carta) -> bool: return custo_ok.call(e)))
+			return await _aleatorio(campo(dono).filter(func(e: Carta) -> bool: return custo_ok.call(e)))
 		"all_ally_entities":
 			return campo(dono)
 		"other_ally_entities":
@@ -284,11 +284,11 @@ func alvos(alvo, ctx: Dictionary, acao: Dictionary) -> Array:
 		"ally_cornucopia":
 			return [{"cornucopia": dono}]
 		"enemy_hand_random":
-			return _aleatorio(m._mao_de(1 - dono).duplicate())
+			return await _aleatorio(m._mao_de(1 - dono).duplicate())
 		"ally_graveyard_entity":
 			return await _escolher(dono, entidades_cemiterio(dono).filter(func(e: Dictionary) -> bool: return cmax == null or int(e["dados"]["custo"]) <= int(cmax)), acao, ctx)
 		"ally_graveyard_entity_random":
-			return _aleatorio(entidades_cemiterio(dono).filter(func(e: Dictionary) -> bool: return cmax == null or int(e["dados"]["custo"]) <= int(cmax)))
+			return await _aleatorio(entidades_cemiterio(dono).filter(func(e: Dictionary) -> bool: return cmax == null or int(e["dados"]["custo"]) <= int(cmax)))
 	return []
 
 
@@ -333,7 +333,7 @@ static func _dica_alvo(acao: Dictionary) -> String:
 func _aleatorio(cands: Array) -> Array:
 	if cands.is_empty():
 		return []
-	return [cands[m.sortear(cands.size())]]
+	return [cands[await m.sortear(cands.size())]]
 
 
 ## Escolha de alvo da IA (port de HeurBot.escolher_alvo).
@@ -445,16 +445,22 @@ func disparar_selos(gat: String, idx: int, ctx_base: Dictionary) -> void:
 	for s in selos:
 		if m.acabou:
 			return
+		if m.online_partida() and idx == 1:                # Selo do adversário: só o juiz sabe qual é e se dispara
+			var r: Dictionary = await m.rede.revelacao("selo")
+			if not r.get("dispara", false):
+				continue
+			m._identificar(s, str(r.get("id", "")), idx)
 		var ef: Dictionary = s.efeitos[0] if not s.efeitos.is_empty() else {}
-		if ef.is_empty() or ef["gatilho"] != gat or s.turno_posto == m.turno_n or not (s in m.campo_selo[idx]):
-			continue
 		var ctx := ctx_base.duplicate()
 		ctx["self"] = null
 		ctx["dono"] = idx
 		ctx["fonte"] = s
 		ctx["gatilho"] = gat
-		if not cond_ok(ef.get("cond"), ctx):
-			continue
+		if not (m.online_partida() and idx == 1):
+			if ef.is_empty() or ef["gatilho"] != gat or s.turno_posto == m.turno_n or not (s in m.campo_selo[idx]):
+				continue
+			if not cond_ok(ef.get("cond"), ctx):
+				continue
 		_conta("gatilho", "selo:" + gat)
 		_conta("selo", s.id)
 		var slot: int = m.campo_selo[idx].find(s)
@@ -602,7 +608,13 @@ func executar_acao(a: Dictionary, ctx: Dictionary) -> void:
 				var mao: Array = m._mao_de(1 - dono)
 				if mao.is_empty():
 					break
-				await m._descartar(1 - dono, mao[m.sortear(mao.size())])
+				if m.online_partida():                       # o juiz sorteia e revela a carta descartada
+					var r: Dictionary = await m.rede.revelacao("descarte")
+					var c: Carta = mao[clampi(int(r.get("k", 0)), 0, mao.size() - 1)]
+					m._identificar(c, str(r.get("id", "")), 1 - dono)
+					await m._descartar(1 - dono, c)
+				else:
+					await m._descartar(1 - dono, mao[await m.sortear(mao.size())])
 		"gain_fe":
 			var n := int(a.get("n", 1))
 			if a.get("perm", false):
@@ -755,6 +767,16 @@ func aplicar_em_alvo(op: String, a: Dictionary, t, ctx: Dictionary) -> void:
 
 func _buscar(d: int, a: Dictionary) -> void:
 	var deck: Array = m._deck_de(d)
+	if m.online_partida():                               # o juiz procura no deck (escondido) e diz se achou
+		_texto_centro(rotulo(a), cor_de(a))
+		var r: Dictionary = await m.rede.revelacao("busca")
+		if not r.get("achou", false) or deck.is_empty():
+			m.efeitos.numero(Vector2(180, m.LINHA_Y + 20), "NADA NO DECK", COR_MUDO, 1)
+			await _esperar(0.3)
+			return
+		var achada: Carta = deck.pop_back()
+		await m._receber_comprada(d, achada, false)        # a minha vem revelada; a dele continua verso
+		return
 	var cands: Array = deck.filter(func(c: Carta) -> bool:
 		return (a.get("tipo") == null or c.tipo == a["tipo"]) \
 			and (a.get("custo_max") == null or c.custo <= int(a["custo_max"])) \
@@ -895,6 +917,14 @@ func _ritual_choronzon(d: int) -> void:
 	for c in m._mao_de(d):
 		if c.id == CHORONZON["entidade"]:
 			chor = c
+	if m.online_partida() and d == 1:                     # mão e Selos dele são escondidos: o juiz diz
+		var r: Dictionary = await m.rede.revelacao("ritual")
+		tri = r.get("ok", false)
+		cir = tri
+		chor = null
+		if tri:
+			chor = m._mao_de(d)[clampi(int(r.get("k", 0)), 0, m._mao_de(d).size() - 1)]
+			m._identificar(chor, CHORONZON["entidade"], d)
 	if tri and cir and chor != null:
 		_texto_centro("SIGILO 333", COR_DEBUFF)
 		m._mao_de(d).erase(chor)

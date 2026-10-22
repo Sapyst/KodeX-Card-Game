@@ -184,6 +184,7 @@ func _ready() -> void:
 		add_child(rede)
 		rede.emote.connect(hud.emote_oponente)
 		rede.fim_servidor.connect(_fim_servidor)
+		rede.forcado.connect(_forcado)
 		await rede.iniciar(online_info, bool(online_info.get("retomar", false)))
 	_preparar_retratos()
 	await _intro()
@@ -712,6 +713,8 @@ func _ir_para_deck() -> void:
 				deck_jog[i].definir(db["cartas"][Sessao.deck_jogador[i]], 0)
 			for i in deck_opon.size():
 				deck_opon[i].definir(db["cartas"][Sessao.deck_oponente[i]], 1)
+		elif online_partida():
+			pass                                         # online: o juiz guarda os decks; aqui as cartas são verso até revelar
 		elif Sessao.modo != "":
 			_dar_ids(deck_jog, Sessao.deck_jogador, 0)
 			_dar_ids(deck_opon, Sessao.deck_oponente, 1)
@@ -751,6 +754,9 @@ func _comprar_mao() -> void:
 	for k in MAO_INICIAL:
 		# jogador: topo levanta, viaja em arco e vira no ar
 		var c: Carta = deck_jog.pop_back()
+		if online_partida():
+			var rv: Dictionary = await rede.revelacao("compra")
+			_identificar(c, str(rv.get("id", "")), 0, bool(rv.get("sr", false)))
 		c.empilhada = false
 		c.z_index = 500 + k
 		if not modo_partida:
@@ -1718,6 +1724,13 @@ func _partida() -> void:
 		ocupado = false
 		if acabou:
 			break
+		if online_partida():                                 # confere com o juiz: o retrato público tem que ser igual
+			var rt: Dictionary = await rede.revelacao("turno")
+			if not rt.is_empty() and str(rt.get("canon", "")) != _canon_publico():
+				_dessincronia("retrato do turno %d" % turno_n)
+				print("JUIZ  ", rt.get("canon", ""), "\nAQUI  ", _canon_publico())
+		if OS.get_environment("GD_REDE_LOG") != "":
+			print("TURNO ", turno_n, " ativo=", ativo, " proprias=", rede.proprias.size() if rede else -1, " recebidas=", rede.recebidas.size() if rede else -1)
 		var terminou := false
 		if ativo == 0 and online_partida() and not rede.proprias.is_empty():   # reconexão: refaz as minhas jogadas já enviadas
 			terminou = await _turno_rede(0)
@@ -1794,9 +1807,14 @@ func _fim_turno(d: int) -> void:
 	var mao := _mao_de(d)
 	while mao.size() > MAO_MAX and not acabou:
 		var cara: Carta = mao[0]
-		for c in mao:
-			if c.custo > cara.custo:
-				cara = c
+		if online_partida():                                 # a mais cara: o juiz diz qual (a mão dele é escondida)
+			var r: Dictionary = await rede.revelacao("descarte")
+			cara = mao[clampi(int(r.get("k", 0)), 0, mao.size() - 1)]
+			_identificar(cara, str(r.get("id", "")), d)
+		else:
+			for c in mao:
+				if c.custo > cara.custo:
+					cara = c
 		await _descartar(d, cara)
 	await _checar_fim()
 	_atualizar_apagadas()
@@ -1863,11 +1881,11 @@ func _comprar(d: int) -> void:
 			sim = await esc_rede(d) == 1
 		elif motor.humano(d) and auto_jogador:            # teste online: a IA decide e manda
 			sim = not (cemit[d].size() < 3 and cornucopia[d] < 10)
-			enviar_esc(1 if sim else 0)
+			_enviar({"tipo": "sim", "v": sim})
 		elif motor.humano(d):
 			sim = await pedir_sim_nao("DECK VAZIO", "REEMBARALHAR O CEMITÉRIO: -%d CORNUCÓPIA" % CUSTO_REEMBARALHAR,
 				"REEMBARALHAR", "NÃO  (-2)")
-			enviar_esc(1 if sim else 0)
+			_enviar({"tipo": "sim", "v": sim})
 		elif cemit[d].size() < 3 and cornucopia[d] < 10:
 			sim = false                                  # IA: com quase nada no cemitério, prefere a fadiga
 		if sim:
@@ -1971,6 +1989,11 @@ func pedir_sim_nao(titulo: String, sub: String, txt_sim: String, txt_nao: String
 ## A carta (já fora do deck) vai para a mão com o arco de compra. `queimar`: mão cheia manda ao cemitério.
 func _receber_comprada(d: int, c: Carta, queimar := true) -> void:
 	var mao := _mao_de(d)
+	if online_partida() and (d == 0 or (queimar and mao.size() >= MAO_MAX)):   # o juiz diz qual carta é
+		var r: Dictionary = await rede.revelacao("compra")
+		_identificar(c, str(r.get("id", "")), d, bool(r.get("sr", false)))
+		if r.get("queima", false):
+			queimar = true
 	c.empilhada = false
 	c.z_index = 500 + mao.size()
 	if queimar and mao.size() >= MAO_MAX:
@@ -2474,6 +2497,8 @@ func _jogar_entidade(c: Carta, d: int, i: int, sacrificios: Array = []) -> void:
 
 
 func _jogar_selo(c: Carta, d: int, i: int) -> void:
+	if OS.get_environment("GD_REDE_LOG") != "":
+		print("SELO jogado d=", d, " id=", c.id, " custo=", c.custo, " fe=", fe[d], " mao=", _mao_de(d).map(func(x: Carta) -> String: return x.id))
 	_conta(d, "selos")
 	hud.registrar(d, c.id, "selo")
 	_pagar(d, c.custo)
@@ -3837,13 +3862,61 @@ func _global(d: int) -> int:
 	return d ^ int(online_info.get("eu", 0))
 
 
+## Manda uma entrada minha à sala, no formato do juiz: jogada (dicionário), mão inicial (lista de índices),
+## escolha (índice), sim/não (bool). Cada uma vai marcada com o turno (a mão inicial é o turno 0).
+var _suprimir := 0                          # a sala já decidiu por mim (tempo): a próxima entrada não sai
+
+
 func _enviar(dados: Dictionary) -> void:
-	if rede != null:
-		rede.enviar(dados)
+	if rede == null:
+		return
+	if _suprimir > 0:
+		_suprimir -= 1
+		return
+	match str(dados.get("tipo", "")):
+		"mull": rede.enviar_juiz(dados.get("k", []), 0)
+		"esc": rede.enviar_juiz(int(dados.get("v", -1)), turno_n)
+		"sim": rede.enviar_juiz(bool(dados.get("v", false)), turno_n)
+		_:
+			var d := dados.duplicate()
+			d.erase("h")
+			rede.enviar_juiz(d, turno_n)
 
 
 func enviar_esc(v: int) -> void:
 	_enviar({"tipo": "esc", "v": v})
+
+
+## Carta escondida (do adversário, ou minha antes do juiz dizer qual é) recebe a identidade revelada.
+## Sempre refaz a carta pelo que o juiz disse (o nó local pode ser outra carta física com outro histórico).
+func _identificar(c: Carta, cid: String, d: int, sem_renascer := false) -> void:
+	if cid == "" or not db["cartas"].has(cid):
+		return
+	var vira := c.virada_para_cima
+	c.sem_renascer = sem_renascer
+	c.definir(db["cartas"][cid], d)
+	c.virada_para_cima = vira
+
+
+## A sala passou do tempo e decidiu por mim: fecha o que estiver aberto sem mandar nada de novo.
+func _forcado(tipo: String) -> void:
+	_suprimir += 1
+	match tipo:
+		"acao":
+			if ativo == 0 and not acabou:
+				fim_turno_pedido.emit()
+		"escolha":
+			if not alvos_pedidos.is_empty():
+				alvo_tocado.emit(null)
+			elif carrossel.aberto():
+				carrossel.selecionado.emit(-1)
+			else:
+				_suprimir -= 1
+		"sim_nao", "mulligan":
+			if not efeitos.escolha.is_empty():
+				escolhido.emit(false)
+			else:
+				_suprimir -= 1
 
 
 ## Posição de um candidato na lista (cartas e entradas do cemitério comparadas por identidade). -1 = nenhum.
@@ -3916,6 +3989,16 @@ func _aplicar_acao(d: int, a: Dictionary) -> void:
 				_dessincronia("carta %d fora da mão (%d)" % [k, mao.size()])
 				return
 			var c: Carta = mao[k]
+			if d == 0:
+				pass                                          # minha carta (refazendo a partida ao voltar): já sei qual é
+			elif a.has("id"):                                 # a carta só é revelada agora (Selo continua escondido)
+				_identificar(c, str(a["id"]), d, bool(a.get("sr", false)))
+			else:                                             # Selo virado: só o custo é público (a Fé gasta); o resto é
+				c.id = ""                                     # desconhecido até disparar (a etiqueta antiga do nó não vale)
+				c.tipo = "selo"
+				c.custo = int(a.get("custo", 0))
+				c.efeitos = []
+				c.keywords = []
 			match c.tipo:
 				"entidade":
 					var sacs: Array = []
@@ -4398,6 +4481,9 @@ func _gravar_decks() -> void:
 
 ## Sorteio da lógica (alvo/descarte aleatório): o mesmo rng de sempre, gravado para a conferência.
 func sortear(n: int) -> int:
+	if online_partida():                                    # o sorteio é do juiz
+		var r: Dictionary = await rede.revelacao("rng")
+		return clampi(int(r.get("v", 0)), 0, n - 1)
 	var v := rng.randi_range(0, n - 1)
 	_gravar({"t": "rng", "n": n, "v": v})
 	return v
@@ -4433,3 +4519,35 @@ func _canon_estado() -> String:
 			sel.append("_" if s == null else (s as Carta).id)
 		lados.append("#".join([str(cornucopia[d]), str(fe[d]), str(fe_max[d]), ",".join(mao), str(_deck_de(d).size()), ",".join(cem), ";".join(ent), ",".join(sel)]))
 	return "T%dA%d|" % [turno_n, ativo] + "|".join(lados)
+
+
+## Retrato público em lados GLOBAIS (igual ao Partida.canonPublico do juiz): mãos e decks viram tamanhos, Selos "?".
+func _canon_publico() -> String:
+	var lados := PackedStringArray()
+	for g in 2:
+		var d := g ^ int(online_info.get("eu", 0))
+		var ent := PackedStringArray()
+		for c in campo_ent[d]:
+			if c == null:
+				ent.append("_")
+				continue
+			var kw: Array = (c as Carta).keywords.duplicate()
+			kw.sort()
+			var ak: Array = (c as Carta).aura_keywords.duplicate()
+			ak.sort()
+			var fl := ("c" if c.cansada else "") + ("a" if c.atacou else "") + ("g" if c.congelada else "") + ("x" if c.sem_ataque else "") + \
+				("s" if c.silenciada else "") + ("j" if c.ja_atacou else "") + ("R" if c.roubada_temp else "")
+			if not (c as Carta).reliquia.is_empty():
+				var us = c.reliquia.get("usos")
+				fl += "r:%s:%s" % [str(c.reliquia["dados"]["id"]), "-" if us == null else str(int(us))]
+			ent.append("/".join([c.id, str(c.atk), str(c.defe), str(c.dano), "+".join(kw) + "|" + "+".join(ak), fl]))
+		var cem := PackedStringArray()
+		for e in cemit[d]:
+			cem.append(str(e["dados"]["id"]))
+		var sel := PackedStringArray()
+		for s in campo_selo[d]:
+			sel.append("_" if s == null else "?")
+		lados.append("#".join([str(cornucopia[d]), str(fe[d]), str(fe_max[d]), str(_mao_de(d).size()), str(_deck_de(d).size()),
+			",".join(cem), ";".join(ent), ",".join(sel)]))
+	var a_global := ativo ^ int(online_info.get("eu", 0))
+	return "T%dA%d|" % [turno_n, a_global] + "|".join(lados)

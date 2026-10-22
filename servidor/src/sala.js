@@ -39,12 +39,12 @@ export class SalaPartida {
     this.fluxo = [[], []];           // mensagens de cada jogador (índice = s − 1)
     this.revLidas = [0, 0];
     this.fila = [[], []];            // entradas recebidas e ainda não pedidas pelo motor
+    this.reproduzindo = true;                                 // (re)montando: nada sai para os celulares agora
     this.g = this.p.rodar();
     this.pedido = this.g.next().value;
     this.coletarRevelacoes();                                 // a mão inicial já foi comprada antes do 1º pedido
     this.desdePedido = Date.now();
-    this.reproduzindo = true;                                 // refaz a partida com as mesmas entradas, na mesma ordem
-    for (const e of this.entradas) this.aplicar(e);
+    for (const e of this.entradas) this.aplicar(e);           // refaz a partida com as mesmas entradas, na mesma ordem
     this.reproduzindo = false;
   }
 
@@ -69,7 +69,8 @@ export class SalaPartida {
     const a = { ...d };
     if (a.tipo === "jogar") {
       const c = this.p.mao[j][a.k | 0];
-      if (c && c.tipo !== "selo") a.id = c.id;          // Selo entra virado: o adversário não sabe qual é
+      if (c && c.tipo !== "selo") { a.id = c.id; if (c.sem_renascer) a.sr = true; }   // carta revelada (e se já usou o Renascer)
+      else if (c) a.custo = c.custo;                     // …só quanto de Fé foi gasto (isso todo mundo vê)
     }
     return a;
   }
@@ -118,6 +119,7 @@ export class SalaPartida {
       if (!this.fila[j].length) break;
       const d = this.fila[j].shift();
       const pub = this.publica(j, this.pedido, d);
+      this.empurrar(j, { eu: { pedido: this.pedido.tipo, d, mao: this.p.mao[j].map((c) => c.id), fe: this.p.fe[j] } });   // eco para o próprio (refazer a partida ao voltar; a mão é dele)
       this.empurrar(1 - j, { a: pub });                       // o adversário vê a jogada antes do que ela causa
       const r = this.g.next(d);
       this.coletarRevelacoes();
@@ -252,12 +254,16 @@ export class SalaPartida {
     if (m.t === "ola") {                                      // (re)conectou: manda o que faltou desde `desde`
       const desde = Math.max(0, m.desde | 0);
       for (const msg of this.fluxo[j].slice(desde)) ws.send(JSON.stringify(msg));
-      ws.send(JSON.stringify({ t: "pronto", s: this.fluxo[j].length, vez: this.pedido?.jogador ?? -1 }));
+      // n = último número de entrada aceito: o celular que reabriu continua a contar dali (senão tudo parece repetido)
+      ws.send(JSON.stringify({ t: "pronto", s: this.fluxo[j].length, vez: this.pedido?.jogador ?? -1, n: this.ultN[j] }));
       if (this.pedido?.jogador === j) this.avisarPedido(ws);
       return;
     }
     if (m.t === "in") await this.receber(j, m.n | 0, m.t_turno, m.d);
     if (m.t === "ping") ws.send(JSON.stringify({ t: "pong" }));
+    if (m.t === "emote") {                                    // fala rápida: vai direto ao outro, não entra na partida
+      for (const w of this.ctx.getWebSockets("j" + (1 - j))) { try { w.send(JSON.stringify({ t: "emote", k: m.k | 0 })); } catch (e) { /* caiu */ } }
+    }
   }
   async webSocketClose(ws, code) { try { ws.close(code, "fim"); } catch (e) { /* já fechou */ } }
   async webSocketError() { /* o alarme cuida de quem sumiu */ }

@@ -160,6 +160,11 @@ var solo: ModosSolo
 var hist: Historico
 var onl: MenuOnline
 var prg: MenuProgresso
+# moedas voando: o contador do Início mostra moedas_vis / koins_vis, que alcançam o valor real quando as moedas chegam
+var moedas_vis := 0
+var koins_vis := 0
+var voando: Array = []                     # [{tipo, de, para, t, dur, valor, curva}]
+var pulo_contador := [0.0, 0.0]
 var novidades: Array = []              # dados/novidades.json (mais nova primeiro)
 var _avisos_feitos := false            # novidades + presente já verificados nesta sessão do app
 
@@ -188,6 +193,12 @@ func _ready() -> void:
 	hist = Historico.new(self)
 	onl = MenuOnline.new(self)
 	prg = MenuProgresso.new(self)
+	moedas_vis = Sessao.moedas_vistas if Sessao.moedas_vistas >= 0 else Sessao.moedas()
+	if OS.get_environment("GD_MOEDAS_TESTE") != "":          # teste: finge que acabou de ganhar 120 moedas e 30 Koins
+		moedas_vis = maxi(0, Sessao.moedas() - 120)
+		koins_vis = maxi(0, Sessao.koins() - 30)
+		Sessao.koins_vistos = koins_vis
+	koins_vis = Sessao.koins_vistos if Sessao.koins_vistos >= 0 else Sessao.koins()
 	novidades = JSON.parse_string(FileAccess.get_file_as_string("res://dados/novidades.json"))
 	Relogio.sincronizar()                                    # hora do servidor para o presente diário (sem travar)
 	arcade["meu_deck"] = str(int(Sessao.perfil["deck_ativo"]))
@@ -295,6 +306,9 @@ func _ready() -> void:
 				mp.abrir_deck(0); mp.copiar_codigo()
 			"creditos": _creditos(func() -> void: _ir("titulo"))
 			_: _ir(st[0])
+	if OS.get_environment("GD_IR_TESTE") != "":              # teste: "1.0:titulo" troca de tela nesse instante
+		var it := OS.get_environment("GD_IR_TESTE").split(":")
+		get_tree().create_timer(float(it[0]), true, false, true).timeout.connect(func() -> void: _ir(it[1]))
 	if OS.get_environment("GD_PERG_TESTE") != "":             # teste: "2.5:fechar;4:rolar:300;6:todas;8:privacidade"
 		for passo in OS.get_environment("GD_PERG_TESTE").split(";"):
 			var pt := passo.split(":")
@@ -313,6 +327,7 @@ var inclinacao_foil := Vector2.ZERO        # -1..1: inclinação do celular (ace
 
 func _process(delta: float) -> void:
 	tempo += delta
+	_atualizar_moedas(delta)
 	var acc := Input.get_accelerometer()
 	var alvo_inc := Vector2.ZERO
 	if acc.length() > 1.0:                              # celular: gravidade projetada (≈ ±9,8 m/s² deitado de lado)
@@ -368,6 +383,7 @@ func _process(delta: float) -> void:
 # ================= estados =================
 func _ir(novo: String) -> void:
 	estado = novo
+	RegistroErros.contexto = "menu:" + novo
 	t_estado = 0.0
 	apertado = -1
 	transicao = 1.0
@@ -400,8 +416,10 @@ func _ir(novo: String) -> void:
 				func() -> void: Sessao.alternar_tempo_turno(); _ir("opcoes"); transicao = 0.0)
 			_botao(Rect2(90, 360, 180, 26), "Novidades", abrir_novidades.bind(true))
 			_botao(Rect2(90, 392, 180, 26), "Privacidade", abrir_privacidade)
+			var ne := RegistroErros.quantos()
+			_botao(Rect2(90, 424, 180, 26), (Sessao.t("Relatório de erros") + " (%d)" % ne) if ne > 0 else Sessao.t("Nenhum erro registrado"), _relatorio_erros)
 			if Nuvem.url != "":                          # conta na nuvem (só quando há servidor)
-				_botao(Rect2(90, 446, 180, 26), "Conta e login", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
+				_botao(Rect2(90, 456, 180, 26), "Conta e login", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
@@ -430,9 +448,14 @@ func _ir(novo: String) -> void:
 				else:
 					_ir("titulo"))
 		"avatar":
-			for k in MenuPerfil.AVATARES.size():
-				_botao(Rect2(62 + (k % 2) * 136, 96 + (k / 2) * 178, 100, 133), "", mp.aplicar_avatar.bind(MenuPerfil.AVATARES[k]),
-					{"avatar": MenuPerfil.AVATARES[k], "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mp.botao_avatar(b, r, pr)})
+			var avs := MenuPerfil.lista_avatares()
+			var cols := 2 if avs.size() <= 4 else 3            # mais retratos liberáveis: grade de 3, menor
+			var tam := Vector2(100, 133) if cols == 2 else Vector2(78, 104)
+			var passo := Vector2(136, 178) if cols == 2 else Vector2(104, 140)
+			var x0 := 180.0 - (cols * passo.x - (passo.x - tam.x)) / 2.0
+			for k in mini(avs.size(), 9):
+				_botao(Rect2(x0 + (k % cols) * passo.x, 96 + (k / cols) * passo.y, tam.x, tam.y), "", mp.aplicar_avatar.bind(avs[k]),
+					{"avatar": avs[k], "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: mp.botao_avatar(b, r, pr)})
 			_botao(Rect2(70, 466, 220, 30), "Enviar foto do aparelho", mp.escolher_foto, {"web_upload": true})
 			_botao(Rect2(110, 510, 140, 26), "Voltar", func() -> void: _ir("perfil"))
 		"recorte":
@@ -1714,8 +1737,9 @@ func _draw() -> void:
 		_desenhar_confirma()
 	if not pedido.is_empty():
 		_desenhar_pedido()
+	_desenhar_voando()
 	if transicao > 0.0:
-		draw_rect(Rect2(-position, get_viewport_rect().size), Color(0.03, 0.02, 0.05, transicao))
+		_desenhar_cortina(transicao)
 
 
 ## Progresso 0..1 da entrada do elemento i (atraso 0,06 s por elemento, 0,32 s de duração, ease-out).
@@ -1777,7 +1801,7 @@ func _opcoes() -> void:
 	_cabecalho(Sessao.t("Opções"), Sessao.t("idioma e informações"))
 	if Nuvem.url != "":
 		var st := (Sessao.t("Conta online") + " · " + Nuvem.id_curto()) if Nuvem.online and Nuvem.ativo() else Sessao.t("Conta: sem conexão")
-		_texto_central(Vector2(180, 432), st, Color("#9ad0ff") if Nuvem.online else Color("#ff9a8a"))
+		_texto_central(Vector2(180, 494), st, Color("#9ad0ff") if Nuvem.online else Color("#ff9a8a"))
 	Fonte57.desenhar(self, Vector2(110, 134), Sessao.t("Idioma"), Color("#b8a888"))
 	var ver := "KodeX v" + str(ProjectSettings.get_setting("application/config/version", ""))
 	_texto_central(Vector2(180, 560), ver, Color(0.89, 0.72, 0.35, 0.7))
@@ -2036,3 +2060,115 @@ func _avisar_progresso() -> void:
 		b.append(["centro", Progresso.premio_txt(e["premio"])])
 	perg.abrir(b)
 	vibrar(20, 0.6)
+
+
+## Opções > Relatório de erros: mostra os erros guardados no aparelho e pergunta se envia ao desenvolvedor (servidor
+## do jogo; vai só o texto do erro, a versão e o tipo de aparelho). Enviado ou não, a pessoa pode apagar.
+func _relatorio_erros() -> void:
+	var n := RegistroErros.quantos()
+	if n == 0:
+		mp.avisar(Sessao.t("Nenhum erro registrado. Ótimo!"))
+		return
+	var en := Sessao.idioma == "en"
+	var b: Array = [["titulo", "Error report" if en else "Relatório de erros"],
+		["centro", ("%d errors saved on this device." if en else "%d erros guardados neste aparelho.") % n], ["divisor"]]
+	var linhas := RegistroErros.texto().split("\n", false)
+	for ln in linhas.slice(maxi(0, linhas.size() - 40)):
+		b.append(["txt", ln])
+	perg.abrir(b)
+	await perg.fechou
+	confirmar(Sessao.t("Enviar ao desenvolvedor?"), Sessao.t("ajuda a corrigir; vai só o texto do erro"), func() -> void:
+		var r: Dictionary = await Nuvem.mp("POST", "/v1/erros", {"texto": RegistroErros.texto().right(30000),
+			"versao": str(ProjectSettings.get_setting("application/config/version", "")), "so": OS.get_name()}, 10.0)
+		if r.get("ok", false):
+			RegistroErros.apagar()
+			mp.avisar(Sessao.t("Enviado. Obrigado!"))
+		else:
+			mp.avisar(Sessao.t("Sem conexão. Tente de novo depois."))
+		_ir("opcoes"))
+
+
+# ================= moedas voando até o contador =================
+## Ganhou moedas/Koins (presente, prêmio, missão...)? No Início, sem pergaminho aberto, elas saem do meio da tela em arco
+## (4 a 14 moedas, uma a cada 0,06 s, 0,7 s de voo) e o número sobe a cada uma que chega. Gastou: o número desce na hora.
+func _atualizar_moedas(delta: float) -> void:
+	for i in 2:
+		pulo_contador[i] = maxf(0.0, pulo_contador[i] - delta * 3.0)
+	var reais := [Sessao.moedas(), Sessao.koins()]
+	var vis := [moedas_vis, koins_vis]
+	for i in 2:
+		if reais[i] < vis[i]:                            # gastou: sem animação
+			vis[i] = reais[i]
+	moedas_vis = vis[0]
+	koins_vis = vis[1]
+	if estado == "titulo" and voando.is_empty() and not perg.aberto() and confirma.is_empty() and transicao <= 0.0:
+		for i in 2:
+			var dif: int = reais[i] - vis[i]
+			if dif <= 0:
+				continue
+			var n := clampi(dif / 10 + 3, 4, 14)
+			var de := Vector2(180, 300 + extra())
+			var para: Vector2 = mp.pos_moeda() if i == 0 else mp.pos_koin()
+			for k in n:
+				var parte := dif / n + (dif % n if k == n - 1 else 0)
+				voando.append({"tipo": i, "de": de + Vector2(randf_range(-30, 30), randf_range(-20, 20)), "para": para,
+					"t": -k * 0.06 - i * 0.3, "dur": 0.7, "valor": parte, "curva": randf_range(-80, 80)})
+			vibrar(15, 0.4)
+	for v in voando:
+		v["t"] += delta
+		if v["t"] >= v["dur"]:
+			if v["tipo"] == 0:
+				moedas_vis += int(v["valor"])
+			else:
+				koins_vis += int(v["valor"])
+			pulo_contador[int(v["tipo"])] = 1.0
+	voando = voando.filter(func(v: Dictionary) -> bool: return v["t"] < v["dur"])
+	if estado != "titulo" and not voando.is_empty():     # saiu do Início no meio: entrega tudo
+		for v in voando:
+			if v["tipo"] == 0:
+				moedas_vis += int(v["valor"])
+			else:
+				koins_vis += int(v["valor"])
+		voando.clear()
+	Sessao.moedas_vistas = moedas_vis
+	Sessao.koins_vistos = koins_vis
+
+
+func _desenhar_voando() -> void:
+	for v in voando:
+		if v["t"] < 0.0:
+			continue
+		var x: float = ease(clampf(v["t"] / v["dur"], 0.0, 1.0), 0.6)
+		var de: Vector2 = v["de"]
+		var para: Vector2 = v["para"]
+		var meio := (de + para) / 2.0 + Vector2(float(v["curva"]), -90)
+		var p := de.lerp(meio, x).lerp(meio.lerp(para, x), x)         # curva de Bézier
+		if v["tipo"] == 0:
+			mp.moeda(p)
+		else:
+			MenuPerfil.icone_koin(self, p)
+		if x > 0.85:
+			draw_circle(p, 6.0 * (x - 0.85) / 0.15, Color(1.0, 0.95, 0.6, 0.4))
+
+
+## Cortina entre telas: grade de losangos de 16 px que crescem do centro para as bordas (atraso pela distância), em pixel
+## art; v = 1 cobre tudo. Mesma escuridão do fundo, com um fio dourado nos losangos ainda pequenos.
+func _desenhar_cortina(v: float) -> void:
+	var vs := get_viewport_rect().size
+	var base := -position
+	var cel := 16.0
+	var centro := base + vs / 2.0
+	var dmax := (vs / 2.0).length()
+	var cor := Color(0.03, 0.02, 0.05)
+	for gy in int(vs.y / cel) + 2:
+		for gx in int(vs.x / cel) + 2:
+			var c := base + Vector2(gx * cel, gy * cel)
+			var atraso := c.distance_to(centro) / dmax * 0.5
+			var u := clampf((v - atraso) / 0.5, 0.0, 1.0)
+			if u <= 0.0:
+				continue
+			var s := u * cel * 1.02
+			draw_colored_polygon(PackedVector2Array([c + Vector2(0, -s), c + Vector2(s, 0), c + Vector2(0, s), c + Vector2(-s, 0)]), cor)
+			if u < 0.6:
+				draw_polyline(PackedVector2Array([c + Vector2(0, -s), c + Vector2(s, 0), c + Vector2(0, s), c + Vector2(-s, 0), c + Vector2(0, -s)]),
+					Color(0.89, 0.72, 0.35, 0.35 * (1.0 - u / 0.6)), 1.0)

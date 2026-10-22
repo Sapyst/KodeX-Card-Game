@@ -22,6 +22,10 @@ Para trocar de aparelho, o jogo gera um código de 8 letras que vale por 10 minu
 
 Para achar adversário perto de você, o servidor usa o país da conexão (informado pela Cloudflare) só enquanto você está na fila de busca. Seu adversário vê o seu nome de jogador, a sua imagem de perfil (a foto vai em tamanho pequeno, 60×80, só para quem joga com você, e é apagada do servidor até 3 horas depois da partida) e as cartas que você joga. As jogadas da partida ficam no servidor para reconexão e conferência; não guardamos o país depois da busca.
 
+### Relatório de erros
+
+Quando algo dá errado, o jogo guarda o texto técnico do erro (data, versão, tipo de aparelho e onde aconteceu) só no seu aparelho. Nada é enviado sozinho: em Opções > Relatório de erros você vê e escolhe se envia ao servidor do jogo. Excluir a conta apaga os relatórios enviados.
+
 ### Kode e email (opcionais)
 
 Kode: você escolhe um usuário e uma senha. O jogo embaralha a senha e a frase de 12 palavras (200 mil rodadas de SHA-256) antes de enviar; o servidor guarda só esse resultado com sal, nunca a senha nem a frase. Quem perder a senha e a frase perde a conta.
@@ -63,6 +67,10 @@ To switch devices, the game creates an 8-letter code valid for 10 minutes. In Op
 ### Online matches
 
 To find opponents near you, the server uses the connection's country (provided by Cloudflare) only while you are in the search queue. Your opponent sees your player name, your profile picture (sent small, 60×80, only to the person you play with, and erased from the server up to 3 hours after the match) and the cards you play. Match moves stay on the server for reconnection and checks; we do not keep your country after the search.
+
+### Error report
+
+When something goes wrong, the game keeps the technical text of the error (date, version, device type and where it happened) only on your device. Nothing is sent by itself: in Options > Error report you can see it and choose to send it to the game server. Deleting the account erases the reports you sent.
 
 ### Kode and email (optional)
 

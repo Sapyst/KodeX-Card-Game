@@ -104,6 +104,7 @@ var _som: AudioStreamPlayer
 
 
 func _ready() -> void:
+	RegistroErros.contexto = "partida:" + (Sessao.modo if Sessao.modo != "" else "teste")
 	# partida de verdade: embaralhamento novo a cada vez (antes era sempre a semente 7 = mesma ordem e mesma mão);
 	# testes fixam com GD_SEED; o Desafio do dia usa a semente do dia (igual para todo mundo)
 	if OS.get_environment("GD_SEED") != "":
@@ -280,6 +281,8 @@ func _ready() -> void:
 		await _mulligan()
 		if online_partida():
 			await _mulligan_remoto()
+		else:
+			_falar_chefe("inicio", -1, true)
 		for lado in 2:                                     # Arquimago usa o mulligan (a mesma regra do jogador)
 			if int(nivel_ia[lado]) == 2 and _arq_tem("M") and (lado == 1 or auto_jogador) and Sessao.modo != "tutorial" and not online_partida():
 				await _mulligan_ia(lado)
@@ -361,6 +364,12 @@ func _criar_luzes() -> void:
 func _process(delta: float) -> void:
 	if modo_partida and _corn_visto != -999 and cornucopia[0] < _corn_visto:
 		_sofreu = true
+		if cornucopia[0] <= 5 and not _falou_vantagem and not acabou:   # você quase perdendo: ele provoca
+			_falou_vantagem = true
+			_falar_chefe("vantagem", -1, true)
+	if modo_partida and not _falou_vida_baixa and cornucopia[1] <= 5 and _corn_ini[1] > 5 and turno_n > 0 and not acabou:
+		_falou_vida_baixa = true                       # ele quase perdendo
+		_falar_chefe("vida_baixa", -1, true)
 	_corn_visto = cornucopia[0]
 	tempo += delta
 	# tremulação de vela: duas frequências de ruído somadas (lenta + rápida) na energia e um balanço de 2–3 px
@@ -1474,6 +1483,7 @@ func _vitoria() -> void:
 	Sessao.vibrar_pulsos(3, 40, 0.8, 0.09)
 	efeitos.faixa = "VITÓRIA"
 	efeitos.faixa_t = 0.0
+	_preparar_fim(0)
 	efeitos.confete(90)
 	efeitos.flash(Color("#ffe39a"), 0.4)
 	for k in mao_jog.size():                                   # a mão comemora: pulinhos em sequência
@@ -1497,6 +1507,7 @@ func _derrota() -> void:
 	Sessao.vibrar(150, 1.0)
 	efeitos.faixa = "DERROTA"
 	efeitos.faixa_t = 0.0
+	_preparar_fim(1)
 	efeitos.cinzas(70)
 	for c in mao_jog:                                          # a mão afunda 30 px
 		create_tween().tween_property(c, "position:y", c.position.y + 30, 0.8).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
@@ -1804,6 +1815,12 @@ func _encerrar(v: int, motivo := "") -> void:
 		return
 	acabou = true
 	vencedor = v
+	if OS.get_environment("GD_FIM_LENTO") != "":            # teste visual: o fim em velocidade normal
+		_vel_teste = 1.0
+		aplicar_tempo()
+		for tt in [0.5, 1.2, 2.2]:
+			get_tree().create_timer(tt, true, false, true).timeout.connect(func() -> void:
+				get_viewport().get_texture().get_image().save_png(OS.get_environment("GD_PRINTS_DIR") + "/fim_%.1f.png" % tt))
 	if rede != null:
 		rede.avisar_fim(v)
 		rede.chegou.emit()
@@ -2898,14 +2915,24 @@ var _ultima_provocacao := -100.0
 ## Fala curta do oponente (lore.json → provocacoes[i]): 0 = carta forte, 1 = golpe na Cornucópia, 2 = perdeu carta.
 ## No máximo uma a cada 6 s, para não virar ruído.
 func _provocar(i: int) -> void:
-	if Sessao.modo in ["", "enigma"] or tempo - _ultima_provocacao < 6.0:
+	_falar_chefe(["carta_forte", "golpe", "perdeu_carta"][clampi(i, 0, 2)], i)
+
+
+## Fala do personagem da IA num momento da partida (lore.json → falas: inicio, carta_forte, golpe, perdeu_carta,
+## vida_baixa, vantagem). Sem a lista nova, usa as provocações antigas. Online não fala (é gente do outro lado).
+func _falar_chefe(evento: String, antigo := -1, forcar := false) -> void:
+	if Sessao.modo in ["", "enigma", "tutorial"] or online_partida() or tut != null:
+		return
+	if not forcar and tempo - _ultima_provocacao < 6.0:
 		return
 	var p: Dictionary = Sessao.personagem(Sessao.oponente)
-	var lista: Array = p.get("provocacoes", [])
-	if i >= lista.size():
+	var lista: Array = p.get("falas", {}).get(evento, [])
+	if lista.is_empty() and antigo >= 0 and antigo < (p.get("provocacoes", []) as Array).size():
+		lista = [p["provocacoes"][antigo]]
+	if lista.is_empty():
 		return
 	_ultima_provocacao = tempo
-	efeitos.falar(p.get("nome", ""), lista[i], Color(p.get("cor", "#e2b85a")), Sessao.oponente)
+	efeitos.falar(p.get("nome", ""), str(lista[rng_vis.randi_range(0, lista.size() - 1)]), Color(p.get("cor", "#e2b85a")), Sessao.oponente)
 
 
 ## Carta que estava sendo arrastada volta ao lugar sem sacudir (usado ao abrir o zoom).
@@ -3753,6 +3780,8 @@ func _tempo_esgotado() -> void:
 
 
 # ================= histórico do perfil =================
+var _falou_vantagem := false
+var _falou_vida_baixa := false
 var _sofreu := false                       # a sua Cornucópia caiu em algum momento (cura não apaga)
 var _corn_visto := -999
 var prog_eventos: Array = []                # XP, missões, nível e conquistas desta partida (vão para o resumo)
@@ -4313,3 +4342,16 @@ func _blocos_progresso(b: Array) -> void:
 			"conquista":
 				b.append(["item", ("Achievement: %s" if en else "Conquista: %s") % e["texto"]])
 				b.append(["centro", Progresso.premio_txt(e["premio"])])
+			"avatar":
+				b.append(["item", ("New portrait unlocked: %s" if en else "Retrato liberado: %s") % e["texto"]])
+				b.append(["centro", "Profile > Choose image" if en else "Perfil > Escolher imagem"])
+
+
+## Fim da partida com os retratos: quem venceu sobe ao centro; quem perdeu fica trincado na moldura da mesa.
+func _preparar_fim(venc: int) -> void:
+	if ret_nome[0] == "" or ret_nome[1] == "":
+		return
+	var en := Sessao.idioma == "en"
+	efeitos.fim = {"tex": ret_tex[venc], "nome": ret_nome[venc], "vitoria": venc == 0, "de": ret_rect(venc).get_center(),
+		"perdedor": ret_rect(1 - venc),
+		"sub": (("You beat %s" if en else "Você venceu %s") % ret_nome[1]) if venc == 0 else (("%s won" if en else "%s venceu") % ret_nome[1])}

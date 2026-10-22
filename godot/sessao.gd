@@ -43,6 +43,10 @@ const CONFIG := "user://config.cfg"
 
 
 func _ready() -> void:
+	RegistroErros.aparar()                                 # relatório de erros local (Opções > Relatório de erros)
+	OS.add_logger(RegistroErros.new())
+	if OS.get_environment("GD_ERRO_TESTE") != "":
+		push_error("erro de teste do relatório")
 	rng.randomize()
 	if FileAccess.file_exists("res://dados/ui_en.json"):
 		_ui_en = JSON.parse_string(FileAccess.get_file_as_string("res://dados/ui_en.json"))
@@ -309,6 +313,8 @@ func preparar_arcade(meu_deck: String, opon: String, deck_opon: String, nivel :=
 ## Regras extras que a mesa lê no começo da partida: cornucopia [jog, opon], mao_garantida (ids na mão inicial do
 ## oponente), bencaos (Peregrinação), sigilo_a_cada (Choronzon), semente (Desafio do dia).
 var extras: Dictionary = {}
+var moedas_vistas := -1                  # o que o contador do Início já mostrou (moedas voando ao voltar ao menu)
+var koins_vistos := -1
 
 
 func preparar_modo(m: String, meu: Array, opon: String, deck_op: Array, nivel: int, ext := {}) -> void:
@@ -472,7 +478,7 @@ func salvar_so_local() -> void:
 const CAMPOS_SERVIDOR := ["colecao", "foils", "versos", "resgates", "sem_lendaria", "lendarios", "enigmas", "diario_dia",
 	"versao_premiada", "choronzon_vencido", "titulos", "novas", "prog_pagos"]
 const CAMPOS_LIVRES := ["nome", "decks", "deck_ativo", "verso", "pacote", "tarcade", "torneio", "versao_vista", "pere",
-	"torneio_vencido", "historico", "estat", "prog", "titulo", "pere_fim"]
+	"torneio_vencido", "historico", "estat", "prog", "titulo", "pere_fim", "avatares"]
 
 
 func adotar_servidor(srv: Dictionary, tudo := false) -> void:

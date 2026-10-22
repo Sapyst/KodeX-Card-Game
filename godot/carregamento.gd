@@ -1,17 +1,19 @@
 extends Node2D
 ## Tela de carregamento (primeira cena): 5 cartas sorteadas giram em órbita, virando (verso ↔ frente), enquanto o
 ## menu carrega numa thread. O sorteio nunca repete cartas entre si nem as da última abertura (user://config.cfg).
-## Fica no mínimo 1,6 s para a animação ser vista, depois esmaece 0,3 s e entra no menu.
+## Embaixo, uma dica de jogo ou uma linha da lore (dados/dicas.json), sem repetir a da última abertura.
+## Fica no mínimo 2,4 s (dá para ler a dica), depois esmaece 0,3 s e entra no menu.
 
 const PROXIMA := "res://fluxo.tscn"
 const N := 5
-const MINIMO := 1.6
+const MINIMO := 2.4
 
 var cartas: Array = []            # [{tex, fase}]
 var t := 0.0
 var saindo := -1.0
 var progresso := 0.0
 var _pronto: PackedScene = null
+var dica := ""
 
 
 func _ready() -> void:
@@ -30,6 +32,16 @@ func _ready() -> void:
 	var pasta := "carta_en" if Sessao.idioma == "en" else "carta"
 	for k in escolhidas.size():
 		cartas.append({"tex": Carta.textura(pasta, escolhidas[k], "webp"), "fase": TAU * k / N})
+	var dicas = JSON.parse_string(FileAccess.get_file_as_string("res://dados/dicas.json"))
+	if dicas is Dictionary:
+		var lista: Array = dicas.get(Sessao.idioma, dicas["pt"])
+		var ultima := int(cfg.get_value("carregamento", "dica", -1))
+		var k := randi() % lista.size()
+		if k == ultima:
+			k = (k + 1) % lista.size()
+		dica = str(lista[k])
+		cfg.set_value("carregamento", "dica", k)
+		cfg.save(Sessao.CONFIG)
 	ResourceLoader.load_threaded_request(PROXIMA)
 
 
@@ -98,3 +110,8 @@ func _draw() -> void:
 	draw_rect(barra, Color(1, 1, 1, 0.08 * fade))
 	var vis := clampf(minf(progresso, t / MINIMO), 0, 1)
 	draw_rect(Rect2(barra.position, Vector2(barra.size.x * vis, barra.size.y)), Color(0.89, 0.72, 0.35, fade))
+	if dica != "":                                     # dica: entra 0,3 s depois, em até 3 linhas centradas
+		var a := clampf((t - 0.3) / 0.4, 0.0, 1.0) * fade
+		var linhas := Fonte57.quebrar(dica, int(minf(vs.x - 40, 300)))
+		for i in mini(linhas.size(), 3):
+			Fonte57.desenhar(self, Vector2(roundf(c.x - Fonte57.largura(linhas[i]) / 2.0), c.y + 136 + i * 12), linhas[i], Color(0.85, 0.78, 0.66, a), Color(0.05, 0.03, 0.05, a))

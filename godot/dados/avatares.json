@@ -1,0 +1,4 @@
+{
+ "_doc": "Retratos que o jogador libera ao vencer um personagem (NPCs). Cada um: id (= arquivo assets/retrato/<id>.png e chave do personagem em lore.json), nome [pt, en] e como liberar ({\"vencer\": <chave do personagem>}). Os 6 chefes atuais não entram aqui: são os chefões das culturas.",
+ "liberaveis": []
+}

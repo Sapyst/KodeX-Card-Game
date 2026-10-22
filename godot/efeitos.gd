@@ -9,6 +9,7 @@ var aneis: Array[Dictionary] = []
 var clarao := Color(0, 0, 0, 0)
 var faixa := ""                        # "VITÓRIA" / "DERROTA" / ""
 var faixa_t := 0.0
+var fim := {}                           # retrato de quem venceu subindo ao centro: {tex, nome, sub, vitoria, de, perdedor}
 var cursor := Vector2(-100, -100)
 var cursor_apertado := false
 var destaques: Array[Rect2] = []       # espaços válidos piscando durante o arraste
@@ -196,6 +197,8 @@ func _draw() -> void:
 		draw_rect(Rect2(-400, -400, 1200, 1500), clarao)
 	if faixa != "":
 		_desenhar_faixa()
+		if not fim.is_empty():
+			_desenhar_fim()
 	for r in foco:
 		var pf := 0.55 + 0.45 * sin(tempo * 6.0)
 		draw_rect((r as Rect2).grow(2), Color(1.0, 0.85, 0.4, pf), false, 2.0)
@@ -643,3 +646,67 @@ static func selo_raridade(ci: CanvasItem, centro: Vector2, sigla: String, esc: i
 			var a := sin(u * PI)
 			ci.draw_line(p - Vector2(3 * a, 0), p + Vector2(3 * a, 0), Color(1, 1, 1, a))
 			ci.draw_line(p - Vector2(0, 3 * a), p + Vector2(0, 3 * a), Color(1, 1, 1, a))
+
+
+## Fim da partida: o retrato de quem venceu sai da moldura da mesa e sobe ao centro (0,6 s, com pulo), dobra de tamanho e
+## ganha moldura: louros dourados na vitória, brilho vermelho na derrota. Embaixo da faixa, quem venceu quem.
+## O retrato de quem perdeu (na mesa) fica cinza e trincado.
+func _desenhar_fim() -> void:
+	var u := clampf((faixa_t - 0.25) / 0.6, 0.0, 1.0)
+	var e := 1.0 + 2.70158 * pow(u - 1.0, 3.0) + 1.70158 * pow(u - 1.0, 2.0)     # ease-out-back
+	var vit: bool = fim["vitoria"]
+	var empate: bool = fim.get("empate", false)
+	var perd: Rect2 = fim.get("perdedor", Rect2())
+	if perd.size.x > 0 and not empate:                   # quem perdeu: cinza e trincado
+		draw_rect(perd, Color(0.12, 0.1, 0.14, 0.75 * u))
+		var c0 := perd.get_center()
+		for k in 4:
+			var a := TAU * k / 4.0 + 0.4
+			draw_line(c0, c0 + Vector2.from_angle(a) * perd.size.x * 0.6, Color(0.05, 0.03, 0.06, u), 1.0)
+			draw_line(c0 + Vector2.from_angle(a) * perd.size.x * 0.3, c0 + Vector2.from_angle(a + 0.5) * perd.size.x * 0.45, Color(0.05, 0.03, 0.06, u), 1.0)
+	if u <= 0.0:
+		return
+	var tam := Vector2(36, 48).lerp(Vector2(72, 96), e)
+	var centro: Vector2 = (fim["de"] as Vector2).lerp(Vector2(180, 214), e)
+	var r := Rect2((centro - tam / 2).round(), tam.round())
+	var ouro := Color("#ffe39a")
+	if vit:
+		for k in 14:                                     # louros: duas hastes de folhas em arco por fora da moldura
+			for lado in [-1, 1]:
+				var a: float = PI * 0.5 + float(lado) * (0.35 + k * 0.17)
+				var p := r.get_center() + Vector2(cos(a) * (r.size.x * 0.5 + 14), sin(a) * (r.size.y * 0.5 + 12))
+				var folha := PackedVector2Array([p + Vector2(0, -4), p + Vector2(2.5, 0), p + Vector2(0, 4), p + Vector2(-2.5, 0)])
+				var giro := Transform2D(a + PI * 0.5, Vector2.ZERO)
+				for i in folha.size():
+					folha[i] = p + giro * (folha[i] - p)
+				if k < int(14 * u):
+					draw_colored_polygon(folha, ouro if k % 2 == 0 else Color("#e2b85a"))
+	else:
+		var pul := 0.5 + 0.5 * sin(faixa_t * 5.0)
+		draw_rect(r.grow(8), Color(0.8, 0.1, 0.1, 0.18 + 0.12 * pul))
+		draw_rect(r.grow(5), Color(0.9, 0.2, 0.15, 0.25 + 0.15 * pul))
+	draw_rect(r.grow(4), Color("#140c10"))
+	draw_rect(r.grow(3), Color("#9c7430") if vit or empate else Color("#5a1a1a"))
+	draw_rect(r.grow(2), Color("#e2b85a") if vit or empate else Color("#a03030"), false, 1.0)
+	draw_rect(r, Color("#1a1218"))
+	if fim.get("tex") != null:
+		draw_texture_rect(fim["tex"], r, false)
+	else:                                                # sem foto: silhueta
+		var cs := r.get_center()
+		var k2 := r.size.x / 36.0
+		draw_circle(cs + Vector2(0, -7) * k2, 7.0 * k2, Color("#3a2c36"))
+		draw_colored_polygon(PackedVector2Array([cs + Vector2(-13, 22) * k2, cs + Vector2(-11, 5) * k2, cs + Vector2(0, 1) * k2,
+			cs + Vector2(11, 5) * k2, cs + Vector2(13, 22) * k2]), Color("#3a2c36"))
+	if faixa_t > 0.85:                                   # nome e linha embaixo da faixa
+		var a2 := clampf((faixa_t - 0.85) / 0.3, 0.0, 1.0)
+		var nome: String = fim["nome"]
+		var w := Fonte57.largura(nome) + 20
+		var pr := Rect2(roundf(180 - w / 2.0), r.end.y - 5, w, 13)
+		draw_rect(pr.grow(1), Color(0.08, 0.05, 0.06, a2))
+		draw_rect(pr, Color(0.35, 0.22, 0.15, a2))
+		draw_rect(Rect2(pr.position, Vector2(pr.size.x, 1)), Color(0.55, 0.38, 0.25, a2))
+		Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(nome) / 2.0), pr.position.y + 4), nome, Color(0.14, 0.07, 0.04, a2), Color(0.6, 0.45, 0.3, a2 * 0.8))
+		var sub: String = fim["sub"]
+		var ws := Fonte57.largura(sub) + 16
+		draw_rect(Rect2(roundf(180 - ws / 2.0), 322, ws, 13), Color(0.05, 0.03, 0.06, 0.85 * a2))
+		Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(sub) / 2.0), 326), sub, Color(0.95, 0.88, 0.7, a2) if vit else Color(0.75, 0.7, 0.75, a2), Color(0.05, 0.03, 0.05, a2))

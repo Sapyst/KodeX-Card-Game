@@ -73,6 +73,36 @@ func _init(menu) -> void:
 const AVATARES := ["alta_magia", "taoismo", "bruxaria", "indigena"]
 
 
+## Retratos que se liberam vencendo personagens (dados/avatares.json). Vazio até os NPCs existirem.
+static func liberaveis() -> Array:
+	var d = JSON.parse_string(FileAccess.get_file_as_string("res://dados/avatares.json"))
+	var l: Array = d.get("liberaveis", []) if d is Dictionary else []
+	if OS.get_environment("GD_AVATAR_TESTE_LIB") != "":       # teste: vencer o Aditya libera o retrato dele
+		l = l + [{"id": "hinduismo", "nome": ["Aditya Rao", "Aditya Rao"], "como": {"vencer": "hinduismo"}}]
+	return l
+
+
+## Todos os retratos da tela de escolha: os padrão + os liberáveis (os ainda trancados aparecem com cadeado).
+static func lista_avatares() -> Array:
+	var out: Array = AVATARES.duplicate()
+	for a in liberaveis():
+		if not (a["id"] in out):
+			out.append(a["id"])
+	return out
+
+
+static func avatar_liberado(id: String) -> bool:
+	return id in AVATARES or id in (Sessao.perfil.get("avatares", []) as Array)
+
+
+static func como_liberar(id: String) -> String:
+	for a in liberaveis():
+		if a["id"] == id:
+			var quem := str(Sessao.personagem(str(a["como"].get("vencer", ""))).get("nome", a["nome"][0]))
+			return Sessao.t("Vença %s") % quem
+	return ""
+
+
 ## Imagem padrão: o retrato do personagem (recortado do topo, 3:4) sobre o fundo na cor da tradição.
 static func imagem_avatar(id: String) -> Image:
 	var tex := Carta.textura("retrato", id, "png")
@@ -93,6 +123,9 @@ static func imagem_avatar(id: String) -> Image:
 
 
 func aplicar_avatar(id: String) -> void:
+	if not avatar_liberado(id):
+		avisar(como_liberar(id))
+		return
 	imagem_avatar(id).save_png(Sessao.FOTO)
 	Sessao.perfil["tem_foto"] = true
 	Sessao.perfil["avatar"] = id
@@ -107,6 +140,17 @@ var _tex_avatar := {}
 
 func botao_avatar(b: Dictionary, r: Rect2, pressao: float) -> void:
 	var id: String = b["avatar"]
+	if not avatar_liberado(id):                          # trancado: silhueta escura, cadeado e como liberar
+		var rr0 := Rect2(r.position + Vector2(0, pressao), r.size)
+		moldura_foto(rr0, null)
+		var cc := rr0.get_center()
+		f.draw_rect(Rect2(cc + Vector2(-7, -2), Vector2(14, 11)), f.OURO[2])
+		f.draw_arc(cc + Vector2(0, -3), 5.0, PI, TAU, 10, f.OURO[2], 2.0)
+		var txt := como_liberar(id)
+		var linhas := Fonte57.quebrar(txt, int(rr0.size.x + 30))
+		for k in linhas.size():
+			f._texto_central(Vector2(cc.x, rr0.end.y + 10 + k * 11), linhas[k], Color(0.72, 0.66, 0.6))
+		return
 	if not _tex_avatar.has(id):
 		_tex_avatar[id] = ImageTexture.create_from_image(imagem_avatar(id))
 	var sel: bool = str(Sessao.perfil.get("avatar", "")) == id
@@ -195,15 +239,25 @@ func barra_titulo() -> void:
 	var tit := str(Sessao.perfil.get("titulo", ""))           # nível e título em uso embaixo do nome
 	var linha := (Sessao.t("Nv") + " %d" % Progresso.nivel()) + ("  ·  " + Progresso.nome_titulo(tit) if tit != "" else "")
 	Fonte57.desenhar(f, Vector2(42, 24), linha, Color("#e0c88a") if tit != "" else Color(0.72, 0.66, 0.53, 0.8), f.ESCURO)
-	var m := str(Sessao.moedas())
+	var m := str(f.moedas_vis)                   # o contador sobe conforme as moedas voando chegam (fluxo.gd)
 	var w := Fonte57.largura(m)
-	moeda(Vector2(338 - w - 10, 18))
-	Fonte57.desenhar(f, Vector2(340 - w, 15), m, f.OURO[0], f.ESCURO)
-	var k := str(Sessao.koins())
-	var wk := Fonte57.largura(k)
-	var xk := 338 - w - 24 - wk
-	icone_koin(f, Vector2(xk - 10, 18))
-	Fonte57.desenhar(f, Vector2(xk - 2, 15), k, Color("#e0c0ff"), f.ESCURO)
+	moeda(pos_moeda())
+	var pulo_m: float = f.pulo_contador[0]
+	Fonte57.desenhar(f, Vector2(340 - w, 15 - roundf(pulo_m * 2)), m, f.OURO[0].lerp(Color.WHITE, pulo_m), f.ESCURO)
+	var k := str(f.koins_vis)
+	var pulo_k: float = f.pulo_contador[1]
+	icone_koin(f, pos_koin())
+	Fonte57.desenhar(f, pos_koin() + Vector2(8, -3 - roundf(pulo_k * 2)), k, Color("#e0c0ff").lerp(Color.WHITE, pulo_k), f.ESCURO)
+
+
+## Onde ficam o ícone da moeda e o do Koin na barra do Início (destino das moedas voando).
+func pos_moeda() -> Vector2:
+	return Vector2(338 - Fonte57.largura(str(f.moedas_vis)) - 10, 18)
+
+
+func pos_koin() -> Vector2:
+	var w := Fonte57.largura(str(f.moedas_vis))
+	return Vector2(338 - w - 24 - Fonte57.largura(str(f.koins_vis)) - 10, 18)
 
 
 ## Texto 2× centrado + cursor de digitação: barra vertical "|" de 2×16 px piscando (0,5 s aceso / 0,5 s apagado)

@@ -25,7 +25,7 @@ const PREMIOS = {
 };
 const MOEDAS_ONLINE = [20, 5, 10];   // vitória, derrota, empate
 const LIVRES = ["nome", "tem_foto", "decks", "deck_ativo", "verso", "novas", "pacote", "tarcade", "torneio", "versao_vista",
-  "pere", "torneio_vencido", "pere_fim", "historico", "estat", "prog", "titulo"];
+  "pere", "torneio_vencido", "pere_fim", "historico", "estat", "prog", "titulo", "avatares"];
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const json = (obj, status = 200) => new Response(JSON.stringify(obj), {
@@ -504,6 +504,15 @@ export default {
         if (!res.erro) await gravarPerfil(env, id, p);
         return json({ ok: !res.erro, resultado: res, perfil: p });
       }
+      if (url.pathname === "/v1/erros" && req.method === "POST") {    // relatório de erros que a pessoa escolheu enviar
+        const hoje = dia();
+        const lim = await env.DB.prepare("SELECT n FROM limites WHERE id=? AND dia=? AND motivo='erros'").bind(id, hoje).first();
+        if ((lim?.n | 0) >= 5) return erro("muitos envios hoje", 429);
+        await env.DB.prepare("INSERT INTO limites (id, dia, motivo, n) VALUES (?, ?, 'erros', 1) ON CONFLICT(id, dia, motivo) DO UPDATE SET n = n + 1").bind(id, hoje).run();
+        await env.DB.prepare("INSERT INTO erros (id, ts, versao, so, texto) VALUES (?, ?, ?, ?, ?)")
+          .bind(id, Math.floor(agora()), String(corpo.versao || "").slice(0, 20), String(corpo.so || "").slice(0, 20), String(corpo.texto || "").slice(-30000)).run();
+        return json({ ok: true });
+      }
       if (url.pathname === "/v1/vincular" && req.method === "POST") {
         const letras = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
         const cod = [...crypto.getRandomValues(new Uint8Array(8))].map((b) => letras[b % letras.length]).join("");
@@ -515,7 +524,7 @@ export default {
         if (r) return r;
       }
       if (url.pathname === "/v1/apagar" && req.method === "POST") {   // excluir a conta (exigência da Play Store)
-        for (const t of ["perfis", "limites", "codigos", "emails", "kodes", "fila"]) await env.DB.prepare(`DELETE FROM ${t} WHERE id=?`).bind(id).run();
+        for (const t of ["perfis", "limites", "codigos", "emails", "kodes", "fila", "erros"]) await env.DB.prepare(`DELETE FROM ${t} WHERE id=?`).bind(id).run();
         await env.DB.prepare("DELETE FROM contas WHERE id=?").bind(id).run();
         return json({ ok: true });
       }

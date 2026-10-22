@@ -23,3 +23,7 @@ CREATE TABLE IF NOT EXISTS partidas (pid TEXT PRIMARY KEY, codigo TEXT, j0 TEXT,
   contato0 INTEGER, contato1 INTEGER, vencedor INTEGER DEFAULT -1, criado INTEGER, revanche0 INTEGER DEFAULT 0, revanche1 INTEGER DEFAULT 0,
   revanche_pid TEXT, foto0 TEXT, foto1 TEXT, pago0 INTEGER DEFAULT 0, pago1 INTEGER DEFAULT 0);
 CREATE TABLE IF NOT EXISTS acoes (pid TEXT, seq INTEGER, jogador INTEGER, dados TEXT, ts INTEGER, PRIMARY KEY (pid, seq));
+
+-- relatórios de erro que a pessoa escolheu enviar (Opções > Relatório de erros); ler com:
+-- npx wrangler d1 execute kodex --local --command "SELECT ts, versao, so, texto FROM erros ORDER BY ts DESC LIMIT 5"
+CREATE TABLE IF NOT EXISTS erros (id TEXT, ts INTEGER, versao TEXT, so TEXT, texto TEXT);

@@ -514,5 +514,13 @@
  "quem joga online com você vê nome e foto": "online opponents see your name and photo",
  "Nv": "Lv",
  "Trocar esta missão?": "Swap this mission?",
- "só 1 troca por dia": "only 1 swap per day"
+ "só 1 troca por dia": "only 1 swap per day",
+ "Relatório de erros": "Error report",
+ "Nenhum erro registrado": "No errors recorded",
+ "Nenhum erro registrado. Ótimo!": "No errors recorded. Great!",
+ "Enviar ao desenvolvedor?": "Send to the developer?",
+ "ajuda a corrigir; vai só o texto do erro": "helps fix it; only the error text is sent",
+ "Enviado. Obrigado!": "Sent. Thank you!",
+ "Sem conexão. Tente de novo depois.": "No connection. Try again later.",
+ "Vença %s": "Beat %s"
 }

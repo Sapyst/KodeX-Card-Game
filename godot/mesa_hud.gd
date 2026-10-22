@@ -129,12 +129,18 @@ func emote_jogador(k: int) -> void:
 		m.rede.enviar({"tipo": "emote", "k": k})
 		return
 	if Sessao.modo != "" and randf() < 0.6:            # o oponente responde 60% das vezes, 1,2 s depois
-		var linha: Array = RESPOSTAS[k][randi() % RESPOSTAS[k].size()]
+		var p: Dictionary = Sessao.personagem(Sessao.oponente)
+		var proprias: Array = p.get("falas", {}).get("emote", [])
+		var texto := ""
+		if k < proprias.size() and not (proprias[k] as Array).is_empty():   # resposta com a personalidade dele
+			texto = str(proprias[k][randi() % (proprias[k] as Array).size()])
+		else:
+			var linha: Array = RESPOSTAS[k][randi() % RESPOSTAS[k].size()]
+			texto = linha[1 if Sessao.idioma == "en" else 0]
 		get_tree().create_timer(1.2).timeout.connect(func() -> void:
 			if m.acabou:
 				return
-			var p: Dictionary = Sessao.personagem(Sessao.oponente)
-			m.efeitos.falar(p.get("nome", ""), linha[1 if Sessao.idioma == "en" else 0], Color(p.get("cor", "#e2b85a")), Sessao.oponente))
+			m.efeitos.falar(p.get("nome", ""), texto, Color(p.get("cor", "#e2b85a")), Sessao.oponente))
 
 
 ## Emote recebido do adversário online: balão do lado de lá com o nome dele.

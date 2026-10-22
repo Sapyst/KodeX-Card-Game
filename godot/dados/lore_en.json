@@ -47,7 +47,54 @@
     "I'm Moema Arani. The forest sent me to see who's making all this noise.",
     "Play fair. Curupira plays dirty for me."
    ],
-   "retrato_prompt": "Half-body portrait of an Indigenous Brazilian woman in her early thirties, facing forward and looking directly at the viewer. She has warm brown skin, long straight black hair with a straight-cut fringe and calm dark eyes. Red urucum paint lines cross her cheekbones and black jenipapo geometric patterns cover her forearms. She wears a woven earth-brown cotton top that fully covers her chest, a headband of green and yellow parrot feathers and a green stone muiraquitã frog amulet on a cord. She holds a wooden maracá rattle decorated with feathers in her right hand. Dark Amazon rainforest at night behind her, giant tree roots and faint fireflies."
+   "retrato_prompt": "Half-body portrait of an Indigenous Brazilian woman in her early thirties, facing forward and looking directly at the viewer. She has warm brown skin, long straight black hair with a straight-cut fringe and calm dark eyes. Red urucum paint lines cross her cheekbones and black jenipapo geometric patterns cover her forearms. She wears a woven earth-brown cotton top that fully covers her chest, a headband of green and yellow parrot feathers and a green stone muiraquitã frog amulet on a cord. She holds a wooden maracá rattle decorated with feathers in her right hand. Dark Amazon rainforest at night behind her, giant tree roots and faint fireflies.",
+   "falas": {
+    "inicio": [
+     "Ask permission before sitting in the clearing.",
+     "The forest is watching. Play fair."
+    ],
+    "carta_forte": [
+     "Tupã speaks loud. Listen.",
+     "Iara has sung. Now it's too late.",
+     "Boitatá woke up hungry."
+    ],
+    "golpe": [
+     "The forest charges for what is taken.",
+     "That was the river rising.",
+     "Hear the branch snap? That was you."
+    ],
+    "perdeu_carta": [
+     "Saci laughed at that move.",
+     "Back to the earth. The earth gives back.",
+     "Fine. The forest has deep roots."
+    ],
+    "vida_baixa": [
+     "There's still Curupira's feet to fool you.",
+     "Old trees bend, but don't fall easy."
+    ],
+    "vantagem": [
+     "Lost? The way out is behind you.",
+     "The clearing is closing, you see?"
+    ],
+    "emote": [
+     [
+      "Permission granted. For now.",
+      "Welcome to the forest. Mind your step."
+     ],
+     [
+      "You played with respect. I like it.",
+      "The forest saw. It remembers."
+     ],
+     [
+      "Think like the river: flow around.",
+      "Listen to the wind first."
+     ],
+     [
+      "That's just the start of the trail.",
+      "The forest has more creatures than you think."
+     ]
+    ]
+   }
   },
   "cristianismo": {
    "nome": "Frei Bento Amaral",
@@ -77,7 +124,54 @@
     "Friar Bento Amaral, at your service. Exorcisms on Tuesdays, duels as needed.",
     "I promise to play with charity. Charity doesn't mean easy."
    ],
-   "retrato_prompt": "Half-body portrait of an elderly Afro-Brazilian man of mixed African and Portuguese descent, about sixty-four years old, facing forward and looking directly at the viewer. He has warm tan-brown skin, a short white beard, a bald crown ringed by short white hair, deep laugh lines and kind but tired dark eyes. He wears a coarse brown Franciscan friar habit with the hood down, a knotted white rope belt and a purple stole draped over his shoulders. He holds a plain worn wooden cross in one hand and a small brass holy-water sprinkler in the other. Dark candlelit baroque chapel behind him, a gilded altar faintly glowing."
+   "retrato_prompt": "Half-body portrait of an elderly Afro-Brazilian man of mixed African and Portuguese descent, about sixty-four years old, facing forward and looking directly at the viewer. He has warm tan-brown skin, a short white beard, a bald crown ringed by short white hair, deep laugh lines and kind but tired dark eyes. He wears a coarse brown Franciscan friar habit with the hood down, a knotted white rope belt and a purple stole draped over his shoulders. He holds a plain worn wooden cross in one hand and a small brass holy-water sprinkler in the other. Dark candlelit baroque chapel behind him, a gilded altar faintly glowing.",
+   "falas": {
+    "inicio": [
+     "Peace and good. And good luck, you'll need it.",
+     "I'll pray for you. After the match."
+    ],
+    "carta_forte": [
+     "Saint Michael never misses with the spear.",
+     "Glory! That came from above.",
+     "Amen to that card."
+    ],
+    "golpe": [
+     "Even Jonah got out of the fish.",
+     "Penance, my child. Penance.",
+     "That hurt me more. A lie."
+    ],
+    "perdeu_carta": [
+     "Lazarus, rise. Again.",
+     "The Lord gave, the Lord took away.",
+     "Rest. I'll come back for you."
+    ],
+    "vida_baixa": [
+     "I still have faith. And three Hail Marys.",
+     "David won with a stone. I have cards."
+    ],
+    "vantagem": [
+     "Confess now, there's still time.",
+     "I'll bless you for free at the end."
+    ],
+    "emote": [
+     [
+      "Peace and good!",
+      "God bless you. Now play."
+     ],
+     [
+      "Well played, child. Don't get vain.",
+      "Thanks. Humility thanks you."
+     ],
+     [
+      "Thinking is also praying.",
+      "Easy. Golgotha wasn't built in a day."
+     ],
+     [
+      "A miracle? No. Practice.",
+      "Wait until you see the Last Judgment."
+     ]
+    ]
+   }
   },
   "taoismo": {
    "nome": "Lin Yuehua",
@@ -107,7 +201,54 @@
     "Lin Yuehua, of Cloudy Peak. I came for tea, but I'll accept a duel.",
     "If I lose, blame the tea. If I win, blame the Tao."
    ],
-   "retrato_prompt": "Half-body portrait of a young Han Chinese woman who looks about twenty-five years old, facing forward and looking directly at the viewer. She has pale ivory skin, calm dark almond-shaped eyes and long black hair gathered in a high topknot fixed with a green jade hairpin. She wears a high-collared deep blue Taoist priest robe closed up to the neck, embroidered with white clouds and cranes, with black trim and a round yin-yang medallion. She holds a white horsetail fly-whisk in one hand and a yellow paper fulu talisman with red brush script in the other. Misty dark mountain temple at night behind her, pine silhouettes and drifting incense smoke."
+   "retrato_prompt": "Half-body portrait of a young Han Chinese woman who looks about twenty-five years old, facing forward and looking directly at the viewer. She has pale ivory skin, calm dark almond-shaped eyes and long black hair gathered in a high topknot fixed with a green jade hairpin. She wears a high-collared deep blue Taoist priest robe closed up to the neck, embroidered with white clouds and cranes, with black trim and a round yin-yang medallion. She holds a white horsetail fly-whisk in one hand and a yellow paper fulu talisman with red brush script in the other. Misty dark mountain temple at night behind her, pine silhouettes and drifting incense smoke.",
+   "falas": {
+    "inicio": [
+     "Breathe. Then shuffle.",
+     "The tea cools, the match begins."
+    ],
+    "carta_forte": [
+     "Nezha has come down from the cloud.",
+     "The Jade Emperor approves.",
+     "A leaf falls. The mountain smiles."
+    ],
+    "golpe": [
+     "Yin rises, yang falls.",
+     "The water found the crack.",
+     "It wasn't strength. It was timing."
+    ],
+    "perdeu_carta": [
+     "One Immortal fell. The other seven smile.",
+     "Losing is also flowing.",
+     "She returns to the void. Good for her."
+    ],
+    "vida_baixa": [
+     "A hundred and eighty years and I'm still surprised.",
+     "Bamboo bends. It doesn't break."
+    ],
+    "vantagem": [
+     "You rush too much. The river is patient.",
+     "Feel the balance leaving you?"
+    ],
+    "emote": [
+     [
+      "Greetings, young one. Very young.",
+      "May the Tao be with you."
+     ],
+     [
+      "Pretty. Almost balanced.",
+      "He Xiangu would applaud."
+     ],
+     [
+      "The void thinks too.",
+      "Wait. The moment comes."
+     ],
+     [
+      "That? The Eight do it before breakfast.",
+      "You haven't seen the Taiji yet."
+     ]
+    ]
+   }
   },
   "hinduismo": {
    "nome": "Aditya Rao",
@@ -137,7 +278,54 @@
     "Aditya Rao, of Varanasi. Bow ready, heart even readier.",
     "No sermons, no waiting. Let's fight before the chai gets cold."
    ],
-   "retrato_prompt": "Half-body portrait of a young Indian man of about twenty-eight, facing forward and looking directly at the viewer. He has warm medium-brown skin, an athletic build, short wavy black hair, a neatly trimmed beard, bright confident dark eyes and a red and white tilak mark on his forehead. He wears a saffron cotton kurta closed at the collar, a deep red shawl draped over one shoulder, a rudraksha bead mala around his neck and a brass armband on his upper arm. He holds an ornate wooden longbow wrapped in gold thread. Dark riverside ghats of Varanasi at night behind him, small oil lamps floating on black water."
+   "retrato_prompt": "Half-body portrait of a young Indian man of about twenty-eight, facing forward and looking directly at the viewer. He has warm medium-brown skin, an athletic build, short wavy black hair, a neatly trimmed beard, bright confident dark eyes and a red and white tilak mark on his forehead. He wears a saffron cotton kurta closed at the collar, a deep red shawl draped over one shoulder, a rudraksha bead mala around his neck and a brass armband on his upper arm. He holds an ornate wooden longbow wrapped in gold thread. Dark riverside ghats of Varanasi at night behind him, small oil lamps floating on black water.",
+   "falas": {
+    "inicio": [
+     "Bow drawn. Let's go!",
+     "The Ganges doesn't wait. Neither do I."
+    ],
+    "carta_forte": [
+     "Jai Hanuman! Another leap!",
+     "Kali arrived dancing.",
+     "That one came straight from the Mahabharata."
+    ],
+    "golpe": [
+     "The Gandiva doesn't miss twice.",
+     "Bullseye!",
+     "Arjuna would be proud."
+    ],
+    "perdeu_carta": [
+     "The wheel of Samsara returns everything.",
+     "Ah, I liked that one.",
+     "Come back next life, friend."
+    ],
+    "vida_baixa": [
+     "Krishna said: fight without attachment. I'm trying!",
+     "I still have arrows. I always have arrows."
+    ],
+    "vantagem": [
+     "Breathe. The wheel turns for everyone.",
+     "One more arrow and it's over."
+    ],
+    "emote": [
+     [
+      "Namaste! Now aim.",
+      "Greetings! Ready to run?"
+     ],
+     [
+      "Ha! Well played indeed!",
+      "Respect. But I win."
+     ],
+     [
+      "Think fast, the Ganges flows.",
+      "Hmm is good. Too much hmm is sleep."
+     ],
+     [
+      "Right? I liked it too!",
+      "Wait for Shiva to dance."
+     ]
+    ]
+   }
   },
   "bruxaria": {
    "nome": "Ilka Wrona",
@@ -167,7 +355,54 @@
     "Ilka Wrona. Witch, grandmother and terrible loser.",
     "Shuffle already. The cauldron won't stir itself."
    ],
-   "retrato_prompt": "Half-body portrait of an elderly Polish woman of about seventy, facing forward and looking directly at the viewer. She has pale weathered skin with deep wrinkles, sharp grey-green eyes, a strong nose, thin lips set in a wry smile and a long silver braid falling over one shoulder. She wears a high-necked black wool dress that fully covers her chest, a fringed black shawl embroidered with red roses and a necklace of dried rowan berries. A black crow perches on her shoulder. She holds a small glass witch bottle filled with iron pins, herbs and red thread. Dark misty birch-forest crossroads at night behind her, a single lantern glowing."
+   "retrato_prompt": "Half-body portrait of an elderly Polish woman of about seventy, facing forward and looking directly at the viewer. She has pale weathered skin with deep wrinkles, sharp grey-green eyes, a strong nose, thin lips set in a wry smile and a long silver braid falling over one shoulder. She wears a high-necked black wool dress that fully covers her chest, a fringed black shawl embroidered with red roses and a necklace of dried rowan berries. A black crow perches on her shoulder. She holds a small glass witch bottle filled with iron pins, herbs and red thread. Dark misty birch-forest crossroads at night behind her, a single lantern glowing.",
+   "falas": {
+    "inicio": [
+     "Sit. Don't touch the cauldron.",
+     "Guest or dinner? We'll see."
+    ],
+    "carta_forte": [
+     "Hecate holds the torch. I hold the broom.",
+     "Look how pretty my cat is.",
+     "This one came straight from the cauldron."
+    ],
+    "golpe": [
+     "Free evil eye, enjoy.",
+     "Did it hurt? Put salt on it.",
+     "The crows told me where to hit."
+    ],
+    "perdeu_carta": [
+     "My cat still has six lives, you know?",
+     "Hmpf. It'll be compost.",
+     "Noted. In my book of shadows."
+    ],
+    "vida_baixa": [
+     "Old, but not dead. Yet.",
+     "The Morrigan is laughing at me. Let her."
+    ],
+    "vantagem": [
+     "The cauldron is already boiling.",
+     "Dinner, then. Decided."
+    ],
+    "emote": [
+     [
+      "Hello, child. Wipe your feet.",
+      "Greetings. The cat says hi too."
+     ],
+     [
+      "Well played? I know. Thank you.",
+      "Hmpf. Beginner's luck."
+     ],
+     [
+      "Think, think. I'll wait. Knitting.",
+      "Hmm is the cauldron's sound."
+     ],
+     [
+      "Wow is nothing. Wait for Baba Yaga.",
+      "Liked it? There's more in the pantry."
+     ]
+    ]
+   }
   },
   "alta_magia": {
    "nome": "Silas Ashcombe",
@@ -197,7 +432,54 @@
     "Silas Ashcombe. I trace circles, open triangles, close fates. Stay inside the circle, please. For your safety.",
     "Don't leave the circle, whatever happens. The last one who left is still being collected, in pieces, in the Abyss."
    ],
-   "retrato_prompt": "Half-body portrait of a gaunt white Englishman in his mid-fifties, facing forward and looking directly at the viewer. He has pale sallow skin, hollow cheeks, piercing ice-blue eyes, long silver hair tied back at the nape and a neatly trimmed silver goatee. He wears a high-collared black ceremonial robe with crimson lining, closed to the throat, and a plain golden triangle pendant, a simple upward-pointing triangle with a single dot in its center, hanging on a chain over his chest. He holds a black wand tipped with a silver triangle in one hand and a red wax sigil disc engraved with the number 333 in the other. Dark desert night behind him, a triangle traced in the sand glowing faintly."
+   "retrato_prompt": "Half-body portrait of a gaunt white Englishman in his mid-fifties, facing forward and looking directly at the viewer. He has pale sallow skin, hollow cheeks, piercing ice-blue eyes, long silver hair tied back at the nape and a neatly trimmed silver goatee. He wears a high-collared black ceremonial robe with crimson lining, closed to the throat, and a plain golden triangle pendant, a simple upward-pointing triangle with a single dot in its center, hanging on a chain over his chest. He holds a black wand tipped with a silver triangle in one hand and a red wax sigil disc engraved with the number 333 in the other. Dark desert night behind him, a triangle traced in the sand glowing faintly.",
+   "falas": {
+    "inicio": [
+     "The Circle is closed. You are inside.",
+     "Let us begin. The Abyss is eager for me."
+    ],
+    "carta_forte": [
+     "Dantalion, bring me what is theirs.",
+     "Fiat. And so it is.",
+     "Observe the Art. Don't understand it."
+    ],
+    "golpe": [
+     "Three, three, three. Your Cornucopia cracks.",
+     "Every wound is a letter of my sigil.",
+     "Feel the Triangle tighten."
+    ],
+    "perdeu_carta": [
+     "One piece less. The Abyss didn't even notice.",
+     "A foreseen sacrifice.",
+     "It was already three hundred thirty-three pieces."
+    ],
+    "vida_baixa": [
+     "A smudged line. That's all.",
+     "Who erased the line? Who?"
+    ],
+    "vantagem": [
+     "Your name is already being forgotten.",
+     "Choronzon can smell you."
+    ],
+    "emote": [
+     [
+      "Greetings. It will be the last.",
+      "Welcome to the Circle."
+     ],
+     [
+      "I know. I always know.",
+      "Compliment noted in the Codex."
+     ],
+     [
+      "Think. The Abyss thinks of you too.",
+      "Hesitation. Delicious."
+     ],
+     [
+      "That was only the first seal.",
+      "Wait for Sigil 333."
+     ]
+    ]
+   }
   }
  }
 }

@@ -195,6 +195,14 @@ static func partida(reg: Dictionary) -> Array:
 	var mn_antes := maestria_nivel(trad)
 	if trad in dados()["tradicoes"]:
 		pr["maestria"][trad] = int(pr["maestria"].get(trad, 0)) + ganho
+	if venceu:                                           # retrato liberado ao vencer o personagem
+		for a in MenuPerfil.liberaveis():
+			var alvo := str(a.get("como", {}).get("vencer", ""))
+			var avs: Array = Sessao.perfil.get("avatares", [])
+			if alvo != "" and alvo == str(reg.get("deck_op", "")) and not (a["id"] in avs) and reg.get("contra", "") == "ia":
+				avs.append(a["id"])
+				Sessao.perfil["avatares"] = avs
+				ev.append({"tipo": "avatar", "texto": _l(a["nome"]), "premio": {}})
 	ev.append_array(_ganhar_xp(ganho))
 	ev.append_array(_missoes())
 	ev.append_array(_maestria(trad, mn_antes))

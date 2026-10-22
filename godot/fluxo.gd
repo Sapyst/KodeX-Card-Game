@@ -985,7 +985,9 @@ func _criar_kode() -> void:
 	if s1 != s2:
 		mp.avisar(Sessao.t("As senhas não batem.")); return
 	var frase := Nuvem.gerar_frase()
-	var w := frase.split(" ")
+	var w := frase.split(" ", false)
+	if w.size() != 12 or w.has(""):                # trava: sem as 12 palavras o Kode não é criado
+		mp.avisar(Sessao.t("Erro ao gerar a frase secreta. O Kode não foi criado.")); return
 	var blocos: Array = [["titulo", Sessao.t("Sua frase secreta")],
 		["centro", Sessao.t("Anote estas 12 palavras em papel, na ordem. Sem elas não dá para trocar nem recuperar a senha.")], ["espaco"]]
 	for k in 12:

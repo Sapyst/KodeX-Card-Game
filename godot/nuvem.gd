@@ -168,6 +168,9 @@ static func normalizar_frase(f: String) -> String:
 ## 12 palavras da lista BIP39 em português, sorteadas com bytes criptográficos (128 bits de entropia).
 static func gerar_frase() -> String:
 	var lista := FileAccess.get_file_as_string("res://dados/bip39_pt.txt").split("\n", false)
+	if lista.size() < 2048:                      # lista não veio no pacote: nunca gerar frase vazia ou fraca
+		push_error("lista BIP39 ausente (%d palavras)" % lista.size())
+		return ""
 	var bytes := Crypto.new().generate_random_bytes(24)
 	var w := PackedStringArray()
 	for k in 12:

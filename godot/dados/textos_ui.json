@@ -3678,5 +3678,10 @@
   "en": "Google, E-mail and Apple will be available in the final version of the game.",
   "pt": "Google, E-mail e Apple estarão disponíveis na versão final do jogo.",
   "es": "Google, E-mail y Apple estarán disponibles en la versión final del juego."
+ },
+ "Erro ao gerar a frase secreta. O Kode não foi criado.": {
+  "en": "Couldn't generate the secret phrase. The Kode was not created.",
+  "pt": "Erro ao gerar a frase secreta. O Kode não foi criado.",
+  "es": "No se pudo generar la frase secreta. El Kode no se creó."
  }
 }

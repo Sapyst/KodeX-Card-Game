@@ -1,5 +1,18 @@
 [
  {
+  "versao": "0.20.3-alpha",
+  "data": "22/10/2026",
+  "pt": [
+   "Correção importante no Kode: as 12 palavras da frase secreta apareciam em branco. Agora aparecem certinhas, e o jogo nunca cria um Kode sem a frase completa."
+  ],
+  "en": [
+   "Important Kode fix: the 12 words of the secret phrase showed up blank. They now appear correctly, and the game never creates a Kode without the full phrase."
+  ],
+  "es": [
+   "Corrección importante en el Kode: las 12 palabras de la frase secreta aparecían en blanco. Ahora aparecen bien, y el juego nunca crea un Kode sin la frase completa."
+  ]
+ },
+ {
   "versao": "0.20.2-alpha",
   "data": "22/10/2026",
   "pt": [

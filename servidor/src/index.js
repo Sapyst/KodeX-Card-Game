@@ -4,6 +4,7 @@
 // Tudo o que depende de hora usa a hora do servidor no fuso de Nova York (com horário de verão).
 import D from "./dados.js";
 import { rotaMulti } from "./multi.js";
+import { rotaAdmin } from "./admin.js";
 
 const R = {
   MOEDAS_INICIO: 200, MOEDAS_DIA: 50, ACUMULO_DIAS: 3, KOINS_DIA: 10, KOINS_SEMANA: 100, KOINS_VERSAO: 30, MOEDAS_VERSAO: 50,
@@ -315,6 +316,11 @@ async function op(env, id, p, d) {
     }
     case "premio": return premio(env, id, p, d);
     case "progresso": return progresso(env, id, p, d);
+    case "correio_lido": {                       // a pessoa leu a mensagem do painel
+      const c = (p.correio || []).find((x) => x.id === String(d.id || ""));
+      if (c) c.lido = true;
+      return { ok: !!c };
+    }
   }
   return { erro: "operação desconhecida" };
 }
@@ -391,6 +397,10 @@ export default {
     const corpo = req.method === "POST" ? await req.json().catch(() => ({})) : {};
     try {
       if (url.pathname === "/v1/saude") return json({ ok: true, agora: agora(), dia: dia() });
+      if (url.pathname.startsWith("/admin")) {                      // painel de administração (senha própria)
+        const r = await rotaAdmin(req, env, url, corpo, { json, erro, lerPerfil, gravarPerfil, agora, D });
+        if (r) return r;
+      }
       if (url.pathname === "/v1/conta" && req.method === "POST") {
         if (!(await limiteIp(req, env, "conta", 20))) return erro("muitas contas criadas hoje nesta conexão", 429);
         const id = aleatorio(12), segredo = aleatorio(32);

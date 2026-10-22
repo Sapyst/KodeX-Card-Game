@@ -193,6 +193,12 @@ func _ready() -> void:
 	hist = Historico.new(self)
 	onl = MenuOnline.new(self)
 	prg = MenuProgresso.new(self)
+	Nuvem.mudou.connect(func() -> void:                   # perfil do servidor chegou (correio, prêmios): confere no Início
+		if estado == "titulo":
+			_avisar_progresso.call_deferred())
+	perg.fechou.connect(func() -> void:                   # fechou um pergaminho no Início: pode haver carta na fila
+		if estado == "titulo":
+			_avisar_progresso.call_deferred())
 	moedas_vis = Sessao.moedas_vistas if Sessao.moedas_vistas >= 0 else Sessao.moedas()
 	if OS.get_environment("GD_MOEDAS_TESTE") != "":          # teste: finge que acabou de ganhar 120 moedas e 30 Koins
 		moedas_vis = maxi(0, Sessao.moedas() - 120)
@@ -2051,9 +2057,14 @@ func _teste_online(cfg: String) -> void:
 
 
 ## Conquistas que fecharam fora da partida (coleção, booster, Peregrinação, dias seguidos): mostra num pergaminho.
+## Antes, as mensagens do painel de administração (correio): uma por vez, com o presente que veio junto.
 func _avisar_progresso() -> void:
 	if perg.aberto() or OS.get_environment("GD_FLUXO_AUTO") != "":
 		return
+	for c in Sessao.perfil.get("correio", []):
+		if not c.get("lido", false):
+			_abrir_carta(c)
+			return
 	var ev := Progresso.verificar()
 	if ev.is_empty():
 		return
@@ -2176,3 +2187,30 @@ func _desenhar_cortina(v: float) -> void:
 			if u < 0.6:
 				draw_polyline(PackedVector2Array([c + Vector2(0, -s), c + Vector2(s, 0), c + Vector2(0, s), c + Vector2(-s, 0), c + Vector2(0, -s)]),
 					Color(0.89, 0.72, 0.35, 0.35 * (1.0 - u / 0.6)), 1.0)
+
+
+## Carta do correio (mensagem do KodeX pelo painel): texto, quem assina e os itens; ao fechar, marca como lida.
+func _abrir_carta(c: Dictionary) -> void:
+	var en := Sessao.idioma == "en"
+	var b: Array = [["titulo", "Message from KodeX" if en else "Mensagem do KodeX"], ["espaco"]]
+	for ln in Fonte57.quebrar(str(c.get("msg", "")), 250):
+		b.append(["centro", ln])
+	b.append(["centro", "— " + str(c.get("de", "KodeX"))])
+	var it: Dictionary = c.get("itens", {})
+	if int(it.get("moedas", 0)) > 0:
+		b.append(["destaque", "+%d" % int(it["moedas"]), "moeda"])
+	if int(it.get("koins", 0)) > 0:
+		b.append(["destaque", "+%d" % int(it["koins"]), "koin"])
+	if int(it.get("boosters", 0)) > 0:
+		b.append(["destaque", "+%d" % int(it["boosters"]), "booster"])
+	if int(it.get("essencia", 0)) > 0:
+		b.append(["centro", ("+%d Essence" if en else "+%d de Essência") % int(it["essencia"])])
+	for cid in it.get("cartas", []):
+		if Sessao.db["cartas"].has(cid):
+			b.append(["centro", ("Card: %s" if en else "Carta: %s") % str(Sessao.db["cartas"][cid]["nome"])])
+	perg.abrir(b, func() -> void:                       # só conta como lida quando a pessoa fecha ESTA carta
+		c["lido"] = true
+		Sessao.salvar_so_local()
+		if Nuvem.ativo():
+			Nuvem.op("correio_lido", {"id": str(c.get("id", ""))}))
+	vibrar(25, 0.7)

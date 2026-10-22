@@ -476,7 +476,7 @@ func salvar_so_local() -> void:
 ## Campos que o servidor controla (economia e progresso que dá prêmio). `tudo` = entrar numa conta de outro aparelho:
 ## traz também nome, decks e opções.
 const CAMPOS_SERVIDOR := ["colecao", "foils", "versos", "resgates", "sem_lendaria", "lendarios", "enigmas", "diario_dia",
-	"versao_premiada", "choronzon_vencido", "titulos", "novas", "prog_pagos"]
+	"versao_premiada", "choronzon_vencido", "titulos", "novas", "prog_pagos", "correio"]
 const CAMPOS_LIVRES := ["nome", "decks", "deck_ativo", "verso", "pacote", "tarcade", "torneio", "versao_vista", "pere",
 	"torneio_vencido", "historico", "estat", "prog", "titulo", "pere_fim", "avatares"]
 

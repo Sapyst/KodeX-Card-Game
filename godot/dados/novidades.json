@@ -1,5 +1,31 @@
 [
  {
+  "versao": "0.19.0-alpha",
+  "data": "22/10/2026",
+  "pt": [
+   "Online de verdade: o servidor agora é o juiz. Ele embaralha, compra e confere cada jogada; seu celular só recebe as suas cartas e o que é revelado na mesa. Ninguém vê a sua mão.",
+   "Sem ninguém na busca em 30 segundos? Aparece um bot (\"Nome - Bot\") para jogar enquanto espera, com prêmio de partida online.",
+   "Retratos na mesa: você embaixo e o adversário em cima, com a plaquinha do nome entalhada. Contra a IA aparece o personagem; online, a foto da pessoa.",
+   "Progresso (botão de medalha no Início): 3 missões por dia e 3 por semana, nível com prêmio a cada nível, maestria por tradição, 50 conquistas e títulos para usar.",
+   "Dias seguidos: a cada 7 dias seguidos, +1 booster e +20 Koins.",
+   "Os chefes ganharam falas com personalidade durante a partida e respostas próprias aos emotes.",
+   "Vitória e derrota com o retrato de quem venceu, moedas voando até o contador, transições novas e dicas na tela de carregamento.",
+   "Histórico com vitórias em verde e derrotas em vermelho. Relatório de erros em Opções (você escolhe se envia).",
+   "Correções: carta que sumia no meio de uma cadeia de mortes e outros ajustes."
+  ],
+  "en": [
+   "Real online: the server is now the judge. It shuffles, draws and checks every move; your phone only receives your cards and what is revealed on the table. Nobody sees your hand.",
+   "Nobody in the queue after 30 seconds? A bot (\"Name - Bot\") shows up to play while you wait, with online match rewards.",
+   "Portraits on the table: you at the bottom and your opponent at the top, with a carved name plate. Against the AI you see the character; online, the person's photo.",
+   "Progress (medal button on Home): 3 daily and 3 weekly missions, a level with a reward each level, mastery per tradition, 50 achievements and titles to wear.",
+   "Login streak: every 7 days in a row, +1 booster and +20 Koins.",
+   "Bosses now have lines with personality during the match and their own replies to emotes.",
+   "Victory and defeat with the winner's portrait, coins flying to the counter, new transitions and tips on the loading screen.",
+   "History with wins in green and losses in red. Error report in Options (you choose whether to send it).",
+   "Fixes: a card that vanished in the middle of a death chain, and other tweaks."
+  ]
+ },
+ {
   "versao": "0.18.0-alpha",
   "data": "21/10/2026",
   "pt": [

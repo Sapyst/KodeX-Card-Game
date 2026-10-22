@@ -28,6 +28,15 @@ pre{white-space:pre-wrap;font-size:12px;background:#120d15;padding:8px;border-ra
 .etq{display:inline-block;padding:1px 7px;border-radius:9px;font-size:11px;border:1px solid var(--borda);margin:1px}
 .ban-soft{border-color:#c0902a;color:#ffd080}.ban-shadow{border-color:#7a5aa8;color:var(--roxo)}.ban-hard{border-color:#a03030;color:#ffb0a0}
 .alerta{border-color:#a03030;color:#ffb0a0}.res-v{color:var(--verde);font-weight:600}.res-d{color:var(--vermelho);font-weight:600}.res-e{color:var(--apagado);font-weight:600}#entrar{max-width:360px;margin:12vh auto;text-align:center}#entrar input{width:100%;margin:10px 0}
+.modal{position:fixed;inset:0;background:rgba(5,3,8,.86);z-index:10;display:flex;flex-direction:column}.modal[hidden]{display:none}
+.modal header{position:static}.mgrade{flex:1;overflow:auto;padding:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px;align-content:start}
+.mc{position:relative;background:var(--painel);border:2px solid var(--borda);border-radius:8px;padding:4px;cursor:pointer;user-select:none}.mc.sel{border-color:var(--ouro);box-shadow:0 0 0 2px #e2b85a55}
+.mc img{width:100%;aspect-ratio:5/7;object-fit:cover;border-radius:4px;display:block;background:#120d15}.mc .nm{font-size:11px;line-height:1.2;margin-top:3px;min-height:26px}
+.mc .tem{position:absolute;top:6px;left:6px;font-size:11px;background:#000c;border-radius:5px;padding:0 5px;color:var(--apagado)}
+.mc .qt{position:absolute;top:6px;right:6px;font-size:13px;font-weight:700;background:var(--ouro);color:#1a1206;border-radius:9px;padding:0 7px}
+.mc .menos{position:absolute;bottom:34px;right:6px;width:26px;height:26px;padding:0;border-radius:50%;font-weight:700}
+.mfiltros{display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px;border-bottom:1px solid var(--borda)}.mrodape{display:flex;gap:8px;align-items:center;padding:10px 12px;border-top:1px solid var(--borda);background:#150f19;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:2px 4px 2px 8px;border:1px solid var(--borda);border-radius:12px;margin:2px;font-size:12px}.chip button{padding:0 6px;border-radius:9px;font-size:12px}
 .sinal{display:flex;gap:8px;padding:3px 0;border-bottom:1px dashed var(--borda)}.peso{min-width:22px;text-align:center;border-radius:5px;background:#3a1a1e;color:#ffb0a0;font-size:12px}
 </style></head><body>
 <div id="entrar" hidden><h1 style="color:var(--ouro2)">KodeX Admin</h1><p class="apagado">Senha do painel (fica só neste navegador).</p>
@@ -55,6 +64,16 @@ pre{white-space:pre-wrap;font-size:12px;background:#120d15;padding:8px;border-ra
 <section id="tela-erros" hidden><div id="erros"></div></section>
 </main></div>
 <datalist id="cartasLista"></datalist>
+<div class="modal" id="seletor" hidden>
+ <header><h1>ESCOLHER CARTAS</h1><nav><button class="principal" onclick="fecharSeletor()">Pronto</button></nav></header>
+ <div class="mfiltros" id="mabas"></div>
+ <div class="mfiltros"><input id="mbusca" placeholder="Buscar pelo nome" oninput="desenharSeletor()" style="flex:1;min-width:160px">
+  <select id="mtipo" onchange="desenharSeletor()"><option value="">todos os tipos</option><option value="entidade">Entidades</option><option value="selo">Selos</option><option value="rito">Ritos</option><option value="reliquia">Relíquias</option></select>
+  <label class="apagado" style="font-size:12px"><input type="checkbox" id="mlend" onchange="desenharSeletor()"> só Lendárias</label>
+  <button onclick="tudoDaAba(1)">+1 em todas desta aba</button><button onclick="limparSel()">Limpar seleção</button></div>
+ <div class="mgrade" id="mgrade"></div>
+ <div class="mrodape"><span class="apagado">Toque na carta: +1 · botão −: tira 1 da seleção · o número no canto esquerdo é quanto a conta já tem.</span><span id="mresumo" style="margin-left:auto"></span></div>
+</div>
 <script>
 const $=(s)=>document.querySelector(s);let SENHA=localStorage.getItem("kodex_admin")||"";let atual=null;let PAPEL="";let atualKode="";
 // entrada pelo site (kodex.sapyst.workers.dev/login): a senha chega no fragmento #k=… (não vai ao servidor) e some da barra
@@ -71,13 +90,13 @@ function sair(errada){localStorage.removeItem("kodex_admin");SENHA="";$("#app").
 function aba(a){document.querySelectorAll(".aba").forEach(b=>b.classList.toggle("ativa",b.dataset.aba===a));["contas","alertas","registro","erros"].forEach(x=>$("#tela-"+x).hidden=x!==a);
  if(a==="alertas")carregarAlertas();if(a==="registro")carregarRegistro();if(a==="erros")carregarErros()}
 async function iniciar(){$("#entrar").hidden=true;$("#app").hidden=false;carregarResumo();buscar();
- const c=await api("cartas");$("#cartasLista").innerHTML=(c.cartas||[]).map(x=>'<option value="'+esc(x)+'">').join("")}
+ const c=await api("cartas");CARTAS=c.detalhes||[];$("#cartasLista").innerHTML=(c.cartas||[]).map(x=>'<option value="'+esc(x)+'">').join("")}
 async function carregarResumo(){const r=await api("resumo");PAPEL=r.papel||"";document.title="KodeX "+(PAPEL==="mod"?"Moderação":"Admin");const it=[["contas","contas"],["ativas_24h","ativas em 24 h"],["ativas_7d","ativas em 7 dias"],["jogando_agora","online jogando agora"],["na_fila","buscando partida"],["partidas_24h","partidas online 24 h"],["alertas","contas com alerta"],["punidas","contas punidas"],["erros_7d","erros em 7 dias"]];
  $("#resumo").innerHTML=it.map(([k,t])=>'<div class="card"><b>'+(r[k]??0)+'</b><span>'+t+'</span></div>').join("")}
 async function buscar(){const q=new URLSearchParams({q:$("#busca").value,atividade:$("#f_at").value,ban:$("#f_ban").value,nivel_min:$("#f_nv").value||0,moedas_min:$("#f_m").value||0,
  alerta:$("#f_al").checked?1:"",kode:$("#f_kode").checked?1:"",email:$("#f_email").checked?1:""});const r=await api("contas?"+q);
  $("#lista").innerHTML=(r.contas||[]).map(c=>'<tr class="linha" onclick="abrir(\''+c.id+'\')"><td>'+esc(c.nome||"(sem nome)")+(c.kode?' <span class="etq">'+esc(c.kode)+'</span>':'')+banEtq(c.ban)+(c.alerta?' <span class="etq alerta">alerta '+c.alerta+'</span>':'')+'</td><td>'+c.curto+'</td><td>'+c.nivel+'</td><td>'+c.moedas+'</td><td class="apagado">'+quando(c.visto)+'</td></tr>').join("")||'<tr><td colspan="5" class="apagado">Nada encontrado.</td></tr>'}
-async function abrir(id){atual=id;aba("contas");const r=await api("conta/"+id);if(!r.ok){$("#detalhe").innerHTML='<div class="caixa erro">'+esc(r.erro)+'</div>';return}const p=r.perfil;atualKode=r.kode||"";
+async function abrir(id){atual=id;aba("contas");const r=await api("conta/"+id);if(!r.ok){$("#detalhe").innerHTML='<div class="caixa erro">'+esc(r.erro)+'</div>';return}const p=r.perfil;atualKode=r.kode||"";COLECAO=r.colecao||{};SEL={};PACOTE_ATUAL="";
  const est=p.estat.contra||{};const lin=(o)=>o?((o.v|0)+"V "+(o.d|0)+"D "+(o.e|0)+"E"):"-";const pun=r.punicao;
  $("#detalhe").innerHTML='<div class="caixa"><h2>'+esc(p.nome||"(sem nome)")+' <span class="apagado">· '+r.curto+'</span> '+(pun?banEtq(pun.tipo):'')+(r.alerta?' <span class="etq alerta">alerta '+r.alerta+'</span>':'')+'</h2><div class="kv">'+
  '<span>Kode</span><div>'+esc(r.kode||"-")+'</div><span>Email</span><div>'+esc(r.email||"-")+'</div><span>Criada</span><div>'+data(r.criado)+'</div>'+
@@ -104,17 +123,21 @@ async function abrir(id){atual=id;aba("contas");const r=await api("conta/"+id);i
  // notas
  '<div class="caixa"><h2>Notas da moderação</h2>'+((r.notas||[]).map(n=>'<div style="margin-bottom:6px"><span class="apagado">'+data(n.ts)+'</span><br>'+esc(n.texto)+'</div>').join("")||'<span class="apagado">Nenhuma.</span>')+
  '<div class="form" style="margin-top:8px"><label class="cheia"><textarea id="n_txt" placeholder="Anotação (só a moderação vê)"></textarea></label><div class="cheia"><button onclick="nota()">Salvar nota</button></div></div></div>'+
- // presente
- '<div class="caixa"><h2>Dar presente com mensagem</h2><div class="atalhos"><button onclick="atalho(100,0,0,0,\'Sentimos muito pelo problema. Aqui vai uma ajuda!\')">Consolo: 100 moedas</button>'+
+ // gerenciador da conta (dar / tirar)
+ '<div class="caixa"><h2>Gerenciar conta: dar ou tirar</h2>'+
+ '<div class="atalhos"><button onclick="atalho(100,0,0,0,\'Sentimos muito pelo problema. Aqui vai uma ajuda!\')">Consolo: 100 moedas</button>'+
  '<button onclick="atalho(0,50,0,1,\'Um empurrãozinho para a sua jornada no Códice!\')">Boost: 1 booster + 50 Koins</button><button onclick="atalho(0,0,200,0,\'Para você criar a carta que falta.\')">200 Essência</button></div>'+
+ '<div class="atalhos" id="pacotes"></div>'+
  '<div class="form"><label>Moedas<input id="g_m" type="number" min="0" value="0"></label><label>Koins<input id="g_k" type="number" min="0" value="0"></label>'+
- '<label>Essência<input id="g_e" type="number" min="0" value="0"></label><label>Boosters<input id="g_b" type="number" min="0" value="0"></label>'+
- '<label class="cheia">Cartas (ids separados por vírgula)<input id="g_c" list="cartasLista" placeholder="ex.: alt_babalon, ind_tupa"></label>'+
- '<label class="cheia">Mensagem (a pessoa lê no jogo)<textarea id="g_msg" maxlength="400"></textarea></label><label>Assinado<input id="g_de" value="KodeX"></label>'+
- '<div class="cheia"><button class="principal" onclick="presente()">Enviar presente</button> <span id="g_res"></span></div></div></div>'+
+ '<label>Essência<input id="g_e" type="number" min="0" value="0"></label><label>Boosters grátis<input id="g_b" type="number" min="0" value="0"></label>'+
+ '<div class="cheia"><button onclick="abrirSeletor()">Escolher cartas…</button> <span id="g_cartas" class="apagado">nenhuma carta escolhida</span></div>'+
+ '<label class="cheia">Mensagem (a pessoa lê no jogo; obrigatória ao dar)<textarea id="g_msg" maxlength="400"></textarea></label><label>Assinado<input id="g_de" value="KodeX"></label>'+
+ '<div class="cheia"><button class="principal" onclick="ajustar(1)">Dar</button> '+(PAPEL==="admin"?'<button class="perigo" onclick="ajustar(-1)">Tirar</button> ':'')+
+ '<button onclick="salvarPacote()">Salvar como pacote</button> <span id="g_res"></span></div>'+
+ '<div class="cheia apagado" style="font-size:12px">Dar soma à conta e manda a mensagem no correio do jogo. Tirar subtrai as mesmas quantidades (nunca abaixo de zero) e fica só no registro.</div></div></div>'+
  '<div class="caixa"><h2>Correio enviado</h2>'+((p.correio||[]).slice().reverse().map(c=>'<div style="margin-bottom:6px">'+quando(c.ts)+' atrás · '+(c.lido?'<span class="ok">lida</span>':'<span class="apagado">não lida</span>')+'<br>'+esc(c.msg)+'</div>').join("")||'<span class="apagado">Nenhum.</span>')+'</div>'+
  '<div class="caixa"><h2>Últimas partidas</h2>'+((p.historico||[]).map(h=>'<div>'+quando(h.t)+' · '+esc(h.modo)+' · '+esc(h.adversario)+' · '+resultado(h.resultado)+' · '+h.turnos+' turnos</div>').join("")||'<span class="apagado">Nenhuma.</span>')+
- '<h2 style="margin-top:10px">Online</h2>'+((r.online||[]).map(o=>'<div>'+quando(o.quando)+' · contra '+esc(o.contra)+' · '+esc(o.estado)+' · '+resultado(o.resultado)+'</div>').join("")||'<span class="apagado">Nenhuma.</span>')+'</div>'}
+ '<h2 style="margin-top:10px">Online</h2>'+((r.online||[]).map(o=>'<div>'+quando(o.quando)+' · contra '+esc(o.contra)+' · '+esc(o.estado)+' · '+resultado(o.resultado)+'</div>').join("")||'<span class="apagado">Nenhuma.</span>')+'</div>';carregarPacotes();resumoSel()}
 // mesma derivação do jogo (nuvem.gd reforcar): SHA-256 encadeado 200 mil vezes sobre "kodex|usuário|senha"
 async function reforcar(t){let b=new TextEncoder().encode(t);for(let i=0;i<200000;i++)b=new Uint8Array(await crypto.subtle.digest("SHA-256",b));return[...b].map(x=>x.toString(16).padStart(2,"0")).join("")}
 function senhaAleatoria(){const a="abcdefghjkmnpqrstuvwxyz23456789",v=crypto.getRandomValues(new Uint8Array(10));return[...v].map(x=>a[x%a.length]).join("")}
@@ -131,7 +154,47 @@ async function kodeReset(comSenha){const u=atualKode;if(!u)return;
   '<p class="apagado" style="margin:10px 0 4px">Email pronto para mandar: <select id="k_lang" onchange="$(\'#k_email\').value=MODELO[this.value](\''+esc(u)+'\',\''+senha+'\')"><option value="pt">Português</option><option value="en">English</option><option value="es">Español</option></select> <button onclick="navigator.clipboard.writeText($(\'#k_email\').value)">Copiar email</button></p>'+
   '<textarea id="k_email" style="width:100%;min-height:170px">'+esc(MODELO.pt(u,senha))+'</textarea>'}
 function atalho(m,k,e,b,msg){$("#g_m").value=m;$("#g_k").value=k;$("#g_e").value=e;$("#g_b").value=b;$("#g_msg").value=msg}
-async function presente(){const corpo={moedas:+$("#g_m").value,koins:+$("#g_k").value,essencia:+$("#g_e").value,boosters:+$("#g_b").value,
+// ---------- seletor visual de cartas ----------
+let CARTAS=[],SEL={},COLECAO={},MABA="indigena",PACOTES=[];
+const TRAD=[["indigena","Indígena"],["cristianismo","Cristianismo"],["taoismo","Taoísmo"],["hinduismo","Hinduísmo"],["bruxaria","Bruxaria"],["alta_magia","Alta Magia"],["abismo","Abismo"]];
+const IMG=(id)=>"https://raw.githubusercontent.com/Sapyst/KodeX-Card-Game/main/godot/assets/carta/"+id+".webp";
+const nomeCarta=(id)=>(CARTAS.find(c=>c.id===id)||{nome:id}).nome;
+function abrirSeletor(){$("#seletor").hidden=false;desenharAbas();desenharSeletor()}
+function fecharSeletor(){$("#seletor").hidden=true;resumoSel()}
+function desenharAbas(){$("#mabas").innerHTML=TRAD.map(([k,n])=>{const q=CARTAS.filter(c=>c.cultura===k&&SEL[c.id]).reduce((a,c)=>a+SEL[c.id],0);
+ return'<button class="aba'+(k===MABA?' ativa':'')+'" onclick="MABA=\''+k+'\';desenharAbas();desenharSeletor()">'+n+(q?' · '+q:'')+'</button>'}).join("")}
+function visiveis(){const b=$("#mbusca").value.trim().toLowerCase(),t=$("#mtipo").value,l=$("#mlend").checked;
+ return CARTAS.filter(c=>(b?c.nome.toLowerCase().includes(b):c.cultura===MABA)&&(!t||c.tipo===t)&&(!l||c.lendaria)).sort((a,b)=>a.custo-b.custo||a.nome.localeCompare(b.nome))}
+function desenharSeletor(){$("#mgrade").innerHTML=visiveis().map(c=>{const q=SEL[c.id]||0,tem=COLECAO[c.id]|0;
+ return'<div class="mc'+(q?' sel':'')+'" onclick="maisCarta(\''+c.id+'\')"><img loading="lazy" src="'+IMG(c.id)+'" alt=""><div class="nm">'+esc(c.nome)+(c.lendaria?' ★':'')+'</div>'+
+ '<span class="tem">tem '+tem+'</span>'+(q?'<span class="qt">+'+q+'</span><button class="menos" onclick="event.stopPropagation();menosCarta(\''+c.id+'\')">−</button>':'')+'</div>'}).join("")||'<div class="apagado">Nenhuma carta.</div>';
+ const tot=Object.values(SEL).reduce((a,n)=>a+n,0);$("#mresumo").textContent=tot?tot+" carta(s) escolhida(s)":""}
+function maisCarta(id){SEL[id]=Math.min(99,(SEL[id]||0)+1);desenharAbas();desenharSeletor()}
+function menosCarta(id){SEL[id]=(SEL[id]||0)-1;if(SEL[id]<=0)delete SEL[id];desenharAbas();desenharSeletor();resumoSel()}
+function tudoDaAba(n){visiveis().forEach(c=>SEL[c.id]=Math.min(99,(SEL[c.id]||0)+n));desenharAbas();desenharSeletor()}
+function limparSel(){SEL={};desenharAbas();desenharSeletor();resumoSel()}
+function resumoSel(){const ids=Object.keys(SEL);const el=$("#g_cartas");if(!el)return;
+ el.innerHTML=ids.length?ids.map(id=>'<span class="chip">'+esc(nomeCarta(id))+' ×'+SEL[id]+'<button onclick="menosCarta(\''+id+'\')">−</button></span>').join(""):'nenhuma carta escolhida'}
+// ---------- dar / tirar ----------
+async function ajustar(sinal){const n=(s)=>Math.abs(+$(s).value||0)*sinal;const cartas={};for(const[id,q]of Object.entries(SEL))cartas[id]=q*sinal;
+ const corpo={moedas:n("#g_m"),koins:n("#g_k"),essencia:n("#g_e"),boosters:n("#g_b"),cartas,mensagem:sinal>0?$("#g_msg").value:"",de:$("#g_de").value,pacote:PACOTE_ATUAL};
+ const itens=[corpo.moedas&&Math.abs(corpo.moedas)+" moedas",corpo.koins&&Math.abs(corpo.koins)+" Koins",corpo.essencia&&Math.abs(corpo.essencia)+" Essência",corpo.boosters&&Math.abs(corpo.boosters)+" boosters",Object.keys(SEL).length&&Object.values(SEL).reduce((a,b)=>a+b,0)+" cartas"].filter(Boolean).join(", ");
+ if(!itens){$("#g_res").innerHTML='<span class="erro">Nada para '+(sinal>0?'dar':'tirar')+'.</span>';return}
+ if(sinal>0&&!corpo.mensagem.trim()){$("#g_res").innerHTML='<span class="erro">Escreva a mensagem que a pessoa vai ler.</span>';return}
+ if(!confirm((sinal>0?"DAR ":"TIRAR ")+itens+"?"))return;const r=await api("conta/"+atual+"/ajustar",corpo);
+ if(r.ok){COLECAO=r.colecao||COLECAO;SEL={};PACOTE_ATUAL="";$("#g_res").innerHTML='<span class="ok">'+(sinal>0?"Entregue! A pessoa vê ao abrir o jogo.":"Retirado.")+'</span>';setTimeout(()=>abrir(atual),900)}
+ else $("#g_res").innerHTML='<span class="erro">'+esc(r.erro)+'</span>'}
+// ---------- pacotes salvos ----------
+let PACOTE_ATUAL="";
+async function carregarPacotes(){const r=await api("pacotes");PACOTES=r.pacotes||[];desenharPacotes()}
+function desenharPacotes(){const el=$("#pacotes");if(!el)return;el.innerHTML=PACOTES.length?'<span class="apagado" style="font-size:12px;align-self:center">Pacotes:</span>'+PACOTES.map(p=>'<span class="chip"><button style="border:0;background:none;color:var(--ouro2);padding:2px 4px" onclick="usarPacote(\''+p.id+'\')">'+esc(p.nome)+'</button><button title="Apagar pacote" onclick="apagarPacote(\''+p.id+'\')">×</button></span>').join(""):''}
+function usarPacote(id){const p=PACOTES.find(x=>x.id===id);if(!p)return;const d=p.dados;$("#g_m").value=d.moedas;$("#g_k").value=d.koins;$("#g_e").value=d.essencia;$("#g_b").value=d.boosters;
+ SEL={...d.cartas};if(d.mensagem)$("#g_msg").value=d.mensagem;PACOTE_ATUAL=p.nome;resumoSel()}
+async function salvarPacote(){const nome=prompt("Nome do pacote (o mesmo nome substitui):",PACOTE_ATUAL||"");if(!nome)return;
+ const r=await api("pacotes",{nome,moedas:+$("#g_m").value||0,koins:+$("#g_k").value||0,essencia:+$("#g_e").value||0,boosters:+$("#g_b").value||0,cartas:SEL,mensagem:$("#g_msg").value});
+ $("#g_res").innerHTML=r.ok?'<span class="ok">Pacote salvo.</span>':'<span class="erro">'+esc(r.erro)+'</span>';carregarPacotes()}
+async function apagarPacote(id){if(!confirm("Apagar este pacote?"))return;await api("pacotes/"+id+"/apagar",{});carregarPacotes()}
+async function presente_antigo(){const corpo={moedas:+$("#g_m").value,koins:+$("#g_k").value,essencia:+$("#g_e").value,boosters:+$("#g_b").value,
  cartas:$("#g_c").value.split(",").map(s=>s.trim()).filter(Boolean),mensagem:$("#g_msg").value,de:$("#g_de").value};
  if(!confirm("Enviar este presente?"))return;const r=await api("conta/"+atual+"/presente",corpo);
  if(r.ok){$("#g_res").innerHTML='<span class="ok">Enviado! A pessoa vê ao abrir o jogo.</span>';setTimeout(()=>abrir(atual),900)}else $("#g_res").innerHTML='<span class="erro">'+esc(r.erro)+'</span>'}

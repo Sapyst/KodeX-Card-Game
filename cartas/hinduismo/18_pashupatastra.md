@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando uma Entidade inimiga atacar, destrua-a. Compre 1 carta.
+Quando atacarem uma Entidade sua, destrua o atacante. Compre 1 carta.
 
 ## Contexto mitológico
 O Pashupatastra é a arma pessoal de Shiva em sua forma de Pashupati, "senhor das criaturas": a mais destrutiva de todas as armas divinas, capaz de aniquilar a criação inteira se disparada sem alvo à altura. Pode ser lançada pela mente, pelo olhar, pela palavra ou pelo arco, e não tem contra-arma.

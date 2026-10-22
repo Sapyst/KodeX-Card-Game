@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-A Entidade equipada ganha +1/+2 e Ímpeto. Sempre que ela atacar, silencie uma Entidade inimiga.
+A portadora ganha +1/+2 e Ímpeto. Sempre que ela atacar, silencie uma Entidade inimiga.
 
 ## Contexto mitológico
 O Anel de Salomão é a relíquia fundadora da magia cerimonial. No *Testamento de Salomão* (texto grego dos séc. I–III d.C.), o rei reza pelo seu operário atormentado por um demônio, e o arcanjo Miguel desce com um anel gravado com um selo: com ele Salomão convoca Ornias, Belzebu, Asmodeu e dezenas de outros, **interroga cada um sobre seu nome, seu ofício e o anjo que o frustra**, e os põe a carregar pedra para o Templo. É a origem de toda a literatura dos catálogos de espíritos — inclusive da Goetia.

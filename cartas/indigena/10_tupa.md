@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Lendária. Guarda. Despertar: causa 2 de dano a todas as Entidades inimigas.
+Guarda. Despertar: Cause 2 de dano a todas as Entidades inimigas.
 
 ## Contexto mitológico
 Para os Tupinambá da costa, no século XVI, *Tupã* não era um deus supremo: era o **trovão**, a força que faz o céu estrondar. Jean de Léry (*Viagem à Terra do Brasil*, 1578, cap. XVI) escreve que os indígenas chamavam *Toupan* ao trovão e "não lhe prestavam culto"; André Thevet (*Singularidades da França Antártica*, 1557) o descreve como senhor do trovão e da chuva, de quem se tinha medo, mas a quem não se rezava. Alfred Métraux (*A religião dos Tupinambás*, 1928) confirma: não havia sacerdócio nem oferendas para Tupã.

@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Quando o oponente invocar uma Entidade, ela fica congelada e perde 1 ATK e 1 Vida permanentemente.
+Quando o oponente jogar uma Entidade, ela fica congelada e recebe -1/-1.
 
 ## Contexto mitológico
 O mau-olhado (*fascinatio*, *malocchio*, *ayin ha-ra*) é a crença mediterrânea e oriental de que um olhar — em especial o olhar da inveja — pode ferir, secar o leite da vaca, murchar a criança, quebrar a sorte. Plutarco dedica-lhe um debate inteiro (*Quaestiones Convivales* V.7), tentando explicar como partículas saídas dos olhos atingem a vítima; Plínio (*História Natural* VII.16–18) fala de famílias africanas que matavam com o olhar e com o elogio. É um poder tão difundido que raramente é "bruxaria" formal: qualquer um pode ter o olho-gordo sem saber.

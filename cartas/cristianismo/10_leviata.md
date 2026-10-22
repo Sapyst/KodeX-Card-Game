@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Sacrifício 1. Último Sopro: cura 4 da sua Cornucópia.
+Sacrifício 1. Último Sopro: Cure 4 da sua Cornucópia.
 
 ## Contexto mitológico
 Leviatã é o monstro marinho primordial da Bíblia. O discurso final de Deus a Jó o descreve em mais de trinta versículos (Jó 40,25–41,26): couraça de escamas, fogo pelas narinas, "faz ferver o abismo como panela", e ninguém o fisga com anzol. Os Salmos lembram que Deus "esmagou as cabeças do Leviatã" (Sl 74,14) e também que o criou "para brincar" no mar (Sl 104,26). Isaías promete que "naquele dia o Senhor castigará com a sua espada o Leviatã, serpente fugidia, e matará o dragão do mar" (Is 27,1).

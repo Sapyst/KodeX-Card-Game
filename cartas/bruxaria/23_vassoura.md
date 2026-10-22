@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-A portadora ganha +1 ATK e +2 Vida e Ímpeto.
+A portadora ganha +1/+2 e Ímpeto.
 
 ## Contexto mitológico
 A imagem mais antiga que se conhece de mulheres voando — uma em vassoura, outra num bastão — está nas margens de um manuscrito de *Le Champion des Dames*, poema de Martin Le Franc (1451), com a legenda "des vaudoises" (as valdenses, nome que então servia para bruxas). A associação se fixa rápido: a vassoura é o instrumento doméstico por excelência, e a bruxa é a mulher que o vira do avesso — monta nele, em vez de varrer com ele, e sai pela chaminé em vez de ficar junto ao fogo. Os tratados descrevem o unguento de voo esfregado no cabo; a farmacologia explica o resto.

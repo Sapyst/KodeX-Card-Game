@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Busque uma Entidade do seu deck e ponha-a na mão. Embaralhe.
+Compre uma Entidade do seu deck.
 
 ## Contexto mitológico
 *Seiðr* é a magia nórdica de transe, adivinhação e manipulação da sorte — a mais próxima de uma "bruxaria" no mundo escandinavo pré-cristão. Snorri Sturluson conta, na *Ynglinga saga* (cap. 4), que foi **Freyja** quem ensinou o *seiðr* aos Æsir, como era costume entre os Vanir; e que Odin o praticava, embora a arte carregasse tal *ergi* (desonra, falta de virilidade) que os homens a deixavam às sacerdotisas (cap. 7). Freyja, senhora do amor, da guerra e da metade dos mortos em batalha, é assim a padroeira da feiticeira nórdica.

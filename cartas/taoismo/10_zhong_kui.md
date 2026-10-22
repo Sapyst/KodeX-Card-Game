@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: silencie uma Entidade inimiga (ela perde palavras-chave e habilidades).
+Despertar: Silencie uma Entidade inimiga (ela perde palavras-chave e efeitos).
 
 ## Contexto mitológico
 Zhong Kui (鍾馗) é o caçador de fantasmas da China: homem corpulento de barba eriçada, olhos esbugalhados, túnica de letrado e botas, de espada em punho, cercado de pequenos demônios que ele escraviza ou devora. A lenda, registrada por Shen Kuo no *Mengxi bitan* (séc. XI), conta que Zhong Kui foi um candidato dos exames imperiais nos Tang, brilhante mas feio demais; recusado (ou roubado do primeiro lugar), suicidou-se nos degraus do palácio. O imperador Xuanzong, doente, sonhou com um demônio pequeno roubando-lhe a flauta de jade e a bolsa de perfume; então um gigante de boné rasgado agarrou o ladrão, arrancou-lhe os olhos e o comeu, apresentando-se como Zhong Kui. O imperador acordou curado e mandou Wu Daozi pintar o retrato.

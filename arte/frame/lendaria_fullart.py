@@ -19,7 +19,7 @@ SERIF_IT = "/usr/share/fonts/adobe-source-serif/SourceSerif4-It.otf"
 N = 48
 ESTILO = os.environ.get("CUSTO_ESTILO", "A")
 TIPO = {"entidade": "ENTIDADE", "selo": "SELO", "rito": "RITO", "reliquia": "RELÍQUIA"}
-CULT = {"indigena": "INDÍGENA", "cristianismo": "CRISTIANISMO", "taoismo": "TAOISMO", "hinduismo": "HINDUÍSMO",
+CULT = {"indigena": "INDÍGENA", "cristianismo": "CRISTIANISMO", "taoismo": "TAOÍSMO", "hinduismo": "HINDUÍSMO",
         "bruxaria": "BRUXARIA", "alta_magia": "ALTA MAGIA"}
 KW = {"guarda": "GUARDA", "impeto": "ÍMPETO", "furtivo": "FURTIVO", "renascer": "RENASCER"}
 
@@ -139,16 +139,17 @@ def main():
     ficha = next(x for x in glob.glob(os.path.join(RAIZ, "cartas", deck, "[0-9][0-9]_*.md")) if f'"id": "{cid}"' in open(x, encoding="utf-8").read())
     c = F2.ler_carta(ficha)
     global TIPO, CULT, KW
-    en_modo = os.environ.get("IDIOMA", "pt") == "en"
-    if en_modo:                                       # versão em inglês: nome/texto de cartas_en.json e rótulos EN
+    idioma = os.environ.get("IDIOMA", "pt")
+    en_modo = idioma != "pt"
+    if en_modo:                                       # outro idioma: nome/texto de cartas_<idioma>.json e rótulos traduzidos
         import json as _j
-        en = _j.load(open(os.path.join(RAIZ, "godot", "dados", "cartas_en.json"), encoding="utf-8"))["cartas"].get(cid, {})
+        from rotulos_idioma import ROTULOS, KW_MAIUSC
+        en = _j.load(open(os.path.join(RAIZ, "godot", "dados", f"cartas_{idioma}.json"), encoding="utf-8"))["cartas"].get(cid, {})
         c["nome"], c["texto"] = en.get("nome", c["nome"]), en.get("texto", c["texto"])
-        TIPO = {"entidade": "ENTITY", "selo": "SEAL", "rito": "RITE", "reliquia": "RELIC"}
-        CULT = {"indigena": "INDIGENOUS", "cristianismo": "CHRISTIANITY", "taoismo": "TAOISM", "hinduismo": "HINDUISM",
-                "bruxaria": "WITCHCRAFT", "alta_magia": "HIGH MAGIC"}
-        KW = {"guarda": "GUARD", "impeto": "RUSH", "furtivo": "STEALTH", "renascer": "REBIRTH"}
-    OUT = os.path.join(RAIZ, "arte", "_foil_teste", "lend_" + cid + ("" if ESTILO == "A" else "_" + ESTILO) + ("_en" if en_modo else ""))
+        TIPO = {k: v.upper() for k, v in ROTULOS[idioma]["tipo"].items()}
+        CULT = {k: v.upper() for k, v in ROTULOS[idioma]["cult"].items()}
+        KW = KW_MAIUSC[idioma]
+    OUT = os.path.join(RAIZ, "arte", "_foil_teste", "lend_" + cid + ("" if ESTILO == "A" else "_" + ESTILO) + ("_" + idioma if en_modo else ""))
     os.makedirs(OUT, exist_ok=True)
     # arte cobrindo a carta inteira (corte "cover"), cantos arredondados por dentro da borda
     a = Image.open(arte).convert("RGB")
@@ -175,7 +176,7 @@ def main():
     txt_f = f(SERIF, 27)
     kws = [KW[k] for k in c.get("keywords", [])]
     est, bri, poe = ceu(cid)
-    tipo_txt = "  ·  ".join([TIPO[c["tipo"]], CULT.get(deck, deck.upper()), "LEGENDARY" if en_modo else "LENDÁRIA"])
+    tipo_txt = "  ·  ".join([TIPO[c["tipo"]], CULT.get(deck, deck.upper()), ROTULOS[idioma]["lendaria"] if en_modo else "LENDÁRIA"])
     texto = c["texto"]
     for q in range(int(os.environ.get("QUADROS", N))):
         u = q / N
@@ -231,7 +232,7 @@ def main():
         dl.line((70, y_tipo + 24, W - 70, y_tipo + 24), fill=(150, 140, 160), width=1)
         # descrição branca
         y = y_tipo + 42
-        corpo = texto.replace("Lendária. ", "").replace("Lendária.", "").replace("Legendary. ", "").replace("Legendary.", "")        # a linha de tipo já diz LENDÁRIA
+        corpo = texto.replace("Lendária. ", "").replace("Lendária.", "").replace("Legendary. ", "").replace("Legendary.", "").replace("Legendaria. ", "").replace("Legendaria.", "")        # a linha de tipo já diz LENDÁRIA
         for kw in kws:
             corpo = corpo.replace(kw.capitalize() + ". ", "").replace(kw.capitalize() + ".", "")
             corpo = corpo.replace(kw.title() + ". ", "").replace(kw.title() + ".", "")

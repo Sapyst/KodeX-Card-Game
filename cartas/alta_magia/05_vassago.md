@@ -1,4 +1,4 @@
-# Vassago, o Príncipe que Acha
+# Vassago, o Príncipe que Encontra
 
 | Campo | Valor |
 |---|---|
@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Despertar: busque um Selo do seu deck.
+Despertar: Compre um Selo do seu deck.
 
 ## Contexto mitológico
 Vassago é o terceiro espírito da *Ars Goetia* (Lemegeton, séc. XVII), um Príncipe "da mesma natureza de Agares", de boa índole. Seu ofício é declarar coisas passadas e futuras e **descobrir tudo o que está escondido ou perdido**; governa 26 legiões. É um dos poucos espíritos da lista que o próprio texto descreve como benigno ("of a good nature"), e por isso virou favorito dos magos que querem adivinhação sem risco. Detalhe de filologia: Vassago **não consta** na *Pseudomonarchia Daemonum* de Weyer (1577), fonte dos outros 68; é um dos quatro espíritos (com Seere, Dantalion e Andromalius) acrescentados pelo compilador do Lemegeton no século XVII — provavelmente de outra lista hoje perdida.
@@ -30,7 +30,7 @@ Orçamento P = 2·3+1 = 7 pts. Gasto: ATK 2 + Vida 3 + Despertar buscar Selo (2)
 ```json
 {
   "id": "alt_vassago",
-  "nome": "Vassago, o Príncipe que Acha",
+  "nome": "Vassago, o Príncipe que Encontra",
   "cultura": "alta_magia",
   "tipo": "entidade",
   "custo": 3,

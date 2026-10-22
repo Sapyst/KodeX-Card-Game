@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando o oponente invocar uma Entidade, ela sofre 3 de dano e não ataca no próximo turno dela.
+Quando o oponente jogar uma Entidade, ela sofre 3 de dano e fica congelada.
 
 ## Contexto mitológico
 Depois da expulsão de Adão e Eva, "o Senhor Deus pôs, ao oriente do jardim do Éden, os querubins e a espada flamejante que se revolvia, para guardar o caminho da árvore da vida" (Gn 3,24). É a primeira menção a querubins na Bíblia, e já como guardiões de um limiar — função que repetem nas figuras de ouro sobre a Arca (Ex 25,18-22) e nas quatro criaturas de quatro faces que carregam o trono móvel de Ezequiel (Ez 1; 10).

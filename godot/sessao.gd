@@ -36,20 +36,48 @@ var torneio_ordem: Array = []        # 6 oponentes; o último é sempre alta_mag
 var torneio_idx := 0
 
 
-# ================= idioma (pt / en) =================
+# ================= idioma (pt / en / es) =================
+## Textos de interface: dados/textos_ui.json, {chave: {en, pt, es}}. A chave é o texto português antigo que o código usa
+## em t("..."); o valor de cada idioma pode ser reescrito sem mexer no código. Ver docs/textos/guia_de_estilo.md.
+const IDIOMAS := ["pt", "en", "es"]
 var idioma := "pt"
-var _ui_en: Dictionary = {}
+var _ui: Dictionary = {}
 const CONFIG := "user://config.cfg"
 
 
+## Formato largo (tela mais larga que alta: PC ou celular deitado no navegador): a altura nativa continua 640 e a escala
+## vira fracionada (1080 px → 1,69×), senão o jogo ficaria em 1× minúsculo; a largura que sobra vira painéis laterais.
+## Em pé: escala inteira como sempre (pixel perfeito). Sinal `formato` avisa as telas para realocar.
+signal formato_mudou(largo: bool)
+var largo := false
+
+
+func _ajustar_escala() -> void:
+	var w := get_tree().root
+	var tam := Vector2(w.size)
+	var novo := tam.x > tam.y * 1.05
+	w.content_scale_stretch = Window.CONTENT_SCALE_STRETCH_FRACTIONAL if novo else Window.CONTENT_SCALE_STRETCH_INTEGER
+	if novo != largo:
+		largo = novo
+		formato_mudou.emit(largo)
+
+
 func _ready() -> void:
+	get_tree().root.size_changed.connect(_ajustar_escala)
+	_ajustar_escala()
+	if OS.get_environment("GD_GIRAR") != "":              # teste: "s:LxA,s:LxA" troca o tamanho da janela (girar a tela)
+		for it in OS.get_environment("GD_GIRAR").split(","):
+			var p := it.split(":")
+			var tam := p[1].split("x")
+			get_tree().create_timer(float(p[0]), true, false, true).timeout.connect(func() -> void:
+				get_tree().root.size = Vector2i(int(tam[0]), int(tam[1])))
 	RegistroErros.aparar()                                 # relatório de erros local (Opções > Relatório de erros)
 	OS.add_logger(RegistroErros.new())
 	if OS.get_environment("GD_ERRO_TESTE") != "":
 		push_error("erro de teste do relatório")
 	rng.randomize()
-	if FileAccess.file_exists("res://dados/ui_en.json"):
-		_ui_en = JSON.parse_string(FileAccess.get_file_as_string("res://dados/ui_en.json"))
+	if FileAccess.file_exists("res://dados/textos_ui.json"):
+		_ui = JSON.parse_string(FileAccess.get_file_as_string("res://dados/textos_ui.json"))
 	var cfg := ConfigFile.new()
 	if cfg.load(CONFIG) == OK:
 		idioma = str(cfg.get_value("geral", "idioma", ""))
@@ -58,8 +86,8 @@ func _ready() -> void:
 		tempo_turno = bool(cfg.get_value("geral", "tempo_turno", true))
 		daltonico = bool(cfg.get_value("geral", "daltonico", false))
 		animacao_rapida = bool(cfg.get_value("geral", "animacao_rapida", false))
-	if idioma == "":
-		idioma = "pt" if OS.get_locale_language() == "pt" else "en"     # 1ª vez: idioma do celular
+	if not idioma in IDIOMAS:
+		idioma = OS.get_locale_language() if OS.get_locale_language() in IDIOMAS else "en"   # 1ª vez: idioma do celular
 	if OS.get_environment("GD_IDIOMA") != "":
 		idioma = OS.get_environment("GD_IDIOMA")
 	carregar_dados()
@@ -105,15 +133,17 @@ func carregar_dados() -> void:
 	if FileAccess.file_exists("res://dados/tokens.json"):
 		tokens = JSON.parse_string(FileAccess.get_file_as_string("res://dados/tokens.json"))
 	db = JSON.parse_string(FileAccess.get_file_as_string("res://dados/cartas.json"))
-	var arq_lore := "res://dados/lore_en.json" if idioma == "en" else "res://dados/lore.json"
-	if FileAccess.file_exists(arq_lore):
-		lore = JSON.parse_string(FileAccess.get_file_as_string(arq_lore))
-	if idioma == "en" and FileAccess.file_exists("res://dados/cartas_en.json"):
-		var en: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://dados/cartas_en.json"))["cartas"]
+	var arq_lore := "res://dados/lore.json" if idioma == "pt" else "res://dados/lore_%s.json" % idioma
+	if not FileAccess.file_exists(arq_lore):
+		arq_lore = "res://dados/lore_en.json"
+	lore = JSON.parse_string(FileAccess.get_file_as_string(arq_lore))
+	var arq_cartas := "res://dados/cartas_%s.json" % idioma
+	if idioma != "pt" and FileAccess.file_exists(arq_cartas):
+		var tr: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(arq_cartas))["cartas"]
 		for cid in db["cartas"]:
-			if en.has(cid):
-				db["cartas"][cid]["nome"] = en[cid]["nome"]
-				db["cartas"][cid]["texto"] = en[cid]["texto"]
+			if tr.has(cid):
+				db["cartas"][cid]["nome"] = tr[cid]["nome"]
+				db["cartas"][cid]["texto"] = tr[cid]["texto"]
 
 
 ## Opções (user://config.cfg): vibração ligada/desligada e animações normais/rápidas (a mesa roda 1,5× mais rápido).
@@ -164,7 +194,7 @@ func velocidade_mesa() -> float:
 
 
 func trocar_idioma() -> void:
-	idioma = "en" if idioma == "pt" else "pt"
+	idioma = IDIOMAS[(IDIOMAS.find(idioma) + 1) % IDIOMAS.size()]
 	var cfg := ConfigFile.new()
 	cfg.load(CONFIG)
 	cfg.set_value("geral", "idioma", idioma)
@@ -175,23 +205,79 @@ func trocar_idioma() -> void:
 ## Tradução de texto de interface. Os textos ficam em português no código; aqui viram inglês quando preciso.
 ## Aceita números variáveis ("DANO 3" → chave "DANO %d") e prefixos ("BUSCA ENTIDADE" → "SEARCH " + resto).
 func t(s: String) -> String:
-	if idioma != "en" or s == "":
+	if s == "":
 		return s
-	if _ui_en.has(s):
-		return _ui_en[s]
+	if _ui.has(s):
+		return _no_idioma(_ui[s], s)
 	var re := RegEx.create_from_string("-?\\d+")
 	var nums := re.search_all(s)
 	if not nums.is_empty():
 		var chave := re.sub(s, "%d", true)
-		if _ui_en.has(chave):
+		if _ui.has(chave):
 			var args: Array = []
 			for m in nums:
 				args.append(int(m.get_string()))
-			return (_ui_en[chave] as String) % args
+			return _no_idioma(_ui[chave], chave) % args
 	for pre in ["BUSCA ", "INVOCA ", "ALVO: ", "SELO: "]:
 		if s.begins_with(pre):
-			return _ui_en[pre] + t(s.substr(pre.length()))
+			return _no_idioma(_ui[pre], pre) + t(s.substr(pre.length()))
+	if s.contains("|"):                                 # chave com contexto: "contexto|texto"
+		return s.get_slice("|", 1)
+	if _faltando_log and not _faltando.has(s):
+		_faltando[s] = true
+		print("I18N faltando: ", s)
 	return s
+
+
+var _faltando := {}
+var _faltando_log := OS.get_environment("GD_I18N_LOG") != ""
+
+
+func _no_idioma(e: Dictionary, chave: String) -> String:
+	var v := str(e.get(idioma, ""))
+	if v == "":
+		v = str(e.get("en", chave)) if idioma != "pt" else chave
+	return v
+
+
+## Índice do idioma nos pares [pt, en, es] dos dados.
+func li() -> int:
+	return maxi(IDIOMAS.find(idioma), 0)
+
+
+## Escolhe o texto do idioma num par/trio [pt, en, es] (sem o espanhol ainda: usa o inglês).
+func par(a) -> String:
+	if a is String:
+		return t(a)
+	if not (a is Array) or a.is_empty():
+		return str(a)
+	var i := li()
+	return str(a[i] if i < a.size() else a[mini(1, a.size() - 1)])
+
+
+## Campo por idioma num dicionário: {"pt", "en", "es"} ou, com prefixo, {"<prefixo>_pt", "<prefixo>_en", ...}.
+func campo(d: Dictionary, prefixo := ""):
+	var k := idioma if prefixo == "" else "%s_%s" % [prefixo, idioma]
+	if d.has(k) and str(d[k]) != "":
+		return d[k]
+	var ken := "en" if prefixo == "" else prefixo + "_en"
+	return d.get(ken, d.get("pt" if prefixo == "" else prefixo + "_pt", ""))
+
+
+## Pasta das imagens de carta no idioma ("carta", "carta_foil"): carta / carta_en / carta_es.
+func pasta(base: String) -> String:
+	if idioma == "pt":
+		return base
+	var p := "%s_%s" % [base, idioma]
+	if idioma != "en" and not ResourceLoader.exists("res://assets/%s/ind_tupa.webp" % p):
+		return base + "_en"
+	return p
+
+
+func nome_token(nome: String) -> String:
+	if idioma == "pt" or not tokens.has(nome):
+		return nome
+	return str(tokens[nome].get(idioma, tokens[nome].get("en", nome)))
 
 
 func nome_deck(d: String) -> String:
@@ -200,7 +286,7 @@ func nome_deck(d: String) -> String:
 
 func personagem(deck: String) -> Dictionary:
 	if deck == "choronzon":
-		return {"nome": "Choronzon", "titulo": "o Habitante do Abismo" if idioma == "pt" else "the Dweller in the Abyss", "cor": "#c070ff"}
+		return {"nome": "Choronzon", "titulo": t("o Habitante do Abismo"), "cor": "#c070ff"}
 	return lore.get("personagens", {}).get(deck, {"nome": NOME_DECK.get(deck, deck), "titulo": "", "cor": "#e2b85a"})
 
 

@@ -112,7 +112,7 @@ static func rotulo(a: Dictionary) -> String:
 			return "%s%d/%s%d" % ["+" if at >= 0 else "", at, "+" if vi >= 0 else "", vi]
 		"destroy": return "DESTRUIR"
 		"bounce": return "DEVOLVER"
-		"summon": return "INVOCA " + str(a.get("nome", "TOKEN")).to_upper()
+		"summon": return "INVOCA " + Sessao.nome_token(str(a.get("nome", "TOKEN"))).to_upper()
 		"revive": return "REVIVE"
 		"discard": return "DESCARTE %d" % n
 		"gain_fe": return "+%d FÉ" % n
@@ -806,12 +806,11 @@ func _invocar_tokens(d: int, a: Dictionary, fonte) -> void:
 	var nome := str(a.get("nome", "Token"))
 	var info: Dictionary = Sessao.tokens.get(nome, {})        # arte, tradição e nome em inglês do token
 	var de_quem := str(fonte.nome) if (fonte is Object and is_instance_valid(fonte) and fonte is Carta) else ""
-	var en := Sessao.idioma == "en"
-	var texto := (("Token summoned by %s." if en else "Token invocado por %s.") % de_quem) if de_quem != "" else "Token."
+	var texto := (Sessao.t("Token invocado por %s.") % de_quem) if de_quem != "" else "Token."
 	if "guarda" in (a.get("keywords", []) as Array):
-		texto = ("Guard. " if en else "Guarda. ") + texto
+		texto = Sessao.t("Guarda. ") + texto
 	var dados := {"id": str(info.get("id", "token_" + nome.to_lower().replace(" ", "_"))),
-		"nome": str(info.get("en", nome)) if en else nome, "cultura": str(info.get("cultura", "token")), "tipo": "entidade",
+		"nome": Sessao.nome_token(nome), "cultura": str(info.get("cultura", "token")), "tipo": "entidade",
 		"custo": 0, "atk": int(a["atk"]), "vida": int(a["vida"]), "lendaria": false,
 		"keywords": (a.get("keywords", []) as Array).duplicate(), "sacrificio": 0, "efeitos": [], "usos": null,
 		"texto": texto, "token": true}

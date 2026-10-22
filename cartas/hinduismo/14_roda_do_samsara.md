@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério à sua mão e compre 1 carta.
+Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério para a mão. Compre 1 carta.
 
 ## Contexto mitológico
 Samsara ("fluxo", "vagar") é o ciclo de nascimento, morte e renascimento a que todo ser está preso, movido pelo karma — o fruto inevitável das ações. A ideia aparece formulada nas Upanishads mais antigas: no Brihadaranyaka (4.4.5), "conforme age, conforme se conduz, assim o homem se torna; quem faz o bem torna-se bom, quem faz o mal torna-se mau". A Bhagavad Gita (2.22) usa a imagem que todo hindu conhece: "assim como um homem deixa as roupas gastas e veste roupas novas, a alma encarnada deixa os corpos gastos e entra em outros, novos".

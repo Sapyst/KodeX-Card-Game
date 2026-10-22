@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando uma Entidade inimiga atacar, ela sofre 3 de dano. Compre 1 carta.
+Quando atacarem uma Entidade sua, o atacante sofre 3 de dano. Compre 1 carta.
 
 ## Contexto mitológico
 Karma significa simplesmente "ação" — e, por extensão, a lei pela qual toda ação produz um fruto (phala) que retorna a quem a praticou, nesta vida ou em outra. Nos Vedas a palavra designa sobretudo o ato ritual; nas Upanishads passa a abarcar toda conduta e torna-se o motor do samsara. A Bhagavad Gita (2.47) dá o verso mais citado sobre o tema: "tens direito à ação, nunca a seus frutos" — o ensinamento de agir por dever, sem apego ao resultado, que Krishna chama de karma-yoga.

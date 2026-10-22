@@ -21,7 +21,7 @@ for f in glob.glob(os.path.join(RAIZ, "arte", "*", "*.png")):
     p = im.resize((96, 128), Image.LANCZOS).resize((48, 64), Image.LANCZOS)
     p = ImageEnhance.Contrast(ImageEnhance.Color(p).enhance(1.15)).enhance(1.08).filter(ImageFilter.UnsharpMask(1, 60, 1))
     p.save(os.path.join(out_arte, os.path.basename(f))); n1 += 1
-for versao, pasta in ((a.versao, out_carta), (a.versao + "_en", out_carta + "_en")):      # carta inteira PT e EN
+for versao, pasta in ((a.versao, out_carta), (a.versao + "_en", out_carta + "_en"), (a.versao + "_es", out_carta + "_es")):   # carta inteira PT, EN e ES
     os.makedirs(pasta, exist_ok=True)
     for f in glob.glob(os.path.join(RAIZ, "cartas_finais", versao, "*", "*.png")):
         if os.path.basename(f).startswith("_") or "/_backup/" in f:

@@ -1,0 +1,3647 @@
+{
+ "CIMA": {
+  "en": "UP",
+  "pt": "CIMA",
+  "es": "ARRIBA"
+ },
+ "BAIXO": {
+  "en": "DOWN",
+  "pt": "BAIXO",
+  "es": "ABAJO"
+ },
+ "VITÓRIA": {
+  "en": "VICTORY",
+  "pt": "VITÓRIA",
+  "es": "VICTORIA"
+ },
+ "DERROTA": {
+  "en": "DEFEAT",
+  "pt": "DERROTA",
+  "es": "DERROTA"
+ },
+ "EMPATE": {
+  "en": "DRAW",
+  "pt": "EMPATE",
+  "es": "EMPATE"
+ },
+ "PULAR": {
+  "en": "SKIP",
+  "pt": "PULAR",
+  "es": "OMITIR"
+ },
+ "CANCELAR": {
+  "en": "CANCEL",
+  "pt": "CANCELAR",
+  "es": "CANCELAR"
+ },
+ "REVIVER QUAL?": {
+  "en": "REVIVE WHICH?",
+  "pt": "REVIVER QUAL?",
+  "es": "¿REVIVIR CUÁL?"
+ },
+ "SEM FÉ": {
+  "en": "NO FAITH",
+  "pt": "SEM FÉ",
+  "es": "SIN FE"
+ },
+ "SACRIFÍCIO %d": {
+  "en": "SACRIFICE %d",
+  "pt": "SACRIFÍCIO %d",
+  "es": "SACRIFICIO %d"
+ },
+ "SACRIFIQUE %d": {
+  "en": "SACRIFICE %d",
+  "pt": "SACRIFIQUE %d",
+  "es": "SACRIFICA %d"
+ },
+ "CAMPO CHEIO": {
+  "en": "FIELD FULL",
+  "pt": "CAMPO CHEIO",
+  "es": "CAMPO LLENO"
+ },
+ "SEM ESPAÇO": {
+  "en": "NO ROOM",
+  "pt": "SEM ESPAÇO",
+  "es": "SIN ESPACIO"
+ },
+ "SEM PORTADORA": {
+  "en": "NO BEARER",
+  "pt": "SEM PORTADORA",
+  "es": "SIN PORTADORA"
+ },
+ "SEM ALVO": {
+  "en": "NO TARGET",
+  "pt": "SEM ALVO",
+  "es": "SIN BLANCO"
+ },
+ "VIRADA": {
+  "en": "HIDDEN",
+  "pt": "VIRADA",
+  "es": "OCULTA"
+ },
+ "CONGELADA": {
+  "en": "FROZEN",
+  "pt": "CONGELADA",
+  "es": "CONGELADA"
+ },
+ "CANSADA": {
+  "en": "TIRED",
+  "pt": "CANSADA",
+  "es": "AGOTADA"
+ },
+ "JÁ ATACOU": {
+  "en": "ATTACKED",
+  "pt": "JÁ ATACOU",
+  "es": "YA ATACÓ"
+ },
+ "HÁ DEFENSORES": {
+  "en": "DEFENDERS UP",
+  "pt": "HÁ DEFENSORES",
+  "es": "HAY DEFENSORES"
+ },
+ "GUARDA": {
+  "en": "GUARD",
+  "pt": "GUARDA",
+  "es": "GUARDIA"
+ },
+ "DANO %d": {
+  "en": "DAMAGE %d",
+  "pt": "DANO %d",
+  "es": "DAÑO %d"
+ },
+ "CURA %d": {
+  "en": "HEAL %d",
+  "pt": "CURA %d",
+  "es": "CURA %d"
+ },
+ "COMPRE %d": {
+  "en": "DRAW %d",
+  "pt": "COMPRE %d",
+  "es": "ROBA %d"
+ },
+ "BUSCA ": {
+  "en": "SEARCH ",
+  "pt": "BUSCA ",
+  "es": "BUSCA "
+ },
+ "DESTRUIR": {
+  "en": "DESTROY",
+  "pt": "DESTRUIR",
+  "es": "DESTRUIR"
+ },
+ "DEVOLVER": {
+  "en": "RETURN",
+  "pt": "DEVOLVER",
+  "es": "DEVOLVER"
+ },
+ "INVOCA ": {
+  "en": "SUMMON ",
+  "pt": "INVOCA ",
+  "es": "INVOCA "
+ },
+ "REVIVE": {
+  "en": "REVIVE",
+  "pt": "REVIVE",
+  "es": "REVIVE"
+ },
+ "DESCARTE %d": {
+  "en": "DISCARD %d",
+  "pt": "DESCARTE %d",
+  "es": "DESCARTA %d"
+ },
+ "+%d FÉ": {
+  "en": "+%d FAITH",
+  "pt": "+%d FÉ",
+  "es": "+%d FE"
+ },
+ "SILÊNCIO": {
+  "en": "SILENCE",
+  "pt": "SILÊNCIO",
+  "es": "SILENCIO"
+ },
+ "CONGELAR": {
+  "en": "FREEZE",
+  "pt": "CONGELAR",
+  "es": "CONGELAR"
+ },
+ "ANULADO": {
+  "en": "COUNTERED",
+  "pt": "ANULADO",
+  "es": "ANULADO"
+ },
+ "CÓPIA": {
+  "en": "COPY",
+  "pt": "CÓPIA",
+  "es": "COPIA"
+ },
+ "DOMINAR": {
+  "en": "CONTROL",
+  "pt": "DOMINAR",
+  "es": "DOMINAR"
+ },
+ "DOMINADA": {
+  "en": "CONTROLLED",
+  "pt": "DOMINADA",
+  "es": "DOMINADA"
+ },
+ "SIGILO 333": {
+  "en": "SIGIL 333",
+  "pt": "SIGILO 333",
+  "es": "SIGILO 333"
+ },
+ "ALVO: ": {
+  "en": "TARGET: ",
+  "pt": "ALVO: ",
+  "es": "BLANCO: "
+ },
+ "USOS ESGOTADOS": {
+  "en": "NO USES LEFT",
+  "pt": "SEM USOS",
+  "es": "SIN USOS"
+ },
+ "NADA NO DECK": {
+  "en": "DECK EMPTY",
+  "pt": "DECK VAZIO",
+  "es": "MAZO VACÍO"
+ },
+ "VIDA ATUAL %d": {
+  "en": "LIFE NOW %d",
+  "pt": "VIDA ATUAL %d",
+  "es": "VIDA ACTUAL %d"
+ },
+ "SEU TURNO": {
+  "en": "YOUR TURN",
+  "pt": "SEU TURNO",
+  "es": "TU TURNO"
+ },
+ "TURNO DELE": {
+  "en": "THEIR TURN",
+  "pt": "TURNO DELE",
+  "es": "TURNO RIVAL"
+ },
+ "FIM TURNO": {
+  "en": "END TURN",
+  "pt": "FIM TURNO",
+  "es": "FIN TURNO"
+ },
+ "AGUARDE": {
+  "en": "WAIT",
+  "pt": "AGUARDE",
+  "es": "ESPERA"
+ },
+ "MUDO": {
+  "en": "MUTED",
+  "pt": "MUDO",
+  "es": "MUDA"
+ },
+ "SELO": {
+  "en": "SEAL",
+  "pt": "SELO",
+  "es": "SELLO"
+ },
+ "RITO": {
+  "en": "RITE",
+  "pt": "RITO",
+  "es": "RITO"
+ },
+ "RELÍQUIA": {
+  "en": "RELIC",
+  "pt": "RELÍQUIA",
+  "es": "RELIQUIA"
+ },
+ "ENTIDADE": {
+  "en": "ENTITY",
+  "pt": "ENTIDADE",
+  "es": "ENTIDAD"
+ },
+ "ÍMPETO": {
+  "en": "RUSH",
+  "pt": "ÍMPETO",
+  "es": "ÍMPETU"
+ },
+ "FURTIVO": {
+  "en": "STEALTH",
+  "pt": "FURTIVO",
+  "es": "FURTIVO"
+ },
+ "RENASCER": {
+  "en": "REBIRTH",
+  "pt": "RENASCER",
+  "es": "RENACER"
+ },
+ "LENDARIA": {
+  "en": "LEGENDARY",
+  "pt": "LENDÁRIA",
+  "es": "LEGENDARIA"
+ },
+ "CUSTO %d": {
+  "en": "COST %d",
+  "pt": "CUSTO %d",
+  "es": "COSTO %d"
+ },
+ "MAIS TARDE": {
+  "en": "LATER ON",
+  "pt": "MAIS TARDE",
+  "es": "MÁS TARDE"
+ },
+ "TOQUE UM ALVO": {
+  "en": "TAP A TARGET",
+  "pt": "TOQUE UM ALVO",
+  "es": "TOCA UN BLANCO"
+ },
+ "SELO: ": {
+  "en": "SEAL: ",
+  "pt": "SELO: ",
+  "es": "SELLO: "
+ },
+ "Torneio": {
+  "en": "Tournament",
+  "pt": "Torneio",
+  "es": "Torneo"
+ },
+ "Arcade": {
+  "en": "Arcade",
+  "pt": "Arcade",
+  "es": "Arcade"
+ },
+ "Jogar": {
+  "en": "Play",
+  "pt": "Jogar",
+  "es": "Jugar"
+ },
+ "Voltar": {
+  "en": "Back",
+  "pt": "Voltar",
+  "es": "Volver"
+ },
+ "Tentar de novo": {
+  "en": "Try again",
+  "pt": "Tentar de novo",
+  "es": "Reintentar"
+ },
+ "Menu": {
+  "en": "Menu",
+  "pt": "Menu",
+  "es": "Menú"
+ },
+ "Narrador": {
+  "en": "Narrator",
+  "pt": "Narrador",
+  "es": "Narrador"
+ },
+ "Você": {
+  "en": "You",
+  "pt": "Você",
+  "es": "Tú"
+ },
+ "Vitória!": {
+  "en": "Victory!",
+  "pt": "Vitória!",
+  "es": "¡Victoria!"
+ },
+ "Derrota.": {
+  "en": "Defeat.",
+  "pt": "Derrota.",
+  "es": "Derrota."
+ },
+ "Empate.": {
+  "en": "Draw.",
+  "pt": "Empate.",
+  "es": "Empate."
+ },
+ "Luta %d de 6": {
+  "en": "Duel %d of 6",
+  "pt": "Luta %d de 6",
+  "es": "Duelo %d de 6"
+ },
+ "%s, %s, entra na arena com o deck de %s.": {
+  "en": "%s, %s, steps into the arena with the %s deck.",
+  "pt": "%s, %s, entra na arena com o deck de %s.",
+  "es": "%s, %s, entra en la arena con el mazo de %s."
+ },
+ "Escolha o seu deck": {
+  "en": "Choose your deck",
+  "pt": "Escolha seu deck",
+  "es": "Elige tu mazo"
+ },
+ "seis tradições, um Códice": {
+  "en": "six traditions, one Codex",
+  "pt": "seis tradições, um Códice",
+  "es": "seis tradiciones, un Códice"
+ },
+ "toque nas opções para trocar": {
+  "en": "tap an option to change it",
+  "pt": "toque numa opção para mudar",
+  "es": "toca una opción para cambiarla"
+ },
+ "o torneio do Códice": {
+  "en": "the tournament of the Codex",
+  "pt": "o torneio do Códice",
+  "es": "el torneo del Códice"
+ },
+ "Oponente": {
+  "en": "Opponent",
+  "pt": "Oponente",
+  "es": "Oponente"
+ },
+ "Seu deck": {
+  "en": "Your deck",
+  "pt": "Seu deck",
+  "es": "Tu mazo"
+ },
+ "Deck do oponente": {
+  "en": "Opponent's deck",
+  "pt": "Deck do oponente",
+  "es": "Mazo del oponente"
+ },
+ "Aleatório": {
+  "en": "Random",
+  "pt": "Aleatório",
+  "es": "Aleatorio"
+ },
+ "Misto (todas as tradições)": {
+  "en": "Mixed (all traditions)",
+  "pt": "Misto (todas as tradições)",
+  "es": "Mixto (todas las tradiciones)"
+ },
+ "O dele (temático)": {
+  "en": "Their own (themed)",
+  "pt": "O próprio (temático)",
+  "es": "El suyo (temático)"
+ },
+ "Temático aleatório": {
+  "en": "Random themed",
+  "pt": "Temático aleatório",
+  "es": "Temático aleatorio"
+ },
+ "Indígena": {
+  "en": "Indigenous",
+  "pt": "Indígena",
+  "es": "Indígena"
+ },
+ "Cristianismo": {
+  "en": "Christianity",
+  "pt": "Cristianismo",
+  "es": "Cristianismo"
+ },
+ "Taoismo": {
+  "en": "Taoism",
+  "pt": "Taoísmo",
+  "es": "Taoísmo"
+ },
+ "Hinduísmo": {
+  "en": "Hinduism",
+  "pt": "Hinduísmo",
+  "es": "Hinduismo"
+ },
+ "Bruxaria": {
+  "en": "Witchcraft",
+  "pt": "Bruxaria",
+  "es": "Brujería"
+ },
+ "Alta magia": {
+  "en": "High Magic",
+  "pt": "Alta Magia",
+  "es": "Alta Magia"
+ },
+ "Misto": {
+  "en": "Mixed",
+  "pt": "Misto",
+  "es": "Mixto"
+ },
+ "Você venceu o torneio.": {
+  "en": "You won the tournament.",
+  "pt": "Você venceu o torneio.",
+  "es": "Ganaste el torneo."
+ },
+ "O Códice escapa das suas mãos.": {
+  "en": "The Codex slips from your hands.",
+  "pt": "O Códice escapa das suas mãos.",
+  "es": "El Códice se escapa de tus manos."
+ },
+ "Idioma": {
+  "en": "Language",
+  "pt": "Idioma",
+  "es": "Idioma"
+ },
+ "ESCOLHA O ALVO": {
+  "en": "CHOOSE A TARGET",
+  "pt": "ESCOLHA O ALVO",
+  "es": "ELIGE UN BLANCO"
+ },
+ "TOQUE UMA ENTIDADE SUA": {
+  "en": "TAP ONE OF YOUR ENTITIES",
+  "pt": "TOQUE UMA ENTIDADE SUA",
+  "es": "TOCA UNA ENTIDAD TUYA"
+ },
+ "TOQUE NUMA CARTA": {
+  "en": "TAP A CARD",
+  "pt": "TOQUE NUMA CARTA",
+  "es": "TOCA UNA CARTA"
+ },
+ "EFEITO: ": {
+  "en": "EFFECT: ",
+  "pt": "EFEITO: ",
+  "es": "EFECTO: "
+ },
+ "DECK VAZIO": {
+  "en": "EMPTY DECK",
+  "pt": "DECK VAZIO",
+  "es": "MAZO VACÍO"
+ },
+ "REEMBARALHAR O CEMITÉRIO: -%d CORNUCÓPIA": {
+  "en": "SHUFFLE GRAVEYARD BACK IN: -%d CORNUCOPIA",
+  "pt": "REEMBARALHAR O CEMITÉRIO: -%d DE CORNUCÓPIA",
+  "es": "BARAJAR EL CEMENTERIO: -%d DE CORNUCOPIA"
+ },
+ "REEMBARALHAR": {
+  "en": "RESHUFFLE",
+  "pt": "REEMBARALHAR",
+  "es": "REBARAJAR"
+ },
+ "NÃO  (-%d)": {
+  "en": "NO  (-%d)",
+  "pt": "NÃO  (-%d)",
+  "es": "NO  (-%d)"
+ },
+ "Tutorial": {
+  "en": "Tutorial",
+  "pt": "Tutorial",
+  "es": "Tutorial"
+ },
+ "Coleção": {
+  "en": "Collection",
+  "pt": "Coleção",
+  "es": "Colección"
+ },
+ "%d CARTAS": {
+  "en": "%d CARDS",
+  "pt": "%d CARTAS",
+  "es": "%d CARTAS"
+ },
+ "%d TOKENS": {
+  "en": "%d TOKENS",
+  "pt": "%d TOKENS",
+  "es": "%d FICHAS"
+ },
+ "REVISÃO": {
+  "en": "REVIEW",
+  "pt": "REVISÃO",
+  "es": "REVISIÓN"
+ },
+ "CURIOSIDADE": {
+  "en": "TRIVIA",
+  "pt": "CURIOSIDADE",
+  "es": "CURIOSIDAD"
+ },
+ "Arte em revisão: versão provisória desta Alpha.": {
+  "en": "Art under review: a placeholder for this Alpha.",
+  "pt": "Arte em revisão: versão provisória desta Alpha.",
+  "es": "Arte en revisión: versión provisional de esta Alpha."
+ },
+ "Abismo": {
+  "en": "Abyss",
+  "pt": "Abismo",
+  "es": "Abismo"
+ },
+ "toque numa carta para ler a lore": {
+  "en": "tap a card to read its lore",
+  "pt": "toque numa carta para ler a lore",
+  "es": "toca una carta para leer su historia"
+ },
+ "POSSUI %d DE %d": {
+  "en": "OWNED %d OF %d",
+  "pt": "TEM %d DE %d",
+  "es": "TIENES %d DE %d"
+ },
+ "Jogador": {
+  "en": "Player",
+  "pt": "Jogador",
+  "es": "Jugador"
+ },
+ "ver perfil": {
+  "en": "view profile",
+  "pt": "ver perfil",
+  "es": "ver perfil"
+ },
+ "Seu perfil": {
+  "en": "Your profile",
+  "pt": "Seu perfil",
+  "es": "Tu perfil"
+ },
+ "nome e foto ficam só neste aparelho": {
+  "en": "your name and photo stay on this device",
+  "pt": "nome e foto ficam só neste aparelho",
+  "es": "tu nombre y foto quedan solo en este dispositivo"
+ },
+ "seu nome": {
+  "en": "your name",
+  "pt": "seu nome",
+  "es": "tu nombre"
+ },
+ "Nome": {
+  "en": "Name",
+  "pt": "Nome",
+  "es": "Nombre"
+ },
+ "moedas": {
+  "en": "coins",
+  "pt": "moedas",
+  "es": "monedas"
+ },
+ "%d cartas na coleção": {
+  "en": "%d cards in your collection",
+  "pt": "%d cartas na coleção",
+  "es": "%d cartas en tu colección"
+ },
+ "Não consegui abrir essa imagem.": {
+  "en": "Couldn't open that image.",
+  "pt": "Não foi possível abrir essa imagem.",
+  "es": "No se pudo abrir esa imagen."
+ },
+ "Ajuste a foto": {
+  "en": "Adjust your photo",
+  "pt": "Ajuste a foto",
+  "es": "Ajusta la foto"
+ },
+ "arraste e use dois dedos para aproximar": {
+  "en": "drag to move, pinch to zoom",
+  "pt": "arraste para mover, pinça para ampliar",
+  "es": "arrastra para mover, pellizca para ampliar"
+ },
+ "Seus decks": {
+  "en": "Your decks",
+  "pt": "Seus decks",
+  "es": "Tus mazos"
+ },
+ "toque num deck para editar": {
+  "en": "tap a deck to edit it",
+  "pt": "toque num deck para editar",
+  "es": "toca un mazo para editarlo"
+ },
+ "incompleto": {
+  "en": "incomplete",
+  "pt": "incompleto",
+  "es": "incompleto"
+ },
+ "EM USO": {
+  "en": "EQUIPPED",
+  "pt": "EM USO",
+  "es": "EN USO"
+ },
+ "Máximo de 8 decks.": {
+  "en": "8 decks max.",
+  "pt": "No máximo 8 decks.",
+  "es": "Máximo de 8 mazos."
+ },
+ "Deck %d": {
+  "en": "Deck %d",
+  "pt": "Deck %d",
+  "es": "Mazo %d"
+ },
+ "O deck já tem 32 cartas.": {
+  "en": "This deck already has 32 cards.",
+  "pt": "O deck já tem 32 cartas.",
+  "es": "El mazo ya tiene 32 cartas."
+ },
+ "Limite de cópias desta carta no deck.": {
+  "en": "Copy limit for this card reached.",
+  "pt": "Este deck já tem o máximo de cópias desta carta.",
+  "es": "Ya tienes el máximo de copias de esta carta."
+ },
+ "Todas as suas cópias já estão em uso.": {
+  "en": "All your copies are already in use.",
+  "pt": "Todas as suas cópias já estão em uso.",
+  "es": "Todas tus copias ya están en uso."
+ },
+ "O deck precisa de exatamente 32 cartas.": {
+  "en": "The deck needs exactly 32 cards.",
+  "pt": "O deck precisa de exatamente 32 cartas.",
+  "es": "El mazo necesita exactamente 32 cartas."
+ },
+ "Deck em uso!": {
+  "en": "Deck equipped!",
+  "pt": "Deck equipado!",
+  "es": "¡Mazo equipado!"
+ },
+ "Você precisa de pelo menos um deck.": {
+  "en": "You need at least one deck.",
+  "pt": "Você precisa de pelo menos um deck.",
+  "es": "Necesitas al menos un mazo."
+ },
+ "Escolher foto": {
+  "en": "Choose photo",
+  "pt": "Escolher foto",
+  "es": "Elegir foto"
+ },
+ "Continuar": {
+  "en": "Continue",
+  "pt": "Continuar",
+  "es": "Continuar"
+ },
+ "Confirmar": {
+  "en": "Confirm",
+  "pt": "Confirmar",
+  "es": "Confirmar"
+ },
+ "Cancelar": {
+  "en": "Cancel",
+  "pt": "Cancelar",
+  "es": "Cancelar"
+ },
+ "Decks": {
+  "en": "Decks",
+  "pt": "Decks",
+  "es": "Mazos"
+ },
+ "Novo deck": {
+  "en": "New deck",
+  "pt": "Novo deck",
+  "es": "Nuevo mazo"
+ },
+ "No deck": {
+  "en": "In deck",
+  "pt": "No deck",
+  "es": "En el mazo"
+ },
+ "Usar este deck": {
+  "en": "Use this deck",
+  "pt": "Usar este deck",
+  "es": "Usar este mazo"
+ },
+ "Excluir": {
+  "en": "Delete",
+  "pt": "Excluir",
+  "es": "Eliminar"
+ },
+ "Escreva seu nome.": {
+  "en": "Enter your name.",
+  "pt": "Digite seu nome.",
+  "es": "Escribe tu nombre."
+ },
+ "Monte um deck com 32 cartas primeiro.": {
+  "en": "Build a 32-card deck first.",
+  "pt": "Primeiro monte um deck de 32 cartas.",
+  "es": "Primero arma un mazo de 32 cartas."
+ },
+ "+%d moedas! Agora você tem %d.": {
+  "en": "+%d coins! You now have %d.",
+  "pt": "+%d moedas! Agora você tem %d.",
+  "es": "¡+%d monedas! Ahora tienes %d."
+ },
+ "ÚLTIMO SOPRO": {
+  "en": "LAST BREATH",
+  "pt": "ÚLTIMO SOPRO",
+  "es": "ÚLTIMO ALIENTO"
+ },
+ "PROTEÇÃO": {
+  "en": "PROTECT",
+  "pt": "PROTEÇÃO",
+  "es": "PROTECCIÓN"
+ },
+ "INÍCIO DO TURNO": {
+  "en": "TURN START",
+  "pt": "INÍCIO DO TURNO",
+  "es": "INICIO DEL TURNO"
+ },
+ "MÃO CHEIA": {
+  "en": "HAND FULL",
+  "pt": "MÃO CHEIA",
+  "es": "MANO LLENA"
+ },
+ "SACRIFÍCIO": {
+  "en": "SACRIFICE",
+  "pt": "SACRIFÍCIO",
+  "es": "SACRIFICIO"
+ },
+ "+%d FÉ MÁX": {
+  "en": "+%d MAX FAITH",
+  "pt": "+%d FÉ MÁX",
+  "es": "+%d FE MÁX"
+ },
+ "  -  LENDÁRIA": {
+  "en": "  -  LEGENDARY",
+  "pt": "  -  LENDÁRIA",
+  "es": "  -  LEGENDARIA"
+ },
+ "Loja": {
+  "en": "Shop",
+  "pt": "Loja",
+  "es": "Tienda"
+ },
+ "abra boosters e complete a coleção": {
+  "en": "open boosters, complete your collection",
+  "pt": "abra boosters e complete sua coleção",
+  "es": "abre sobres y completa tu colección"
+ },
+ "Comprar booster": {
+  "en": "Buy booster",
+  "pt": "Comprar booster",
+  "es": "Comprar sobre"
+ },
+ "3 cartas de todas as tradições": {
+  "en": "3 cards from every tradition",
+  "pt": "3 cartas de qualquer tradição",
+  "es": "3 cartas de todas las tradiciones"
+ },
+ "pelo menos 1 Entidade": {
+  "en": "at least 1 Entity",
+  "pt": "pelo menos 1 Entidade",
+  "es": "al menos 1 Entidad"
+ },
+ "Lendária: 5% por carta  ·  Foil: 2%": {
+  "en": "Legendary: 5% per card  ·  Foil: 2%",
+  "pt": "Lendária: 5% por carta  ·  Foil: 2%",
+  "es": "Legendaria: 5% por carta  ·  Foil: 2%"
+ },
+ "Moedas insuficientes.": {
+  "en": "Not enough coins.",
+  "pt": "Moedas insuficientes.",
+  "es": "Monedas insuficientes."
+ },
+ "3 CARTAS": {
+  "en": "3 CARDS",
+  "pt": "3 CARTAS",
+  "es": "3 CARTAS"
+ },
+ "deslize o dedo na linha para abrir": {
+  "en": "slide along the line to open",
+  "pt": "deslize o dedo pela linha para abrir",
+  "es": "desliza el dedo por la línea para abrir"
+ },
+ "toque nas cartas para revelar": {
+  "en": "tap the cards to reveal them",
+  "pt": "toque nas cartas para revelar",
+  "es": "toca las cartas para revelarlas"
+ },
+ "NOVA!": {
+  "en": "NEW!",
+  "pt": "NOVA!",
+  "es": "¡NUEVA!"
+ },
+ "REPETIDA": {
+  "en": "DUPLICATE",
+  "pt": "REPETIDA",
+  "es": "REPETIDA"
+ },
+ "LENDÁRIA": {
+  "en": "LEGENDARY",
+  "pt": "LENDÁRIA",
+  "es": "LEGENDARIA"
+ },
+ "toque para voltar": {
+  "en": "tap to go back",
+  "pt": "toque para voltar",
+  "es": "toca para volver"
+ },
+ "Guardar": {
+  "en": "Keep",
+  "pt": "Guardar",
+  "es": "Guardar"
+ },
+ "Concluir": {
+  "en": "Done",
+  "pt": "Concluir",
+  "es": "Listo"
+ },
+ "Abrir outro": {
+  "en": "Open another",
+  "pt": "Abrir outro",
+  "es": "Abrir otro"
+ },
+ "+%d moedas pelas repetidas.": {
+  "en": "+%d coins for duplicates.",
+  "pt": "+%d moedas pelas repetidas.",
+  "es": "+%d monedas por las repetidas."
+ },
+ "TORNEIO ARCADE": {
+  "en": "ARCADE TOURNEY",
+  "pt": "TORNEIO ARCADE",
+  "es": "TORNEO ARCADE"
+ },
+ "Quartas de final": {
+  "en": "Quarterfinals",
+  "pt": "Quartas de final",
+  "es": "Cuartos de final"
+ },
+ "Semifinal": {
+  "en": "Semifinal",
+  "pt": "Semifinal",
+  "es": "Semifinal"
+ },
+ "Final": {
+  "en": "Final",
+  "pt": "Final",
+  "es": "Final"
+ },
+ "Campeão!": {
+  "en": "Champion!",
+  "pt": "Campeão!",
+  "es": "¡Campeón!"
+ },
+ "QUARTAS": {
+  "en": "QUARTERS",
+  "pt": "QUARTAS",
+  "es": "CUARTOS"
+ },
+ "SEMI": {
+  "en": "SEMI",
+  "pt": "SEMI",
+  "es": "SEMI"
+ },
+ "FINAL": {
+  "en": "FINAL",
+  "pt": "FINAL",
+  "es": "FINAL"
+ },
+ "CAMPEÃO": {
+  "en": "CHAMPION",
+  "pt": "CAMPEÃO",
+  "es": "CAMPEÓN"
+ },
+ "CAMPEÃO!": {
+  "en": "CHAMPION!",
+  "pt": "CAMPEÃO!",
+  "es": "¡CAMPEÓN!"
+ },
+ "ELIMINADO": {
+  "en": "ELIMINATED",
+  "pt": "ELIMINADO",
+  "es": "ELIMINADO"
+ },
+ "FIM DO TORNEIO": {
+  "en": "TOURNAMENT OVER",
+  "pt": "FIM DO TORNEIO",
+  "es": "FIN DEL TORNEO"
+ },
+ "+%d moedas": {
+  "en": "+%d coins",
+  "pt": "+%d moedas",
+  "es": "+%d monedas"
+ },
+ "O Viajante": {
+  "en": "The Wanderer",
+  "pt": "O Viajante",
+  "es": "El Viajero"
+ },
+ "Torneio de 8": {
+  "en": "8-Player Tournament",
+  "pt": "Torneio de 8",
+  "es": "Torneo de 8"
+ },
+ "Continuar torneio": {
+  "en": "Continue tournament",
+  "pt": "Continuar torneio",
+  "es": "Continuar torneo"
+ },
+ "Lutar!": {
+  "en": "Fight!",
+  "pt": "Lutar!",
+  "es": "¡A luchar!"
+ },
+ "Desistir": {
+  "en": "Give up",
+  "pt": "Desistir",
+  "es": "Rendirse"
+ },
+ "Ver o resto": {
+  "en": "Watch the rest",
+  "pt": "Ver o resto",
+  "es": "Ver el resto"
+ },
+ "Sair": {
+  "en": "Leave",
+  "pt": "Sair",
+  "es": "Salir"
+ },
+ "Não carrego bandeira nem tradição. Só cartas, e a vontade de ver você cair.": {
+  "en": "No banner. No tradition. Just cards, and the urge to watch you fall.",
+  "pt": "Não carrego bandeira nem tradição. Só cartas e a vontade de ver você cair.",
+  "es": "No llevo bandera ni tradición. Solo cartas y las ganas de verte caer."
+ },
+ "SEMIFINAL": {
+  "en": "SEMIFINAL",
+  "pt": "SEMIFINAL",
+  "es": "SEMIFINAL"
+ },
+ "Abrir booster": {
+  "en": "Open booster",
+  "pt": "Abrir booster",
+  "es": "Abrir sobre"
+ },
+ "Abrir grátis (%d)": {
+  "en": "Open free (%d)",
+  "pt": "Abrir grátis (%d)",
+  "es": "Abrir gratis (%d)"
+ },
+ "SEU CEMITÉRIO": {
+  "en": "YOUR GRAVEYARD",
+  "pt": "SEU CEMITÉRIO",
+  "es": "TU CEMENTERIO"
+ },
+ "CEMITÉRIO DELE": {
+  "en": "THEIR GRAVEYARD",
+  "pt": "CEMITÉRIO DELE",
+  "es": "CEMENTERIO RIVAL"
+ },
+ "FECHAR": {
+  "en": "CLOSE",
+  "pt": "FECHAR",
+  "es": "CERRAR"
+ },
+ "toque na carta para reviver": {
+  "en": "tap the card to revive it",
+  "pt": "toque na carta para reviver",
+  "es": "toca la carta para revivirla"
+ },
+ "deslize para os lados": {
+  "en": "swipe sideways",
+  "pt": "deslize para os lados",
+  "es": "desliza hacia los lados"
+ },
+ "+ ADICIONAR": {
+  "en": "+ ADD",
+  "pt": "+ ADICIONAR",
+  "es": "+ AÑADIR"
+ },
+ "- TIRAR": {
+  "en": "- REMOVE",
+  "pt": "- TIRAR",
+  "es": "- QUITAR"
+ },
+ "NO DECK %d  -  LIVRES %d": {
+  "en": "IN DECK %d  -  SPARE %d",
+  "pt": "NO DECK %d  -  LIVRES %d",
+  "es": "EN MAZO %d  -  LIBRES %d"
+ },
+ "DESLIZE PARA CIMA: LORE": {
+  "en": "SWIPE UP: LORE",
+  "pt": "DESLIZE PARA CIMA: LORE",
+  "es": "DESLIZA ARRIBA: HISTORIA"
+ },
+ "PARA BAIXO OU TOQUE FORA: VOLTAR": {
+  "en": "SWIPE DOWN OR TAP OUTSIDE: BACK",
+  "pt": "PARA BAIXO OU TOQUE FORA: VOLTAR",
+  "es": "ABAJO O TOCA FUERA: VOLVER"
+ },
+ "BAIXO: CARTA  -  CIMA: FECHAR": {
+  "en": "DOWN: CARD  -  UP: CLOSE",
+  "pt": "BAIXO: CARTA  -  CIMA: FECHAR",
+  "es": "ABAJO: CARTA  -  ARRIBA: CERRAR"
+ },
+ "CARREGANDO": {
+  "en": "LOADING",
+  "pt": "CARREGANDO",
+  "es": "CARGANDO"
+ },
+ "6 campeões, 1 Códice": {
+  "en": "6 champions, 1 Codex",
+  "pt": "6 campeões, 1 Códice",
+  "es": "6 campeones, 1 Códice"
+ },
+ "partida rápida  +15": {
+  "en": "quick match  +15",
+  "pt": "partida rápida  +15",
+  "es": "partida rápida  +15"
+ },
+ "continuar chave": {
+  "en": "continue bracket",
+  "pt": "continuar chave",
+  "es": "continuar llave"
+ },
+ "chave  até 150": {
+  "en": "bracket  up to 150",
+  "pt": "chave  até 150",
+  "es": "llave  hasta 150"
+ },
+ "aprenda com Silas": {
+  "en": "learn with Silas",
+  "pt": "aprenda com Silas",
+  "es": "aprende con Silas"
+ },
+ "JOGAR": {
+  "en": "PLAY",
+  "pt": "JOGAR",
+  "es": "JUGAR"
+ },
+ "Deck em uso": {
+  "en": "Current deck",
+  "pt": "Deck em uso",
+  "es": "Mazo en uso"
+ },
+ "Início": {
+  "en": "Home",
+  "pt": "Início",
+  "es": "Inicio"
+ },
+ "Opções": {
+  "en": "Options",
+  "pt": "Opções",
+  "es": "Opciones"
+ },
+ "idioma e informações": {
+  "en": "language and info",
+  "pt": "idioma e informações",
+  "es": "idioma e información"
+ },
+ "pinça para ampliar": {
+  "en": "pinch to zoom",
+  "pt": "pinça para ampliar",
+  "es": "pellizca para ampliar"
+ },
+ "Escolher imagem": {
+  "en": "Choose picture",
+  "pt": "Escolher imagem",
+  "es": "Elegir imagen"
+ },
+ "Sua imagem": {
+  "en": "Your picture",
+  "pt": "Sua imagem",
+  "es": "Tu imagen"
+ },
+ "escolha uma ou envie uma foto": {
+  "en": "pick one or upload a photo",
+  "pt": "escolha uma ou envie uma foto",
+  "es": "elige una o sube una foto"
+ },
+ "Enviar foto do aparelho": {
+  "en": "Upload a photo",
+  "pt": "Enviar foto do aparelho",
+  "es": "Subir una foto"
+ },
+ "Formato HEIC não suportado. Use JPEG ou PNG.": {
+  "en": "HEIC isn't supported. Use JPEG or PNG.",
+  "pt": "O formato HEIC não é aceito. Use JPEG ou PNG.",
+  "es": "El formato HEIC no es compatible. Usa JPEG o PNG."
+ },
+ "Seu nome": {
+  "en": "Your name",
+  "pt": "Seu nome",
+  "es": "Tu nombre"
+ },
+ "Nome do deck": {
+  "en": "Deck name",
+  "pt": "Nome do deck",
+  "es": "Nombre del mazo"
+ },
+ "Fechar": {
+  "en": "Close",
+  "pt": "Fechar",
+  "es": "Cerrar"
+ },
+ "Novidades": {
+  "en": "What's new",
+  "pt": "Novidades",
+  "es": "Novedades"
+ },
+ "Privacidade": {
+  "en": "Privacy",
+  "pt": "Privacidade",
+  "es": "Privacidad"
+ },
+ "Recomeçar torneio": {
+  "en": "Restart tournament",
+  "pt": "Recomeçar torneio",
+  "es": "Reiniciar torneo"
+ },
+ "Vibração: ligada": {
+  "en": "Vibration: on",
+  "pt": "Vibração: ligada",
+  "es": "Vibración: activada"
+ },
+ "Vibração: desligada": {
+  "en": "Vibration: off",
+  "pt": "Vibração: desligada",
+  "es": "Vibración: desactivada"
+ },
+ "Animações: rápidas": {
+  "en": "Animations: fast",
+  "pt": "Animações: rápidas",
+  "es": "Animaciones: rápidas"
+ },
+ "Animações: normais": {
+  "en": "Animations: normal",
+  "pt": "Animações: normais",
+  "es": "Animaciones: normales"
+ },
+ "SEM JOGADAS": {
+  "en": "NO MOVES",
+  "pt": "SEM JOGADAS",
+  "es": "SIN JUGADAS"
+ },
+ "PAUSA": {
+  "en": "PAUSE",
+  "pt": "PAUSA",
+  "es": "PAUSA"
+ },
+ "DESISTIR?": {
+  "en": "CONCEDE?",
+  "pt": "DESISTIR?",
+  "es": "¿RENDIRTE?"
+ },
+ "SAIR?": {
+  "en": "LEAVE?",
+  "pt": "SAIR?",
+  "es": "¿SALIR?"
+ },
+ "CONTINUAR": {
+  "en": "RESUME",
+  "pt": "CONTINUAR",
+  "es": "CONTINUAR"
+ },
+ "REGRAS": {
+  "en": "RULES",
+  "pt": "REGRAS",
+  "es": "REGLAS"
+ },
+ "ANIMAÇÕES: RÁPIDAS": {
+  "en": "ANIMATIONS: FAST",
+  "pt": "ANIMAÇÕES: RÁPIDAS",
+  "es": "ANIMACIÓN: RÁPIDA"
+ },
+ "ANIMAÇÕES: NORMAIS": {
+  "en": "ANIMATIONS: NORMAL",
+  "pt": "ANIMAÇÕES: NORMAIS",
+  "es": "ANIMACIÓN: NORMAL"
+ },
+ "VIBRAÇÃO: LIGADA": {
+  "en": "VIBRATION: ON",
+  "pt": "VIBRAÇÃO: LIGADA",
+  "es": "VIBRACIÓN: ACTIVA"
+ },
+ "VIBRAÇÃO: DESLIGADA": {
+  "en": "VIBRATION: OFF",
+  "pt": "VIBRAÇÃO: DESLIGADA",
+  "es": "VIBRACIÓN: INACTIVA"
+ },
+ "SAIR DO TUTORIAL": {
+  "en": "LEAVE TUTORIAL",
+  "pt": "SAIR DO TUTORIAL",
+  "es": "SALIR DEL TUTORIAL"
+ },
+ "DESISTIR": {
+  "en": "CONCEDE",
+  "pt": "DESISTIR",
+  "es": "RENDIRSE"
+ },
+ "SIM, DESISTIR": {
+  "en": "YES, CONCEDE",
+  "pt": "SIM, DESISTIR",
+  "es": "SÍ, RENDIRME"
+ },
+ "VOLTAR": {
+  "en": "BACK",
+  "pt": "VOLTAR",
+  "es": "VOLVER"
+ },
+ "A partida conta como derrota.": {
+  "en": "The match counts as a loss.",
+  "pt": "A partida conta como derrota.",
+  "es": "La partida cuenta como derrota."
+ },
+ "Você pode refazer o tutorial no menu.": {
+  "en": "You can replay the tutorial from the menu.",
+  "pt": "Você pode refazer o tutorial pelo menu.",
+  "es": "Puedes repetir el tutorial desde el menú."
+ },
+ "RÁPIDO": {
+  "en": "FAST",
+  "pt": "RÁPIDO",
+  "es": "RÁPIDO"
+ },
+ ">> RÁPIDO": {
+  "en": ">> FAST",
+  "pt": ">> RÁPIDO",
+  "es": ">> RÁPIDO"
+ },
+ "MÃO INICIAL": {
+  "en": "OPENING HAND",
+  "pt": "MÃO INICIAL",
+  "es": "MANO INICIAL"
+ },
+ "TOQUE ATÉ 2 CARTAS PARA TROCAR": {
+  "en": "TAP UP TO 2 CARDS TO SWAP",
+  "pt": "TOQUE ATÉ 2 CARTAS PARA TROCAR",
+  "es": "TOCA HASTA 2 CARTAS PARA CAMBIAR"
+ },
+ "MANTER": {
+  "en": "KEEP",
+  "pt": "MANTER",
+  "es": "MANTENER"
+ },
+ "TROCAR (%d)": {
+  "en": "SWAP (%d)",
+  "pt": "TROCAR (%d)",
+  "es": "CAMBIAR (%d)"
+ },
+ "EMBARALHANDO": {
+  "en": "SHUFFLING",
+  "pt": "EMBARALHANDO",
+  "es": "BARAJANDO"
+ },
+ "DESISTÊNCIA": {
+  "en": "CONCEDED",
+  "pt": "DESISTÊNCIA",
+  "es": "RENDICIÓN"
+ },
+ "CAUSA %d": {
+  "en": "DEALS %d",
+  "pt": "CAUSA %d",
+  "es": "INFLIGE %d"
+ },
+ "SOFRE %d": {
+  "en": "TAKES %d",
+  "pt": "SOFRE %d",
+  "es": "RECIBE %d"
+ },
+ "Dificuldade": {
+  "en": "Difficulty",
+  "pt": "Dificuldade",
+  "es": "Dificultad"
+ },
+ "Aprendiz": {
+  "en": "Apprentice",
+  "pt": "Aprendiz",
+  "es": "Aprendiz"
+ },
+ "Mestre": {
+  "en": "Master",
+  "pt": "Mestre",
+  "es": "Maestro"
+ },
+ "Arquimago": {
+  "en": "Archmage",
+  "pt": "Arquimago",
+  "es": "Archimago"
+ },
+ "partida rápida  +10 a 25": {
+  "en": "quick match  +10 to 25",
+  "pt": "partida rápida  +10 a 25",
+  "es": "partida rápida  +10 a 25"
+ },
+ "CAPÍTULO": {
+  "en": "CHAPTER",
+  "pt": "CAPÍTULO",
+  "es": "CAPÍTULO"
+ },
+ "toque para continuar": {
+  "en": "tap to continue",
+  "pt": "toque para continuar",
+  "es": "toca para continuar"
+ },
+ "Arquimago começa com +3 de vida e 1 carta a mais.": {
+  "en": "The Archmage starts with +3 life and 1 extra card.",
+  "pt": "O Arquimago começa com +3 de vida e 1 carta a mais.",
+  "es": "El Archimago empieza con +3 de vida y 1 carta más."
+ },
+ "NO DECK %d": {
+  "en": "IN DECK %d",
+  "pt": "NO DECK %d",
+  "es": "EN MAZO %d"
+ },
+ "LIVRE": {
+  "en": "FREE",
+  "pt": "LIVRE",
+  "es": "LIBRE"
+ },
+ "Deck livre: use no Modo livre (Solo).": {
+  "en": "Free deck: use it in Free Play (Solo).",
+  "pt": "Deck livre: use no Modo livre (Solo).",
+  "es": "Mazo libre: úsalo en el Modo libre (Solo)."
+ },
+ "modos para jogar sozinho": {
+  "en": "modes to play on your own",
+  "pt": "modos para jogar sozinho",
+  "es": "modos para jugar en solitario"
+ },
+ "peregrinação, desafios e mais": {
+  "en": "pilgrimage, challenges and more",
+  "pt": "peregrinação, desafios e mais",
+  "es": "peregrinación, desafíos y más"
+ },
+ "Peregrinação": {
+  "en": "Pilgrimage",
+  "pt": "Peregrinação",
+  "es": "Peregrinación"
+ },
+ "escolha a fé que vai carregar": {
+  "en": "choose the faith you'll carry",
+  "pt": "escolha a fé que vai carregar",
+  "es": "elige la fe que llevarás"
+ },
+ "Cornucópia": {
+  "en": "Cornucopia",
+  "pt": "Cornucópia",
+  "es": "Cornucopia"
+ },
+ "Bênçãos": {
+  "en": "Blessings",
+  "pt": "Bênçãos",
+  "es": "Bendiciones"
+ },
+ "Escolha o caminho": {
+  "en": "Choose your path",
+  "pt": "Escolha seu caminho",
+  "es": "Elige tu camino"
+ },
+ "Ver deck": {
+  "en": "View deck",
+  "pt": "Ver deck",
+  "es": "Ver mazo"
+ },
+ "Abandonar": {
+  "en": "Abandon",
+  "pt": "Abandonar",
+  "es": "Abandonar"
+ },
+ "Entidades": {
+  "en": "Entities",
+  "pt": "Entidades",
+  "es": "Entidades"
+ },
+ "Selos": {
+  "en": "Seals",
+  "pt": "Selos",
+  "es": "Sellos"
+ },
+ "Ritos": {
+  "en": "Rites",
+  "pt": "Ritos",
+  "es": "Ritos"
+ },
+ "Relíquias": {
+  "en": "Relics",
+  "pt": "Relíquias",
+  "es": "Reliquias"
+ },
+ "Bênção": {
+  "en": "Blessing",
+  "pt": "Bênção",
+  "es": "Bendición"
+ },
+ "escolha uma": {
+  "en": "choose one",
+  "pt": "escolha uma",
+  "es": "elige una"
+ },
+ "Nova carta": {
+  "en": "New card",
+  "pt": "Nova carta",
+  "es": "Nueva carta"
+ },
+ "leve uma para o deck": {
+  "en": "take one into your deck",
+  "pt": "leve uma para o deck",
+  "es": "lleva una a tu mazo"
+ },
+ "Pular": {
+  "en": "Skip",
+  "pt": "Pular",
+  "es": "Omitir"
+ },
+ "Desafio do dia": {
+  "en": "Daily Challenge",
+  "pt": "Desafio do dia",
+  "es": "Desafío diario"
+ },
+ "a mesma partida para todo mundo": {
+  "en": "the same match for everyone",
+  "pt": "a mesma partida para todo mundo",
+  "es": "la misma partida para todos"
+ },
+ "Desafios lendários": {
+  "en": "Legendary challenges",
+  "pt": "Desafios lendários",
+  "es": "Desafíos legendarios"
+ },
+ "vença o nível mais difícil e leve a Lendária": {
+  "en": "beat the hardest level, claim the Legendary",
+  "pt": "vença o nível mais difícil e leve a Lendária",
+  "es": "vence el nivel más difícil y llévate la Legendaria"
+ },
+ "Modo livre": {
+  "en": "Free Play",
+  "pt": "Modo livre",
+  "es": "Modo libre"
+ },
+ "teste decks com qualquer carta": {
+  "en": "test decks with any card",
+  "pt": "teste decks com qualquer carta",
+  "es": "prueba mazos con cualquier carta"
+ },
+ "Sem prêmios. Decks livres só valem aqui.": {
+  "en": "No rewards. Free decks only work here.",
+  "pt": "Sem prêmios. Decks livres só valem aqui.",
+  "es": "Sin premios. Los mazos libres solo valen aquí."
+ },
+ "Novo deck livre": {
+  "en": "New free deck",
+  "pt": "Novo deck livre",
+  "es": "Nuevo mazo libre"
+ },
+ "Livre %d": {
+  "en": "Free %d",
+  "pt": "Livre %d",
+  "es": "Libre %d"
+ },
+ "livre": {
+  "en": "free",
+  "pt": "livre",
+  "es": "libre"
+ },
+ "Sem conexão: o desafio do dia usa a hora da internet.": {
+  "en": "No connection: the daily challenge uses internet time.",
+  "pt": "Sem conexão: o desafio do dia usa a hora da internet.",
+  "es": "Sin conexión: el desafío diario usa la hora de internet."
+ },
+ "Vença o Torneio para abrir.": {
+  "en": "Win the Tournament to unlock.",
+  "pt": "Vença o Torneio para desbloquear.",
+  "es": "Gana el Torneo para desbloquearlo."
+ },
+ "Enigmas": {
+  "en": "Enigmas",
+  "pt": "Enigmas",
+  "es": "Enigmas"
+ },
+ "zere a Cornucópia dele neste turno": {
+  "en": "bring their Cornucopia to 0 this turn",
+  "pt": "zere a Cornucópia dele neste turno",
+  "es": "deja su Cornucopia en 0 este turno"
+ },
+ "AINDA NÃO": {
+  "en": "NOT YET",
+  "pt": "AINDA NÃO",
+  "es": "AÚN NO"
+ },
+ "A CORNUCÓPIA DELE NÃO ZEROU": {
+  "en": "THEIR CORNUCOPIA STILL STANDS",
+  "pt": "A CORNUCÓPIA DELE NÃO ZEROU",
+  "es": "SU CORNUCOPIA SIGUE EN PIE"
+ },
+ "TENTAR DE NOVO": {
+  "en": "TRY AGAIN",
+  "pt": "TENTAR DE NOVO",
+  "es": "REINTENTAR"
+ },
+ "SAIR": {
+  "en": "QUIT",
+  "pt": "SAIR",
+  "es": "SALIR"
+ },
+ "BÊNÇÃO": {
+  "en": "BLESSING",
+  "pt": "BÊNÇÃO",
+  "es": "BENDICIÓN"
+ },
+ "TODAS": {
+  "en": "ALL",
+  "pt": "TODAS",
+  "es": "TODAS"
+ },
+ "TENHO": {
+  "en": "OWNED",
+  "pt": "TENHO",
+  "es": "TENGO"
+ },
+ "FALTAM": {
+  "en": "MISSING",
+  "pt": "FALTAM",
+  "es": "FALTAN"
+ },
+ "TIPO": {
+  "en": "TYPE",
+  "pt": "TIPO",
+  "es": "TIPO"
+ },
+ "CUSTO": {
+  "en": "COST",
+  "pt": "CUSTO",
+  "es": "COSTO"
+ },
+ "BUSCAR": {
+  "en": "SEARCH",
+  "pt": "BUSCAR",
+  "es": "BUSCAR"
+ },
+ "TOTAL": {
+  "en": "TOTAL",
+  "pt": "TOTAL",
+  "es": "TOTAL"
+ },
+ "NOVA": {
+  "en": "NEW",
+  "pt": "NOVA",
+  "es": "NUEVA"
+ },
+ "Buscar carta": {
+  "en": "Search cards",
+  "pt": "Buscar carta",
+  "es": "Buscar carta"
+ },
+ "DESFAZER +%d": {
+  "en": "DISENCHANT +%d",
+  "pt": "DESFAZER +%d",
+  "es": "DESHACER +%d"
+ },
+ "CRIAR -%d": {
+  "en": "CRAFT -%d",
+  "pt": "CRIAR -%d",
+  "es": "CREAR -%d"
+ },
+ "TENHO %d  -  ESSÊNCIA %d": {
+  "en": "OWNED %d  -  ESSENCE %d",
+  "pt": "TENHO %d  -  ESSÊNCIA %d",
+  "es": "TENGO %d  -  ESENCIA %d"
+ },
+ "Pacote": {
+  "en": "Pack",
+  "pt": "Pacote",
+  "es": "Sobre"
+ },
+ "todas as tradições": {
+  "en": "all traditions",
+  "pt": "todas as tradições",
+  "es": "todas las tradiciones"
+ },
+ "cada carta: 70% de %s": {
+  "en": "each card: 70%% chance of %s",
+  "pt": "cada carta: 70%% de chance de %s",
+  "es": "cada carta: 70%% de probabilidad de %s"
+ },
+ "Lendária garantida no próximo booster": {
+  "en": "Legendary guaranteed in the next booster",
+  "pt": "Lendária garantida no próximo booster",
+  "es": "Legendaria garantizada en el próximo sobre"
+ },
+ "Lendária garantida em até %d boosters": {
+  "en": "Legendary guaranteed within %d boosters",
+  "pt": "Lendária garantida em até %d boosters",
+  "es": "Legendaria garantizada en máximo %d sobres"
+ },
+ "Faltam %d cartas (o deck tem %d de 32).": {
+  "en": "%d cards missing (the deck has %d of 32).",
+  "pt": "Faltam %d cartas (o deck tem %d de 32).",
+  "es": "Faltan %d cartas (el mazo tiene %d de 32)."
+ },
+ "+%d cartas: deck completo.": {
+  "en": "+%d cards: deck complete.",
+  "pt": "+%d cartas: deck completo.",
+  "es": "+%d cartas: mazo completo."
+ },
+ "+%d cartas. Faltam cartas na coleção para chegar a 32.": {
+  "en": "+%d cards. Your collection doesn't have enough cards to reach 32.",
+  "pt": "+%d cartas. Sua coleção não tem cartas suficientes para chegar a 32.",
+  "es": "+%d cartas. Tu colección no tiene cartas suficientes para llegar a 32."
+ },
+ "sugerido": {
+  "en": "suggested",
+  "pt": "sugerido",
+  "es": "sugerido"
+ },
+ "Código do deck": {
+  "en": "Deck code",
+  "pt": "Código do deck",
+  "es": "Código del mazo"
+ },
+ "Copiado. Cole em Decks > Importar.": {
+  "en": "Copied. Paste it in Decks > Import.",
+  "pt": "Copiado. Cole em Decks > Importar.",
+  "es": "Copiado. Pégalo en Mazos > Importar."
+ },
+ "Código inválido: copie um código KDX1 antes.": {
+  "en": "Invalid code. Copy a KDX1 code first.",
+  "pt": "Código inválido. Copie um código KDX1 primeiro.",
+  "es": "Código inválido. Copia primero un código KDX1."
+ },
+ "Importado": {
+  "en": "Imported",
+  "pt": "Importado",
+  "es": "Importado"
+ },
+ "Importado. Faltaram %d cartas que você não tem.": {
+  "en": "Imported. %d cards you don't own were left out.",
+  "pt": "Importado. Ficaram de fora %d cartas que você não tem.",
+  "es": "Importado. Quedaron fuera %d cartas que no tienes."
+ },
+ "Importado completo!": {
+  "en": "Fully imported!",
+  "pt": "Importado por completo!",
+  "es": "¡Importado por completo!"
+ },
+ "Cole o código do deck": {
+  "en": "Paste the deck code",
+  "pt": "Cole o código do deck",
+  "es": "Pega el código del mazo"
+ },
+ "faltam %d": {
+  "en": "%d missing",
+  "pt": "faltam %d",
+  "es": "faltan %d"
+ },
+ "Sugerido": {
+  "en": "Suggested",
+  "pt": "Sugerido",
+  "es": "Sugerido"
+ },
+ "Importar": {
+  "en": "Import",
+  "pt": "Importar",
+  "es": "Importar"
+ },
+ "Completar": {
+  "en": "Fill up",
+  "pt": "Completar",
+  "es": "Completar"
+ },
+ "Código": {
+  "en": "Code",
+  "pt": "Código",
+  "es": "Código"
+ },
+ "Deck sugerido": {
+  "en": "Suggested deck",
+  "pt": "Deck sugerido",
+  "es": "Mazo sugerido"
+ },
+ "montado com as cartas que você tem": {
+  "en": "built from the cards you own",
+  "pt": "montado com as cartas que você tem",
+  "es": "armado con las cartas que tienes"
+ },
+ "E": {
+  "en": "E",
+  "pt": "E",
+  "es": "E"
+ },
+ "S": {
+  "en": "S",
+  "pt": "S",
+  "es": "S"
+ },
+ "R": {
+  "en": "R",
+  "pt": "R",
+  "es": "R"
+ },
+ "REL": {
+  "en": "REL",
+  "pt": "REL",
+  "es": "REL"
+ },
+ "Montei %d de 32: as outras cópias já estão em outros decks.": {
+  "en": "Built %d of 32: your other copies are already in other decks.",
+  "pt": "Montado com %d de 32: as outras cópias já estão em outros decks.",
+  "es": "Armado con %d de 32: tus otras copias ya están en otros mazos."
+ },
+ "Cosméticos": {
+  "en": "Cosmetics",
+  "pt": "Cosméticos",
+  "es": "Cosméticos"
+ },
+ "versos de carta por Koins": {
+  "en": "card backs for Koins",
+  "pt": "versos de carta por Koins",
+  "es": "reversos de carta por Koins"
+ },
+ "BOOSTERS": {
+  "en": "BOOSTERS",
+  "pt": "BOOSTERS",
+  "es": "SOBRES"
+ },
+ "COSMÉTICOS": {
+  "en": "COSMETICS",
+  "pt": "COSMÉTICOS",
+  "es": "COSMÉTICOS"
+ },
+ "TEM": {
+  "en": "OWNED",
+  "pt": "TEM",
+  "es": "TUYO"
+ },
+ "Comprar": {
+  "en": "Buy",
+  "pt": "Comprar",
+  "es": "Comprar"
+ },
+ "Equipar": {
+  "en": "Equip",
+  "pt": "Equipar",
+  "es": "Equipar"
+ },
+ "Koins insuficientes.": {
+  "en": "Not enough Koins.",
+  "pt": "Koins insuficientes.",
+  "es": "Koins insuficientes."
+ },
+ "verso lendário animado": {
+  "en": "animated legendary back",
+  "pt": "verso lendário animado",
+  "es": "reverso legendario animado"
+ },
+ "verso de carta": {
+  "en": "card back",
+  "pt": "verso de carta",
+  "es": "reverso de carta"
+ },
+ "Em uso nas suas cartas.": {
+  "en": "Equipped on your cards.",
+  "pt": "Em uso nas suas cartas.",
+  "es": "En uso en tus cartas."
+ },
+ "Você já tem este verso.": {
+  "en": "You already own this back.",
+  "pt": "Você já tem este verso.",
+  "es": "Ya tienes este reverso."
+ },
+ "Você tem %d Koins.": {
+  "en": "You have %d Koins.",
+  "pt": "Você tem %d Koins.",
+  "es": "Tienes %d Koins."
+ },
+ "Koins: 10 por dia e 100 toda sexta.": {
+  "en": "Koins: 10 a day and 100 every Friday.",
+  "pt": "Koins: 10 por dia e 100 toda sexta.",
+  "es": "Koins: 10 por día y 100 cada viernes."
+ },
+ "Texto: grande": {
+  "en": "Text: large",
+  "pt": "Texto: grande",
+  "es": "Texto: grande"
+ },
+ "Texto: normal": {
+  "en": "Text: normal",
+  "pt": "Texto: normal",
+  "es": "Texto: normal"
+ },
+ "Modo daltônico: ligado": {
+  "en": "Colorblind mode: on",
+  "pt": "Modo daltônico: ligado",
+  "es": "Modo daltónico: activado"
+ },
+ "Modo daltônico: desligado": {
+  "en": "Colorblind mode: off",
+  "pt": "Modo daltônico: desligado",
+  "es": "Modo daltónico: desactivado"
+ },
+ "Comprar 1 booster?": {
+  "en": "Buy 1 booster?",
+  "pt": "Comprar 1 booster?",
+  "es": "¿Comprar 1 sobre?"
+ },
+ "por %d de ouro": {
+  "en": "for %d coins",
+  "pt": "por %d moedas",
+  "es": "por %d monedas"
+ },
+ "Comprar %s?": {
+  "en": "Buy %s?",
+  "pt": "Comprar %s?",
+  "es": "¿Comprar %s?"
+ },
+ "por %d Koins": {
+  "en": "for %d Koins",
+  "pt": "por %d Koins",
+  "es": "por %d Koins"
+ },
+ "Trocar %d repetidas?": {
+  "en": "Trade in %d duplicates?",
+  "pt": "Trocar %d repetidas?",
+  "es": "¿Cambiar %d repetidas?"
+ },
+ "Excluir este deck?": {
+  "en": "Delete this deck?",
+  "pt": "Excluir este deck?",
+  "es": "¿Eliminar este mazo?"
+ },
+ "Recomeçar o Torneio?": {
+  "en": "Restart the Tournament?",
+  "pt": "Recomeçar o Torneio?",
+  "es": "¿Reiniciar el Torneo?"
+ },
+ "o progresso atual se perde": {
+  "en": "your current progress will be lost",
+  "pt": "o progresso atual será perdido",
+  "es": "se perderá el progreso actual"
+ },
+ "Sim": {
+  "en": "Yes",
+  "pt": "Sim",
+  "es": "Sí"
+ },
+ "Não": {
+  "en": "No",
+  "pt": "Não",
+  "es": "No"
+ },
+ "TOQUE DE NOVO": {
+  "en": "TAP AGAIN",
+  "pt": "TOQUE DE NOVO",
+  "es": "TOCA OTRA VEZ"
+ },
+ "Abandonar a Peregrinação?": {
+  "en": "Abandon the Pilgrimage?",
+  "pt": "Abandonar a Peregrinação?",
+  "es": "¿Abandonar la Peregrinación?"
+ },
+ "DECKS LIVRES": {
+  "en": "FREE DECKS",
+  "pt": "DECKS LIVRES",
+  "es": "MAZOS LIBRES"
+ },
+ "DA COLEÇÃO": {
+  "en": "COLLECTION",
+  "pt": "DA COLEÇÃO",
+  "es": "COLECCIÓN"
+ },
+ "qualquer carta do jogo, 32 por deck": {
+  "en": "any card in the game, 32 per deck",
+  "pt": "qualquer carta do jogo, 32 por deck",
+  "es": "cualquier carta del juego, 32 por mazo"
+ },
+ "Máximo de 8 decks nesta gaveta.": {
+  "en": "This drawer holds up to 8 decks.",
+  "pt": "Esta gaveta comporta no máximo 8 decks.",
+  "es": "Este cajón admite hasta 8 mazos."
+ },
+ "Jogar no Modo livre": {
+  "en": "Play in Free Play",
+  "pt": "Jogar no Modo livre",
+  "es": "Jugar en Modo libre"
+ },
+ "Sem conexão: boosters precisam de internet.": {
+  "en": "No connection: boosters need the internet.",
+  "pt": "Sem conexão: boosters precisam de internet.",
+  "es": "Sin conexión: los sobres necesitan internet."
+ },
+ "moedas insuficientes": {
+  "en": "Not enough coins.",
+  "pt": "Moedas insuficientes.",
+  "es": "Monedas insuficientes."
+ },
+ "sem booster grátis": {
+  "en": "No free booster available.",
+  "pt": "Nenhum booster grátis disponível.",
+  "es": "No hay sobres gratis disponibles."
+ },
+ "Código para outro aparelho": {
+  "en": "Code for another device",
+  "pt": "Código para outro aparelho",
+  "es": "Código para otro dispositivo"
+ },
+ "Usar código": {
+  "en": "Use a code",
+  "pt": "Usar código",
+  "es": "Usar código"
+ },
+ "Excluir conta": {
+  "en": "Delete account",
+  "pt": "Excluir conta",
+  "es": "Eliminar cuenta"
+ },
+ "Excluir a conta?": {
+  "en": "Delete your account?",
+  "pt": "Excluir sua conta?",
+  "es": "¿Eliminar tu cuenta?"
+ },
+ "apaga o progresso no servidor": {
+  "en": "erases your progress on the server",
+  "pt": "apaga seu progresso no servidor",
+  "es": "borra tu progreso en el servidor"
+ },
+ "Conta excluída.": {
+  "en": "Account deleted.",
+  "pt": "Conta excluída.",
+  "es": "Cuenta eliminada."
+ },
+ "Conta online": {
+  "en": "Online account",
+  "pt": "Conta online",
+  "es": "Cuenta en línea"
+ },
+ "Conta: sem conexão": {
+  "en": "Account: offline",
+  "pt": "Conta: sem conexão",
+  "es": "Cuenta: sin conexión"
+ },
+ "Sem conexão.": {
+  "en": "No connection.",
+  "pt": "Sem conexão.",
+  "es": "Sin conexión."
+ },
+ "Outro aparelho": {
+  "en": "Another device",
+  "pt": "Outro aparelho",
+  "es": "Otro dispositivo"
+ },
+ "No outro aparelho: Opções > Usar código.": {
+  "en": "On the other device: Options > Account and login > Use a device code.",
+  "pt": "No outro aparelho: Opções > Conta e login > Usar código de aparelho.",
+  "es": "En el otro dispositivo: Opciones > Cuenta y acceso > Usar código de dispositivo."
+ },
+ "Vale por 10 minutos. Este aparelho será desconectado.": {
+  "en": "Valid for 10 minutes. This device will be signed out.",
+  "pt": "Vale por 10 minutos. Este aparelho será desconectado.",
+  "es": "Válido por 10 minutos. Este dispositivo se desconectará."
+ },
+ "Conta carregada!": {
+  "en": "Account loaded!",
+  "pt": "Conta carregada!",
+  "es": "¡Cuenta cargada!"
+ },
+ "Código inválido ou vencido.": {
+  "en": "Invalid or expired code.",
+  "pt": "Código inválido ou expirado.",
+  "es": "Código inválido o vencido."
+ },
+ "Código da conta (8 letras)": {
+  "en": "Account code (8 letters)",
+  "pt": "Código da conta (8 letras)",
+  "es": "Código de la cuenta (8 letras)"
+ },
+ "Digite o código de 8 letras.": {
+  "en": "Enter the 8-letter code.",
+  "pt": "Digite o código de 8 letras.",
+  "es": "Escribe el código de 8 letras."
+ },
+ "Conta e login": {
+  "en": "Account and login",
+  "pt": "Conta e login",
+  "es": "Cuenta y acceso"
+ },
+ "Conta": {
+  "en": "Account",
+  "pt": "Conta",
+  "es": "Cuenta"
+ },
+ "online": {
+  "en": "online",
+  "pt": "online",
+  "es": "en línea"
+ },
+ "sem conexão": {
+  "en": "offline",
+  "pt": "sem conexão",
+  "es": "sin conexión"
+ },
+ "Kode": {
+  "en": "Kode",
+  "pt": "Kode",
+  "es": "Kode"
+ },
+ "Email": {
+  "en": "Email",
+  "pt": "Email",
+  "es": "Correo"
+ },
+ "não criado": {
+  "en": "not created",
+  "pt": "não criado",
+  "es": "no creado"
+ },
+ "não ligado": {
+  "en": "not linked",
+  "pt": "não vinculado",
+  "es": "no vinculado"
+ },
+ "Sem conta, você joga como convidado neste aparelho.": {
+  "en": "Without an account, you play as a guest on this device.",
+  "pt": "Sem conta, você joga como convidado neste aparelho.",
+  "es": "Sin cuenta, juegas como invitado en este dispositivo."
+ },
+ "Criar Kode (usuário e senha)": {
+  "en": "Create Kode (username + password)",
+  "pt": "Criar Kode (usuário e senha)",
+  "es": "Crear Kode (usuario y contraseña)"
+ },
+ "Entrar com Kode": {
+  "en": "Log in with Kode",
+  "pt": "Entrar com Kode",
+  "es": "Entrar con Kode"
+ },
+ "Trocar ou recuperar senha": {
+  "en": "Change or recover password",
+  "pt": "Trocar ou recuperar senha",
+  "es": "Cambiar o recuperar contraseña"
+ },
+ "Ligar email": {
+  "en": "Link email",
+  "pt": "Vincular email",
+  "es": "Vincular correo"
+ },
+ "Trocar email": {
+  "en": "Change email",
+  "pt": "Trocar email",
+  "es": "Cambiar correo"
+ },
+ "Usar código de aparelho": {
+  "en": "Use a device code",
+  "pt": "Usar código de aparelho",
+  "es": "Usar código de dispositivo"
+ },
+ "Código do aparelho (8 letras)": {
+  "en": "Device code (8 letters)",
+  "pt": "Código do aparelho (8 letras)",
+  "es": "Código del dispositivo (8 letras)"
+ },
+ "OK": {
+  "en": "OK",
+  "pt": "OK",
+  "es": "OK"
+ },
+ "Pronto!": {
+  "en": "Done!",
+  "pt": "Pronto!",
+  "es": "¡Listo!"
+ },
+ "Escolha um usuário (3 a 16: letras minúsculas, números, _)": {
+  "en": "Choose a username (3 to 16: lowercase letters, numbers, _)",
+  "pt": "Escolha um usuário (3 a 16: letras minúsculas, números, _)",
+  "es": "Elige un usuario (3 a 16: minúsculas, números, _)"
+ },
+ "Crie uma senha (8 caracteres ou mais)": {
+  "en": "Create a password (8+ characters)",
+  "pt": "Crie uma senha (8 caracteres ou mais)",
+  "es": "Crea una contraseña (8 caracteres o más)"
+ },
+ "A senha precisa de 8 caracteres ou mais.": {
+  "en": "Your password needs 8 or more characters.",
+  "pt": "A senha precisa ter 8 caracteres ou mais.",
+  "es": "La contraseña debe tener 8 caracteres o más."
+ },
+ "Repita a senha": {
+  "en": "Repeat the password",
+  "pt": "Repita a senha",
+  "es": "Repite la contraseña"
+ },
+ "As senhas não batem.": {
+  "en": "The passwords don't match.",
+  "pt": "As senhas não são iguais.",
+  "es": "Las contraseñas no coinciden."
+ },
+ "Sua frase secreta": {
+  "en": "Your secret phrase",
+  "pt": "Sua frase secreta",
+  "es": "Tu frase secreta"
+ },
+ "Anote estas 12 palavras em papel, na ordem. Sem elas não dá para trocar nem recuperar a senha.": {
+  "en": "Write these 12 words down on paper, in order. Without them, you can't change or recover your password.",
+  "pt": "Anote estas 12 palavras em papel, na ordem. Sem elas, não dá para trocar nem recuperar a senha.",
+  "es": "Anota estas 12 palabras en papel, en orden. Sin ellas no podrás cambiar ni recuperar la contraseña."
+ },
+ "Ninguém do KodeX vai pedir essa frase.": {
+  "en": "No one from KodeX will ever ask for this phrase.",
+  "pt": "Ninguém do KodeX vai pedir esta frase.",
+  "es": "Nadie de KodeX te pedirá esta frase."
+ },
+ "Para conferir: qual é a palavra número %d?": {
+  "en": "Quick check: what is word number %d?",
+  "pt": "Para conferir: qual é a palavra número %d?",
+  "es": "Para comprobar: ¿cuál es la palabra número %d?"
+ },
+ "Palavra errada. O Kode não foi criado.": {
+  "en": "Wrong word. The Kode was not created.",
+  "pt": "Palavra errada. O Kode não foi criado.",
+  "es": "Palabra incorrecta. El Kode no se creó."
+ },
+ "Criando...": {
+  "en": "Creating...",
+  "pt": "Criando...",
+  "es": "Creando..."
+ },
+ "Usuário Kode": {
+  "en": "Kode username",
+  "pt": "Usuário Kode",
+  "es": "Usuario Kode"
+ },
+ "Senha": {
+  "en": "Password",
+  "pt": "Senha",
+  "es": "Contraseña"
+ },
+ "Entrando...": {
+  "en": "Logging in...",
+  "pt": "Entrando...",
+  "es": "Entrando..."
+ },
+ "As 12 palavras, na ordem, separadas por espaço": {
+  "en": "The 12 words, in order, separated by spaces",
+  "pt": "As 12 palavras, na ordem, separadas por espaço",
+  "es": "Las 12 palabras, en orden, separadas por espacios"
+ },
+ "São 12 palavras.": {
+  "en": "It takes all 12 words.",
+  "pt": "São 12 palavras.",
+  "es": "Son 12 palabras."
+ },
+ "Nova senha (8 caracteres ou mais)": {
+  "en": "New password (8+ characters)",
+  "pt": "Nova senha (8 caracteres ou mais)",
+  "es": "Nueva contraseña (8 caracteres o más)"
+ },
+ "Conferindo...": {
+  "en": "Checking...",
+  "pt": "Conferindo...",
+  "es": "Verificando..."
+ },
+ "Seu email": {
+  "en": "Your email",
+  "pt": "Seu email",
+  "es": "Tu correo"
+ },
+ "Nenhuma conta com esse email.": {
+  "en": "No account uses that email.",
+  "pt": "Nenhuma conta usa esse email.",
+  "es": "Ninguna cuenta usa ese correo."
+ },
+ "Código de 6 dígitos enviado para o email": {
+  "en": "We sent a 6-digit code to your email",
+  "pt": "Enviamos um código de 6 dígitos para o seu email",
+  "es": "Enviamos un código de 6 dígitos a tu correo"
+ },
+ "usuário ou senha errados": {
+  "en": "Wrong username or password.",
+  "pt": "Usuário ou senha incorretos.",
+  "es": "Usuario o contraseña incorrectos."
+ },
+ "usuário ou frase errados": {
+  "en": "Wrong username or phrase.",
+  "pt": "Usuário ou frase incorretos.",
+  "es": "Usuario o frase incorrectos."
+ },
+ "esse usuário já existe": {
+  "en": "That username is taken.",
+  "pt": "Esse usuário já existe.",
+  "es": "Ese usuario ya existe."
+ },
+ "esta conta já tem um Kode": {
+  "en": "This account already has a Kode.",
+  "pt": "Esta conta já tem um Kode.",
+  "es": "Esta cuenta ya tiene un Kode."
+ },
+ "muitas tentativas: espere 15 minutos": {
+  "en": "Too many attempts. Please wait 15 minutes.",
+  "pt": "Muitas tentativas. Espere 15 minutos.",
+  "es": "Demasiados intentos. Espera 15 minutos."
+ },
+ "código errado": {
+  "en": "Wrong code.",
+  "pt": "Código incorreto.",
+  "es": "Código incorrecto."
+ },
+ "código vencido, peça outro": {
+  "en": "That code expired. Request a new one.",
+  "pt": "Esse código expirou. Peça outro.",
+  "es": "Ese código venció. Pide otro."
+ },
+ "login por email ainda não configurado": {
+  "en": "Email login isn't available yet.",
+  "pt": "O login por email ainda não está disponível.",
+  "es": "El acceso por correo aún no está disponible."
+ },
+ "email inválido": {
+  "en": "Invalid email.",
+  "pt": "Email inválido.",
+  "es": "Correo inválido."
+ },
+ "espere 1 minuto para pedir outro código": {
+  "en": "Wait 1 minute before requesting another code.",
+  "pt": "Espere 1 minuto para pedir outro código.",
+  "es": "Espera 1 minuto para pedir otro código."
+ },
+ "usuário: 3 a 16 letras minúsculas, números ou _": {
+  "en": "Username: 3 to 16 lowercase letters, numbers or _.",
+  "pt": "Usuário: de 3 a 16 letras minúsculas, números ou _.",
+  "es": "Usuario: de 3 a 16 minúsculas, números o _."
+ },
+ "TEMPO!": {
+  "en": "TIME!",
+  "pt": "TEMPO!",
+  "es": "¡TIEMPO!"
+ },
+ "Tempo por turno: 75 s": {
+  "en": "Turn timer: 75 s",
+  "pt": "Tempo por turno: 75 s",
+  "es": "Tiempo por turno: 75 s"
+ },
+ "Tempo por turno: sem limite": {
+  "en": "Turn timer: off",
+  "pt": "Tempo por turno: sem limite",
+  "es": "Tiempo por turno: sin límite"
+ },
+ "Histórico e estatísticas": {
+  "en": "History and stats",
+  "pt": "Histórico e estatísticas",
+  "es": "Historial y estadísticas"
+ },
+ "Histórico": {
+  "en": "History",
+  "pt": "Histórico",
+  "es": "Historial"
+ },
+ "suas partidas e números": {
+  "en": "your matches and numbers",
+  "pt": "suas partidas e números",
+  "es": "tus partidas y números"
+ },
+ "ÚLTIMAS PARTIDAS": {
+  "en": "RECENT MATCHES",
+  "pt": "ÚLTIMAS PARTIDAS",
+  "es": "ÚLTIMAS PARTIDAS"
+ },
+ "IA": {
+  "en": "AI",
+  "pt": "IA",
+  "es": "IA"
+ },
+ "jogador": {
+  "en": "player",
+  "pt": "jogador",
+  "es": "jugador"
+ },
+ "turnos": {
+  "en": "turns",
+  "pt": "turnos",
+  "es": "turnos"
+ },
+ "A sala expirou.": {
+  "en": "The room expired.",
+  "pt": "A sala expirou.",
+  "es": "La sala expiró."
+ },
+ "AGUARDANDO": {
+  "en": "WAITING",
+  "pt": "AGUARDANDO",
+  "es": "ESPERANDO"
+ },
+ "Aceitar": {
+  "en": "Accept",
+  "pt": "Aceitar",
+  "es": "Aceptar"
+ },
+ "Buscando adversário": {
+  "en": "Looking for an opponent",
+  "pt": "Buscando adversário",
+  "es": "Buscando rival"
+ },
+ "Buscar partida": {
+  "en": "Find a match",
+  "pt": "Buscar partida",
+  "es": "Buscar partida"
+ },
+ "Cada turno tem 75 segundos.": {
+  "en": "Each turn lasts 75 seconds.",
+  "pt": "Cada turno dura 75 segundos.",
+  "es": "Cada turno dura 75 segundos."
+ },
+ "Com um amigo: um cria a sala e passa o código.": {
+  "en": "With a friend: one creates a room and shares the code.",
+  "pt": "Com um amigo: um cria a sala e passa o código.",
+  "es": "Con un amigo: uno crea la sala y comparte el código."
+ },
+ "Conectando...": {
+  "en": "Connecting...",
+  "pt": "Conectando...",
+  "es": "Conectando..."
+ },
+ "Criar sala com código": {
+  "en": "Create a room",
+  "pt": "Criar sala com código",
+  "es": "Crear sala con código"
+ },
+ "Código da sala": {
+  "en": "Room code",
+  "pt": "Código da sala",
+  "es": "Código de la sala"
+ },
+ "Código da sala (4 letras)": {
+  "en": "Room code (4 letters)",
+  "pt": "Código da sala (4 letras)",
+  "es": "Código de la sala (4 letras)"
+ },
+ "DESSINCRONIA": {
+  "en": "DESYNC",
+  "pt": "DESSINCRONIA",
+  "es": "DESINCRONÍA"
+ },
+ "ESPERANDO O ADVERSÁRIO...": {
+  "en": "WAITING FOR OPPONENT...",
+  "pt": "ESPERANDO O ADVERSÁRIO...",
+  "es": "ESPERANDO AL RIVAL..."
+ },
+ "Entrar com código": {
+  "en": "Join with a code",
+  "pt": "Entrar com código",
+  "es": "Entrar con código"
+ },
+ "Esperando": {
+  "en": "Waiting",
+  "pt": "Esperando",
+  "es": "Esperando"
+ },
+ "Esperando o adversário aceitar...": {
+  "en": "Waiting for the opponent to accept...",
+  "pt": "Esperando o adversário aceitar...",
+  "es": "Esperando a que el rival acepte..."
+ },
+ "Essa partida já terminou.": {
+  "en": "That match is already over.",
+  "pt": "Essa partida já terminou.",
+  "es": "Esa partida ya terminó."
+ },
+ "MENU": {
+  "en": "MENU",
+  "pt": "MENU",
+  "es": "MENÚ"
+ },
+ "O ADVERSÁRIO DESISTIU": {
+  "en": "OPPONENT CONCEDED",
+  "pt": "O ADVERSÁRIO DESISTIU",
+  "es": "EL RIVAL SE RINDIÓ"
+ },
+ "O ADVERSÁRIO ESTÁ ESCOLHENDO A MÃO": {
+  "en": "OPPONENT IS CHOOSING THEIR HAND",
+  "pt": "O ADVERSÁRIO ESTÁ ESCOLHENDO A MÃO",
+  "es": "EL RIVAL ESTÁ ELIGIENDO SU MANO"
+ },
+ "O ADVERSÁRIO NÃO ACEITOU": {
+  "en": "OPPONENT DECLINED",
+  "pt": "O ADVERSÁRIO NÃO ACEITOU",
+  "es": "EL RIVAL NO ACEPTÓ"
+ },
+ "O ADVERSÁRIO SAIU": {
+  "en": "OPPONENT LEFT",
+  "pt": "O ADVERSÁRIO SAIU",
+  "es": "EL RIVAL SE FUE"
+ },
+ "O adversário não aceitou. Buscando de novo...": {
+  "en": "The opponent declined. Searching again...",
+  "pt": "O adversário não aceitou. Buscando de novo...",
+  "es": "El rival no aceptó. Buscando de nuevo..."
+ },
+ "OS DOIS PRECISAM ACEITAR": {
+  "en": "BOTH PLAYERS MUST ACCEPT",
+  "pt": "OS DOIS PRECISAM ACEITAR",
+  "es": "AMBOS DEBEN ACEPTAR"
+ },
+ "Online": {
+  "en": "Online",
+  "pt": "Online",
+  "es": "En línea"
+ },
+ "Partida encontrada!": {
+  "en": "Match found!",
+  "pt": "Partida encontrada!",
+  "es": "¡Partida encontrada!"
+ },
+ "Passe este código para o seu amigo.": {
+  "en": "Share this code with your friend.",
+  "pt": "Passe este código para o seu amigo.",
+  "es": "Comparte este código con tu amigo."
+ },
+ "RECONECTANDO...": {
+  "en": "RECONNECTING...",
+  "pt": "RECONECTANDO...",
+  "es": "RECONECTANDO..."
+ },
+ "REVANCHE": {
+  "en": "REMATCH",
+  "pt": "REVANCHE",
+  "es": "REVANCHA"
+ },
+ "REVANCHE?": {
+  "en": "REMATCH?",
+  "pt": "REVANCHE?",
+  "es": "¿REVANCHA?"
+ },
+ "Recusar": {
+  "en": "Decline",
+  "pt": "Recusar",
+  "es": "Rechazar"
+ },
+ "SEM CONEXÃO": {
+  "en": "NO CONNECTION",
+  "pt": "SEM CONEXÃO",
+  "es": "SIN CONEXIÓN"
+ },
+ "SEM REVANCHE": {
+  "en": "NO REMATCH",
+  "pt": "SEM REVANCHE",
+  "es": "SIN REVANCHA"
+ },
+ "Sem conexão com o servidor do jogo.": {
+  "en": "Can't reach the game server.",
+  "pt": "Sem conexão com o servidor do jogo.",
+  "es": "Sin conexión con el servidor del juego."
+ },
+ "Tempo esgotado: a partida foi cancelada.": {
+  "en": "Time's up: the match was canceled.",
+  "pt": "Tempo esgotado: a partida foi cancelada.",
+  "es": "Se acabó el tiempo: la partida se canceló."
+ },
+ "Voltar à partida": {
+  "en": "Back to the match",
+  "pt": "Voltar à partida",
+  "es": "Volver a la partida"
+ },
+ "contra": {
+  "en": "vs.",
+  "pt": "contra",
+  "es": "contra"
+ },
+ "contra gente de verdade": {
+  "en": "against real people",
+  "pt": "contra gente de verdade",
+  "es": "contra gente real"
+ },
+ "jogue com outras pessoas": {
+  "en": "play with other people",
+  "pt": "jogue com outras pessoas",
+  "es": "juega con otras personas"
+ },
+ "no mundo todo": {
+  "en": "worldwide",
+  "pt": "no mundo todo",
+  "es": "en todo el mundo"
+ },
+ "no seu continente": {
+  "en": "on your continent",
+  "pt": "no seu continente",
+  "es": "en tu continente"
+ },
+ "no seu país": {
+  "en": "in your country",
+  "pt": "no seu país",
+  "es": "en tu país"
+ },
+ "procurando": {
+  "en": "searching",
+  "pt": "procurando",
+  "es": "buscando"
+ },
+ "sem conexão com o servidor": {
+  "en": "can't reach the server",
+  "pt": "sem conexão com o servidor",
+  "es": "sin conexión con el servidor"
+ },
+ "deck inválido (32 cartas)": {
+  "en": "Invalid deck (it needs 32 cards).",
+  "pt": "Deck inválido (precisa de 32 cartas).",
+  "es": "Mazo inválido (necesita 32 cartas)."
+ },
+ "sala não encontrada": {
+  "en": "Room not found.",
+  "pt": "Sala não encontrada.",
+  "es": "Sala no encontrada."
+ },
+ "é a sua própria sala": {
+  "en": "That's your own room.",
+  "pt": "Essa sala é sua.",
+  "es": "Esa sala es tuya."
+ },
+ "partida indisponível": {
+  "en": "Match unavailable.",
+  "pt": "Partida indisponível.",
+  "es": "Partida no disponible."
+ },
+ "SEM SINAL %ds": {
+  "en": "NO SIGNAL %ds",
+  "pt": "SEM SINAL %ds",
+  "es": "SIN SEÑAL %ds"
+ },
+ "Sala %s não encontrada: confira as 4 letras.": {
+  "en": "Room %s not found. Check the 4 letters.",
+  "pt": "Sala %s não encontrada. Confira as 4 letras.",
+  "es": "No se encontró la sala %s. Revisa las 4 letras."
+ },
+ "quem joga online com você vê nome e foto": {
+  "en": "online opponents see your name and photo",
+  "pt": "quem joga online com você vê seu nome e foto",
+  "es": "tus rivales en línea ven tu nombre y foto"
+ },
+ "Nv": {
+  "en": "Lv",
+  "pt": "Nv",
+  "es": "Nv"
+ },
+ "Trocar esta missão?": {
+  "en": "Swap this mission?",
+  "pt": "Trocar esta missão?",
+  "es": "¿Cambiar esta misión?"
+ },
+ "só 1 troca por dia": {
+  "en": "only 1 swap per day",
+  "pt": "só 1 troca por dia",
+  "es": "solo 1 cambio por día"
+ },
+ "Relatório de erros": {
+  "en": "Error report",
+  "pt": "Relatório de erros",
+  "es": "Informe de errores"
+ },
+ "Nenhum erro registrado": {
+  "en": "No errors logged",
+  "pt": "Nenhum erro registrado",
+  "es": "Ningún error registrado"
+ },
+ "Nenhum erro registrado. Ótimo!": {
+  "en": "No errors logged. Great!",
+  "pt": "Nenhum erro registrado. Ótimo!",
+  "es": "Ningún error registrado. ¡Genial!"
+ },
+ "Enviar ao desenvolvedor?": {
+  "en": "Send to the developer?",
+  "pt": "Enviar ao desenvolvedor?",
+  "es": "¿Enviar al desarrollador?"
+ },
+ "ajuda a corrigir; vai só o texto do erro": {
+  "en": "it helps fix bugs; only the error text is sent",
+  "pt": "ajuda a corrigir; só o texto do erro é enviado",
+  "es": "ayuda a corregirlo; solo se envía el texto del error"
+ },
+ "Enviado. Obrigado!": {
+  "en": "Sent. Thank you!",
+  "pt": "Enviado. Obrigado!",
+  "es": "Enviado. ¡Gracias!"
+ },
+ "Sem conexão. Tente de novo depois.": {
+  "en": "No connection. Try again later.",
+  "pt": "Sem conexão. Tente de novo mais tarde.",
+  "es": "Sin conexión. Inténtalo más tarde."
+ },
+ "Vença %s": {
+  "en": "Beat %s",
+  "pt": "Vença %s",
+  "es": "Vence a %s"
+ },
+ "Sua conta está suspensa do online.": {
+  "en": "Your account is suspended from online play.",
+  "pt": "Sua conta está suspensa do modo online.",
+  "es": "Tu cuenta está suspendida del modo en línea."
+ },
+ "presente da atualização": {
+  "en": "update gift",
+  "pt": "presente da atualização",
+  "es": "regalo de la actualización"
+ },
+ "atual": {
+  "en": "current",
+  "pt": "atual",
+  "es": "actual"
+ },
+ "Todas as versões: botão de pergaminho no Início.": {
+  "en": "All versions: scroll button on Home.",
+  "pt": "Todas as versões: botão do pergaminho no Início.",
+  "es": "Todas las versiones: botón del pergamino en Inicio."
+ },
+ "Presente": {
+  "en": "Gift",
+  "pt": "Presente",
+  "es": "Regalo"
+ },
+ "O presente de hoje já é seu.": {
+  "en": "Today's gift is already yours.",
+  "pt": "O presente de hoje já é seu.",
+  "es": "El regalo de hoy ya es tuyo."
+ },
+ "Próximas moedas em %dh %02dmin.": {
+  "en": "Next coins in %dh %02dmin.",
+  "pt": "Próximas moedas em %dh %02dmin.",
+  "es": "Próximas monedas en %dh %02dmin."
+ },
+ "Próximo booster grátis em %d dias e %dh.": {
+  "en": "Next free booster in %d days and %dh.",
+  "pt": "Próximo booster grátis em %d dias e %dh.",
+  "es": "Próximo sobre gratis en %d días y %dh."
+ },
+ "Koins da semana: %d na sexta.": {
+  "en": "Weekly Koins: %d on Friday.",
+  "pt": "Koins da semana: %d na sexta.",
+  "es": "Koins de la semana: %d el viernes."
+ },
+ "Vira à meia-noite de Nova York.": {
+  "en": "Resets at midnight, New York time.",
+  "pt": "Renova à meia-noite, horário de Nova York.",
+  "es": "Se renueva a la medianoche, hora de Nueva York."
+ },
+ "%d dias seguidos": {
+  "en": "%d days in a row",
+  "pt": "%d dias seguidos",
+  "es": "%d días seguidos"
+ },
+ "dia %d de 7 · bônus no 7º": {
+  "en": "day %d of 7 · bonus on day 7",
+  "pt": "dia %d de 7 · bônus no 7º",
+  "es": "día %d de 7 · bono el día 7"
+ },
+ "Bônus do 7º dia: +1 booster e +20 Koins!": {
+  "en": "Day 7 bonus: +1 booster and +20 Koins!",
+  "pt": "Bônus do 7º dia: +1 booster e +20 Koins!",
+  "es": "Bono del día 7: ¡+1 sobre y +20 Koins!"
+ },
+ "booster grátis da semana - abra na Loja": {
+  "en": "free weekly booster - open it in the Shop",
+  "pt": "booster grátis da semana - abra na Loja",
+  "es": "sobre gratis de la semana - ábrelo en la Tienda"
+ },
+ "Volte amanhã para mais moedas.": {
+  "en": "Come back tomorrow for more coins.",
+  "pt": "Volte amanhã para mais moedas.",
+  "es": "Vuelve mañana por más monedas."
+ },
+ "Atualizada em %s": {
+  "en": "Updated on %s",
+  "pt": "Atualizada em %s",
+  "es": "Actualizada el %s"
+ },
+ "para sempre": {
+  "en": "permanently",
+  "pt": "para sempre",
+  "es": "para siempre"
+ },
+ "até %s": {
+  "en": "until %s",
+  "pt": "até %s",
+  "es": "hasta %s"
+ },
+ "Conta suspensa": {
+  "en": "Account suspended",
+  "pt": "Conta suspensa",
+  "es": "Cuenta suspendida"
+ },
+ "Sua conta não pode jogar online %s.": {
+  "en": "Your account can't play online %s.",
+  "pt": "Sua conta não pode jogar online %s.",
+  "es": "Tu cuenta no puede jugar en línea %s."
+ },
+ "Motivo: %s": {
+  "en": "Reason: %s",
+  "pt": "Motivo: %s",
+  "es": "Motivo: %s"
+ },
+ "Os modos offline continuam funcionando.": {
+  "en": "Offline modes still work.",
+  "pt": "Os modos offline continuam funcionando.",
+  "es": "Los modos sin conexión siguen funcionando."
+ },
+ "Conquistas": {
+  "en": "Achievements",
+  "pt": "Conquistas",
+  "es": "Logros"
+ },
+ "%d erros guardados neste aparelho.": {
+  "en": "%d errors saved on this device.",
+  "pt": "%d erros guardados neste aparelho.",
+  "es": "%d errores guardados en este dispositivo."
+ },
+ "Mensagem do KodeX": {
+  "en": "Message from KodeX",
+  "pt": "Mensagem do KodeX",
+  "es": "Mensaje de KodeX"
+ },
+ "+%d de Essência": {
+  "en": "+%d Essence",
+  "pt": "+%d de Essência",
+  "es": "+%d de Esencia"
+ },
+ "Carta: %s": {
+  "en": "Card: %s",
+  "pt": "Carta: %s",
+  "es": "Carta: %s"
+ },
+ "contra %s": {
+  "en": "vs. %s",
+  "pt": "contra %s",
+  "es": "contra %s"
+ },
+ "Turnos: %d": {
+  "en": "Turns: %d",
+  "pt": "Turnos: %d",
+  "es": "Turnos: %d"
+ },
+ "Cartas jogadas: %d (oponente %d)": {
+  "en": "Cards played: %d (opponent %d)",
+  "pt": "Cartas jogadas: %d (oponente %d)",
+  "es": "Cartas jugadas: %d (oponente %d)"
+ },
+ "Dano na Cornucópia inimiga: %d": {
+  "en": "Damage to the enemy Cornucopia: %d",
+  "pt": "Dano na Cornucópia inimiga: %d",
+  "es": "Daño a la Cornucopia enemiga: %d"
+ },
+ "Dano recebido: %d": {
+  "en": "Damage taken: %d",
+  "pt": "Dano recebido: %d",
+  "es": "Daño recibido: %d"
+ },
+ "Entidades inimigas destruídas: %d": {
+  "en": "Enemy Entities destroyed: %d",
+  "pt": "Entidades inimigas destruídas: %d",
+  "es": "Entidades enemigas destruidas: %d"
+ },
+ "Ataques: %d": {
+  "en": "Attacks: %d",
+  "pt": "Ataques: %d",
+  "es": "Ataques: %d"
+ },
+ "moedas do Arcade": {
+  "en": "Arcade coins",
+  "pt": "moedas do Arcade",
+  "es": "monedas del Arcade"
+ },
+ "moedas da partida online": {
+  "en": "online match coins",
+  "pt": "moedas da partida online",
+  "es": "monedas de la partida en línea"
+ },
+ "Dica": {
+  "en": "Hint",
+  "pt": "Dica",
+  "es": "Pista"
+ },
+ "Você  ×  %s": {
+  "en": "You  ×  %s",
+  "pt": "Você  ×  %s",
+  "es": "Tú  ×  %s"
+ },
+ "Cartas jogadas: %d × %d": {
+  "en": "Cards played: %d × %d",
+  "pt": "Cartas jogadas: %d × %d",
+  "es": "Cartas jugadas: %d × %d"
+ },
+ "Dano causado: %d × %d": {
+  "en": "Damage dealt: %d × %d",
+  "pt": "Dano causado: %d × %d",
+  "es": "Daño infligido: %d × %d"
+ },
+ "Entidades destruídas: %d × %d": {
+  "en": "Entities destroyed: %d × %d",
+  "pt": "Entidades destruídas: %d × %d",
+  "es": "Entidades destruidas: %d × %d"
+ },
+ "Ataques: %d × %d": {
+  "en": "Attacks: %d × %d",
+  "pt": "Ataques: %d × %d",
+  "es": "Ataques: %d × %d"
+ },
+ "Cornucópia no fim: %d × %d": {
+  "en": "Final Cornucopia: %d × %d",
+  "pt": "Cornucópia final: %d × %d",
+  "es": "Cornucopia final: %d × %d"
+ },
+ "Os dois aparelhos divergiram nesta partida (dessincronia). Avise para corrigirmos.": {
+  "en": "The two devices fell out of sync during this match. Please report it so we can fix it.",
+  "pt": "Os dois aparelhos ficaram dessincronizados nesta partida. Avise a gente para corrigirmos.",
+  "es": "Los dos dispositivos se desincronizaron en esta partida. Avísanos para poder corregirlo."
+ },
+ "Nível %d  ·  +%d XP  (%d/%d)": {
+  "en": "Level %d  ·  +%d XP  (%d/%d)",
+  "pt": "Nível %d  ·  +%d XP  (%d/%d)",
+  "es": "Nivel %d  ·  +%d XP  (%d/%d)"
+ },
+ "Semanal cumprida: %s": {
+  "en": "Weekly complete: %s",
+  "pt": "Semanal concluída: %s",
+  "es": "Semanal cumplida: %s"
+ },
+ "Missão cumprida: %s": {
+  "en": "Mission complete: %s",
+  "pt": "Missão cumprida: %s",
+  "es": "Misión cumplida: %s"
+ },
+ "Subiu! %s": {
+  "en": "Level up! %s",
+  "pt": "Subiu! %s",
+  "es": "¡Subiste! %s"
+ },
+ "Conquista: %s": {
+  "en": "Achievement: %s",
+  "pt": "Conquista: %s",
+  "es": "Logro: %s"
+ },
+ "Retrato liberado: %s": {
+  "en": "Portrait unlocked: %s",
+  "pt": "Retrato desbloqueado: %s",
+  "es": "Retrato desbloqueado: %s"
+ },
+ "Perfil > Escolher imagem": {
+  "en": "Profile > Choose picture",
+  "pt": "Perfil > Escolher imagem",
+  "es": "Perfil > Elegir imagen"
+ },
+ "Você venceu %s": {
+  "en": "You beat %s",
+  "pt": "Você venceu %s",
+  "es": "Venciste a %s"
+ },
+ "%s venceu": {
+  "en": "%s wins",
+  "pt": "%s venceu",
+  "es": "%s ganó"
+ },
+ "atacou %s": {
+  "en": "attacked %s",
+  "pt": "atacou %s",
+  "es": "atacó a %s"
+ },
+ "golpeou a Cornucópia": {
+  "en": "hit the Cornucopia",
+  "pt": "golpeou a Cornucópia",
+  "es": "golpeó la Cornucopia"
+ },
+ "colocou um Selo": {
+  "en": "set a Seal",
+  "pt": "colocou um Selo",
+  "es": "colocó un Sello"
+ },
+ "Selo disparado": {
+  "en": "Seal triggered",
+  "pt": "Selo disparado",
+  "es": "Sello activado"
+ },
+ "jogou": {
+  "en": "played",
+  "pt": "jogou",
+  "es": "jugó"
+ },
+ "toque para fechar": {
+  "en": "tap to close",
+  "pt": "toque para fechar",
+  "es": "toca para cerrar"
+ },
+ "Token invocado por %s.": {
+  "en": "Token summoned by %s.",
+  "pt": "Token invocado por %s.",
+  "es": "Ficha invocada por %s."
+ },
+ "Guarda. ": {
+  "en": "Guard. ",
+  "pt": "Guarda. ",
+  "es": "Guardia. "
+ },
+ "Contra a IA: %d  ·  %s": {
+  "en": "Vs. AI: %d  ·  %s",
+  "pt": "Contra a IA: %d  ·  %s",
+  "es": "Contra la IA: %d  ·  %s"
+ },
+ "Contra jogadores: %d  ·  %s": {
+  "en": "Vs. players: %d  ·  %s",
+  "pt": "Contra jogadores: %d  ·  %s",
+  "es": "Contra jugadores: %d  ·  %s"
+ },
+ "Nenhuma partida ainda.": {
+  "en": "No matches yet.",
+  "pt": "Nenhuma partida ainda.",
+  "es": "Aún no hay partidas."
+ },
+ "Mais enfrentado: %s (%d, %s)": {
+  "en": "Most faced: %s (%d, %s)",
+  "pt": "Mais enfrentado: %s (%d, %s)",
+  "es": "Rival más frecuente: %s (%d, %s)"
+ },
+ "Dano causado: %d  ·  recebido: %d": {
+  "en": "Damage dealt: %d  ·  taken: %d",
+  "pt": "Dano causado: %d  ·  recebido: %d",
+  "es": "Daño infligido: %d  ·  recibido: %d"
+ },
+ "Entidades destruídas: %d  ·  perdidas: %d": {
+  "en": "Entities destroyed: %d  ·  lost: %d",
+  "pt": "Entidades destruídas: %d  ·  perdidas: %d",
+  "es": "Entidades destruidas: %d  ·  perdidas: %d"
+ },
+ "Jogada a jogada": {
+  "en": "Play by play",
+  "pt": "Jogada a jogada",
+  "es": "Jugada a jugada"
+ },
+ "invocou %s": {
+  "en": "summoned %s",
+  "pt": "invocou %s",
+  "es": "invocó %s"
+ },
+ "lançou %s": {
+  "en": "cast %s",
+  "pt": "lançou %s",
+  "es": "lanzó %s"
+ },
+ "equipou %s em %s": {
+  "en": "equipped %s on %s",
+  "pt": "equipou %s em %s",
+  "es": "equipó %s en %s"
+ },
+ "colocou o Selo %s": {
+  "en": "set the Seal %s",
+  "pt": "colocou o Selo %s",
+  "es": "colocó el Sello %s"
+ },
+ "Selo disparou: %s": {
+  "en": "Seal triggered: %s",
+  "pt": "Selo disparou: %s",
+  "es": "Sello activado: %s"
+ },
+ "atacou %s com %s": {
+  "en": "attacked %s with %s",
+  "pt": "atacou %s com %s",
+  "es": "atacó a %s con %s"
+ },
+ "golpeou a Cornucópia com %s": {
+  "en": "hit the Cornucopia with %s",
+  "pt": "golpeou a Cornucópia com %s",
+  "es": "golpeó la Cornucopia con %s"
+ },
+ "Sem jogadas registradas.": {
+  "en": "No plays recorded.",
+  "pt": "Sem jogadas registradas.",
+  "es": "Sin jugadas registradas."
+ },
+ "Progresso": {
+  "en": "Progress",
+  "pt": "Progresso",
+  "es": "Progreso"
+ },
+ "missões, nível e conquistas": {
+  "en": "missions, level and achievements",
+  "pt": "missões, nível e conquistas",
+  "es": "misiones, nivel y logros"
+ },
+ "HOJE": {
+  "en": "TODAY",
+  "pt": "HOJE",
+  "es": "HOY"
+ },
+ "novas em %dh %02dmin": {
+  "en": "new in %dh %02dmin",
+  "pt": "novas em %dh %02dmin",
+  "es": "nuevas en %dh %02dmin"
+ },
+ "SEMANA": {
+  "en": "WEEK",
+  "pt": "SEMANA",
+  "es": "SEMANA"
+ },
+ "novas em %d dias e %dh": {
+  "en": "new in %d days, %dh",
+  "pt": "novas em %d dias e %dh",
+  "es": "nuevas en %d días y %dh"
+ },
+ "Dias seguidos: %d  ·  bônus a cada 7 (+1 booster, +20 Koins)": {
+  "en": "Days in a row: %d  ·  bonus every 7 (+1 booster, +20 Koins)",
+  "pt": "Dias seguidos: %d  ·  bônus a cada 7 (+1 booster, +20 Koins)",
+  "es": "Días seguidos: %d  ·  bono cada 7 (+1 sobre, +20 Koins)"
+ },
+ "Missões pagam na hora, ao terminar a partida.": {
+  "en": "Missions pay out as soon as the match ends.",
+  "pt": "As missões pagam na hora, assim que a partida termina.",
+  "es": "Las misiones pagan al instante, al terminar la partida."
+ },
+ "página": {
+  "en": "page",
+  "pt": "página",
+  "es": "página"
+ },
+ "feita": {
+  "en": "done",
+  "pt": "feita",
+  "es": "hecha"
+ },
+ "trocar": {
+  "en": "swap",
+  "pt": "trocar",
+  "es": "cambiar"
+ },
+ "nível": {
+  "en": "level",
+  "pt": "nível",
+  "es": "nivel"
+ },
+ "XP: vitória 30 · derrota 15 · empate 20 · online +10": {
+  "en": "XP: win 30 · loss 15 · draw 20 · online +10",
+  "pt": "XP: vitória 30 · derrota 15 · empate 20 · online +10",
+  "es": "XP: victoria 30 · derrota 15 · empate 20 · en línea +10"
+ },
+ "missão do dia +20 · semanal +60": {
+  "en": "daily mission +20 · weekly +60",
+  "pt": "missão do dia +20 · semanal +60",
+  "es": "misión diaria +20 · semanal +60"
+ },
+ "PRÓXIMOS PRÊMIOS": {
+  "en": "NEXT REWARDS",
+  "pt": "PRÓXIMOS PRÊMIOS",
+  "es": "PRÓXIMOS PREMIOS"
+ },
+ "Nível %d": {
+  "en": "Level %d",
+  "pt": "Nível %d",
+  "es": "Nivel %d"
+ },
+ "TÍTULOS  (TOQUE PARA USAR)": {
+  "en": "TITLES  (TAP TO EQUIP)",
+  "pt": "TÍTULOS  (TOQUE PARA USAR)",
+  "es": "TÍTULOS  (TOCA PARA USAR)"
+ },
+ "Ganhe títulos subindo de nível, nas conquistas e na maestria.": {
+  "en": "Earn titles from levels, achievements and mastery.",
+  "pt": "Ganhe títulos subindo de nível, com conquistas e com maestria.",
+  "es": "Gana títulos al subir de nivel, con logros y con maestría."
+ },
+ "máxima!": {
+  "en": "maxed!",
+  "pt": "máxima!",
+  "es": "¡al máximo!"
+ },
+ "próximo: ": {
+  "en": "next: ",
+  "pt": "próximo: ",
+  "es": "siguiente: "
+ },
+ "XP das partidas com um deck desta tradição": {
+  "en": "XP from matches with a deck of this tradition",
+  "pt": "XP das partidas com um deck desta tradição",
+  "es": "XP de partidas con un mazo de esta tradición"
+ },
+ "conquistada": {
+  "en": "unlocked",
+  "pt": "conquistada",
+  "es": "conseguido"
+ },
+ "Santuário": {
+  "en": "Sanctuary",
+  "pt": "Santuário",
+  "es": "Santuario"
+ },
+ "sai:": {
+  "en": "out:",
+  "pt": "sai:",
+  "es": "sale:"
+ },
+ "toque para levar": {
+  "en": "tap to take",
+  "pt": "toque para levar",
+  "es": "toca para llevar"
+ },
+ "Fim da jornada": {
+  "en": "Journey's end",
+  "pt": "Fim da jornada",
+  "es": "Fin del viaje"
+ },
+ "Peregrinação completa": {
+  "en": "Pilgrimage complete",
+  "pt": "Peregrinação concluída",
+  "es": "Peregrinación completa"
+ },
+ "booster grátis - abra na Loja": {
+  "en": "free booster - open it in the Shop",
+  "pt": "booster grátis - abra na Loja",
+  "es": "sobre gratis - ábrelo en la Tienda"
+ },
+ "Nível: Mestre": {
+  "en": "Difficulty: Master",
+  "pt": "Dificuldade: Mestre",
+  "es": "Dificultad: Maestro"
+ },
+ "Prêmio de hoje já recebido. Jogue pelo prazer.": {
+  "en": "Today's reward is claimed. Play for fun.",
+  "pt": "Você já recebeu o prêmio de hoje. Jogue por diversão.",
+  "es": "Ya recibiste el premio de hoy. Juega por diversión."
+ },
+ "Volte amanhã para um novo desafio.": {
+  "en": "Come back tomorrow for a new challenge.",
+  "pt": "Volte amanhã para um novo desafio.",
+  "es": "Vuelve mañana para un nuevo desafío."
+ },
+ "CONQUISTADA": {
+  "en": "CONQUERED",
+  "pt": "CONQUISTADA",
+  "es": "CONQUISTADA"
+ },
+ "DESAFIAR": {
+  "en": "CHALLENGE",
+  "pt": "DESAFIAR",
+  "es": "DESAFIAR"
+ },
+ "Lendária conquistada": {
+  "en": "Legendary claimed",
+  "pt": "Lendária conquistada",
+  "es": "Legendaria conquistada"
+ },
+ "A carta entrou na sua coleção.": {
+  "en": "The card joined your collection.",
+  "pt": "A carta entrou na sua coleção.",
+  "es": "La carta se unió a tu colección."
+ },
+ "Desafio vencido": {
+  "en": "Challenge won",
+  "pt": "Desafio vencido",
+  "es": "Desafío superado"
+ },
+ "Você fechou o livro. Eu sou o que estava escrito na última página.": {
+  "en": "You closed the book. I am what was written on the last page.",
+  "pt": "Você fechou o livro. Eu sou o que estava escrito na última página.",
+  "es": "Cerraste el libro. Yo soy lo que estaba escrito en la última página."
+ },
+ "Três, três, três. Conte comigo.": {
+  "en": "Three, three, three. Count with me.",
+  "pt": "Três, três, três. Conte comigo.",
+  "es": "Tres, tres, tres. Cuenta conmigo."
+ },
+ "Abismo selado": {
+  "en": "The Abyss is sealed",
+  "pt": "Abismo selado",
+  "es": "Abismo sellado"
+ },
+ "Título: Selador do Abismo": {
+  "en": "Title: Sealer of the Abyss",
+  "pt": "Título: Selador do Abismo",
+  "es": "Título: Sellador del Abismo"
+ },
+ "Resolvido": {
+  "en": "Solved",
+  "pt": "Resolvido",
+  "es": "Resuelto"
+ },
+ "De novo! Prêmio só na 1ª vez.": {
+  "en": "Solved again! The reward is first-time only.",
+  "pt": "De novo! O prêmio é só na 1ª vez.",
+  "es": "¡Otra vez! El premio es solo la primera vez."
+ },
+ "Você caiu na parada %d de 8.": {
+  "en": "You fell at stop %d of 8.",
+  "pt": "Você caiu na parada %d de 8.",
+  "es": "Caíste en la parada %d de 8."
+ },
+ "Vitórias: %d": {
+  "en": "Wins: %d",
+  "pt": "Vitórias: %d",
+  "es": "Victorias: %d"
+ },
+ "Você joga com %s": {
+  "en": "You play %s",
+  "pt": "Você joga com %s",
+  "es": "Juegas con %s"
+ },
+ "Vitória: +%d moedas (uma vez por dia)": {
+  "en": "Win: +%d coins (once a day)",
+  "pt": "Vitória: +%d moedas (uma vez por dia)",
+  "es": "Victoria: +%d monedas (una vez al día)"
+ },
+ "Maestria %s %d": {
+  "en": "%s Mastery %d",
+  "pt": "Maestria %s %d",
+  "es": "Maestría %s %d"
+ },
+ "+%d booster": {
+  "en": "+%d booster",
+  "pt": "+%d booster",
+  "es": "+%d sobre"
+ },
+ "Título: %s": {
+  "en": "Title: %s",
+  "pt": "Título: %s",
+  "es": "Título: %s"
+ },
+ "Cornucópia: %d de %d": {
+  "en": "Cornucopia: %d of %d",
+  "pt": "Cornucópia: %d de %d",
+  "es": "Cornucopia: %d de %d"
+ },
+ "contra %s (%s)": {
+  "en": "vs. %s (%s)",
+  "pt": "contra %s (%s)",
+  "es": "contra %s (%s)"
+ },
+ "Fé %d · Cornucópia dele %d": {
+  "en": "Faith %d · their Cornucopia %d",
+  "pt": "Fé %d · Cornucópia inimiga %d",
+  "es": "Fe %d · Cornucopia enemiga %d"
+ },
+ "o Habitante do Abismo": {
+  "en": "the Dweller in the Abyss",
+  "pt": "o Habitante do Abismo",
+  "es": "el Morador del Abismo"
+ },
+ "O presente usa a hora da internet: conecte-se e tente de novo. Nada se perde: acumula até 3 dias.": {
+  "en": "The gift uses internet time. Connect and try again. Nothing is lost: it stacks for up to 3 days.",
+  "pt": "O presente usa a hora da internet: conecte-se e tente de novo. Você não perde nada: acumula até 3 dias.",
+  "es": "El regalo usa la hora de internet: conéctate y vuelve a intentarlo. No pierdes nada: se acumula hasta 3 días."
+ },
+ "moedas - %d dias acumulados": {
+  "en": "coins - %d days stacked",
+  "pt": "moedas - %d dias acumulados",
+  "es": "monedas - %d días acumulados"
+ },
+ "moedas - presente do dia": {
+  "en": "coins - daily gift",
+  "pt": "moedas - presente do dia",
+  "es": "monedas - regalo del día"
+ },
+ "Koins (%d da semana)": {
+  "en": "Koins (%d weekly)",
+  "pt": "Koins (%d da semana)",
+  "es": "Koins (%d de la semana)"
+ },
+ "Koins do dia": {
+  "en": "daily Koins",
+  "pt": "Koins do dia",
+  "es": "Koins del día"
+ },
+ "...": {
+  "en": "...",
+  "pt": "...",
+  "es": "..."
+ },
+ "+1 Fé no 1º turno": {
+  "en": "+1 Faith on turn 1",
+  "pt": "+1 Fé no 1º turno",
+  "es": "+1 Fe en el turno 1"
+ },
+ "+3 de Cornucópia máxima (e cura 3)": {
+  "en": "+3 max Cornucopia (and heals 3)",
+  "pt": "+3 de Cornucópia máxima (e cura 3)",
+  "es": "+3 de Cornucopia máxima (y cura 3)"
+ },
+ "A 1ª Entidade de cada batalha ataca na hora": {
+  "en": "Your first Entity each battle can attack at once",
+  "pt": "Sua 1ª Entidade de cada batalha ataca na hora",
+  "es": "Tu primera Entidad de cada batalla ataca al instante"
+ },
+ "Compra 1 carta extra no 1º turno": {
+  "en": "Draw 1 extra card on turn 1",
+  "pt": "Compre 1 carta extra no 1º turno",
+  "es": "Roba 1 carta extra en el turno 1"
+ },
+ "Seus Selos custam 1 a menos": {
+  "en": "Your Seals cost 1 less",
+  "pt": "Seus Selos custam 1 a menos",
+  "es": "Tus Sellos cuestan 1 menos"
+ },
+ "Suas Entidades têm +1 de Vida": {
+  "en": "Your Entities have +1 Life",
+  "pt": "Suas Entidades têm +1 de Vida",
+  "es": "Tus Entidades tienen +1 de Vida"
+ },
+ "qualquer carta, sem prêmio": {
+  "en": "any card, no rewards",
+  "pt": "qualquer carta, sem prêmio",
+  "es": "cualquier carta, sin premios"
+ },
+ "Choronzon": {
+  "en": "Choronzon",
+  "pt": "Choronzon",
+  "es": "Choronzon"
+ },
+ "vença o Torneio para abrir": {
+  "en": "win the Tournament to unlock",
+  "pt": "vença o Torneio para desbloquear",
+  "es": "gana el Torneo para desbloquear"
+ },
+ "vencido · desafie de novo": {
+  "en": "defeated · challenge again",
+  "pt": "vencido · desafie de novo",
+  "es": "vencido · desafíalo otra vez"
+ },
+ "Lendário": {
+  "en": "Legendary",
+  "pt": "Lendário",
+  "es": "Legendario"
+ },
+ "Online (bot)": {
+  "en": "Online (bot)",
+  "pt": "Online (bot)",
+  "es": "En línea (bot)"
+ },
+ "Vitória": {
+  "en": "Victory",
+  "pt": "Vitória",
+  "es": "Victoria"
+ },
+ "Derrota": {
+  "en": "Defeat",
+  "pt": "Derrota",
+  "es": "Derrota"
+ },
+ "Empate": {
+  "en": "Draw",
+  "pt": "Empate",
+  "es": "Empate"
+ },
+ "hist|VITÓRIA": {
+  "en": "WIN",
+  "pt": "VITÓRIA",
+  "es": "VICTORIA"
+ },
+ "hist|DERROTA": {
+  "en": "LOSS",
+  "pt": "DERROTA",
+  "es": "DERROTA"
+ },
+ "hist|EMPATE": {
+  "en": "DRAW",
+  "pt": "EMPATE",
+  "es": "EMPATE"
+ },
+ "Missões": {
+  "en": "Missions",
+  "pt": "Missões",
+  "es": "Misiones"
+ },
+ "Nível": {
+  "en": "Level",
+  "pt": "Nível",
+  "es": "Nivel"
+ },
+ "Maestria": {
+  "en": "Mastery",
+  "pt": "Maestria",
+  "es": "Maestría"
+ },
+ "continuar: parada %d de 8": {
+  "en": "continue: stop %d of 8",
+  "pt": "continuar: parada %d de 8",
+  "es": "continuar: parada %d de 8"
+ },
+ "8 paradas, cartas e Bênçãos": {
+  "en": "8 stops, cards and Blessings",
+  "pt": "8 paradas, cartas e Bênçãos",
+  "es": "8 paradas, cartas y Bendiciones"
+ },
+ "feito hoje (sem prêmio)": {
+  "en": "done today (no reward)",
+  "pt": "feito hoje (sem prêmio)",
+  "es": "hecho hoy (sin premio)"
+ },
+ "vitória vale %d moedas": {
+  "en": "a win is worth %d coins",
+  "pt": "vitória vale %d moedas",
+  "es": "la victoria vale %d monedas"
+ },
+ "precisa de internet": {
+  "en": "needs internet",
+  "pt": "precisa de internet",
+  "es": "requiere internet"
+ },
+ "%d de 12 conquistadas": {
+  "en": "%d of 12 claimed",
+  "pt": "%d de 12 conquistadas",
+  "es": "%d de 12 conquistadas"
+ },
+ "vença neste turno · %d de %d": {
+  "en": "win this turn · %d of %d",
+  "pt": "vença neste turno · %d de %d",
+  "es": "gana en este turno · %d de %d"
+ },
+ "ANULADA": {
+  "en": "COUNTERED",
+  "pt": "ANULADA",
+  "es": "ANULADA"
+ },
+ "CANCELADO": {
+  "en": "CANCELED",
+  "pt": "CANCELADO",
+  "es": "CANCELADO"
+ },
+ "DESCARTE": {
+  "en": "DISCARD",
+  "pt": "DESCARTE",
+  "es": "DESCARTE"
+ },
+ "DEVOLVIDA": {
+  "en": "RETURNED",
+  "pt": "DEVOLVIDA",
+  "es": "DEVUELTA"
+ },
+ "DESPERTAR": {
+  "en": "AWAKEN",
+  "pt": "DESPERTAR",
+  "es": "DESPERTAR"
+ },
+ "AO ATACAR": {
+  "en": "ON ATTACK",
+  "pt": "AO ATACAR",
+  "es": "AL ATACAR"
+ },
+ "AO SOFRER DANO": {
+  "en": "ON DAMAGE",
+  "pt": "AO SOFRER DANO",
+  "es": "AL RECIBIR DAÑO"
+ },
+ "FIM DO TURNO": {
+  "en": "END OF TURN",
+  "pt": "FIM DO TURNO",
+  "es": "FIN DEL TURNO"
+ },
+ "ALIADA MORREU": {
+  "en": "ALLY DIED",
+  "pt": "ALIADA MORREU",
+  "es": "ALIADA MURIÓ"
+ },
+ "INIMIGA MORREU": {
+  "en": "ENEMY DIED",
+  "pt": "INIMIGA MORREU",
+  "es": "ENEMIGA MURIÓ"
+ },
+ "1 SELO POR TURNO": {
+  "en": "1 SEAL PER TURN",
+  "pt": "1 SELO POR TURNO",
+  "es": "1 SELLO POR TURNO"
+ },
+ "NÃO  (-2)": {
+  "en": "NO  (-2)",
+  "pt": "NÃO  (-2)",
+  "es": "NO  (-2)"
+ },
+ "+1 BOOSTER": {
+  "en": "+1 BOOSTER",
+  "pt": "+1 BOOSTER",
+  "es": "+1 SOBRE"
+ },
+ "BOOSTER": {
+  "en": "BOOSTER",
+  "pt": "BOOSTER",
+  "es": "SOBRE"
+ },
+ "CARTA": {
+  "en": "CARD",
+  "pt": "CARTA",
+  "es": "CARTA"
+ },
+ "TOKEN": {
+  "en": "TOKEN",
+  "pt": "TOKEN",
+  "es": "FICHA"
+ },
+ "CHORONZON": {
+  "en": "CHORONZON",
+  "pt": "CHORONZON",
+  "es": "CHORONZON"
+ },
+ "RELIQUIA": {
+  "en": "RELIC",
+  "pt": "RELÍQUIA",
+  "es": "RELIQUIA"
+ },
+ "Solo": {
+  "en": "Solo",
+  "pt": "Solo",
+  "es": "Solo"
+ },
+ "1º dia seguido": {
+  "en": "Day 1 of your streak",
+  "pt": "1º dia da sequência",
+  "es": "Día 1 de tu racha"
+ },
+ "Como você quer entrar?": {
+  "en": "How do you want to sign in?",
+  "pt": "Como você quer entrar?",
+  "es": "¿Cómo quieres entrar?"
+ },
+ "Jogar como convidado": {
+  "en": "Play as guest",
+  "pt": "Jogar como convidado",
+  "es": "Jugar como invitado"
+ },
+ "Kode (usuário e senha)": {
+  "en": "Kode (username and password)",
+  "pt": "Kode (usuário e senha)",
+  "es": "Kode (usuario y contraseña)"
+ },
+ "Entrar": {
+  "en": "Sign in",
+  "pt": "Entrar",
+  "es": "Entrar"
+ },
+ "Criar Kode": {
+  "en": "Create Kode",
+  "pt": "Criar Kode",
+  "es": "Crear Kode"
+ },
+ "Login com email, Google e Apple estará disponível na versão final do jogo.": {
+  "en": "Email, Google and Apple sign-in will be available in the final version of the game.",
+  "pt": "Login com email, Google e Apple estará disponível na versão final do jogo.",
+  "es": "El inicio de sesión con correo, Google y Apple estará disponible en la versión final del juego."
+ },
+ "Disponível na versão final do jogo.": {
+  "en": "Available in the final version of the game.",
+  "pt": "Disponível na versão final do jogo.",
+  "es": "Disponible en la versión final del juego."
+ },
+ "Jogar como convidado?": {
+  "en": "Play as a guest?",
+  "pt": "Jogar como convidado?",
+  "es": "¿Jugar como invitado?"
+ },
+ "Conta temporária: fica só neste aparelho. Se desinstalar sem criar um Kode, o progresso se perde.": {
+  "en": "Temporary account: it only lives on this device. Uninstall without creating a Kode and your progress is gone.",
+  "pt": "Conta temporária: fica só neste aparelho. Se desinstalar sem criar um Kode, o progresso se perde.",
+  "es": "Cuenta temporal: solo existe en este dispositivo. Si desinstalas sin crear un Kode, pierdes tu progreso."
+ },
+ "Copiar": {
+  "en": "Copy",
+  "pt": "Copiar",
+  "es": "Copiar"
+ },
+ "As 12 palavras foram copiadas.": {
+  "en": "All 12 words copied.",
+  "pt": "As 12 palavras foram copiadas.",
+  "es": "Se copiaron las 12 palabras."
+ },
+ "Toque em Copiar e cole num lugar seguro (bloco de notas, gerenciador de senhas).": {
+  "en": "Tap Copy and paste them somewhere safe (a notes app, a password manager).",
+  "pt": "Toque em Copiar e cole num lugar seguro (bloco de notas, gerenciador de senhas).",
+  "es": "Toca Copiar y pégalas en un lugar seguro (notas, gestor de contraseñas)."
+ },
+ "Cole ou digite as 12 palavras, na ordem": {
+  "en": "Paste or type the 12 words, in order",
+  "pt": "Cole ou digite as 12 palavras, na ordem",
+  "es": "Pega o escribe las 12 palabras, en orden"
+ },
+ "Google": {
+  "en": "Google",
+  "pt": "Google",
+  "es": "Google"
+ },
+ "E-mail": {
+  "en": "E-mail",
+  "pt": "E-mail",
+  "es": "E-mail"
+ },
+ "Apple": {
+  "en": "Apple",
+  "pt": "Apple",
+  "es": "Apple"
+ },
+ "Toque numa carta ou passe o mouse por cima para ler aqui.": {
+  "en": "Tap a card or hover over it to read it here.",
+  "pt": "Toque numa carta ou passe o mouse por cima para ler aqui.",
+  "es": "Toca una carta o pasa el ratón por encima para leerla aquí."
+ },
+ "atacou": {
+  "en": "attacked",
+  "pt": "atacou",
+  "es": "atacó"
+ },
+ "Crie seu perfil": {
+  "en": "Create your profile",
+  "pt": "Crie seu perfil",
+  "es": "Crea tu perfil"
+ },
+ "é assim que os outros jogadores vão ver você": {
+  "en": "this is how other players will see you",
+  "pt": "é assim que os outros jogadores vão ver você",
+  "es": "así te verán los demás jugadores"
+ },
+ "Começar": {
+  "en": "Start",
+  "pt": "Começar",
+  "es": "Empezar"
+ },
+ "Você pode trocar nome e foto depois, no Perfil.": {
+  "en": "You can change your name and photo later, in Profile.",
+  "pt": "Você pode trocar nome e foto depois, no Perfil.",
+  "es": "Puedes cambiar tu nombre y foto después, en Perfil."
+ },
+ "Suas 12 palavras (segure para copiar):": {
+  "en": "Your 12 words (press and hold to copy):",
+  "pt": "Suas 12 palavras (segure para copiar):",
+  "es": "Tus 12 palabras (mantén pulsado para copiar):"
+ }
+}

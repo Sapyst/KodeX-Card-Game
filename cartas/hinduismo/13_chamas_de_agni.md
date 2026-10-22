@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando o oponente invocar uma Entidade, ela sofre 1 de dano e a Cornucópia inimiga sofre 1.
+Quando o oponente jogar uma Entidade, ela sofre 1 de dano e a Cornucópia inimiga sofre 1.
 
 ## Contexto mitológico
 Agni é o fogo e o deus do fogo, uma das três divindades centrais do Rigveda ao lado de Indra e Soma: o primeiro hino do primeiro livro (RV 1.1) começa com seu nome — "Agni eu invoco, o sacerdote posto à frente". Ele é a boca dos deuses: tudo o que se verte no fogo do sacrifício — manteiga clarificada, grãos, soma — é Agni quem leva ao céu. Tem duas cabeças (o fogo doméstico e o fogo sacrificial), sete línguas de chama, cabelos em brasa, e cavalga um carneiro.

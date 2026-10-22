@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Sacrifício 1. Despertar: compre 2 cartas.
+Sacrifício 1. Despertar: Compre 2 cartas.
 
 ## Contexto mitológico
 Astaroth é o 29º espírito da *Ars Goetia*, um Grande Duque que aparece como um anjo "danoso" montado num dragão infernal, com uma víbora na mão direita. O mago não deve deixá-lo aproximar-se, por causa do hálito pestilento — deve segurar o Anel mágico diante do rosto. Ele responde com verdade sobre passado, presente e futuro, **revela todos os segredos**, conta de bom grado como os anjos caíram (e como ele próprio caiu) e ensina as ciências liberais. Governa 40 legiões.

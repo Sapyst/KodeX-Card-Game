@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Despertar: invoca um Queixada 1/2.
+Despertar: Invoque um Queixada 1/2.
 
 ## Contexto mitológico
 *Caa-pora*, "habitante do mato" em tupi. Cascudo (*Dicionário do Folclore Brasileiro*) registra a Caipora (ou Caapora) como senhora dos animais da floresta: ora uma mulher peluda, ora um menino, quase sempre **montada num porco-do-mato** — o queixada ou o caititu — e cercada pela vara inteira. Cobra fumo dos caçadores; quem lhe deixa um rolo de tabaco num toco caça bem, quem não deixa volta de mãos vazias ou com febre.

@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Todas as suas Entidades ganham +1/+1 permanente. Cure 2 da sua Cornucópia.
+Todas as suas Entidades ganham +1/+1. Cure 2 da sua Cornucópia.
 
 ## Contexto mitológico
 O Pantao Hui (蟠桃會), Banquete dos Pêssegos Achatados, é a festa que Xiwangmu oferece no Palácio de Jade do Kunlun quando os pêssegos da imortalidade amadurecem. Na *Jornada ao Oeste* (cap. 5) o pomar tem três mil e seiscentas árvores: as da frente dão fruto a cada três mil anos e tornam quem os come leve e sadio; as do meio, a cada seis mil, e dão o voo e a vida eterna; as do fundo, a cada nove mil, e fazem o comensal durar tanto quanto céu e terra. Sun Wukong, nomeado guardião do pomar, come os melhores, invade o banquete antes dos convidados, bebe o vinho imperial e engole o elixir de Laozi — o que desencadeia a guerra contra o céu.

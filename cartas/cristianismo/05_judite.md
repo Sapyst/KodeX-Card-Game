@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: destrói uma Entidade inimiga de custo 3 ou menos.
+Despertar: Destrua uma Entidade inimiga de custo 3 ou menos.
 
 ## Contexto mitológico
 O Livro de Judite (deuterocanônico, séc. II a.C.) conta como a cidade de Betúlia, sitiada pelo general assírio Holofernes, está a dias de se render por sede. Judite, viúva rica e piedosa, repreende os anciãos pela falta de fé, veste-se com esmero e vai ao acampamento inimigo com a sua criada. Holofernes, encantado, oferece um banquete; embriagado, adormece, e Judite "golpeou-lhe duas vezes o pescoço com toda a força e cortou-lhe a cabeça" (Jt 13,8). A cabeça, exposta nas muralhas, desbarata o exército.

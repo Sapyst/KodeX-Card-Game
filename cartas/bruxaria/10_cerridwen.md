@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: compre 2 cartas.
+Despertar: Compre 2 cartas.
 
 ## Contexto mitológico
 Cerridwen é a feiticeira do *Hanes Taliesin* ("História de Taliesin"), conto galês posto por escrito no séc. XVI por Elis Gruffydd a partir de tradição bem mais antiga. Vive no lago Bala com o marido Tegid Foel e dois filhos: a bela Creirwy e o feioso Morfran, apelidado Afagddu ("Trevas Totais"). Para compensar o filho, decide fervê-lo um caldeirão de inspiração e ciência (*Awen*) que precisa cozinhar por um ano e um dia; o cego Morda cuida do fogo e o menino Gwion Bach mexe o caldo.

@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: devolva uma Entidade inimiga à mão do dono.
+Despertar: Devolva uma Entidade inimiga para a mão do dono.
 
 ## Contexto mitológico
 Zhang Guolao (張果老, "o Velho Zhang Guo") é o único dos Oito Imortais com registro em história oficial: o *Jiu Tang shu* e o *Xin Tang shu* trazem a biografia de Zhang Guo, eremita dos montes Zhongtiao (Shanxi) que dizia ter sido ministro do imperador mítico Yao e que o imperador Xuanzong (r. 712–756) mandou buscar à corte, onde ele fez prodígios e recusou a mão de uma princesa.

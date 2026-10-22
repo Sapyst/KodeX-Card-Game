@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Invoca dois Aruanãs 1/1. Sua Cornucópia cura 2.
+Invoque dois Aruanãs 1/1. Cure 2 da sua Cornucópia.
 
 ## Contexto mitológico
 Os Karajá — que se chamam **Iny**, "nós" — vivem nas margens do rio Araguaia e na Ilha do Bananal (TO, GO, MT, PA). Sua cerimônia mais visível é a dos **Aruanãs** (*Ijasó*), espíritos do fundo do rio que vêm à aldeia na época das cheias. São personificados por dançarinos mascarados, **sempre em pares**, cobertos de saias de palha de buriti que escondem o corpo inteiro, com máscaras altas de penas e pintura. Cantam em falsete para que a voz não pareça humana, e dançam da casa dos homens até as mulheres, que os recebem com comida.

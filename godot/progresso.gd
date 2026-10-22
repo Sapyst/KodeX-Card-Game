@@ -16,11 +16,11 @@ static func dados() -> Dictionary:
 
 
 static func _l(par) -> String:
-	return str(par[1] if Sessao.idioma == "en" else par[0])
+	return str(Sessao.par(par))
 
 
 static func texto(defn: Dictionary) -> String:
-	return str(defn["en"] if Sessao.idioma == "en" else defn["pt"])
+	return str(Sessao.campo(defn))
 
 
 static func nome_titulo(id: String) -> String:
@@ -233,7 +233,7 @@ static func _ganhar_xp(n: int) -> Array:
 	for nv in range(antes + 1, nivel() + 1):
 		var r := premio_nivel(nv)
 		_pagar({"k": "nivel", "nivel": nv}, r)
-		ev.append({"tipo": "nivel", "texto": _l(["Nível %d", "Level %d"]) % nv, "premio": r})
+		ev.append({"tipo": "nivel", "texto": Sessao.t("Nível %d") % nv, "premio": r})
 	return ev
 
 
@@ -271,7 +271,7 @@ static func _maestria(trad: String, antes: int) -> Array:
 		if r.has("titulo"):
 			r["titulo"] = str(r["titulo"]) + trad
 		_pagar({"k": "maestria", "trad": trad, "nivel": nv}, r)
-		ev.append({"tipo": "maestria", "texto": _l(["Maestria %s %d", "%s Mastery %d"]) % [Sessao.nome_deck(trad), nv], "premio": r})
+		ev.append({"tipo": "maestria", "texto": Sessao.t("Maestria %s %d") % [Sessao.nome_deck(trad), nv], "premio": r})
 	var mx := 0
 	for t in dados()["tradicoes"]:
 		mx = maxi(mx, maestria_nivel(t))
@@ -359,11 +359,11 @@ static func _pagar(op: Dictionary, r: Dictionary) -> void:
 static func premio_txt(r: Dictionary) -> String:
 	var partes := PackedStringArray()
 	if int(r.get("moedas", 0)) > 0:
-		partes.append(_l(["+%d moedas", "+%d coins"]) % int(r["moedas"]))
+		partes.append(Sessao.t("+%d moedas") % int(r["moedas"]))
 	if int(r.get("booster", 0)) > 0:
-		partes.append(_l(["+%d booster", "+%d booster"]) % int(r["booster"]))
+		partes.append(Sessao.t("+%d booster") % int(r["booster"]))
 	if int(r.get("koins", 0)) > 0:
 		partes.append("+%d Koins" % int(r["koins"]))
 	if r.has("titulo"):
-		partes.append(_l(["Título: %s", "Title: %s"]) % nome_titulo(str(r["titulo"])))
+		partes.append(Sessao.t("Título: %s") % nome_titulo(str(r["titulo"])))
 	return "  ·  ".join(partes)

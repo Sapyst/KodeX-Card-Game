@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Guarda. No início do seu turno, Orobas cura 2 de Vida de si mesmo.
+Guarda. No início do seu turno, cure 2 de Vida desta.
 
 ## Contexto mitológico
 Orobas é o 55º espírito da *Ars Goetia*, um Príncipe que aparece primeiro como cavalo e, a pedido do mago, toma forma humana. Revela passado, presente e futuro, concede dignidades e o favor de amigos e inimigos, e — o traço que o distingue de quase todos os outros — **é fiel ao exorcista e não permite que ele seja tentado por espírito algum**. Governa 20 legiões. Weyer (*Pseudomonarchia*, 1577) já o descreve assim, e Collin de Plancy o desenhou como cavalo de pé, ereto, no *Dictionnaire Infernal* (1863).

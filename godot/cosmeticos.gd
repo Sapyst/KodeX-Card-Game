@@ -6,17 +6,17 @@ extends RefCounted
 ## Preços: código 150 · IA 300 · lendário 800 Koins (com 10/dia e 100/sexta, ~170 por semana).
 
 const VERSOS := [
-	{"id": "classico", "nome": ["Clássico", "Classic"], "preco": 0},
-	{"id": "codice", "nome": ["Códice", "Codex"], "preco": 150, "arq": "proc_codice"},
-	{"id": "mandala", "nome": ["Mandala", "Mandala"], "preco": 150, "arq": "proc_mandala"},
-	{"id": "constelacao", "nome": ["Constelação", "Constellation"], "preco": 150, "arq": "proc_constelacao"},
-	{"id": "azulejo", "nome": ["Azulejo", "Azulejo"], "preco": 150, "arq": "proc_azulejo"},
-	{"id": "arvore", "nome": ["Árvore da Vida", "Tree of Life"], "preco": 300, "arq": "ia_arvore_0"},
-	{"id": "vitral", "nome": ["Vitral", "Stained Glass"], "preco": 300, "arq": "ia_vitral_0"},
-	{"id": "dragao", "nome": ["Dragão de Jade", "Jade Dragon"], "preco": 300, "arq": "ia_dragao_0"},
-	{"id": "ouroboros", "nome": ["Ouroboros", "Ouroboros"], "preco": 800, "arq": "ia_ouroboros_1", "lendario": true,
+	{"id": "classico", "nome": ["Clássico", "Classic", "Clásico"], "preco": 0},
+	{"id": "codice", "nome": ["Códice", "Codex", "Códice"], "preco": 150, "arq": "proc_codice"},
+	{"id": "mandala", "nome": ["Mandala", "Mandala", "Mandala"], "preco": 150, "arq": "proc_mandala"},
+	{"id": "constelacao", "nome": ["Constelação", "Constellation", "Constelación"], "preco": 150, "arq": "proc_constelacao"},
+	{"id": "azulejo", "nome": ["Azulejo", "Azulejo", "Azulejo"], "preco": 150, "arq": "proc_azulejo"},
+	{"id": "arvore", "nome": ["Árvore da Vida", "Tree of Life", "Árbol de la Vida"], "preco": 300, "arq": "ia_arvore_0"},
+	{"id": "vitral", "nome": ["Vitral", "Stained Glass", "Vitral"], "preco": 300, "arq": "ia_vitral_0"},
+	{"id": "dragao", "nome": ["Dragão de Jade", "Jade Dragon", "Dragón de Jade"], "preco": 300, "arq": "ia_dragao_0"},
+	{"id": "ouroboros", "nome": ["Ouroboros", "Ouroboros", "Ouroboros"], "preco": 800, "arq": "ia_ouroboros_1", "lendario": true,
 		"fx": {"varredura": true, "brilhos": true, "aura": Vector2(62.6, 85.8), "anel": [39.0, Vector2(62.6, 85.8)]}},
-	{"id": "lotus", "nome": ["Lótus Cósmica", "Cosmic Lotus"], "preco": 800, "arq": "ia_lotus_0", "lendario": true,
+	{"id": "lotus", "nome": ["Lótus Cósmica", "Cosmic Lotus", "Loto Cósmico"], "preco": 800, "arq": "ia_lotus_0", "lendario": true,
 		"fx": {"varredura": true, "brilhos": true, "aura": Vector2(63.5, 89.5), "motes": true}},
 ]
 const W := 128.0
@@ -34,7 +34,7 @@ static func item(id: String) -> Dictionary:
 
 
 static func nome(id: String) -> String:
-	return item(id)["nome"][1 if Sessao.idioma == "en" else 0]
+	return Sessao.par(item(id)["nome"])
 
 
 static func textura(id: String) -> Texture2D:

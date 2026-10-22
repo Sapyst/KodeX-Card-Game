@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Último Sopro: uma Entidade inimiga à escolha perde 1 ATK e 1 Vida permanentemente.
+Último Sopro: Uma Entidade inimiga recebe -1/-1.
 
 ## Contexto mitológico
 Nos processos de Zugarramurdi (Navarra, 1609–1610) os acusados descreviam sapos vestidos com roupinhas de pano, guardados em casa e alimentados pelas bruxas, que os levavam ao *akelarre* e deles extraíam venenos. A imagem é tão recorrente nas confissões que o inquisidor Alonso de Salazar y Frías, ao reexaminar os casos, usou a falta de qualquer sapo apreendido como um dos argumentos de que tudo era fabricado sob pressão (Henningsen, *The Witches' Advocate*, 1980).

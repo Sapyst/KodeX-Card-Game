@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Furtivo. Ao atacar, causa 1 de dano a uma Entidade inimiga à sua escolha.
+Furtivo. Sempre que esta atacar, cause 1 de dano a uma Entidade inimiga.
 
 ## Contexto mitológico
 Arjuna é o terceiro dos cinco Pandavas, filho de Kunti com o deus Indra, e o maior arqueiro do Mahabharata. Discípulo predileto de Drona, ganha o arco Gandiva e duas aljavas inesgotáveis no incêndio da floresta de Khandava (Adi Parva). No Vana Parva, pratica ascese no Himalaia até que Shiva, disfarçado de caçador kirata, o testa em combate e lhe concede o Pashupatastra. É a Arjuna que Krishna, seu auriga, ensina a Bhagavad Gita no campo de Kurukshetra, quando o herói hesita diante de matar parentes e mestres.

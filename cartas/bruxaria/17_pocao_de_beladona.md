@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Uma Entidade aliada à escolha cura 2 de Vida e ganha +1 ATK e +1 Vida permanentemente.
+Cure 2 de Vida de uma Entidade aliada; ela ganha +1/+1.
 
 ## Contexto mitológico
 *Atropa belladonna*: o gênero leva o nome de Átropos, a Moira que corta o fio da vida, e a espécie o das damas venezianas que pingavam seu suco nos olhos para dilatar as pupilas e parecer mais belas. Toda a planta é carregada de atropina, hiosciamina e escopolamina (hioscina) — os alcaloides tropânicos que, em dose pequena, aceleram o coração, secam a boca e provocam visões; em dose maior, matam. É a erva da bruxa por definição: remédio e veneno na mesma raiz.

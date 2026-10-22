@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Devolva todas as Entidades inimigas à mão do dono.
+Devolva todas as Entidades inimigas para a mão do dono.
 
 ## Contexto mitológico
 O Ritual Menor de Banimento do Pentagrama (LBRP, *Lesser Banishing Ritual of the Pentagram*) é o rito fundamental da Golden Dawn, ensinado ao Neófito no grau 0=0 e praticado diariamente por todos os graus. O mago faz a **Cruz Cabalística** (toca testa, peito, ombros com as palavras *Ateh, Malkuth, ve-Geburah, ve-Gedulah, le-Olam, Amen*), traça com a adaga um pentagrama flamejante em cada quadrante vibrando um nome divino (YHVH ao leste, Adonai ao sul, Eheieh ao oeste, AGLA ao norte), une-os num círculo e invoca os quatro arcanjos — "diante de mim Rafael, atrás de mim Gabriel, à minha direita Miguel, à minha esquerda Uriel" — fechando com a Cruz de novo.

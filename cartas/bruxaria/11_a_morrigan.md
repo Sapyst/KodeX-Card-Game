@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Ímpeto. Sempre que uma Entidade — aliada ou inimiga — morrer, invoque um Corvo 1/1.
+Ímpeto. Sempre que outra Entidade morrer, invoque um Corvo 1/1.
 
 ## Contexto mitológico
 *An Mórrígan*, "a Grande Rainha" (ou "Rainha dos Fantasmas"), é a deusa irlandesa da guerra, da profecia e da soberania da terra. Aparece quase sempre como uma de três irmãs — com Badb ("corvo-de-batalha") e Macha, ou Nemain — e por isso é também "as Morrígna". No *Cath Maige Tuired* ("A Segunda Batalha de Mag Tuired") ela se une ao Dagda no Samhain, à beira de um rio, com um pé em cada margem, e promete a vitória aos Tuatha Dé Danann; depois da batalha profetiza o fim dos tempos.

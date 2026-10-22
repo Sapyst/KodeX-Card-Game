@@ -189,6 +189,8 @@ func _draw() -> void:
 		PixelFonte.centrado(self, r.get_center(), Sessao.t(str(b["texto"])), Color("#ffe39a"), 1)
 	if not vitrine.is_empty():
 		_desenhar_vitrine()
+	if com_visor and Sessao.largo and (zoom == null or not is_instance_valid(zoom)):
+		_desenhar_visor()
 	if zoom != null and is_instance_valid(zoom):
 		_desenhar_zoom()
 	if not fala.is_empty():
@@ -243,48 +245,38 @@ func _desenhar_faixa() -> void:
 				draw_line(Vector2(x0 + 6, y + h * 0.5), Vector2(x0 - 2, y + h - 2), Color("#0a080c"), 1.0)
 
 
-## Painel 328×N no meio da tela: nome (2×), tipo · custo · ATK/Def, palavras-chave e o texto quebrado em 79 colunas.
+## Carta segurada: a carta inteira (imagem do idioma) + painel com nome, tipo · custo · ATK/DEF, palavras-chave e o
+## texto de regra em letra legível (a imagem sozinha fica pequena demais no celular). Em pé: carta em cima, painel
+## embaixo. Formato largo: carta à esquerda e painel à direita. "Texto grande": tudo em 2×.
 func _desenhar_zoom() -> void:
 	var c := zoom
-	var tex := Carta.textura("carta_en" if Sessao.idioma == "en" else "carta", c.id, "webp") if c.id != "" else null
+	var tex := Carta.textura(Sessao.pasta("carta"), c.id, "webp") if c.id != "" else null
 	if tex:
-		# carta inteira no frame do mapa (300×420), centrada; fundo escurecido atrás
-		draw_rect(Rect2(-400, -400, 1200, 1500), Color(0.04, 0.02, 0.06, 0.55))
-		var r := Rect2(30, 110, 300, 420)
-		if Sessao.texto_grande:                          # acessibilidade: carta menor + texto dela em 2× embaixo
+		draw_rect(Rect2(-1400, -400, 3200, 1500), Color(0.04, 0.02, 0.06, 0.62))
+		var esc := Fonte57.grande()
+		var r: Rect2
+		var pr: Rect2
+		if Sessao.largo:
+			var tl := _tela()
+			var pw := minf(360.0, tl.size.x - 300.0 - 60.0)
+			var x0 := roundf(180.0 - (300.0 + 16.0 + pw) / 2.0)
+			r = Rect2(x0, 110, 300, 420)
+			pr = Rect2(x0 + 316, 150, pw, 0)
+		elif esc == 2:
 			r = Rect2(95, 20, 170, 238)
+			pr = Rect2(12, r.end.y + 10, 336, 0)
+		else:
+			r = Rect2(70, 24, 220, 308)
+			pr = Rect2(12, r.end.y + 10, 336, 0)
 		draw_rect(r.grow(2), Color("#140c10"))
 		draw_texture_rect(tex, r, false)
-		if Sessao.texto_grande:
-			var linhas := Fonte57.quebrar(c.texto, 316, 2)
-			var kw := ""
-			for k in c.keywords:
-				kw += Sessao.t({"guarda": "GUARDA", "impeto": "ÍMPETO", "furtivo": "FURTIVO", "renascer": "RENASCER"}.get(k, "")) + " "
-			var info := "%s  %s %d" % [Sessao.t({"entidade": "ENTIDADE", "selo": "SELO", "rito": "RITO", "reliquia": "RELÍQUIA"}.get(c.tipo, "")), Sessao.t("CUSTO"), c.custo]
-			if c.tipo == "entidade":
-				info += "  ATK %d  DEF %d" % [c.atk, maxi(c.vida(), 0)]
-			var h := 16 + 22 + (14 if kw != "" else 0) + linhas.size() * 22 + 10
-			var p := Rect2(12, r.end.y + 10, 336, h)
-			draw_rect(p.grow(2), Color("#140c10"))
-			draw_rect(p, Color("#24161f"))
-			draw_rect(Rect2(p.position, Vector2(p.size.x, 1)), Color("#e2b85a"))
-			var y := p.position.y + 8
-			PixelFonte.desenhar(self, Vector2(22, y), c.nome, Color("#ffe39a"), 2)
-			y += 16
-			PixelFonte.desenhar(self, Vector2(22, y), info, Color("#cfe0ff"), 2)
-			y += 18
-			if kw != "":
-				PixelFonte.desenhar(self, Vector2(22, y), kw.strip_edges(), Color("#ffd9a0"), 2)
-				y += 14
-			for ln in linhas:
-				Fonte57.desenhar(self, Vector2(22, y), ln, Color("#f2e6c8"), Color("#140c10"), 2)
-				y += 22
-			return
+		_painel_carta(c, pr.position, pr.size.x, esc if not Sessao.largo else 2)
 		if c.tipo == "entidade" and c.dano > 0:
-			var s := "VIDA ATUAL %d" % maxi(c.vida(), 0)
+			var s := Sessao.t("VIDA ATUAL %d" % maxi(c.vida(), 0))
 			var w := PixelFonte.largura(s, 2) + 12
-			draw_rect(Rect2(180 - w / 2.0, 92, w, 16), Color("#5a1a1a"))
-			PixelFonte.centrado(self, Vector2(180, 100), Sessao.t(s), Color("#ffd0d0"), 2)
+			var cy := r.position.y - 12 if r.position.y > 30 else r.position.y + 14
+			draw_rect(Rect2(r.get_center().x - w / 2.0, cy - 8, w, 16), Color("#5a1a1a"))
+			PixelFonte.centrado(self, Vector2(r.get_center().x, cy), s, Color("#ffd0d0"), 2)
 		return
 	var tipo_txt: String = Sessao.t({"entidade": "ENTIDADE", "selo": "SELO", "rito": "RITO", "reliquia": "RELÍQUIA"}.get(c.tipo, c.tipo.to_upper()))
 	var linha2 := "%s  -  CUSTO %d" % [tipo_txt, c.custo]
@@ -314,6 +306,80 @@ func _desenhar_zoom() -> void:
 	for ln in linhas:
 		PixelFonte.desenhar(self, Vector2(24, y), ln, Color("#f2e6c8"))
 		y += 7
+
+
+func _tela() -> Rect2:
+	var vs := get_viewport_rect().size
+	return Rect2(Vector2(180, 320) - vs / 2.0, vs)
+
+
+## Painel de texto da carta em (p, largura w): nome, tipo · custo · ATK/DEF, palavras-chave e o texto de regra
+## (Fonte57 em `esc`). Devolve a altura desenhada.
+func _painel_carta(c: Carta, p: Vector2, w: float, esc: int) -> float:
+	var kw := ""
+	for k in c.keywords:
+		kw += Sessao.t({"guarda": "GUARDA", "impeto": "ÍMPETO", "furtivo": "FURTIVO", "renascer": "RENASCER"}.get(k, "")) + "  "
+	var info := "%s  ·  %s %d" % [Sessao.t({"entidade": "ENTIDADE", "selo": "SELO", "rito": "RITO", "reliquia": "RELÍQUIA"}.get(c.tipo, "")), Sessao.t("CUSTO"), c.custo]
+	if c.tipo == "entidade":
+		info += "  ·  ATK %d  DEF %d" % [c.atk, maxi(c.vida(), 0)]
+	var tw := w - 20
+	var nomes := Fonte57.quebrar(c.nome, int(tw), esc)
+	var linhas := Fonte57.quebrar(c.texto, int(tw), esc)
+	var infos := Fonte57.quebrar(info, int(tw), esc)
+	var kws := Fonte57.quebrar(kw.strip_edges(), int(tw), esc) if kw != "" else PackedStringArray()
+	var lh := 10 * esc
+	var h := 10 + nomes.size() * (lh + 2) + 4 + (infos.size() + kws.size()) * lh + 6 + linhas.size() * lh + 8
+	var r := Rect2(p, Vector2(w, h))
+	draw_rect(r.grow(2), Color("#140c10"))
+	draw_rect(r, Color("#24161f"))
+	draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), Color("#e2b85a"))
+	draw_rect(Rect2(r.position + Vector2(0, r.size.y - 1), Vector2(r.size.x, 1)), Color("#9c7430"))
+	var y := p.y + 8
+	for ln in nomes:
+		Fonte57.desenhar(self, Vector2(p.x + 10, y), ln, Color("#ffe39a"), Color("#140c10"), esc)
+		y += lh + 2
+	y += 4
+	for ln in infos:
+		Fonte57.desenhar(self, Vector2(p.x + 10, y), ln, Color("#cfe0ff"), Color("#140c10"), esc)
+		y += lh
+	for ln in kws:
+		Fonte57.desenhar(self, Vector2(p.x + 10, y), ln, Color("#ffd9a0"), Color("#140c10"), esc)
+		y += lh
+	y += 6
+	for ln in linhas:
+		Fonte57.desenhar(self, Vector2(p.x + 10, y), ln, Color("#f2e6c8"), Color("#140c10"), esc)
+		y += lh
+	return h
+
+
+## Formato largo: visor fixo na lateral direita com a última carta tocada (ou com o mouse em cima), legível.
+var inspecionada: Carta = null
+var com_visor := false                   # só a camada de cima (a do chão também é um Efeitos)
+
+
+func _desenhar_visor() -> void:
+	var tl := _tela()
+	var x0 := 372.0
+	var w := tl.end.x - 12.0 - x0
+	if w < 150.0:
+		return
+	var c := inspecionada
+	var cw := minf(200.0, w - 20.0)
+	var cx := roundf(x0 + w / 2.0)
+	if c == null or not is_instance_valid(c):
+		var dica := Fonte57.quebrar(Sessao.t("Toque numa carta ou passe o mouse por cima para ler aqui."), int(w - 20), 2)
+		for k in dica.size():
+			Fonte57.desenhar(self, Vector2(roundf(cx - Fonte57.largura(dica[k], 2) / 2.0), 280 + k * 22), dica[k], Color(0.6, 0.55, 0.6), Color(0, 0, 0, 0), 2)
+		return
+	var tex := Carta.textura(Sessao.pasta("carta"), c.id, "webp") if c.id != "" and (c.virada_para_cima or c.dono == 0) else null
+	var r := Rect2(roundf(cx - cw / 2.0), 24, cw, roundf(cw * 1.4))
+	draw_rect(r.grow(2), Color("#140c10"))
+	if tex:
+		draw_texture_rect(tex, r, false)
+		_painel_carta(c, Vector2(x0 + 4, r.end.y + 10), w - 8, 2)
+	else:
+		draw_rect(r, Color("#3d1f33"))
+		PixelFonte.centrado(self, r.get_center(), "?", Color("#e2b85a"), 4)
 
 
 ## Balão no topo, abaixo da mão do oponente: retrato 36×48 + nome + texto (Fonte57), entra deslizando 0,2 s.

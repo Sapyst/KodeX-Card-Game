@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Compre 2 cartas, ganhe 2 de Fé temporária e cure 2 da sua Cornucópia.
+Compre 2 cartas. Ganhe 2 de Fé neste turno. Cure 2 da sua Cornucópia.
 
 ## Contexto mitológico
 O Samudra Manthan, batimento do oceano de leite, é um dos episódios mais contados dos Puranas (Bhagavata 8.6–12, Vishnu Purana 1.9, Mahabharata Adi Parva). Os devas, enfraquecidos por uma maldição, aceitam o conselho de Vishnu: unir-se aos asuras para bater o oceano cósmico e extrair dele a amrita, o néctar da imortalidade. Arrancam o monte Mandara para servir de batedor, Vishnu toma a forma da tartaruga Kurma para sustentá-lo, e a serpente Vasuki vira a corda — devas na cauda, asuras na cabeça, engolindo o veneno que ela exala.

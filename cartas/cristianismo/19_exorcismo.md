@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Devolva uma Entidade inimiga à mão do dono. Cure 4 de Vida de uma Entidade aliada.
+Devolva uma Entidade inimiga para a mão do dono. Cure 4 de Vida de uma Entidade aliada.
 
 ## Contexto mitológico
 Expulsar espíritos impuros é a ação mais frequente de Jesus nos evangelhos sinóticos: na sinagoga de Cafarnaum (Mc 1,21-28), o menino epiléptico que os discípulos não conseguem curar (Mc 9,14-29), a filha da sirofenícia (Mc 7,24-30). O caso mais vívido é o geraseno: um homem que vive entre os túmulos, que ninguém consegue acorrentar, e cujo espírito responde "Meu nome é Legião, porque somos muitos". Os espíritos pedem para entrar numa vara de dois mil porcos, que se precipita no lago (Mc 5,1-20). O homem é encontrado depois "sentado, vestido e em perfeito juízo".

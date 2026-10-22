@@ -303,7 +303,10 @@ func sair_texto() -> void:
 
 
 func desenhar_perfil() -> void:
-	f._cabecalho(Sessao.t("Seu perfil"), Sessao.t("quem joga online com você vê nome e foto"))
+	if f.criando_perfil:
+		f._cabecalho(Sessao.t("Crie seu perfil"), Sessao.t("é assim que os outros jogadores vão ver você"))
+	else:
+		f._cabecalho(Sessao.t("Seu perfil"), Sessao.t("quem joga online com você vê nome e foto"))
 	moldura_foto(Rect2(120, 98, 120, 160), foto_tex)
 	var r := campo_nome()
 	var dentro: Rect2 = f._painel(r, nome_edit.has_focus(), 0.0)
@@ -314,6 +317,10 @@ func desenhar_perfil() -> void:
 		_texto2x_cursor(dentro.get_center(), nome, f.OURO[0], nome_edit.has_focus())
 	Fonte57.desenhar(f, Vector2(50, 304), Sessao.t("Nome"), Color("#b8a888"))
 	_contador(Vector2(310, 304), nome.length())
+	if f.criando_perfil:                                # tela de criação: só foto e nome
+		f._texto_central(Vector2(180, 384), Sessao.t("Você pode trocar nome e foto depois, no Perfil."), Color(0.62, 0.57, 0.62))
+		_desenhar_aviso()
+		return
 	var tm := "%d %s" % [Sessao.moedas(), Sessao.t("moedas")]
 	var wm := Fonte57.largura(tm)
 	moeda(Vector2(180 - (wm + 14) / 2.0 + 5, 377))
@@ -778,7 +785,7 @@ func desenhar_deck_edit() -> void:
 		if r.end.y < GTOPO or r.position.y > GBASE:
 			continue
 		var cid: String = _ids[k]
-		var tex := Carta.textura("carta_en" if Sessao.idioma == "en" else "carta", cid, "webp")
+		var tex := Carta.textura(Sessao.pasta("carta"), cid, "webp")
 		var vis := r.intersection(Rect2(0, GTOPO, 360, GBASE - GTOPO))
 		f.draw_rect(vis.grow(1), f.ESCURO)
 		if tex:

@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Quando uma Entidade aliada morrer no turno do oponente, devolva uma Entidade do seu cemitério à mão e compre 1 carta.
+Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério para a mão. Compre 1 carta.
 
 ## Contexto mitológico
 *Solve et coagula* — "dissolve e coagula" — é o lema da Grande Obra alquímica. A matéria-prima deve ser dissolvida (nigredo, putrefação, a morte do corpo) para que o espírito se separe dela e volte a fixar-se num corpo novo e purificado (albedo, rubedo). O *Rosarium Philosophorum* (1550) mostra o rei e a rainha morrendo no banho, a alma subindo e descendo, e o Rebis ressurgindo. A fórmula circula como máxima anônima nos tratados dos séculos XVI–XVII (Khunrath, Maier, o corpus de "Basílio Valentim") antes de ganhar a forma lapidar que hoje se cita.

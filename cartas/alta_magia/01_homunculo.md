@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Último Sopro: compre 1 carta.
+Último Sopro: Compre 1 carta.
 
 ## Contexto mitológico
 O homúnculo ("homenzinho") é a criatura artificial da alquimia. A receita mais famosa está no *De natura rerum* (1537) atribuído a Paracelso: sêmen humano selado num vaso de vidro, posto a putrefazer quarenta dias em esterco de cavalo até começar a mexer-se, depois nutrido com o *arcanum* do sangue humano por quarenta semanas, em calor constante. Nasce um ser pequeno, transparente, "com todos os membros de uma criança nascida de mulher", que pode ser criado e educado — e que, por ter nascido da arte e não da natureza, conhece segredos ocultos aos homens.

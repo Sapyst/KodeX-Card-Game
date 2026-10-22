@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Causa 3 de dano a todas as Entidades inimigas e 1 de dano à Cornucópia inimiga.
+Cause 3 de dano a todas as Entidades inimigas e 1 à Cornucópia inimiga.
 
 ## Contexto mitológico
 A sétima praga do Egito. "Moisés estendeu o cajado para o céu, e o Senhor enviou trovões e granizo, e fogo corria pela terra. O Senhor fez chover granizo sobre a terra do Egito; havia granizo, e fogo misturado com o granizo, tão forte como nunca houvera em todo o Egito desde que se tornara nação. O granizo feriu em toda a terra do Egito tudo quanto estava no campo, tanto homens como animais, e feriu toda a erva do campo e quebrou todas as árvores" (Ex 9,23-25). Só a terra de Gósen, onde viviam os israelitas, foi poupada.

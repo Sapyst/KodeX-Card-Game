@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando uma Entidade inimiga atacar, o atacante sofre 2 de dano. Enquanto virado para baixo, conta como "Círculo" para Sigilo 333.
+Quando atacarem uma Entidade sua, o atacante sofre 2 de dano. Virado para baixo, conta como o Círculo do Sigilo 333.
 
 ## Contexto mitológico
 O círculo mágico é a fronteira entre o operador e o que ele evoca. Na *Goetia* tem nove pés de diâmetro, com os nomes divinos e os nomes dos sefirot escritos na banda externa; na tradição da Golden Dawn é traçado com a adaga ou a varinha, sempre no sentido do sol. Sair do círculo durante a evocação é a falha clássica — e exatamente o que Choronzon tenta provocar.

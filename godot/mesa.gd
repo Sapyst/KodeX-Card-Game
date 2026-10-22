@@ -72,6 +72,7 @@ var segurando: Carta = null
 var origem := ""                      # "mao" | "campo"
 var origem_idx := -1
 var ponteiro := Vector2.ZERO
+var _visor_teste := OS.get_environment("GD_VISOR_TESTE") != ""
 var ocupado := false                  # animação em curso: ignora toques
 signal escolhido(valor)
 signal fim_turno_pedido
@@ -168,6 +169,7 @@ func _ready() -> void:
 	placar.draw.connect(_desenhar_placar)
 	add_child(placar)
 	efeitos = Efeitos.new()
+	efeitos.com_visor = true
 	add_child(efeitos)
 	carrossel = Carrossel.new()               # visor do cemitério (ver e reviver)
 	add_child(carrossel)
@@ -429,6 +431,10 @@ func _process(delta: float) -> void:
 			and not campo_ent[0].any(func(e) -> bool: return e != null and (e as Carta).destaque == 2)
 	var vs := get_viewport_rect().size
 	alt_util = vs.y
+	if _visor_teste and efeitos.inspecionada == null and not mao_jog.is_empty():   # teste: visor mostra uma carta da mão
+		efeitos.inspecionada = mao_jog[0]
+		if OS.get_environment("GD_VISOR_TESTE") == "zoom":
+			efeitos.zoom = mao_jog[0]
 	pos_base = Vector2(roundf((vs.x - 360.0) / 2.0), 0.0)
 	# carta segurada: segue o dedo com atraso, inclina conforme a velocidade
 	if segurando != null:
@@ -885,6 +891,7 @@ func _unhandled_input(ev: InputEvent) -> void:
 
 func pressionar(p: Vector2) -> void:
 	ponteiro = p
+	_inspecionar(p)
 	if carrossel.aberto():
 		carrossel.pressionar(p)
 		return
@@ -964,6 +971,8 @@ func pressionar(p: Vector2) -> void:
 
 func mover(p: Vector2) -> void:
 	ponteiro = p
+	if segurando == null:
+		_inspecionar(p)
 	if carrossel.aberto():
 		carrossel.mover(p)
 		return
@@ -2161,7 +2170,7 @@ func _primeiro_ocupado(d: int) -> int:
 
 
 func _vitrine(c: Carta, dur := 1.15, cor := Color("#ffe39a")) -> void:
-	var tex := Carta.textura("carta_en" if Sessao.idioma == "en" else "carta", c.id, "webp")
+	var tex := Carta.textura(Sessao.pasta("carta"), c.id, "webp")
 	if tex == null or acabou:
 		return
 	efeitos.vitrine = {"tex": tex, "de": c.global_position, "t": 0.0, "dur": dur, "cor": cor}
@@ -2236,7 +2245,7 @@ func pedir_alvo(cands: Array, dica: String, botao := "PULAR", fonte = null):
 
 
 func _itens_cemiterio(lista: Array) -> Array:
-	var pasta := "carta_en" if Sessao.idioma == "en" else "carta"
+	var pasta := Sessao.pasta("carta")
 	var out: Array = []
 	for e in lista:
 		var dd: Dictionary = e["dados"]
@@ -2645,6 +2654,25 @@ func _renascer(c: Carta) -> void:
 
 
 # ---------- segurar para ver a carta ----------
+## Formato largo: a carta visível sob o ponteiro (mão, campos, Selos meus) vai para o visor da lateral direita.
+func _inspecionar(p: Vector2) -> void:
+	if not Sessao.largo or not modo_partida:
+		return
+	var cands: Array = mao_jog.duplicate()
+	for d in 2:
+		for i in 4:
+			if campo_ent[d][i] != null:
+				cands.append(campo_ent[d][i])
+		for i in 2:
+			if campo_selo[d][i] != null:
+				cands.append(campo_selo[d][i])
+	for i in range(cands.size() - 1, -1, -1):
+		var c: Carta = cands[i]
+		if is_instance_valid(c) and c.contem(p) and (c.virada_para_cima or c.dono == 0):
+			efeitos.inspecionada = c
+			return
+
+
 func _tentar_zoom(p: Vector2) -> void:
 	var cands: Array = []
 	for c in mao_jog:
@@ -3214,86 +3242,37 @@ func abrir_regras() -> void:
 
 
 func _blocos_regras() -> Array:
-	if Sessao.idioma == "en":
-		return [["titulo", "Rules"],
-			["sub", "Goal"], ["txt", "Bring the enemy Cornucopia (15) down to 0. Summoning Choronzon wins on the spot."],
-			["sub", "Faith"], ["txt", "Your mana. Max Faith goes up by 1 every turn (up to 8) and refills. Every card costs Faith."],
-			["sub", "Turn"], ["txt", "Draw 1 card, then play cards and attack in any order. Hand limit is 7."],
-			["sub", "Card types"],
-			["item", "Entity: fights on the field (4 slots). Enters tired: attacks next turn."],
-			["item", "Seal: face down, fires on the enemy turn when its trigger happens. 1 per turn, 2 slots."],
-			["item", "Rite: instant effect, then goes to the graveyard."],
-			["item", "Relic: equips an allied Entity."],
-			["sub", "Combat"],
-			["txt", "Drag one of your Entities onto an enemy one. Both deal damage at the same time. Direct hits on the Cornucopia only when the enemy has no Entities."],
-			["sub", "Keywords"],
-			["item", "Haste: can attack the turn it enters."],
-			["item", "Guard: enemies must attack it first."],
-			["item", "Rebirth: when it dies, goes back to your hand (once)."],
-			["item", "Stealth: can't be targeted by enemy effects until it attacks."],
-			["item", "Awaken: effect when summoned from the hand."],
-			["item", "Last Breath: effect when it dies."],
-			["item", "Sacrifice N: sacrifice N allied Entities to summon it."],
-			["item", "Uses N: a Relic with N charges."],
-			["sub", "Empty deck"],
-			["txt", "With 6+ Cornucopia you may pay 5 to reshuffle the graveyard into the deck. Otherwise each missing card deals 2 damage."],
-			["sub", "Tips"],
-			["item", "Hold a card to read it."], ["item", "Tap a graveyard to see it."],
-			["item", "Left column: the last plays. Tap one to see the card."]]
-	return [["titulo", "Regras"],
-		["sub", "Objetivo"], ["txt", "Zere a Cornucópia inimiga (15). Invocar Choronzon vence na hora."],
-		["sub", "Fé"], ["txt", "É o seu recurso. A Fé máxima sobe 1 por turno (até 8) e se renova. Toda carta custa Fé."],
-		["sub", "Turno"], ["txt", "Compre 1 carta; depois jogue cartas e ataque na ordem que quiser. A mão tem limite de 7."],
-		["sub", "Tipos de carta"],
-		["item", "Entidade: luta no campo (4 espaços). Entra cansada: ataca no turno seguinte."],
-		["item", "Selo: fica virado e dispara no turno inimigo quando o gatilho acontece. 1 por turno, 2 espaços."],
-		["item", "Rito: efeito imediato; depois vai ao cemitério."],
-		["item", "Relíquia: equipa uma Entidade aliada."],
-		["sub", "Combate"],
-		["txt", "Arraste uma Entidade sua sobre uma inimiga. As duas causam dano ao mesmo tempo. Golpe direto na Cornucópia só quando o inimigo não tem Entidades."],
-		["sub", "Palavras-chave"],
-		["item", "Ímpeto: pode atacar no turno em que entra."],
-		["item", "Guarda: os inimigos precisam atacá-la primeiro."],
-		["item", "Renascer: ao morrer, volta para a sua mão (uma vez)."],
-		["item", "Furtivo: não pode ser alvo de efeitos inimigos até atacar."],
-		["item", "Despertar: efeito ao ser invocada da mão."],
-		["item", "Último Sopro: efeito ao morrer."],
-		["item", "Sacrifício N: sacrifique N Entidades aliadas para invocá-la."],
-		["item", "Usos N: Relíquia com N cargas."],
-		["sub", "Deck vazio"],
-		["txt", "Com 6 ou mais de Cornucópia, você pode pagar 5 para reembaralhar o cemitério no deck. Senão, cada carta que faltar causa 2 de dano."],
-		["sub", "Dicas"],
-		["item", "Segure uma carta para ler."], ["item", "Toque num cemitério para vê-lo."],
-		["item", "Coluna da esquerda: as últimas jogadas. Toque numa para ver a carta."]]
+	var d: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://dados/regras.json"))
+	var b = Sessao.campo(d)
+	return b if b is Array and not b.is_empty() else d["en"]
 
 
 ## Resumo no fim da partida (pergaminho): resultado, turnos, cartas jogadas, dano, mortes e moedas do Arcade.
 func _resumo() -> void:
-	var en := Sessao.idioma == "en"
 	var p: Dictionary = Sessao.personagem(Sessao.oponente)
-	var titulo: Array = {0: ["Vitória", "Victory"], 1: ["Derrota", "Defeat"], 2: ["Empate", "Draw"]}.get(vencedor, ["Empate", "Draw"])
+	var titulo: String = {0: "Vitória", 1: "Derrota", 2: "Empate"}.get(vencedor, "Empate")
 	var jog := func(d: int) -> int:
 		return int(estat[d].get("entidades", 0)) + int(estat[d].get("selos", 0)) + int(estat[d].get("ritos", 0)) + int(estat[d].get("reliquias", 0))
-	var b: Array = [["titulo", titulo[1 if en else 0]]]
+	var b: Array = [["titulo", Sessao.par(titulo)]]
 	if p.has("nome"):
-		b.append(["centro", ("against %s" if en else "contra %s") % p["nome"]])
+		b.append(["centro", Sessao.t("contra %s") % p["nome"]])
 	b.append(["divisor"])
-	b.append(["item", ("Turns: %d" if en else "Turnos: %d") % turno_n])
-	b.append(["item", ("Cards played: %d (opponent %d)" if en else "Cartas jogadas: %d (oponente %d)") % [jog.call(0), jog.call(1)]])
-	b.append(["item", ("Damage to the enemy Cornucopia: %d" if en else "Dano na Cornucópia inimiga: %d") % maxi(0, int(_corn_ini[1]) - maxi(cornucopia[1], 0))])
-	b.append(["item", ("Damage taken: %d" if en else "Dano recebido: %d") % maxi(0, int(_corn_ini[0]) - maxi(cornucopia[0], 0))])
-	b.append(["item", ("Enemy Entities destroyed: %d" if en else "Entidades inimigas destruídas: %d") % int(estat[1].get("mortes", 0))])
-	b.append(["item", ("Attacks: %d" if en else "Ataques: %d") % (int(estat[0].get("ataques", 0)) + int(estat[0].get("golpes_diretos", 0)))])
+	b.append(["item", Sessao.t("Turnos: %d") % turno_n])
+	b.append(["item", Sessao.t("Cartas jogadas: %d (oponente %d)") % [jog.call(0), jog.call(1)]])
+	b.append(["item", Sessao.t("Dano na Cornucópia inimiga: %d") % maxi(0, int(_corn_ini[1]) - maxi(cornucopia[1], 0))])
+	b.append(["item", Sessao.t("Dano recebido: %d") % maxi(0, int(_corn_ini[0]) - maxi(cornucopia[0], 0))])
+	b.append(["item", Sessao.t("Entidades inimigas destruídas: %d") % int(estat[1].get("mortes", 0))])
+	b.append(["item", Sessao.t("Ataques: %d") % (int(estat[0].get("ataques", 0)) + int(estat[0].get("golpes_diretos", 0)))])
 	if Sessao.modo == "arcade" and vencedor == 0:
 		b.append(["espaco"])
 		b.append(["destaque", "+%d" % Sessao.moedas_arcade(), "moeda"])
-		b.append(["centro", "Arcade coins" if en else "moedas do Arcade"])
+		b.append(["centro", Sessao.t("moedas do Arcade")])
 	if Sessao.modo == "bot":                           # prêmio igual ao online (vitória 20, derrota 5, empate 10)
 		var ganho: int = [20, 5, 10][0 if vencedor == 0 else (1 if vencedor == 1 else 2)]
 		Sessao.premio("bot", {"res": 0 if vencedor == 0 else (1 if vencedor == 1 else 2)}, ganho)
 		b.append(["espaco"])
 		b.append(["destaque", "+%d" % ganho, "moeda"])
-		b.append(["centro", "online match coins" if en else "moedas da partida online"])
+		b.append(["centro", Sessao.t("moedas da partida online")])
 	_blocos_progresso(b)
 	perg.abrir(b)
 	await perg.fechou
@@ -3669,11 +3648,11 @@ func _enigma() -> void:
 	ativo = 0
 	turno_n = 3
 	var tit: Array = e.get("titulo", ["Enigma", "Puzzle"])
-	efeitos.numero(Vector2(180, LINHA_Y - 4), str(tit[1] if Sessao.idioma == "en" else tit[0]).to_upper(), Color("#ffe39a"), 2)
+	efeitos.numero(Vector2(180, LINHA_Y - 4), str(Sessao.par(tit)).to_upper(), Color("#ffe39a"), 2)
 	_atualizar_apagadas()
 	if int(Sessao.extras.get("tentativas", 0)) >= 2:          # 3ª tentativa em diante: mostra a dica
 		var dica: Array = e.get("dica", ["", ""])
-		perg.abrir([["titulo", "Hint" if Sessao.idioma == "en" else "Dica"], ["centro", str(dica[1] if Sessao.idioma == "en" else dica[0])]])
+		perg.abrir([["titulo", Sessao.t("Dica")], ["centro", str(Sessao.par(dica))]])
 	while true:
 		await fim_turno_pedido
 		if acabou:
@@ -4168,28 +4147,27 @@ func _voltar_menu() -> void:
 
 ## Relatório com as duas colunas (você × adversário): o mesmo números que o outro aparelho vê, do lado dele.
 func _resumo_online(ganho := 0) -> void:
-	var en := Sessao.idioma == "en"
 	var adv := str(online_info.get("adversario", "?"))
-	var titulo: Array = {0: ["Vitória", "Victory"], 1: ["Derrota", "Defeat"], 2: ["Empate", "Draw"]}.get(vencedor, ["Empate", "Draw"])
+	var titulo: String = {0: "Vitória", 1: "Derrota", 2: "Empate"}.get(vencedor, "Empate")
 	var jog := func(d: int) -> int:
 		return int(estat[d].get("entidades", 0)) + int(estat[d].get("selos", 0)) + int(estat[d].get("ritos", 0)) + int(estat[d].get("reliquias", 0))
 	var atq := func(d: int) -> int:
 		return int(estat[d].get("ataques", 0)) + int(estat[d].get("golpes_diretos", 0))
-	var b: Array = [["titulo", titulo[1 if en else 0]], ["centro", ("against %s" if en else "contra %s") % adv],
+	var b: Array = [["titulo", Sessao.par(titulo)], ["centro", Sessao.t("contra %s") % adv],
 		["centro", "%d %s  ·  %d min" % [turno_n, Sessao.t("turnos"), int((Time.get_ticks_msec() - _inicio_ms) / 60000)]], ["divisor"],
-		["sub", ("You  ×  %s" if en else "Você  ×  %s") % adv],
-		["item", ("Cards played: %d × %d" if en else "Cartas jogadas: %d × %d") % [jog.call(0), jog.call(1)]],
-		["item", ("Damage dealt: %d × %d" if en else "Dano causado: %d × %d") % [int(_corn_ini[1]) - maxi(cornucopia[1], 0), int(_corn_ini[0]) - maxi(cornucopia[0], 0)]],
-		["item", ("Entities destroyed: %d × %d" if en else "Entidades destruídas: %d × %d") % [int(estat[1].get("mortes", 0)), int(estat[0].get("mortes", 0))]],
-		["item", ("Attacks: %d × %d" if en else "Ataques: %d × %d") % [atq.call(0), atq.call(1)]],
-		["item", ("Cornucopia left: %d × %d" if en else "Cornucópia no fim: %d × %d") % [maxi(cornucopia[0], 0), maxi(cornucopia[1], 0)]]]
+		["sub", Sessao.t("Você  ×  %s") % adv],
+		["item", Sessao.t("Cartas jogadas: %d × %d") % [jog.call(0), jog.call(1)]],
+		["item", Sessao.t("Dano causado: %d × %d") % [int(_corn_ini[1]) - maxi(cornucopia[1], 0), int(_corn_ini[0]) - maxi(cornucopia[0], 0)]],
+		["item", Sessao.t("Entidades destruídas: %d × %d") % [int(estat[1].get("mortes", 0)), int(estat[0].get("mortes", 0))]],
+		["item", Sessao.t("Ataques: %d × %d") % [atq.call(0), atq.call(1)]],
+		["item", Sessao.t("Cornucópia no fim: %d × %d") % [maxi(cornucopia[0], 0), maxi(cornucopia[1], 0)]]]
 	if ganho > 0:
 		b.append(["espaco"])
 		b.append(["destaque", "+%d" % ganho, "moeda"])
 	_blocos_progresso(b)
 	if dessinc:
 		b.append(["espaco"])
-		b.append(["centro", "The two devices disagreed during this match (desync). Please report it." if en else "Os dois aparelhos divergiram nesta partida (dessincronia). Avise para corrigirmos."])
+		b.append(["centro", Sessao.t("Os dois aparelhos divergiram nesta partida (dessincronia). Avise para corrigirmos.")])
 	perg.abrir(b)
 	await perg.fechou
 
@@ -4424,39 +4402,37 @@ func _notification(what: int) -> void:
 func _blocos_progresso(b: Array) -> void:
 	if prog_eventos.is_empty():
 		return
-	var en := Sessao.idioma == "en"
 	b.append(["divisor"])
 	var xp := 0
 	for e in prog_eventos:
 		if e["tipo"] == "xp":
 			xp += int(e["xp"])
 	var nv: Array = Progresso.nivel_de(int(Progresso.p().get("xp", 0)))
-	b.append(["sub", ("Level %d  ·  +%d XP  (%d/%d)" if en else "Nível %d  ·  +%d XP  (%d/%d)") % [nv[0], xp, nv[1], nv[2]]])
+	b.append(["sub", Sessao.t("Nível %d  ·  +%d XP  (%d/%d)") % [nv[0], xp, nv[1], nv[2]]])
 	for e in prog_eventos:
 		match str(e["tipo"]):
 			"missao":
-				b.append(["item", ("Weekly done: %s" if en else "Semanal cumprida: %s") % e["texto"] if e.get("semanal", false)
-					else ("Mission done: %s" if en else "Missão cumprida: %s") % e["texto"]])
+				b.append(["item", Sessao.t("Semanal cumprida: %s") % e["texto"] if e.get("semanal", false)
+					else Sessao.t("Missão cumprida: %s") % e["texto"]])
 				b.append(["centro", Progresso.premio_txt(e["premio"])])
 			"nivel", "maestria":
-				b.append(["item", ("Up! %s" if en else "Subiu! %s") % e["texto"]])
+				b.append(["item", Sessao.t("Subiu! %s") % e["texto"]])
 				b.append(["centro", Progresso.premio_txt(e["premio"])])
 			"conquista":
-				b.append(["item", ("Achievement: %s" if en else "Conquista: %s") % e["texto"]])
+				b.append(["item", Sessao.t("Conquista: %s") % e["texto"]])
 				b.append(["centro", Progresso.premio_txt(e["premio"])])
 			"avatar":
-				b.append(["item", ("New portrait unlocked: %s" if en else "Retrato liberado: %s") % e["texto"]])
-				b.append(["centro", "Profile > Choose image" if en else "Perfil > Escolher imagem"])
+				b.append(["item", Sessao.t("Retrato liberado: %s") % e["texto"]])
+				b.append(["centro", Sessao.t("Perfil > Escolher imagem")])
 
 
 ## Fim da partida com os retratos: quem venceu sobe ao centro; quem perdeu fica trincado na moldura da mesa.
 func _preparar_fim(venc: int) -> void:
 	if ret_nome[0] == "" or ret_nome[1] == "":
 		return
-	var en := Sessao.idioma == "en"
 	efeitos.fim = {"tex": ret_tex[venc], "nome": ret_nome[venc], "vitoria": venc == 0, "de": ret_rect(venc).get_center(),
 		"perdedor": ret_rect(1 - venc),
-		"sub": (("You beat %s" if en else "Você venceu %s") % ret_nome[1]) if venc == 0 else (("%s won" if en else "%s venceu") % ret_nome[1])}
+		"sub": (Sessao.t("Você venceu %s") % ret_nome[1]) if venc == 0 else (Sessao.t("%s venceu") % ret_nome[1])}
 
 
 # ================= gravação para conferir o juiz do servidor (GD_GRAVAR=arquivo) =================

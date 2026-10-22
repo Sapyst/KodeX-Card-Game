@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Equipe uma Entidade aliada: +1/+2. A portadora ganha Renascer.
+A portadora ganha +1/+2 e Renascer.
 
 ## Contexto mitológico
 O pêssego (*tao*, 桃) é a fruta da longevidade na China desde antes do taoismo: a madeira de pessegueiro afasta espíritos (os *taofu*, tabuletas de pessegueiro penduradas nas portas no Ano-Novo, antecedem os dísticos de papel), a flor é a primavera, e o fruto, com seu sulco e sua forma, é a vida que se renova. Um trecho atribuído ao *Shanhaijing* (citado no *Lunheng* de Wang Chong, séc. I, mas ausente do texto que chegou até nós) fala de uma árvore de pêssego de três mil li no Monte Dushuo, sob cuja porta dos fantasmas montam guarda Shentu e Yulü. Mas é com Xiwangmu que o pêssego vira o alimento dos imortais: no *Han Wudi neizhuan* a Rainha Mãe desce ao palácio com sete pêssegos do tamanho de ovos de pata, come três e dá quatro ao imperador Wu, que guarda os caroços para plantar — "não dão fruto nesta terra", ela ri, "amadurecem a cada três mil anos".

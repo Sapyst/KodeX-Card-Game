@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Reviva uma Entidade do seu cemitério para o campo.
+Devolva uma Entidade do seu cemitério para o campo.
 
 ## Contexto mitológico
 *Avatara* significa literalmente "descida": o deus que desce ao mundo numa forma — peixe, tartaruga, javali, homem-leão, anão, guerreiro, príncipe, pastor — para restaurar o que se perdeu. O princípio está formulado na Bhagavad Gita (4.7–8), na voz de Krishna: "Sempre que o dharma declina e o adharma se levanta, ó Bharata, eu me manifesto. Para proteger os bons, destruir os maus e restabelecer o dharma, eu nasço era após era."

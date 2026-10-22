@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Ganhe 1 Fé temporária. Compre 1 carta.
+Ganhe 1 de Fé neste turno. Compre 1 carta.
 
 ## Contexto mitológico
 *Qi* (氣) é o sopro: o ar que se respira, o vapor que sobe do arroz (a etimologia do caractere), a energia que anima o corpo e o cosmo. O *Daodejing* pede para "concentrar o sopro e tornar-se macio como um recém-nascido" (cap. 10) e descreve as dez mil coisas "carregando o yin, abraçando o yang, harmonizadas pelo sopro do vazio" (cap. 42). O *Zhuangzi* (cap. 6) diz que "o homem verdadeiro respira pelos calcanhares; o homem comum, pela garganta". Daí nasce toda a ginástica taoista: *daoyin* (guiar e esticar), *tuna* (expirar o velho, inspirar o novo), a respiração embrionária (*taixi*) descrita por Ge Hong no *Baopuzi* (cap. 8), em que o adepto respira tão devagar que uma pluma diante do nariz não se move.

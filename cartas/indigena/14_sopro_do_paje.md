@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando o oponente jogar um Rito: anula esse Rito e você compra 1 carta.
+Quando o oponente jogar um Rito, anule-o. Compre 1 carta.
 
 ## Contexto mitológico
 O pajé (do tupi *payé*) é o xamã dos povos tupi-guarani; o *caraíba* (*karaí*) era o pajé-profeta andarilho, que ia de aldeia em aldeia anunciando a Terra sem Males. Jean de Léry (*Viagem à Terra do Brasil*, 1578, cap. XVI) descreve a cena central da pajelança: o caraíba, com um canudo de petim (tabaco) aceso, **sopra a fumaça** sobre os homens dizendo "recebei o espírito de força", e sopra também sobre doentes e lugares para expulsar o mal. Métraux (*A religião dos Tupinambás*, 1928) e Hélène Clastres (*Terra sem Mal*, 1975) analisam o sopro de fumaça como o gesto xamânico tupi por excelência: cura, purifica e desfaz feitiços alheios.

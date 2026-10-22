@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Compre 2 cartas. Ganhe +1 Fé neste turno.
+Compre 2 cartas. Ganhe 1 de Fé neste turno.
 
 ## Contexto mitológico
 *Caapi* (ou *kahpi*, em tukano) é o cipó *Banisteriopsis caapi*, base da bebida que no Brasil é mais conhecida pelo nome quéchua *ayahuasca* e que dezenas de povos amazônicos preparam há séculos: os Tukano e Dessana do Rio Negro (*kahpi*), os Huni Kuin do Acre (*nixi pae*), os Yawanawá (*uni*), entre muitos outros. Gerardo Reichel-Dolmatoff (*Amazonian Cosmos*, 1971) descreve as sessões dessana: o pajé toma o caapi e vê as "casas" dos animais, as origens do mundo e as doenças da aldeia.

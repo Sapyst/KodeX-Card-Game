@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Aura: suas outras Entidades têm +1 ATK enquanto Lü Dongbin estiver em campo.
+Suas outras Entidades têm +1 ATK.
 
 ## Contexto mitológico
 Lü Dongbin (呂洞賓, nome pessoal Lü Yan), o mais popular dos Oito Imortais, é um letrado Tang de túnica de erudito e espada mata-demônios às costas. Sua conversão é o "Sonho do Painço Amarelo": numa pousada de Handan, enquanto Zhongli Quan cozinha painço, Lü adormece e vive uma vida inteira — exames, altos cargos, casamento, filhos, desgraça, exílio, morte. Acorda e o painço ainda não ficou pronto. Compreende que a carreira mundana é sonho e segue o mestre, que o submete a dez provas (dar fortuna, ser caluniado, enfrentar demônios) antes de ensinar a alquimia.

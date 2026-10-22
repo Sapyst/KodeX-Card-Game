@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando uma Entidade inimiga atacar, destrua-a. Cure 4 da sua Cornucópia.
+Quando atacarem uma Entidade sua, destrua o atacante. Cure 4 da sua Cornucópia.
 
 ## Contexto mitológico
 Na noite da décima praga, cada família israelita marca os umbrais da porta com o sangue do cordeiro. "O Senhor passará para ferir o Egito; e, vendo o sangue na verga e nos dois umbrais, passará adiante daquela porta e não deixará o Destruidor entrar nas vossas casas para ferir" (Ex 12,23). À meia-noite morrem todos os primogênitos do Egito, "desde o primogênito do Faraó até o do cativo no cárcere" (Ex 12,29) — e a Páscoa (*pessach*, "passar por cima") nasce dessa noite. O rito é fixado ali mesmo: cordeiro sem defeito, sangue no umbral, pães sem fermento, ervas amargas, e a ordem de contar a história aos filhos (Ex 12,24-27).

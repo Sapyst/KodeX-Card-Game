@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Lendária. Guarda. Despertar: destrói uma Entidade inimiga.
+Guarda. Despertar: Destrua uma Entidade inimiga.
 
 ## Contexto mitológico
 Miguel ("Quem é como Deus?") é "um dos primeiros príncipes" que vem em socorro de Daniel contra o príncipe da Pérsia (Dn 10,13) e "o grande príncipe que defende os filhos do teu povo" no tempo da angústia final (Dn 12,1). A Epístola de Judas lembra que ele disputou com o diabo o corpo de Moisés sem ousar julgá-lo por conta própria: "O Senhor te repreenda" (Jd 9). E o Apocalipse o faz general da guerra celeste: "Miguel e os seus anjos combateram contra o Dragão... e o grande Dragão foi precipitado, a antiga serpente, chamada Diabo e Satanás" (Ap 12,7-9).

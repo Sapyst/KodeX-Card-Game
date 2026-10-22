@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Sacrifício 1. Despertar: tome o controle permanente de uma Entidade inimiga.
+Sacrifício 1. Despertar: Domine uma Entidade inimiga.
 
 ## Contexto mitológico
 Dantalion é o 71º e penúltimo espírito da *Ars Goetia*, um Grande Duque que aparece "na forma de um homem com muitas faces, todas de homens e mulheres", segurando um livro na mão direita. Ensina todas as artes e ciências e revela o conselho secreto de qualquer pessoa, "pois **conhece os pensamentos de todos os homens e mulheres e pode mudá-los à sua vontade**"; provoca amor e mostra a semelhança de qualquer pessoa em visão, em qualquer parte do mundo. Governa 36 legiões. Como Vassago, Seere e Andromalius, **não aparece em Weyer** (1577): foi acrescentado pelo compilador do Lemegeton no século XVII, o que faz dele um dos espíritos mais "jovens" do catálogo.

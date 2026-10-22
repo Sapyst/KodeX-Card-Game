@@ -1,0 +1,357 @@
+{
+ "_doc": "Regras da mesa (botão ? na partida). Blocos do pergaminho: titulo, sub, txt, item. Ver docs/textos/guia_de_estilo.md.",
+ "en": [
+  [
+   "titulo",
+   "Rules"
+  ],
+  [
+   "sub",
+   "Goal"
+  ],
+  [
+   "txt",
+   "Bring the enemy Cornucopia (15) down to 0. Summoning Choronzon wins on the spot."
+  ],
+  [
+   "sub",
+   "Faith"
+  ],
+  [
+   "txt",
+   "Your resource for playing cards. Max Faith goes up by 1 each turn (up to 8) and refills. Every card costs Faith."
+  ],
+  [
+   "sub",
+   "Turn"
+  ],
+  [
+   "txt",
+   "Draw 1 card, then play cards and attack in any order. Your hand holds up to 7 cards."
+  ],
+  [
+   "sub",
+   "Card types"
+  ],
+  [
+   "item",
+   "Entity: fights on the field (4 slots). Enters tired: it can attack next turn."
+  ],
+  [
+   "item",
+   "Seal: set face down; it triggers on the enemy turn when its condition happens. 1 per turn, 2 slots."
+  ],
+  [
+   "item",
+   "Rite: instant effect, then it goes to the graveyard."
+  ],
+  [
+   "item",
+   "Relic: equip it to an allied Entity."
+  ],
+  [
+   "sub",
+   "Combat"
+  ],
+  [
+   "txt",
+   "Drag one of your Entities onto an enemy Entity. Both deal damage at the same time. You can only hit the Cornucopia directly when the enemy has no Entities."
+  ],
+  [
+   "sub",
+   "Keywords"
+  ],
+  [
+   "item",
+   "Rush: can attack the turn it enters."
+  ],
+  [
+   "item",
+   "Guard: enemies must attack it first."
+  ],
+  [
+   "item",
+   "Rebirth: when it dies, it returns to your hand (once)."
+  ],
+  [
+   "item",
+   "Stealth: can't be targeted by enemy effects until it attacks."
+  ],
+  [
+   "item",
+   "Awaken: triggers when it's summoned from your hand."
+  ],
+  [
+   "item",
+   "Last Breath: triggers when it dies."
+  ],
+  [
+   "item",
+   "Sacrifice N: sacrifice N allied Entities to summon it."
+  ],
+  [
+   "item",
+   "Uses N: a Relic with N charges."
+  ],
+  [
+   "sub",
+   "Empty deck"
+  ],
+  [
+   "txt",
+   "With 6 or more Cornucopia, you can pay 5 to shuffle your graveyard back into your deck. Otherwise, each card you can't draw deals 2 damage to you."
+  ],
+  [
+   "sub",
+   "Tips"
+  ],
+  [
+   "item",
+   "Hold a card to read it."
+  ],
+  [
+   "item",
+   "Tap a graveyard to see it."
+  ],
+  [
+   "item",
+   "Left column: the latest plays. Tap one to see the card."
+  ]
+ ],
+ "pt": [
+  [
+   "titulo",
+   "Regras"
+  ],
+  [
+   "sub",
+   "Objetivo"
+  ],
+  [
+   "txt",
+   "Zere a Cornucópia inimiga (15). Invocar Choronzon vence na hora."
+  ],
+  [
+   "sub",
+   "Fé"
+  ],
+  [
+   "txt",
+   "É o seu recurso para jogar cartas. A Fé máxima sobe 1 por turno (até 8) e se renova. Toda carta custa Fé."
+  ],
+  [
+   "sub",
+   "Turno"
+  ],
+  [
+   "txt",
+   "Compre 1 carta; depois jogue cartas e ataque na ordem que quiser. A mão comporta até 7 cartas."
+  ],
+  [
+   "sub",
+   "Tipos de carta"
+  ],
+  [
+   "item",
+   "Entidade: luta no campo (4 espaços). Entra cansada: ataca a partir do turno seguinte."
+  ],
+  [
+   "item",
+   "Selo: fica virado e dispara no turno inimigo quando o gatilho acontece. 1 por turno, 2 espaços."
+  ],
+  [
+   "item",
+   "Rito: efeito imediato; depois vai para o cemitério."
+  ],
+  [
+   "item",
+   "Relíquia: equipa uma Entidade aliada."
+  ],
+  [
+   "sub",
+   "Combate"
+  ],
+  [
+   "txt",
+   "Arraste uma Entidade sua sobre uma inimiga. As duas causam dano ao mesmo tempo. Golpe direto na Cornucópia só quando o inimigo não tem Entidades."
+  ],
+  [
+   "sub",
+   "Palavras-chave"
+  ],
+  [
+   "item",
+   "Ímpeto: pode atacar no turno em que entra."
+  ],
+  [
+   "item",
+   "Guarda: os inimigos precisam atacá-la primeiro."
+  ],
+  [
+   "item",
+   "Renascer: ao morrer, volta para a sua mão (uma vez)."
+  ],
+  [
+   "item",
+   "Furtivo: não pode ser alvo de efeitos inimigos até atacar."
+  ],
+  [
+   "item",
+   "Despertar: efeito ao ser invocada da mão."
+  ],
+  [
+   "item",
+   "Último Sopro: efeito ao morrer."
+  ],
+  [
+   "item",
+   "Sacrifício N: sacrifique N Entidades aliadas para invocá-la."
+  ],
+  [
+   "item",
+   "Usos N: Relíquia com N cargas."
+  ],
+  [
+   "sub",
+   "Deck vazio"
+  ],
+  [
+   "txt",
+   "Com 6 ou mais de Cornucópia, você pode pagar 5 para reembaralhar o cemitério no deck. Senão, cada carta que você não conseguir comprar causa 2 de dano a você."
+  ],
+  [
+   "sub",
+   "Dicas"
+  ],
+  [
+   "item",
+   "Segure uma carta para ler."
+  ],
+  [
+   "item",
+   "Toque num cemitério para ver as cartas."
+  ],
+  [
+   "item",
+   "Coluna da esquerda: as últimas jogadas. Toque numa para ver a carta."
+  ]
+ ],
+ "es": [
+  [
+   "titulo",
+   "Reglas"
+  ],
+  [
+   "sub",
+   "Objetivo"
+  ],
+  [
+   "txt",
+   "Deja la Cornucopia enemiga (15) en 0. Invocar a Choronzon gana al instante."
+  ],
+  [
+   "sub",
+   "Fe"
+  ],
+  [
+   "txt",
+   "Es tu recurso para jugar cartas. La Fe máxima sube 1 por turno (hasta 8) y se renueva. Toda carta cuesta Fe."
+  ],
+  [
+   "sub",
+   "Turno"
+  ],
+  [
+   "txt",
+   "Roba 1 carta; luego juega cartas y ataca en el orden que quieras. Tu mano admite hasta 7 cartas."
+  ],
+  [
+   "sub",
+   "Tipos de carta"
+  ],
+  [
+   "item",
+   "Entidad: lucha en el campo (4 espacios). Entra agotada: ataca a partir del turno siguiente."
+  ],
+  [
+   "item",
+   "Sello: queda boca abajo y se activa en el turno enemigo cuando se cumple su condición. 1 por turno, 2 espacios."
+  ],
+  [
+   "item",
+   "Rito: efecto inmediato; luego va al cementerio."
+  ],
+  [
+   "item",
+   "Reliquia: se equipa a una Entidad aliada."
+  ],
+  [
+   "sub",
+   "Combate"
+  ],
+  [
+   "txt",
+   "Arrastra una de tus Entidades sobre una enemiga. Ambas infligen daño al mismo tiempo. Solo puedes dar un golpe directo a la Cornucopia cuando el enemigo no tiene Entidades."
+  ],
+  [
+   "sub",
+   "Palabras clave"
+  ],
+  [
+   "item",
+   "Ímpetu: puede atacar en el turno en que entra."
+  ],
+  [
+   "item",
+   "Guardia: los enemigos deben atacarla primero."
+  ],
+  [
+   "item",
+   "Renacer: al morir, vuelve a tu mano (una vez)."
+  ],
+  [
+   "item",
+   "Furtivo: no puede ser objetivo de efectos enemigos hasta que ataque."
+  ],
+  [
+   "item",
+   "Despertar: efecto al ser invocada desde la mano."
+  ],
+  [
+   "item",
+   "Último Aliento: efecto al morir."
+  ],
+  [
+   "item",
+   "Sacrificio N: sacrifica N Entidades aliadas para invocarla."
+  ],
+  [
+   "item",
+   "Usos N: Reliquia con N cargas."
+  ],
+  [
+   "sub",
+   "Mazo vacío"
+  ],
+  [
+   "txt",
+   "Con 6 o más de Cornucopia, puedes pagar 5 para barajar tu cementerio de vuelta en el mazo. Si no, cada carta que no puedas robar te inflige 2 de daño."
+  ],
+  [
+   "sub",
+   "Consejos"
+  ],
+  [
+   "item",
+   "Mantén pulsada una carta para leerla."
+  ],
+  [
+   "item",
+   "Toca un cementerio para ver sus cartas."
+  ],
+  [
+   "item",
+   "Columna izquierda: las últimas jugadas. Toca una para ver la carta."
+  ]
+ ]
+}

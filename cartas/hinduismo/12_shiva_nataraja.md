@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Ímpeto. Despertar: destrua uma Entidade inimiga.
+Ímpeto. Despertar: Destrua uma Entidade inimiga.
 
 ## Contexto mitológico
 Shiva é o terceiro da Trimurti, o deus que dissolve o universo no fim de cada ciclo para que ele possa ser criado de novo — destruição como transformação. Herda o Rudra do Rigveda (2.33), o arqueiro temível das montanhas, e nos Puranas e no Shvetashvatara Upanishad torna-se Mahadeva, o grande deus: asceta de Kailash coberto de cinzas, com a lua na cabeleira, o Ganges caindo pelos cabelos, a serpente Vasuki ao pescoço, o terceiro olho que incinera o que fixa, o tridente Trishula e o tambor damaru. Bebe o veneno Halahala que ameaçava os mundos no batimento do oceano e fica de garganta azul, Neelakantha.

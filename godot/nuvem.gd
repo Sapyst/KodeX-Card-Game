@@ -303,8 +303,10 @@ func _reler_endereco() -> bool:
 func _pedir_uma(metodo: String, caminho: String, corpo := {}, relativo := true, autenticado := true, espera := ESPERA) -> Dictionary:
 	var http := HTTPRequest.new()
 	http.timeout = espera
+	http.accept_gzip = not OS.has_feature("web")   # no navegador, Accept-Encoding vira preflight de CORS
 	add_child(http)
-	var cab := PackedStringArray(["content-type: application/json"])
+	# GET sem content-type: no navegador, esse cabeçalho força uma checagem (preflight) que o GitHub recusa
+	var cab := PackedStringArray(["content-type: application/json"] if metodo == "POST" else [])
 	if autenticado and id != "":
 		cab.append("authorization: KDX %s:%s" % [id, _segredo])
 	var alvo := (url + caminho) if relativo else caminho

@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: invoque dois Espíritos de Paimon 1/1.
+Despertar: Invoque dois Espíritos de Paimon 1/1.
 
 ## Contexto mitológico
 Paimon é o nono espírito da *Ars Goetia*, um Grande Rei "muito obediente a Lúcifer". Aparece como um homem coroado sentado num dromedário, com rosto de mulher segundo algumas versões, **precedido por uma hoste de espíritos tocando trombetas, címbalos e toda sorte de instrumentos**. Sua voz é estrondosa; o mago deve obrigá-lo a falar mais baixo. Ensina todas as artes, filosofias e ciências, revela o que é a Terra e o que a sustenta, concede dignidades e familiares. Governa 200 legiões, "parte da ordem dos Anjos, parte das Potestades". Se o mago faz oferenda ou sacrifício, vêm com ele dois reis menores, Labal e Abalim, e outros espíritos.

@@ -288,7 +288,7 @@ func pacote(ci: CanvasItem, c: Vector2, rot: float, topo_off := Vector2.ZERO, to
 		var lw := 96.0
 		var lh: float = lw * f.logo_tex.get_height() / f.logo_tex.get_width()
 		ci.draw_texture_rect(f.logo_tex, Rect2(-lw / 2, -36 - lh / 2, lw, lh), false, Color(1, 1, 1, alfa))
-	PixelFonte.centrado(ci, Vector2(0, 8), "BOOSTER", Color(1.0, 0.89, 0.6, alfa), 2, Color(0.08, 0.04, 0.06, alfa))
+	PixelFonte.centrado(ci, Vector2(0, 8), Sessao.t("BOOSTER"), Color(1.0, 0.89, 0.6, alfa), 2, Color(0.08, 0.04, 0.06, alfa))
 	PixelFonte.centrado(ci, Vector2(0, 26), Sessao.t("3 CARTAS"), Color(0.81, 0.88, 1.0, alfa), 1)
 	for k in 3:                        # três losangos (as 3 cartas)
 		var q := Vector2(-14 + k * 14, 44)
@@ -337,12 +337,11 @@ func verso_classico(ci: CanvasItem, r: Rect2, alfa := 1.0) -> void:
 
 
 func _tex(c: Dictionary) -> Texture2D:
-	var en := Sessao.idioma == "en"
 	if c["foil"]:
-		var tf := Carta.textura("carta_foil_en" if en else "carta_foil", c["id"], "webp")
+		var tf := Carta.textura(Sessao.pasta("carta_foil"), c["id"], "webp")
 		if tf:
 			return tf
-	return Carta.textura("carta_en" if en else "carta", c["id"], "webp")
+	return Carta.textura(Sessao.pasta("carta"), c["id"], "webp")
 
 
 ## Brilho foil sobre uma carta: faixa arco-íris diagonal correndo + estrelinhas.

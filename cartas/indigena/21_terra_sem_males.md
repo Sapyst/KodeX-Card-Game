@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Todas as suas Entidades ganham +1/+1 permanente. Sua Cornucópia cura 4.
+Todas as suas Entidades ganham +1/+1. Cure 4 da sua Cornucópia.
 
 ## Contexto mitológico
 *Yvy marã e'ỹ* — a "terra sem mal", "terra indestrutível" — é o lugar que os Guarani buscam há séculos: onde o milho cresce sozinho, as flechas caçam por si, ninguém envelhece nem morre, e a festa não acaba. Curt Nimuendajú (*As lendas da criação e destruição do mundo como fundamentos da religião dos Apapocúva-Guarani*, 1914) foi o primeiro a descrever o profetismo guarani: o pajé-herói **Guyraypoty** dançou com seu povo até o mar e o atravessou; outros grupos caminharam do Paraguai à costa brasileira seguindo pajés que anunciavam a terra prometida, e muitos morreram no caminho.

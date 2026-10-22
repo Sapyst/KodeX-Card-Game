@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Sua Cornucópia cura 2. Compre 1 carta.
+Cure 2 da sua Cornucópia. Compre 1 carta.
 
 ## Contexto mitológico
 O cauim (*kaui*) é a bebida fermentada dos povos tupi: mandioca (ou milho, caju, batata-doce) cozida, **mastigada pelas mulheres** e cuspida de volta no pote, onde a saliva inicia a fermentação; depois de dias, bebe-se morno, em cuias, até acabar. Hans Staden (1557), Jean de Léry (1578, cap. IX) e Fernão Cardim (c. 1584) descrevem com espanto as *cauinagens*: festas de aldeia inteira que duravam dias, acompanhadas de cantos e danças, obrigatórias antes da guerra, na execução de prisioneiros, em casamentos e luto.

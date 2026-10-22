@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Usos 4. A portadora ganha +1 ATK e +1 Vida enquanto o porta. Sempre que ela atacar, compre 1 carta e gaste 1 Uso.
+Usos 4. A portadora ganha +1/+1. Sempre que ela atacar, compre 1 carta e gaste 1 Uso. Sem Usos, vai ao cemitério.
 
 ## Contexto mitológico
 O **Livro das Sombras** é a contribuição mais duradoura de Gerald Gardner (1884–1964) à bruxaria: o caderno manuscrito de rituais, invocações, leis e receitas que cada iniciado de um coven wiccano copia à mão do livro de quem o iniciou, e ao qual acrescenta o seu. Gardner compilou o primeiro entre 1949 e 1953 (um rascunho, *Ye Bok of ye Art Magical*, sobrevive), afirmando ter recebido o material de um coven antigo de New Forest; Ronald Hutton (*The Triumph of the Moon*, 1999) mostra as fontes reais — a *Clavicula Salomonis* na edição de Mathers, Crowley, a maçonaria, Leland e Murray — e defende que isso não lhe tira o valor: a Wicca é uma religião nova, honestamente costurada.

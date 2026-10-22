@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: invoque Xiaotian Quan, o Cão Celestial (2/1), se houver slot livre.
+Despertar: Invoque Xiaotian Quan, Cão Celestial 2/1.
 
 ## Contexto mitológico
 Erlang Shen (二郎神, "o Deus Segundo Filho") é o guerreiro de três olhos do panteão popular: o terceiro olho, vertical no meio da testa, enxerga a verdade por baixo de qualquer transformação. Empunha uma lança de três pontas e dois gumes e anda com o Cão Celestial Uivante (Xiaotian Quan). Sua identidade é múltipla: em Sichuan é o filho de Li Bing, o engenheiro que domou o rio Min em Dujiangyan (séc. III a.C.), que matou um dragão de rio; no *Fengshen Yanyi* é Yang Jian, discípulo de Yuding Zhenren, mestre das 72 transformações; noutras versões é Zhao Yu, governador dos Sui.

@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Só pode ser invocado pelo efeito de Sigilo 333. Quando Choronzon entra em campo, você vence o jogo.
+Só pode ser invocado pelo Sigilo 333. Despertar: Você vence a partida.
 
 ## Contexto mitológico
 Choronzon aparece primeiro nos diários enochianos de John Dee e Edward Kelley (1580s) como *Coronzon*, nome que os anjos dão ao "grande inimigo" — o diabo expulso do Éden. Fica adormecido por três séculos até Aleister Crowley, que o transforma na figura central da travessia do Abismo: o vazio entre os sefirot inferiores e os três supernos da Árvore da Vida, onde a personalidade se dissolve.

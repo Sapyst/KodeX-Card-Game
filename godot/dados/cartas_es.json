@@ -1,0 +1,648 @@
+{
+ "cartas": {
+  "ind_saci_perere": {
+   "nome": "Saci-Pererê",
+   "texto": "Furtivo. Despertar: Congela una Entidad enemiga."
+  },
+  "ind_curupira": {
+   "nome": "Curupira",
+   "texto": "Guardia. Cada vez que un atacante la dañe, recibe 1 de daño."
+  },
+  "ind_caipora": {
+   "nome": "Caipora",
+   "texto": "Despertar: Invoca un Pecarí 1/2."
+  },
+  "ind_iara": {
+   "nome": "Iara",
+   "texto": "Despertar: Devuelve una Entidad enemiga a su mano."
+  },
+  "ind_boitata": {
+   "nome": "Boitatá",
+   "texto": "Guardia. Cada vez que un atacante la dañe, recibe 1 de daño."
+  },
+  "ind_anhanga": {
+   "nome": "Anhangá",
+   "texto": "Cada vez que otra Entidad aliada muera, invoca un Venado Blanco 1/2."
+  },
+  "ind_mapinguari": {
+   "nome": "Mapinguari",
+   "texto": "Cada vez que un atacante la dañe, recibe 2 de daño."
+  },
+  "ind_cobra_grande": {
+   "nome": "Cobra-Grande",
+   "texto": "Cada vez que una Entidad enemiga muera, esta gana +1/+1."
+  },
+  "ind_jaci": {
+   "nome": "Jaci, la Luna",
+   "texto": "Despertar: Invoca una Victoria Regia 0/2 con Guardia. Al final de tu turno, cura 2 de Vida a todas tus Entidades."
+  },
+  "ind_tupa": {
+   "nome": "Tupã, el Trueno",
+   "texto": "Guardia. Despertar: Inflige 2 de daño a todas las Entidades enemigas."
+  },
+  "ind_arapuca": {
+   "nome": "Arapuca",
+   "texto": "Cuando ataquen a una Entidad tuya, el atacante recibe 1 de daño y queda congelado. Roba 1 carta."
+  },
+  "ind_mundeu": {
+   "nome": "Mundéu",
+   "texto": "Cuando ataquen a una Entidad tuya, el atacante recibe 4 de daño. Cura 4 a tu Cornucopia."
+  },
+  "ind_assovio_da_matinta": {
+   "nome": "Silbido de la Matinta",
+   "texto": "Al final del turno enemigo, tu oponente descarta 1 carta al azar y su Cornucopia recibe 1 de daño."
+  },
+  "ind_sopro_do_paje": {
+   "nome": "Soplo del Pajé",
+   "texto": "Cuando tu oponente juegue un Rito, anúlalo. Roba 1 carta."
+  },
+  "ind_cauim": {
+   "nome": "Cauim",
+   "texto": "Cura 2 a tu Cornucopia. Roba 1 carta."
+  },
+  "ind_visao_do_caapi": {
+   "nome": "Visión del Caapi",
+   "texto": "Roba 2 cartas. Gana 1 de Fe este turno."
+  },
+  "ind_fogo_de_monan": {
+   "nome": "Fuego de Monan",
+   "texto": "Inflige 2 de daño a todas las Entidades enemigas y 1 a la Cornucopia enemiga."
+  },
+  "ind_danca_do_aruana": {
+   "nome": "Danza de la Arahuana",
+   "texto": "Invoca dos Arahuanas 1/1. Cura 2 a tu Cornucopia."
+  },
+  "ind_dadiva_de_mani": {
+   "nome": "Don de Mani",
+   "texto": "Devuelve una Entidad de tu cementerio a tu mano. Cura 6 a tu Cornucopia. Roba 1 carta."
+  },
+  "ind_kuarup": {
+   "nome": "Kuarup",
+   "texto": "Devuelve una Entidad de tu cementerio al campo. Roba 1 carta."
+  },
+  "ind_terra_sem_males": {
+   "nome": "Tierra sin Males",
+   "texto": "Todas tus Entidades ganan +1/+1. Cura 4 a tu Cornucopia."
+  },
+  "ind_ibirapema": {
+   "nome": "Ibirapema",
+   "texto": "La portadora gana +2 ATK e Ímpetu."
+  },
+  "ind_muiraquita": {
+   "nome": "Muiraquitã",
+   "texto": "La portadora gana +3 Vida y Renacer."
+  },
+  "ind_maraca_do_paje": {
+   "nome": "Maraca del Pajé",
+   "texto": "La portadora gana +1/+2. Cuando muera, invoca un Espíritu 1/1."
+  },
+  "ind_cocar_do_morubixaba": {
+   "nome": "Penacho del Morubixaba",
+   "texto": "La portadora gana +3 Vida y Guardia. Tus Entidades tienen +1 ATK."
+  },
+  "cri_anjo_da_guarda": {
+   "nome": "Ángel de la Guarda",
+   "texto": "Guardia. Último Aliento: Cura 2 a tu Cornucopia."
+  },
+  "cri_jonas": {
+   "nome": "Jonás",
+   "texto": "Renacer. (Cuando muera, vuelve a tu mano una vez.)"
+  },
+  "cri_davi_o_pastor": {
+   "nome": "David, el Pastor",
+   "texto": "Cada vez que esta ataque, inflige 2 de daño a una Entidad enemiga."
+  },
+  "cri_lazaro_de_betania": {
+   "nome": "Lázaro de Betania",
+   "texto": "Renacer. (Cuando muera, vuelve a tu mano una vez.)"
+  },
+  "cri_judite": {
+   "nome": "Judit",
+   "texto": "Despertar: Destruye una Entidad enemiga de costo 3 o menos."
+  },
+  "cri_gabriel": {
+   "nome": "Gabriel, el Mensajero",
+   "texto": "Despertar: Roba un Rito de tu mazo."
+  },
+  "cri_rafael": {
+   "nome": "Rafael, el Sanador",
+   "texto": "Despertar: Cura 4 de Vida a una Entidad aliada."
+  },
+  "cri_sansao": {
+   "nome": "Sansón",
+   "texto": "Último Aliento: Inflige 2 de daño a todas las Entidades enemigas."
+  },
+  "cri_serafim": {
+   "nome": "Serafín",
+   "texto": "Guardia. Despertar: Silencia una Entidad enemiga (pierde palabras clave y efectos)."
+  },
+  "cri_leviata": {
+   "nome": "Leviatán",
+   "texto": "Sacrificio 1. Último Aliento: Cura 4 a tu Cornucopia."
+  },
+  "cri_elias": {
+   "nome": "Elías, Carro de Fuego",
+   "texto": "Renacer. Despertar: Inflige 2 de daño a todas las Entidades enemigas."
+  },
+  "cri_sao_miguel_arcanjo": {
+   "nome": "San Miguel Arcángel",
+   "texto": "Guardia. Despertar: Destruye una Entidad enemiga."
+  },
+  "cri_cova_dos_leoes": {
+   "nome": "Foso de los Leones",
+   "texto": "Cuando una Entidad aliada reciba daño, cura 4 de su Vida; esta gana +1/+1."
+  },
+  "cri_tumba_vazia": {
+   "nome": "Tumba Vacía",
+   "texto": "Cuando una Entidad aliada muera, devuelve una Entidad de tu cementerio al campo."
+  },
+  "cri_portao_do_eden": {
+   "nome": "Puerta del Edén",
+   "texto": "Cuando tu oponente juegue una Entidad, esta recibe 3 de daño y queda congelada."
+  },
+  "cri_mudez_de_zacarias": {
+   "nome": "Mudez de Zacarías",
+   "texto": "Cuando tu oponente juegue un Rito, anúlalo. Roba 1 carta."
+  },
+  "cri_sangue_nos_umbrais": {
+   "nome": "Sangre en los Dinteles",
+   "texto": "Cuando ataquen a una Entidad tuya, destruye al atacante. Cura 4 a tu Cornucopia."
+  },
+  "cri_multiplicacao_dos_paes": {
+   "nome": "Multiplicación de los Panes",
+   "texto": "Roba 2 cartas. Cura 2 a tu Cornucopia."
+  },
+  "cri_exorcismo": {
+   "nome": "Exorcismo",
+   "texto": "Devuelve una Entidad enemiga a su mano. Cura 4 de Vida a una Entidad aliada."
+  },
+  "cri_praga_dos_gafanhotos": {
+   "nome": "Plaga de Langostas",
+   "texto": "Inflige 2 de daño a todas las Entidades enemigas. Tu oponente descarta 1 carta al azar."
+  },
+  "cri_talita_cumi": {
+   "nome": "Talita Cumi",
+   "texto": "Devuelve una Entidad de tu cementerio al campo."
+  },
+  "cri_vale_dos_ossos_secos": {
+   "nome": "Valle de los Huesos Secos",
+   "texto": "Invoca dos Huesos Alzados 1/1. Devuelve una Entidad al azar de tu cementerio a tu mano."
+  },
+  "cri_granizo_e_fogo": {
+   "nome": "Granizo y Fuego",
+   "texto": "Inflige 3 de daño a todas las Entidades enemigas y 1 a la Cornucopia enemiga."
+  },
+  "cri_juizo_final": {
+   "nome": "Juicio Final",
+   "texto": "Destruye todas las Entidades, tuyas y enemigas. Luego, devuelve una Entidad al azar de tu cementerio a tu mano."
+  },
+  "cri_funda_de_davi": {
+   "nome": "Honda de David",
+   "texto": "La portadora gana +2 ATK e Ímpetu. Cada vez que ataque, inflige 1 de daño a una Entidad enemiga."
+  },
+  "cri_veu_de_veronica": {
+   "nome": "Velo de Verónica",
+   "texto": "La portadora gana +1/+2 y Renacer."
+  },
+  "cri_santo_graal": {
+   "nome": "Santo Grial",
+   "texto": "La portadora gana +2 Vida. Al equipar, cura 4 a tu Cornucopia. Cada vez que ataque, cúrale 2 de Vida."
+  },
+  "cri_arca_da_alianca": {
+   "nome": "Arca de la Alianza",
+   "texto": "La portadora gana +3 Vida y Guardia. Tus Entidades tienen +1 ATK."
+  },
+  "tao_lan_caihe": {
+   "nome": "Lan Caihe",
+   "texto": "Despertar: Si controlas 2 o más Entidades, roba 1 carta."
+  },
+  "tao_he_xiangu": {
+   "nome": "He Xiangu",
+   "texto": "Al final de tu turno, cura 2 de Vida a una Entidad aliada."
+  },
+  "tao_han_xiangzi": {
+   "nome": "Han Xiangzi",
+   "texto": "Despertar: Si controlas 2 o más Entidades, gana 2 de Fe este turno."
+  },
+  "tao_li_tieguai": {
+   "nome": "Li Tieguai",
+   "texto": "Renacer."
+  },
+  "tao_zhongli_quan": {
+   "nome": "Zhongli Quan",
+   "texto": "Despertar: Devuelve una Entidad de tu cementerio a tu mano."
+  },
+  "tao_lu_dongbin": {
+   "nome": "Lü Dongbin",
+   "texto": "Tus otras Entidades tienen +1 ATK."
+  },
+  "tao_zhang_guolao": {
+   "nome": "Zhang Guolao",
+   "texto": "Despertar: Devuelve una Entidad enemiga a su mano."
+  },
+  "tao_cao_guojiu": {
+   "nome": "Cao Guojiu",
+   "texto": "Guardia. Despertar: Cura 2 de Vida a una Entidad aliada."
+  },
+  "tao_nezha": {
+   "nome": "Nezha",
+   "texto": "Ímpetu. Renacer."
+  },
+  "tao_zhong_kui": {
+   "nome": "Zhong Kui",
+   "texto": "Despertar: Silencia una Entidad enemiga (pierde palabras clave y efectos)."
+  },
+  "tao_erlang_shen": {
+   "nome": "Erlang Shen",
+   "texto": "Despertar: Invoca a Xiaotian Quan, Perro Celestial 2/1."
+  },
+  "tao_guan_yu": {
+   "nome": "Guan Yu, Emperador Guan",
+   "texto": "Guardia. Despertar: Una Entidad aliada gana +1 ATK."
+  },
+  "tao_xiwangmu": {
+   "nome": "Xiwangmu, Reina Madre del Oeste",
+   "texto": "Despertar: Devuelve una Entidad de tu cementerio al campo."
+  },
+  "tao_imperador_de_jade": {
+   "nome": "Emperador de Jade",
+   "texto": "Tus otras Entidades tienen +1/+1."
+  },
+  "tao_fulu_de_selamento": {
+   "nome": "Fulu de Sellado",
+   "texto": "Cuando tu oponente juegue un Rito, anúlalo (va al cementerio sin efecto). Roba 1 carta."
+  },
+  "tao_dragao_azul_do_leste": {
+   "nome": "Dragón Azul del Este",
+   "texto": "Al final del turno enemigo, todas tus Entidades ganan +1/+1."
+  },
+  "tao_tigre_branco_do_oeste": {
+   "nome": "Tigre Blanco del Oeste",
+   "texto": "Cuando ataquen a una Entidad tuya, el atacante recibe 4 de daño y -1 ATK."
+  },
+  "tao_passaro_vermelho_do_sul": {
+   "nome": "Pájaro Bermellón del Sur",
+   "texto": "Cuando una Entidad aliada muera, devuelve una Entidad de tu cementerio al campo. Cura 2 a tu Cornucopia."
+  },
+  "tao_tartaruga_negra_do_norte": {
+   "nome": "Tortuga Negra del Norte",
+   "texto": "Cuando una Entidad aliada reciba daño, cura 4 de su Vida; esta gana +1 Vida y Guardia."
+  },
+  "tao_circulacao_do_qi": {
+   "nome": "Circulación del Qi",
+   "texto": "Gana 1 de Fe este turno. Roba 1 carta."
+  },
+  "tao_flechas_de_houyi": {
+   "nome": "Flechas de Houyi",
+   "texto": "Inflige 3 de daño a una Entidad enemiga. Roba 1 carta."
+  },
+  "tao_pilula_de_ouro": {
+   "nome": "Píldora de Oro",
+   "texto": "Devuelve una Entidad de tu cementerio al campo. Roba 1 carta."
+  },
+  "tao_banquete_dos_pessegos": {
+   "nome": "Banquete de los Duraznos",
+   "texto": "Todas tus Entidades ganan +1/+1. Cura 2 a tu Cornucopia."
+  },
+  "tao_taiji": {
+   "nome": "Taiji",
+   "texto": "Una Entidad aliada gana +2/+2 y una Entidad enemiga recibe -2/-2."
+  },
+  "tao_pessego_da_imortalidade": {
+   "nome": "Durazno de la Inmortalidad",
+   "texto": "La portadora gana +1/+2 y Renacer."
+  },
+  "tao_espelho_de_bronze": {
+   "nome": "Espejo de Bronce",
+   "texto": "La portadora gana +1/+1 y Furtivo. Al equipar, silencia una Entidad enemiga."
+  },
+  "hin_matsya": {
+   "nome": "Matsya, el Pez",
+   "texto": "Despertar: Roba una Reliquia de tu mazo."
+  },
+  "hin_garuda": {
+   "nome": "Garuda",
+   "texto": "Ímpetu."
+  },
+  "hin_jatayu": {
+   "nome": "Jatayu",
+   "texto": "Ímpetu. Último Aliento: Roba 1 carta."
+  },
+  "hin_ganesha": {
+   "nome": "Ganesha, Removedor de Obstáculos",
+   "texto": "Despertar: Devuelve una Entidad enemiga a su mano."
+  },
+  "hin_arjuna": {
+   "nome": "Arjuna",
+   "texto": "Furtivo. Cada vez que esta ataque, inflige 1 de daño a una Entidad enemiga."
+  },
+  "hin_hanuman": {
+   "nome": "Hanuman",
+   "texto": "Ímpetu. Cada vez que esta ataque, gana +1 ATK."
+  },
+  "hin_narasimha": {
+   "nome": "Narasimha",
+   "texto": "Despertar: Destruye una Entidad enemiga de costo 3 o menos."
+  },
+  "hin_rama": {
+   "nome": "Rama, Príncipe de Ayodhya",
+   "texto": "Renacer."
+  },
+  "hin_krishna": {
+   "nome": "Krishna, el Auriga",
+   "texto": "Tus Entidades tienen Ímpetu."
+  },
+  "hin_durga": {
+   "nome": "Durga, la Fortaleza",
+   "texto": "Ímpetu. Guardia."
+  },
+  "hin_kali": {
+   "nome": "Kali",
+   "texto": "Despertar: Inflige 1 de daño a todas las Entidades enemigas. Cada vez que una Entidad enemiga muera, esta gana +1 ATK."
+  },
+  "hin_shiva_nataraja": {
+   "nome": "Shiva Nataraja",
+   "texto": "Ímpetu. Despertar: Destruye una Entidad enemiga."
+  },
+  "hin_chamas_de_agni": {
+   "nome": "Llamas de Agni",
+   "texto": "Cuando tu oponente juegue una Entidad, esta recibe 1 de daño y la Cornucopia enemiga también."
+  },
+  "hin_roda_do_samsara": {
+   "nome": "Rueda del Samsara",
+   "texto": "Cuando una Entidad aliada muera, devuelve una Entidad de tu cementerio a tu mano. Roba 1 carta."
+  },
+  "hin_lei_do_karma": {
+   "nome": "Ley del Karma",
+   "texto": "Cuando ataquen a una Entidad tuya, el atacante recibe 3 de daño. Roba 1 carta."
+  },
+  "hin_veu_de_maya": {
+   "nome": "Velo de Maya",
+   "texto": "Cuando tu oponente juegue un Rito, anúlalo y devuelve una Entidad enemiga a su mano."
+  },
+  "hin_incendio_de_lanka": {
+   "nome": "Incendio de Lanka",
+   "texto": "Al final del turno enemigo, inflige 1 de daño a todas las Entidades enemigas y 1 a su Cornucopia."
+  },
+  "hin_pashupatastra": {
+   "nome": "Pashupatastra",
+   "texto": "Cuando ataquen a una Entidad tuya, destruye al atacante. Roba 1 carta."
+  },
+  "hin_om": {
+   "nome": "Om",
+   "texto": "Roba 1 carta. Gana 1 de Fe este turno."
+  },
+  "hin_yajna": {
+   "nome": "Yajna, el Fuego Sacrificial",
+   "texto": "Inflige 2 de daño a una Entidad enemiga. Gana 2 de Fe este turno."
+  },
+  "hin_samudra_manthan": {
+   "nome": "Samudra Manthan",
+   "texto": "Roba 2 cartas. Gana 2 de Fe este turno. Cura 2 a tu Cornucopia."
+  },
+  "hin_brahmastra": {
+   "nome": "Brahmastra",
+   "texto": "Destruye una Entidad enemiga."
+  },
+  "hin_descida_do_avatar": {
+   "nome": "Descenso del Avatar",
+   "texto": "Devuelve una Entidad de tu cementerio al campo."
+  },
+  "hin_vishvarupa": {
+   "nome": "Vishvarupa, la Forma Universal",
+   "texto": "Una Entidad aliada pasa a ser 6/6 y gana Ímpetu."
+  },
+  "hin_tandava": {
+   "nome": "Tandava",
+   "texto": "Inflige 2 de daño a todas las Entidades enemigas y 3 a la Cornucopia enemiga."
+  },
+  "hin_vajra": {
+   "nome": "Vajra",
+   "texto": "La portadora gana +2 ATK. Al equipar, inflige 2 de daño a una Entidad enemiga."
+  },
+  "hin_sudarshana_chakra": {
+   "nome": "Sudarshana Chakra",
+   "texto": "La portadora gana +2/+1 e Ímpetu. Cada vez que ataque, inflige 1 de daño a una Entidad enemiga."
+  },
+  "hin_gandiva": {
+   "nome": "Gandiva",
+   "texto": "La portadora gana +3/+1. Cada vez que ataque, inflige 1 de daño a todas las Entidades enemigas."
+  },
+  "hin_trishula": {
+   "nome": "Trishula",
+   "texto": "La portadora gana +3/+1. Cada vez que ataque, inflige 1 de daño a una Entidad enemiga. Cuando muera, inflige 2 a todas las enemigas."
+  },
+  "bru_sapo_familiar": {
+   "nome": "Sapo Familiar",
+   "texto": "Último Aliento: Una Entidad enemiga recibe -1/-1."
+  },
+  "bru_gato_preto": {
+   "nome": "Gato Negro",
+   "texto": "Furtivo. Renacer. (Siete vidas: cuando muera, vuelve a tu mano una vez.)"
+  },
+  "bru_corvo_agourento": {
+   "nome": "Cuervo de Mal Agüero",
+   "texto": "Despertar: Tu oponente descarta 1 carta al azar."
+  },
+  "bru_strega_de_benevento": {
+   "nome": "Strega de Benevento",
+   "texto": "Despertar: Invoca una Strix 1/1."
+  },
+  "bru_benandante": {
+   "nome": "Benandante",
+   "texto": "Despertar: Congela una Entidad enemiga (no ataca en su próximo turno)."
+  },
+  "bru_circe": {
+   "nome": "Circe",
+   "texto": "Despertar: Una Entidad enemiga pasa a ser 1/1."
+  },
+  "bru_medeia": {
+   "nome": "Medea, la Envenenadora",
+   "texto": "Despertar: Una Entidad enemiga recibe -2 ATK."
+  },
+  "bru_bruxa_de_endor": {
+   "nome": "La Bruja de Endor",
+   "texto": "Furtivo. Despertar: Devuelve una Entidad de tu cementerio a tu mano."
+  },
+  "bru_baba_yaga": {
+   "nome": "Baba Yaga",
+   "texto": "Sacrificio 1. Despertar: Destruye una Entidad enemiga."
+  },
+  "bru_cerridwen": {
+   "nome": "Cerridwen, Señora del Caldero",
+   "texto": "Despertar: Roba 2 cartas."
+  },
+  "bru_a_morrigan": {
+   "nome": "La Morrígan",
+   "texto": "Ímpetu. Cada vez que otra Entidad muera, invoca un Cuervo 1/1."
+  },
+  "bru_hecate": {
+   "nome": "Hécate, Señora de las Encrucijadas",
+   "texto": "Sacrificio 1. Despertar: Todas las Entidades enemigas reciben -2/-2."
+  },
+  "bru_mau_olhado": {
+   "nome": "Mal de Ojo",
+   "texto": "Cuando tu oponente juegue una Entidad, esta queda congelada y recibe -1/-1."
+  },
+  "bru_circulo_de_sal": {
+   "nome": "Círculo de Sal",
+   "texto": "Cuando ataquen a una Entidad tuya, devuelve el atacante a su mano. Tu oponente descarta 1 carta al azar. Roba 1 carta."
+  },
+  "bru_garrafa_de_bruxa": {
+   "nome": "Botella de Bruja",
+   "texto": "Cuando tu oponente juegue un Rito, anúlalo. Tu oponente descarta 1 carta al azar."
+  },
+  "bru_boneco_de_cera": {
+   "nome": "Muñeco de Cera",
+   "texto": "Cuando una Entidad aliada reciba daño: si vino de un atacante, este recibe 4 de daño y -2/-2."
+  },
+  "bru_pocao_de_beladona": {
+   "nome": "Poción de Belladona",
+   "texto": "Cura 2 de Vida a una Entidad aliada; esta gana +1/+1."
+  },
+  "bru_pacto_na_encruzilhada": {
+   "nome": "Pacto en la Encrucijada",
+   "texto": "Gana 2 de Fe este turno."
+  },
+  "bru_seidr": {
+   "nome": "Seiðr",
+   "texto": "Roba una Entidad de tu mazo."
+  },
+  "bru_po_de_ossos": {
+   "nome": "Polvo de Huesos",
+   "texto": "Inflige 2 de daño a todas las Entidades enemigas. Tu oponente descarta 1 carta al azar."
+  },
+  "bru_maleficio": {
+   "nome": "Maleficio",
+   "texto": "Una Entidad enemiga recibe -3/-2 y queda silenciada (pierde palabras clave y efectos)."
+  },
+  "bru_saba_de_walpurgis": {
+   "nome": "Aquelarre de Walpurgis",
+   "texto": "Todas tus Entidades ganan +1/+1. Invoca una Liebre 1/2."
+  },
+  "bru_vassoura": {
+   "nome": "Escoba",
+   "texto": "La portadora gana +1/+2 e Ímpetu."
+  },
+  "bru_livro_das_sombras": {
+   "nome": "Libro de las Sombras",
+   "texto": "Usos 4. La portadora gana +1/+1. Cada vez que ataque, roba 1 carta y gasta 1 Uso. Sin Usos, va al cementerio."
+  },
+  "bru_caldeirao_de_renascimento": {
+   "nome": "Caldero del Renacimiento",
+   "texto": "La portadora gana +1/+2. Cuando muera, devuelve una Entidad de tu cementerio al campo."
+  },
+  "alt_homunculo": {
+   "nome": "Homúnculo",
+   "texto": "Último Aliento: Roba 1 carta."
+  },
+  "alt_edward_kelley": {
+   "nome": "Edward Kelley, el Vidente",
+   "texto": "Furtivo. Despertar: Roba una Reliquia de tu mazo."
+  },
+  "alt_silfo": {
+   "nome": "Silfo",
+   "texto": "Ímpetu. Furtivo."
+  },
+  "alt_vassago": {
+   "nome": "Vassago, el Príncipe que Encuentra",
+   "texto": "Despertar: Roba un Sello de tu mazo."
+  },
+  "alt_orobas": {
+   "nome": "Orobas, el Príncipe Fiel",
+   "texto": "Guardia. Al inicio de tu turno, cura 2 de Vida a esta."
+  },
+  "alt_andras": {
+   "nome": "Andras, el Sembrador de Discordia",
+   "texto": "Despertar: Destruye una Entidad enemiga de costo 3 o menos."
+  },
+  "alt_marbas": {
+   "nome": "Marbas, el León de las Enfermedades",
+   "texto": "Despertar: Silencia una Entidad enemiga (pierde palabras clave y efectos)."
+  },
+  "alt_astaroth": {
+   "nome": "Astaroth, el Duque Revelador",
+   "texto": "Sacrificio 1. Despertar: Roba 2 cartas."
+  },
+  "alt_dantalion": {
+   "nome": "Dantalion, el de las Mil Caras",
+   "texto": "Sacrificio 1. Despertar: Domina una Entidad enemiga."
+  },
+  "alt_paimon": {
+   "nome": "Paimon, Rey del Oeste",
+   "texto": "Despertar: Invoca dos Espíritus de Paimon 1/1."
+  },
+  "alt_babalon": {
+   "nome": "Babalon, la Mujer Escarlata",
+   "texto": "Sacrificio 1. Cada vez que otra Entidad muera, esta gana +1/+1."
+  },
+  "alt_anjo_guardiao": {
+   "nome": "Santo Ángel Guardián",
+   "texto": "Guardia. Renacer. Despertar: Cura 4 a tu Cornucopia."
+  },
+  "alt_pentagrama_flamejante": {
+   "nome": "Pentagrama Flamígero",
+   "texto": "Cuando tu oponente juegue un Rito, anúlalo. Roba 1 carta y cura 2 a tu Cornucopia."
+  },
+  "alt_selo_de_salomao": {
+   "nome": "Sello de Salomón",
+   "texto": "Cuando tu oponente juegue una Entidad, anúlala (va al cementerio). Roba 1 carta."
+  },
+  "alt_solve_et_coagula": {
+   "nome": "Solve et Coagula",
+   "texto": "Cuando una Entidad aliada muera, devuelve una Entidad de tu cementerio a tu mano. Roba 1 carta."
+  },
+  "alt_sigilo_de_spare": {
+   "nome": "Sigilo de Spare",
+   "texto": "Al final del turno enemigo, este descarta 1 carta al azar. Roba 1 carta."
+  },
+  "alt_lemegeton": {
+   "nome": "Lemegeton, la Llave Menor",
+   "texto": "Roba una Entidad de tu mazo."
+  },
+  "alt_azoth": {
+   "nome": "Azoth",
+   "texto": "Tu Fe máxima sube 1 (hasta 8). Gana 1 de Fe este turno. Roba 1 carta."
+  },
+  "alt_conjuracao_elementais": {
+   "nome": "Conjuración de los Elementales",
+   "texto": "Invoca dos Elementales 1/1."
+  },
+  "alt_ritual_menor_pentagrama": {
+   "nome": "Ritual Menor del Pentagrama",
+   "texto": "Devuelve todas las Entidades enemigas a su mano."
+  },
+  "alt_abrahadabra": {
+   "nome": "Abrahadabra",
+   "texto": "Inflige 3 de daño a la Cornucopia enemiga."
+  },
+  "alt_anel_de_salomao": {
+   "nome": "Anillo de Salomón",
+   "texto": "La portadora gana +1/+2 e Ímpetu. Cada vez que ataque, silencia una Entidad enemiga."
+  },
+  "alt_sigillum_dei_aemeth": {
+   "nome": "Sigillum Dei Aemeth",
+   "texto": "La portadora gana +3 Vida y Guardia. Cuando muera, roba 1 carta."
+  },
+  "alt_pedra_de_visao": {
+   "nome": "Piedra de Visión de Dee",
+   "texto": "La portadora gana +1/+3."
+  },
+  "aby_choronzon": {
+   "nome": "Choronzon, Morador del Abismo",
+   "texto": "Solo puede invocarse con el Sigilo 333. Despertar: Ganas la partida."
+  },
+  "aby_triangulo": {
+   "nome": "Triángulo del Arte",
+   "texto": "La portadora gana +2 Vida. Cuenta como el Triángulo del Sigilo 333."
+  },
+  "aby_circulo": {
+   "nome": "Círculo de Protección",
+   "texto": "Cuando ataquen a una Entidad tuya, el atacante recibe 2 de daño. Boca abajo, cuenta como el Círculo del Sigilo 333."
+  },
+  "aby_sigilo": {
+   "nome": "Sigilo 333",
+   "texto": "Si controlas Triángulo del Arte y Círculo de Protección y tienes a Choronzon en la mano, invócalo. Si no, roba 1 carta."
+  }
+ }
+}

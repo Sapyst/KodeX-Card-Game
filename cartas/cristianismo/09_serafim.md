@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Guarda. Despertar: silencia uma Entidade inimiga (perde palavras-chave e efeitos).
+Guarda. Despertar: Silencie uma Entidade inimiga (ela perde palavras-chave e efeitos).
 
 ## Contexto mitológico
 Os serafins ("os ardentes", de *saraf*, queimar) aparecem uma única vez na Bíblia, na visão inaugural de Isaías: "Serafins estavam acima dele; cada um tinha seis asas: com duas cobriam o rosto, com duas cobriam os pés e com duas voavam. E clamavam: Santo, Santo, Santo é o Senhor dos Exércitos" (Is 6,2-3). Quando o profeta se declara "homem de lábios impuros", um serafim voa até ele com uma brasa tirada do altar e toca-lhe a boca: "a tua iniquidade foi tirada e o teu pecado, expiado" (Is 6,6-7).

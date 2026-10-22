@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Furtivo. Renascer. *(Sete vidas: quando morre, volta à sua mão uma vez.)*
+Furtivo. Renascer. (Sete vidas: quando morrer, volta para a sua mão uma vez.)
 
 ## Contexto mitológico
 O gato preto é o familiar por excelência da bruxaria insular. No primeiro grande julgamento inglês, em Chelmsford (1566), Elizabeth Francis confessou ter recebido da avó um gato malhado chamado "Sathan", que alimentava com pão, leite e gotas do próprio sangue, e que lhe trazia ovelhas e maridos em troca. A partir daí os tribunais ingleses procuraram sistematicamente o animal doméstico da acusada como prova do pacto — o familiar como pequeno demônio em forma de bicho.

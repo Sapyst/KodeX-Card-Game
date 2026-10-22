@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: 1 de dano a todas as Entidades inimigas. Sempre que uma Entidade inimiga morrer, Kali ganha +1 ATK permanente.
+Despertar: Cause 1 de dano a todas as Entidades inimigas. Sempre que uma Entidade inimiga morrer, esta ganha +1 ATK.
 
 ## Contexto mitológico
 Kali ("a negra", "a do tempo") é a face mais terrível da Deusa. No Devi Mahatmya (cap. 7), quando os generais asuras Chanda e Munda avançam contra Durga, a testa da deusa escurece de cólera e dela salta Kali: pele negra, língua pendente, colar de cabeças, saia de braços cortados, espada e laço nas mãos. Ela devora elefantes, carros e cavalos, mata os dois generais e traz suas cabeças a Durga — ganhando o nome Chamunda.

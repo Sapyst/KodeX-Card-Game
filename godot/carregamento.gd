@@ -29,7 +29,7 @@ func _ready() -> void:
 	var escolhidas: Array = pool.slice(0, N)
 	cfg.set_value("carregamento", "ultimas", escolhidas)
 	cfg.save(Sessao.CONFIG)
-	var pasta := "carta_en" if Sessao.idioma == "en" else "carta"
+	var pasta := Sessao.pasta("carta")
 	for k in escolhidas.size():
 		cartas.append({"tex": Carta.textura(pasta, escolhidas[k], "webp"), "fase": TAU * k / N})
 	var dicas = JSON.parse_string(FileAccess.get_file_as_string("res://dados/dicas.json"))

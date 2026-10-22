@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Reviva uma Entidade do seu cemitério para o campo.
+Devolva uma Entidade do seu cemitério para o campo.
 
 ## Contexto mitológico
 Jairo, chefe da sinagoga de Cafarnaum, cai aos pés de Jesus: a filha de doze anos está morrendo. No caminho, a hemorroíssa é curada ao tocar-lhe o manto, e chega a notícia de que a menina já morreu. Jesus entra na casa só com Pedro, Tiago e João e os pais, afasta os que choram e as carpideiras ("a menina não morreu, está dormindo"), toma-a pela mão e diz em aramaico: "*Talitha kum*" — "menina, eu te digo, levanta-te". "E imediatamente a menina se levantou e começou a andar" (Mc 5,21-43). Ele manda que lhe deem de comer.

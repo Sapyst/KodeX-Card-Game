@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Sua Fé máxima aumenta em 1 (até 8). Ganhe 1 de Fé neste turno. Compre 1 carta.
+Sua Fé máxima sobe 1 (até 8). Ganhe 1 de Fé neste turno. Compre 1 carta.
 
 ## Contexto mitológico
 Azoth é o nome alquímico do **mercúrio universal** — o solvente e a semente de todas as coisas, o princípio que dissolve os metais e os refaz. A palavra é construída com a primeira letra dos alfabetos (A) e a última de cada um: Z do latino, Ω (ômega) do grego, ת (tav) do hebraico — o princípio e o fim, "Alfa e Ômega" em três línguas sagradas. Paracelso o usa como nome do remédio universal, e a lenda diz que o levava dentro do pomo da espada que nunca largava.

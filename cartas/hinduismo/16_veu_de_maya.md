@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando o oponente jogar um Rito, anule-o e devolva uma Entidade inimiga à mão do dono.
+Quando o oponente jogar um Rito, anule-o e devolva uma Entidade inimiga para a mão do dono.
 
 ## Contexto mitológico
 Maya é o poder de ilusão que faz o Uno aparecer como múltiplo e o eterno como passageiro. No Rigveda a palavra ainda designa a "arte", o poder mágico dos deuses (e dos asuras) de criar formas. No Shvetashvatara Upanishad (4.10) ela já é o véu: "saiba que a natureza (prakriti) é maya, e o grande Senhor é o mestre da maya". Nos Puranas, Maya é a Shakti de Vishnu, a energia com que ele projeta e recolhe os mundos; na Bhagavad Gita (7.14), Krishna a chama de "minha maya divina, feita dos três gunas, difícil de transpor".

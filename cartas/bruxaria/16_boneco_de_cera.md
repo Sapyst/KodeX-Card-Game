@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando uma Entidade aliada sofrer dano de um ataque, o atacante sofre 4 de dano e perde 2 ATK e 2 Vida permanentemente.
+Quando uma Entidade aliada sofrer dano: se veio de um atacante, ele sofre 4 de dano e recebe -2/-2.
 
 ## Contexto mitológico
 O boneco (*poppet*, *dagyde*, *kolossós*) é a forma mais antiga da magia simpática: o que se faz à imagem acontece ao corpo. Teócrito (*Idílio* 2, séc. III a.C.) mostra a jovem Simeta derretendo cera ao fogo para que o amante Delfis derreta de amor; os gregos enterravam *kolossoi* de chumbo com as mãos atadas junto a *defixiones* (tabuletas de maldição) traspassadas por pregos; Ovídio faz uma rival "espetar o fígado de agulhas finas" numa imagem de cera (*Amores* III.7.29–30). No Egito, figuras de cera dos inimigos do faraó eram queimadas nos templos.

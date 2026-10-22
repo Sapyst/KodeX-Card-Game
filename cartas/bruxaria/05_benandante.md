@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Despertar: congele uma Entidade inimiga à escolha (ela não ataca no próximo turno).
+Despertar: Congele uma Entidade inimiga (ela não ataca no próximo turno).
 
 ## Contexto mitológico
 Os *benandanti* ("os que andam bem") do Friul, nordeste da Itália, são o achado de Carlo Ginzburg em *Os Andarilhos do Bem* (1966). Entre 1575 e 1675 dezenas de camponeses contaram à Inquisição de Aquileia e Concórdia a mesma história: nascidos "com a camisa" (a membrana amniótica), eram chamados quatro vezes por ano, nas noites das Têmporas, a sair do corpo em espírito — em forma de rato ou borboleta, ou montados em lebres e gatos — para lutar nos campos de Josafat contra os bruxos (*malandanti*). Os benandanti iam armados de ramos de funcho; os bruxos, de canas de sorgo. Se os benandanti vencessem, a colheita seria farta; se perdessem, viria a fome.

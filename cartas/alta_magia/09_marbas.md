@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: silencie uma Entidade inimiga (ela perde palavras-chave e efeitos).
+Despertar: Silencie uma Entidade inimiga (ela perde palavras-chave e efeitos).
 
 ## Contexto mitológico
 Marbas (ou Barbas) é o quinto espírito da *Ars Goetia*, um Grande Presidente que aparece como um grande leão e, a pedido, toma forma humana. Responde com verdade sobre coisas ocultas e secretas, **causa doenças e as cura**, dá sabedoria nas artes mecânicas e **muda homens para outras formas**. Governa 36 legiões. Weyer o lista como Marbas *alias* Barbas na *Pseudomonarchia Daemonum* (1577), com os mesmos ofícios.

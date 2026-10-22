@@ -82,8 +82,6 @@ func desenhar() -> void:
 			var s := segundos()
 			f._texto_central(Vector2(180, 200), Sessao.t("Buscando adversário") + "." .repeat(1 + int(s * 2) % 3), f.OURO[0], 2)
 			f._texto_central(Vector2(180, 236), "%d s" % int(s), f.CREME)
-			var onde := Sessao.t("no seu país") if s < 5 else (Sessao.t("no seu continente") if s < 15 else Sessao.t("no mundo todo"))
-			f._texto_central(Vector2(180, 256), Sessao.t("procurando") + " " + onde, Color("#9ad0ff"))
 		"encontrada":
 			f._texto_central(Vector2(180, 200), Sessao.t("Partida encontrada!"), f.OURO[0], 2)
 			f._texto_central(Vector2(180, 236), Sessao.t("contra") + " " + str(partida.get("adversario", "?")), f.CREME)

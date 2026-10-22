@@ -45,13 +45,13 @@ CULT = {
     "cristianismo": dict(base=(40, 60, 120), forma=[(236, 200, 110), (250, 246, 236), (150, 40, 50)], pilula=(54, 74, 140),
                          painel=(250, 248, 242), padrao="quadrifolio", nome="Cristianismo"),
     "taoismo":      dict(base=(28, 110, 96), forma=[(220, 240, 230), (90, 180, 150), (200, 60, 48)], pilula=(26, 96, 84),
-                         painel=(242, 248, 244), padrao="seigaiha", nome="Taoismo"),
+                         painel=(242, 248, 244), padrao="seigaiha", nome="Taoísmo"),
     "hinduismo":    dict(base=(196, 96, 20), forma=[(255, 214, 120), (40, 52, 130), (230, 60, 110)], pilula=(40, 52, 130),
                          painel=(252, 244, 230), padrao="shippo", nome="Hinduísmo"),
     "bruxaria":     dict(base=(70, 40, 96), forma=[(170, 120, 210), (100, 180, 100), (30, 20, 40)], pilula=(78, 44, 108),
                          painel=(245, 241, 248), padrao="marmore", nome="Bruxaria"),
     "alta_magia":   dict(base=(26, 22, 30), forma=[(224, 182, 80), (150, 40, 40), (70, 60, 76)], pilula=(30, 26, 36),
-                         painel=(246, 243, 236), padrao="asanoha", nome="Alta magia"),
+                         painel=(246, 243, 236), padrao="asanoha", nome="Alta Magia"),
 }
 TXT_LENDARIA = "LENDÁRIA"
 TIPO_NOME = {"entidade": "Entidade", "selo": "Selo", "rito": "Rito", "reliquia": "Relíquia"}

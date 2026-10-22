@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Traz uma Entidade do seu cemitério de volta ao campo. Compre 1 carta.
+Devolva uma Entidade do seu cemitério para o campo. Compre 1 carta.
 
 ## Contexto mitológico
 O Kuarup (*Kwarìp*, em kamayurá) é a grande festa funerária dos povos do Alto Xingu (MT) — Kamayurá, Kuikuro, Kalapalo, Waurá, Mehinako, Yawalapiti e outros — em homenagem aos mortos ilustres do ano. Troncos da árvore kuarup são cortados, fincados no centro da aldeia, pintados e enfeitados com cocares, braçadeiras e colares: cada tronco **é** um morto, que volta por uma noite. As famílias choram diante dos troncos; ao amanhecer, há lutas de *huka-huka* entre as aldeias convidadas e, ao fim, os troncos são lançados no rio e o luto termina.

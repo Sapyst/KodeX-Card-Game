@@ -39,7 +39,8 @@ def montar(c, cult, arte):
     if tem_defesa:
         d = ImageDraw.Draw(im)
         y0d, y1d = F2.DEFESA[1], F2.DEFESA[3]
-        rot = f"Def {c['vida']}" if tipo == "entidade" else f"Usos {c['usos']}"
+        rd, ru = ROT_DEF.get(IDIOMA[0], ROT_DEF["pt"])
+        rot = f"{rd} {c['vida']}" if tipo == "entidade" else f"{ru} {c['usos']}"
         F2.texto_contorno(d, (F2.W - F2.PAINEL - 22, (y0d + y1d) / 2 + 2), rot, F2.fonte(F2.FONTE_TITULO, 34), (255, 255, 255), esp=3, anchor="rm")
     return im
 
@@ -59,29 +60,45 @@ def backup(pasta_versao):
               open(os.path.join(b, "config.json"), "w"), indent=1)
 
 
-def modo_en():
-    """Troca os rótulos fixos do frame para inglês (tipo, lendária, palavras-chave, tradições)."""
-    F2.TIPO_NOME = {"entidade": "Entity", "selo": "Seal", "rito": "Rite", "reliquia": "Relic"}
-    F2.TXT_LENDARIA = "LEGENDARY"
-    F2.KEYS = ["Legendary", "Last Breath", "Awaken", "Rebirth", "Guard", "Stealth", "Rush", "Sacrifice"]
-    nomes = {"indigena": "Indigenous", "cristianismo": "Christianity", "taoismo": "Taoism", "hinduismo": "Hinduism",
-             "bruxaria": "Witchcraft", "alta_magia": "High magic"}
-    for k, v in nomes.items():
+ROT_DEF = {"pt": ("Def", "Usos")}
+
+
+def modo_idioma(idioma):
+    """Troca os rótulos fixos do frame para o idioma (tipo, lendária, palavras-chave, tradições). pt = o padrão do F2."""
+    if idioma == "pt":
+        return
+    from rotulos_idioma import ROTULOS
+    r = ROTULOS[idioma]
+    F2.TIPO_NOME = dict(r["tipo"])
+    F2.TXT_LENDARIA = r["lendaria"]
+    F2.KEYS = list(r["keys"])
+    for k, v in r["cult"].items():
         F2.CULT[k]["nome"] = v
+    ROT_DEF[idioma] = (r["def"], r["usos"])
     _orig = F2.nome_efeito
-    F2.nome_efeito = lambda c: "Trap" if c["tipo"] == "selo" and not any(k in c.get("texto", "") for k in F2.KEYS[1:]) else _orig(c)
+    F2.nome_efeito = lambda c: r["armadilha"] if c["tipo"] == "selo" and not any(k in c.get("texto", "") for k in F2.KEYS[1:]) else _orig(c)
+
+
+def modo_en():
+    modo_idioma("en")
+
+
+IDIOMA = ["pt"]
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--versao", default="v1"); ap.add_argument("--deck"); ap.add_argument("--id")
     ap.add_argument("--refazer", action="store_true")
-    ap.add_argument("--idioma", default="pt", choices=["pt", "en"])
+    ap.add_argument("--idioma", default="pt", choices=["pt", "en", "es"])
     a = ap.parse_args()
     en = {}
-    if a.idioma == "en":
-        en = json.load(open(os.path.join(RAIZ, "godot", "dados", "cartas_en.json"), encoding="utf-8"))["cartas"]
-        modo_en()
+    IDIOMA[0] = a.idioma
+    if a.idioma != "pt":
+        en = json.load(open(os.path.join(RAIZ, "godot", "dados", f"cartas_{a.idioma}.json"), encoding="utf-8"))["cartas"]
+        modo_idioma(a.idioma)
+        if not a.versao.endswith("_" + a.idioma):
+            a.versao += "_" + a.idioma
     pasta = os.path.join(RAIZ, "cartas_finais", a.versao)
     os.makedirs(pasta, exist_ok=True)
     backup(pasta)

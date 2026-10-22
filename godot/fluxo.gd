@@ -44,6 +44,9 @@ func _enquadrar() -> void:
 		base = maxf(0.0, (win.y - seg.end.y) * k)
 	alt_util = maxf(float(H), vs.y - topo - base)
 	pos_base = Vector2(roundf((vs.x - W) / 2.0), roundf(topo))
+	_x_centro = pos_base.x
+	_cabe_trilho = vs.x > vs.y * 1.05 and vs.x - W >= 2.0 * LARG_TRILHO
+	_x_trilho = roundf(LARG_TRILHO + (vs.x - LARG_TRILHO - W) / 2.0)      # formato largo: centra à direita do trilho
 	position = pos_base
 	if OS.get_environment("GD_DEBUG_TELA") != "":
 		print("TELA vs=", vs, " win=", win, " seg=", DisplayServer.get_display_safe_area(), " topo=", topo, " base=", base, " alt=", alt_util)
@@ -96,8 +99,55 @@ func trocar_aba(k: int) -> void:
 	transicao = 0.45
 
 
+## Formato largo: as abas viram um trilho colado na borda esquerda da tela, de cima a baixo (LARG_TRILHO px),
+## com ícones 1,6× e nomes 2×; o conteúdo se centra no espaço à direita (ver _enquadrar).
+const LARG_TRILHO := 96.0
+
+
+var _x_centro := 0.0
+var _x_trilho := 0.0
+var _cabe_trilho := false
+
+
+func _barra_vertical() -> bool:
+	return _cabe_trilho
+
+
+func _alt_aba_v() -> float:
+	return minf(104.0, get_viewport_rect().size.y / ABAS_MENU.size())
+
+
+func _y0_abas_v() -> float:
+	return roundf((get_viewport_rect().size.y - _alt_aba_v() * ABAS_MENU.size()) / 2.0)
+
+
+func _desenhar_barra_vertical() -> void:
+	var vs := get_viewport_rect().size
+	var ah := _alt_aba_v()
+	var y0 := _y0_abas_v()
+	barra.draw_rect(Rect2(0, -10, LARG_TRILHO, vs.y + 20), Color(0.06, 0.045, 0.07, 0.98))
+	barra.draw_rect(Rect2(LARG_TRILHO, -10, 1, vs.y + 20), Color(0.89, 0.72, 0.35, 0.45))
+	var y := y0 + aba_sel * ah
+	barra.draw_rect(Rect2(8, y + 8, LARG_TRILHO - 16, ah - 16), Color(1.0, 0.85, 0.4, 0.08))
+	barra.draw_rect(Rect2(LARG_TRILHO - 3, y + 14, 3, ah - 28), OURO[0])
+	for k in ABAS_MENU.size():
+		var perto := 1.0 - clampf(absf(aba_sel - k), 0, 1)
+		var cor: Color = Color(0.62, 0.58, 0.62).lerp(OURO[0], perto)
+		var cy := y0 + k * ah
+		var c := Vector2(LARG_TRILHO / 2.0, cy + ah * 0.40 - perto * 2 + (1.0 if _aba_toque == k else 0.0))
+		barra.draw_set_transform(c, 0.0, Vector2.ONE * (1.6 + 0.2 * perto))
+		mpr.icone(barra, ABAS_MENU[k][1], Vector2.ZERO, cor)
+		barra.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+		PixelFonte.centrado(barra, Vector2(LARG_TRILHO / 2.0, cy + ah * 0.40 + 26), Sessao.t(ABAS_MENU[k][2]).to_upper(), cor, 2)
+		if ABAS_MENU[k][1] == "loja" and Sessao.boosters_gratis() > 0:
+			barra.draw_circle(c + Vector2(16, -12), 4.5, Color("#e04040"))
+
+
 func _desenhar_barra() -> void:
 	if not barra_visivel():
+		return
+	if _barra_vertical():
+		_desenhar_barra_vertical()
 		return
 	var y0 := 0.0
 	barra.draw_rect(Rect2(-400, y0, 1200, ALT_BARRA + 200), Color(0.06, 0.045, 0.07, 0.98))
@@ -126,18 +176,23 @@ func _entrada_barra(ev: InputEvent) -> bool:
 	if not barra_visivel() or not ("position" in ev):
 		return false
 	var p: Vector2 = get_canvas_transform().affine_inverse() * (ev.position as Vector2) - barra.position
+	var vert := _barra_vertical()
 	var dentro := p.y >= 0 and p.y <= ALT_BARRA + 40 and p.x >= 0 and p.x < 360
+	if vert:
+		p.y -= _y0_abas_v()
+		dentro = p.x >= 0 and p.x < LARG_TRILHO and p.y >= 0 and p.y < _alt_aba_v() * ABAS_MENU.size()
+	var idx := clampi(int(p.y / _alt_aba_v()) if vert else int(p.x / 72), 0, 4)
 	if ev is InputEventScreenTouch or (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT):
 		if ev.pressed:
 			if not dentro:
 				return false
-			_aba_toque = clampi(int(p.x / 72), 0, 4)
+			_aba_toque = idx
 			vibrar(8, 0.3)
 			return true
 		if _aba_toque >= 0:
 			var k := _aba_toque
 			_aba_toque = -1
-			if dentro and clampi(int(p.x / 72), 0, 4) == k:
+			if dentro and idx == k:
 				trocar_aba(k)
 			return true
 	return false
@@ -159,6 +214,9 @@ var perg: Pergaminho
 var solo: ModosSolo
 var hist: Historico
 var onl: MenuOnline
+var ent: MenuEntrada
+var volta_conta := "conta"
+var criando_perfil := false                # 1ª vez: o perfil vira a tela dedicada "Crie seu perfil" (sem moedas/histórico)               # "entrada": o Kode foi aberto pela tela de entrada
 var prg: MenuProgresso
 var _avisou_suspensa := false
 # moedas voando: o contador do Início mostra moedas_vis / koins_vis, que alcançam o valor real quando as moedas chegam
@@ -193,6 +251,7 @@ func _ready() -> void:
 	solo = ModosSolo.new(self)
 	hist = Historico.new(self)
 	onl = MenuOnline.new(self)
+	ent = MenuEntrada.new(self)
 	prg = MenuProgresso.new(self)
 	Nuvem.mudou.connect(func() -> void:                   # perfil do servidor chegou (correio, prêmios): confere no Início
 		if estado == "titulo":
@@ -234,7 +293,8 @@ func _ready() -> void:
 		_avisos_feitos = true
 		solo.pos_partida()
 	elif str(Sessao.perfil.get("nome", "")) == "":
-		_ir("perfil")                                       # primeira vez: cria o perfil
+		criando_perfil = true
+		_ir("perfil" if Sessao.perfil.get("entrada_feita", false) else "entrada")   # primeira vez: entrada → criar perfil
 	else:
 		_ir("titulo")
 	if OS.get_environment("GD_FLUXO_TELA") != "":            # teste: abre direto numa tela
@@ -371,8 +431,9 @@ func _process(delta: float) -> void:
 	if alvo_aba >= 0:
 		aba_sel = lerpf(aba_sel, alvo_aba, minf(1.0, delta * 12.0))
 	deslize = lerpf(deslize, 0.0, minf(1.0, delta * 10.0))
+	pos_base.x = _x_trilho if _cabe_trilho and barra_visivel() else _x_centro
 	position = pos_base + Vector2(deslize, 0)
-	barra.position = pos_base + Vector2(0, y_barra())
+	barra.position = Vector2.ZERO if _barra_vertical() else pos_base + Vector2(0, y_barra())
 	Colecao.BASE = minf(594.0 + extra() * 2.0, y_barra() - 6.0)
 	barra.queue_redraw()
 	if apertado >= 0 and apertado < botoes.size() and botoes[apertado].has("carta_id") and Time.get_ticks_msec() - _aperto_t > 450:
@@ -452,12 +513,14 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(110, 266, 140, 24), "Escolher imagem", func() -> void: _ir("avatar"))
 			if OS.has_feature("web"):                   # web/iPhone: o campo vira um botão que abre a caixa nativa
 				_botao(mp.campo_nome(), "", func() -> void: pass, {"web_nome": "perfil", "desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
-			_botao(Rect2(90, 466, 180, 26), "Histórico e estatísticas", func() -> void: _ir("historico"))
-			_botao(Rect2(90, 420, 180, 30), "Continuar", func() -> void:
+			if not criando_perfil:
+				_botao(Rect2(90, 466, 180, 26), "Histórico e estatísticas", func() -> void: _ir("historico"))
+			_botao(Rect2(80, 420, 200, 34) if criando_perfil else Rect2(90, 420, 180, 30), "Começar" if criando_perfil else "Continuar", func() -> void:
 				if str(Sessao.perfil.get("nome", "")).strip_edges() == "":
 					mp.avisar(Sessao.t("Escreva seu nome."))
 				else:
-					_ir("titulo"))
+					criando_perfil = false
+					_ir("titulo"), {"ouro": criando_perfil})
 		"avatar":
 			var avs := MenuPerfil.lista_avatares()
 			var cols := 2 if avs.size() <= 4 else 3            # mais retratos liberáveis: grade de 3, menor
@@ -559,6 +622,8 @@ func _ir(novo: String) -> void:
 			hist.botoes()
 		"online":
 			onl.botoes()
+		"entrada":
+			ent.botoes()
 		"progresso":
 			prg.botoes()
 		"conta":
@@ -648,29 +713,28 @@ func _avisos_titulo() -> void:
 
 ## todas = arquivo completo (botão); senão só as versões depois da última vista (ou a atual, se não houver registro).
 func abrir_novidades(todas := true, depois := Callable()) -> void:
-	var en := Sessao.idioma == "en"
 	var vista := str(Sessao.perfil.get("versao_vista", ""))
 	var lista: Array = []
 	for e in novidades:
 		if not todas and (e["versao"] == vista or (vista == "" and not lista.is_empty())):
 			break
 		lista.append(e)
-	var blocos: Array = [["titulo", "News" if en else "Novidades"]]
+	var blocos: Array = [["titulo", Sessao.t("Novidades")]]
 	if not todas and Sessao.premiar_versao():               # versão nova: +30 Koins e +50 de ouro
 		blocos.append(["destaque", "+%d" % Sessao.KOINS_VERSAO, "koin"])
 		blocos.append(["destaque", "+%d" % Sessao.MOEDAS_VERSAO, "moeda"])
-		blocos.append(["centro", "update gift" if en else "presente da atualização"])
+		blocos.append(["centro", Sessao.t("presente da atualização")])
 		blocos.append(["divisor"])
 	for e in lista:
 		var cab: String = "v" + str(e["versao"])
 		if e["versao"] == _versao() and todas:
-			cab += " - " + ("current" if en else "atual")
+			cab += " - " + Sessao.t("atual")
 		blocos.append(["versao", cab, str(e["data"])])
-		for item in e["en" if en else "pt"]:
+		for item in Sessao.campo(e):
 			blocos.append(["item", item])
 	if not todas:
 		blocos.append(["divisor"])
-		blocos.append(["centro", "All versions: scroll button on Home." if en else "Todas as versões: botão de pergaminho no Início."])
+		blocos.append(["centro", Sessao.t("Todas as versões: botão de pergaminho no Início.")])
 	Sessao.perfil["versao_vista"] = _versao()
 	Sessao.salvar()
 	perg.abrir(blocos, depois)
@@ -681,64 +745,59 @@ func verificar_presente(manual := true) -> void:
 	var r: Dictionary = await Sessao.resgatar()
 	if OS.get_environment("GD_DEBUG_PRESENTE") != "":
 		print("PRESENTE ", r, " moedas=", Sessao.moedas(), " boosters=", Sessao.boosters_gratis(), " dia=", Relogio.dia(), " semana=", Relogio.semana())
-	var en := Sessao.idioma == "en"
 	if perg.aberto():
 		return
 	if r.has("offline"):
 		if manual:
-			perg.abrir([["titulo", "Gift" if en else "Presente"], ["centro", "No connection." if en else "Sem conexão."],
-				["centro", "The gift uses the internet time, so connect and try again. Nothing is lost: up to 3 days stack up." if en
-				else "O presente usa a hora da internet: conecte-se e tente de novo. Nada se perde: acumula até 3 dias."]])
+			perg.abrir([["titulo", Sessao.t("Presente")], ["centro", Sessao.t("Sem conexão.")],
+				["centro", Sessao.t("O presente usa a hora da internet: conecte-se e tente de novo. Nada se perde: acumula até 3 dias.")]])
 		return
 	if r.is_empty():
 		if manual:
 			var h := Relogio.segundos_ate_amanha()
 			var b := Relogio.segundos_ate_segunda()
-			perg.abrir([["titulo", "Gift" if en else "Presente"],
-				["centro", "Today's gift is already yours." if en else "O presente de hoje já é seu."],
+			perg.abrir([["titulo", Sessao.t("Presente")],
+				["centro", Sessao.t("O presente de hoje já é seu.")],
 				["espaco"],
-				["centro", ("Next coins in %dh %02dmin." if en else "Próximas moedas em %dh %02dmin.") % [h / 3600, (h % 3600) / 60]],
-				["centro", ("Next free booster in %d days and %dh." if en else "Próximo booster grátis em %d dias e %dh.") % [b / 86400, (b % 86400) / 3600]],
+				["centro", Sessao.t("Próximas moedas em %dh %02dmin.") % [h / 3600, (h % 3600) / 60]],
+				["centro", Sessao.t("Próximo booster grátis em %d dias e %dh.") % [b / 86400, (b % 86400) / 3600]],
 				["espaco"],
-				["centro", ("Next Koins: %d on Friday." if en else "Koins da semana: %d na sexta.") % Sessao.KOINS_SEMANA],
-				["centro", "Resets at midnight, New York time." if en else "Vira à meia-noite de Nova York."]])
+				["centro", Sessao.t("Koins da semana: %d na sexta.") % Sessao.KOINS_SEMANA],
+				["centro", Sessao.t("Vira à meia-noite de Nova York.")]])
 		return
-	var blocos: Array = [["titulo", "Gift" if en else "Presente"]]
+	var blocos: Array = [["titulo", Sessao.t("Presente")]]
 	var seq := int(r.get("seq", 0))
 	if seq > 0:                                       # dias seguidos: 7 marcas, as de hoje acesas
-		blocos.append(["centro", ("%d days in a row" if en else "%d dias seguidos") % seq])
+		blocos.append(["centro", Sessao.t("%d dias seguidos") % seq if seq > 1 else Sessao.t("1º dia seguido")])
 		var k7 := ((seq - 1) % 7) + 1
-		blocos.append(["centro", ("day %d of 7 · bonus on the 7th" if en else "dia %d de 7 · bônus no 7º") % k7])
+		blocos.append(["centro", Sessao.t("dia %d de 7 · bônus no 7º") % k7])
 		if r.get("bonus_seq", false):
-			blocos.append(["centro", "7th day bonus: +1 booster and +20 Koins!" if en else "Bônus do 7º dia: +1 booster e +20 Koins!"])
+			blocos.append(["centro", Sessao.t("Bônus do 7º dia: +1 booster e +20 Koins!")])
 		blocos.append(["espaco"])
 	if int(r["moedas"]) > 0:
 		blocos.append(["destaque", "+%d" % int(r["moedas"]), "moeda"])
 		var dias := int(r["dias"])
-		blocos.append(["centro", ("coins - %d days stacked" % dias if dias > 1 else "coins - daily gift") if en
-			else ("moedas - %d dias acumulados" % dias if dias > 1 else "moedas - presente do dia")])
+		blocos.append(["centro", Sessao.t("moedas - %d dias acumulados") % dias if dias > 1 else Sessao.t("moedas - presente do dia")])
 	if int(r.get("koins", 0)) > 0:
 		blocos.append(["espaco"])
 		blocos.append(["destaque", "+%d" % int(r["koins"]), "koin"])
 		var ks := int(r.get("koins_semana", 0))
-		blocos.append(["centro", ("Koins (%d of them for the week)" % ks if ks > 0 else "Koins of the day") if en
-			else ("Koins (%d da semana)" % ks if ks > 0 else "Koins do dia")])
+		blocos.append(["centro", Sessao.t("Koins (%d da semana)") % ks if ks > 0 else Sessao.t("Koins do dia")])
 	if int(r["booster"]) > 0:
 		blocos.append(["espaco"])
 		blocos.append(["destaque", "+1", "booster"])
-		blocos.append(["centro", "free booster of the week - open it in the Shop" if en else "booster grátis da semana - abra na Loja"])
+		blocos.append(["centro", Sessao.t("booster grátis da semana - abra na Loja")])
 	blocos.append(["divisor"])
-	blocos.append(["centro", "Come back tomorrow for more coins." if en else "Volte amanhã para mais moedas."])
+	blocos.append(["centro", Sessao.t("Volte amanhã para mais moedas.")])
 	perg.abrir(blocos)
 	Sessao.vibrar_pulsos(2, 30, 0.6)
 
 
 func abrir_privacidade() -> void:
 	var d: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://dados/privacidade.json"))
-	var en := Sessao.idioma == "en"
-	var blocos: Array = [["titulo", "Privacy" if en else "Privacidade"],
-		["centro", ("Updated on %s" if en else "Atualizada em %s") % d["atualizada"]]]
-	for par in d["en" if en else "pt"]:
+	var blocos: Array = [["titulo", Sessao.t("Privacidade")],
+		["centro", Sessao.t("Atualizada em %s") % d["atualizada"]]]
+	for par in Sessao.campo(d):
 		blocos.append([par[0], par[1]])
 	perg.abrir(blocos)
 
@@ -795,8 +854,9 @@ func _desenhar_confirma() -> void:
 	var eg := Fonte57.grande()
 	var t: String = confirma["titulo"]
 	Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(t, eg) / 2.0), dd.position.y + 10), t, OURO[0], ESCURO, eg)
-	var s: String = confirma["sub"]
-	Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(s) / 2.0), dd.position.y + 14 + 9 * eg), s, Color(0.85, 0.78, 0.66), ESCURO)
+	var ls := Fonte57.quebrar(str(confirma["sub"]), 256)       # até 3 linhas
+	for k in mini(ls.size(), 3):
+		Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(ls[k]) / 2.0), dd.position.y + 14 + 9 * eg + k * 10), ls[k], Color(0.85, 0.78, 0.66), ESCURO)
 	var bs := _rects_confirma()
 	var b0 := _painel(bs[0], true, 0.0, Color("#3a2410"))
 	_texto_central(b0.get_center(), Sessao.t("Sim"), OURO[0])
@@ -875,7 +935,23 @@ func _desenhar_pedido() -> void:
 
 func _avisar_erro(e: String) -> void:
 	mp.avisar(Sessao.t(e) if e != "" else Sessao.t("Pronto!"))
+	if volta_conta == "entrada":
+		if e == "":
+			concluir_entrada()
+		else:
+			_ir("entrada")
+		return
 	_ir("conta")
+
+
+## Tela de entrada resolvida (convidado ou Kode): não aparece mais; segue para o perfil (1ª vez) ou para o início.
+func concluir_entrada() -> void:
+	volta_conta = "conta"
+	ent.kode_aberto = false
+	Sessao.perfil["entrada_feita"] = true
+	Sessao.salvar()
+	criando_perfil = str(Sessao.perfil.get("nome", "")) == ""
+	_ir("titulo" if not criando_perfil else "perfil")
 
 
 func _usar_codigo_aparelho() -> void:
@@ -903,7 +979,12 @@ func _criar_kode() -> void:
 		blocos.append(["item", "%d. %s" % [k + 1, w[k]]])
 	blocos.append(["espaco"])
 	blocos.append(["centro", Sessao.t("Ninguém do KodeX vai pedir essa frase.")])
-	perg.abrir(blocos)
+	blocos.append(["centro", Sessao.t("Toque em Copiar e cole num lugar seguro (bloco de notas, gerenciador de senhas).")])
+	perg.abrir(blocos, Callable(), {"texto": "Copiar", "acao": func() -> void:
+		DisplayServer.clipboard_set(frase)                 # uma linha, palavras separadas por espaço: cola direto na recuperação
+		if OS.has_feature("web"):                          # iPhone/Safari pode bloquear a cópia: caixa nativa com a frase para copiar à mão
+			JavaScriptBridge.eval("window.prompt(%s, %s)" % [JSON.stringify(Sessao.t("Suas 12 palavras (segure para copiar):")), JSON.stringify(frase)], true)
+		mp.avisar(Sessao.t("As 12 palavras foram copiadas."))})
 	await perg.fechou
 	var n := randi_range(1, 12)
 	var conf := await pedir_texto(Sessao.t("Para conferir: qual é a palavra número %d?") % n)
@@ -911,6 +992,13 @@ func _criar_kode() -> void:
 		mp.avisar(Sessao.t("Palavra errada. O Kode não foi criado.")); return
 	mp.avisar(Sessao.t("Criando..."))
 	_avisar_erro(await Nuvem.kode_criar(u, s1, frase))
+
+
+## Frase colada de qualquer jeito (uma por linha, numerada "1. palavra", com vírgulas): vira as palavras em ordem,
+## minúsculas, separadas por um espaço. A ordem é a que veio: colou fora de ordem, o servidor recusa.
+static func frase_colada(s: String) -> String:
+	var re := RegEx.create_from_string("[^a-zà-ÿç]+")
+	return " ".join(re.sub(s.to_lower(), " ", true).split(" ", false))
 
 
 func _entrar_kode() -> void:
@@ -928,7 +1016,7 @@ func _recuperar_kode() -> void:
 	var u := await pedir_texto(Sessao.t("Usuário Kode"), false, 16)
 	if u == "":
 		return
-	var f := await pedir_texto(Sessao.t("As 12 palavras, na ordem, separadas por espaço"), false, 200)
+	var f := frase_colada(await pedir_texto(Sessao.t("Cole ou digite as 12 palavras, na ordem"), false, 400))
 	if f.split(" ", false).size() != 12:
 		mp.avisar(Sessao.t("São 12 palavras.")); return
 	var s1 := await pedir_texto(Sessao.t("Nova senha (8 caracteres ou mais)"), true, 64)
@@ -1172,15 +1260,31 @@ func _desenhar_capitulo() -> void:
 		_texto_central(Vector2(180, r.end.y + 76), Sessao.t("toque para continuar"), Color(OURO[0], 0.5 + 0.4 * sin(tempo * 4.0)))
 
 
-const CREDITOS := [["KODEX", ""], ["o torneio do Códice", "the tournament of the Codex"], ["", ""],
-	["um jogo de Sapyst", "a game by Sapyst"], ["", ""],
-	["Design, código e direção", "Design, code and direction"], ["Sapyst", "Sapyst"], ["", ""],
-	["Arte das cartas", "Card art"], ["geração local (ComfyUI) revisada por Sapyst", "local generation (ComfyUI) curated by Sapyst"], ["", ""],
-	["Fontes", "Fonts"], ["pixel art própria; Source Serif 4 (SIL OFL)", "own pixel fonts; Source Serif 4 (SIL OFL)"], ["", ""],
-	["Motor", "Engine"], ["Godot Engine (MIT)", "Godot Engine (MIT)"], ["", ""],
-	["Mitologias", "Mythologies"], ["indígena brasileira, cristã, taoísta, hindu,", "Brazilian Indigenous, Christian, Taoist, Hindu,"],
-	["bruxaria e alta magia, com respeito", "witchcraft and high magic, with respect"], ["", ""], ["", ""],
-	["Obrigado por jogar.", "Thank you for playing."]]
+const CREDITOS := [
+	["KODEX", "", ""],
+	["o torneio do Códice", "the tournament of the Codex", "el torneo del Códice"],
+	["", "", ""],
+	["um jogo de Sapyst", "a game by Sapyst", "un juego de Sapyst"],
+	["", "", ""],
+	["Design, código e direção", "Design, code and direction", "Diseño, código y dirección"],
+	["Sapyst", "Sapyst", "Sapyst"],
+	["", "", ""],
+	["Arte das cartas", "Card art", "Arte de las cartas"],
+	["geração local (ComfyUI) revisada por Sapyst", "generated locally (ComfyUI), curated by Sapyst", "generación local (ComfyUI) revisada por Sapyst"],
+	["", "", ""],
+	["Fontes", "Fonts", "Fuentes"],
+	["fontes pixel art próprias; Source Serif 4 (SIL OFL)", "original pixel fonts; Source Serif 4 (SIL OFL)", "fuentes pixel art propias; Source Serif 4 (SIL OFL)"],
+	["", "", ""],
+	["Motor", "Engine", "Motor"],
+	["Godot Engine (MIT)", "Godot Engine (MIT)", "Godot Engine (MIT)"],
+	["", "", ""],
+	["Mitologias", "Mythologies", "Mitologías"],
+	["indígena brasileira, cristã, taoísta, hindu,", "Brazilian Indigenous, Christian, Taoist, Hindu,", "indígena brasileña, cristiana, taoísta, hindú,"],
+	["bruxaria e alta magia, com respeito", "witchcraft and high magic, with respect", "brujería y alta magia, con respeto"],
+	["", "", ""],
+	["", "", ""],
+	["Agradecemos por jogar.", "Thank you for playing.", "Gracias por jugar."],
+]
 
 
 func _creditos(depois: Callable) -> void:
@@ -1194,7 +1298,7 @@ func _desenhar_creditos() -> void:
 	var y0 := 640.0 + extra() * 2.0 - creditos_y
 	for k in CREDITOS.size():
 		var par: Array = CREDITOS[k]
-		var s: String = par[1] if Sessao.idioma == "en" else par[0]
+		var s: String = Sessao.par(par)
 		var y := y0 + k * 18.0
 		if s == "" or y < -20 or y > 700 + extra() * 2.0:
 			continue
@@ -1695,6 +1799,8 @@ func _draw() -> void:
 			hist.desenhar()
 		"online":
 			onl.desenhar()
+		"entrada":
+			ent.desenhar()
 		"progresso":
 			prg.desenhar()
 		"conta":
@@ -1900,10 +2006,17 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 		return
 	if b.has("idioma"):
 		var din := _painel(r, false, pressao)
-		var pt := Sessao.idioma == "pt"
-		Fonte57.desenhar(self, din.position + Vector2(10, 4), "PT-BR", OURO[0] if pt else Color("#6a6070"), ESCURO)
-		Fonte57.desenhar(self, din.position + Vector2(din.size.x - 10 - Fonte57.largura("EN-US"), 4), "EN-US", OURO[0] if not pt else Color("#6a6070"), ESCURO)
-		Fonte57.desenhar(self, din.position + Vector2(din.size.x / 2 - 2, 4), "|", Color("#6a6070"))
+		var rot := ["PT-BR", "EN", "ES"]                 # toque: PT → EN → ES → PT
+		var larg := 0
+		for k in rot.size():
+			larg += Fonte57.largura(rot[k]) + (12 if k > 0 else 0)
+		var x := din.get_center().x - larg / 2.0
+		for k in rot.size():
+			if k > 0:
+				Fonte57.desenhar(self, Vector2(x + 4, din.position.y + 4), "|", Color("#6a6070"))
+				x += 12
+			Fonte57.desenhar(self, Vector2(x, din.position.y + 4), rot[k], OURO[0] if Sessao.IDIOMAS[k] == Sessao.idioma else Color("#6a6070"), ESCURO)
+			x += Fonte57.largura(rot[k])
 		return
 	var principal: bool = b["texto"] in ["Torneio", "Jogar", "Tentar de novo"] or b.get("ouro", false)
 	var dentro := _painel(r, principal, pressao, Color("#3a2410") if principal else Color("#241a20"))
@@ -2026,7 +2139,7 @@ func _autoplay() -> void:
 
 ## Logo: entra crescendo (0,45 s, ease-out-back) e depois “respira” ±1,5% ; o X pulsa levemente.
 func _desenhar_logo() -> void:
-	if estado != "titulo" or logo_tex == null:
+	if not estado in ["titulo", "entrada"] or logo_tex == null:
 		return
 	var u := clampf(t_estado / 0.45, 0, 1)
 	var c1 := 1.70158
@@ -2064,17 +2177,16 @@ func _avisar_progresso() -> void:
 		return
 	if not Nuvem.suspensa.is_empty() and not _avisou_suspensa:      # moderação: conta suspensa (soft/hard)
 		_avisou_suspensa = true
-		var en := Sessao.idioma == "en"
 		var s: Dictionary = Nuvem.suspensa
 		var ate := int(s.get("ate", 0))
-		var quando := ("permanently" if en else "para sempre") if str(s.get("tipo", "")) == "hard" or ate <= 0 else \
-			(("until %s" if en else "até %s") % Time.get_datetime_string_from_unix_time(ate + int(Time.get_time_zone_from_system().get("bias", 0)) * 60, true).substr(0, 16))
-		var b: Array = [["titulo", "Account suspended" if en else "Conta suspensa"],
-			["centro", ("Your account can't play online %s." if en else "Sua conta não pode jogar online %s.") % quando]]
+		var quando := Sessao.t("para sempre") if str(s.get("tipo", "")) == "hard" or ate <= 0 else \
+			(Sessao.t("até %s") % Time.get_datetime_string_from_unix_time(ate + int(Time.get_time_zone_from_system().get("bias", 0)) * 60, true).substr(0, 16))
+		var b: Array = [["titulo", Sessao.t("Conta suspensa")],
+			["centro", Sessao.t("Sua conta não pode jogar online %s.") % quando]]
 		if str(s.get("motivo", "")) != "":
-			b.append(["centro", ("Reason: %s" if en else "Motivo: %s") % str(s["motivo"])])
+			b.append(["centro", Sessao.t("Motivo: %s") % str(s["motivo"])])
 		b.append(["espaco"])
-		b.append(["centro", "Offline modes keep working." if en else "Os modos offline continuam funcionando."])
+		b.append(["centro", Sessao.t("Os modos offline continuam funcionando.")])
 		perg.abrir(b)
 		return
 	for c in Sessao.perfil.get("correio", []):
@@ -2084,8 +2196,7 @@ func _avisar_progresso() -> void:
 	var ev := Progresso.verificar()
 	if ev.is_empty():
 		return
-	var en := Sessao.idioma == "en"
-	var b: Array = [["titulo", "Achievements" if en else "Conquistas"]]
+	var b: Array = [["titulo", Sessao.t("Conquistas")]]
 	for e in ev:
 		b.append(["item", e["texto"]])
 		b.append(["centro", Progresso.premio_txt(e["premio"])])
@@ -2100,9 +2211,8 @@ func _relatorio_erros() -> void:
 	if n == 0:
 		mp.avisar(Sessao.t("Nenhum erro registrado. Ótimo!"))
 		return
-	var en := Sessao.idioma == "en"
-	var b: Array = [["titulo", "Error report" if en else "Relatório de erros"],
-		["centro", ("%d errors saved on this device." if en else "%d erros guardados neste aparelho.") % n], ["divisor"]]
+	var b: Array = [["titulo", Sessao.t("Relatório de erros")],
+		["centro", Sessao.t("%d erros guardados neste aparelho.") % n], ["divisor"]]
 	var linhas := RegistroErros.texto().split("\n", false)
 	for ln in linhas.slice(maxi(0, linhas.size() - 40)):
 		b.append(["txt", ln])
@@ -2207,8 +2317,7 @@ func _desenhar_cortina(v: float) -> void:
 
 ## Carta do correio (mensagem do KodeX pelo painel): texto, quem assina e os itens; ao fechar, marca como lida.
 func _abrir_carta(c: Dictionary) -> void:
-	var en := Sessao.idioma == "en"
-	var b: Array = [["titulo", "Message from KodeX" if en else "Mensagem do KodeX"], ["espaco"]]
+	var b: Array = [["titulo", Sessao.t("Mensagem do KodeX")], ["espaco"]]
 	for ln in Fonte57.quebrar(str(c.get("msg", "")), 250):
 		b.append(["centro", ln])
 	b.append(["centro", "— " + str(c.get("de", "KodeX"))])
@@ -2220,10 +2329,10 @@ func _abrir_carta(c: Dictionary) -> void:
 	if int(it.get("boosters", 0)) > 0:
 		b.append(["destaque", "+%d" % int(it["boosters"]), "booster"])
 	if int(it.get("essencia", 0)) > 0:
-		b.append(["centro", ("+%d Essence" if en else "+%d de Essência") % int(it["essencia"])])
+		b.append(["centro", Sessao.t("+%d de Essência") % int(it["essencia"])])
 	for cid in it.get("cartas", []):
 		if Sessao.db["cartas"].has(cid):
-			b.append(["centro", ("Card: %s" if en else "Carta: %s") % str(Sessao.db["cartas"][cid]["nome"])])
+			b.append(["centro", Sessao.t("Carta: %s") % str(Sessao.db["cartas"][cid]["nome"])])
 	perg.abrir(b, func() -> void:                       # só conta como lida quando a pessoa fecha ESTA carta
 		c["lido"] = true
 		Sessao.salvar_so_local()

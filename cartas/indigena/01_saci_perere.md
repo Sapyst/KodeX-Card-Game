@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Furtivo. Despertar: uma Entidade inimiga não ataca no próximo turno dela.
+Furtivo. Despertar: Congele uma Entidade inimiga.
 
 ## Contexto mitológico
 O Saci é o mais popular dos seres do folclore brasileiro e um dos de origem mais discutida. O registro mais antigo, no Norte, é o de um pássaro — a *matintaperera*, cujo assobio anuncia azar — e o nome vem do tupi *çaa cy perereg*, "olho furado que pula". Câmara Cascudo (*Dicionário do Folclore Brasileiro*) mostra a figura descendo rumo ao Sul e ganhando, pelo caminho, a perna única, a carapuça vermelha e o cachimbo, elementos que o inquérito de Monteiro Lobato (*O Saci-Pererê: resultado de um inquérito*, 1918) já encontrava consolidados em São Paulo.

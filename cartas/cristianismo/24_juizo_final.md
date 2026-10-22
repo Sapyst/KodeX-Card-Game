@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Destrua todas as Entidades em campo, inimigas e suas. Depois, uma Entidade aleatória do seu cemitério volta à sua mão.
+Destrua todas as Entidades, suas e inimigas. Depois, devolva uma Entidade aleatória do seu cemitério para a mão.
 
 ## Contexto mitológico
 "Quando o Filho do Homem vier na sua glória... todas as nações serão reunidas diante dele, e ele separará uns dos outros, como o pastor separa as ovelhas dos cabritos" (Mt 25,31-33). O Apocalipse descreve a cena final: "Vi um grande trono branco... e vi os mortos, grandes e pequenos, em pé diante do trono; e abriram-se livros" (Ap 20,11-12). Daniel já tinha visto o Ancião de dias sentado, "o seu trono eram chamas de fogo", e os livros abertos (Dn 7,9-10). O Juízo é universal: ninguém fica de pé por conta própria — todos passam pelo mesmo tribunal.

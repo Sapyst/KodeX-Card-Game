@@ -1,0 +1,5762 @@
+{
+ "CIMA": [
+  {
+   "onde": "mesa.gd:1185",
+   "funcao": "func _escolher_face(c: Carta, dest: Vector2) -> bool:",
+   "linha": "{\"rect\": Rect2(dest.x - 38, y, 34, 11), \"texto\": \"CIMA\", \"valor\": true},"
+  }
+ ],
+ "BAIXO": [
+  {
+   "onde": "mesa.gd:1186",
+   "funcao": "func _escolher_face(c: Carta, dest: Vector2) -> bool:",
+   "linha": "{\"rect\": Rect2(dest.x + 4, y, 34, 11), \"texto\": \"BAIXO\", \"valor\": false}]"
+  }
+ ],
+ "VITÓRIA": [
+  {
+   "onde": "efeitos.gd:10",
+   "funcao": "",
+   "linha": "var faixa := \"\"                        # \"VITÓRIA\" / \"DERROTA\" / \"\""
+  },
+  {
+   "onde": "efeitos.gd:217",
+   "funcao": "func _desenhar_faixa() -> void:",
+   "linha": "var vit := faixa == \"VITÓRIA\""
+  },
+  {
+   "onde": "mesa.gd:1493",
+   "funcao": "func _vitoria() -> void:",
+   "linha": "efeitos.faixa = \"VITÓRIA\""
+  }
+ ],
+ "DERROTA": [
+  {
+   "onde": "efeitos.gd:10",
+   "funcao": "",
+   "linha": "var faixa := \"\"                        # \"VITÓRIA\" / \"DERROTA\" / \"\""
+  },
+  {
+   "onde": "fluxo.gd:1736",
+   "funcao": "func _draw() -> void:",
+   "linha": "PixelFonte.centrado(self, Vector2(180, 290 - 20 * (1.0 - e)), Sessao.t(\"DERROTA\"), Color(0.91, 0.42, 0.42, e), 4, ESCURO)"
+  },
+  {
+   "onde": "mesa.gd:1517",
+   "funcao": "func _derrota() -> void:",
+   "linha": "efeitos.faixa = \"DERROTA\""
+  }
+ ],
+ "EMPATE": [
+  {
+   "onde": "mesa.gd:1866",
+   "funcao": "func _encerrar(v: int, motivo := \"\") -> void:",
+   "linha": "efeitos.faixa = \"EMPATE\""
+  }
+ ],
+ "PULAR": [
+  {
+   "onde": "carrossel.gd:330",
+   "funcao": "func _draw() -> void:",
+   "linha": "PixelFonte.centrado(self, _btn.get_center(), Sessao.t(\"PULAR\") if modo == \"escolher\" else Sessao.t(\"FECHAR\"), Color(\"#ffe39a\"), 1)"
+  },
+  {
+   "onde": "mesa.gd:2182",
+   "funcao": "func pedir_alvo(cands: Array, dica: String, botao := \"PULAR\", fonte = null):",
+   "linha": "func pedir_alvo(cands: Array, dica: String, botao := \"PULAR\", fonte = null):"
+  },
+  {
+   "onde": "motor_efeitos.gd:315",
+   "funcao": "func _escolher(dono: int, cands: Array, acao: Dictionary, ctx: Dictionary) -> Ar",
+   "linha": "esc = await m.pedir_alvo(cands, _dica_alvo(acao), \"PULAR\", ctx.get(\"fonte\"))"
+  }
+ ],
+ "CANCELAR": [
+  {
+   "onde": "mesa.gd:2391",
+   "funcao": "func _soltar_da_mao_partida(c: Carta, p: Vector2) -> void:",
+   "linha": "var s = await pedir_alvo(cands, \"SACRIFIQUE %d\" % (sac - k), \"CANCELAR\")"
+  }
+ ],
+ "REVIVER QUAL?": [
+  {
+   "onde": "mesa.gd:2256",
+   "funcao": "func pedir_cemiterio(cands: Array, titulo := \"REVIVER QUAL?\"):",
+   "linha": "func pedir_cemiterio(cands: Array, titulo := \"REVIVER QUAL?\"):"
+  }
+ ],
+ "SEM FÉ": [
+  {
+   "onde": "mesa.gd:2290",
+   "funcao": "func _motivo_jogar(c: Carta, d: int) -> String:",
+   "linha": "return \"SEM FÉ\""
+  }
+ ],
+ "SACRIFÍCIO %d": [
+  {
+   "onde": "mesa.gd:2296",
+   "funcao": "func _motivo_jogar(c: Carta, d: int) -> String:",
+   "linha": "return \"SACRIFÍCIO %d\" % sac"
+  }
+ ],
+ "SACRIFIQUE %d": [
+  {
+   "onde": "mesa.gd:2391",
+   "funcao": "func _soltar_da_mao_partida(c: Carta, p: Vector2) -> void:",
+   "linha": "var s = await pedir_alvo(cands, \"SACRIFIQUE %d\" % (sac - k), \"CANCELAR\")"
+  }
+ ],
+ "CAMPO CHEIO": [
+  {
+   "onde": "mesa.gd:2298",
+   "funcao": "func _motivo_jogar(c: Carta, d: int) -> String:",
+   "linha": "return \"CAMPO CHEIO\""
+  }
+ ],
+ "SEM ESPAÇO": [
+  {
+   "onde": "mesa.gd:2303",
+   "funcao": "func _motivo_jogar(c: Carta, d: int) -> String:",
+   "linha": "return \"SEM ESPAÇO\""
+  }
+ ],
+ "SEM PORTADORA": [
+  {
+   "onde": "mesa.gd:2306",
+   "funcao": "func _motivo_jogar(c: Carta, d: int) -> String:",
+   "linha": "return \"SEM PORTADORA\""
+  }
+ ],
+ "SEM ALVO": [
+  {
+   "onde": "mesa.gd:2309",
+   "funcao": "func _motivo_jogar(c: Carta, d: int) -> String:",
+   "linha": "return \"SEM ALVO\""
+  }
+ ],
+ "VIRADA": [
+  {
+   "onde": "mesa.gd:2618",
+   "funcao": "func _pode_atacar(c: Carta, alvo: Carta) -> String:",
+   "linha": "return \"VIRADA\""
+  }
+ ],
+ "CONGELADA": [
+  {
+   "onde": "mesa.gd:2620",
+   "funcao": "func _pode_atacar(c: Carta, alvo: Carta) -> String:",
+   "linha": "return \"CONGELADA\""
+  },
+  {
+   "onde": "motor_efeitos.gd:740",
+   "funcao": "func aplicar_em_alvo(op: String, a: Dictionary, t, ctx: Dictionary) -> void:",
+   "linha": "m.efeitos.numero(t.position + Vector2(0, -20), \"CONGELADA\", COR_GELO, 1)"
+  }
+ ],
+ "CANSADA": [
+  {
+   "onde": "mesa.gd:2622",
+   "funcao": "func _pode_atacar(c: Carta, alvo: Carta) -> String:",
+   "linha": "return \"CANSADA\""
+  }
+ ],
+ "JÁ ATACOU": [
+  {
+   "onde": "mesa.gd:2624",
+   "funcao": "func _pode_atacar(c: Carta, alvo: Carta) -> String:",
+   "linha": "return \"JÁ ATACOU\""
+  }
+ ],
+ "HÁ DEFENSORES": [
+  {
+   "onde": "mesa.gd:2627",
+   "funcao": "func _pode_atacar(c: Carta, alvo: Carta) -> String:",
+   "linha": "return \"\" if _campo_vazio(inimigo) else \"HÁ DEFENSORES\""
+  }
+ ],
+ "GUARDA": [
+  {
+   "onde": "efeitos.gd:262",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "kw += Sessao.t({\"guarda\": \"GUARDA\", \"impeto\": \"ÍMPETO\", \"furtivo\": \"FURTIVO\", \"renascer\": \"RENASCER\"}.get(k, \"\")) + \" \""
+  },
+  {
+   "onde": "efeitos.gd:297",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "kws += Sessao.t({\"guarda\": \"GUARDA\", \"impeto\": \"ÍMPETO\", \"furtivo\": \"FURTIVO\", \"renascer\": \"RENASCER\"}.get(k, \"\")) + \" \""
+  },
+  {
+   "onde": "mesa.gd:2634",
+   "funcao": "func _pode_atacar(c: Carta, alvo: Carta) -> String:",
+   "linha": "return \"GUARDA\""
+  }
+ ],
+ "DANO %d": [
+  {
+   "onde": "sessao.gd:181",
+   "funcao": "func trocar_idioma() -> void:",
+   "linha": "## Aceita números variáveis (\"DANO 3\" → chave \"DANO %d\") e prefixos (\"BUSCA ENTIDADE\" → \"SEARCH \" + resto)."
+  },
+  {
+   "onde": "motor_efeitos.gd:106",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"damage\": return \"DANO %d\" % n"
+  }
+ ],
+ "CURA %d": [
+  {
+   "onde": "motor_efeitos.gd:107",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"heal\": return \"CURA %d\" % n"
+  }
+ ],
+ "COMPRE %d": [
+  {
+   "onde": "motor_efeitos.gd:108",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"draw\": return \"COMPRE %d\" % n"
+  }
+ ],
+ "BUSCA ": [
+  {
+   "onde": "sessao.gd:196",
+   "funcao": "func t(s: String) -> String:",
+   "linha": "for pre in [\"BUSCA \", \"INVOCA \", \"ALVO: \", \"SELO: \"]:"
+  },
+  {
+   "onde": "motor_efeitos.gd:109",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"search\": return \"BUSCA \" + str(a.get(\"tipo\", \"CARTA\")).to_upper()"
+  }
+ ],
+ "DESTRUIR": [
+  {
+   "onde": "motor_efeitos.gd:113",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"destroy\": return \"DESTRUIR\""
+  }
+ ],
+ "DEVOLVER": [
+  {
+   "onde": "motor_efeitos.gd:114",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"bounce\": return \"DEVOLVER\""
+  }
+ ],
+ "INVOCA ": [
+  {
+   "onde": "sessao.gd:196",
+   "funcao": "func t(s: String) -> String:",
+   "linha": "for pre in [\"BUSCA \", \"INVOCA \", \"ALVO: \", \"SELO: \"]:"
+  },
+  {
+   "onde": "motor_efeitos.gd:115",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"summon\": return \"INVOCA \" + Sessao.nome_token(str(a.get(\"nome\", \"TOKEN\"))).to_upper()"
+  }
+ ],
+ "REVIVE": [
+  {
+   "onde": "motor_efeitos.gd:116",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"revive\": return \"REVIVE\""
+  },
+  {
+   "onde": "motor_efeitos.gd:851",
+   "funcao": "func _reviver(d: int, e, para: String) -> void:",
+   "linha": "m.efeitos.numero(c.position + Vector2(0, -30), \"REVIVE\", COR_BUFF, 1)"
+  }
+ ],
+ "DESCARTE %d": [
+  {
+   "onde": "motor_efeitos.gd:117",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"discard\": return \"DESCARTE %d\" % n"
+  }
+ ],
+ "+%d FÉ": [
+  {
+   "onde": "motor_efeitos.gd:118",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"gain_fe\": return \"+%d FÉ\" % n"
+  }
+ ],
+ "SILÊNCIO": [
+  {
+   "onde": "motor_efeitos.gd:119",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"silence\": return \"SILÊNCIO\""
+  },
+  {
+   "onde": "motor_efeitos.gd:734",
+   "funcao": "func aplicar_em_alvo(op: String, a: Dictionary, t, ctx: Dictionary) -> void:",
+   "linha": "m.efeitos.numero(t.position + Vector2(0, -20), \"SILÊNCIO\", COR_MUDO, 1)"
+  }
+ ],
+ "CONGELAR": [
+  {
+   "onde": "motor_efeitos.gd:120",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"freeze\": return \"CONGELAR\""
+  }
+ ],
+ "ANULADO": [
+  {
+   "onde": "mesa.gd:2549",
+   "funcao": "func _jogar_rito(c: Carta, d: int, pre = null, tipo_pre := \"\") -> void:",
+   "linha": "efeitos.numero(p + Vector2(0, -50), \"ANULADO\", Color(\"#c88aff\"), 2)"
+  },
+  {
+   "onde": "motor_efeitos.gd:121",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"counter\": return \"ANULADO\""
+  },
+  {
+   "onde": "motor_efeitos.gd:631",
+   "funcao": "func executar_acao(a: Dictionary, ctx: Dictionary) -> void:",
+   "linha": "_texto_centro(\"ANULADO\", COR_DEBUFF)"
+  }
+ ],
+ "CÓPIA": [
+  {
+   "onde": "motor_efeitos.gd:124",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"copy_stats\": return \"CÓPIA\""
+  }
+ ],
+ "DOMINAR": [
+  {
+   "onde": "motor_efeitos.gd:125",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"swap_control\": return \"DOMINAR\""
+  }
+ ],
+ "DOMINADA": [
+  {
+   "onde": "motor_efeitos.gd:884",
+   "funcao": "func roubar(c: Carta, novo: int, perm: bool) -> void:",
+   "linha": "m.efeitos.numero(c.position + Vector2(0, -24), \"DOMINADA\", COR_DEBUFF, 1)"
+  }
+ ],
+ "SIGILO 333": [
+  {
+   "onde": "motor_efeitos.gd:127",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"ritual_choronzon\": return \"SIGILO 333\""
+  },
+  {
+   "onde": "motor_efeitos.gd:928",
+   "funcao": "func _ritual_choronzon(d: int) -> void:",
+   "linha": "_texto_centro(\"SIGILO 333\", COR_DEBUFF)"
+  }
+ ],
+ "ALVO: ": [
+  {
+   "onde": "sessao.gd:196",
+   "funcao": "func t(s: String) -> String:",
+   "linha": "for pre in [\"BUSCA \", \"INVOCA \", \"ALVO: \", \"SELO: \"]:"
+  },
+  {
+   "onde": "mesa.gd:2199",
+   "funcao": "func pedir_alvo(cands: Array, dica: String, botao := \"PULAR\", fonte = null):",
+   "linha": "if dica.begins_with(\"ALVO: \"):"
+  },
+  {
+   "onde": "motor_efeitos.gd:330",
+   "funcao": "static func _dica_alvo(acao: Dictionary) -> String:",
+   "linha": "return \"ALVO: \" + rotulo(acao)"
+  }
+ ],
+ "USOS ESGOTADOS": [
+  {
+   "onde": "motor_efeitos.gd:432",
+   "funcao": "func disparar_efeitos_reliquia(rel: Dictionary, gat: String, ctx_base: Dictionar",
+   "linha": "m.efeitos.numero(port.position + Vector2(0, 44), \"USOS ESGOTADOS\", COR_MUDO, 1)"
+  }
+ ],
+ "NADA NO DECK": [
+  {
+   "onde": "motor_efeitos.gd:774",
+   "funcao": "func _buscar(d: int, a: Dictionary) -> void:",
+   "linha": "m.efeitos.numero(Vector2(180, m.LINHA_Y + 20), \"NADA NO DECK\", COR_MUDO, 1)"
+  },
+  {
+   "onde": "motor_efeitos.gd:786",
+   "funcao": "func _buscar(d: int, a: Dictionary) -> void:",
+   "linha": "m.efeitos.numero(Vector2(180, m.LINHA_Y + 20), \"NADA NO DECK\", COR_MUDO, 1)"
+  }
+ ],
+ "VIDA ATUAL %d": [
+  {
+   "onde": "efeitos.gd:284",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "var s := \"VIDA ATUAL %d\" % maxi(c.vida(), 0)"
+  }
+ ],
+ "SEU TURNO": [
+  {
+   "onde": "mesa.gd:1789",
+   "funcao": "func _inicio_turno(d: int) -> void:",
+   "linha": "efeitos.numero(Vector2(180, LINHA_Y - 4), \"SEU TURNO\" if d == 0 else \"TURNO DELE\", Color(\"#ffe39a\") if d == 0 else Color(\"#cfe0ff\"), 2)"
+  },
+  {
+   "onde": "mesa.gd:3025",
+   "funcao": "func _roteiro_efeitos() -> void:",
+   "linha": "efeitos.numero(Vector2(180, LINHA_Y - 4), \"SEU TURNO\", Color(\"#ffe39a\"), 2)"
+  }
+ ],
+ "TURNO DELE": [
+  {
+   "onde": "mesa.gd:1789",
+   "funcao": "func _inicio_turno(d: int) -> void:",
+   "linha": "efeitos.numero(Vector2(180, LINHA_Y - 4), \"SEU TURNO\" if d == 0 else \"TURNO DELE\", Color(\"#ffe39a\") if d == 0 else Color(\"#cfe0ff\"), 2)"
+  }
+ ],
+ "FIM TURNO": [
+  {
+   "onde": "mesa.gd:840",
+   "funcao": "func _desenhar_placar() -> void:",
+   "linha": "var rot := \"FIM TURNO\" if vez else ((\"RÁPIDO\" if acelerar_ia else \">> RÁPIDO\") if ia else \"AGUARDE\")"
+  }
+ ],
+ "AGUARDE": [
+  {
+   "onde": "mesa.gd:840",
+   "funcao": "func _desenhar_placar() -> void:",
+   "linha": "var rot := \"FIM TURNO\" if vez else ((\"RÁPIDO\" if acelerar_ia else \">> RÁPIDO\") if ia else \"AGUARDE\")"
+  }
+ ],
+ "MUDO": [
+  {
+   "onde": "carta.gd:143",
+   "funcao": "func _draw() -> void:",
+   "linha": "PixelFonte.centrado(self, Vector2(x0 + LARG / 2, y0 + 45), Sessao.t(\"MUDO\"), Color(\"#b8b4c0\"))"
+  }
+ ],
+ "SELO": [
+  {
+   "onde": "carta.gd:244",
+   "funcao": "func _frente(x0: int, y0: int) -> void:",
+   "linha": "PixelFonte.centrado(self, Vector2(x0 + LARG / 2, y0 + ALT - 7), Sessao.t(\"SELO\"), Color(\"#c8b0f0\"))"
+  },
+  {
+   "onde": "colecao.gd:86",
+   "funcao": "func rotulo_filtro(qual: String) -> String:",
+   "linha": "\"tipo\": return Sessao.t({\"\": \"TIPO\", \"entidade\": \"ENTIDADE\", \"selo\": \"SELO\", \"rito\": \"RITO\", \"reliquia\": \"RELÍQUIA\"}[tipo])"
+  },
+  {
+   "onde": "efeitos.gd:263",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "var info := \"%s  %s %d\" % [Sessao.t({\"entidade\": \"ENTIDADE\", \"selo\": \"SELO\", \"rito\": \"RITO\", \"reliquia\": \"RELÍQUIA\"}.get(c.tipo, \"\")), Sessao.t(\"CUSTO\"), c.custo]"
+  },
+  {
+   "onde": "efeitos.gd:289",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "var tipo_txt: String = Sessao.t({\"entidade\": \"ENTIDADE\", \"selo\": \"SELO\", \"rito\": \"RITO\", \"reliquia\": \"RELÍQUIA\"}.get(c.tipo, c.tipo.to_upper()))"
+  }
+ ],
+ "RITO": [
+  {
+   "onde": "carta.gd:246",
+   "funcao": "func _frente(x0: int, y0: int) -> void:",
+   "linha": "PixelFonte.centrado(self, Vector2(x0 + LARG / 2, y0 + ALT - 7), Sessao.t(\"RITO\"), Color(\"#a8e0b8\"))"
+  },
+  {
+   "onde": "colecao.gd:86",
+   "funcao": "func rotulo_filtro(qual: String) -> String:",
+   "linha": "\"tipo\": return Sessao.t({\"\": \"TIPO\", \"entidade\": \"ENTIDADE\", \"selo\": \"SELO\", \"rito\": \"RITO\", \"reliquia\": \"RELÍQUIA\"}[tipo])"
+  },
+  {
+   "onde": "efeitos.gd:263",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "var info := \"%s  %s %d\" % [Sessao.t({\"entidade\": \"ENTIDADE\", \"selo\": \"SELO\", \"rito\": \"RITO\", \"reliquia\": \"RELÍQUIA\"}.get(c.tipo, \"\")), Sessao.t(\"CUSTO\"), c.custo]"
+  },
+  {
+   "onde": "efeitos.gd:289",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "var tipo_txt: String = Sessao.t({\"entidade\": \"ENTIDADE\", \"selo\": \"SELO\", \"rito\": \"RITO\", \"reliquia\": \"RELÍQUIA\"}.get(c.tipo, c.tipo.to_upper()))"
+  }
+ ],
+ "RELÍQUIA": [
+  {
+   "onde": "carta.gd:248",
+   "funcao": "func _frente(x0: int, y0: int) -> void:",
+   "linha": "PixelFonte.centrado(self, Vector2(x0 + LARG / 2, y0 + ALT - 7), Sessao.t(\"RELÍQUIA\"), Color(\"#ffe39a\"))"
+  },
+  {
+   "onde": "colecao.gd:86",
+   "funcao": "func rotulo_filtro(qual: String) -> String:",
+   "linha": "\"tipo\": return Sessao.t({\"\": \"TIPO\", \"entidade\": \"ENTIDADE\", \"selo\": \"SELO\", \"rito\": \"RITO\", \"reliquia\": \"RELÍQUIA\"}[tipo])"
+  },
+  {
+   "onde": "efeitos.gd:263",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "var info := \"%s  %s %d\" % [Sessao.t({\"entidade\": \"ENTIDADE\", \"selo\": \"SELO\", \"rito\": \"RITO\", \"reliquia\": \"RELÍQUIA\"}.get(c.tipo, \"\")), Sessao.t(\"CUSTO\"), c.custo]"
+  },
+  {
+   "onde": "efeitos.gd:289",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "var tipo_txt: String = Sessao.t({\"entidade\": \"ENTIDADE\", \"selo\": \"SELO\", \"rito\": \"RITO\", \"reliquia\": \"RELÍQUIA\"}.get(c.tipo, c.tipo.to_upper()))"
+  }
+ ],
+ "ENTIDADE": [
+  {
+   "onde": "colecao.gd:86",
+   "funcao": "func rotulo_filtro(qual: String) -> String:",
+   "linha": "\"tipo\": return Sessao.t({\"\": \"TIPO\", \"entidade\": \"ENTIDADE\", \"selo\": \"SELO\", \"rito\": \"RITO\", \"reliquia\": \"RELÍQUIA\"}[tipo])"
+  },
+  {
+   "onde": "efeitos.gd:263",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "var info := \"%s  %s %d\" % [Sessao.t({\"entidade\": \"ENTIDADE\", \"selo\": \"SELO\", \"rito\": \"RITO\", \"reliquia\": \"RELÍQUIA\"}.get(c.tipo, \"\")), Sessao.t(\"CUSTO\"), c.custo]"
+  },
+  {
+   "onde": "efeitos.gd:289",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "var tipo_txt: String = Sessao.t({\"entidade\": \"ENTIDADE\", \"selo\": \"SELO\", \"rito\": \"RITO\", \"reliquia\": \"RELÍQUIA\"}.get(c.tipo, c.tipo.to_upper()))"
+  }
+ ],
+ "ÍMPETO": [
+  {
+   "onde": "efeitos.gd:262",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "kw += Sessao.t({\"guarda\": \"GUARDA\", \"impeto\": \"ÍMPETO\", \"furtivo\": \"FURTIVO\", \"renascer\": \"RENASCER\"}.get(k, \"\")) + \" \""
+  },
+  {
+   "onde": "efeitos.gd:297",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "kws += Sessao.t({\"guarda\": \"GUARDA\", \"impeto\": \"ÍMPETO\", \"furtivo\": \"FURTIVO\", \"renascer\": \"RENASCER\"}.get(k, \"\")) + \" \""
+  },
+  {
+   "onde": "mesa.gd:2479",
+   "funcao": "func _jogar_entidade(c: Carta, d: int, i: int, sacrificios: Array = []) -> void:",
+   "linha": "efeitos.numero(c.position + Vector2(0, -34), \"ÍMPETO\", Color(\"#ffe39a\"), 1)"
+  }
+ ],
+ "FURTIVO": [
+  {
+   "onde": "efeitos.gd:262",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "kw += Sessao.t({\"guarda\": \"GUARDA\", \"impeto\": \"ÍMPETO\", \"furtivo\": \"FURTIVO\", \"renascer\": \"RENASCER\"}.get(k, \"\")) + \" \""
+  },
+  {
+   "onde": "efeitos.gd:297",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "kws += Sessao.t({\"guarda\": \"GUARDA\", \"impeto\": \"ÍMPETO\", \"furtivo\": \"FURTIVO\", \"renascer\": \"RENASCER\"}.get(k, \"\")) + \" \""
+  }
+ ],
+ "RENASCER": [
+  {
+   "onde": "efeitos.gd:262",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "kw += Sessao.t({\"guarda\": \"GUARDA\", \"impeto\": \"ÍMPETO\", \"furtivo\": \"FURTIVO\", \"renascer\": \"RENASCER\"}.get(k, \"\")) + \" \""
+  },
+  {
+   "onde": "efeitos.gd:297",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "kws += Sessao.t({\"guarda\": \"GUARDA\", \"impeto\": \"ÍMPETO\", \"furtivo\": \"FURTIVO\", \"renascer\": \"RENASCER\"}.get(k, \"\")) + \" \""
+  },
+  {
+   "onde": "mesa.gd:2642",
+   "funcao": "func _renascer(c: Carta) -> void:",
+   "linha": "efeitos.numero(c.position + Vector2(0, -34), \"RENASCER\", Color(\"#ffe39a\"), 1)"
+  }
+ ],
+ "LENDARIA": [],
+ "CUSTO %d": [],
+ "MAIS TARDE": [
+  {
+   "onde": "mesa.gd:1614",
+   "funcao": "func _demo() -> void:",
+   "linha": "efeitos.numero(Vector2(180, LINHA_Y - 40), \"MAIS TARDE\", Color(\"#f2e6c8\"), 2)"
+  }
+ ],
+ "TOQUE UM ALVO": [
+  {
+   "onde": "efeitos.gd:21",
+   "funcao": "",
+   "linha": "var dica := \"\"                         # instrução fixa enquanto o jogador escolhe um alvo (\"TOQUE UM ALVO\")"
+  }
+ ],
+ "SELO: ": [
+  {
+   "onde": "sessao.gd:196",
+   "funcao": "func t(s: String) -> String:",
+   "linha": "for pre in [\"BUSCA \", \"INVOCA \", \"ALVO: \", \"SELO: \"]:"
+  }
+ ],
+ "Torneio": [
+  {
+   "onde": "fluxo.gd:1909",
+   "funcao": "func _desenhar_botao(b: Dictionary, i: int) -> void:",
+   "linha": "var principal: bool = b[\"texto\"] in [\"Torneio\", \"Jogar\", \"Tentar de novo\"] or b.get(\"ouro\", false)"
+  },
+  {
+   "onde": "historico.gd:7",
+   "funcao": "",
+   "linha": "const MODOS := {\"arcade\": \"Arcade\", \"arcade_t\": \"Torneio de 8\", \"torneio\": \"Torneio\","
+  },
+  {
+   "onde": "menu_principal.gd:32",
+   "funcao": "func modos() -> Array:",
+   "linha": "{\"nome\": \"Torneio\", \"sub\": torneio_sub, \"retrato\": adv, \"cor\": Color(\"#8b1a1a\"), \"acao\": f._torneio},"
+  }
+ ],
+ "Arcade": [
+  {
+   "onde": "fluxo.gd:1271",
+   "funcao": "func _pos_luta_arcade() -> void:",
+   "linha": "lista.append({\"quem\": \"Arcade\", \"texto\": Sessao.t(\"Vitória!\" if Sessao.resultado == \"vitoria\" else (\"Derrota.\" if Sessao.resultado == \"derrota\" else \"Empate.\")), \"cor\": OURO[0], \"retrato\": \"\"})"
+  },
+  {
+   "onde": "fluxo.gd:1274",
+   "funcao": "func _pos_luta_arcade() -> void:",
+   "linha": "lista.append({\"quem\": \"Arcade\", \"texto\": Sessao.t(\"+%d moedas! Agora você tem %d.\") % [Sessao.moedas_arcade(), Sessao.moedas()], \"cor\": OURO[0], \"retrato\": \"\"})"
+  },
+  {
+   "onde": "fluxo.gd:1676",
+   "funcao": "func _draw() -> void:",
+   "linha": "_cabecalho(\"Arcade\", Sessao.t(\"toque nas opções para trocar\"))"
+  },
+  {
+   "onde": "historico.gd:7",
+   "funcao": "",
+   "linha": "const MODOS := {\"arcade\": \"Arcade\", \"arcade_t\": \"Torneio de 8\", \"torneio\": \"Torneio\","
+  }
+ ],
+ "Jogar": [
+  {
+   "onde": "fluxo.gd:598",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 428, 180, 30), \"Jogar\", _comecar_arcade)"
+  },
+  {
+   "onde": "fluxo.gd:1909",
+   "funcao": "func _desenhar_botao(b: Dictionary, i: int) -> void:",
+   "linha": "var principal: bool = b[\"texto\"] in [\"Torneio\", \"Jogar\", \"Tentar de novo\"] or b.get(\"ouro\", false)"
+  },
+  {
+   "onde": "fluxo.gd:2018",
+   "funcao": "func _autoplay() -> void:",
+   "linha": "tocar(_btn([\"Jogar\"]))"
+  },
+  {
+   "onde": "modos_solo.gd:426",
+   "funcao": "func botoes_diario() -> void:",
+   "linha": "f._botao(Rect2(90, 420, 180, 30), \"Jogar\", jogar_diario)"
+  }
+ ],
+ "Voltar": [
+  {
+   "onde": "fluxo.gd:449",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(110, 604, 140, 26), \"Voltar\", func() -> void: _ir(\"colecao\"))"
+  },
+  {
+   "onde": "fluxo.gd:471",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(110, 510, 140, 26), \"Voltar\", func() -> void: _ir(\"perfil\"))"
+  },
+  {
+   "onde": "fluxo.gd:505",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(110, 512, 140, 26), \"Voltar\", func() -> void: _ir(\"cosmeticos\"))"
+  },
+  {
+   "onde": "fluxo.gd:557",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(258, 570, 86, 26), \"Voltar\", func() -> void: _ir(\"decks\"))"
+  }
+ ],
+ "Tentar de novo": [
+  {
+   "onde": "fluxo.gd:1243",
+   "funcao": "func _botoes_derrota() -> void:",
+   "linha": "_botao(Rect2(90, 380, 180, 30), \"Tentar de novo\", func() -> void: Sessao.preparar_luta_torneio(); _jogar())"
+  },
+  {
+   "onde": "fluxo.gd:1909",
+   "funcao": "func _desenhar_botao(b: Dictionary, i: int) -> void:",
+   "linha": "var principal: bool = b[\"texto\"] in [\"Torneio\", \"Jogar\", \"Tentar de novo\"] or b.get(\"ouro\", false)"
+  }
+ ],
+ "Menu": [
+  {
+   "onde": "fluxo.gd:1244",
+   "funcao": "func _botoes_derrota() -> void:",
+   "linha": "_botao(Rect2(90, 422, 180, 30), \"Menu\", func() -> void: Sessao.modo = \"\"; _ir(\"titulo\"))"
+  }
+ ],
+ "Narrador": [
+  {
+   "onde": "fluxo.gd:1228",
+   "funcao": "func _pos_luta_torneio() -> void:",
+   "linha": "lista.append({\"quem\": Sessao.t(\"Narrador\"), \"texto\": t, \"cor\": OURO[0], \"retrato\": \"\"})"
+  },
+  {
+   "onde": "fluxo.gd:1236",
+   "funcao": "func _pos_luta_torneio() -> void:",
+   "linha": "lista.append({\"quem\": Sessao.t(\"Narrador\"), \"texto\": t, \"cor\": OURO[0], \"retrato\": \"\"})"
+  },
+  {
+   "onde": "fluxo.gd:1651",
+   "funcao": "func _torneio() -> void:",
+   "linha": "_falar_lista(Sessao.lore.get(\"prologo\", []), Sessao.t(\"Narrador\"), OURO[0], \"\", func() -> void: _comecar_torneio(\"\"))"
+  }
+ ],
+ "Você": [
+  {
+   "onde": "sessao.gd:1062",
+   "funcao": "func ta_nome(pid: String) -> String:",
+   "linha": "return n if n != \"\" else t(\"Você\")"
+  },
+  {
+   "onde": "fluxo.gd:1122",
+   "funcao": "func _pre_luta_torneio() -> void:",
+   "linha": "lista.append({\"quem\": Sessao.t(\"Você\"), \"texto\": p[\"resposta_jogador\"], \"cor\": CREME, \"retrato\": \"\"})"
+  },
+  {
+   "onde": "historico.gd:124",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "var quem := Sessao.t(\"Você\") if int(ln[1]) == 0 else str(p.get(\"adversario\", Sessao.t(\"Oponente\")))"
+  },
+  {
+   "onde": "mesa.gd:4261",
+   "funcao": "func _preparar_retratos() -> void:",
+   "linha": "ret_nome[0] = Sessao.t(\"Você\")"
+  }
+ ],
+ "Vitória!": [
+  {
+   "onde": "fluxo.gd:1271",
+   "funcao": "func _pos_luta_arcade() -> void:",
+   "linha": "lista.append({\"quem\": \"Arcade\", \"texto\": Sessao.t(\"Vitória!\" if Sessao.resultado == \"vitoria\" else (\"Derrota.\" if Sessao.resultado == \"derrota\" else \"Empate.\")), \"cor\": OURO[0], \"retrato\": \"\"})"
+  }
+ ],
+ "Derrota.": [
+  {
+   "onde": "fluxo.gd:1271",
+   "funcao": "func _pos_luta_arcade() -> void:",
+   "linha": "lista.append({\"quem\": \"Arcade\", \"texto\": Sessao.t(\"Vitória!\" if Sessao.resultado == \"vitoria\" else (\"Derrota.\" if Sessao.resultado == \"derrota\" else \"Empate.\")), \"cor\": OURO[0], \"retrato\": \"\"})"
+  }
+ ],
+ "Empate.": [
+  {
+   "onde": "fluxo.gd:1271",
+   "funcao": "func _pos_luta_arcade() -> void:",
+   "linha": "lista.append({\"quem\": \"Arcade\", \"texto\": Sessao.t(\"Vitória!\" if Sessao.resultado == \"vitoria\" else (\"Derrota.\" if Sessao.resultado == \"derrota\" else \"Empate.\")), \"cor\": OURO[0], \"retrato\": \"\"})"
+  }
+ ],
+ "Luta %d de 6": [
+  {
+   "onde": "fluxo.gd:1118",
+   "funcao": "func _pre_luta_torneio() -> void:",
+   "linha": "lista.append({\"quem\": Sessao.t(\"Luta %d de 6\") % (Sessao.torneio_idx + 1), \"texto\": Sessao.t(\"%s, %s, entra na arena com o deck de %s.\") % [p.get(\"nome\", op), p.get(\"titulo\", \"\"), Sessao.nome_deck(op)"
+  },
+  {
+   "onde": "menu_principal.gd:29",
+   "funcao": "func modos() -> Array:",
+   "linha": "torneio_sub = Sessao.t(\"Luta %d de 6\") % (Sessao.torneio_idx + 1)"
+  }
+ ],
+ "%s, %s, entra na arena com o deck de %s.": [
+  {
+   "onde": "fluxo.gd:1118",
+   "funcao": "func _pre_luta_torneio() -> void:",
+   "linha": "lista.append({\"quem\": Sessao.t(\"Luta %d de 6\") % (Sessao.torneio_idx + 1), \"texto\": Sessao.t(\"%s, %s, entra na arena com o deck de %s.\") % [p.get(\"nome\", op), p.get(\"titulo\", \"\"), Sessao.nome_deck(op)"
+  }
+ ],
+ "Escolha o seu deck": [
+  {
+   "onde": "fluxo.gd:1674",
+   "funcao": "func _draw() -> void:",
+   "linha": "_cabecalho(Sessao.t(\"Escolha o seu deck\"), Sessao.t(\"seis tradições, um Códice\"))"
+  }
+ ],
+ "seis tradições, um Códice": [
+  {
+   "onde": "fluxo.gd:1674",
+   "funcao": "func _draw() -> void:",
+   "linha": "_cabecalho(Sessao.t(\"Escolha o seu deck\"), Sessao.t(\"seis tradições, um Códice\"))"
+  }
+ ],
+ "toque nas opções para trocar": [
+  {
+   "onde": "fluxo.gd:1676",
+   "funcao": "func _draw() -> void:",
+   "linha": "_cabecalho(\"Arcade\", Sessao.t(\"toque nas opções para trocar\"))"
+  }
+ ],
+ "o torneio do Códice": [
+  {
+   "onde": "fluxo.gd:1169",
+   "funcao": "func _desenhar_capitulo() -> void:",
+   "linha": "const CREDITOS := [[\"KODEX\", \"\"], [\"o torneio do Códice\", \"the tournament of the Codex\"], [\"\", \"\"],"
+  },
+  {
+   "onde": "fluxo.gd:1800",
+   "funcao": "func _titulo() -> void:",
+   "linha": "_texto_central(Vector2(180, 158), Sessao.t(\"o torneio do Códice\"), Color(0.85, 0.78, 0.66, _entrada(4)))"
+  }
+ ],
+ "Oponente": [
+  {
+   "onde": "fluxo.gd:1865",
+   "funcao": "func _desenhar_botao(b: Dictionary, i: int) -> void:",
+   "linha": "var rotulo: String = Sessao.t({\"oponente\": \"Oponente\", \"meu_deck\": \"Seu deck\", \"deck_dele\": \"Deck do oponente\", \"dificuldade\": \"Dificuldade\"}[campo])"
+  },
+  {
+   "onde": "historico.gd:124",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "var quem := Sessao.t(\"Você\") if int(ln[1]) == 0 else str(p.get(\"adversario\", Sessao.t(\"Oponente\")))"
+  },
+  {
+   "onde": "mesa_hud.gd:334",
+   "funcao": "func _desenhar_carta_hist(h: Dictionary, tl: Rect2) -> void:",
+   "linha": "var quem := Sessao.t(\"Você\") if h[\"dono\"] == 0 else Sessao.t(\"Oponente\")"
+  },
+  {
+   "onde": "modos_solo.gd:553",
+   "funcao": "func botao_campo(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var rotulo := Sessao.t({\"meu\": \"Seu deck\", \"oponente\": \"Oponente\", \"deck_dele\": \"Deck do oponente\", \"dificuldade\": \"Dificuldade\"}[campo])"
+  }
+ ],
+ "Seu deck": [
+  {
+   "onde": "fluxo.gd:1865",
+   "funcao": "func _desenhar_botao(b: Dictionary, i: int) -> void:",
+   "linha": "var rotulo: String = Sessao.t({\"oponente\": \"Oponente\", \"meu_deck\": \"Seu deck\", \"deck_dele\": \"Deck do oponente\", \"dificuldade\": \"Dificuldade\"}[campo])"
+  },
+  {
+   "onde": "modos_solo.gd:553",
+   "funcao": "func botao_campo(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var rotulo := Sessao.t({\"meu\": \"Seu deck\", \"oponente\": \"Oponente\", \"deck_dele\": \"Deck do oponente\", \"dificuldade\": \"Dificuldade\"}[campo])"
+  }
+ ],
+ "Deck do oponente": [
+  {
+   "onde": "fluxo.gd:1865",
+   "funcao": "func _desenhar_botao(b: Dictionary, i: int) -> void:",
+   "linha": "var rotulo: String = Sessao.t({\"oponente\": \"Oponente\", \"meu_deck\": \"Seu deck\", \"deck_dele\": \"Deck do oponente\", \"dificuldade\": \"Dificuldade\"}[campo])"
+  },
+  {
+   "onde": "modos_solo.gd:553",
+   "funcao": "func botao_campo(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var rotulo := Sessao.t({\"meu\": \"Seu deck\", \"oponente\": \"Oponente\", \"deck_dele\": \"Deck do oponente\", \"dificuldade\": \"Dificuldade\"}[campo])"
+  }
+ ],
+ "Aleatório": [
+  {
+   "onde": "fluxo.gd:1923",
+   "funcao": "func _nome_opcao(campo: String, v: String) -> String:",
+   "linha": "return Sessao.t(\"Aleatório\")"
+  }
+ ],
+ "Misto (todas as tradições)": [
+  {
+   "onde": "fluxo.gd:1925",
+   "funcao": "func _nome_opcao(campo: String, v: String) -> String:",
+   "linha": "return Sessao.t(\"Misto (todas as tradições)\")"
+  }
+ ],
+ "O dele (temático)": [
+  {
+   "onde": "fluxo.gd:1927",
+   "funcao": "func _nome_opcao(campo: String, v: String) -> String:",
+   "linha": "return Sessao.t(\"O dele (temático)\")"
+  }
+ ],
+ "Temático aleatório": [
+  {
+   "onde": "fluxo.gd:1929",
+   "funcao": "func _nome_opcao(campo: String, v: String) -> String:",
+   "linha": "return Sessao.t(\"Temático aleatório\")"
+  }
+ ],
+ "Indígena": [
+  {
+   "onde": "sessao.gd:5",
+   "funcao": "",
+   "linha": "const NOME_DECK := {\"indigena\": \"Indígena\", \"cristianismo\": \"Cristianismo\", \"taoismo\": \"Taoismo\","
+  }
+ ],
+ "Cristianismo": [
+  {
+   "onde": "sessao.gd:5",
+   "funcao": "",
+   "linha": "const NOME_DECK := {\"indigena\": \"Indígena\", \"cristianismo\": \"Cristianismo\", \"taoismo\": \"Taoismo\","
+  }
+ ],
+ "Taoismo": [
+  {
+   "onde": "sessao.gd:5",
+   "funcao": "",
+   "linha": "const NOME_DECK := {\"indigena\": \"Indígena\", \"cristianismo\": \"Cristianismo\", \"taoismo\": \"Taoismo\","
+  }
+ ],
+ "Hinduísmo": [
+  {
+   "onde": "sessao.gd:6",
+   "funcao": "",
+   "linha": "\"hinduismo\": \"Hinduísmo\", \"bruxaria\": \"Bruxaria\", \"alta_magia\": \"Alta magia\", \"misto\": \"Misto\"}"
+  }
+ ],
+ "Bruxaria": [
+  {
+   "onde": "sessao.gd:6",
+   "funcao": "",
+   "linha": "\"hinduismo\": \"Hinduísmo\", \"bruxaria\": \"Bruxaria\", \"alta_magia\": \"Alta magia\", \"misto\": \"Misto\"}"
+  }
+ ],
+ "Alta magia": [
+  {
+   "onde": "sessao.gd:6",
+   "funcao": "",
+   "linha": "\"hinduismo\": \"Hinduísmo\", \"bruxaria\": \"Bruxaria\", \"alta_magia\": \"Alta magia\", \"misto\": \"Misto\"}"
+  }
+ ],
+ "Misto": [
+  {
+   "onde": "sessao.gd:6",
+   "funcao": "",
+   "linha": "\"hinduismo\": \"Hinduísmo\", \"bruxaria\": \"Bruxaria\", \"alta_magia\": \"Alta magia\", \"misto\": \"Misto\"}"
+  }
+ ],
+ "Você venceu o torneio.": [
+  {
+   "onde": "fluxo.gd:1227",
+   "funcao": "func _pos_luta_torneio() -> void:",
+   "linha": "for t in Sessao.lore.get(\"epilogo_vitoria\", [Sessao.t(\"Você venceu o torneio.\")]):"
+  }
+ ],
+ "O Códice escapa das suas mãos.": [
+  {
+   "onde": "fluxo.gd:1235",
+   "funcao": "func _pos_luta_torneio() -> void:",
+   "linha": "for t in Sessao.lore.get(\"epilogo_derrota\", [Sessao.t(\"O Códice escapa das suas mãos.\")]):"
+  }
+ ],
+ "Idioma": [
+  {
+   "onde": "fluxo.gd:417",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(110, 150, 140, 24), \"Idioma\", func() -> void: Sessao.trocar_idioma(); _ir(\"opcoes\"), {\"idioma\": true})"
+  },
+  {
+   "onde": "fluxo.gd:1810",
+   "funcao": "func _opcoes() -> void:",
+   "linha": "Fonte57.desenhar(self, Vector2(110, 134), Sessao.t(\"Idioma\"), Color(\"#b8a888\"))"
+  }
+ ],
+ "ESCOLHA O ALVO": [
+  {
+   "onde": "mesa.gd:2197",
+   "funcao": "func pedir_alvo(cands: Array, dica: String, botao := \"PULAR\", fonte = null):",
+   "linha": "var titulo := \"ESCOLHA O ALVO\""
+  }
+ ],
+ "TOQUE UMA ENTIDADE SUA": [
+  {
+   "onde": "mesa.gd:2205",
+   "funcao": "func pedir_alvo(cands: Array, dica: String, botao := \"PULAR\", fonte = null):",
+   "linha": "sub = Sessao.t(\"TOQUE UMA ENTIDADE SUA\")"
+  }
+ ],
+ "TOQUE NUMA CARTA": [],
+ "EFEITO: ": [
+  {
+   "onde": "mesa.gd:2200",
+   "funcao": "func pedir_alvo(cands: Array, dica: String, botao := \"PULAR\", fonte = null):",
+   "linha": "sub = Sessao.t(\"EFEITO: \") + Sessao.t(dica.substr(6))"
+  }
+ ],
+ "DECK VAZIO": [
+  {
+   "onde": "mesa.gd:1886",
+   "funcao": "func _comprar(d: int) -> void:",
+   "linha": "sim = await pedir_sim_nao(\"DECK VAZIO\", \"REEMBARALHAR O CEMITÉRIO: -%d CORNUCÓPIA\" % CUSTO_REEMBARALHAR,"
+  },
+  {
+   "onde": "mesa.gd:1899",
+   "funcao": "func _comprar(d: int) -> void:",
+   "linha": "efeitos.numero(Vector2(180, LINHA_Y + (40 if d == 0 else -40)), \"DECK VAZIO\", Color(\"#ffd0a0\"), 1)"
+  }
+ ],
+ "REEMBARALHAR O CEMITÉRIO: -%d CORNUCÓPIA": [
+  {
+   "onde": "mesa.gd:1886",
+   "funcao": "func _comprar(d: int) -> void:",
+   "linha": "sim = await pedir_sim_nao(\"DECK VAZIO\", \"REEMBARALHAR O CEMITÉRIO: -%d CORNUCÓPIA\" % CUSTO_REEMBARALHAR,"
+  }
+ ],
+ "REEMBARALHAR": [
+  {
+   "onde": "mesa.gd:1887",
+   "funcao": "func _comprar(d: int) -> void:",
+   "linha": "\"REEMBARALHAR\", \"NÃO  (-2)\")"
+  },
+  {
+   "onde": "mesa.gd:1930",
+   "funcao": "func _reembaralhar(d: int) -> void:",
+   "linha": "efeitos.numero(Vector2(180, LINHA_Y + (40 if d == 0 else -40)), \"REEMBARALHAR\", Color(\"#e0c8ff\"), 2)"
+  }
+ ],
+ "NÃO  (-%d)": [],
+ "Tutorial": [
+  {
+   "onde": "menu_principal.gd:37",
+   "funcao": "func modos() -> Array:",
+   "linha": "{\"nome\": \"Tutorial\", \"sub\": Sessao.t(\"aprenda com Silas\"), \"retrato\": \"alta_magia\", \"cor\": Color(\"#3a3050\"), \"acao\": f._comecar_tutorial},"
+  }
+ ],
+ "Coleção": [
+  {
+   "onde": "fluxo.gd:57",
+   "funcao": "func _enquadrar() -> void:",
+   "linha": "const ABAS_MENU := [[\"titulo\", \"inicio\", \"Início\"], [\"colecao\", \"colecao\", \"Coleção\"], [\"decks\", \"decks\", \"Decks\"],"
+  },
+  {
+   "onde": "fluxo.gd:540",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(70, 54, 104, 22), \"Coleção\", mp.trocar_aba.bind(\"cartas\"), {\"aba_deck\": \"cartas\"})"
+  },
+  {
+   "onde": "fluxo.gd:1678",
+   "funcao": "func _draw() -> void:",
+   "linha": "PixelFonte.centrado(self, Vector2(180, 24), Sessao.t(\"Coleção\").to_upper(), OURO[0], 3, ESCURO)"
+  }
+ ],
+ "%d CARTAS": [
+  {
+   "onde": "colecao.gd:169",
+   "funcao": "func desenhar_grade(ci: CanvasItem) -> void:",
+   "linha": "info = Sessao.t(\"%d CARTAS\") % _ids.size() + \"  -  \" + info"
+  }
+ ],
+ "%d TOKENS": [
+  {
+   "onde": "colecao.gd:171",
+   "funcao": "func desenhar_grade(ci: CanvasItem) -> void:",
+   "linha": "info += \"  -  \" + Sessao.t(\"%d TOKENS\") % n_tok"
+  }
+ ],
+ "REVISÃO": [
+  {
+   "onde": "colecao.gd:212",
+   "funcao": "func desenhar_grade(ci: CanvasItem) -> void:",
+   "linha": "var s := Sessao.t(\"REVISÃO\")"
+  }
+ ],
+ "CURIOSIDADE": [
+  {
+   "onde": "visor.gd:264",
+   "funcao": "func _painel_lore(y: float, al: float) -> void:",
+   "linha": "PixelFonte.desenhar(self, Vector2(22, yy + 3), Sessao.t(\"CURIOSIDADE\"), Color(1.0, 0.85, 0.4, al))"
+  },
+  {
+   "onde": "colecao.gd:265",
+   "funcao": "func _linhas_lore() -> Array:",
+   "linha": "out.append([\"cur_titulo\", Sessao.t(\"CURIOSIDADE\")])"
+  }
+ ],
+ "Arte em revisão: versão provisória desta Alpha.": [
+  {
+   "onde": "colecao.gd:270",
+   "funcao": "func _linhas_lore() -> Array:",
+   "linha": "out.append([\"revisao\", Sessao.t(\"Arte em revisão: versão provisória desta Alpha.\")])"
+  }
+ ],
+ "Abismo": [
+  {
+   "onde": "fluxo.gd:1890",
+   "funcao": "func _desenhar_botao(b: Dictionary, i: int) -> void:",
+   "linha": "var rotulo := PixelFonte.normalizar(Sessao.nome_deck(b[\"aba\"]) if b[\"aba\"] != \"abismo\" else Sessao.t(\"Abismo\")).substr(0, 3)"
+  }
+ ],
+ "toque numa carta para ler a lore": [],
+ "POSSUI %d DE %d": [
+  {
+   "onde": "colecao.gd:166",
+   "funcao": "func desenhar_grade(ci: CanvasItem) -> void:",
+   "linha": "var info := Sessao.t(\"POSSUI %d DE %d\") % [pr[0], pr[1]] + \" (%d%%)\" % roundi(100.0 * pr[0] / maxi(1, pr[1]))"
+  }
+ ],
+ "Jogador": [
+  {
+   "onde": "menu_perfil.gd:238",
+   "funcao": "func barra_titulo() -> void:",
+   "linha": "Fonte57.desenhar(f, Vector2(42, 12), nome if nome != \"\" else Sessao.t(\"Jogador\"), f.OURO[0], f.ESCURO)"
+  }
+ ],
+ "ver perfil": [],
+ "Seu perfil": [
+  {
+   "onde": "menu_perfil.gd:306",
+   "funcao": "func desenhar_perfil() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Seu perfil\"), Sessao.t(\"quem joga online com você vê nome e foto\"))"
+  }
+ ],
+ "nome e foto ficam só neste aparelho": [],
+ "seu nome": [
+  {
+   "onde": "menu_perfil.gd:312",
+   "funcao": "func desenhar_perfil() -> void:",
+   "linha": "_texto2x(dentro.get_center(), Sessao.t(\"seu nome\"), Color(0.5, 0.45, 0.5))"
+  }
+ ],
+ "Nome": [
+  {
+   "onde": "menu_perfil.gd:315",
+   "funcao": "func desenhar_perfil() -> void:",
+   "linha": "Fonte57.desenhar(f, Vector2(50, 304), Sessao.t(\"Nome\"), Color(\"#b8a888\"))"
+  }
+ ],
+ "moedas": [
+  {
+   "onde": "progresso.gd:138",
+   "funcao": "static func premio_nivel(n: int) -> Dictionary:",
+   "linha": "r = {\"moedas\": 40}"
+  },
+  {
+   "onde": "progresso.gd:251",
+   "funcao": "static func _missoes() -> Array:",
+   "linha": "for k in [\"moedas\", \"booster\", \"koins\"]:"
+  },
+  {
+   "onde": "progresso.gd:329",
+   "funcao": "static func verificar() -> Array:",
+   "linha": "var r := {\"moedas\": int(c.get(\"moedas\", 0))}"
+  },
+  {
+   "onde": "progresso.gd:343",
+   "funcao": "static func _pagar(op: Dictionary, r: Dictionary) -> void:",
+   "linha": "if int(r.get(\"moedas\", 0)) > 0:"
+  }
+ ],
+ "%d cartas na coleção": [
+  {
+   "onde": "menu_perfil.gd:324",
+   "funcao": "func desenhar_perfil() -> void:",
+   "linha": "f._texto_central(Vector2(180, 392), Sessao.t(\"%d cartas na coleção\") % n_cartas, Color(0.81, 0.88, 1.0, 0.8))"
+  }
+ ],
+ "Não consegui abrir essa imagem.": [
+  {
+   "onde": "menu_perfil.gd:444",
+   "funcao": "func _ao_arquivo_web(args: Array) -> void:",
+   "linha": "avisar(Sessao.t(\"Não consegui abrir essa imagem.\"))"
+  },
+  {
+   "onde": "menu_perfil.gd:456",
+   "funcao": "func abrir_foto(caminho: String) -> void:",
+   "linha": "avisar(Sessao.t(\"Não consegui abrir essa imagem.\"))"
+  },
+  {
+   "onde": "menu_perfil.gd:478",
+   "funcao": "func _abrir_bytes(b: PackedByteArray) -> void:",
+   "linha": "avisar(Sessao.t(\"Não consegui abrir essa imagem.\"))"
+  }
+ ],
+ "Ajuste a foto": [
+  {
+   "onde": "menu_perfil.gd:570",
+   "funcao": "func desenhar_recorte() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Ajuste a foto\"), Sessao.t(\"arraste e use dois dedos para aproximar\"))"
+  }
+ ],
+ "arraste e use dois dedos para aproximar": [
+  {
+   "onde": "menu_perfil.gd:570",
+   "funcao": "func desenhar_recorte() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Ajuste a foto\"), Sessao.t(\"arraste e use dois dedos para aproximar\"))"
+  }
+ ],
+ "Seus decks": [
+  {
+   "onde": "menu_perfil.gd:624",
+   "funcao": "func desenhar_decks() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Seus decks\"), Sessao.t(\"qualquer carta do jogo, 32 por deck\") if gaveta == \"livre\" else Sessao.t(\"toque num deck para editar\"))"
+  }
+ ],
+ "toque num deck para editar": [
+  {
+   "onde": "menu_perfil.gd:624",
+   "funcao": "func desenhar_decks() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Seus decks\"), Sessao.t(\"qualquer carta do jogo, 32 por deck\") if gaveta == \"livre\" else Sessao.t(\"toque num deck para editar\"))"
+  }
+ ],
+ "incompleto": [
+  {
+   "onde": "menu_online.gd:74",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 100), Sessao.t(\"Deck em uso\") + \": \" + (Sessao.nome_deck(Sessao.tradicao_do_deck(dk)) if dk.size() == Sessao.DECK_TAM else Sessao.t(\"incompleto\")), Color(0.72, 0.66, 0.6)"
+  }
+ ],
+ "EM USO": [
+  {
+   "onde": "fluxo.gd:1013",
+   "funcao": "func _botao_verso(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "s = Sessao.t(\"EM USO\"); cor = OURO[0]"
+  },
+  {
+   "onde": "menu_perfil.gd:654",
+   "funcao": "func botao_deck(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var s := Sessao.t(\"EM USO\")"
+  }
+ ],
+ "Máximo de 8 decks.": [],
+ "Deck %d": [
+  {
+   "onde": "menu_perfil.gd:659",
+   "funcao": "func novo_deck() -> void:",
+   "linha": "var nome := (Sessao.t(\"Livre %d\") if gaveta == \"livre\" else Sessao.t(\"Deck %d\")) % (indices_gaveta().size() + 1)"
+  }
+ ],
+ "O deck já tem 32 cartas.": [
+  {
+   "onde": "menu_perfil.gd:745",
+   "funcao": "func adicionar(cid: String) -> void:",
+   "linha": "avisar(Sessao.t(\"O deck já tem 32 cartas.\"))"
+  }
+ ],
+ "Limite de cópias desta carta no deck.": [
+  {
+   "onde": "menu_perfil.gd:747",
+   "funcao": "func adicionar(cid: String) -> void:",
+   "linha": "avisar(Sessao.t(\"Limite de cópias desta carta no deck.\"))"
+  }
+ ],
+ "Todas as suas cópias já estão em uso.": [
+  {
+   "onde": "menu_perfil.gd:749",
+   "funcao": "func adicionar(cid: String) -> void:",
+   "linha": "avisar(Sessao.t(\"Todas as suas cópias já estão em uso.\"))"
+  }
+ ],
+ "O deck precisa de exatamente 32 cartas.": [
+  {
+   "onde": "menu_perfil.gd:863",
+   "funcao": "func motivo_invalido(i: int) -> String:",
+   "linha": "return Sessao.t(\"O deck precisa de exatamente 32 cartas.\")"
+  },
+  {
+   "onde": "modos_solo.gd:598",
+   "funcao": "func jogar_livre() -> void:",
+   "linha": "f.mp.avisar(Sessao.t(\"O deck precisa de exatamente 32 cartas.\"))"
+  }
+ ],
+ "Deck em uso!": [
+  {
+   "onde": "menu_perfil.gd:854",
+   "funcao": "func usar_deck() -> void:",
+   "linha": "avisar(Sessao.t(\"Deck em uso!\"))"
+  }
+ ],
+ "Você precisa de pelo menos um deck.": [
+  {
+   "onde": "menu_perfil.gd:1059",
+   "funcao": "func excluir_deck() -> void:",
+   "linha": "avisar(Sessao.t(\"Você precisa de pelo menos um deck.\"))"
+  }
+ ],
+ "Escolher foto": [
+  {
+   "onde": "menu_perfil.gd:349",
+   "funcao": "func escolher_foto() -> void:",
+   "linha": "DisplayServer.file_dialog_show(Sessao.t(\"Escolher foto\"), \"\", \"\", false, DisplayServer.FILE_DIALOG_MODE_OPEN_FILE,"
+  }
+ ],
+ "Continuar": [
+  {
+   "onde": "fluxo.gd:456",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 420, 180, 30), \"Continuar\", func() -> void:"
+  }
+ ],
+ "Confirmar": [
+  {
+   "onde": "fluxo.gd:475",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 484, 180, 30), \"Confirmar\", mp.confirmar_recorte)"
+  },
+  {
+   "onde": "fluxo.gd:1571",
+   "funcao": "func _teste_recorte() -> void:",
+   "linha": "if b[\"texto\"] == \"Confirmar\":"
+  }
+ ],
+ "Cancelar": [
+  {
+   "onde": "fluxo.gd:476",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(110, 524, 140, 24), \"Cancelar\", func() -> void: _ir(\"perfil\"))"
+  },
+  {
+   "onde": "fluxo.gd:867",
+   "funcao": "func _desenhar_pedido() -> void:",
+   "linha": "_texto_central(b1.get_center(), Sessao.t(\"Cancelar\"), CREME)"
+  },
+  {
+   "onde": "menu_online.gd:64",
+   "funcao": "func botoes() -> void:",
+   "linha": "f._botao(Rect2(110, 400, 140, 26), \"Cancelar\", cancelar)"
+  }
+ ],
+ "Decks": [
+  {
+   "onde": "fluxo.gd:57",
+   "funcao": "func _enquadrar() -> void:",
+   "linha": "const ABAS_MENU := [[\"titulo\", \"inicio\", \"Início\"], [\"colecao\", \"colecao\", \"Coleção\"], [\"decks\", \"decks\", \"Decks\"],"
+  }
+ ],
+ "Novo deck": [
+  {
+   "onde": "fluxo.gd:535",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(16, 498, 106, 28), \"Novo deck\", mp.novo_deck)"
+  }
+ ],
+ "No deck": [
+  {
+   "onde": "fluxo.gd:541",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(186, 54, 104, 22), \"No deck\", mp.trocar_aba.bind(\"deck\"), {\"aba_deck\": \"deck\"})"
+  },
+  {
+   "onde": "menu_perfil.gd:1033",
+   "funcao": "func colar_codigo() -> void:",
+   "linha": "## Curva de Fé e contagem por tipo (aba \"No deck\"): barras por custo 0–8."
+  }
+ ],
+ "Usar este deck": [
+  {
+   "onde": "fluxo.gd:554",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(16, 570, 150, 26), \"Usar este deck\", mp.usar_deck)"
+  }
+ ],
+ "Excluir": [
+  {
+   "onde": "fluxo.gd:555",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(172, 570, 80, 26), \"Excluir\", func() -> void:"
+  }
+ ],
+ "Escreva seu nome.": [
+  {
+   "onde": "fluxo.gd:458",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Escreva seu nome.\"))"
+  }
+ ],
+ "Monte um deck com 32 cartas primeiro.": [
+  {
+   "onde": "fluxo.gd:1631",
+   "funcao": "func _torneio_arcade() -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Monte um deck com 32 cartas primeiro.\"))"
+  },
+  {
+   "onde": "fluxo.gd:1644",
+   "funcao": "func _torneio() -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Monte um deck com 32 cartas primeiro.\"))"
+  },
+  {
+   "onde": "menu_online.gd:38",
+   "funcao": "func _pronto() -> bool:",
+   "linha": "f.mp.avisar(Sessao.t(\"Monte um deck com 32 cartas primeiro.\"))"
+  }
+ ],
+ "+%d moedas! Agora você tem %d.": [
+  {
+   "onde": "fluxo.gd:1274",
+   "funcao": "func _pos_luta_arcade() -> void:",
+   "linha": "lista.append({\"quem\": \"Arcade\", \"texto\": Sessao.t(\"+%d moedas! Agora você tem %d.\") % [Sessao.moedas_arcade(), Sessao.moedas()], \"cor\": OURO[0], \"retrato\": \"\"})"
+  }
+ ],
+ "ÚLTIMO SOPRO": [
+  {
+   "onde": "motor_efeitos.gd:482",
+   "funcao": "func _anunciar_fonte(c: Carta, gat: String) -> void:",
+   "linha": "var nome_gat: String = {\"on_play\": \"DESPERTAR\", \"on_death\": \"ÚLTIMO SOPRO\", \"on_attack\": \"AO ATACAR\","
+  }
+ ],
+ "PROTEÇÃO": [
+  {
+   "onde": "motor_efeitos.gd:483",
+   "funcao": "func _anunciar_fonte(c: Carta, gat: String) -> void:",
+   "linha": "\"on_damaged\": \"AO SOFRER DANO\", \"ally_attacked\": \"PROTEÇÃO\", \"start_turn\": \"INÍCIO DO TURNO\","
+  }
+ ],
+ "INÍCIO DO TURNO": [
+  {
+   "onde": "motor_efeitos.gd:483",
+   "funcao": "func _anunciar_fonte(c: Carta, gat: String) -> void:",
+   "linha": "\"on_damaged\": \"AO SOFRER DANO\", \"ally_attacked\": \"PROTEÇÃO\", \"start_turn\": \"INÍCIO DO TURNO\","
+  }
+ ],
+ "MÃO CHEIA": [
+  {
+   "onde": "mesa.gd:2002",
+   "funcao": "func _receber_comprada(d: int, c: Carta, queimar := true) -> void:",
+   "linha": "efeitos.numero(c.position + Vector2(0, -40), \"MÃO CHEIA\", Color(\"#ffd0a0\"), 1)"
+  }
+ ],
+ "SACRIFÍCIO": [
+  {
+   "onde": "mesa.gd:2460",
+   "funcao": "func _jogar_entidade(c: Carta, d: int, i: int, sacrificios: Array = []) -> void:",
+   "linha": "efeitos.numero((s as Carta).position + Vector2(0, -30), \"SACRIFÍCIO\", Color(\"#e0a8ff\"), 1)"
+  }
+ ],
+ "+%d FÉ MÁX": [
+  {
+   "onde": "motor_efeitos.gd:622",
+   "funcao": "func executar_acao(a: Dictionary, ctx: Dictionary) -> void:",
+   "linha": "_texto_centro(\"+%d FÉ MÁX\" % n, COR_FE)"
+  }
+ ],
+ "  -  LENDÁRIA": [
+  {
+   "onde": "efeitos.gd:294",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "linha2 += \"  -  LENDÁRIA\""
+  }
+ ],
+ "Loja": [
+  {
+   "onde": "booster.gd:377",
+   "funcao": "func desenhar_loja() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Loja\"), Sessao.t(\"abra boosters e complete a coleção\"))"
+  },
+  {
+   "onde": "fluxo.gd:58",
+   "funcao": "func _enquadrar() -> void:",
+   "linha": "[\"loja\", \"loja\", \"Loja\"], [\"opcoes\", \"opcoes\", \"Opções\"]]"
+  }
+ ],
+ "abra boosters e complete a coleção": [
+  {
+   "onde": "booster.gd:377",
+   "funcao": "func desenhar_loja() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Loja\"), Sessao.t(\"abra boosters e complete a coleção\"))"
+  }
+ ],
+ "Comprar booster": [
+  {
+   "onde": "fluxo.gd:479",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 404, 180, 30), \"Comprar booster\", func() -> void:"
+  }
+ ],
+ "3 cartas de todas as tradições": [
+  {
+   "onde": "booster.gd:386",
+   "funcao": "func desenhar_loja() -> void:",
+   "linha": "var linhas := [Sessao.t(\"3 cartas de todas as tradições\") if trad == \"\" else Sessao.t(\"cada carta: 70% de %s\") % Sessao.nome_deck(trad),"
+  }
+ ],
+ "pelo menos 1 Entidade": [],
+ "Lendária: 5% por carta  ·  Foil: 2%": [
+  {
+   "onde": "booster.gd:387",
+   "funcao": "func desenhar_loja() -> void:",
+   "linha": "Sessao.t(\"Lendária: 5% por carta  ·  Foil: 2%\"),"
+  }
+ ],
+ "Moedas insuficientes.": [
+  {
+   "onde": "booster.gd:59",
+   "funcao": "func comprar(gratis := false) -> void:",
+   "linha": "f.mp.avisar(Sessao.t(\"Moedas insuficientes.\")); f.vibrar(30, 0.6); return"
+  },
+  {
+   "onde": "booster.gd:72",
+   "funcao": "func comprar(gratis := false) -> void:",
+   "linha": "f.mp.avisar(Sessao.t(\"Moedas insuficientes.\"))"
+  }
+ ],
+ "3 CARTAS": [
+  {
+   "onde": "booster.gd:292",
+   "funcao": "func pacote(ci: CanvasItem, c: Vector2, rot: float, topo_off := Vector2.ZERO, to",
+   "linha": "PixelFonte.centrado(ci, Vector2(0, 26), Sessao.t(\"3 CARTAS\"), Color(0.81, 0.88, 1.0, alfa), 1)"
+  }
+ ],
+ "deslize o dedo na linha para abrir": [
+  {
+   "onde": "booster.gd:423",
+   "funcao": "func desenhar_booster() -> void:",
+   "linha": "f._texto_central(Vector2(180, 430), Sessao.t(\"deslize o dedo na linha para abrir\"), Color(1.0, 0.89, 0.6, 0.6 + 0.4 * sin(f.tempo * 4)))"
+  }
+ ],
+ "toque nas cartas para revelar": [
+  {
+   "onde": "booster.gd:425",
+   "funcao": "func desenhar_booster() -> void:",
+   "linha": "f._texto_central(Vector2(180, 404), Sessao.t(\"toque nas cartas para revelar\"), Color(1.0, 0.89, 0.6, 0.6 + 0.4 * sin(f.tempo * 4)))"
+  }
+ ],
+ "NOVA!": [
+  {
+   "onde": "booster.gd:528",
+   "funcao": "func _cartas_reveladas() -> void:",
+   "linha": "var tag := Sessao.t(\"NOVA!\") if c[\"nova\"] else Sessao.t(\"REPETIDA\")"
+  }
+ ],
+ "REPETIDA": [
+  {
+   "onde": "booster.gd:528",
+   "funcao": "func _cartas_reveladas() -> void:",
+   "linha": "var tag := Sessao.t(\"NOVA!\") if c[\"nova\"] else Sessao.t(\"REPETIDA\")"
+  }
+ ],
+ "LENDÁRIA": [
+  {
+   "onde": "mesa_hud.gd:8",
+   "funcao": "",
+   "linha": "## - marcas do mulligan; entrada especial das Lendárias (raios dourados, carta grande, faixa \"LENDÁRIA\")."
+  },
+  {
+   "onde": "mesa_hud.gd:441",
+   "funcao": "func _desenhar_lendaria(tl: Rect2) -> void:",
+   "linha": "PixelFonte.centrado(self, Vector2(180, r.position.y - 16), Sessao.t(\"LENDÁRIA\"), Color(cor, a2), 3, ESCURO)"
+  }
+ ],
+ "toque para voltar": [
+  {
+   "onde": "booster.gd:543",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "f._texto_central(Vector2(180, 548), Sessao.t(\"toque para voltar\"), Color(0.81, 0.88, 1.0, 0.8))"
+  },
+  {
+   "onde": "carrossel.gd:315",
+   "funcao": "func _draw() -> void:",
+   "linha": "dica = Sessao.t(\"toque para voltar\")"
+  }
+ ],
+ "Guardar": [
+  {
+   "onde": "booster.gd:551",
+   "funcao": "func botao_troca(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var s := (\"+%d\" % Sessao.valor_troca(c[\"id\"], c[\"foil\"])) if trocar else Sessao.t(\"Guardar\")"
+  }
+ ],
+ "Concluir": [
+  {
+   "onde": "fluxo.gd:512",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 536, 180, 30), \"Concluir\", func() -> void:"
+  },
+  {
+   "onde": "fluxo.gd:606",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(110, 528, 140, 24), \"Concluir\", ta.concluir)"
+  },
+  {
+   "onde": "fluxo.gd:608",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(100, 586, 160, 28), \"Concluir\", ta.concluir)"
+  },
+  {
+   "onde": "fluxo.gd:2021",
+   "funcao": "func _autoplay() -> void:",
+   "linha": "var p := _btn([\"Lutar!\", \"Ver o resto\", \"Concluir\"])"
+  }
+ ],
+ "Abrir outro": [
+  {
+   "onde": "fluxo.gd:524",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(110, 574, 140, 26), \"Abrir outro\", func() -> void:"
+  }
+ ],
+ "+%d moedas pelas repetidas.": [
+  {
+   "onde": "booster.gd:256",
+   "funcao": "func concluir() -> void:",
+   "linha": "f.mp.avisar(Sessao.t(\"+%d moedas pelas repetidas.\") % ganho)"
+  }
+ ],
+ "TORNEIO ARCADE": [
+  {
+   "onde": "torneio_arcade.gd:216",
+   "funcao": "func desenhar() -> void:",
+   "linha": "PixelFonte.centrado(f, Vector2(180, 18), Sessao.t(\"TORNEIO ARCADE\"), f.OURO[0], 2, f.ESCURO)"
+  }
+ ],
+ "Quartas de final": [
+  {
+   "onde": "torneio_arcade.gd:10",
+   "funcao": "",
+   "linha": "const RODADA_NOME := [\"Quartas de final\", \"Semifinal\", \"Final\", \"Campeão!\"]"
+  }
+ ],
+ "Semifinal": [
+  {
+   "onde": "torneio_arcade.gd:10",
+   "funcao": "",
+   "linha": "const RODADA_NOME := [\"Quartas de final\", \"Semifinal\", \"Final\", \"Campeão!\"]"
+  }
+ ],
+ "Final": [
+  {
+   "onde": "torneio_arcade.gd:10",
+   "funcao": "",
+   "linha": "const RODADA_NOME := [\"Quartas de final\", \"Semifinal\", \"Final\", \"Campeão!\"]"
+  }
+ ],
+ "Campeão!": [
+  {
+   "onde": "torneio_arcade.gd:10",
+   "funcao": "",
+   "linha": "const RODADA_NOME := [\"Quartas de final\", \"Semifinal\", \"Final\", \"Campeão!\"]"
+  }
+ ],
+ "QUARTAS": [
+  {
+   "onde": "torneio_arcade.gd:140",
+   "funcao": "func _rotulo_fileira(r: int) -> void:",
+   "linha": "var s := Sessao.t([\"QUARTAS\", \"SEMIFINAL\", \"FINAL\", \"CAMPEÃO\"][r])"
+  }
+ ],
+ "SEMI": [],
+ "FINAL": [
+  {
+   "onde": "torneio_arcade.gd:140",
+   "funcao": "func _rotulo_fileira(r: int) -> void:",
+   "linha": "var s := Sessao.t([\"QUARTAS\", \"SEMIFINAL\", \"FINAL\", \"CAMPEÃO\"][r])"
+  }
+ ],
+ "CAMPEÃO": [
+  {
+   "onde": "torneio_arcade.gd:140",
+   "funcao": "func _rotulo_fileira(r: int) -> void:",
+   "linha": "var s := Sessao.t([\"QUARTAS\", \"SEMIFINAL\", \"FINAL\", \"CAMPEÃO\"][r])"
+  }
+ ],
+ "CAMPEÃO!": [
+  {
+   "onde": "torneio_arcade.gd:313",
+   "funcao": "func _tela_campeao(d: Dictionary, eu: int) -> void:",
+   "linha": "PixelFonte.centrado(f, Vector2(180, 118 - (1.0 - u) * 20), Sessao.t(\"CAMPEÃO!\"), f.OURO[0], 3, f.ESCURO)"
+  }
+ ],
+ "ELIMINADO": [
+  {
+   "onde": "torneio_arcade.gd:293",
+   "funcao": "func _faixa_eliminado(d: Dictionary) -> void:",
+   "linha": "var tit := Sessao.t(\"ELIMINADO\") if d[\"eliminado\"] else Sessao.t(\"FIM DO TORNEIO\")"
+  }
+ ],
+ "FIM DO TORNEIO": [
+  {
+   "onde": "torneio_arcade.gd:293",
+   "funcao": "func _faixa_eliminado(d: Dictionary) -> void:",
+   "linha": "var tit := Sessao.t(\"ELIMINADO\") if d[\"eliminado\"] else Sessao.t(\"FIM DO TORNEIO\")"
+  }
+ ],
+ "+%d moedas": [
+  {
+   "onde": "progresso.gd:362",
+   "funcao": "static func premio_txt(r: Dictionary) -> String:",
+   "linha": "partes.append(Sessao.t(\"+%d moedas\") % int(r[\"moedas\"]))"
+  },
+  {
+   "onde": "torneio_arcade.gd:297",
+   "funcao": "func _faixa_eliminado(d: Dictionary) -> void:",
+   "linha": "var s := Sessao.t(\"+%d moedas\") % p"
+  },
+  {
+   "onde": "fluxo.gd:522",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "confirmar(Sessao.t(\"Trocar %d repetidas?\") % n, Sessao.t(\"+%d moedas\") % ganho, bo.concluir))"
+  }
+ ],
+ "O Viajante": [
+  {
+   "onde": "sessao.gd:1064",
+   "funcao": "func ta_nome(pid: String) -> String:",
+   "linha": "return t(\"O Viajante\")"
+  },
+  {
+   "onde": "torneio_arcade.gd:342",
+   "funcao": "func lutar() -> void:",
+   "linha": "lista.append({\"quem\": Sessao.t(\"O Viajante\"), \"texto\": Sessao.t(\"Não carrego bandeira nem tradição. Só cartas, e a vontade de ver você cair.\"), \"cor\": f.CREME, \"retrato\": \"\"})"
+  }
+ ],
+ "Torneio de 8": [
+  {
+   "onde": "fluxo.gd:599",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 468, 180, 30), \"Continuar torneio\" if Sessao.ta_ativo() else \"Torneio de 8\", _torneio_arcade)"
+  },
+  {
+   "onde": "fluxo.gd:2016",
+   "funcao": "func _autoplay() -> void:",
+   "linha": "tocar(_btn([\"Torneio de 8\", \"Continuar torneio\"]))"
+  },
+  {
+   "onde": "historico.gd:7",
+   "funcao": "",
+   "linha": "const MODOS := {\"arcade\": \"Arcade\", \"arcade_t\": \"Torneio de 8\", \"torneio\": \"Torneio\","
+  },
+  {
+   "onde": "menu_principal.gd:34",
+   "funcao": "func modos() -> Array:",
+   "linha": "{\"nome\": \"Torneio de 8\", \"sub\": Sessao.t(\"continuar chave\") if Sessao.ta_ativo() else Sessao.t(\"chave  até 150\"), \"retrato\": \"taoismo\", \"cor\": Color(\"#1f6a5a\"), \"acao\": f._torneio_arcade},"
+  }
+ ],
+ "Continuar torneio": [
+  {
+   "onde": "fluxo.gd:599",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 468, 180, 30), \"Continuar torneio\" if Sessao.ta_ativo() else \"Torneio de 8\", _torneio_arcade)"
+  },
+  {
+   "onde": "fluxo.gd:2016",
+   "funcao": "func _autoplay() -> void:",
+   "linha": "tocar(_btn([\"Torneio de 8\", \"Continuar torneio\"]))"
+  }
+ ],
+ "Lutar!": [
+  {
+   "onde": "fluxo.gd:613",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(100, 556, 160, 30), \"Lutar!\", ta.lutar)"
+  },
+  {
+   "onde": "fluxo.gd:2021",
+   "funcao": "func _autoplay() -> void:",
+   "linha": "var p := _btn([\"Lutar!\", \"Ver o resto\", \"Concluir\"])"
+  }
+ ],
+ "Desistir": [
+  {
+   "onde": "fluxo.gd:615",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(220, 600, 120, 24), \"Desistir\", ta.concluir)"
+  }
+ ],
+ "Ver o resto": [
+  {
+   "onde": "fluxo.gd:610",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(100, 574, 160, 26), \"Ver o resto\", ta.ver_resto)"
+  },
+  {
+   "onde": "fluxo.gd:2021",
+   "funcao": "func _autoplay() -> void:",
+   "linha": "var p := _btn([\"Lutar!\", \"Ver o resto\", \"Concluir\"])"
+  }
+ ],
+ "Sair": [
+  {
+   "onde": "fluxo.gd:611",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(120, 606, 120, 22), \"Sair\", ta.concluir)"
+  }
+ ],
+ "Não carrego bandeira nem tradição. Só cartas, e a vontade de ver você cair.": [
+  {
+   "onde": "torneio_arcade.gd:342",
+   "funcao": "func lutar() -> void:",
+   "linha": "lista.append({\"quem\": Sessao.t(\"O Viajante\"), \"texto\": Sessao.t(\"Não carrego bandeira nem tradição. Só cartas, e a vontade de ver você cair.\"), \"cor\": f.CREME, \"retrato\": \"\"})"
+  }
+ ],
+ "SEMIFINAL": [
+  {
+   "onde": "torneio_arcade.gd:140",
+   "funcao": "func _rotulo_fileira(r: int) -> void:",
+   "linha": "var s := Sessao.t([\"QUARTAS\", \"SEMIFINAL\", \"FINAL\", \"CAMPEÃO\"][r])"
+  }
+ ],
+ "Abrir booster": [
+  {
+   "onde": "fluxo.gd:605",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 488, 180, 30), \"Abrir booster\", ta.abrir_premio)"
+  }
+ ],
+ "Abrir grátis (%d)": [
+  {
+   "onde": "fluxo.gd:486",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 512, 180, 30), Sessao.t(\"Abrir grátis (%d)\") % Sessao.boosters_gratis(), bo.comprar.bind(true))"
+  }
+ ],
+ "SEU CEMITÉRIO": [
+  {
+   "onde": "mesa.gd:2252",
+   "funcao": "func abrir_cemiterio(d: int) -> void:",
+   "linha": "\"SEU CEMITÉRIO\" if d == 0 else \"CEMITÉRIO DELE\")"
+  }
+ ],
+ "CEMITÉRIO DELE": [
+  {
+   "onde": "mesa.gd:2252",
+   "funcao": "func abrir_cemiterio(d: int) -> void:",
+   "linha": "\"SEU CEMITÉRIO\" if d == 0 else \"CEMITÉRIO DELE\")"
+  }
+ ],
+ "FECHAR": [
+  {
+   "onde": "carrossel.gd:330",
+   "funcao": "func _draw() -> void:",
+   "linha": "PixelFonte.centrado(self, _btn.get_center(), Sessao.t(\"PULAR\") if modo == \"escolher\" else Sessao.t(\"FECHAR\"), Color(\"#ffe39a\"), 1)"
+  }
+ ],
+ "toque na carta para reviver": [
+  {
+   "onde": "carrossel.gd:313",
+   "funcao": "func _draw() -> void:",
+   "linha": "var dica := Sessao.t(\"toque na carta para reviver\") if modo == \"escolher\" else Sessao.t(\"deslize para os lados\")"
+  }
+ ],
+ "deslize para os lados": [
+  {
+   "onde": "carrossel.gd:313",
+   "funcao": "func _draw() -> void:",
+   "linha": "var dica := Sessao.t(\"toque na carta para reviver\") if modo == \"escolher\" else Sessao.t(\"deslize para os lados\")"
+  }
+ ],
+ "+ ADICIONAR": [
+  {
+   "onde": "menu_perfil.gd:725",
+   "funcao": "func tocar_grade(p: Vector2) -> void:",
+   "linha": "{\"texto\": \"+ ADICIONAR\", \"acao\": adicionar.bind(cid), \"ativo\": func() -> bool: return Sessao.pode_por_no_deck(cid, deck_idx)},"
+  }
+ ],
+ "- TIRAR": [
+  {
+   "onde": "menu_perfil.gd:726",
+   "funcao": "func tocar_grade(p: Vector2) -> void:",
+   "linha": "{\"texto\": \"- TIRAR\", \"acao\": tirar.bind(cid), \"ativo\": func() -> bool: return deck.has(cid)}],"
+  }
+ ],
+ "NO DECK %d  -  LIVRES %d": [
+  {
+   "onde": "menu_perfil.gd:731",
+   "funcao": "func tocar_grade(p: Vector2) -> void:",
+   "linha": "return Sessao.t(\"NO DECK %d  -  LIVRES %d\") % [deck.count(cid), maxi(livres, 0)])"
+  }
+ ],
+ "DESLIZE PARA CIMA: LORE": [
+  {
+   "onde": "visor.gd:236",
+   "funcao": "func _draw() -> void:",
+   "linha": "PixelFonte.centrado(self, Vector2(180, 566), Sessao.t(\"DESLIZE PARA CIMA: LORE\"), Color(1.0, 0.89, 0.6, al * 0.8), 1)"
+  }
+ ],
+ "PARA BAIXO OU TOQUE FORA: VOLTAR": [
+  {
+   "onde": "visor.gd:237",
+   "funcao": "func _draw() -> void:",
+   "linha": "PixelFonte.centrado(self, Vector2(180, 578), Sessao.t(\"PARA BAIXO OU TOQUE FORA: VOLTAR\"), Color(0.81, 0.88, 1.0, al * 0.6), 1)"
+  }
+ ],
+ "BAIXO: CARTA  -  CIMA: FECHAR": [
+  {
+   "onde": "visor.gd:271",
+   "funcao": "func _painel_lore(y: float, al: float) -> void:",
+   "linha": "PixelFonte.centrado(self, Vector2(180, 624 + bob), Sessao.t(\"BAIXO: CARTA  -  CIMA: FECHAR\"), Color(0.81, 0.88, 1.0, 0.6 * al), 1)"
+  }
+ ],
+ "CARREGANDO": [
+  {
+   "onde": "carregamento.gd:107",
+   "funcao": "func _draw() -> void:",
+   "linha": "var txt := Sessao.t(\"CARREGANDO\") + pontos"
+  },
+  {
+   "onde": "carregamento.gd:108",
+   "funcao": "func _draw() -> void:",
+   "linha": "PixelFonte.desenhar(self, Vector2(c.x - PixelFonte.largura(Sessao.t(\"CARREGANDO\"), 2) / 2.0, c.y + 96), txt, Color(1.0, 0.89, 0.6, fade), 2, Color(\"#140c10\"))"
+  }
+ ],
+ "6 campeões, 1 Códice": [
+  {
+   "onde": "menu_principal.gd:26",
+   "funcao": "func modos() -> Array:",
+   "linha": "var torneio_sub := Sessao.t(\"6 campeões, 1 Códice\")"
+  }
+ ],
+ "partida rápida  +15": [],
+ "continuar chave": [
+  {
+   "onde": "menu_principal.gd:34",
+   "funcao": "func modos() -> Array:",
+   "linha": "{\"nome\": \"Torneio de 8\", \"sub\": Sessao.t(\"continuar chave\") if Sessao.ta_ativo() else Sessao.t(\"chave  até 150\"), \"retrato\": \"taoismo\", \"cor\": Color(\"#1f6a5a\"), \"acao\": f._torneio_arcade},"
+  }
+ ],
+ "chave  até 150": [
+  {
+   "onde": "menu_principal.gd:34",
+   "funcao": "func modos() -> Array:",
+   "linha": "{\"nome\": \"Torneio de 8\", \"sub\": Sessao.t(\"continuar chave\") if Sessao.ta_ativo() else Sessao.t(\"chave  até 150\"), \"retrato\": \"taoismo\", \"cor\": Color(\"#1f6a5a\"), \"acao\": f._torneio_arcade},"
+  }
+ ],
+ "aprenda com Silas": [
+  {
+   "onde": "menu_principal.gd:37",
+   "funcao": "func modos() -> Array:",
+   "linha": "{\"nome\": \"Tutorial\", \"sub\": Sessao.t(\"aprenda com Silas\"), \"retrato\": \"alta_magia\", \"cor\": Color(\"#3a3050\"), \"acao\": f._comecar_tutorial},"
+  }
+ ],
+ "JOGAR": [
+  {
+   "onde": "menu_principal.gd:209",
+   "funcao": "func botao_jogar(_b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var s := Sessao.t(\"JOGAR\") + \":  \" + modo"
+  }
+ ],
+ "Deck em uso": [
+  {
+   "onde": "menu_online.gd:74",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 100), Sessao.t(\"Deck em uso\") + \": \" + (Sessao.nome_deck(Sessao.tradicao_do_deck(dk)) if dk.size() == Sessao.DECK_TAM else Sessao.t(\"incompleto\")), Color(0.72, 0.66, 0.6)"
+  },
+  {
+   "onde": "menu_principal.gd:231",
+   "funcao": "func botao_deck(_b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "Fonte57.desenhar(f, dentro.position + Vector2(24, 4), _caber(Sessao.t(\"Deck em uso\") + \": \" + str(d[\"nome\"]), dentro.size.x - 40), f.CREME, f.ESCURO)"
+  }
+ ],
+ "Início": [
+  {
+   "onde": "fluxo.gd:57",
+   "funcao": "func _enquadrar() -> void:",
+   "linha": "const ABAS_MENU := [[\"titulo\", \"inicio\", \"Início\"], [\"colecao\", \"colecao\", \"Coleção\"], [\"decks\", \"decks\", \"Decks\"],"
+  }
+ ],
+ "Opções": [
+  {
+   "onde": "fluxo.gd:58",
+   "funcao": "func _enquadrar() -> void:",
+   "linha": "[\"loja\", \"loja\", \"Loja\"], [\"opcoes\", \"opcoes\", \"Opções\"]]"
+  },
+  {
+   "onde": "fluxo.gd:1806",
+   "funcao": "func _opcoes() -> void:",
+   "linha": "_cabecalho(Sessao.t(\"Opções\"), Sessao.t(\"idioma e informações\"))"
+  }
+ ],
+ "idioma e informações": [
+  {
+   "onde": "fluxo.gd:1806",
+   "funcao": "func _opcoes() -> void:",
+   "linha": "_cabecalho(Sessao.t(\"Opções\"), Sessao.t(\"idioma e informações\"))"
+  }
+ ],
+ "pinça para ampliar": [
+  {
+   "onde": "carrossel.gd:317",
+   "funcao": "func _draw() -> void:",
+   "linha": "dica += \"  -  \" + Sessao.t(\"pinça para ampliar\")"
+  }
+ ],
+ "Escolher imagem": [
+  {
+   "onde": "fluxo.gd:452",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(110, 266, 140, 24), \"Escolher imagem\", func() -> void: _ir(\"avatar\"))"
+  }
+ ],
+ "Sua imagem": [
+  {
+   "onde": "menu_perfil.gd:166",
+   "funcao": "func desenhar_avatares() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Sua imagem\"), Sessao.t(\"escolha uma ou envie uma foto\"))"
+  }
+ ],
+ "escolha uma ou envie uma foto": [
+  {
+   "onde": "menu_perfil.gd:166",
+   "funcao": "func desenhar_avatares() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Sua imagem\"), Sessao.t(\"escolha uma ou envie uma foto\"))"
+  }
+ ],
+ "Enviar foto do aparelho": [
+  {
+   "onde": "fluxo.gd:470",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(70, 466, 220, 30), \"Enviar foto do aparelho\", mp.escolher_foto, {\"web_upload\": true})"
+  }
+ ],
+ "Formato HEIC não suportado. Use JPEG ou PNG.": [
+  {
+   "onde": "menu_perfil.gd:440",
+   "funcao": "func _ao_arquivo_web(args: Array) -> void:",
+   "linha": "avisar(Sessao.t(\"Formato HEIC não suportado. Use JPEG ou PNG.\"))"
+  }
+ ],
+ "Seu nome": [
+  {
+   "onde": "menu_perfil.gd:386",
+   "funcao": "func armar_nome_web(qual: String) -> void:",
+   "linha": "var titulo: String = Sessao.t(\"Seu nome\") if qual == \"perfil\" else (Sessao.t(\"Buscar carta\") if qual == \"busca\" else (Sessao.t(\"Cole o código do deck\") if qual == \"codigo\" else (Sessao.t(\"Código da co"
+  }
+ ],
+ "Nome do deck": [
+  {
+   "onde": "menu_perfil.gd:386",
+   "funcao": "func armar_nome_web(qual: String) -> void:",
+   "linha": "var titulo: String = Sessao.t(\"Seu nome\") if qual == \"perfil\" else (Sessao.t(\"Buscar carta\") if qual == \"busca\" else (Sessao.t(\"Cole o código do deck\") if qual == \"codigo\" else (Sessao.t(\"Código da co"
+  }
+ ],
+ "Fechar": [
+  {
+   "onde": "pergaminho.gd:383",
+   "funcao": "func _draw() -> void:",
+   "linha": "PixelFonte.centrado(self, rb.get_center() + Vector2(0, off), Sessao.t(\"Fechar\").to_upper(), Color(1.0, 0.9, 0.75, ab), 1)"
+  }
+ ],
+ "Novidades": [
+  {
+   "onde": "fluxo.gd:428",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 360, 180, 26), \"Novidades\", abrir_novidades.bind(true))"
+  },
+  {
+   "onde": "fluxo.gd:657",
+   "funcao": "func abrir_novidades(todas := true, depois := Callable()) -> void:",
+   "linha": "var blocos: Array = [[\"titulo\", Sessao.t(\"Novidades\")]]"
+  }
+ ],
+ "Privacidade": [
+  {
+   "onde": "fluxo.gd:429",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 392, 180, 26), \"Privacidade\", abrir_privacidade)"
+  },
+  {
+   "onde": "fluxo.gd:733",
+   "funcao": "func abrir_privacidade() -> void:",
+   "linha": "var blocos: Array = [[\"titulo\", Sessao.t(\"Privacidade\")],"
+  }
+ ],
+ "Recomeçar torneio": [
+  {
+   "onde": "fluxo.gd:1245",
+   "funcao": "func _botoes_derrota() -> void:",
+   "linha": "_botao(Rect2(90, 464, 180, 26), \"Recomeçar torneio\", func() -> void:"
+  }
+ ],
+ "Vibração: ligada": [
+  {
+   "onde": "fluxo.gd:418",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 190, 180, 26), \"Vibração: ligada\" if Sessao.vibracao else \"Vibração: desligada\","
+  }
+ ],
+ "Vibração: desligada": [
+  {
+   "onde": "fluxo.gd:418",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 190, 180, 26), \"Vibração: ligada\" if Sessao.vibracao else \"Vibração: desligada\","
+  }
+ ],
+ "Animações: rápidas": [
+  {
+   "onde": "fluxo.gd:420",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 222, 180, 26), \"Animações: rápidas\" if Sessao.animacao_rapida else \"Animações: normais\","
+  }
+ ],
+ "Animações: normais": [
+  {
+   "onde": "fluxo.gd:420",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 222, 180, 26), \"Animações: rápidas\" if Sessao.animacao_rapida else \"Animações: normais\","
+  }
+ ],
+ "SEM JOGADAS": [
+  {
+   "onde": "mesa_hud.gd:252",
+   "funcao": "func _draw() -> void:",
+   "linha": "PixelFonte.centrado(self, r.get_center() + Vector2(0, -14), Sessao.t(\"SEM JOGADAS\"), Color(OURO[0], a), 1, ESCURO)"
+  }
+ ],
+ "PAUSA": [
+  {
+   "onde": "mesa_hud.gd:455",
+   "funcao": "func _desenhar_menu(tl: Rect2) -> void:",
+   "linha": "var titulo := \"PAUSA\" if menu == \"pausa\" else (\"SAIR?\" if m.tut != null else \"DESISTIR?\")"
+  }
+ ],
+ "DESISTIR?": [
+  {
+   "onde": "mesa_hud.gd:455",
+   "funcao": "func _desenhar_menu(tl: Rect2) -> void:",
+   "linha": "var titulo := \"PAUSA\" if menu == \"pausa\" else (\"SAIR?\" if m.tut != null else \"DESISTIR?\")"
+  }
+ ],
+ "SAIR?": [
+  {
+   "onde": "mesa_hud.gd:455",
+   "funcao": "func _desenhar_menu(tl: Rect2) -> void:",
+   "linha": "var titulo := \"PAUSA\" if menu == \"pausa\" else (\"SAIR?\" if m.tut != null else \"DESISTIR?\")"
+  }
+ ],
+ "CONTINUAR": [
+  {
+   "onde": "mesa_hud.gd:97",
+   "funcao": "func _botoes_menu() -> Array:",
+   "linha": "var itens := [[\"CONTINUAR\", \"continuar\"], [\"REGRAS\", \"regras\"],"
+  }
+ ],
+ "REGRAS": [
+  {
+   "onde": "mesa_hud.gd:97",
+   "funcao": "func _botoes_menu() -> Array:",
+   "linha": "var itens := [[\"CONTINUAR\", \"continuar\"], [\"REGRAS\", \"regras\"],"
+  }
+ ],
+ "ANIMAÇÕES: RÁPIDAS": [
+  {
+   "onde": "mesa_hud.gd:98",
+   "funcao": "func _botoes_menu() -> Array:",
+   "linha": "[\"ANIMAÇÕES: RÁPIDAS\" if Sessao.animacao_rapida else \"ANIMAÇÕES: NORMAIS\", \"animacao\"],"
+  }
+ ],
+ "ANIMAÇÕES: NORMAIS": [
+  {
+   "onde": "mesa_hud.gd:98",
+   "funcao": "func _botoes_menu() -> Array:",
+   "linha": "[\"ANIMAÇÕES: RÁPIDAS\" if Sessao.animacao_rapida else \"ANIMAÇÕES: NORMAIS\", \"animacao\"],"
+  }
+ ],
+ "VIBRAÇÃO: LIGADA": [
+  {
+   "onde": "mesa_hud.gd:99",
+   "funcao": "func _botoes_menu() -> Array:",
+   "linha": "[\"VIBRAÇÃO: LIGADA\" if Sessao.vibracao else \"VIBRAÇÃO: DESLIGADA\", \"vibracao\"],"
+  }
+ ],
+ "VIBRAÇÃO: DESLIGADA": [
+  {
+   "onde": "mesa_hud.gd:99",
+   "funcao": "func _botoes_menu() -> Array:",
+   "linha": "[\"VIBRAÇÃO: LIGADA\" if Sessao.vibracao else \"VIBRAÇÃO: DESLIGADA\", \"vibracao\"],"
+  }
+ ],
+ "SAIR DO TUTORIAL": [
+  {
+   "onde": "mesa_hud.gd:100",
+   "funcao": "func _botoes_menu() -> Array:",
+   "linha": "[\"SAIR DO TUTORIAL\" if m.tut != null else \"DESISTIR\", \"desistir\"]]"
+  }
+ ],
+ "DESISTIR": [
+  {
+   "onde": "mesa_hud.gd:100",
+   "funcao": "func _botoes_menu() -> Array:",
+   "linha": "[\"SAIR DO TUTORIAL\" if m.tut != null else \"DESISTIR\", \"desistir\"]]"
+  }
+ ],
+ "SIM, DESISTIR": [
+  {
+   "onde": "mesa_hud.gd:94",
+   "funcao": "func _botoes_menu() -> Array:",
+   "linha": "out.append([Rect2(x, p.position.y + 84, w, 22), \"SIM, DESISTIR\", \"confirmar\"])"
+  }
+ ],
+ "VOLTAR": [
+  {
+   "onde": "mesa_hud.gd:95",
+   "funcao": "func _botoes_menu() -> Array:",
+   "linha": "out.append([Rect2(x, p.position.y + 114, w, 22), \"VOLTAR\", \"voltar\"])"
+  }
+ ],
+ "A partida conta como derrota.": [
+  {
+   "onde": "mesa_hud.gd:458",
+   "funcao": "func _desenhar_menu(tl: Rect2) -> void:",
+   "linha": "var aviso := Sessao.t(\"A partida conta como derrota.\") if m.tut == null else Sessao.t(\"Você pode refazer o tutorial no menu.\")"
+  }
+ ],
+ "Você pode refazer o tutorial no menu.": [
+  {
+   "onde": "mesa_hud.gd:458",
+   "funcao": "func _desenhar_menu(tl: Rect2) -> void:",
+   "linha": "var aviso := Sessao.t(\"A partida conta como derrota.\") if m.tut == null else Sessao.t(\"Você pode refazer o tutorial no menu.\")"
+  }
+ ],
+ "RÁPIDO": [
+  {
+   "onde": "mesa.gd:840",
+   "funcao": "func _desenhar_placar() -> void:",
+   "linha": "var rot := \"FIM TURNO\" if vez else ((\"RÁPIDO\" if acelerar_ia else \">> RÁPIDO\") if ia else \"AGUARDE\")"
+  }
+ ],
+ ">> RÁPIDO": [
+  {
+   "onde": "mesa.gd:101",
+   "funcao": "",
+   "linha": "var acelerar_ia := false              # botão \">> RÁPIDO\" no turno do oponente: 2,5× até a sua vez"
+  },
+  {
+   "onde": "mesa.gd:840",
+   "funcao": "func _desenhar_placar() -> void:",
+   "linha": "var rot := \"FIM TURNO\" if vez else ((\"RÁPIDO\" if acelerar_ia else \">> RÁPIDO\") if ia else \"AGUARDE\")"
+  }
+ ],
+ "MÃO INICIAL": [
+  {
+   "onde": "mesa.gd:3149",
+   "funcao": "func _mulligan() -> void:",
+   "linha": "efeitos.faixa_alvo = {\"titulo\": Sessao.t(\"MÃO INICIAL\"), \"sub\": Sessao.t(\"TOQUE ATÉ 2 CARTAS PARA TROCAR\"), \"y\": LINHA_Y}"
+  }
+ ],
+ "TOQUE ATÉ 2 CARTAS PARA TROCAR": [
+  {
+   "onde": "mesa.gd:3149",
+   "funcao": "func _mulligan() -> void:",
+   "linha": "efeitos.faixa_alvo = {\"titulo\": Sessao.t(\"MÃO INICIAL\"), \"sub\": Sessao.t(\"TOQUE ATÉ 2 CARTAS PARA TROCAR\"), \"y\": LINHA_Y}"
+  },
+  {
+   "onde": "mesa.gd:4363",
+   "funcao": "func _contagem_mulligan(seg: int) -> void:",
+   "linha": "efeitos.faixa_alvo[\"sub\"] = Sessao.t(\"TOQUE ATÉ 2 CARTAS PARA TROCAR\") + \"  ·  %d S\" % resta"
+  }
+ ],
+ "MANTER": [
+  {
+   "onde": "mesa.gd:3150",
+   "funcao": "func _mulligan() -> void:",
+   "linha": "efeitos.escolha = [{\"rect\": Rect2(70, LINHA_Y + 20, 104, 16), \"texto\": Sessao.t(\"MANTER\"), \"valor\": false},"
+  }
+ ],
+ "TROCAR (%d)": [
+  {
+   "onde": "mesa.gd:906",
+   "funcao": "func pressionar(p: Vector2) -> void:",
+   "linha": "efeitos.escolha[1][\"texto\"] = Sessao.t(\"TROCAR (%d)\") % hud.marcadas.size()"
+  },
+  {
+   "onde": "mesa.gd:3151",
+   "funcao": "func _mulligan() -> void:",
+   "linha": "{\"rect\": Rect2(186, LINHA_Y + 20, 104, 16), \"texto\": Sessao.t(\"TROCAR (%d)\") % 0, \"valor\": true}]"
+  },
+  {
+   "onde": "mesa.gd:3155",
+   "funcao": "func _mulligan() -> void:",
+   "linha": "efeitos.escolha[1][\"texto\"] = Sessao.t(\"TROCAR (%d)\") % hud.marcadas.size()"
+  }
+ ],
+ "EMBARALHANDO": [
+  {
+   "onde": "mesa.gd:3194",
+   "funcao": "func _mulligan() -> void:",
+   "linha": "efeitos.numero(proj(DECK_JOG) + Vector2(0, -40), Sessao.t(\"EMBARALHANDO\"), Color(\"#e0c8ff\"), 1)"
+  }
+ ],
+ "DESISTÊNCIA": [
+  {
+   "onde": "mesa.gd:3106",
+   "funcao": "func desistir() -> void:",
+   "linha": "_encerrar(1, Sessao.t(\"DESISTÊNCIA\"))"
+  },
+  {
+   "onde": "mesa.gd:3923",
+   "funcao": "func _turno_rede(d: int) -> bool:",
+   "linha": "await _encerrar(0 if d == 1 else 1, Sessao.t(\"O ADVERSÁRIO DESISTIU\") if d == 1 else Sessao.t(\"DESISTÊNCIA\"))"
+  }
+ ],
+ "CAUSA %d": [
+  {
+   "onde": "mesa_hud.gd:378",
+   "funcao": "func _desenhar_previa() -> void:",
+   "linha": "var l1 := Sessao.t(\"CAUSA %d\") % int(previa[\"da\"])"
+  }
+ ],
+ "SOFRE %d": [
+  {
+   "onde": "mesa_hud.gd:379",
+   "funcao": "func _desenhar_previa() -> void:",
+   "linha": "var l2 := Sessao.t(\"SOFRE %d\") % int(previa[\"dd\"])"
+  }
+ ],
+ "Dificuldade": [
+  {
+   "onde": "fluxo.gd:1865",
+   "funcao": "func _desenhar_botao(b: Dictionary, i: int) -> void:",
+   "linha": "var rotulo: String = Sessao.t({\"oponente\": \"Oponente\", \"meu_deck\": \"Seu deck\", \"deck_dele\": \"Deck do oponente\", \"dificuldade\": \"Dificuldade\"}[campo])"
+  },
+  {
+   "onde": "modos_solo.gd:553",
+   "funcao": "func botao_campo(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var rotulo := Sessao.t({\"meu\": \"Seu deck\", \"oponente\": \"Oponente\", \"deck_dele\": \"Deck do oponente\", \"dificuldade\": \"Dificuldade\"}[campo])"
+  }
+ ],
+ "Aprendiz": [
+  {
+   "onde": "fluxo.gd:1921",
+   "funcao": "func _nome_opcao(campo: String, v: String) -> String:",
+   "linha": "return Sessao.t([\"Aprendiz\", \"Mestre\", \"Arquimago\"][int(v)]) + \"  (+%d)\" % Sessao.MOEDAS_DIFICULDADE[int(v)]"
+  },
+  {
+   "onde": "historico.gd:10",
+   "funcao": "",
+   "linha": "const NIVEIS := [\"Aprendiz\", \"Mestre\", \"Arquimago\"]"
+  },
+  {
+   "onde": "modos_solo.gd:561",
+   "funcao": "func botao_campo(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "txt = Sessao.t([\"Aprendiz\", \"Mestre\", \"Arquimago\"][int(v)])"
+  }
+ ],
+ "Mestre": [
+  {
+   "onde": "fluxo.gd:1921",
+   "funcao": "func _nome_opcao(campo: String, v: String) -> String:",
+   "linha": "return Sessao.t([\"Aprendiz\", \"Mestre\", \"Arquimago\"][int(v)]) + \"  (+%d)\" % Sessao.MOEDAS_DIFICULDADE[int(v)]"
+  },
+  {
+   "onde": "historico.gd:10",
+   "funcao": "",
+   "linha": "const NIVEIS := [\"Aprendiz\", \"Mestre\", \"Arquimago\"]"
+  },
+  {
+   "onde": "modos_solo.gd:561",
+   "funcao": "func botao_campo(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "txt = Sessao.t([\"Aprendiz\", \"Mestre\", \"Arquimago\"][int(v)])"
+  }
+ ],
+ "Arquimago": [
+  {
+   "onde": "fluxo.gd:1921",
+   "funcao": "func _nome_opcao(campo: String, v: String) -> String:",
+   "linha": "return Sessao.t([\"Aprendiz\", \"Mestre\", \"Arquimago\"][int(v)]) + \"  (+%d)\" % Sessao.MOEDAS_DIFICULDADE[int(v)]"
+  },
+  {
+   "onde": "historico.gd:10",
+   "funcao": "",
+   "linha": "const NIVEIS := [\"Aprendiz\", \"Mestre\", \"Arquimago\"]"
+  },
+  {
+   "onde": "modos_solo.gd:561",
+   "funcao": "func botao_campo(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "txt = Sessao.t([\"Aprendiz\", \"Mestre\", \"Arquimago\"][int(v)])"
+  }
+ ],
+ "partida rápida  +10 a 25": [
+  {
+   "onde": "menu_principal.gd:33",
+   "funcao": "func modos() -> Array:",
+   "linha": "{\"nome\": \"Arcade\", \"sub\": Sessao.t(\"partida rápida  +10 a 25\"), \"retrato\": \"bruxaria\", \"cor\": Color(\"#5a3a7a\"), \"acao\": func() -> void: f._ir(\"arcade\")},"
+  }
+ ],
+ "CAPÍTULO": [
+  {
+   "onde": "fluxo.gd:1154",
+   "funcao": "func _desenhar_capitulo() -> void:",
+   "linha": "PixelFonte.centrado(self, Vector2(180, cy - 170 - 10 * (1.0 - e)), Sessao.t(\"CAPÍTULO\") + \" \" + ROMANOS[clampi(int(capitulo[\"n\"]) - 1, 0, 5)], Color(OURO[0], e), 3, ESCURO)"
+  }
+ ],
+ "toque para continuar": [
+  {
+   "onde": "tutorial.gd:42",
+   "funcao": "",
+   "linha": "\"toque\": \"toque para continuar\","
+  },
+  {
+   "onde": "efeitos.gd:482",
+   "funcao": "func _desenhar_guia() -> void:",
+   "linha": "## Painel do Silas: retrato (busto) 44×58, nome na cor dele, texto digitando a 45 letras/s e \"toque para continuar\"."
+  },
+  {
+   "onde": "fluxo.gd:1166",
+   "funcao": "func _desenhar_capitulo() -> void:",
+   "linha": "_texto_central(Vector2(180, r.end.y + 76), Sessao.t(\"toque para continuar\"), Color(OURO[0], 0.5 + 0.4 * sin(tempo * 4.0)))"
+  },
+  {
+   "onde": "fluxo.gd:1201",
+   "funcao": "func _desenhar_creditos() -> void:",
+   "linha": "_texto_central(Vector2(180, 560 + extra()), Sessao.t(\"toque para continuar\"), Color(OURO[0], 0.5 + 0.4 * sin(tempo * 4.0)))"
+  }
+ ],
+ "Arquimago começa com +3 de vida e 1 carta a mais.": [],
+ "NO DECK %d": [
+  {
+   "onde": "menu_perfil.gd:730",
+   "funcao": "func tocar_grade(p: Vector2) -> void:",
+   "linha": "return Sessao.t(\"NO DECK %d\") % deck.count(cid)"
+  }
+ ],
+ "LIVRE": [
+  {
+   "onde": "menu_perfil.gd:651",
+   "funcao": "func botao_deck(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var sl := Sessao.t(\"LIVRE\")"
+  }
+ ],
+ "Deck livre: use no Modo livre (Solo).": [
+  {
+   "onde": "menu_perfil.gd:846",
+   "funcao": "func usar_deck() -> void:",
+   "linha": "avisar(Sessao.t(\"Deck livre: use no Modo livre (Solo).\"))"
+  }
+ ],
+ "modos para jogar sozinho": [
+  {
+   "onde": "fluxo.gd:1685",
+   "funcao": "func _draw() -> void:",
+   "linha": "_cabecalho(\"Solo\", Sessao.t(\"modos para jogar sozinho\"))"
+  }
+ ],
+ "peregrinação, desafios e mais": [
+  {
+   "onde": "menu_principal.gd:35",
+   "funcao": "func modos() -> Array:",
+   "linha": "{\"nome\": \"Solo\", \"sub\": Sessao.t(\"peregrinação, desafios e mais\"), \"retrato\": \"hinduismo\", \"cor\": Color(\"#6a3a10\"), \"acao\": func() -> void: f._ir(\"solo\")},"
+  }
+ ],
+ "Peregrinação": [
+  {
+   "onde": "historico.gd:8",
+   "funcao": "",
+   "linha": "\"peregrinacao\": \"Peregrinação\", \"diario\": \"Desafio do dia\", \"lendario\": \"Lendário\","
+  },
+  {
+   "onde": "modos_solo.gd:54",
+   "funcao": "func itens() -> Array:",
+   "linha": "{\"id\": \"peregrinacao\", \"nome\": \"Peregrinação\","
+  },
+  {
+   "onde": "modos_solo.gd:187",
+   "funcao": "func desenhar_pere() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Peregrinação\"), Sessao.t(\"escolha a fé que vai carregar\"))"
+  },
+  {
+   "onde": "modos_solo.gd:189",
+   "funcao": "func desenhar_pere() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Peregrinação\"), Sessao.nome_deck(p[\"trad\"]))"
+  }
+ ],
+ "escolha a fé que vai carregar": [
+  {
+   "onde": "modos_solo.gd:187",
+   "funcao": "func desenhar_pere() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Peregrinação\"), Sessao.t(\"escolha a fé que vai carregar\"))"
+  }
+ ],
+ "Cornucópia": [
+  {
+   "onde": "modos_solo.gd:203",
+   "funcao": "func desenhar_pere() -> void:",
+   "linha": "f._texto_central(Vector2(180, 158), (Sessao.t(\"Cornucópia\") + \"  \" + corn), Color(\"#ff9a8a\"))"
+  }
+ ],
+ "Bênçãos": [
+  {
+   "onde": "modos_solo.gd:206",
+   "funcao": "func desenhar_pere() -> void:",
+   "linha": "f._texto_central(Vector2(180, y), Sessao.t(\"Bênçãos\") + (\": \" + str(bs.size()) if not bs.is_empty() else \": -\"), f.OURO[1])"
+  }
+ ],
+ "Escolha o caminho": [
+  {
+   "onde": "modos_solo.gd:209",
+   "funcao": "func desenhar_pere() -> void:",
+   "linha": "f._texto_central(Vector2(180, 316), Sessao.t(\"Escolha o caminho\"), Color(0.85, 0.78, 0.66))"
+  }
+ ],
+ "Ver deck": [
+  {
+   "onde": "modos_solo.gd:163",
+   "funcao": "func botoes_pere() -> void:",
+   "linha": "f._botao(Rect2(60, 520, 110, 26), \"Ver deck\", ver_deck)"
+  }
+ ],
+ "Abandonar": [
+  {
+   "onde": "modos_solo.gd:164",
+   "funcao": "func botoes_pere() -> void:",
+   "linha": "f._botao(Rect2(190, 520, 110, 26), \"Abandonar\", func() -> void:"
+  }
+ ],
+ "Entidades": [
+  {
+   "onde": "modos_solo.gd:219",
+   "funcao": "func ver_deck() -> void:",
+   "linha": "blocos.append([\"sub\", Sessao.t({\"entidade\": \"Entidades\", \"selo\": \"Selos\", \"rito\": \"Ritos\", \"reliquia\": \"Relíquias\"}[tipo])])"
+  }
+ ],
+ "Selos": [
+  {
+   "onde": "modos_solo.gd:219",
+   "funcao": "func ver_deck() -> void:",
+   "linha": "blocos.append([\"sub\", Sessao.t({\"entidade\": \"Entidades\", \"selo\": \"Selos\", \"rito\": \"Ritos\", \"reliquia\": \"Relíquias\"}[tipo])])"
+  }
+ ],
+ "Ritos": [
+  {
+   "onde": "modos_solo.gd:219",
+   "funcao": "func ver_deck() -> void:",
+   "linha": "blocos.append([\"sub\", Sessao.t({\"entidade\": \"Entidades\", \"selo\": \"Selos\", \"rito\": \"Ritos\", \"reliquia\": \"Relíquias\"}[tipo])])"
+  }
+ ],
+ "Relíquias": [
+  {
+   "onde": "modos_solo.gd:219",
+   "funcao": "func ver_deck() -> void:",
+   "linha": "blocos.append([\"sub\", Sessao.t({\"entidade\": \"Entidades\", \"selo\": \"Selos\", \"rito\": \"Ritos\", \"reliquia\": \"Relíquias\"}[tipo])])"
+  }
+ ],
+ "Bênção": [
+  {
+   "onde": "modos_solo.gd:339",
+   "funcao": "func desenhar_premio() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Bênção\"), Sessao.t(\"escolha uma\"))"
+  }
+ ],
+ "escolha uma": [
+  {
+   "onde": "modos_solo.gd:339",
+   "funcao": "func desenhar_premio() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Bênção\"), Sessao.t(\"escolha uma\"))"
+  }
+ ],
+ "Nova carta": [
+  {
+   "onde": "modos_solo.gd:341",
+   "funcao": "func desenhar_premio() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Nova carta\"), Sessao.t(\"leve uma para o deck\"))"
+  }
+ ],
+ "leve uma para o deck": [
+  {
+   "onde": "modos_solo.gd:341",
+   "funcao": "func desenhar_premio() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Nova carta\"), Sessao.t(\"leve uma para o deck\"))"
+  }
+ ],
+ "Pular": [
+  {
+   "onde": "modos_solo.gd:309",
+   "funcao": "func botoes_premio() -> void:",
+   "linha": "f._botao(Rect2(110, 420, 140, 26), \"Pular\", escolher_carta.bind(-1))"
+  }
+ ],
+ "Desafio do dia": [
+  {
+   "onde": "historico.gd:8",
+   "funcao": "",
+   "linha": "\"peregrinacao\": \"Peregrinação\", \"diario\": \"Desafio do dia\", \"lendario\": \"Lendário\","
+  },
+  {
+   "onde": "modos_solo.gd:57",
+   "funcao": "func itens() -> Array:",
+   "linha": "{\"id\": \"diario\", \"nome\": \"Desafio do dia\","
+  },
+  {
+   "onde": "modos_solo.gd:432",
+   "funcao": "func desenhar_diario() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Desafio do dia\"), Sessao.t(\"a mesma partida para todo mundo\"))"
+  },
+  {
+   "onde": "modos_solo.gd:467",
+   "funcao": "func pos_diario() -> void:",
+   "linha": "f.perg.abrir([[\"titulo\", Sessao.t(\"Desafio do dia\")], [\"destaque\", \"+%d\" % MOEDAS_DIARIO, \"moeda\"],"
+  }
+ ],
+ "a mesma partida para todo mundo": [
+  {
+   "onde": "modos_solo.gd:432",
+   "funcao": "func desenhar_diario() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Desafio do dia\"), Sessao.t(\"a mesma partida para todo mundo\"))"
+  }
+ ],
+ "Desafios lendários": [
+  {
+   "onde": "modos_solo.gd:60",
+   "funcao": "func itens() -> Array:",
+   "linha": "{\"id\": \"lendario\", \"nome\": \"Desafios lendários\","
+  },
+  {
+   "onde": "modos_solo.gd:500",
+   "funcao": "func desenhar_lendarios() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Desafios lendários\"), Sessao.t(\"vença o nível mais difícil e leve a Lendária\"))"
+  }
+ ],
+ "vença o nível mais difícil e leve a Lendária": [
+  {
+   "onde": "modos_solo.gd:500",
+   "funcao": "func desenhar_lendarios() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Desafios lendários\"), Sessao.t(\"vença o nível mais difícil e leve a Lendária\"))"
+  }
+ ],
+ "Modo livre": [
+  {
+   "onde": "historico.gd:9",
+   "funcao": "",
+   "linha": "\"livre\": \"Modo livre\", \"choronzon\": \"Choronzon\", \"online\": \"Online\", \"bot\": \"Online (bot)\"}"
+  },
+  {
+   "onde": "modos_solo.gd:65",
+   "funcao": "func itens() -> Array:",
+   "linha": "{\"id\": \"livre\", \"nome\": \"Modo livre\", \"sub\": Sessao.t(\"qualquer carta, sem prêmio\"),"
+  },
+  {
+   "onde": "modos_solo.gd:586",
+   "funcao": "func desenhar_livre() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Modo livre\"), Sessao.t(\"teste decks com qualquer carta\"))"
+  }
+ ],
+ "teste decks com qualquer carta": [
+  {
+   "onde": "modos_solo.gd:586",
+   "funcao": "func desenhar_livre() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Modo livre\"), Sessao.t(\"teste decks com qualquer carta\"))"
+  }
+ ],
+ "Sem prêmios. Decks livres só valem aqui.": [
+  {
+   "onde": "modos_solo.gd:587",
+   "funcao": "func desenhar_livre() -> void:",
+   "linha": "f._texto_central(Vector2(180, 474), Sessao.t(\"Sem prêmios. Decks livres só valem aqui.\"), Color(0.72, 0.66, 0.53))"
+  }
+ ],
+ "Novo deck livre": [
+  {
+   "onde": "modos_solo.gd:546",
+   "funcao": "func botoes_livre() -> void:",
+   "linha": "f._botao(Rect2(90, 392, 180, 26), \"Novo deck livre\", novo_deck_livre)"
+  }
+ ],
+ "Livre %d": [
+  {
+   "onde": "menu_perfil.gd:659",
+   "funcao": "func novo_deck() -> void:",
+   "linha": "var nome := (Sessao.t(\"Livre %d\") if gaveta == \"livre\" else Sessao.t(\"Deck %d\")) % (indices_gaveta().size() + 1)"
+  }
+ ],
+ "livre": [
+  {
+   "onde": "progresso.gd:172",
+   "funcao": "static func partida(reg: Dictionary) -> Array:",
+   "linha": "if str(reg.get(\"modo\", \"\")) in [\"peregrinacao\", \"diario\", \"lendario\", \"livre\", \"choronzon\"]:"
+  },
+  {
+   "onde": "sessao.gd:769",
+   "funcao": "func deck_livre(idx: int) -> bool:",
+   "linha": "return idx >= 0 and idx < perfil[\"decks\"].size() and bool(perfil[\"decks\"][idx].get(\"livre\", false))"
+  },
+  {
+   "onde": "fluxo.gd:280",
+   "funcao": "func _ready() -> void:",
+   "linha": "if OS.get_environment(\"GD_SOLO_TESTE\") != \"\":            # teste: \"pere:indigena\" | \"premio\" | \"bencao\" | \"diario\" | \"lendarios\" | \"livre\" | \"capitulo\" | \"creditos\""
+  },
+  {
+   "onde": "fluxo.gd:301",
+   "funcao": "func _ready() -> void:",
+   "linha": "mp.gaveta = \"livre\"; mp.deck_sugerido(\"hinduismo\"); mp.novo_deck(); _ir(\"decks\")"
+  }
+ ],
+ "Sem conexão: o desafio do dia usa a hora da internet.": [
+  {
+   "onde": "modos_solo.gd:108",
+   "funcao": "func abrir(id: String) -> void:",
+   "linha": "f.mp.avisar(Sessao.t(\"Sem conexão: o desafio do dia usa a hora da internet.\"))"
+  }
+ ],
+ "Vença o Torneio para abrir.": [
+  {
+   "onde": "modos_solo.gd:120",
+   "funcao": "func abrir(id: String) -> void:",
+   "linha": "f.mp.avisar(Sessao.t(\"Vença o Torneio para abrir.\"))"
+  }
+ ],
+ "Enigmas": [
+  {
+   "onde": "modos_solo.gd:62",
+   "funcao": "func itens() -> Array:",
+   "linha": "{\"id\": \"enigmas\", \"nome\": \"Enigmas\","
+  },
+  {
+   "onde": "modos_solo.gd:684",
+   "funcao": "func desenhar_enigmas() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Enigmas\"), Sessao.t(\"zere a Cornucópia dele neste turno\"))"
+  }
+ ],
+ "zere a Cornucópia dele neste turno": [
+  {
+   "onde": "modos_solo.gd:684",
+   "funcao": "func desenhar_enigmas() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Enigmas\"), Sessao.t(\"zere a Cornucópia dele neste turno\"))"
+  }
+ ],
+ "AINDA NÃO": [
+  {
+   "onde": "mesa.gd:3632",
+   "funcao": "func _enigma() -> void:",
+   "linha": "var de_novo := await pedir_sim_nao(Sessao.t(\"AINDA NÃO\"), Sessao.t(\"A CORNUCÓPIA DELE NÃO ZEROU\"), Sessao.t(\"TENTAR DE NOVO\"), Sessao.t(\"SAIR\"))"
+  }
+ ],
+ "A CORNUCÓPIA DELE NÃO ZEROU": [
+  {
+   "onde": "mesa.gd:3632",
+   "funcao": "func _enigma() -> void:",
+   "linha": "var de_novo := await pedir_sim_nao(Sessao.t(\"AINDA NÃO\"), Sessao.t(\"A CORNUCÓPIA DELE NÃO ZEROU\"), Sessao.t(\"TENTAR DE NOVO\"), Sessao.t(\"SAIR\"))"
+  }
+ ],
+ "TENTAR DE NOVO": [
+  {
+   "onde": "mesa.gd:3632",
+   "funcao": "func _enigma() -> void:",
+   "linha": "var de_novo := await pedir_sim_nao(Sessao.t(\"AINDA NÃO\"), Sessao.t(\"A CORNUCÓPIA DELE NÃO ZEROU\"), Sessao.t(\"TENTAR DE NOVO\"), Sessao.t(\"SAIR\"))"
+  }
+ ],
+ "SAIR": [
+  {
+   "onde": "mesa.gd:3632",
+   "funcao": "func _enigma() -> void:",
+   "linha": "var de_novo := await pedir_sim_nao(Sessao.t(\"AINDA NÃO\"), Sessao.t(\"A CORNUCÓPIA DELE NÃO ZEROU\"), Sessao.t(\"TENTAR DE NOVO\"), Sessao.t(\"SAIR\"))"
+  }
+ ],
+ "BÊNÇÃO": [
+  {
+   "onde": "mesa.gd:2473",
+   "funcao": "func _jogar_entidade(c: Carta, d: int, i: int, sacrificios: Array = []) -> void:",
+   "linha": "efeitos.numero(c.position + Vector2(0, -46), Sessao.t(\"BÊNÇÃO\"), Color(\"#ffe39a\"), 1)"
+  }
+ ],
+ "TODAS": [
+  {
+   "onde": "colecao.gd:85",
+   "funcao": "func rotulo_filtro(qual: String) -> String:",
+   "linha": "\"posse\": return Sessao.t({\"todas\": \"TODAS\", \"tenho\": \"TENHO\", \"faltam\": \"FALTAM\"}[posse])"
+  }
+ ],
+ "TENHO": [
+  {
+   "onde": "colecao.gd:85",
+   "funcao": "func rotulo_filtro(qual: String) -> String:",
+   "linha": "\"posse\": return Sessao.t({\"todas\": \"TODAS\", \"tenho\": \"TENHO\", \"faltam\": \"FALTAM\"}[posse])"
+  }
+ ],
+ "FALTAM": [
+  {
+   "onde": "colecao.gd:85",
+   "funcao": "func rotulo_filtro(qual: String) -> String:",
+   "linha": "\"posse\": return Sessao.t({\"todas\": \"TODAS\", \"tenho\": \"TENHO\", \"faltam\": \"FALTAM\"}[posse])"
+  }
+ ],
+ "TIPO": [
+  {
+   "onde": "colecao.gd:86",
+   "funcao": "func rotulo_filtro(qual: String) -> String:",
+   "linha": "\"tipo\": return Sessao.t({\"\": \"TIPO\", \"entidade\": \"ENTIDADE\", \"selo\": \"SELO\", \"rito\": \"RITO\", \"reliquia\": \"RELÍQUIA\"}[tipo])"
+  }
+ ],
+ "CUSTO": [
+  {
+   "onde": "colecao.gd:87",
+   "funcao": "func rotulo_filtro(qual: String) -> String:",
+   "linha": "\"custo\": return Sessao.t(\"CUSTO\") + (\" \" + custo if custo != \"\" else \"\")"
+  },
+  {
+   "onde": "efeitos.gd:263",
+   "funcao": "func _desenhar_zoom() -> void:",
+   "linha": "var info := \"%s  %s %d\" % [Sessao.t({\"entidade\": \"ENTIDADE\", \"selo\": \"SELO\", \"rito\": \"RITO\", \"reliquia\": \"RELÍQUIA\"}.get(c.tipo, \"\")), Sessao.t(\"CUSTO\"), c.custo]"
+  }
+ ],
+ "BUSCAR": [
+  {
+   "onde": "colecao.gd:88",
+   "funcao": "func rotulo_filtro(qual: String) -> String:",
+   "linha": "return (busca.to_upper() if busca != \"\" else Sessao.t(\"BUSCAR\"))"
+  }
+ ],
+ "TOTAL": [
+  {
+   "onde": "colecao.gd:167",
+   "funcao": "func desenhar_grade(ci: CanvasItem) -> void:",
+   "linha": "info += \"  -  \" + Sessao.t(\"TOTAL\") + \" %d%%\" % roundi(100.0 * pt[0] / maxi(1, pt[1]))"
+  }
+ ],
+ "NOVA": [
+  {
+   "onde": "colecao.gd:192",
+   "funcao": "func desenhar_grade(ci: CanvasItem) -> void:",
+   "linha": "var sn := Sessao.t(\"NOVA\")"
+  }
+ ],
+ "Buscar carta": [
+  {
+   "onde": "menu_perfil.gd:386",
+   "funcao": "func armar_nome_web(qual: String) -> void:",
+   "linha": "var titulo: String = Sessao.t(\"Seu nome\") if qual == \"perfil\" else (Sessao.t(\"Buscar carta\") if qual == \"busca\" else (Sessao.t(\"Cole o código do deck\") if qual == \"codigo\" else (Sessao.t(\"Código da co"
+  }
+ ],
+ "DESFAZER +%d": [
+  {
+   "onde": "fluxo.gd:1489",
+   "funcao": "func _toque_colecao(p: Vector2, pressed: bool) -> void:",
+   "linha": "var b_des := {\"texto\": Sessao.t(\"DESFAZER +%d\") % ganho, \"ativo\": func() -> bool: return Sessao.pode_desfazer(cid)}"
+  }
+ ],
+ "CRIAR -%d": [
+  {
+   "onde": "fluxo.gd:1493",
+   "funcao": "func _toque_colecao(p: Vector2, pressed: bool) -> void:",
+   "linha": "var b_cri := {\"texto\": Sessao.t(\"CRIAR -%d\") % Sessao.custo_criar(cid), \"ativo\": func() -> bool: return Sessao.pode_criar(cid)}"
+  }
+ ],
+ "TENHO %d  -  ESSÊNCIA %d": [
+  {
+   "onde": "fluxo.gd:1499",
+   "funcao": "func _toque_colecao(p: Vector2, pressed: bool) -> void:",
+   "linha": "func() -> String: return Sessao.t(\"TENHO %d  -  ESSÊNCIA %d\") % [Sessao.copias(cid), Sessao.essencia()])"
+  }
+ ],
+ "Pacote": [
+  {
+   "onde": "fluxo.gd:1062",
+   "funcao": "func _botao_pacote(_b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var s := Sessao.t(\"Pacote\") + \": \" + (Sessao.t(\"todas as tradições\") if trad == \"\" else Sessao.nome_deck(trad))"
+  }
+ ],
+ "todas as tradições": [
+  {
+   "onde": "fluxo.gd:1062",
+   "funcao": "func _botao_pacote(_b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var s := Sessao.t(\"Pacote\") + \": \" + (Sessao.t(\"todas as tradições\") if trad == \"\" else Sessao.nome_deck(trad))"
+  }
+ ],
+ "cada carta: 70% de %s": [
+  {
+   "onde": "booster.gd:386",
+   "funcao": "func desenhar_loja() -> void:",
+   "linha": "var linhas := [Sessao.t(\"3 cartas de todas as tradições\") if trad == \"\" else Sessao.t(\"cada carta: 70% de %s\") % Sessao.nome_deck(trad),"
+  }
+ ],
+ "Lendária garantida no próximo booster": [
+  {
+   "onde": "booster.gd:388",
+   "funcao": "func desenhar_loja() -> void:",
+   "linha": "Sessao.t(\"Lendária garantida no próximo booster\") if falta <= 1 else Sessao.t(\"Lendária garantida em até %d boosters\") % falta]"
+  }
+ ],
+ "Lendária garantida em até %d boosters": [
+  {
+   "onde": "booster.gd:388",
+   "funcao": "func desenhar_loja() -> void:",
+   "linha": "Sessao.t(\"Lendária garantida no próximo booster\") if falta <= 1 else Sessao.t(\"Lendária garantida em até %d boosters\") % falta]"
+  }
+ ],
+ "Faltam %d cartas (o deck tem %d de 32).": [
+  {
+   "onde": "menu_perfil.gd:862",
+   "funcao": "func motivo_invalido(i: int) -> String:",
+   "linha": "return Sessao.t(\"Faltam %d cartas (o deck tem %d de 32).\") % [Sessao.DECK_TAM - n, n]"
+  }
+ ],
+ "+%d cartas: deck completo.": [
+  {
+   "onde": "menu_perfil.gd:937",
+   "funcao": "func completar() -> void:",
+   "linha": "avisar(Sessao.t(\"+%d cartas: deck completo.\") % n)"
+  }
+ ],
+ "+%d cartas. Faltam cartas na coleção para chegar a 32.": [
+  {
+   "onde": "menu_perfil.gd:939",
+   "funcao": "func completar() -> void:",
+   "linha": "avisar(Sessao.t(\"+%d cartas. Faltam cartas na coleção para chegar a 32.\") % n)"
+  }
+ ],
+ "sugerido": [
+  {
+   "onde": "fluxo.gd:314",
+   "funcao": "func _ready() -> void:",
+   "linha": "\"sugerido\":"
+  },
+  {
+   "onde": "menu_perfil.gd:944",
+   "funcao": "func deck_sugerido(trad: String) -> void:",
+   "linha": "var i := _novo_na_gaveta(Sessao.nome_deck(trad) + \" \" + (Sessao.t(\"livre\") if gaveta == \"livre\" else Sessao.t(\"sugerido\")))"
+  }
+ ],
+ "Código do deck": [
+  {
+   "onde": "menu_perfil.gd:983",
+   "funcao": "func copiar_codigo() -> void:",
+   "linha": "var blocos: Array = [[\"titulo\", Sessao.t(\"Código do deck\")], [\"centro\", str(Sessao.perfil[\"decks\"][deck_idx][\"nome\"])], [\"espaco\"]]"
+  }
+ ],
+ "Copiado. Cole em Decks > Importar.": [
+  {
+   "onde": "menu_perfil.gd:987",
+   "funcao": "func copiar_codigo() -> void:",
+   "linha": "blocos.append([\"centro\", Sessao.t(\"Copiado. Cole em Decks > Importar.\")])"
+  }
+ ],
+ "Código inválido: copie um código KDX1 antes.": [
+  {
+   "onde": "menu_perfil.gd:995",
+   "funcao": "func importar_codigo(c: String) -> void:",
+   "linha": "avisar(Sessao.t(\"Código inválido: copie um código KDX1 antes.\"))"
+  },
+  {
+   "onde": "menu_perfil.gd:1002",
+   "funcao": "func importar_codigo(c: String) -> void:",
+   "linha": "avisar(Sessao.t(\"Código inválido: copie um código KDX1 antes.\"))"
+  }
+ ],
+ "Importado": [
+  {
+   "onde": "menu_perfil.gd:1005",
+   "funcao": "func importar_codigo(c: String) -> void:",
+   "linha": "var i := _novo_na_gaveta(Sessao.t(\"Importado\"))"
+  }
+ ],
+ "Importado. Faltaram %d cartas que você não tem.": [
+  {
+   "onde": "menu_perfil.gd:1022",
+   "funcao": "func importar_codigo(c: String) -> void:",
+   "linha": "avisar(Sessao.t(\"Importado. Faltaram %d cartas que você não tem.\") % faltou)"
+  }
+ ],
+ "Importado completo!": [
+  {
+   "onde": "menu_perfil.gd:1024",
+   "funcao": "func importar_codigo(c: String) -> void:",
+   "linha": "avisar(Sessao.t(\"Importado completo!\"))"
+  }
+ ],
+ "Cole o código do deck": [
+  {
+   "onde": "menu_perfil.gd:386",
+   "funcao": "func armar_nome_web(qual: String) -> void:",
+   "linha": "var titulo: String = Sessao.t(\"Seu nome\") if qual == \"perfil\" else (Sessao.t(\"Buscar carta\") if qual == \"busca\" else (Sessao.t(\"Cole o código do deck\") if qual == \"codigo\" else (Sessao.t(\"Código da co"
+  }
+ ],
+ "faltam %d": [
+  {
+   "onde": "menu_perfil.gd:649",
+   "funcao": "func botao_deck(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "Fonte57.desenhar(f, dentro.position + Vector2(36, 19), info + (\"\" if n == Sessao.DECK_TAM else \"  \" + Sessao.t(\"faltam %d\") % (Sessao.DECK_TAM - n)), cor_info, f.ESCURO)"
+  }
+ ],
+ "Sugerido": [
+  {
+   "onde": "fluxo.gd:536",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(127, 498, 106, 28), \"Sugerido\", func() -> void: _ir(\"sugerir\"))"
+  }
+ ],
+ "Importar": [
+  {
+   "onde": "fluxo.gd:537",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(238, 498, 106, 28), \"Importar\", mp.colar_codigo, {\"web_nome\": \"codigo\"} if OS.has_feature(\"web\") else {})"
+  }
+ ],
+ "Completar": [
+  {
+   "onde": "fluxo.gd:546",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(16, 538, 106, 26), \"Completar\", mp.completar)"
+  }
+ ],
+ "Código": [
+  {
+   "onde": "fluxo.gd:547",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(127, 538, 106, 26), \"Código\", mp.copiar_codigo)"
+  }
+ ],
+ "Deck sugerido": [
+  {
+   "onde": "fluxo.gd:1687",
+   "funcao": "func _draw() -> void:",
+   "linha": "_cabecalho(Sessao.t(\"Deck sugerido\"), Sessao.t(\"montado com as cartas que você tem\"))"
+  }
+ ],
+ "montado com as cartas que você tem": [
+  {
+   "onde": "fluxo.gd:1687",
+   "funcao": "func _draw() -> void:",
+   "linha": "_cabecalho(Sessao.t(\"Deck sugerido\"), Sessao.t(\"montado com as cartas que você tem\"))"
+  }
+ ],
+ "E": [
+  {
+   "onde": "pixel_fonte.gd:6",
+   "funcao": "",
+   "linha": "\"D\": [\"110\", \"101\", \"101\", \"101\", \"110\"], \"E\": [\"111\", \"100\", \"110\", \"100\", \"111\"], \"F\": [\"111\", \"100\", \"110\", \"100\", \"100\"],"
+  },
+  {
+   "onde": "pixel_fonte.gd:32",
+   "funcao": "",
+   "linha": "\"É\": [\"E\", \"agudo\"], \"È\": [\"E\", \"grave\"], \"Ê\": [\"E\", \"circ\"], \"Ë\": [\"E\", \"trema\"],"
+  },
+  {
+   "onde": "fonte57.gd:21",
+   "funcao": "",
+   "linha": "\"E\": [\"11111\", \"10000\", \"10000\", \"11110\", \"10000\", \"10000\", \"11111\"],"
+  },
+  {
+   "onde": "historico.gd:84",
+   "funcao": "func botao_linha(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "PixelFonte.centrado(f, Vector2(dentro.position.x + 9, dentro.get_center().y), {\"vitoria\": \"V\", \"derrota\": \"D\"}.get(res, \"E\"), Color.WHITE, 1)"
+  }
+ ],
+ "S": [
+  {
+   "onde": "pixel_fonte.gd:11",
+   "funcao": "",
+   "linha": "\"S\": [\"011\", \"100\", \"010\", \"001\", \"110\"], \"T\": [\"111\", \"010\", \"010\", \"010\", \"010\"], \"U\": [\"101\", \"101\", \"101\", \"101\", \"011\"],"
+  },
+  {
+   "onde": "carta.gd:231",
+   "funcao": "func _frente(x0: int, y0: int) -> void:",
+   "linha": "kw += ({\"guarda\": \"G\", \"impeto\": \"R\", \"furtivo\": \"S\", \"renascer\": \"B\"} if Sessao.idioma == \"en\" else {\"guarda\": \"G\", \"impeto\": \"I\", \"furtivo\": \"F\", \"renascer\": \"R\"}).get(k, \"\")"
+  },
+  {
+   "onde": "fonte57.gd:35",
+   "funcao": "",
+   "linha": "\"S\": [\"01111\", \"10000\", \"10000\", \"01110\", \"00001\", \"00001\", \"11110\"],"
+  },
+  {
+   "onde": "menu_perfil.gd:1049",
+   "funcao": "func desenhar_curva(y: float) -> void:",
+   "linha": "var lt := [[\"E\", \"entidade\", 14], [\"S\", \"selo\", 6], [\"R\", \"rito\", 8], [\"REL\", \"reliquia\", 4]]"
+  }
+ ],
+ "R": [
+  {
+   "onde": "pixel_fonte.gd:10",
+   "funcao": "",
+   "linha": "\"P\": [\"110\", \"101\", \"110\", \"100\", \"100\"], \"Q\": [\"010\", \"101\", \"101\", \"110\", \"011\"], \"R\": [\"110\", \"101\", \"110\", \"101\", \"101\"],"
+  },
+  {
+   "onde": "sessao.gd:806",
+   "funcao": "func tradicao_do_deck(ids: Array) -> String:",
+   "linha": "const ESSENCIA_DESFAZ := {\"C\": 5, \"R\": 10, \"SR\": 40, \"UR\": 100}"
+  },
+  {
+   "onde": "sessao.gd:807",
+   "funcao": "func tradicao_do_deck(ids: Array) -> String:",
+   "linha": "const ESSENCIA_CRIA := {\"C\": 40, \"R\": 100, \"SR\": 400}"
+  },
+  {
+   "onde": "sessao.gd:933",
+   "funcao": "func raridade(cid: String, foil: bool) -> String:",
+   "linha": "return \"C\" if int(c[\"custo\"]) <= 3 else \"R\""
+  }
+ ],
+ "REL": [
+  {
+   "onde": "menu_perfil.gd:1049",
+   "funcao": "func desenhar_curva(y: float) -> void:",
+   "linha": "var lt := [[\"E\", \"entidade\", 14], [\"S\", \"selo\", 6], [\"R\", \"rito\", 8], [\"REL\", \"reliquia\", 4]]"
+  }
+ ],
+ "Montei %d de 32: as outras cópias já estão em outros decks.": [
+  {
+   "onde": "menu_perfil.gd:955",
+   "funcao": "func deck_sugerido(trad: String) -> void:",
+   "linha": "avisar(Sessao.t(\"Montei %d de 32: as outras cópias já estão em outros decks.\") % n)"
+  }
+ ],
+ "Cosméticos": [
+  {
+   "onde": "fluxo.gd:803",
+   "funcao": "func _abas_loja(atual: String) -> void:",
+   "linha": "_botao(Rect2(182, 86, 108, 20), \"Cosméticos\", func() -> void: _ir(\"cosmeticos\"), {\"aba_loja\": \"cosmeticos\", \"atual\": atual == \"cosmeticos\", \"desenho\": _botao_aba_loja})"
+  },
+  {
+   "onde": "fluxo.gd:1718",
+   "funcao": "func _draw() -> void:",
+   "linha": "_cabecalho(Sessao.t(\"Cosméticos\"), Sessao.t(\"versos de carta por Koins\"))"
+  }
+ ],
+ "versos de carta por Koins": [
+  {
+   "onde": "fluxo.gd:1718",
+   "funcao": "func _draw() -> void:",
+   "linha": "_cabecalho(Sessao.t(\"Cosméticos\"), Sessao.t(\"versos de carta por Koins\"))"
+  }
+ ],
+ "BOOSTERS": [
+  {
+   "onde": "fluxo.gd:985",
+   "funcao": "func _botao_aba_loja(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "PixelFonte.centrado(self, dd.get_center(), Sessao.t(\"BOOSTERS\" if b[\"aba_loja\"] == \"boosters\" else \"COSMÉTICOS\"),"
+  }
+ ],
+ "COSMÉTICOS": [
+  {
+   "onde": "fluxo.gd:985",
+   "funcao": "func _botao_aba_loja(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "PixelFonte.centrado(self, dd.get_center(), Sessao.t(\"BOOSTERS\" if b[\"aba_loja\"] == \"boosters\" else \"COSMÉTICOS\"),"
+  }
+ ],
+ "TEM": [
+  {
+   "onde": "fluxo.gd:1015",
+   "funcao": "func _botao_verso(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "s = Sessao.t(\"TEM\"); cor = Color(\"#9ad0ff\")"
+  }
+ ],
+ "Comprar": [
+  {
+   "onde": "fluxo.gd:1028",
+   "funcao": "func _botao_comprar_verso(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var s := Sessao.t(\"Comprar\") + \"  \" + str(b[\"comprar_verso\"])"
+  }
+ ],
+ "Equipar": [
+  {
+   "onde": "fluxo.gd:504",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 470, 180, 30), \"Equipar\", func() -> void: Sessao.equipar_verso(cos_sel); vibrar(18, 0.5); _ir(\"cosmetico\"))"
+  }
+ ],
+ "Koins insuficientes.": [
+  {
+   "onde": "fluxo.gd:498",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Koins insuficientes.\")); vibrar(30, 0.6); return"
+  }
+ ],
+ "verso lendário animado": [
+  {
+   "onde": "fluxo.gd:1038",
+   "funcao": "func _desenhar_cosmetico() -> void:",
+   "linha": "_cabecalho(Cosmeticos.nome(cos_sel), Sessao.t(\"verso lendário animado\") if lend else Sessao.t(\"verso de carta\"))"
+  }
+ ],
+ "verso de carta": [
+  {
+   "onde": "fluxo.gd:1038",
+   "funcao": "func _desenhar_cosmetico() -> void:",
+   "linha": "_cabecalho(Cosmeticos.nome(cos_sel), Sessao.t(\"verso lendário animado\") if lend else Sessao.t(\"verso de carta\"))"
+  }
+ ],
+ "Em uso nas suas cartas.": [
+  {
+   "onde": "fluxo.gd:1049",
+   "funcao": "func _desenhar_cosmetico() -> void:",
+   "linha": "s = Sessao.t(\"Em uso nas suas cartas.\")"
+  }
+ ],
+ "Você já tem este verso.": [
+  {
+   "onde": "fluxo.gd:1051",
+   "funcao": "func _desenhar_cosmetico() -> void:",
+   "linha": "s = Sessao.t(\"Você já tem este verso.\")"
+  }
+ ],
+ "Você tem %d Koins.": [
+  {
+   "onde": "fluxo.gd:1053",
+   "funcao": "func _desenhar_cosmetico() -> void:",
+   "linha": "s = Sessao.t(\"Você tem %d Koins.\") % Sessao.koins()"
+  }
+ ],
+ "Koins: 10 por dia e 100 toda sexta.": [
+  {
+   "onde": "fluxo.gd:1055",
+   "funcao": "func _desenhar_cosmetico() -> void:",
+   "linha": "_texto_central(Vector2(180, 366), Sessao.t(\"Koins: 10 por dia e 100 toda sexta.\"), Color(0.72, 0.66, 0.6, 0.8))"
+  }
+ ],
+ "Texto: grande": [
+  {
+   "onde": "fluxo.gd:422",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 254, 180, 26), \"Texto: grande\" if Sessao.texto_grande else \"Texto: normal\","
+  }
+ ],
+ "Texto: normal": [
+  {
+   "onde": "fluxo.gd:422",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 254, 180, 26), \"Texto: grande\" if Sessao.texto_grande else \"Texto: normal\","
+  }
+ ],
+ "Modo daltônico: ligado": [
+  {
+   "onde": "fluxo.gd:424",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 286, 180, 26), \"Modo daltônico: ligado\" if Sessao.daltonico else \"Modo daltônico: desligado\","
+  }
+ ],
+ "Modo daltônico: desligado": [
+  {
+   "onde": "fluxo.gd:424",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 286, 180, 26), \"Modo daltônico: ligado\" if Sessao.daltonico else \"Modo daltônico: desligado\","
+  }
+ ],
+ "Comprar 1 booster?": [
+  {
+   "onde": "fluxo.gd:297",
+   "funcao": "func _ready() -> void:",
+   "linha": "_ir(\"loja\"); confirmar(Sessao.t(\"Comprar 1 booster?\"), Sessao.t(\"por %d de ouro\") % Sessao.BOOSTER_PRECO, func() -> void: pass)"
+  },
+  {
+   "onde": "fluxo.gd:480",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "confirmar(Sessao.t(\"Comprar 1 booster?\"), Sessao.t(\"por %d de ouro\") % Sessao.BOOSTER_PRECO, bo.comprar))"
+  },
+  {
+   "onde": "fluxo.gd:525",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "confirmar(Sessao.t(\"Comprar 1 booster?\"), Sessao.t(\"por %d de ouro\") % Sessao.BOOSTER_PRECO, func() -> void: bo.concluir(); bo.comprar()))"
+  }
+ ],
+ "por %d de ouro": [
+  {
+   "onde": "fluxo.gd:297",
+   "funcao": "func _ready() -> void:",
+   "linha": "_ir(\"loja\"); confirmar(Sessao.t(\"Comprar 1 booster?\"), Sessao.t(\"por %d de ouro\") % Sessao.BOOSTER_PRECO, func() -> void: pass)"
+  },
+  {
+   "onde": "fluxo.gd:480",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "confirmar(Sessao.t(\"Comprar 1 booster?\"), Sessao.t(\"por %d de ouro\") % Sessao.BOOSTER_PRECO, bo.comprar))"
+  },
+  {
+   "onde": "fluxo.gd:525",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "confirmar(Sessao.t(\"Comprar 1 booster?\"), Sessao.t(\"por %d de ouro\") % Sessao.BOOSTER_PRECO, func() -> void: bo.concluir(); bo.comprar()))"
+  }
+ ],
+ "Comprar %s?": [
+  {
+   "onde": "fluxo.gd:499",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "confirmar(Sessao.t(\"Comprar %s?\") % Cosmeticos.nome(cos_sel), Sessao.t(\"por %d Koins\") % int(it2[\"preco\"]), func() -> void:"
+  }
+ ],
+ "por %d Koins": [
+  {
+   "onde": "fluxo.gd:499",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "confirmar(Sessao.t(\"Comprar %s?\") % Cosmeticos.nome(cos_sel), Sessao.t(\"por %d Koins\") % int(it2[\"preco\"]), func() -> void:"
+  }
+ ],
+ "Trocar %d repetidas?": [
+  {
+   "onde": "fluxo.gd:522",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "confirmar(Sessao.t(\"Trocar %d repetidas?\") % n, Sessao.t(\"+%d moedas\") % ganho, bo.concluir))"
+  }
+ ],
+ "Excluir este deck?": [
+  {
+   "onde": "fluxo.gd:556",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "confirmar(Sessao.t(\"Excluir este deck?\"), str(Sessao.perfil[\"decks\"][mp.deck_idx][\"nome\"]), mp.excluir_deck))"
+  }
+ ],
+ "Recomeçar o Torneio?": [
+  {
+   "onde": "fluxo.gd:1246",
+   "funcao": "func _botoes_derrota() -> void:",
+   "linha": "confirmar(Sessao.t(\"Recomeçar o Torneio?\"), Sessao.t(\"o progresso atual se perde\"), func() -> void:"
+  }
+ ],
+ "o progresso atual se perde": [
+  {
+   "onde": "fluxo.gd:1246",
+   "funcao": "func _botoes_derrota() -> void:",
+   "linha": "confirmar(Sessao.t(\"Recomeçar o Torneio?\"), Sessao.t(\"o progresso atual se perde\"), func() -> void:"
+  },
+  {
+   "onde": "modos_solo.gd:165",
+   "funcao": "func botoes_pere() -> void:",
+   "linha": "f.confirmar(Sessao.t(\"Abandonar a Peregrinação?\"), Sessao.t(\"o progresso atual se perde\"), func() -> void:"
+  }
+ ],
+ "Sim": [
+  {
+   "onde": "fluxo.gd:796",
+   "funcao": "func _desenhar_confirma() -> void:",
+   "linha": "_texto_central(b0.get_center(), Sessao.t(\"Sim\"), OURO[0])"
+  }
+ ],
+ "Não": [
+  {
+   "onde": "fluxo.gd:798",
+   "funcao": "func _desenhar_confirma() -> void:",
+   "linha": "_texto_central(b1.get_center(), Sessao.t(\"Não\"), CREME)"
+  }
+ ],
+ "TOQUE DE NOVO": [
+  {
+   "onde": "fluxo.gd:1067",
+   "funcao": "func _botao_pacote(_b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "## Confirmação por 2 toques nos botões do visor: o 1º troca o texto para \"TOQUE DE NOVO\", o 2º (até 3 s) executa."
+  },
+  {
+   "onde": "fluxo.gd:1076",
+   "funcao": "func _dois_toques(b: Dictionary, acao: Callable) -> void:",
+   "linha": "b[\"texto\"] = Sessao.t(\"TOQUE DE NOVO\")"
+  },
+  {
+   "onde": "fluxo.gd:1488",
+   "funcao": "func _toque_colecao(p: Vector2, pressed: bool) -> void:",
+   "linha": "# custam Essência: o 1º toque arma (\"TOQUE DE NOVO\"), o 2º em até 3 s confirma"
+  }
+ ],
+ "Abandonar a Peregrinação?": [
+  {
+   "onde": "modos_solo.gd:165",
+   "funcao": "func botoes_pere() -> void:",
+   "linha": "f.confirmar(Sessao.t(\"Abandonar a Peregrinação?\"), Sessao.t(\"o progresso atual se perde\"), func() -> void:"
+  }
+ ],
+ "DECKS LIVRES": [
+  {
+   "onde": "fluxo.gd:974",
+   "funcao": "func _botao_gaveta(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var s := Sessao.t(\"DECKS LIVRES\") if livre else Sessao.t(\"DA COLEÇÃO\")"
+  }
+ ],
+ "DA COLEÇÃO": [
+  {
+   "onde": "fluxo.gd:974",
+   "funcao": "func _botao_gaveta(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var s := Sessao.t(\"DECKS LIVRES\") if livre else Sessao.t(\"DA COLEÇÃO\")"
+  }
+ ],
+ "qualquer carta do jogo, 32 por deck": [
+  {
+   "onde": "menu_perfil.gd:624",
+   "funcao": "func desenhar_decks() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Seus decks\"), Sessao.t(\"qualquer carta do jogo, 32 por deck\") if gaveta == \"livre\" else Sessao.t(\"toque num deck para editar\"))"
+  }
+ ],
+ "Máximo de 8 decks nesta gaveta.": [
+  {
+   "onde": "menu_perfil.gd:613",
+   "funcao": "func _novo_na_gaveta(nome: String) -> int:",
+   "linha": "avisar(Sessao.t(\"Máximo de 8 decks nesta gaveta.\"))"
+  }
+ ],
+ "Jogar no Modo livre": [
+  {
+   "onde": "fluxo.gd:549",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(16, 570, 150, 26), \"Jogar no Modo livre\", func() -> void:"
+  }
+ ],
+ "Sem conexão: boosters precisam de internet.": [
+  {
+   "onde": "booster.gd:62",
+   "funcao": "func comprar(gratis := false) -> void:",
+   "linha": "f.mp.avisar(Sessao.t(\"Sem conexão: boosters precisam de internet.\")); f.vibrar(30, 0.6); return"
+  }
+ ],
+ "moedas insuficientes": [],
+ "sem booster grátis": [],
+ "Código para outro aparelho": [
+  {
+   "onde": "fluxo.gd:573",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "itens.append([\"Código para outro aparelho\", _codigo_conta])"
+  }
+ ],
+ "Usar código": [],
+ "Excluir conta": [
+  {
+   "onde": "fluxo.gd:578",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(70, y + 14, 220, 26), \"Excluir conta\", func() -> void:"
+  }
+ ],
+ "Excluir a conta?": [
+  {
+   "onde": "fluxo.gd:579",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "confirmar(Sessao.t(\"Excluir a conta?\"), Sessao.t(\"apaga o progresso no servidor\"), func() -> void:"
+  }
+ ],
+ "apaga o progresso no servidor": [
+  {
+   "onde": "fluxo.gd:579",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "confirmar(Sessao.t(\"Excluir a conta?\"), Sessao.t(\"apaga o progresso no servidor\"), func() -> void:"
+  }
+ ],
+ "Conta excluída.": [
+  {
+   "onde": "fluxo.gd:581",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Conta excluída.\")); _ir(\"opcoes\")))"
+  }
+ ],
+ "Conta online": [
+  {
+   "onde": "fluxo.gd:1808",
+   "funcao": "func _opcoes() -> void:",
+   "linha": "var st := (Sessao.t(\"Conta online\") + \" · \" + Nuvem.id_curto()) if Nuvem.online and Nuvem.ativo() else Sessao.t(\"Conta: sem conexão\")"
+  }
+ ],
+ "Conta: sem conexão": [
+  {
+   "onde": "fluxo.gd:1808",
+   "funcao": "func _opcoes() -> void:",
+   "linha": "var st := (Sessao.t(\"Conta online\") + \" · \" + Nuvem.id_curto()) if Nuvem.online and Nuvem.ativo() else Sessao.t(\"Conta: sem conexão\")"
+  }
+ ],
+ "Sem conexão.": [
+  {
+   "onde": "fluxo.gd:687",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "perg.abrir([[\"titulo\", Sessao.t(\"Presente\")], [\"centro\", Sessao.t(\"Sem conexão.\")],"
+  },
+  {
+   "onde": "fluxo.gd:957",
+   "funcao": "func _codigo_conta() -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Sem conexão.\")); return"
+  }
+ ],
+ "Outro aparelho": [
+  {
+   "onde": "fluxo.gd:958",
+   "funcao": "func _codigo_conta() -> void:",
+   "linha": "perg.abrir([[\"titulo\", Sessao.t(\"Outro aparelho\")], [\"centro\", Sessao.t(\"No outro aparelho: Opções > Usar código.\")], [\"espaco\"],"
+  }
+ ],
+ "No outro aparelho: Opções > Usar código.": [
+  {
+   "onde": "fluxo.gd:958",
+   "funcao": "func _codigo_conta() -> void:",
+   "linha": "perg.abrir([[\"titulo\", Sessao.t(\"Outro aparelho\")], [\"centro\", Sessao.t(\"No outro aparelho: Opções > Usar código.\")], [\"espaco\"],"
+  }
+ ],
+ "Vale por 10 minutos. Este aparelho será desconectado.": [
+  {
+   "onde": "fluxo.gd:959",
+   "funcao": "func _codigo_conta() -> void:",
+   "linha": "[\"destaque\", c, \"\"], [\"espaco\"], [\"centro\", Sessao.t(\"Vale por 10 minutos. Este aparelho será desconectado.\")]])"
+  }
+ ],
+ "Conta carregada!": [
+  {
+   "onde": "fluxo.gd:964",
+   "funcao": "func entrar_conta(codigo: String) -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Conta carregada!\"))"
+  }
+ ],
+ "Código inválido ou vencido.": [
+  {
+   "onde": "fluxo.gd:967",
+   "funcao": "func entrar_conta(codigo: String) -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Código inválido ou vencido.\"))"
+  }
+ ],
+ "Código da conta (8 letras)": [
+  {
+   "onde": "menu_perfil.gd:386",
+   "funcao": "func armar_nome_web(qual: String) -> void:",
+   "linha": "var titulo: String = Sessao.t(\"Seu nome\") if qual == \"perfil\" else (Sessao.t(\"Buscar carta\") if qual == \"busca\" else (Sessao.t(\"Cole o código do deck\") if qual == \"codigo\" else (Sessao.t(\"Código da co"
+  }
+ ],
+ "Digite o código de 8 letras.": [
+  {
+   "onde": "menu_perfil.gd:817",
+   "funcao": "func editar_codigo_conta() -> void:",
+   "linha": "avisar(Sessao.t(\"Digite o código de 8 letras.\"))"
+  }
+ ],
+ "Conta e login": [
+  {
+   "onde": "fluxo.gd:433",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 456, 180, 26), \"Conta e login\", func() -> void: Nuvem.atualizar_info(); _ir(\"conta\"))"
+  }
+ ],
+ "Conta": [
+  {
+   "onde": "fluxo.gd:1695",
+   "funcao": "func _draw() -> void:",
+   "linha": "_cabecalho(Sessao.t(\"Conta\"), (Sessao.t(\"online\") + \" · \" + Nuvem.id_curto()) if Nuvem.online else Sessao.t(\"sem conexão\"))"
+  }
+ ],
+ "online": [
+  {
+   "onde": "progresso.gd:193",
+   "funcao": "static func partida(reg: Dictionary) -> Array:",
+   "linha": "var ganho := int(x[\"vitoria\"] if venceu else (x[\"derrota\"] if res == \"derrota\" else x[\"empate\"])) + (int(x[\"online\"]) if online else 0)"
+  },
+  {
+   "onde": "sessao.gd:565",
+   "funcao": "func preparar_online(info: Dictionary, retomar := false) -> void:",
+   "linha": "modo = \"online\""
+  },
+  {
+   "onde": "sessao.gd:571",
+   "funcao": "func preparar_online(info: Dictionary, retomar := false) -> void:",
+   "linha": "extras = {\"online\": info.duplicate()}"
+  },
+  {
+   "onde": "sessao.gd:572",
+   "funcao": "func preparar_online(info: Dictionary, retomar := false) -> void:",
+   "linha": "extras[\"online\"][\"retomar\"] = retomar"
+  }
+ ],
+ "sem conexão": [
+  {
+   "onde": "fluxo.gd:942",
+   "funcao": "func _email(entrar: bool) -> void:",
+   "linha": "mp.avisar(Sessao.t(str(r.get(\"erro\", \"sem conexão\")))); return"
+  },
+  {
+   "onde": "fluxo.gd:1695",
+   "funcao": "func _draw() -> void:",
+   "linha": "_cabecalho(Sessao.t(\"Conta\"), (Sessao.t(\"online\") + \" · \" + Nuvem.id_curto()) if Nuvem.online else Sessao.t(\"sem conexão\"))"
+  },
+  {
+   "onde": "menu_online.gd:115",
+   "funcao": "func buscar() -> void:",
+   "linha": "f.mp.avisar(Sessao.t(str(r.get(\"erro\", \"sem conexão\"))))"
+  },
+  {
+   "onde": "menu_online.gd:246",
+   "funcao": "func criar_sala() -> void:",
+   "linha": "f.mp.avisar(Sessao.t(str(r.get(\"erro\", \"sem conexão\"))))"
+  }
+ ],
+ "Kode": [
+  {
+   "onde": "fluxo.gd:1696",
+   "funcao": "func _draw() -> void:",
+   "linha": "_texto_central(Vector2(180, 104), Sessao.t(\"Kode\") + \": \" + (Nuvem.kode if Nuvem.kode != \"\" else Sessao.t(\"não criado\")), Color(\"#e0c0ff\"))"
+  }
+ ],
+ "Email": [
+  {
+   "onde": "fluxo.gd:1697",
+   "funcao": "func _draw() -> void:",
+   "linha": "_texto_central(Vector2(180, 118), Sessao.t(\"Email\") + \": \" + (Nuvem.email_mask if Nuvem.email_mask != \"\" else Sessao.t(\"não ligado\")), Color(\"#9ad0ff\"))"
+  }
+ ],
+ "não criado": [
+  {
+   "onde": "fluxo.gd:1696",
+   "funcao": "func _draw() -> void:",
+   "linha": "_texto_central(Vector2(180, 104), Sessao.t(\"Kode\") + \": \" + (Nuvem.kode if Nuvem.kode != \"\" else Sessao.t(\"não criado\")), Color(\"#e0c0ff\"))"
+  }
+ ],
+ "não ligado": [
+  {
+   "onde": "fluxo.gd:1697",
+   "funcao": "func _draw() -> void:",
+   "linha": "_texto_central(Vector2(180, 118), Sessao.t(\"Email\") + \": \" + (Nuvem.email_mask if Nuvem.email_mask != \"\" else Sessao.t(\"não ligado\")), Color(\"#9ad0ff\"))"
+  }
+ ],
+ "Sem conta, você joga como convidado neste aparelho.": [
+  {
+   "onde": "fluxo.gd:1698",
+   "funcao": "func _draw() -> void:",
+   "linha": "_texto_central(Vector2(180, 134), Sessao.t(\"Sem conta, você joga como convidado neste aparelho.\"), Color(0.72, 0.66, 0.6))"
+  }
+ ],
+ "Criar Kode (usuário e senha)": [
+  {
+   "onde": "fluxo.gd:568",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "itens.append([\"Criar Kode (usuário e senha)\", _criar_kode])"
+  }
+ ],
+ "Entrar com Kode": [
+  {
+   "onde": "fluxo.gd:569",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "itens.append([\"Entrar com Kode\", _entrar_kode])"
+  }
+ ],
+ "Trocar ou recuperar senha": [
+  {
+   "onde": "fluxo.gd:570",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "itens.append([\"Trocar ou recuperar senha\", _recuperar_kode])"
+  }
+ ],
+ "Ligar email": [
+  {
+   "onde": "fluxo.gd:571",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "itens.append([\"Ligar email\" if Nuvem.email_mask == \"\" else \"Trocar email\", _email.bind(false)])"
+  }
+ ],
+ "Trocar email": [
+  {
+   "onde": "fluxo.gd:571",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "itens.append([\"Ligar email\" if Nuvem.email_mask == \"\" else \"Trocar email\", _email.bind(false)])"
+  }
+ ],
+ "Entrar com email": [
+  {
+   "onde": "fluxo.gd:572",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "itens.append([\"Entrar com email\", _email.bind(true)])"
+  }
+ ],
+ "Usar código de aparelho": [
+  {
+   "onde": "fluxo.gd:574",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "itens.append([\"Usar código de aparelho\", _usar_codigo_aparelho])"
+  }
+ ],
+ "Código do aparelho (8 letras)": [
+  {
+   "onde": "fluxo.gd:876",
+   "funcao": "func _usar_codigo_aparelho() -> void:",
+   "linha": "var c := await pedir_texto(Sessao.t(\"Código do aparelho (8 letras)\"), false, 8)"
+  }
+ ],
+ "OK": [
+  {
+   "onde": "fluxo.gd:865",
+   "funcao": "func _desenhar_pedido() -> void:",
+   "linha": "_texto_central(b0.get_center(), Sessao.t(\"OK\"), OURO[0])"
+  }
+ ],
+ "Pronto!": [
+  {
+   "onde": "fluxo.gd:871",
+   "funcao": "func _avisar_erro(e: String) -> void:",
+   "linha": "mp.avisar(Sessao.t(e) if e != \"\" else Sessao.t(\"Pronto!\"))"
+  }
+ ],
+ "Escolha um usuário (3 a 16: letras minúsculas, números, _)": [
+  {
+   "onde": "fluxo.gd:883",
+   "funcao": "func _criar_kode() -> void:",
+   "linha": "var u := await pedir_texto(Sessao.t(\"Escolha um usuário (3 a 16: letras minúsculas, números, _)\"), false, 16)"
+  }
+ ],
+ "Crie uma senha (8 caracteres ou mais)": [
+  {
+   "onde": "fluxo.gd:886",
+   "funcao": "func _criar_kode() -> void:",
+   "linha": "var s1 := await pedir_texto(Sessao.t(\"Crie uma senha (8 caracteres ou mais)\"), true, 64)"
+  }
+ ],
+ "A senha precisa de 8 caracteres ou mais.": [
+  {
+   "onde": "fluxo.gd:888",
+   "funcao": "func _criar_kode() -> void:",
+   "linha": "mp.avisar(Sessao.t(\"A senha precisa de 8 caracteres ou mais.\")); return"
+  },
+  {
+   "onde": "fluxo.gd:930",
+   "funcao": "func _recuperar_kode() -> void:",
+   "linha": "mp.avisar(Sessao.t(\"A senha precisa de 8 caracteres ou mais.\")); return"
+  }
+ ],
+ "Repita a senha": [
+  {
+   "onde": "fluxo.gd:889",
+   "funcao": "func _criar_kode() -> void:",
+   "linha": "var s2 := await pedir_texto(Sessao.t(\"Repita a senha\"), true, 64)"
+  }
+ ],
+ "As senhas não batem.": [
+  {
+   "onde": "fluxo.gd:891",
+   "funcao": "func _criar_kode() -> void:",
+   "linha": "mp.avisar(Sessao.t(\"As senhas não batem.\")); return"
+  }
+ ],
+ "Sua frase secreta": [
+  {
+   "onde": "fluxo.gd:894",
+   "funcao": "func _criar_kode() -> void:",
+   "linha": "var blocos: Array = [[\"titulo\", Sessao.t(\"Sua frase secreta\")],"
+  }
+ ],
+ "Anote estas 12 palavras em papel, na ordem. Sem elas não dá para trocar nem recuperar a senha.": [
+  {
+   "onde": "fluxo.gd:895",
+   "funcao": "func _criar_kode() -> void:",
+   "linha": "[\"centro\", Sessao.t(\"Anote estas 12 palavras em papel, na ordem. Sem elas não dá para trocar nem recuperar a senha.\")], [\"espaco\"]]"
+  }
+ ],
+ "Ninguém do KodeX vai pedir essa frase.": [
+  {
+   "onde": "fluxo.gd:899",
+   "funcao": "func _criar_kode() -> void:",
+   "linha": "blocos.append([\"centro\", Sessao.t(\"Ninguém do KodeX vai pedir essa frase.\")])"
+  }
+ ],
+ "Para conferir: qual é a palavra número %d?": [
+  {
+   "onde": "fluxo.gd:903",
+   "funcao": "func _criar_kode() -> void:",
+   "linha": "var conf := await pedir_texto(Sessao.t(\"Para conferir: qual é a palavra número %d?\") % n)"
+  }
+ ],
+ "Palavra errada. O Kode não foi criado.": [
+  {
+   "onde": "fluxo.gd:905",
+   "funcao": "func _criar_kode() -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Palavra errada. O Kode não foi criado.\")); return"
+  }
+ ],
+ "Criando...": [
+  {
+   "onde": "fluxo.gd:906",
+   "funcao": "func _criar_kode() -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Criando...\"))"
+  }
+ ],
+ "Usuário Kode": [
+  {
+   "onde": "fluxo.gd:911",
+   "funcao": "func _entrar_kode() -> void:",
+   "linha": "var u := await pedir_texto(Sessao.t(\"Usuário Kode\"), false, 16)"
+  },
+  {
+   "onde": "fluxo.gd:922",
+   "funcao": "func _recuperar_kode() -> void:",
+   "linha": "var u := await pedir_texto(Sessao.t(\"Usuário Kode\"), false, 16)"
+  }
+ ],
+ "Senha": [
+  {
+   "onde": "fluxo.gd:914",
+   "funcao": "func _entrar_kode() -> void:",
+   "linha": "var s := await pedir_texto(Sessao.t(\"Senha\"), true, 64)"
+  }
+ ],
+ "Entrando...": [
+  {
+   "onde": "fluxo.gd:917",
+   "funcao": "func _entrar_kode() -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Entrando...\"))"
+  }
+ ],
+ "As 12 palavras, na ordem, separadas por espaço": [
+  {
+   "onde": "fluxo.gd:925",
+   "funcao": "func _recuperar_kode() -> void:",
+   "linha": "var f := await pedir_texto(Sessao.t(\"As 12 palavras, na ordem, separadas por espaço\"), false, 200)"
+  }
+ ],
+ "São 12 palavras.": [
+  {
+   "onde": "fluxo.gd:927",
+   "funcao": "func _recuperar_kode() -> void:",
+   "linha": "mp.avisar(Sessao.t(\"São 12 palavras.\")); return"
+  }
+ ],
+ "Nova senha (8 caracteres ou mais)": [
+  {
+   "onde": "fluxo.gd:928",
+   "funcao": "func _recuperar_kode() -> void:",
+   "linha": "var s1 := await pedir_texto(Sessao.t(\"Nova senha (8 caracteres ou mais)\"), true, 64)"
+  }
+ ],
+ "Conferindo...": [
+  {
+   "onde": "fluxo.gd:931",
+   "funcao": "func _recuperar_kode() -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Conferindo...\"))"
+  }
+ ],
+ "Seu email": [
+  {
+   "onde": "fluxo.gd:937",
+   "funcao": "func _email(entrar: bool) -> void:",
+   "linha": "var e := await pedir_texto(Sessao.t(\"Seu email\"), false, 254)"
+  }
+ ],
+ "Nenhuma conta com esse email.": [
+  {
+   "onde": "fluxo.gd:944",
+   "funcao": "func _email(entrar: bool) -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Nenhuma conta com esse email.\")); return"
+  }
+ ],
+ "Código de 6 dígitos enviado para o email": [
+  {
+   "onde": "fluxo.gd:945",
+   "funcao": "func _email(entrar: bool) -> void:",
+   "linha": "var titulo := Sessao.t(\"Código de 6 dígitos enviado para o email\")"
+  }
+ ],
+ "usuário ou senha errados": [],
+ "usuário ou frase errados": [],
+ "esse usuário já existe": [],
+ "esta conta já tem um Kode": [],
+ "muitas tentativas: espere 15 minutos": [],
+ "código errado": [],
+ "código vencido, peça outro": [],
+ "login por email ainda não configurado": [],
+ "email inválido": [],
+ "espere 1 minuto para pedir outro código": [],
+ "usuário: 3 a 16 letras minúsculas, números ou _": [],
+ "TEMPO!": [
+  {
+   "onde": "mesa.gd:3754",
+   "funcao": "func _tempo_esgotado() -> void:",
+   "linha": "efeitos.numero(Vector2(180, LINHA_Y - 4), Sessao.t(\"TEMPO!\"), Color(\"#ffb070\"), 2)"
+  }
+ ],
+ "Tempo por turno: 75 s": [
+  {
+   "onde": "fluxo.gd:426",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 318, 180, 26), \"Tempo por turno: 75 s\" if Sessao.tempo_turno else \"Tempo por turno: sem limite\","
+  }
+ ],
+ "Tempo por turno: sem limite": [
+  {
+   "onde": "fluxo.gd:426",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 318, 180, 26), \"Tempo por turno: 75 s\" if Sessao.tempo_turno else \"Tempo por turno: sem limite\","
+  }
+ ],
+ "Histórico e estatísticas": [
+  {
+   "onde": "fluxo.gd:455",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 466, 180, 26), \"Histórico e estatísticas\", func() -> void: _ir(\"historico\"))"
+  }
+ ],
+ "Histórico": [
+  {
+   "onde": "historico.gd:50",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Histórico\"), Sessao.t(\"suas partidas e números\"))"
+  }
+ ],
+ "suas partidas e números": [
+  {
+   "onde": "historico.gd:50",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Histórico\"), Sessao.t(\"suas partidas e números\"))"
+  }
+ ],
+ "ÚLTIMAS PARTIDAS": [
+  {
+   "onde": "historico.gd:74",
+   "funcao": "func desenhar() -> void:",
+   "linha": "PixelFonte.desenhar(f, Vector2(18, 184), Sessao.t(\"ÚLTIMAS PARTIDAS\"), f.OURO[0])"
+  }
+ ],
+ "IA": [
+  {
+   "onde": "historico.gd:89",
+   "funcao": "func botao_linha(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "contra += \"  ·  \" + Sessao.t(\"IA\") + \" \" + _l(NIVEIS[clampi(int(p.get(\"nivel\", 1)), 0, 2)])"
+  }
+ ],
+ "jogador": [
+  {
+   "onde": "progresso.gd:167",
+   "funcao": "static func partida(reg: Dictionary) -> Array:",
+   "linha": "var online: bool = reg.get(\"contra\", \"\") in [\"jogador\", \"bot\"]      # bot também conta como partida online"
+  },
+  {
+   "onde": "sessao.gd:1035",
+   "funcao": "func trocar_repetida(cid: String, foil: bool) -> bool:",
+   "linha": "## margem: {\"r-m\": cornucópia que sobrou ao vencedor}, rodada, eliminado, premio, fim}. \"jogador\" = você."
+  },
+  {
+   "onde": "sessao.gd:1049",
+   "funcao": "func novo_torneio_arcade() -> void:",
+   "linha": "var parts: Array = [\"jogador\"] + NPCS_TA.duplicate()"
+  },
+  {
+   "onde": "sessao.gd:1060",
+   "funcao": "func ta_nome(pid: String) -> String:",
+   "linha": "if pid == \"jogador\":"
+  }
+ ],
+ "turnos": [
+  {
+   "onde": "progresso.gd:182",
+   "funcao": "static func partida(reg: Dictionary) -> Array:",
+   "linha": "if int(reg.get(\"turnos\", 99)) <= 10:"
+  },
+  {
+   "onde": "progresso.gd:184",
+   "funcao": "static func partida(reg: Dictionary) -> Array:",
+   "linha": "if int(reg.get(\"turnos\", 0)) >= 40:"
+  },
+  {
+   "onde": "historico.gd:93",
+   "funcao": "func botao_linha(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var info := \"%s  ·  %s  ·  %d %s\" % [_data(int(p.get(\"t\", 0))), nome_modo(str(p.get(\"modo\", \"\"))), int(p.get(\"turnos\", 0)), Sessao.t(\"turnos\")]"
+  },
+  {
+   "onde": "historico.gd:116",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "[\"centro\", \"%s  ·  %d %s  ·  %d min\" % [nome_modo(str(p.get(\"modo\", \"\"))), int(p.get(\"turnos\", 0)), Sessao.t(\"turnos\"), int(p.get(\"duracao\", 0)) / 60]],"
+  }
+ ],
+ "A sala expirou.": [
+  {
+   "onde": "menu_online.gd:268",
+   "funcao": "func criar_sala() -> void:",
+   "linha": "f.mp.avisar(Sessao.t(\"A sala expirou.\"))"
+  }
+ ],
+ "AGUARDANDO": [
+  {
+   "onde": "mesa.gd:4024",
+   "funcao": "func _mulligan_remoto() -> void:",
+   "linha": "efeitos.faixa_alvo = {\"titulo\": Sessao.t(\"AGUARDANDO\"), \"sub\": Sessao.t(\"O ADVERSÁRIO ESTÁ ESCOLHENDO A MÃO\"), \"y\": LINHA_Y}"
+  }
+ ],
+ "Aceitar": [
+  {
+   "onde": "menu_online.gd:67",
+   "funcao": "func botoes() -> void:",
+   "linha": "f._botao(Rect2(50, 330, 120, 30), \"Aceitar\", aceitar, {\"ouro\": true})"
+  }
+ ],
+ "Buscando adversário": [
+  {
+   "onde": "menu_online.gd:83",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 200), Sessao.t(\"Buscando adversário\") + \".\" .repeat(1 + int(s * 2) % 3), f.OURO[0], 2)"
+  }
+ ],
+ "Buscar partida": [
+  {
+   "onde": "menu_online.gd:57",
+   "funcao": "func botoes() -> void:",
+   "linha": "f._botao(Rect2(80, 160, 200, 34), \"Buscar partida\", buscar, {\"ouro\": true})"
+  }
+ ],
+ "Cada turno tem 75 segundos.": [
+  {
+   "onde": "menu_online.gd:80",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 350), Sessao.t(\"Cada turno tem 75 segundos.\"), Color(0.72, 0.66, 0.6))"
+  }
+ ],
+ "Com um amigo: um cria a sala e passa o código.": [
+  {
+   "onde": "menu_online.gd:79",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 336), Sessao.t(\"Com um amigo: um cria a sala e passa o código.\"), Color(0.72, 0.66, 0.6))"
+  }
+ ],
+ "Conectando...": [
+  {
+   "onde": "menu_online.gd:100",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 220), Sessao.t(\"Conectando...\"), Color(\"#9ad0ff\"))"
+  }
+ ],
+ "Criar sala com código": [
+  {
+   "onde": "menu_online.gd:58",
+   "funcao": "func botoes() -> void:",
+   "linha": "f._botao(Rect2(80, 210, 200, 28), \"Criar sala com código\", criar_sala)"
+  }
+ ],
+ "Código da sala": [
+  {
+   "onde": "menu_online.gd:95",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 180), Sessao.t(\"Código da sala\"), Color(0.72, 0.66, 0.6))"
+  }
+ ],
+ "Código da sala (4 letras)": [
+  {
+   "onde": "menu_online.gd:277",
+   "funcao": "func entrar_sala(cod := \"\") -> void:",
+   "linha": "cod = await f.pedir_texto(Sessao.t(\"Código da sala (4 letras)\"), false, 4)"
+  }
+ ],
+ "DESSINCRONIA": [
+  {
+   "onde": "mesa.gd:4057",
+   "funcao": "func _dessincronia(msg: String) -> void:",
+   "linha": "efeitos.numero(Vector2(180, LINHA_Y - 30), Sessao.t(\"DESSINCRONIA\"), Color(\"#ff7070\"), 2)"
+  }
+ ],
+ "ESPERANDO O ADVERSÁRIO...": [
+  {
+   "onde": "mesa.gd:4089",
+   "funcao": "func _fim_online() -> void:",
+   "linha": "efeitos.faixa_alvo = {\"titulo\": Sessao.t(\"REVANCHE\"), \"sub\": Sessao.t(\"ESPERANDO O ADVERSÁRIO...\"), \"y\": LINHA_Y}"
+  }
+ ],
+ "Entrar com código": [
+  {
+   "onde": "menu_online.gd:59",
+   "funcao": "func botoes() -> void:",
+   "linha": "f._botao(Rect2(80, 246, 200, 28), \"Entrar com código\", entrar_sala)"
+  }
+ ],
+ "Esperando": [
+  {
+   "onde": "menu_online.gd:98",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 296), Sessao.t(\"Esperando\") + \".\" .repeat(1 + int(segundos() * 2) % 3), Color(\"#9ad0ff\"))"
+  }
+ ],
+ "Esperando o adversário aceitar...": [
+  {
+   "onde": "menu_online.gd:93",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 340), Sessao.t(\"Esperando o adversário aceitar...\"), Color(\"#9ad0ff\"))"
+  }
+ ],
+ "Essa partida já terminou.": [
+  {
+   "onde": "menu_online.gd:306",
+   "funcao": "func retomar() -> void:",
+   "linha": "f.mp.avisar(Sessao.t(\"Essa partida já terminou.\"))"
+  }
+ ],
+ "MENU": [
+  {
+   "onde": "mesa.gd:4084",
+   "funcao": "func _fim_online() -> void:",
+   "linha": "var rev := await pedir_sim_nao(Sessao.t(\"REVANCHE?\"), Sessao.t(\"OS DOIS PRECISAM ACEITAR\"), Sessao.t(\"REVANCHE\"), Sessao.t(\"MENU\"))"
+  }
+ ],
+ "O ADVERSÁRIO DESISTIU": [
+  {
+   "onde": "mesa.gd:3923",
+   "funcao": "func _turno_rede(d: int) -> bool:",
+   "linha": "await _encerrar(0 if d == 1 else 1, Sessao.t(\"O ADVERSÁRIO DESISTIU\") if d == 1 else Sessao.t(\"DESISTÊNCIA\"))"
+  }
+ ],
+ "O ADVERSÁRIO ESTÁ ESCOLHENDO A MÃO": [
+  {
+   "onde": "mesa.gd:4024",
+   "funcao": "func _mulligan_remoto() -> void:",
+   "linha": "efeitos.faixa_alvo = {\"titulo\": Sessao.t(\"AGUARDANDO\"), \"sub\": Sessao.t(\"O ADVERSÁRIO ESTÁ ESCOLHENDO A MÃO\"), \"y\": LINHA_Y}"
+  }
+ ],
+ "O ADVERSÁRIO NÃO ACEITOU": [
+  {
+   "onde": "mesa.gd:4107",
+   "funcao": "func _fim_online() -> void:",
+   "linha": "efeitos.faixa_alvo = {\"titulo\": Sessao.t(\"SEM REVANCHE\"), \"sub\": Sessao.t(\"O ADVERSÁRIO NÃO ACEITOU\"), \"y\": LINHA_Y}"
+  }
+ ],
+ "O ADVERSÁRIO SAIU": [
+  {
+   "onde": "mesa.gd:4068",
+   "funcao": "func _fim_servidor(v: int, queda: bool) -> void:",
+   "linha": "motivo = Sessao.t(\"O ADVERSÁRIO SAIU\") if v == 1 else Sessao.t(\"SEM CONEXÃO\")"
+  }
+ ],
+ "O adversário não aceitou. Buscando de novo...": [
+  {
+   "onde": "menu_online.gd:204",
+   "funcao": "func aceitar() -> void:",
+   "linha": "f.mp.avisar(Sessao.t(\"O adversário não aceitou. Buscando de novo...\"))"
+  }
+ ],
+ "OS DOIS PRECISAM ACEITAR": [
+  {
+   "onde": "mesa.gd:4084",
+   "funcao": "func _fim_online() -> void:",
+   "linha": "var rev := await pedir_sim_nao(Sessao.t(\"REVANCHE?\"), Sessao.t(\"OS DOIS PRECISAM ACEITAR\"), Sessao.t(\"REVANCHE\"), Sessao.t(\"MENU\"))"
+  }
+ ],
+ "Online": [
+  {
+   "onde": "historico.gd:9",
+   "funcao": "",
+   "linha": "\"livre\": \"Modo livre\", \"choronzon\": \"Choronzon\", \"online\": \"Online\", \"bot\": \"Online (bot)\"}"
+  },
+  {
+   "onde": "menu_online.gd:72",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._cabecalho(\"Online\", Sessao.t(\"jogue com outras pessoas\"))"
+  },
+  {
+   "onde": "menu_principal.gd:36",
+   "funcao": "func modos() -> Array:",
+   "linha": "{\"nome\": \"Online\", \"sub\": Sessao.t(\"contra gente de verdade\"), \"retrato\": \"cristianismo\", \"cor\": Color(\"#1f4a7a\"), \"acao\": func() -> void: f._ir(\"online\")},"
+  }
+ ],
+ "Partida encontrada!": [
+  {
+   "onde": "menu_online.gd:88",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 200), Sessao.t(\"Partida encontrada!\"), f.OURO[0], 2)"
+  }
+ ],
+ "Passe este código para o seu amigo.": [
+  {
+   "onde": "menu_online.gd:97",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 276), Sessao.t(\"Passe este código para o seu amigo.\"), f.CREME)"
+  }
+ ],
+ "RECONECTANDO...": [
+  {
+   "onde": "mesa_hud.gd:255",
+   "funcao": "func _draw() -> void:",
+   "linha": "PixelFonte.centrado(self, Vector2(180, 64), Sessao.t(\"RECONECTANDO...\"), Color(1.0, 0.6, 0.4, a2), 1, ESCURO)"
+  }
+ ],
+ "REVANCHE": [
+  {
+   "onde": "mesa.gd:4084",
+   "funcao": "func _fim_online() -> void:",
+   "linha": "var rev := await pedir_sim_nao(Sessao.t(\"REVANCHE?\"), Sessao.t(\"OS DOIS PRECISAM ACEITAR\"), Sessao.t(\"REVANCHE\"), Sessao.t(\"MENU\"))"
+  },
+  {
+   "onde": "mesa.gd:4089",
+   "funcao": "func _fim_online() -> void:",
+   "linha": "efeitos.faixa_alvo = {\"titulo\": Sessao.t(\"REVANCHE\"), \"sub\": Sessao.t(\"ESPERANDO O ADVERSÁRIO...\"), \"y\": LINHA_Y}"
+  }
+ ],
+ "REVANCHE?": [
+  {
+   "onde": "mesa.gd:4084",
+   "funcao": "func _fim_online() -> void:",
+   "linha": "var rev := await pedir_sim_nao(Sessao.t(\"REVANCHE?\"), Sessao.t(\"OS DOIS PRECISAM ACEITAR\"), Sessao.t(\"REVANCHE\"), Sessao.t(\"MENU\"))"
+  }
+ ],
+ "Recusar": [
+  {
+   "onde": "menu_online.gd:68",
+   "funcao": "func botoes() -> void:",
+   "linha": "f._botao(Rect2(190, 330, 120, 30), \"Recusar\", recusar)"
+  }
+ ],
+ "SEM CONEXÃO": [
+  {
+   "onde": "mesa.gd:4068",
+   "funcao": "func _fim_servidor(v: int, queda: bool) -> void:",
+   "linha": "motivo = Sessao.t(\"O ADVERSÁRIO SAIU\") if v == 1 else Sessao.t(\"SEM CONEXÃO\")"
+  }
+ ],
+ "SEM REVANCHE": [
+  {
+   "onde": "mesa.gd:4107",
+   "funcao": "func _fim_online() -> void:",
+   "linha": "efeitos.faixa_alvo = {\"titulo\": Sessao.t(\"SEM REVANCHE\"), \"sub\": Sessao.t(\"O ADVERSÁRIO NÃO ACEITOU\"), \"y\": LINHA_Y}"
+  }
+ ],
+ "Sem conexão com o servidor do jogo.": [
+  {
+   "onde": "menu_online.gd:35",
+   "funcao": "func _pronto() -> bool:",
+   "linha": "f.mp.avisar(Sessao.t(\"Sem conexão com o servidor do jogo.\"))"
+  }
+ ],
+ "Tempo esgotado: a partida foi cancelada.": [
+  {
+   "onde": "menu_online.gd:156",
+   "funcao": "func _prazo(g: int) -> void:",
+   "linha": "f.mp.avisar(Sessao.t(\"Tempo esgotado: a partida foi cancelada.\"))"
+  }
+ ],
+ "Voltar à partida": [
+  {
+   "onde": "menu_online.gd:61",
+   "funcao": "func botoes() -> void:",
+   "linha": "f._botao(Rect2(80, 292, 200, 28), \"Voltar à partida\", retomar)"
+  }
+ ],
+ "contra": [
+  {
+   "onde": "progresso.gd:167",
+   "funcao": "static func partida(reg: Dictionary) -> Array:",
+   "linha": "var online: bool = reg.get(\"contra\", \"\") in [\"jogador\", \"bot\"]      # bot também conta como partida online"
+  },
+  {
+   "onde": "progresso.gd:202",
+   "funcao": "static func partida(reg: Dictionary) -> Array:",
+   "linha": "if alvo != \"\" and alvo == str(reg.get(\"deck_op\", \"\")) and not (a[\"id\"] in avs) and reg.get(\"contra\", \"\") == \"ia\":"
+  },
+  {
+   "onde": "sessao.gd:619",
+   "funcao": "func registrar_partida(reg: Dictionary) -> Array:",
+   "linha": "for chave in [[\"contra\", reg[\"contra\"]], [\"modos\", reg[\"modo\"]], [\"adversarios\", reg[\"adversario\"]]]:"
+  },
+  {
+   "onde": "historico.gd:52",
+   "funcao": "func desenhar() -> void:",
+   "linha": "var contra: Dictionary = e.get(\"contra\", {})"
+  }
+ ],
+ "contra gente de verdade": [
+  {
+   "onde": "menu_principal.gd:36",
+   "funcao": "func modos() -> Array:",
+   "linha": "{\"nome\": \"Online\", \"sub\": Sessao.t(\"contra gente de verdade\"), \"retrato\": \"cristianismo\", \"cor\": Color(\"#1f4a7a\"), \"acao\": func() -> void: f._ir(\"online\")},"
+  }
+ ],
+ "jogue com outras pessoas": [
+  {
+   "onde": "menu_online.gd:72",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._cabecalho(\"Online\", Sessao.t(\"jogue com outras pessoas\"))"
+  }
+ ],
+ "no mundo todo": [
+  {
+   "onde": "menu_online.gd:85",
+   "funcao": "func desenhar() -> void:",
+   "linha": "var onde := Sessao.t(\"no seu país\") if s < 5 else (Sessao.t(\"no seu continente\") if s < 15 else Sessao.t(\"no mundo todo\"))"
+  }
+ ],
+ "no seu continente": [
+  {
+   "onde": "menu_online.gd:85",
+   "funcao": "func desenhar() -> void:",
+   "linha": "var onde := Sessao.t(\"no seu país\") if s < 5 else (Sessao.t(\"no seu continente\") if s < 15 else Sessao.t(\"no mundo todo\"))"
+  }
+ ],
+ "no seu país": [
+  {
+   "onde": "menu_online.gd:85",
+   "funcao": "func desenhar() -> void:",
+   "linha": "var onde := Sessao.t(\"no seu país\") if s < 5 else (Sessao.t(\"no seu continente\") if s < 15 else Sessao.t(\"no mundo todo\"))"
+  }
+ ],
+ "procurando": [
+  {
+   "onde": "menu_online.gd:86",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 256), Sessao.t(\"procurando\") + \" \" + onde, Color(\"#9ad0ff\"))"
+  }
+ ],
+ "sem conexão com o servidor": [
+  {
+   "onde": "menu_online.gd:76",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 118), Sessao.t(\"sem conexão com o servidor\"), Color(\"#ff9a8a\"))"
+  }
+ ],
+ "deck inválido (32 cartas)": [],
+ "sala não encontrada": [
+  {
+   "onde": "menu_online.gd:288",
+   "funcao": "func entrar_sala(cod := \"\") -> void:",
+   "linha": "f.mp.avisar(Sessao.t(\"Sala %s não encontrada: confira as 4 letras.\") % cod.to_upper() if e == \"sala não encontrada\" else Sessao.t(e))"
+  }
+ ],
+ "é a sua própria sala": [],
+ "partida indisponível": [],
+ "SEM SINAL %ds": [
+  {
+   "onde": "mesa.gd:4343",
+   "funcao": "func _status_adversario(r: Rect2) -> void:",
+   "linha": "txt = Sessao.t(\"SEM SINAL %ds\") % rede.op_ausente"
+  }
+ ],
+ "Sala %s não encontrada: confira as 4 letras.": [
+  {
+   "onde": "menu_online.gd:288",
+   "funcao": "func entrar_sala(cod := \"\") -> void:",
+   "linha": "f.mp.avisar(Sessao.t(\"Sala %s não encontrada: confira as 4 letras.\") % cod.to_upper() if e == \"sala não encontrada\" else Sessao.t(e))"
+  }
+ ],
+ "quem joga online com você vê nome e foto": [
+  {
+   "onde": "menu_perfil.gd:306",
+   "funcao": "func desenhar_perfil() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Seu perfil\"), Sessao.t(\"quem joga online com você vê nome e foto\"))"
+  }
+ ],
+ "Nv": [
+  {
+   "onde": "menu_perfil.gd:240",
+   "funcao": "func barra_titulo() -> void:",
+   "linha": "var linha := (Sessao.t(\"Nv\") + \" %d\" % Progresso.nivel()) + (\"  ·  \" + Progresso.nome_titulo(tit) if tit != \"\" else \"\")"
+  }
+ ],
+ "Trocar esta missão?": [
+  {
+   "onde": "menu_progresso.gd:68",
+   "funcao": "func _trocar(k: int) -> void:",
+   "linha": "f.confirmar(Sessao.t(\"Trocar esta missão?\"), Sessao.t(\"só 1 troca por dia\"), func() -> void:"
+  }
+ ],
+ "só 1 troca por dia": [
+  {
+   "onde": "menu_progresso.gd:68",
+   "funcao": "func _trocar(k: int) -> void:",
+   "linha": "f.confirmar(Sessao.t(\"Trocar esta missão?\"), Sessao.t(\"só 1 troca por dia\"), func() -> void:"
+  }
+ ],
+ "Relatório de erros": [
+  {
+   "onde": "fluxo.gd:431",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 424, 180, 26), (Sessao.t(\"Relatório de erros\") + \" (%d)\" % ne) if ne > 0 else Sessao.t(\"Nenhum erro registrado\"), _relatorio_erros)"
+  },
+  {
+   "onde": "fluxo.gd:2102",
+   "funcao": "func _relatorio_erros() -> void:",
+   "linha": "var b: Array = [[\"titulo\", Sessao.t(\"Relatório de erros\")],"
+  }
+ ],
+ "Nenhum erro registrado": [
+  {
+   "onde": "fluxo.gd:431",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "_botao(Rect2(90, 424, 180, 26), (Sessao.t(\"Relatório de erros\") + \" (%d)\" % ne) if ne > 0 else Sessao.t(\"Nenhum erro registrado\"), _relatorio_erros)"
+  }
+ ],
+ "Nenhum erro registrado. Ótimo!": [
+  {
+   "onde": "fluxo.gd:2100",
+   "funcao": "func _relatorio_erros() -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Nenhum erro registrado. Ótimo!\"))"
+  }
+ ],
+ "Enviar ao desenvolvedor?": [
+  {
+   "onde": "fluxo.gd:2109",
+   "funcao": "func _relatorio_erros() -> void:",
+   "linha": "confirmar(Sessao.t(\"Enviar ao desenvolvedor?\"), Sessao.t(\"ajuda a corrigir; vai só o texto do erro\"), func() -> void:"
+  }
+ ],
+ "ajuda a corrigir; vai só o texto do erro": [
+  {
+   "onde": "fluxo.gd:2109",
+   "funcao": "func _relatorio_erros() -> void:",
+   "linha": "confirmar(Sessao.t(\"Enviar ao desenvolvedor?\"), Sessao.t(\"ajuda a corrigir; vai só o texto do erro\"), func() -> void:"
+  }
+ ],
+ "Enviado. Obrigado!": [
+  {
+   "onde": "fluxo.gd:2114",
+   "funcao": "func _relatorio_erros() -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Enviado. Obrigado!\"))"
+  }
+ ],
+ "Sem conexão. Tente de novo depois.": [
+  {
+   "onde": "fluxo.gd:2116",
+   "funcao": "func _relatorio_erros() -> void:",
+   "linha": "mp.avisar(Sessao.t(\"Sem conexão. Tente de novo depois.\"))"
+  }
+ ],
+ "Vença %s": [
+  {
+   "onde": "menu_perfil.gd:102",
+   "funcao": "static func como_liberar(id: String) -> String:",
+   "linha": "return Sessao.t(\"Vença %s\") % quem"
+  }
+ ],
+ "Sua conta está suspensa do online.": [
+  {
+   "onde": "menu_online.gd:32",
+   "funcao": "func _pronto() -> bool:",
+   "linha": "f.mp.avisar(Sessao.t(\"Sua conta está suspensa do online.\"))"
+  }
+ ],
+ "presente da atualização": [
+  {
+   "onde": "fluxo.gd:661",
+   "funcao": "func abrir_novidades(todas := true, depois := Callable()) -> void:",
+   "linha": "blocos.append([\"centro\", Sessao.t(\"presente da atualização\")])"
+  }
+ ],
+ "atual": [
+  {
+   "onde": "fluxo.gd:528",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "{\"aba_loja\": \"colecao\", \"atual\": mp.gaveta == \"colecao\", \"desenho\": _botao_gaveta})"
+  },
+  {
+   "onde": "fluxo.gd:530",
+   "funcao": "func _ir(novo: String) -> void:",
+   "linha": "{\"aba_loja\": \"livre\", \"atual\": mp.gaveta == \"livre\", \"desenho\": _botao_gaveta})"
+  },
+  {
+   "onde": "fluxo.gd:666",
+   "funcao": "func abrir_novidades(todas := true, depois := Callable()) -> void:",
+   "linha": "cab += \" - \" + Sessao.t(\"atual\")"
+  },
+  {
+   "onde": "fluxo.gd:802",
+   "funcao": "func _abas_loja(atual: String) -> void:",
+   "linha": "_botao(Rect2(70, 86, 108, 20), \"Boosters\", func() -> void: _ir(\"loja\"), {\"aba_loja\": \"boosters\", \"atual\": atual == \"boosters\", \"desenho\": _botao_aba_loja})"
+  }
+ ],
+ "Todas as versões: botão de pergaminho no Início.": [
+  {
+   "onde": "fluxo.gd:672",
+   "funcao": "func abrir_novidades(todas := true, depois := Callable()) -> void:",
+   "linha": "blocos.append([\"centro\", Sessao.t(\"Todas as versões: botão de pergaminho no Início.\")])"
+  }
+ ],
+ "Presente": [
+  {
+   "onde": "fluxo.gd:687",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "perg.abrir([[\"titulo\", Sessao.t(\"Presente\")], [\"centro\", Sessao.t(\"Sem conexão.\")],"
+  },
+  {
+   "onde": "fluxo.gd:694",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "perg.abrir([[\"titulo\", Sessao.t(\"Presente\")],"
+  },
+  {
+   "onde": "fluxo.gd:703",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "var blocos: Array = [[\"titulo\", Sessao.t(\"Presente\")]]"
+  }
+ ],
+ "O presente de hoje já é seu.": [
+  {
+   "onde": "fluxo.gd:695",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "[\"centro\", Sessao.t(\"O presente de hoje já é seu.\")],"
+  }
+ ],
+ "Próximas moedas em %dh %02dmin.": [
+  {
+   "onde": "fluxo.gd:697",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "[\"centro\", Sessao.t(\"Próximas moedas em %dh %02dmin.\") % [h / 3600, (h % 3600) / 60]],"
+  }
+ ],
+ "Próximo booster grátis em %d dias e %dh.": [
+  {
+   "onde": "fluxo.gd:698",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "[\"centro\", Sessao.t(\"Próximo booster grátis em %d dias e %dh.\") % [b / 86400, (b % 86400) / 3600]],"
+  }
+ ],
+ "Koins da semana: %d na sexta.": [
+  {
+   "onde": "fluxo.gd:700",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "[\"centro\", Sessao.t(\"Koins da semana: %d na sexta.\") % Sessao.KOINS_SEMANA],"
+  }
+ ],
+ "Vira à meia-noite de Nova York.": [
+  {
+   "onde": "fluxo.gd:701",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "[\"centro\", Sessao.t(\"Vira à meia-noite de Nova York.\")]])"
+  }
+ ],
+ "%d dias seguidos": [
+  {
+   "onde": "fluxo.gd:706",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "blocos.append([\"centro\", Sessao.t(\"%d dias seguidos\") % seq])"
+  }
+ ],
+ "dia %d de 7 · bônus no 7º": [
+  {
+   "onde": "fluxo.gd:708",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "blocos.append([\"centro\", Sessao.t(\"dia %d de 7 · bônus no 7º\") % k7])"
+  }
+ ],
+ "Bônus do 7º dia: +1 booster e +20 Koins!": [
+  {
+   "onde": "fluxo.gd:710",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "blocos.append([\"centro\", Sessao.t(\"Bônus do 7º dia: +1 booster e +20 Koins!\")])"
+  }
+ ],
+ "booster grátis da semana - abra na Loja": [
+  {
+   "onde": "fluxo.gd:724",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "blocos.append([\"centro\", Sessao.t(\"booster grátis da semana - abra na Loja\")])"
+  }
+ ],
+ "Volte amanhã para mais moedas.": [
+  {
+   "onde": "fluxo.gd:726",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "blocos.append([\"centro\", Sessao.t(\"Volte amanhã para mais moedas.\")])"
+  }
+ ],
+ "Atualizada em %s": [
+  {
+   "onde": "fluxo.gd:734",
+   "funcao": "func abrir_privacidade() -> void:",
+   "linha": "[\"centro\", Sessao.t(\"Atualizada em %s\") % d[\"atualizada\"]]]"
+  }
+ ],
+ "para sempre": [
+  {
+   "onde": "fluxo.gd:2070",
+   "funcao": "func _avisar_progresso() -> void:",
+   "linha": "var quando := Sessao.t(\"para sempre\") if str(s.get(\"tipo\", \"\")) == \"hard\" or ate <= 0 else \\"
+  }
+ ],
+ "até %s": [
+  {
+   "onde": "fluxo.gd:2071",
+   "funcao": "func _avisar_progresso() -> void:",
+   "linha": "(Sessao.t(\"até %s\") % Time.get_datetime_string_from_unix_time(ate + int(Time.get_time_zone_from_system().get(\"bias\", 0)) * 60, true).substr(0, 16))"
+  }
+ ],
+ "Conta suspensa": [
+  {
+   "onde": "fluxo.gd:2072",
+   "funcao": "func _avisar_progresso() -> void:",
+   "linha": "var b: Array = [[\"titulo\", Sessao.t(\"Conta suspensa\")],"
+  }
+ ],
+ "Sua conta não pode jogar online %s.": [
+  {
+   "onde": "fluxo.gd:2073",
+   "funcao": "func _avisar_progresso() -> void:",
+   "linha": "[\"centro\", Sessao.t(\"Sua conta não pode jogar online %s.\") % quando]]"
+  }
+ ],
+ "Motivo: %s": [
+  {
+   "onde": "fluxo.gd:2075",
+   "funcao": "func _avisar_progresso() -> void:",
+   "linha": "b.append([\"centro\", Sessao.t(\"Motivo: %s\") % str(s[\"motivo\"])])"
+  }
+ ],
+ "Os modos offline continuam funcionando.": [
+  {
+   "onde": "fluxo.gd:2077",
+   "funcao": "func _avisar_progresso() -> void:",
+   "linha": "b.append([\"centro\", Sessao.t(\"Os modos offline continuam funcionando.\")])"
+  }
+ ],
+ "Conquistas": [
+  {
+   "onde": "fluxo.gd:2087",
+   "funcao": "func _avisar_progresso() -> void:",
+   "linha": "var b: Array = [[\"titulo\", Sessao.t(\"Conquistas\")]]"
+  },
+  {
+   "onde": "menu_progresso.gd:8",
+   "funcao": "",
+   "linha": "[\"conquistas\", \"Conquistas\", \"Achievements\"]]"
+  }
+ ],
+ "%d erros guardados neste aparelho.": [
+  {
+   "onde": "fluxo.gd:2103",
+   "funcao": "func _relatorio_erros() -> void:",
+   "linha": "[\"centro\", Sessao.t(\"%d erros guardados neste aparelho.\") % n], [\"divisor\"]]"
+  }
+ ],
+ "Mensagem do KodeX": [
+  {
+   "onde": "fluxo.gd:2208",
+   "funcao": "func _abrir_carta(c: Dictionary) -> void:",
+   "linha": "var b: Array = [[\"titulo\", Sessao.t(\"Mensagem do KodeX\")], [\"espaco\"]]"
+  }
+ ],
+ "+%d de Essência": [
+  {
+   "onde": "fluxo.gd:2220",
+   "funcao": "func _abrir_carta(c: Dictionary) -> void:",
+   "linha": "b.append([\"centro\", Sessao.t(\"+%d de Essência\") % int(it[\"essencia\"])])"
+  }
+ ],
+ "Carta: %s": [
+  {
+   "onde": "fluxo.gd:2223",
+   "funcao": "func _abrir_carta(c: Dictionary) -> void:",
+   "linha": "b.append([\"centro\", Sessao.t(\"Carta: %s\") % str(Sessao.db[\"cartas\"][cid][\"nome\"])])"
+  }
+ ],
+ "contra %s": [
+  {
+   "onde": "mesa.gd:3230",
+   "funcao": "func _resumo() -> void:",
+   "linha": "b.append([\"centro\", Sessao.t(\"contra %s\") % p[\"nome\"]])"
+  },
+  {
+   "onde": "mesa.gd:4128",
+   "funcao": "func _resumo_online(ganho := 0) -> void:",
+   "linha": "var b: Array = [[\"titulo\", Sessao.par(titulo)], [\"centro\", Sessao.t(\"contra %s\") % adv],"
+  }
+ ],
+ "Turnos: %d": [
+  {
+   "onde": "mesa.gd:3232",
+   "funcao": "func _resumo() -> void:",
+   "linha": "b.append([\"item\", Sessao.t(\"Turnos: %d\") % turno_n])"
+  }
+ ],
+ "Cartas jogadas: %d (oponente %d)": [
+  {
+   "onde": "historico.gd:118",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "[\"item\", Sessao.t(\"Cartas jogadas: %d (oponente %d)\") % [int(st.get(\"cartas\", 0)), int(st.get(\"cartas_op\", 0))]],"
+  },
+  {
+   "onde": "mesa.gd:3233",
+   "funcao": "func _resumo() -> void:",
+   "linha": "b.append([\"item\", Sessao.t(\"Cartas jogadas: %d (oponente %d)\") % [jog.call(0), jog.call(1)]])"
+  }
+ ],
+ "Dano na Cornucópia inimiga: %d": [
+  {
+   "onde": "mesa.gd:3234",
+   "funcao": "func _resumo() -> void:",
+   "linha": "b.append([\"item\", Sessao.t(\"Dano na Cornucópia inimiga: %d\") % maxi(0, int(_corn_ini[1]) - maxi(cornucopia[1], 0))])"
+  }
+ ],
+ "Dano recebido: %d": [
+  {
+   "onde": "mesa.gd:3235",
+   "funcao": "func _resumo() -> void:",
+   "linha": "b.append([\"item\", Sessao.t(\"Dano recebido: %d\") % maxi(0, int(_corn_ini[0]) - maxi(cornucopia[0], 0))])"
+  }
+ ],
+ "Entidades inimigas destruídas: %d": [
+  {
+   "onde": "mesa.gd:3236",
+   "funcao": "func _resumo() -> void:",
+   "linha": "b.append([\"item\", Sessao.t(\"Entidades inimigas destruídas: %d\") % int(estat[1].get(\"mortes\", 0))])"
+  }
+ ],
+ "Ataques: %d": [
+  {
+   "onde": "mesa.gd:3237",
+   "funcao": "func _resumo() -> void:",
+   "linha": "b.append([\"item\", Sessao.t(\"Ataques: %d\") % (int(estat[0].get(\"ataques\", 0)) + int(estat[0].get(\"golpes_diretos\", 0)))])"
+  }
+ ],
+ "moedas do Arcade": [
+  {
+   "onde": "mesa.gd:3241",
+   "funcao": "func _resumo() -> void:",
+   "linha": "b.append([\"centro\", Sessao.t(\"moedas do Arcade\")])"
+  }
+ ],
+ "moedas da partida online": [
+  {
+   "onde": "mesa.gd:3247",
+   "funcao": "func _resumo() -> void:",
+   "linha": "b.append([\"centro\", Sessao.t(\"moedas da partida online\")])"
+  }
+ ],
+ "Dica": [
+  {
+   "onde": "mesa.gd:3627",
+   "funcao": "func _enigma() -> void:",
+   "linha": "perg.abrir([[\"titulo\", Sessao.t(\"Dica\")], [\"centro\", str(Sessao.par(dica))]])"
+  }
+ ],
+ "Você  ×  %s": [
+  {
+   "onde": "mesa.gd:4130",
+   "funcao": "func _resumo_online(ganho := 0) -> void:",
+   "linha": "[\"sub\", Sessao.t(\"Você  ×  %s\") % adv],"
+  }
+ ],
+ "Cartas jogadas: %d × %d": [
+  {
+   "onde": "mesa.gd:4131",
+   "funcao": "func _resumo_online(ganho := 0) -> void:",
+   "linha": "[\"item\", Sessao.t(\"Cartas jogadas: %d × %d\") % [jog.call(0), jog.call(1)]],"
+  }
+ ],
+ "Dano causado: %d × %d": [
+  {
+   "onde": "mesa.gd:4132",
+   "funcao": "func _resumo_online(ganho := 0) -> void:",
+   "linha": "[\"item\", Sessao.t(\"Dano causado: %d × %d\") % [int(_corn_ini[1]) - maxi(cornucopia[1], 0), int(_corn_ini[0]) - maxi(cornucopia[0], 0)]],"
+  }
+ ],
+ "Entidades destruídas: %d × %d": [
+  {
+   "onde": "mesa.gd:4133",
+   "funcao": "func _resumo_online(ganho := 0) -> void:",
+   "linha": "[\"item\", Sessao.t(\"Entidades destruídas: %d × %d\") % [int(estat[1].get(\"mortes\", 0)), int(estat[0].get(\"mortes\", 0))]],"
+  }
+ ],
+ "Ataques: %d × %d": [
+  {
+   "onde": "mesa.gd:4134",
+   "funcao": "func _resumo_online(ganho := 0) -> void:",
+   "linha": "[\"item\", Sessao.t(\"Ataques: %d × %d\") % [atq.call(0), atq.call(1)]],"
+  }
+ ],
+ "Cornucópia no fim: %d × %d": [
+  {
+   "onde": "mesa.gd:4135",
+   "funcao": "func _resumo_online(ganho := 0) -> void:",
+   "linha": "[\"item\", Sessao.t(\"Cornucópia no fim: %d × %d\") % [maxi(cornucopia[0], 0), maxi(cornucopia[1], 0)]]]"
+  }
+ ],
+ "Os dois aparelhos divergiram nesta partida (dessincronia). Avise para corrigirmos.": [
+  {
+   "onde": "mesa.gd:4142",
+   "funcao": "func _resumo_online(ganho := 0) -> void:",
+   "linha": "b.append([\"centro\", Sessao.t(\"Os dois aparelhos divergiram nesta partida (dessincronia). Avise para corrigirmos.\")])"
+  }
+ ],
+ "Nível %d  ·  +%d XP  (%d/%d)": [
+  {
+   "onde": "mesa.gd:4383",
+   "funcao": "func _blocos_progresso(b: Array) -> void:",
+   "linha": "b.append([\"sub\", Sessao.t(\"Nível %d  ·  +%d XP  (%d/%d)\") % [nv[0], xp, nv[1], nv[2]]])"
+  }
+ ],
+ "Semanal cumprida: %s": [
+  {
+   "onde": "mesa.gd:4387",
+   "funcao": "func _blocos_progresso(b: Array) -> void:",
+   "linha": "b.append([\"item\", Sessao.t(\"Semanal cumprida: %s\") % e[\"texto\"] if e.get(\"semanal\", false)"
+  }
+ ],
+ "Missão cumprida: %s": [
+  {
+   "onde": "mesa.gd:4388",
+   "funcao": "func _blocos_progresso(b: Array) -> void:",
+   "linha": "else Sessao.t(\"Missão cumprida: %s\") % e[\"texto\"]])"
+  }
+ ],
+ "Subiu! %s": [
+  {
+   "onde": "mesa.gd:4391",
+   "funcao": "func _blocos_progresso(b: Array) -> void:",
+   "linha": "b.append([\"item\", Sessao.t(\"Subiu! %s\") % e[\"texto\"]])"
+  }
+ ],
+ "Conquista: %s": [
+  {
+   "onde": "mesa.gd:4394",
+   "funcao": "func _blocos_progresso(b: Array) -> void:",
+   "linha": "b.append([\"item\", Sessao.t(\"Conquista: %s\") % e[\"texto\"]])"
+  }
+ ],
+ "Retrato liberado: %s": [
+  {
+   "onde": "mesa.gd:4397",
+   "funcao": "func _blocos_progresso(b: Array) -> void:",
+   "linha": "b.append([\"item\", Sessao.t(\"Retrato liberado: %s\") % e[\"texto\"]])"
+  }
+ ],
+ "Perfil > Escolher imagem": [
+  {
+   "onde": "mesa.gd:4398",
+   "funcao": "func _blocos_progresso(b: Array) -> void:",
+   "linha": "b.append([\"centro\", Sessao.t(\"Perfil > Escolher imagem\")])"
+  }
+ ],
+ "Você venceu %s": [
+  {
+   "onde": "mesa.gd:4407",
+   "funcao": "func _preparar_fim(venc: int) -> void:",
+   "linha": "\"sub\": (Sessao.t(\"Você venceu %s\") % ret_nome[1]) if venc == 0 else (Sessao.t(\"%s venceu\") % ret_nome[1])}"
+  }
+ ],
+ "%s venceu": [
+  {
+   "onde": "mesa.gd:4407",
+   "funcao": "func _preparar_fim(venc: int) -> void:",
+   "linha": "\"sub\": (Sessao.t(\"Você venceu %s\") % ret_nome[1]) if venc == 0 else (Sessao.t(\"%s venceu\") % ret_nome[1])}"
+  }
+ ],
+ "atacou %s": [
+  {
+   "onde": "mesa_hud.gd:337",
+   "funcao": "func _desenhar_carta_hist(h: Dictionary, tl: Rect2) -> void:",
+   "linha": "\"ataque\": acao = Sessao.t(\"atacou %s\") % _nome(h[\"alvo\"])"
+  }
+ ],
+ "golpeou a Cornucópia": [
+  {
+   "onde": "mesa_hud.gd:338",
+   "funcao": "func _desenhar_carta_hist(h: Dictionary, tl: Rect2) -> void:",
+   "linha": "\"golpe\": acao = Sessao.t(\"golpeou a Cornucópia\")"
+  }
+ ],
+ "colocou um Selo": [
+  {
+   "onde": "historico.gd:132",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "\"selo\": t = Sessao.t(\"colocou um Selo\") if int(ln[1]) == 1 else Sessao.t(\"colocou o Selo %s\") % carta"
+  },
+  {
+   "onde": "mesa_hud.gd:339",
+   "funcao": "func _desenhar_carta_hist(h: Dictionary, tl: Rect2) -> void:",
+   "linha": "\"selo\": acao = Sessao.t(\"colocou um Selo\")"
+  }
+ ],
+ "Selo disparado": [
+  {
+   "onde": "mesa_hud.gd:340",
+   "funcao": "func _desenhar_carta_hist(h: Dictionary, tl: Rect2) -> void:",
+   "linha": "\"selo_revelado\": acao = Sessao.t(\"Selo disparado\")"
+  }
+ ],
+ "jogou": [
+  {
+   "onde": "mesa_hud.gd:341",
+   "funcao": "func _desenhar_carta_hist(h: Dictionary, tl: Rect2) -> void:",
+   "linha": "_: acao = Sessao.t(\"jogou\")"
+  }
+ ],
+ "toque para fechar": [
+  {
+   "onde": "mesa_hud.gd:344",
+   "funcao": "func _desenhar_carta_hist(h: Dictionary, tl: Rect2) -> void:",
+   "linha": "var dica := Sessao.t(\"toque para fechar\")"
+  }
+ ],
+ "Token invocado por %s.": [
+  {
+   "onde": "motor_efeitos.gd:809",
+   "funcao": "func _invocar_tokens(d: int, a: Dictionary, fonte) -> void:",
+   "linha": "var texto := (Sessao.t(\"Token invocado por %s.\") % de_quem) if de_quem != \"\" else \"Token.\""
+  }
+ ],
+ "Guarda. ": [
+  {
+   "onde": "motor_efeitos.gd:811",
+   "funcao": "func _invocar_tokens(d: int, a: Dictionary, fonte) -> void:",
+   "linha": "texto = Sessao.t(\"Guarda. \") + texto"
+  }
+ ],
+ "Contra a IA: %d  ·  %s": [
+  {
+   "onde": "historico.gd:56",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, y), Sessao.t(\"Contra a IA: %d  ·  %s\") % [_total(ia), _placar(ia)], f.CREME)"
+  }
+ ],
+ "Contra jogadores: %d  ·  %s": [
+  {
+   "onde": "historico.gd:57",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, y + 13), Sessao.t(\"Contra jogadores: %d  ·  %s\") % [_total(jg), _placar(jg)], Color(\"#9ad0ff\"))"
+  }
+ ],
+ "Nenhuma partida ainda.": [
+  {
+   "onde": "historico.gd:62",
+   "funcao": "func desenhar() -> void:",
+   "linha": "var linhas := Fonte57.quebrar(\"  ·  \".join(partes) if not partes.is_empty() else Sessao.t(\"Nenhuma partida ainda.\"), 330)"
+  }
+ ],
+ "Mais enfrentado: %s (%d, %s)": [
+  {
+   "onde": "historico.gd:73",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, y + 66), Sessao.t(\"Mais enfrentado: %s (%d, %s)\") % [top, topn, _placar(adv[top])], f.OURO[1])"
+  }
+ ],
+ "Dano causado: %d  ·  recebido: %d": [
+  {
+   "onde": "historico.gd:119",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "[\"item\", Sessao.t(\"Dano causado: %d  ·  recebido: %d\") % [int(st.get(\"dano\", 0)), int(st.get(\"recebido\", 0))]],"
+  }
+ ],
+ "Entidades destruídas: %d  ·  perdidas: %d": [
+  {
+   "onde": "historico.gd:120",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "[\"item\", Sessao.t(\"Entidades destruídas: %d  ·  perdidas: %d\") % [int(st.get(\"mortes\", 0)), int(st.get(\"perdas\", 0))]],"
+  }
+ ],
+ "Jogada a jogada": [
+  {
+   "onde": "historico.gd:121",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "[\"sub\", Sessao.t(\"Jogada a jogada\")]]"
+  }
+ ],
+ "invocou %s": [
+  {
+   "onde": "historico.gd:129",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "\"entidade\": t = Sessao.t(\"invocou %s\") % carta"
+  }
+ ],
+ "lançou %s": [
+  {
+   "onde": "historico.gd:130",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "\"rito\": t = Sessao.t(\"lançou %s\") % carta"
+  }
+ ],
+ "equipou %s em %s": [
+  {
+   "onde": "historico.gd:131",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "\"reliquia\": t = Sessao.t(\"equipou %s em %s\") % [carta, alvo]"
+  }
+ ],
+ "colocou o Selo %s": [
+  {
+   "onde": "historico.gd:132",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "\"selo\": t = Sessao.t(\"colocou um Selo\") if int(ln[1]) == 1 else Sessao.t(\"colocou o Selo %s\") % carta"
+  }
+ ],
+ "Selo disparou: %s": [
+  {
+   "onde": "historico.gd:133",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "\"selo_revelado\": t = Sessao.t(\"Selo disparou: %s\") % carta"
+  }
+ ],
+ "atacou %s com %s": [
+  {
+   "onde": "historico.gd:134",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "\"ataque\": t = Sessao.t(\"atacou %s com %s\") % [alvo, carta]"
+  }
+ ],
+ "golpeou a Cornucópia com %s": [
+  {
+   "onde": "historico.gd:135",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "\"golpe\": t = Sessao.t(\"golpeou a Cornucópia com %s\") % carta"
+  }
+ ],
+ "Sem jogadas registradas.": [
+  {
+   "onde": "historico.gd:139",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "b.append([\"centro\", Sessao.t(\"Sem jogadas registradas.\")])"
+  }
+ ],
+ "Progresso": [
+  {
+   "onde": "menu_progresso.gd:76",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Progresso\"), Sessao.t(\"missões, nível e conquistas\"))"
+  }
+ ],
+ "missões, nível e conquistas": [
+  {
+   "onde": "menu_progresso.gd:76",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._cabecalho(Sessao.t(\"Progresso\"), Sessao.t(\"missões, nível e conquistas\"))"
+  }
+ ],
+ "HOJE": [
+  {
+   "onde": "menu_progresso.gd:80",
+   "funcao": "func desenhar() -> void:",
+   "linha": "_rotulo(Vector2(18, 128), Sessao.t(\"HOJE\"), Sessao.t(\"novas em %dh %02dmin\") % [h / 3600, (h % 3600) / 60])"
+  }
+ ],
+ "novas em %dh %02dmin": [
+  {
+   "onde": "menu_progresso.gd:80",
+   "funcao": "func desenhar() -> void:",
+   "linha": "_rotulo(Vector2(18, 128), Sessao.t(\"HOJE\"), Sessao.t(\"novas em %dh %02dmin\") % [h / 3600, (h % 3600) / 60])"
+  }
+ ],
+ "SEMANA": [
+  {
+   "onde": "menu_progresso.gd:82",
+   "funcao": "func desenhar() -> void:",
+   "linha": "_rotulo(Vector2(18, 310), Sessao.t(\"SEMANA\"), Sessao.t(\"novas em %d dias e %dh\") % [b / 86400, (b % 86400) / 3600])"
+  }
+ ],
+ "novas em %d dias e %dh": [
+  {
+   "onde": "menu_progresso.gd:82",
+   "funcao": "func desenhar() -> void:",
+   "linha": "_rotulo(Vector2(18, 310), Sessao.t(\"SEMANA\"), Sessao.t(\"novas em %d dias e %dh\") % [b / 86400, (b % 86400) / 3600])"
+  }
+ ],
+ "Dias seguidos: %d  ·  bônus a cada 7 (+1 booster, +20 Koins)": [
+  {
+   "onde": "menu_progresso.gd:84",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 486), Sessao.t(\"Dias seguidos: %d  ·  bônus a cada 7 (+1 booster, +20 Koins)\") % seq, Color(\"#9ad0ff\"))"
+  }
+ ],
+ "Missões pagam na hora, ao terminar a partida.": [
+  {
+   "onde": "menu_progresso.gd:85",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 502), Sessao.t(\"Missões pagam na hora, ao terminar a partida.\"), Color(0.72, 0.66, 0.6))"
+  }
+ ],
+ "página": [
+  {
+   "onde": "menu_progresso.gd:93",
+   "funcao": "func desenhar() -> void:",
+   "linha": "f._texto_central(Vector2(180, 552), \"%d / %d  ·  %s %d/%d\" % [feitas, tot, Sessao.t(\"página\"), pagina + 1, ceili(tot / float(POR_PAGINA))], Color(0.72, 0.66, 0.6))"
+  }
+ ],
+ "feita": [
+  {
+   "onde": "menu_progresso.gd:127",
+   "funcao": "func _linha_missao(_b: Dictionary, r: Rect2, pressao: float, escopo: String, m: ",
+   "linha": "Fonte57.desenhar(f, dd.position + Vector2(8, 26), Progresso.premio_txt(prem) + (\"  ·  \" + Sessao.t(\"feita\") if feita else \"\"),"
+  }
+ ],
+ "trocar": [
+  {
+   "onde": "sessao.gd:1028",
+   "funcao": "func trocar_repetida(cid: String, foil: bool) -> bool:",
+   "linha": "_espelhar(\"trocar\", {\"carta\": cid, \"foil\": foil})"
+  },
+  {
+   "onde": "booster.gd:77",
+   "funcao": "func comprar(gratis := false) -> void:",
+   "linha": "cartas.append({\"id\": e[\"id\"], \"foil\": e[\"foil\"], \"nova\": e[\"nova\"], \"virada\": false, \"t_virou\": 0.0, \"trocar\": false, \"pos\": Vector2.ZERO})"
+  },
+  {
+   "onde": "booster.gd:244",
+   "funcao": "func alternar_troca(k: int) -> void:",
+   "linha": "cartas[k][\"trocar\"] = not cartas[k][\"trocar\"]"
+  },
+  {
+   "onde": "booster.gd:252",
+   "funcao": "func concluir() -> void:",
+   "linha": "if c[\"trocar\"] and not c[\"nova\"]:"
+  }
+ ],
+ "nível": [
+  {
+   "onde": "menu_progresso.gd:140",
+   "funcao": "func _desenhar_nivel() -> void:",
+   "linha": "f._texto_central(Vector2(180, 182), Sessao.t(\"nível\"), Color(0.72, 0.66, 0.6))"
+  }
+ ],
+ "XP: vitória 30 · derrota 15 · empate 20 · online +10": [
+  {
+   "onde": "menu_progresso.gd:143",
+   "funcao": "func _desenhar_nivel() -> void:",
+   "linha": "f._texto_central(Vector2(180, 226), Sessao.t(\"XP: vitória 30 · derrota 15 · empate 20 · online +10\"), Color(0.6, 0.55, 0.55))"
+  }
+ ],
+ "missão do dia +20 · semanal +60": [
+  {
+   "onde": "menu_progresso.gd:144",
+   "funcao": "func _desenhar_nivel() -> void:",
+   "linha": "f._texto_central(Vector2(180, 238), Sessao.t(\"missão do dia +20 · semanal +60\"), Color(0.6, 0.55, 0.55))"
+  }
+ ],
+ "PRÓXIMOS PRÊMIOS": [
+  {
+   "onde": "menu_progresso.gd:145",
+   "funcao": "func _desenhar_nivel() -> void:",
+   "linha": "PixelFonte.desenhar(f, Vector2(18, 254), Sessao.t(\"PRÓXIMOS PRÊMIOS\"), f.OURO[0])"
+  }
+ ],
+ "Nível %d": [
+  {
+   "onde": "progresso.gd:236",
+   "funcao": "static func _ganhar_xp(n: int) -> Array:",
+   "linha": "ev.append({\"tipo\": \"nivel\", \"texto\": Sessao.t(\"Nível %d\") % nv, \"premio\": r})"
+  },
+  {
+   "onde": "menu_progresso.gd:148",
+   "funcao": "func _desenhar_nivel() -> void:",
+   "linha": "Fonte57.desenhar(f, Vector2(24, 268 + k * 14), Sessao.t(\"Nível %d\") % n, f.CREME, f.ESCURO)"
+  }
+ ],
+ "TÍTULOS  (TOQUE PARA USAR)": [
+  {
+   "onde": "menu_progresso.gd:150",
+   "funcao": "func _desenhar_nivel() -> void:",
+   "linha": "PixelFonte.desenhar(f, Vector2(18, 340), Sessao.t(\"TÍTULOS  (TOQUE PARA USAR)\"), f.OURO[0])"
+  }
+ ],
+ "Ganhe títulos subindo de nível, nas conquistas e na maestria.": [
+  {
+   "onde": "menu_progresso.gd:152",
+   "funcao": "func _desenhar_nivel() -> void:",
+   "linha": "f._texto_central(Vector2(180, 372), Sessao.t(\"Ganhe títulos subindo de nível, nas conquistas e na maestria.\"), Color(0.72, 0.66, 0.6))"
+  }
+ ],
+ "máxima!": [
+  {
+   "onde": "menu_progresso.gd:182",
+   "funcao": "func _desenhar_maestria() -> void:",
+   "linha": "var sub := Sessao.t(\"máxima!\") if n >= lim.size() else (\"%d / %d XP  ·  \" % [x, prox] + Sessao.t(\"próximo: \") +"
+  }
+ ],
+ "próximo: ": [
+  {
+   "onde": "menu_progresso.gd:182",
+   "funcao": "func _desenhar_maestria() -> void:",
+   "linha": "var sub := Sessao.t(\"máxima!\") if n >= lim.size() else (\"%d / %d XP  ·  \" % [x, prox] + Sessao.t(\"próximo: \") +"
+  }
+ ],
+ "XP das partidas com um deck desta tradição": [
+  {
+   "onde": "menu_progresso.gd:185",
+   "funcao": "func _desenhar_maestria() -> void:",
+   "linha": "Fonte57.desenhar(f, dd.position + Vector2(50, 40), Sessao.t(\"XP das partidas com um deck desta tradição\"), Color(0.6, 0.55, 0.55), f.ESCURO)"
+  }
+ ],
+ "conquistada": [
+  {
+   "onde": "menu_progresso.gd:213",
+   "funcao": "func _linha_conquista(_b: Dictionary, r: Rect2, pressao: float, c: Dictionary) -",
+   "linha": "Fonte57.desenhar(f, dd.position + Vector2(8, 26), Progresso.premio_txt(r2) + (\"  ·  \" + Sessao.t(\"conquistada\") if feita else \"\"),"
+  }
+ ],
+ "Santuário": [
+  {
+   "onde": "modos_solo.gd:26",
+   "funcao": "",
+   "linha": "\"santuario\": [\"Santuário\", \"Sanctuary\", \"+5 de Cornucópia\", \"+5 Cornucopia\"],"
+  },
+  {
+   "onde": "modos_solo.gd:232",
+   "funcao": "func seguir(caminho: String) -> void:",
+   "linha": "f.perg.abrir([[\"titulo\", Sessao.t(\"Santuário\")], [\"destaque\", \"+5\", \"\"],"
+  }
+ ],
+ "sai:": [
+  {
+   "onde": "modos_solo.gd:320",
+   "funcao": "func botao_premio(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "Fonte57.desenhar(f, Vector2(r.position.x + 4, y), Sessao.t(\"sai:\"), Color(\"#ff9a8a\"))"
+  }
+ ],
+ "toque para levar": [
+  {
+   "onde": "modos_solo.gd:325",
+   "funcao": "func botao_premio(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var toque := Sessao.t(\"toque para levar\")"
+  }
+ ],
+ "Fim da jornada": [
+  {
+   "onde": "modos_solo.gd:383",
+   "funcao": "func pos_pere() -> void:",
+   "linha": "f.perg.abrir([[\"titulo\", Sessao.t(\"Fim da jornada\")],"
+  }
+ ],
+ "Peregrinação completa": [
+  {
+   "onde": "modos_solo.gd:395",
+   "funcao": "func pos_pere() -> void:",
+   "linha": "f.perg.abrir([[\"titulo\", Sessao.t(\"Peregrinação completa\")],"
+  }
+ ],
+ "booster grátis - abra na Loja": [
+  {
+   "onde": "modos_solo.gd:397",
+   "funcao": "func pos_pere() -> void:",
+   "linha": "[\"centro\", Sessao.t(\"booster grátis - abra na Loja\")]])"
+  }
+ ],
+ "Nível: Mestre": [
+  {
+   "onde": "modos_solo.gd:437",
+   "funcao": "func desenhar_diario() -> void:",
+   "linha": "Sessao.t(\"Nível: Mestre\"),"
+  }
+ ],
+ "Prêmio de hoje já recebido. Jogue pelo prazer.": [
+  {
+   "onde": "modos_solo.gd:447",
+   "funcao": "func desenhar_diario() -> void:",
+   "linha": "var s := Sessao.t(\"Prêmio de hoje já recebido. Jogue pelo prazer.\") if feito \\"
+  }
+ ],
+ "Volte amanhã para um novo desafio.": [
+  {
+   "onde": "modos_solo.gd:468",
+   "funcao": "func pos_diario() -> void:",
+   "linha": "[\"centro\", Sessao.t(\"Volte amanhã para um novo desafio.\")]])"
+  }
+ ],
+ "CONQUISTADA": [
+  {
+   "onde": "modos_solo.gd:495",
+   "funcao": "func botao_lendario(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var s := Sessao.t(\"CONQUISTADA\") if venc > 0 else Sessao.t(\"DESAFIAR\")"
+  }
+ ],
+ "DESAFIAR": [
+  {
+   "onde": "modos_solo.gd:495",
+   "funcao": "func botao_lendario(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var s := Sessao.t(\"CONQUISTADA\") if venc > 0 else Sessao.t(\"DESAFIAR\")"
+  }
+ ],
+ "Lendária conquistada": [
+  {
+   "onde": "modos_solo.gd:528",
+   "funcao": "func pos_lendario() -> void:",
+   "linha": "f.perg.abrir([[\"titulo\", Sessao.t(\"Lendária conquistada\")], [\"centro\", nome],"
+  }
+ ],
+ "A carta entrou na sua coleção.": [
+  {
+   "onde": "modos_solo.gd:529",
+   "funcao": "func pos_lendario() -> void:",
+   "linha": "[\"centro\", Sessao.t(\"A carta entrou na sua coleção.\")]])"
+  }
+ ],
+ "Desafio vencido": [
+  {
+   "onde": "modos_solo.gd:533",
+   "funcao": "func pos_lendario() -> void:",
+   "linha": "f.perg.abrir([[\"titulo\", Sessao.t(\"Desafio vencido\")], [\"centro\", nome], [\"destaque\", \"+%d\" % m, \"moeda\"]])"
+  }
+ ],
+ "Você fechou o livro. Eu sou o que estava escrito na última página.": [
+  {
+   "onde": "modos_solo.gd:624",
+   "funcao": "func _choronzon() -> void:",
+   "linha": "{\"quem\": \"Choronzon\", \"texto\": Sessao.t(\"Você fechou o livro. Eu sou o que estava escrito na última página.\"), \"cor\": Color(\"#c070ff\"), \"retrato\": \"\"},"
+  }
+ ],
+ "Três, três, três. Conte comigo.": [
+  {
+   "onde": "modos_solo.gd:625",
+   "funcao": "func _choronzon() -> void:",
+   "linha": "{\"quem\": \"Choronzon\", \"texto\": Sessao.t(\"Três, três, três. Conte comigo.\"), \"cor\": Color(\"#c070ff\"), \"retrato\": \"\"}]"
+  }
+ ],
+ "Abismo selado": [
+  {
+   "onde": "modos_solo.gd:641",
+   "funcao": "func pos_choronzon() -> void:",
+   "linha": "f.perg.abrir([[\"titulo\", Sessao.t(\"Abismo selado\")],"
+  }
+ ],
+ "Título: Selador do Abismo": [
+  {
+   "onde": "modos_solo.gd:642",
+   "funcao": "func pos_choronzon() -> void:",
+   "linha": "[\"centro\", Sessao.t(\"Título: Selador do Abismo\")],"
+  }
+ ],
+ "Resolvido": [
+  {
+   "onde": "modos_solo.gd:702",
+   "funcao": "func pos_enigma() -> void:",
+   "linha": "f.perg.abrir([[\"titulo\", Sessao.t(\"Resolvido\")], [\"centro\", Sessao.t(\"De novo! Prêmio só na 1ª vez.\")]])"
+  },
+  {
+   "onde": "modos_solo.gd:707",
+   "funcao": "func pos_enigma() -> void:",
+   "linha": "f.perg.abrir([[\"titulo\", Sessao.t(\"Resolvido\")], [\"destaque\", \"+%d\" % MOEDAS_ENIGMA, \"moeda\"]])"
+  }
+ ],
+ "De novo! Prêmio só na 1ª vez.": [
+  {
+   "onde": "modos_solo.gd:702",
+   "funcao": "func pos_enigma() -> void:",
+   "linha": "f.perg.abrir([[\"titulo\", Sessao.t(\"Resolvido\")], [\"centro\", Sessao.t(\"De novo! Prêmio só na 1ª vez.\")]])"
+  }
+ ],
+ "Você caiu na parada %d de 8.": [
+  {
+   "onde": "modos_solo.gd:384",
+   "funcao": "func pos_pere() -> void:",
+   "linha": "[\"centro\", (Sessao.t(\"Você caiu na parada %d de 8.\") % parada)],"
+  }
+ ],
+ "Vitórias: %d": [
+  {
+   "onde": "modos_solo.gd:385",
+   "funcao": "func pos_pere() -> void:",
+   "linha": "[\"centro\", (Sessao.t(\"Vitórias: %d\") % int(p[\"vitorias\"]))]])"
+  }
+ ],
+ "Você joga com %s": [
+  {
+   "onde": "modos_solo.gd:435",
+   "funcao": "func desenhar_diario() -> void:",
+   "linha": "(Sessao.t(\"Você joga com %s\") % Sessao.nome_deck(d[\"meu\"])),"
+  }
+ ],
+ "Vitória: +%d moedas (uma vez por dia)": [
+  {
+   "onde": "modos_solo.gd:448",
+   "funcao": "func desenhar_diario() -> void:",
+   "linha": "else (Sessao.t(\"Vitória: +%d moedas (uma vez por dia)\") % MOEDAS_DIARIO)"
+  }
+ ],
+ "Maestria %s %d": [
+  {
+   "onde": "progresso.gd:274",
+   "funcao": "static func _maestria(trad: String, antes: int) -> Array:",
+   "linha": "ev.append({\"tipo\": \"maestria\", \"texto\": Sessao.t(\"Maestria %s %d\") % [Sessao.nome_deck(trad), nv], \"premio\": r})"
+  }
+ ],
+ "+%d booster": [
+  {
+   "onde": "progresso.gd:364",
+   "funcao": "static func premio_txt(r: Dictionary) -> String:",
+   "linha": "partes.append(Sessao.t(\"+%d booster\") % int(r[\"booster\"]))"
+  }
+ ],
+ "Título: %s": [
+  {
+   "onde": "progresso.gd:368",
+   "funcao": "static func premio_txt(r: Dictionary) -> String:",
+   "linha": "partes.append(Sessao.t(\"Título: %s\") % nome_titulo(str(r[\"titulo\"])))"
+  }
+ ],
+ "Cornucópia: %d de %d": [
+  {
+   "onde": "modos_solo.gd:233",
+   "funcao": "func seguir(caminho: String) -> void:",
+   "linha": "[\"centro\", Sessao.t(\"Cornucópia: %d de %d\") % [int(p[\"corn\"]), int(p[\"corn_max\"])]]],"
+  }
+ ],
+ "contra %s (%s)": [
+  {
+   "onde": "modos_solo.gd:436",
+   "funcao": "func desenhar_diario() -> void:",
+   "linha": "Sessao.t(\"contra %s (%s)\") % [p.get(\"nome\", \"\"), Sessao.nome_deck(d[\"opon\"])],"
+  }
+ ],
+ "Fé %d · Cornucópia dele %d": [
+  {
+   "onde": "modos_solo.gd:671",
+   "funcao": "func botao_enigma(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var info := Sessao.t(\"Fé %d · Cornucópia dele %d\") % [int(e[\"fe\"]), int(e[\"corn\"])]"
+  }
+ ],
+ "o Habitante do Abismo": [
+  {
+   "onde": "sessao.gd:264",
+   "funcao": "func personagem(deck: String) -> Dictionary:",
+   "linha": "return {\"nome\": \"Choronzon\", \"titulo\": t(\"o Habitante do Abismo\"), \"cor\": \"#c070ff\"}"
+  },
+  {
+   "onde": "modos_solo.gd:69",
+   "funcao": "func itens() -> Array:",
+   "linha": "(Sessao.t(\"vencido · desafie de novo\") if p.get(\"choronzon_vencido\", false) else Sessao.t(\"o Habitante do Abismo\")),"
+  }
+ ],
+ "O presente usa a hora da internet: conecte-se e tente de novo. Nada se perde: acumula até 3 dias.": [
+  {
+   "onde": "fluxo.gd:688",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "[\"centro\", Sessao.t(\"O presente usa a hora da internet: conecte-se e tente de novo. Nada se perde: acumula até 3 dias.\")]])"
+  }
+ ],
+ "moedas - %d dias acumulados": [
+  {
+   "onde": "fluxo.gd:715",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "blocos.append([\"centro\", Sessao.t(\"moedas - %d dias acumulados\") % dias if dias > 1 else Sessao.t(\"moedas - presente do dia\")])"
+  }
+ ],
+ "moedas - presente do dia": [
+  {
+   "onde": "fluxo.gd:715",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "blocos.append([\"centro\", Sessao.t(\"moedas - %d dias acumulados\") % dias if dias > 1 else Sessao.t(\"moedas - presente do dia\")])"
+  }
+ ],
+ "Koins (%d da semana)": [
+  {
+   "onde": "fluxo.gd:720",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "blocos.append([\"centro\", Sessao.t(\"Koins (%d da semana)\") % ks if ks > 0 else Sessao.t(\"Koins do dia\")])"
+  }
+ ],
+ "Koins do dia": [
+  {
+   "onde": "fluxo.gd:720",
+   "funcao": "func verificar_presente(manual := true) -> void:",
+   "linha": "blocos.append([\"centro\", Sessao.t(\"Koins (%d da semana)\") % ks if ks > 0 else Sessao.t(\"Koins do dia\")])"
+  }
+ ],
+ "...": [
+  {
+   "onde": "sessao.gd:41",
+   "funcao": "func estilo_ia(op: String) -> String:",
+   "linha": "## em t(\"...\"); o valor de cada idioma pode ser reescrito sem mexer no código. Ver docs/textos/guia_de_estilo.md."
+  },
+  {
+   "onde": "menu_principal.gd:173",
+   "funcao": "func _carta_modo(c: Vector2, esc: float, ang: float, m: Dictionary, centro: bool",
+   "linha": "## Corta o texto (Fonte57) com \"...\" para caber em `larg` px."
+  },
+  {
+   "onde": "menu_principal.gd:177",
+   "funcao": "static func _caber(s: String, larg: float) -> String:",
+   "linha": "while s.length() > 1 and Fonte57.largura(s + \"...\") > larg:"
+  },
+  {
+   "onde": "menu_principal.gd:179",
+   "funcao": "static func _caber(s: String, larg: float) -> String:",
+   "linha": "return s.strip_edges() + \"...\""
+  }
+ ],
+ "+1 Fé no 1º turno": [
+  {
+   "onde": "modos_solo.gd:16",
+   "funcao": "",
+   "linha": "\"fe1\": \"+1 Fé no 1º turno\","
+  }
+ ],
+ "+3 de Cornucópia máxima (e cura 3)": [
+  {
+   "onde": "modos_solo.gd:17",
+   "funcao": "",
+   "linha": "\"corn3\": \"+3 de Cornucópia máxima (e cura 3)\","
+  }
+ ],
+ "A 1ª Entidade de cada batalha ataca na hora": [
+  {
+   "onde": "modos_solo.gd:18",
+   "funcao": "",
+   "linha": "\"impeto1\": \"A 1ª Entidade de cada batalha ataca na hora\","
+  }
+ ],
+ "Compra 1 carta extra no 1º turno": [
+  {
+   "onde": "modos_solo.gd:19",
+   "funcao": "",
+   "linha": "\"compra1\": \"Compra 1 carta extra no 1º turno\","
+  }
+ ],
+ "Seus Selos custam 1 a menos": [
+  {
+   "onde": "modos_solo.gd:20",
+   "funcao": "",
+   "linha": "\"selo-1\": \"Seus Selos custam 1 a menos\","
+  }
+ ],
+ "Suas Entidades têm +1 de Vida": [
+  {
+   "onde": "modos_solo.gd:21",
+   "funcao": "",
+   "linha": "\"vida1\": \"Suas Entidades têm +1 de Vida\","
+  }
+ ],
+ "qualquer carta, sem prêmio": [
+  {
+   "onde": "modos_solo.gd:65",
+   "funcao": "func itens() -> Array:",
+   "linha": "{\"id\": \"livre\", \"nome\": \"Modo livre\", \"sub\": Sessao.t(\"qualquer carta, sem prêmio\"),"
+  }
+ ],
+ "Choronzon": [
+  {
+   "onde": "sessao.gd:264",
+   "funcao": "func personagem(deck: String) -> Dictionary:",
+   "linha": "return {\"nome\": \"Choronzon\", \"titulo\": t(\"o Habitante do Abismo\"), \"cor\": \"#c070ff\"}"
+  },
+  {
+   "onde": "historico.gd:9",
+   "funcao": "",
+   "linha": "\"livre\": \"Modo livre\", \"choronzon\": \"Choronzon\", \"online\": \"Online\", \"bot\": \"Online (bot)\"}"
+  },
+  {
+   "onde": "modos_solo.gd:67",
+   "funcao": "func itens() -> Array:",
+   "linha": "{\"id\": \"choronzon\", \"nome\": \"Choronzon\","
+  },
+  {
+   "onde": "modos_solo.gd:624",
+   "funcao": "func _choronzon() -> void:",
+   "linha": "{\"quem\": \"Choronzon\", \"texto\": Sessao.t(\"Você fechou o livro. Eu sou o que estava escrito na última página.\"), \"cor\": Color(\"#c070ff\"), \"retrato\": \"\"},"
+  }
+ ],
+ "vença o Torneio para abrir": [
+  {
+   "onde": "modos_solo.gd:68",
+   "funcao": "func itens() -> Array:",
+   "linha": "\"sub\": Sessao.t(\"vença o Torneio para abrir\") if not aberto_ch else"
+  }
+ ],
+ "vencido · desafie de novo": [
+  {
+   "onde": "modos_solo.gd:69",
+   "funcao": "func itens() -> Array:",
+   "linha": "(Sessao.t(\"vencido · desafie de novo\") if p.get(\"choronzon_vencido\", false) else Sessao.t(\"o Habitante do Abismo\")),"
+  }
+ ],
+ "Lendário": [
+  {
+   "onde": "historico.gd:8",
+   "funcao": "",
+   "linha": "\"peregrinacao\": \"Peregrinação\", \"diario\": \"Desafio do dia\", \"lendario\": \"Lendário\","
+  }
+ ],
+ "Online (bot)": [
+  {
+   "onde": "historico.gd:9",
+   "funcao": "",
+   "linha": "\"livre\": \"Modo livre\", \"choronzon\": \"Choronzon\", \"online\": \"Online\", \"bot\": \"Online (bot)\"}"
+  }
+ ],
+ "Vitória": [
+  {
+   "onde": "historico.gd:114",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "var res := _l({\"vitoria\": \"Vitória\", \"derrota\": \"Derrota\"}.get(p.get(\"resultado\", \"\"), \"Empate\"))"
+  },
+  {
+   "onde": "mesa.gd:3225",
+   "funcao": "func _resumo() -> void:",
+   "linha": "var titulo: String = {0: \"Vitória\", 1: \"Derrota\", 2: \"Empate\"}.get(vencedor, \"Empate\")"
+  },
+  {
+   "onde": "mesa.gd:4123",
+   "funcao": "func _resumo_online(ganho := 0) -> void:",
+   "linha": "var titulo: String = {0: \"Vitória\", 1: \"Derrota\", 2: \"Empate\"}.get(vencedor, \"Empate\")"
+  }
+ ],
+ "Derrota": [
+  {
+   "onde": "historico.gd:114",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "var res := _l({\"vitoria\": \"Vitória\", \"derrota\": \"Derrota\"}.get(p.get(\"resultado\", \"\"), \"Empate\"))"
+  },
+  {
+   "onde": "mesa.gd:3225",
+   "funcao": "func _resumo() -> void:",
+   "linha": "var titulo: String = {0: \"Vitória\", 1: \"Derrota\", 2: \"Empate\"}.get(vencedor, \"Empate\")"
+  },
+  {
+   "onde": "mesa.gd:4123",
+   "funcao": "func _resumo_online(ganho := 0) -> void:",
+   "linha": "var titulo: String = {0: \"Vitória\", 1: \"Derrota\", 2: \"Empate\"}.get(vencedor, \"Empate\")"
+  }
+ ],
+ "Empate": [
+  {
+   "onde": "historico.gd:114",
+   "funcao": "func abrir_log(k: int) -> void:",
+   "linha": "var res := _l({\"vitoria\": \"Vitória\", \"derrota\": \"Derrota\"}.get(p.get(\"resultado\", \"\"), \"Empate\"))"
+  },
+  {
+   "onde": "mesa.gd:3225",
+   "funcao": "func _resumo() -> void:",
+   "linha": "var titulo: String = {0: \"Vitória\", 1: \"Derrota\", 2: \"Empate\"}.get(vencedor, \"Empate\")"
+  },
+  {
+   "onde": "mesa.gd:4123",
+   "funcao": "func _resumo_online(ganho := 0) -> void:",
+   "linha": "var titulo: String = {0: \"Vitória\", 1: \"Derrota\", 2: \"Empate\"}.get(vencedor, \"Empate\")"
+  }
+ ],
+ "hist|VITÓRIA": [
+  {
+   "onde": "historico.gd:95",
+   "funcao": "func botao_linha(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var rt: String = Sessao.t({\"vitoria\": \"hist|VITÓRIA\", \"derrota\": \"hist|DERROTA\"}.get(res, \"hist|EMPATE\"))"
+  }
+ ],
+ "hist|DERROTA": [
+  {
+   "onde": "historico.gd:95",
+   "funcao": "func botao_linha(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var rt: String = Sessao.t({\"vitoria\": \"hist|VITÓRIA\", \"derrota\": \"hist|DERROTA\"}.get(res, \"hist|EMPATE\"))"
+  }
+ ],
+ "hist|EMPATE": [
+  {
+   "onde": "historico.gd:95",
+   "funcao": "func botao_linha(b: Dictionary, r: Rect2, pressao: float) -> void:",
+   "linha": "var rt: String = Sessao.t({\"vitoria\": \"hist|VITÓRIA\", \"derrota\": \"hist|DERROTA\"}.get(res, \"hist|EMPATE\"))"
+  }
+ ],
+ "Missões": [
+  {
+   "onde": "menu_progresso.gd:7",
+   "funcao": "",
+   "linha": "const ABAS := [[\"missoes\", \"Missões\", \"Missions\"], [\"nivel\", \"Nível\", \"Level\"], [\"maestria\", \"Maestria\", \"Mastery\"],"
+  }
+ ],
+ "Nível": [
+  {
+   "onde": "menu_progresso.gd:7",
+   "funcao": "",
+   "linha": "const ABAS := [[\"missoes\", \"Missões\", \"Missions\"], [\"nivel\", \"Nível\", \"Level\"], [\"maestria\", \"Maestria\", \"Mastery\"],"
+  }
+ ],
+ "Maestria": [
+  {
+   "onde": "menu_progresso.gd:7",
+   "funcao": "",
+   "linha": "const ABAS := [[\"missoes\", \"Missões\", \"Missions\"], [\"nivel\", \"Nível\", \"Level\"], [\"maestria\", \"Maestria\", \"Mastery\"],"
+  }
+ ],
+ "continuar: parada %d de 8": [
+  {
+   "onde": "modos_solo.gd:55",
+   "funcao": "func itens() -> Array:",
+   "linha": "\"sub\": (Sessao.t(\"continuar: parada %d de 8\") % (int(pere[\"parada\"]) + 1)) if not pere.is_empty() else Sessao.t(\"8 paradas, cartas e Bênçãos\"),"
+  }
+ ],
+ "8 paradas, cartas e Bênçãos": [
+  {
+   "onde": "modos_solo.gd:55",
+   "funcao": "func itens() -> Array:",
+   "linha": "\"sub\": (Sessao.t(\"continuar: parada %d de 8\") % (int(pere[\"parada\"]) + 1)) if not pere.is_empty() else Sessao.t(\"8 paradas, cartas e Bênçãos\"),"
+  }
+ ],
+ "feito hoje (sem prêmio)": [
+  {
+   "onde": "modos_solo.gd:58",
+   "funcao": "func itens() -> Array:",
+   "linha": "\"sub\": Sessao.t(\"feito hoje (sem prêmio)\") if feito_hoje else (Sessao.t(\"vitória vale %d moedas\") % MOEDAS_DIARIO if dia_ok else Sessao.t(\"precisa de internet\")),"
+  }
+ ],
+ "vitória vale %d moedas": [
+  {
+   "onde": "modos_solo.gd:58",
+   "funcao": "func itens() -> Array:",
+   "linha": "\"sub\": Sessao.t(\"feito hoje (sem prêmio)\") if feito_hoje else (Sessao.t(\"vitória vale %d moedas\") % MOEDAS_DIARIO if dia_ok else Sessao.t(\"precisa de internet\")),"
+  }
+ ],
+ "precisa de internet": [
+  {
+   "onde": "modos_solo.gd:58",
+   "funcao": "func itens() -> Array:",
+   "linha": "\"sub\": Sessao.t(\"feito hoje (sem prêmio)\") if feito_hoje else (Sessao.t(\"vitória vale %d moedas\") % MOEDAS_DIARIO if dia_ok else Sessao.t(\"precisa de internet\")),"
+  }
+ ],
+ "%d de 12 conquistadas": [
+  {
+   "onde": "modos_solo.gd:61",
+   "funcao": "func itens() -> Array:",
+   "linha": "\"sub\": Sessao.t(\"%d de 12 conquistadas\") % vencidos, \"retrato\": \"hinduismo\", \"cor\": Color(\"#7a4a10\")},"
+  }
+ ],
+ "vença neste turno · %d de %d": [
+  {
+   "onde": "modos_solo.gd:63",
+   "funcao": "func itens() -> Array:",
+   "linha": "\"sub\": Sessao.t(\"vença neste turno · %d de %d\") % [(p.get(\"enigmas\", {}) as Dictionary).size(), enigmas().size()],"
+  }
+ ],
+ "ANULADA": [
+  {
+   "onde": "mesa.gd:2487",
+   "funcao": "func _jogar_entidade(c: Carta, d: int, i: int, sacrificios: Array = []) -> void:",
+   "linha": "efeitos.numero(c.position + Vector2(0, -30), \"ANULADA\", Color(\"#c88aff\"), 1)"
+  }
+ ],
+ "CANCELADO": [
+  {
+   "onde": "mesa.gd:2393",
+   "funcao": "func _soltar_da_mao_partida(c: Carta, p: Vector2) -> void:",
+   "linha": "efeitos.numero(c.position + Vector2(0, -52), \"CANCELADO\", Color(\"#ffd0a0\"), 1)"
+  }
+ ],
+ "DESCARTE": [
+  {
+   "onde": "mesa.gd:2066",
+   "funcao": "func _descartar(d: int, c: Carta) -> void:",
+   "linha": "efeitos.numero(c.position + Vector2(0, 40 if d == 1 else -52), \"DESCARTE\", Color(\"#c88aff\"), 1)"
+  }
+ ],
+ "DEVOLVIDA": [
+  {
+   "onde": "motor_efeitos.gd:866",
+   "funcao": "func devolver_a_mao(c: Carta) -> void:",
+   "linha": "m.efeitos.numero(c.position + Vector2(0, -24), \"DEVOLVIDA\", Color(\"#cfe0ff\"), 1)"
+  }
+ ],
+ "DESPERTAR": [
+  {
+   "onde": "motor_efeitos.gd:482",
+   "funcao": "func _anunciar_fonte(c: Carta, gat: String) -> void:",
+   "linha": "var nome_gat: String = {\"on_play\": \"DESPERTAR\", \"on_death\": \"ÚLTIMO SOPRO\", \"on_attack\": \"AO ATACAR\","
+  }
+ ],
+ "AO ATACAR": [
+  {
+   "onde": "motor_efeitos.gd:482",
+   "funcao": "func _anunciar_fonte(c: Carta, gat: String) -> void:",
+   "linha": "var nome_gat: String = {\"on_play\": \"DESPERTAR\", \"on_death\": \"ÚLTIMO SOPRO\", \"on_attack\": \"AO ATACAR\","
+  }
+ ],
+ "AO SOFRER DANO": [
+  {
+   "onde": "motor_efeitos.gd:483",
+   "funcao": "func _anunciar_fonte(c: Carta, gat: String) -> void:",
+   "linha": "\"on_damaged\": \"AO SOFRER DANO\", \"ally_attacked\": \"PROTEÇÃO\", \"start_turn\": \"INÍCIO DO TURNO\","
+  }
+ ],
+ "FIM DO TURNO": [
+  {
+   "onde": "motor_efeitos.gd:484",
+   "funcao": "func _anunciar_fonte(c: Carta, gat: String) -> void:",
+   "linha": "\"end_turn\": \"FIM DO TURNO\", \"ally_dies\": \"ALIADA MORREU\", \"enemy_dies\": \"INIMIGA MORREU\"}.get(gat, \"\")"
+  }
+ ],
+ "ALIADA MORREU": [
+  {
+   "onde": "motor_efeitos.gd:484",
+   "funcao": "func _anunciar_fonte(c: Carta, gat: String) -> void:",
+   "linha": "\"end_turn\": \"FIM DO TURNO\", \"ally_dies\": \"ALIADA MORREU\", \"enemy_dies\": \"INIMIGA MORREU\"}.get(gat, \"\")"
+  }
+ ],
+ "INIMIGA MORREU": [
+  {
+   "onde": "motor_efeitos.gd:484",
+   "funcao": "func _anunciar_fonte(c: Carta, gat: String) -> void:",
+   "linha": "\"end_turn\": \"FIM DO TURNO\", \"ally_dies\": \"ALIADA MORREU\", \"enemy_dies\": \"INIMIGA MORREU\"}.get(gat, \"\")"
+  }
+ ],
+ "1 SELO POR TURNO": [
+  {
+   "onde": "mesa.gd:2301",
+   "funcao": "func _motivo_jogar(c: Carta, d: int) -> String:",
+   "linha": "return \"1 SELO POR TURNO\""
+  }
+ ],
+ "NÃO  (-2)": [
+  {
+   "onde": "mesa.gd:1887",
+   "funcao": "func _comprar(d: int) -> void:",
+   "linha": "\"REEMBARALHAR\", \"NÃO  (-2)\")"
+  }
+ ],
+ "+1 BOOSTER": [
+  {
+   "onde": "torneio_arcade.gd:319",
+   "funcao": "func _tela_campeao(d: Dictionary, eu: int) -> void:",
+   "linha": "PixelFonte.centrado(f, Vector2(118, yb + 56), Sessao.t(\"+1 BOOSTER\"), Color(1.0, 0.89, 0.6, ub), 1, f.ESCURO)"
+  }
+ ],
+ "BOOSTER": [
+  {
+   "onde": "booster.gd:263",
+   "funcao": "func concluir() -> void:",
+   "linha": "## logo KodeX, \"BOOSTER\" e moldura dourada. `topo_off`/`topo_rot`: deslocamento da ponta cortada."
+  },
+  {
+   "onde": "booster.gd:291",
+   "funcao": "func pacote(ci: CanvasItem, c: Vector2, rot: float, topo_off := Vector2.ZERO, to",
+   "linha": "PixelFonte.centrado(ci, Vector2(0, 8), Sessao.t(\"BOOSTER\"), Color(1.0, 0.89, 0.6, alfa), 2, Color(0.08, 0.04, 0.06, alfa))"
+  }
+ ],
+ "CARTA": [
+  {
+   "onde": "motor_efeitos.gd:109",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"search\": return \"BUSCA \" + str(a.get(\"tipo\", \"CARTA\")).to_upper()"
+  }
+ ],
+ "TOKEN": [
+  {
+   "onde": "motor_efeitos.gd:115",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"summon\": return \"INVOCA \" + Sessao.nome_token(str(a.get(\"nome\", \"TOKEN\"))).to_upper()"
+  }
+ ],
+ "CHORONZON": [
+  {
+   "onde": "motor_efeitos.gd:126",
+   "funcao": "static func rotulo(a: Dictionary) -> String:",
+   "linha": "\"win\": return \"CHORONZON\""
+  },
+  {
+   "onde": "motor_efeitos.gd:635",
+   "funcao": "func executar_acao(a: Dictionary, ctx: Dictionary) -> void:",
+   "linha": "await m._encerrar(dono, \"CHORONZON\")"
+  }
+ ],
+ "RELIQUIA": []
+}

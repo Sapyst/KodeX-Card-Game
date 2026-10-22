@@ -5,13 +5,14 @@ import argparse, json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import montar_cartas as M
 
-ap = argparse.ArgumentParser(); ap.add_argument("--idioma", default="pt", choices=["pt", "en"]); a = ap.parse_args()
+ap = argparse.ArgumentParser(); ap.add_argument("--idioma", default="pt", choices=["pt", "en", "es"]); a = ap.parse_args()
 dados = os.path.join(M.RAIZ, "godot", "dados")
 toks = json.load(open(os.path.join(dados, "tokens.json"), encoding="utf-8"))
 cartas = json.load(open(os.path.join(dados, "cartas.json"), encoding="utf-8"))["cartas"]
-en = json.load(open(os.path.join(dados, "cartas_en.json"), encoding="utf-8"))["cartas"]
-if a.idioma == "en":
-    M.modo_en()
+en = json.load(open(os.path.join(dados, f"cartas_{a.idioma}.json"), encoding="utf-8"))["cartas"] if a.idioma != "pt" else {}
+M.modo_idioma(a.idioma)
+M.IDIOMA[0] = a.idioma
+FRASE = {"pt": ("Guarda. ", "Token invocado por {}."), "en": ("Guard. ", "Token summoned by {}."), "es": ("Guardia. ", "Ficha invocada por {}.")}
 
 
 def acha(o, nome):
@@ -24,17 +25,14 @@ def acha(o, nome):
     return None
 
 
-pasta = os.path.join(M.RAIZ, "cartas_finais", "v1_en" if a.idioma == "en" else "v1", "tokens")
+pasta = os.path.join(M.RAIZ, "cartas_finais", "v1" if a.idioma == "pt" else "v1_" + a.idioma, "tokens")
 os.makedirs(pasta, exist_ok=True)
 for nome, t in toks.items():
     fonte, acao = next((cid, r) for cid, c in cartas.items() if (r := acha(c.get("efeitos", []), nome)))
     kws = acao.get("keywords") or []
-    if a.idioma == "en":
-        txt = ("Guard. " if "guarda" in kws else "") + f"Token summoned by {en.get(fonte, {}).get('nome', cartas[fonte]['nome'])}."
-        nm = t["en"]
-    else:
-        txt = ("Guarda. " if "guarda" in kws else "") + f"Token invocado por {cartas[fonte]['nome']}."
-        nm = nome
+    g, fr = FRASE[a.idioma]
+    txt = (g if "guarda" in kws else "") + fr.format(en.get(fonte, {}).get("nome", cartas[fonte]["nome"]))
+    nm = t.get(a.idioma, nome) if a.idioma != "pt" else nome
     c = {"id": t["id"], "nome": nm, "tipo": "entidade", "cultura": t["cultura"], "custo": 0, "atk": acao["atk"],
          "vida": acao["vida"], "keywords": kws, "texto": txt}
     arte = os.path.join(M.RAIZ, "arte", "tokens", t["id"] + ".png")

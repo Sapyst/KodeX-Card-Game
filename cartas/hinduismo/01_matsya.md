@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: busque uma Relíquia do seu deck para a mão.
+Despertar: Compre uma Relíquia do seu deck.
 
 ## Contexto mitológico
 Matsya ("peixe") é o primeiro dos dez avatares de Vishnu. Na versão mais antiga (Shatapatha Brahmana 1.8.1), um peixinho pede proteção a Manu, o primeiro homem; Manu o cria num pote, depois num tanque, depois no mar, e o peixe, já imenso, avisa-o do dilúvio que vem e lhe manda construir uma barca. Quando as águas sobem, Manu amarra a barca ao chifre do peixe, que a reboca até a montanha do norte — e a humanidade recomeça dali.

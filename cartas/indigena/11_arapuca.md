@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Quando uma Entidade inimiga atacar uma Entidade sua: ela sofre 1 de dano, não ataca no próximo turno dela, e você compra 1 carta.
+Quando atacarem uma Entidade sua, o atacante sofre 1 de dano e fica congelado. Compre 1 carta.
 
 ## Contexto mitológico
 A arapuca é a armadilha de pássaros mais difundida do Brasil, e o nome é tupi: *uirá-puca*, "coisa que prende pássaro" (Cascudo, *Dicionário do Folclore Brasileiro*). É uma pirâmide de varetas amarradas com cipó, armada sobre um gatilho com isca de milho ou fruta; quando o pássaro bica a isca, a pirâmide cai e o prende vivo, sem feri-lo.

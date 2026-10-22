@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-A portadora ganha +0/+2. Ao equipar, cure 4 da sua Cornucópia. Quando a portadora ataca, cure 2 dela.
+A portadora ganha +2 Vida. Ao equipar, cure 4 da sua Cornucópia. Sempre que ela atacar, cure 2 de Vida dela.
 
 ## Contexto mitológico
 O cálice da Última Ceia — "tomou um cálice, deu graças e disse: tomai-o e distribuí-o entre vós" (Lc 22,17-20) — e o *graal* da literatura arturiana são duas tradições que se fundiram. Em Chrétien de Troyes (*Perceval ou le Conte du Graal*, c. 1190) o graal é um prato fundo levado em cortejo no castelo do Rei Pescador, que sustenta o velho rei com uma só hóstia. Robert de Boron (*Joseph d'Arimathie*, c. 1200) o identifica com o cálice da Ceia, no qual José de Arimateia recolheu o sangue de Cristo, e o traz à Bretanha. Daí a *Queste del Saint Graal* (c. 1225), onde só o puro Galaaz consegue contemplá-lo, e Wolfram von Eschenbach, para quem é uma pedra caída do céu.

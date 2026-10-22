@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Quando uma Entidade inimiga atacar, devolva-a à mão do dono; o oponente descarta 1 carta aleatória e você compra 1.
+Quando atacarem uma Entidade sua, devolva o atacante para a mão do dono. O oponente descarta 1 carta aleatória. Compre 1 carta.
 
 ## Contexto mitológico
 O sal é o purificador universal da magia popular europeia: jogado por cima do ombro esquerdo contra o azar de derrubá-lo, posto no berço e no bolso do recém-nascido antes do batismo, misturado à água benta na liturgia (que o exorciza expressamente, "para que o inimigo fuja de onde for aspergido"), espalhado na soleira para que a bruxa não entre. É o que não apodrece e por isso o que o apodrecido — o morto, o demônio, o malefício — não cruza.

@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Causa 2 de dano a todas as Entidades inimigas. O oponente descarta 1 carta aleatória.
+Cause 2 de dano a todas as Entidades inimigas. O oponente descarta 1 carta aleatória.
 
 ## Contexto mitológico
 A oitava das dez pragas do Egito. Depois do granizo que destruiu o linho e a cevada, Moisés estende o cajado e "o Senhor fez soprar um vento oriental sobre a terra todo aquele dia e toda a noite; quando amanheceu, o vento oriental tinha trazido os gafanhotos. Cobriram toda a superfície do país, de modo que a terra ficou escura; devoraram toda a erva da terra e todos os frutos das árvores que o granizo deixara, e não ficou nada verde em todo o Egito" (Ex 10,13-15). O Faraó pede perdão pela primeira vez, mas endurece de novo quando o vento oeste leva os gafanhotos ao Mar Vermelho.

@@ -164,12 +164,11 @@ func _rects_botoes() -> Array:
 
 # ---------------- desenho ----------------
 func _tex() -> Texture2D:
-	var en := Sessao.idioma == "en"
 	if foil:
-		var tf := Carta.textura("carta_foil_en" if en else "carta_foil", cid, "webp")
+		var tf := Carta.textura(Sessao.pasta("carta_foil"), cid, "webp")
 		if tf:
 			return tf
-	return Carta.textura("carta_en" if en else "carta", cid, "webp")
+	return Carta.textura(Sessao.pasta("carta"), cid, "webp")
 
 
 func _draw() -> void:
@@ -244,10 +243,9 @@ func _painel_lore(y: float, al: float) -> void:
 	draw_rect(r, Color(0.1, 0.07, 0.11, 0.97 * al))
 	draw_rect(Rect2(150, y + 6, 60, 3), Color(0.89, 0.72, 0.35, 0.6 * al))    # alça de arrastar
 	var e: Dictionary = Sessao.codex.get(cid, {})
-	var en := Sessao.idioma == "en"
 	var nome := PixelFonte.normalizar(_nome())
 	PixelFonte.centrado(self, Vector2(180, y + 22), nome, Color(1.0, 0.89, 0.6, al), 2, Color("#140c10"))
-	var tit := str(e.get("titulo_en" if en else "titulo_pt", ""))
+	var tit := str(Sessao.campo(e, "titulo"))
 	Fonte57.desenhar(self, Vector2(180 - Fonte57.largura(tit) / 2.0, y + 36), tit, Color(0.89, 0.72, 0.35, al), Color("#140c10"))
 	var yy := y + 54
 	var eg := Fonte57.grande()
@@ -256,10 +254,10 @@ func _painel_lore(y: float, al: float) -> void:
 			Fonte57.desenhar(self, Vector2(22, yy), ln, Color(1.0, 0.92, 0.7, al), Color("#140c10"), eg)
 			yy += 11 * eg
 		yy += 8
-	for ln in Fonte57.quebrar(str(e.get("lore_en" if en else "lore_pt", "")), 316, eg):
+	for ln in Fonte57.quebrar(str(Sessao.campo(e, "lore")), 316, eg):
 		Fonte57.desenhar(self, Vector2(22, yy), ln, Color(0.95, 0.9, 0.78, al), Color("#140c10"), eg)
 		yy += 11 * eg
-	var cur := str(e.get("curiosidade_en" if en else "curiosidade_pt", ""))
+	var cur := str(Sessao.campo(e, "curiosidade"))
 	if cur != "":
 		yy += 6
 		draw_rect(Rect2(18, yy - 2, 324, 1), Color(0.89, 0.72, 0.35, 0.5 * al))
@@ -278,5 +276,5 @@ func _nome() -> String:
 		return str(Sessao.db["cartas"][cid]["nome"])
 	for n in Sessao.tokens:
 		if Sessao.tokens[n]["id"] == cid:
-			return str(Sessao.tokens[n]["en"]) if Sessao.idioma == "en" else str(n)
+			return Sessao.nome_token(n)
 	return cid

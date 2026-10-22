@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Invoque dois Elementais 1/1 (se houver slots livres).
+Invoque dois Elementais 1/1.
 
 ## Contexto mitológico
 Paracelso descreveu, no *Liber de nymphis, sylphis, pygmaeis et salamandris* (publicado em 1566, vinte e cinco anos após sua morte), os quatro povos elementais: **gnomos** (pigmeus) na terra, que atravessam a rocha como nós o ar; **ondinas** (ninfas) na água; **silfos** no ar; **salamandras** no fogo. Não são demônios nem anjos — são criaturas de Deus, com corpo e sem alma, que vivem no seu elemento e às vezes aparecem aos homens.

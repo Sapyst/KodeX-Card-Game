@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-A Entidade equipada ganha +0/+3 e Guarda. Quando ela morrer, compre 1 carta.
+A portadora ganha +3 Vida e Guarda. Quando ela morrer, compre 1 carta.
 
 ## Contexto mitológico
 O *Sigillum Dei Aemeth* — "Selo de Deus da Verdade" (*Aemeth*, אמת, "verdade" em hebraico) — é o disco de cera de nove polegadas que John Dee recebeu, letra por letra, de Edward Kelley em março de 1582, nas primeiras sessões com a pedra de visão (Sloane MS 3188, *Mysteriorum Liber Primus*). Traz um heptagrama dentro de heptágonos concêntricos, com nomes de Deus e dos sete anjos planetários dispostos em tabelas de letras e números, e um pentagrama central. Dee fez cinco: quatro sob os pés da Mesa Sagrada e um sobre ela, **debaixo da pedra de visão** — o cristal repousava sobre o selo, que o protegia e autenticava a visão.

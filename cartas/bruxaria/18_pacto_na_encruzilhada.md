@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Ganhe 2 de Fé temporária (só neste turno).
+Ganhe 2 de Fé neste turno.
 
 ## Contexto mitológico
 O pacto é o coração da bruxaria tal como os teólogos a definiram: não o feitiço, mas o acordo. A lenda mais antiga é a de Teófilo de Adana (séc. VI, grego; latim no séc. IX), ecônomo que vende a alma por escrito a um demônio para recuperar um cargo e é salvo pela Virgem, que rouba o contrato do inferno — fonte de todos os "Faustos". A *Historia von D. Johann Fausten* (Frankfurt, 1587) fixa o modelo moderno: o sábio assina com sangue, recebe vinte e quatro anos de poder e paga no fim. Em Loudun (1634) o pacto de Urbain Grandier com Lúcifer, Belzebu e Leviatã, "assinado" por eles em latim invertido, foi apresentado em juízo e sobrevive na Biblioteca Nacional da França.

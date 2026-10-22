@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-No fim do turno do oponente: todas as suas Entidades ganham +1/+1 permanente.
+No fim do turno do oponente, todas as suas Entidades ganham +1/+1.
 
 ## Contexto mitológico
 Qinglong (青龍), o Dragão Azul (ou Verde-Azulado) do Leste, é o primeiro dos Quatro Símbolos (*Sixiang*), as quatro criaturas que dividem o céu chinês em quadrantes de sete mansões lunares cada. O *Liji* ("Quli") prescreve a formação de marcha: "à frente o Pássaro Vermelho, atrás a Tartaruga Negra, à esquerda o Dragão Azul, à direita o Tigre Branco" — isto é, os estandartes do exército repetem o mapa do céu. O *Shiji* ("Tianguan shu", de Sima Qian) e o *Huainanzi* ("Tianwen") fixam as correspondências: leste, primavera, madeira, a cor azul-verde, o yang que nasce.

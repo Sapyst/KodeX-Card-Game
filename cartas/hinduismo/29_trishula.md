@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Portadora: +3 ATK / +1 Vida. Quando atacar, 1 de dano a uma Entidade inimiga. Quando morrer, 2 de dano a todas as Entidades inimigas.
+A portadora ganha +3/+1. Sempre que ela atacar, cause 1 de dano a uma Entidade inimiga. Quando ela morrer, cause 2 de dano a todas as inimigas.
 
 ## Contexto mitológico
 O Trishula ("três pontas") é o tridente de Shiva, a arma que o identifica em toda imagem — ao lado do damaru, o tambor em forma de ampulheta que costuma estar amarrado ao cabo. As três pontas foram lidas de muitas maneiras: os três gunas (sattva, rajas, tamas) que compõem a natureza; os três tempos (passado, presente, futuro); as três funções de criação, preservação e destruição; os três canais sutis do yoga (ida, pingala, sushumna), com o cabo como a coluna. É também a arma de Durga, que a recebe de Shiva no Devi Mahatmya e com ela atravessa Mahishasura.

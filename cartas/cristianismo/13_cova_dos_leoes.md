@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando uma Entidade aliada sofrer dano, cure 4 dela e ela ganha +1/+1 permanente.
+Quando uma Entidade aliada sofrer dano, cure 4 de Vida dela; ela ganha +1/+1.
 
 ## Contexto mitológico
 Daniel, judeu exilado na Babilônia, chega a chefe dos sátrapas sob Dario, o Medo. Os rivais, não achando falha nele, armam um decreto: durante trinta dias ninguém pode fazer súplica a deus ou homem senão ao rei. Daniel continua orando três vezes ao dia, de janela aberta voltada para Jerusalém, e é lançado na cova dos leões; o rei, contrariado, sela a pedra com seu anel (Dn 6,1-18).

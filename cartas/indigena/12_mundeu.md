@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Quando uma Entidade inimiga atacar uma Entidade sua: ela sofre 4 de dano e sua Cornucópia cura 4.
+Quando atacarem uma Entidade sua, o atacante sofre 4 de dano. Cure 4 da sua Cornucópia.
 
 ## Contexto mitológico
 O mundéu (do tupi *mundé*, "armadilha") é a armadilha de peso usada para caça grande — anta, veado, porco-do-mato, onça. Um tronco pesado fica suspenso sobre a trilha por uma forquilha ligada a um gatilho de isca ou de passagem; quando o animal toca o gatilho, o tronco cai e o esmaga. Soares de Sousa (*Tratado Descritivo do Brasil*, 1587) e, séculos depois, Cascudo (*Dicionário do Folclore Brasileiro*) descrevem o mundéu como a técnica indígena de caça mais eficiente para animais que o arco não derruba de um tiro.

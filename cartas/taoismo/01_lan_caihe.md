@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: se você controla 2 ou mais Entidades, compre 1 carta.
+Despertar: Se você controla 2 ou mais Entidades, compre 1 carta.
 
 ## Contexto mitológico
 Lan Caihe (藍采和) é o mais estranho dos Oito Imortais: um andarilho de idade e sexo incertos, que canta pelas ruas batendo o pé, com um pé calçado e o outro nu, vestindo trapos no verão e deitando-se na neve no inverno sem sentir frio. Carrega uma cesta de flores e, nas versões tardias, castanholas de madeira. Quando lhe dão moedas, ele as enfia num cordão e deixa que caiam pelo caminho.

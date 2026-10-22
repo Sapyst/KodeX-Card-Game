@@ -316,7 +316,7 @@ func _tela_campeao(d: Dictionary, eu: int) -> void:
 	if ub > 0.0:
 		var yb := lerpf(-120, 410, Efeitos._ease_back(ub))
 		f.bo.pacote(f, Vector2(118, yb), sin(f.tempo * 1.4) * 0.06, Vector2.ZERO, 0.0, 1.0, false, 0.5)
-		PixelFonte.centrado(f, Vector2(118, yb + 56), "+1 BOOSTER", Color(1.0, 0.89, 0.6, ub), 1, f.ESCURO)
+		PixelFonte.centrado(f, Vector2(118, yb + 56), Sessao.t("+1 BOOSTER"), Color(1.0, 0.89, 0.6, ub), 1, f.ESCURO)
 	# moedas: pilha e contador subindo
 	var um := clampf((faixa_t - 1.0) / 1.2, 0, 1)
 	if um > 0.0:

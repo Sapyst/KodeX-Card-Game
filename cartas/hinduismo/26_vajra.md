@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Portadora: +2 ATK. Ao equipar, causa 2 de dano a uma Entidade inimiga.
+A portadora ganha +2 ATK. Ao equipar, cause 2 de dano a uma Entidade inimiga.
 
 ## Contexto mitológico
 O Vajra ("raio", "diamante") é a arma de Indra, rei dos devas e deus da tempestade — o deus mais invocado do Rigveda, com cerca de 250 hinos. O hino 1.32 é o mais célebre: Indra, embriagado de soma, ergue o vajra forjado por Tvashtar e mata Vritra, a serpente-dragão que represava as águas do mundo; os rios rompem como vacas soltas do curral e o céu e a terra tremem. O vajra é a força do trovão em forma de arma: a cabeça de raios cruzados, dura como o diamante, que nenhuma defesa resiste.

@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Enquanto Krishna estiver em campo, suas Entidades têm Ímpeto.
+Suas Entidades têm Ímpeto.
 
 ## Contexto mitológico
 Krishna é o oitavo avatar de Vishnu e, para muitas tradições vaishnavas, a própria divindade suprema de quem os outros avatares emanam. O Bhagavata Purana (livro 10) narra sua infância em Vrindavan — o bebê que rouba manteiga, o menino que ergue o monte Govardhana num dedo para abrigar os pastores da tempestade de Indra, o jovem flautista das gopis — e a juventude em Mathura, onde mata o tirano Kamsa.

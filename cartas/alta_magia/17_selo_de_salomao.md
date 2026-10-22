@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando o oponente invocar uma Entidade, anule-a (ela vai ao cemitério) e compre 1 carta.
+Quando o oponente jogar uma Entidade, anule-a (ela vai ao cemitério). Compre 1 carta.
 
 ## Contexto mitológico
 O Selo de Salomão é o sinal gravado no anel que, segundo o *Testamento de Salomão* (séc. I–III d.C.), o arcanjo Miguel entregou ao rei para que ele **comandasse os demônios** e os pusesse a trabalhar na construção do Templo. Na tradição islâmica e na magia medieval o selo é o hexagrama — duas triângulos entrelaçados, fogo e água, acima e abaixo — e é com ele que Salomão aprisiona os espíritos no Vaso de Latão, que lança ao lago (Lemegeton, "Observações").

@@ -11,7 +11,7 @@ versos = {m.group(1): int(m.group(2)) for m in re.finditer(r'"id": "(\w+)", "nom
 versoes = [e["versao"] for e in json.load(open(os.path.join(G, "dados", "novidades.json"), encoding="utf-8"))]
 prog = json.load(open(os.path.join(G, "dados", "progressao.json"), encoding="utf-8"))
 for grupo in ("diarias", "semanais", "conquistas"):                       # o servidor não precisa dos textos
-    prog[grupo] = [{k: v for k, v in m.items() if k not in ("pt", "en")} for m in prog[grupo]]
+    prog[grupo] = [{k: v for k, v in m.items() if k not in ("pt", "en", "es")} for m in prog[grupo]]
 prog.pop("titulos", None); prog.pop("_doc", None)
 prog["tradicoes"] = list(prog["tradicoes"])
 out = {"prog": prog, "cartas": cartas, "foils": foils, "deck_inicial": db["decks"]["alta_magia"], "versos": versos, "versoes": versoes}

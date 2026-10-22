@@ -4,7 +4,8 @@
   "estrelas": 1,
   "titulo": [
    "Abra caminho",
-   "Clear the way"
+   "Clear the way",
+   "Abre paso"
   ],
   "fe": 0,
   "corn": 4,
@@ -17,8 +18,9 @@
   ],
   "mao": [],
   "dica": [
-   "Golpe direto só com o campo dele vazio. Quem tira o Saci?",
-   "Direct hits only with their field empty. Who removes the Saci?"
+   "Golpe direto só com o campo dele vazio. Quem tira o Saci do caminho?",
+   "Direct hits only land on an empty field. Who can take out the Saci?",
+   "Golpe directo solo con su campo vacío. ¿Quién saca al Saci del camino?"
   ]
  },
  {
@@ -26,7 +28,8 @@
   "estrelas": 1,
   "titulo": [
    "Reforço veloz",
-   "Swift backup"
+   "Swift backup",
+   "Refuerzo veloz"
   ],
   "fe": 2,
   "corn": 4,
@@ -39,8 +42,9 @@
    "cri_jonas"
   ],
   "dica": [
-   "Ímpeto ataca no turno em que entra.",
-   "Haste attacks the turn it enters."
+   "Entidade com Ímpeto ataca no mesmo turno em que entra.",
+   "An Entity with Rush attacks the turn it enters.",
+   "Una Entidad con Ímpetu ataca en el mismo turno en que entra."
   ]
  },
  {
@@ -48,7 +52,8 @@
   "estrelas": 1,
   "titulo": [
    "A ordem importa",
-   "Order matters"
+   "Order matters",
+   "El orden importa"
   ],
   "fe": 0,
   "corn": 1,
@@ -61,8 +66,9 @@
   ],
   "mao": [],
   "dica": [
-   "Quem derruba a Guarda de uma vez? O outro termina.",
-   "Who drops the Guard in one hit? The other finishes."
+   "Quem derruba a Guarda de uma vez? O outro termina o serviço.",
+   "Who can break the Guard in one hit? The other one finishes the job.",
+   "¿Quién derriba la Guardia de un golpe? El otro termina el trabajo."
   ]
  },
  {
@@ -70,7 +76,8 @@
   "estrelas": 2,
   "titulo": [
    "Flecha certeira",
-   "True arrow"
+   "True arrow",
+   "Flecha certera"
   ],
   "fe": 5,
   "corn": 6,
@@ -85,8 +92,9 @@
    "alt_abrahadabra"
   ],
   "dica": [
-   "Tire o Jonas sem gastar o ataque do Nezha.",
-   "Remove Jonah without spending Nezha's attack."
+   "Tire o Jonas do caminho sem gastar o ataque do Nezha.",
+   "Get rid of Jonah without spending Nezha's attack.",
+   "Saca a Jonás del camino sin gastar el ataque de Nezha."
   ]
  },
  {
@@ -94,7 +102,8 @@
   "estrelas": 2,
   "titulo": [
    "Banquete",
-   "Banquet"
+   "Banquet",
+   "Banquete"
   ],
   "fe": 3,
   "corn": 4,
@@ -109,7 +118,8 @@
   ],
   "dica": [
    "Duas Entidades mais fortes valem mais que uma nova.",
-   "Two stronger Entities beat one new one."
+   "Two stronger Entities are worth more than one new one.",
+   "Dos Entidades más fuertes valen más que una nueva."
   ]
  },
  {
@@ -117,7 +127,8 @@
   "estrelas": 2,
   "titulo": [
    "Derrubar o muro",
-   "Bring down the wall"
+   "Bring down the wall",
+   "Derribar el muro"
   ],
   "fe": 3,
   "corn": 7,
@@ -132,8 +143,9 @@
    "hin_brahmastra"
   ],
   "dica": [
-   "Destruir tira do campo, mesmo com Renascer.",
-   "Destroy removes it from the field, even with Rebirth."
+   "Destruir tira a Entidade do campo, com Renascer ou sem.",
+   "Destroy takes it off the field, Rebirth or not.",
+   "Destruir saca a la Entidad del campo, tenga Renacer o no."
   ]
  },
  {
@@ -141,7 +153,8 @@
   "estrelas": 3,
   "titulo": [
    "Pacto na encruzilhada",
-   "Crossroads pact"
+   "Crossroads pact",
+   "Pacto en la encrucijada"
   ],
   "fe": 2,
   "corn": 6,
@@ -158,7 +171,8 @@
   ],
   "dica": [
    "Fé temporária também paga carta.",
-   "Temporary Faith also pays for cards."
+   "Temporary Faith pays for cards too.",
+   "La Fe temporal también paga cartas."
   ]
  },
  {
@@ -166,7 +180,8 @@
   "estrelas": 3,
   "titulo": [
    "Chuva de fogo",
-   "Rain of fire"
+   "Rain of fire",
+   "Lluvia de fuego"
   ],
   "fe": 7,
   "corn": 8,
@@ -184,7 +199,8 @@
   ],
   "dica": [
    "Some todo o dano: Ritos e ataques.",
-   "Add up all the damage: Rites and attacks."
+   "Add up all the damage: Rites and attacks.",
+   "Suma todo el daño: Ritos y ataques."
   ]
  },
  {
@@ -192,7 +208,8 @@
   "estrelas": 2,
   "titulo": [
    "Pacto veloz",
-   "Swift pact"
+   "Swift pact",
+   "Pacto veloz"
   ],
   "fe": 4,
   "corn": 4,
@@ -205,7 +222,8 @@
   ],
   "dica": [
    "A Durga custa 5. De onde vem a Fé que falta?",
-   "Durga costs 5. Where does the missing Faith come from?"
+   "Durga costs 5. Where does the missing Faith come from?",
+   "Durga cuesta 5. ¿De dónde sale la Fe que falta?"
   ]
  },
  {
@@ -213,7 +231,8 @@
   "estrelas": 2,
   "titulo": [
    "Três passos",
-   "Three steps"
+   "Three steps",
+   "Tres pasos"
   ],
   "fe": 4,
   "corn": 1,
@@ -228,16 +247,18 @@
    "tao_flechas_de_houyi"
   ],
   "dica": [
-   "Enfraqueça a Guarda antes do ataque, e guarde o Ímpeto para o fim.",
-   "Weaken the Guard before attacking, and save Haste for last."
+   "Enfraqueça a Guarda antes de atacar e deixe o Ímpeto para o fim.",
+   "Weaken the Guard before you attack, and save Rush for last.",
+   "Debilita la Guardia antes de atacar y deja el Ímpetu para el final."
   ]
  },
  {
   "id": "e11",
   "estrelas": 3,
   "titulo": [
-   "Volta para a mão",
-   "Back to hand"
+   "De volta para a mão",
+   "Back to hand",
+   "De vuelta a la mano"
   ],
   "fe": 3,
   "corn": 4,
@@ -253,8 +274,9 @@
    "tao_zhang_guolao"
   ],
   "dica": [
-   "Qual inimigo você manda de volta? Quem ataca qual?",
-   "Which enemy do you send back? Who attacks whom?"
+   "Qual inimigo você manda de volta? E quem ataca quem?",
+   "Which enemy do you send back? And who attacks whom?",
+   "¿A qué enemigo devuelves? ¿Y quién ataca a quién?"
   ]
  },
  {
@@ -262,7 +284,8 @@
   "estrelas": 4,
   "titulo": [
    "Fé que acende",
-   "Faith that ignites"
+   "Faith that ignites",
+   "Fe que enciende"
   ],
   "fe": 2,
   "corn": 7,
@@ -280,7 +303,8 @@
   ],
   "dica": [
    "Os dois Ritos cabem no turno, se a ordem e o alvo estiverem certos.",
-   "Both Rites fit this turn, if the order and the target are right."
+   "Both Rites fit in this turn, if you get the order and the target right.",
+   "Los dos Ritos caben en este turno, si aciertas el orden y el objetivo."
   ]
  }
 ]

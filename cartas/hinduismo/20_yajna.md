@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Cause 2 de dano a uma Entidade inimiga e ganhe 2 de Fé temporária.
+Cause 2 de dano a uma Entidade inimiga. Ganhe 2 de Fé neste turno.
 
 ## Contexto mitológico
 O yajna é o sacrifício védico: o rito central da religião mais antiga da Índia, descrito e regulado nos quatro Vedas e nos Brahmanas. Sacerdotes acendem o fogo em altares de tijolo dispostos segundo a geometria dos Shulba Sutras, recitam hinos e vertem oblações — ghee (manteiga clarificada), grãos, leite, soma — nas chamas, enquanto Agni, o fogo, as leva aos deuses. O universo mesmo, diz o Rigveda (10.90, Purusha Sukta), nasceu de um sacrifício primordial; e os deuses dependem das oferendas dos homens tanto quanto os homens das chuvas dos deuses.

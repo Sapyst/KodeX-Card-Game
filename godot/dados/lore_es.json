@@ -1,0 +1,485 @@
+{
+ "prologo": [
+  "Hay un lugar donde todas las fes se encuentran y ninguna se mezcla. Los antiguos lo llamaban la Encrucijada. Hoy lo llaman la arena.",
+  "Cada generación despierta un Códice: un libro sin autor que guarda el nombre de todos los dioses, y la puerta a todo lo que no tiene nombre.",
+  "Seis campeones vinieron a reclamarlo. Cinco quieren protegerlo. Uno quiere abrirlo.",
+  "¿Y tú? Nadie sabe tu nombre. Nadie te vio llegar. Solo la arena guardó tus huellas.",
+  "Elige la fe que vas a cargar. Del otro lado, el Abismo ya empezó a contar: tres, tres, tres."
+ ],
+ "epilogo_vitoria": [
+  "El Triángulo se agrieta. El Círculo se apaga. El Sigilo 333 ya no es más que tinta seca en un trozo de papel.",
+  "Silas Ashcombe cae de rodillas. Por primera vez en años, llama a la oscuridad, y la oscuridad no responde.",
+  "El Códice se abre en tus manos. En sus páginas viven todos los dioses. La última está en blanco, con espacio para tu nombre.",
+  "Cierras el libro. Hay puertas que existen solo para que alguien tenga la sabiduría de dejarlas cerradas.",
+  "Los campeones vuelven a casa. El Abismo vuelve a esperar. Siempre espera. Hoy no."
+ ],
+ "epilogo_derrota": [
+  "Tu viaje termina aquí. El Códice se cierra, y la Encrucijada olvida tus pasos.",
+  "Silas Ashcombe no olvida. Cada retador que cae es un obstáculo menos entre él y el Abismo.",
+  "Levántate. El torneo vuelve a empezar, y allá abajo algo sigue contando hasta tres."
+ ],
+ "personagens": {
+  "indigena": {
+   "nome": "Moema Arani",
+   "titulo": "Guardiana de la Selva",
+   "cor": "#3f8f3a",
+   "intro": [
+    "Entraste a la selva sin pedir permiso. El Curupira ya volteó los pies para confundirte. Vine a ver si encuentras el camino de vuelta.",
+    "No vine por ningún libro. Vine porque el hombre de negro quiere abrirle un agujero al mundo, y todo agujero empieza en un claro.",
+    "Tupã está escuchando. Si tu fe está hueca, el trueno lo sabrá antes que yo.",
+    "Juega. La selva responde."
+   ],
+   "resposta_jogador": "Entonces pido permiso ahora. ¿Todavía cuenta?",
+   "ao_vencer": [
+    "El Boitatá apagó tu fuego antes de que lo encendieras. Vuelve cuando aprendas a escuchar.",
+    "Perder ante la selva no es vergüenza. Es más vieja que todos nosotros."
+   ],
+   "ao_perder": [
+    "Encontraste el camino. Pocos lo logran. El Curupira va a andar enfurruñado toda la semana.",
+    "Si el hombre de negro abre el Abismo, no quedará selva para nadie. No lo dejes, ¿me oyes?"
+   ],
+   "provocacoes": [
+    "Tupã habla fuerte. Escucha.",
+    "La selva cobra lo que le quitan.",
+    "El Saci se rio de esa jugada."
+   ],
+   "arcade_intro": [
+    "Soy Moema Arani. La selva me mandó a ver quién hace tanto ruido.",
+    "Juega limpio. El Curupira juega sucio por mí."
+   ],
+   "retrato_prompt": "Half-body portrait of an Indigenous Brazilian woman in her early thirties, facing forward and looking directly at the viewer. She has warm brown skin, long straight black hair with a straight-cut fringe and calm dark eyes. Red urucum paint lines cross her cheekbones and black jenipapo geometric patterns cover her forearms. She wears a woven earth-brown cotton top that fully covers her chest, a headband of green and yellow parrot feathers and a green stone muiraquitã frog amulet on a cord. She holds a wooden maracá rattle decorated with feathers in her right hand. Dark Amazon rainforest at night behind her, giant tree roots and faint fireflies.",
+   "falas": {
+    "inicio": [
+     "Pide permiso antes de sentarte en el claro.",
+     "La selva está mirando. Juega derecho."
+    ],
+    "carta_forte": [
+     "Tupã habla fuerte. Escucha.",
+     "La Iara ya cantó. Ahora es tarde.",
+     "El Boitatá despertó con hambre."
+    ],
+    "golpe": [
+     "La selva cobra lo que le quitan.",
+     "Eso fue el río creciendo.",
+     "¿Oíste la rama quebrarse? Eras tú."
+    ],
+    "perdeu_carta": [
+     "El Saci se rio de esa.",
+     "De vuelta a la tierra. La tierra devuelve.",
+     "Está bien. La selva tiene raíces hondas."
+    ],
+    "vida_baixa": [
+     "Todavía quedan huellas del Curupira para confundirte.",
+     "El árbol viejo se dobla, pero no cae fácil."
+    ],
+    "vantagem": [
+     "¿Perdido? La salida está detrás de ti.",
+     "El claro se está cerrando, ¿lo ves?"
+    ],
+    "emote": [
+     [
+      "Permiso concedido. Por ahora.",
+      "Bienvenido a la selva. Cuidado dónde pisas."
+     ],
+     [
+      "Jugaste con respeto. Me gusta.",
+      "La selva lo vio. Ella recuerda."
+     ],
+     [
+      "Piensa como el río: rodea.",
+      "Escucha primero al viento."
+     ],
+     [
+      "Eso es solo el comienzo del sendero.",
+      "La selva tiene más criaturas de las que imaginas."
+     ]
+    ]
+   }
+  },
+  "cristianismo": {
+   "nome": "Frei Bento Amaral",
+   "titulo": "El Exorcista de Ouro Preto",
+   "cor": "#d4af37",
+   "intro": [
+    "Paz y bien, hijo mío. O hija mía. Con esa capucha, la verdad, no sabría decir.",
+    "Pasé cuarenta años sacando cosas malas de gente buena. Ahora vine a impedir que alguien saque algo mucho peor del Abismo.",
+    "San Miguel sostiene la lanza, Lázaro ya se levantó una vez y Jonás salió del pez. A mi mazo le sobra paciencia.",
+    "Vamos. Y si pierdo, prometo no bendecirte a la fuerza."
+   ],
+   "resposta_jogador": "Guárdate la bendición para el final, fray.",
+   "ao_vencer": [
+    "No fue castigo, fue lección. El Arca no se abre para quien tiene prisa.",
+    "Ve en paz. Pero ve a entrenar, que el hombre de negro no tendrá mi misericordia."
+   ],
+   "ao_perder": [
+    "David también era pequeño. Debí recordarlo antes de subestimarte.",
+    "Llévate mi bendición, quieras o no. Al final del torneo hay una puerta que ninguna carta cierra sola."
+   ],
+   "provocacoes": [
+    "San Miguel no falla la lanza.",
+    "Hasta Jonás salió del pez.",
+    "Lázaro, levántate. Otra vez."
+   ],
+   "arcade_intro": [
+    "Fray Bento Amaral, a tus órdenes. Exorcismos los martes, duelos cuando haga falta.",
+    "Prometo jugar con caridad. Caridad no quiere decir facilidad."
+   ],
+   "retrato_prompt": "Half-body portrait of an elderly Afro-Brazilian man of mixed African and Portuguese descent, about sixty-four years old, facing forward and looking directly at the viewer. He has warm tan-brown skin, a short white beard, a bald crown ringed by short white hair, deep laugh lines and kind but tired dark eyes. He wears a coarse brown Franciscan friar habit with the hood down, a knotted white rope belt and a purple stole draped over his shoulders. He holds a plain worn wooden cross in one hand and a small brass holy-water sprinkler in the other. Dark candlelit baroque chapel behind him, a gilded altar faintly glowing.",
+   "falas": {
+    "inicio": [
+     "Paz y bien. Y buena suerte, que la vas a necesitar.",
+     "Rezaré por ti. Después de la partida."
+    ],
+    "carta_forte": [
+     "San Miguel no falla la lanza.",
+     "¡Gloria! Esa vino de arriba.",
+     "Amén por esa carta."
+    ],
+    "golpe": [
+     "Hasta Jonás salió del pez.",
+     "Penitencia, hijo mío. Penitencia.",
+     "Me dolió más a mí. Mentira."
+    ],
+    "perdeu_carta": [
+     "Lázaro, levántate. Otra vez.",
+     "El Señor lo dio, el Señor lo quitó.",
+     "Descansa. Volveré por ti."
+    ],
+    "vida_baixa": [
+     "Todavía tengo fe. Y tres avemarías.",
+     "David ganó con una piedra. Yo tengo cartas."
+    ],
+    "vantagem": [
+     "Confiésate ahora, que todavía hay tiempo.",
+     "Al final te bendigo gratis."
+    ],
+    "emote": [
+     [
+      "¡Paz y bien!",
+      "Que Dios te bendiga. Ahora juega."
+     ],
+     [
+      "Buena jugada, hijo. Pero sin vanidad.",
+      "Gracias. La humildad te lo agradece."
+     ],
+     [
+      "Pensar también es rezar.",
+      "Calma. Ni el Gólgota se hizo en un día."
+     ],
+     [
+      "¿Milagro? No. Práctica.",
+      "Espera a ver el Juicio Final."
+     ]
+    ]
+   }
+  },
+  "taoismo": {
+   "nome": "Lin Yuehua",
+   "titulo": "La Inmortal del Pico Nublado",
+   "cor": "#3aa58a",
+   "intro": [
+    "No hay prisa. Esperé ciento ochenta años por este torneo. Puedo esperar a que barajes.",
+    "Al Emperador de Jade no le gustan las puertas abiertas al vacío. Y fíjate que el vacío es la especialidad de la casa.",
+    "Los Ocho Inmortales me pidieron que te venciera con equilibrio. He Xiangu pidió, además, que fuera con buenos modales.",
+    "El agua no vence a la piedra por la fuerza. Veamos si eres piedra o río."
+   ],
+   "resposta_jogador": "¿Ciento ochenta años? Se ve de maravilla, señora.",
+   "ao_vencer": [
+    "Empujaste demasiado y caíste del otro lado. Eso también es el Tao.",
+    "Vuelve dentro de cien años. Seguiré aquí. Probablemente con esta misma cara."
+   ],
+   "ao_perder": [
+    "Curioso. Perdí y me siento más ligera. Zhang Guolao se reiría de mí, montado al revés en su burro.",
+    "Toma un durazno. El hombre del Abismo quiere un mundo sin fin, y todo lo que no tiene fin se pudre."
+   ],
+   "provocacoes": [
+    "Nezha ya bajó de su nube.",
+    "El yin sube, el yang baja.",
+    "Cayó un Inmortal. Los otros siete sonríen."
+   ],
+   "arcade_intro": [
+    "Lin Yuehua, del Pico Nublado. Vine por un té, pero acepto un duelo.",
+    "Si pierdo, culpa al té. Si gano, agradécele al Tao."
+   ],
+   "retrato_prompt": "Half-body portrait of a young Han Chinese woman who looks about twenty-five years old, facing forward and looking directly at the viewer. She has pale ivory skin, calm dark almond-shaped eyes and long black hair gathered in a high topknot fixed with a green jade hairpin. She wears a high-collared deep blue Taoist priest robe closed up to the neck, embroidered with white clouds and cranes, with black trim and a round yin-yang medallion. She holds a white horsetail fly-whisk in one hand and a yellow paper fulu talisman with red brush script in the other. Misty dark mountain temple at night behind her, pine silhouettes and drifting incense smoke.",
+   "falas": {
+    "inicio": [
+     "Respira. Luego baraja.",
+     "El té se enfría. La partida empieza."
+    ],
+    "carta_forte": [
+     "Nezha ya bajó de su nube.",
+     "El Emperador de Jade lo aprueba.",
+     "Cae una hoja. La montaña sonríe."
+    ],
+    "golpe": [
+     "El yin sube, el yang baja.",
+     "El agua encontró la grieta.",
+     "No fue fuerza. Fue el momento justo."
+    ],
+    "perdeu_carta": [
+     "Cayó un Inmortal. Los otros siete sonríen.",
+     "Perder también es fluir.",
+     "Vuelve al vacío. Bien por ella."
+    ],
+    "vida_baixa": [
+     "Ciento ochenta años y todavía me sorprendo.",
+     "El bambú se dobla. No se quiebra."
+    ],
+    "vantagem": [
+     "Te apresuras demasiado. El río es paciente.",
+     "¿Sientes cómo se te escapa el equilibrio?"
+    ],
+    "emote": [
+     [
+      "Saludos, joven. Muy joven.",
+      "Que el Tao te acompañe."
+     ],
+     [
+      "Bonito. Casi equilibrado.",
+      "He Xiangu aplaudiría."
+     ],
+     [
+      "El vacío también piensa.",
+      "Espera. El momento llega."
+     ],
+     [
+      "¿Eso? Los Ocho lo hacen antes del desayuno.",
+      "Todavía no has visto el Taiji."
+     ]
+    ]
+   }
+  },
+  "hinduismo": {
+   "nome": "Aditya Rao",
+   "titulo": "El Arquero de Varanasi",
+   "cor": "#e8731c",
+   "intro": [
+    "¡Por fin! Pensé que la única pelea aquí sería con la fila de la Encrucijada. Toma tus cartas, que el Ganges no espera a nadie.",
+    "Hanuman saltó un océano por lealtad. Yo solo tengo que saltar sobre ti.",
+    "Vishnu desciende cada vez que el dharma flaquea. ¿Un hombre queriendo abrir el Abismo? Eso es flaquear bastante.",
+    "Krishna me enseñó a luchar sin apego al resultado. Pero te confieso algo: me encanta ganar."
+   ],
+   "resposta_jogador": "Apunta bien, arquero. Yo me muevo.",
+   "ao_vencer": [
+    "¿Demasiado rápido? Kali no pide perdón, y yo aprendí de ella.",
+    "Respira, levántate y vuelve. La rueda gira para todos."
+   ],
+   "ao_perder": [
+    "¡Ja! Qué golpe. Hasta Arjuna necesitó un buen consejo antes de la batalla.",
+    "Shiva baila el fin de un mundo para que nazca otro. Llega al final del torneo y no dejes que este mundo se acabe."
+   ],
+   "provocacoes": [
+    "¡Jai Hanuman! ¡Otro salto!",
+    "El Gandiva no falla dos veces.",
+    "La rueda del Samsara lo devuelve todo."
+   ],
+   "arcade_intro": [
+    "Aditya Rao, de Varanasi. El arco, listo; el corazón, más listo todavía.",
+    "Sin sermones, sin esperas. Peleemos antes de que se enfríe el chai."
+   ],
+   "retrato_prompt": "Half-body portrait of a young Indian man of about twenty-eight, facing forward and looking directly at the viewer. He has warm medium-brown skin, an athletic build, short wavy black hair, a neatly trimmed beard, bright confident dark eyes and a red and white tilak mark on his forehead. He wears a saffron cotton kurta closed at the collar, a deep red shawl draped over one shoulder, a rudraksha bead mala around his neck and a brass armband on his upper arm. He holds an ornate wooden longbow wrapped in gold thread. Dark riverside ghats of Varanasi at night behind him, small oil lamps floating on black water.",
+   "falas": {
+    "inicio": [
+     "Arco tensado. ¡Vamos!",
+     "El Ganges no espera. Yo tampoco."
+    ],
+    "carta_forte": [
+     "¡Jai Hanuman! ¡Otro salto!",
+     "Kali llegó bailando.",
+     "Esa salió directo del Mahabharata."
+    ],
+    "golpe": [
+     "El Gandiva no falla dos veces.",
+     "¡En el blanco!",
+     "Arjuna estaría orgulloso."
+    ],
+    "perdeu_carta": [
+     "La rueda del Samsara lo devuelve todo.",
+     "Ay, esa me gustaba.",
+     "Nos vemos en la próxima vida, amigo."
+    ],
+    "vida_baixa": [
+     "Krishna dijo: lucha sin apego. ¡Lo estoy intentando!",
+     "Todavía tengo flechas. Siempre tengo flechas."
+    ],
+    "vantagem": [
+     "Respira. La rueda gira para todos.",
+     "Una flecha más y se acabó."
+    ],
+    "emote": [
+     [
+      "¡Namaste! Ahora apunta.",
+      "¡Hola! ¿Listo para correr?"
+     ],
+     [
+      "¡Ja! ¡Buena jugada, en serio!",
+      "Respeto. Pero gano yo."
+     ],
+     [
+      "Piensa rápido, el Ganges corre.",
+      "Hmm está bien. Mucho hmm es siesta."
+     ],
+     [
+      "¿Verdad? ¡A mí también me gustó!",
+      "Espera a que baile Shiva."
+     ]
+    ]
+   }
+  },
+  "bruxaria": {
+   "nome": "Ilka Wrona",
+   "titulo": "La Bruja de la Encrucijada",
+   "cor": "#6b3fa0",
+   "intro": [
+    "Siéntate, criatura. No, no es té. O sí. Depende de cuánto me fastidies.",
+    "Baba Yaga me enseñó que toda visita es invitado o cena. Contigo todavía no lo decido.",
+    "Hécate cuida las encrucijadas, y este torneo es la más grande que he visto. Alguien tiene que barrer el umbral antes de que el mago abra esa puerta.",
+    "El hombre del Triángulo cree que el Abismo es una herramienta. Yo creo que es una boca. Y las bocas comen."
+   ],
+   "resposta_jogador": "Invitado, por favor. Invitado.",
+   "ao_vencer": [
+    "No llores. El gato negro tiene siete vidas; tú tienes por lo menos dos.",
+    "Vuelve cuando se te pase el mal de ojo. Y lleva sal en el bolsillo."
+   ],
+   "ao_perder": [
+    "Vaya, vaya. La Morrígan me avisó con sus cuervos, y yo, vieja terca, no quise leerlos.",
+    "Toma una botella de bruja. Entiérrala junto a la puerta del mago. O tírasela a la cabeza, que también funciona."
+   ],
+   "provocacoes": [
+    "Mal de ojo gratis, aprovecha.",
+    "Hécate sostiene la antorcha. Yo, la escoba.",
+    "Mi gato todavía tiene seis vidas, ¿ves?"
+   ],
+   "arcade_intro": [
+    "Ilka Wrona. Bruja, abuela y pésima perdedora.",
+    "Baraja ya. El caldero no se revuelve solo."
+   ],
+   "retrato_prompt": "Half-body portrait of an elderly Polish woman of about seventy, facing forward and looking directly at the viewer. She has pale weathered skin with deep wrinkles, sharp grey-green eyes, a strong nose, thin lips set in a wry smile and a long silver braid falling over one shoulder. She wears a high-necked black wool dress that fully covers her chest, a fringed black shawl embroidered with red roses and a necklace of dried rowan berries. A black crow perches on her shoulder. She holds a small glass witch bottle filled with iron pins, herbs and red thread. Dark misty birch-forest crossroads at night behind her, a single lantern glowing.",
+   "falas": {
+    "inicio": [
+     "Siéntate. Y no toques el caldero.",
+     "¿Invitado o cena? Ya veremos."
+    ],
+    "carta_forte": [
+     "Hécate sostiene la antorcha. Yo, la escoba.",
+     "Mira qué lindo es mi gato.",
+     "Esta salió directo del caldero."
+    ],
+    "golpe": [
+     "Mal de ojo gratis, aprovecha.",
+     "¿Te dolió? Ponle sal.",
+     "Los cuervos me dijeron dónde pegar."
+    ],
+    "perdeu_carta": [
+     "Mi gato todavía tiene seis vidas, ¿ves?",
+     "Hmpf. Servirá de abono.",
+     "Anotado. En mi libro de las sombras."
+    ],
+    "vida_baixa": [
+     "Vieja, pero no muerta. Todavía.",
+     "La Morrígan se ríe de mí. Que se ría."
+    ],
+    "vantagem": [
+     "El caldero ya está hirviendo.",
+     "Cena, entonces. Decidido."
+    ],
+    "emote": [
+     [
+      "Hola, criatura. Límpiate los pies.",
+      "Saludos. El gato también te saluda."
+     ],
+     [
+      "¿Buena jugada? Ya lo sé. Gracias.",
+      "Hmpf. Suerte de principiante."
+     ],
+     [
+      "Piensa, piensa. Yo espero. Tejiendo.",
+      "Hmm es el ruido del caldero."
+     ],
+     [
+      "¿Guau? Eso no es nada. Espera a Baba Yaga.",
+      "¿Te gustó? Hay más en la despensa."
+     ]
+    ]
+   }
+  },
+  "alta_magia": {
+   "nome": "Silas Ashcombe",
+   "titulo": "El Magus del Triángulo",
+   "cor": "#8b1a1a",
+   "intro": [
+    "Así que tú eres el último. Fascinante. Cinco campeones derribados solo para que yo tuviera el placer de derribar al sexto.",
+    "El Triángulo del Arte está trazado. El Círculo, cerrado. Solo falta el Sigilo 333, y el Códice es la tinta. Gracias por traerme la tinta.",
+    "Dee y Kelley hablaron con ángeles y huyeron aterrados. Yo miré al Abismo, y el Abismo me preguntó el camino a casa.",
+    "Choronzon no es un demonio. Es el fin del yo. Todo lo que se disuelve en él se vuelve trescientos treinta y tres fragmentos de silencio."
+   ],
+   "resposta_jogador": "Tu Abismo tendrá que esperar.",
+   "ao_vencer": [
+    "Tres, tres, tres. ¿Lo oyes? Es tu nombre olvidándose, sílaba por sílaba, al borde del Abismo.",
+    "Gracias por el Códice. No te preocupes: del otro lado, nadie te va a extrañar. Ni siquiera tú."
+   ],
+   "ao_perder": [
+    "Imposible. El Círculo estaba sellado. Yo mismo tracé cada línea en la arena... ¿Quién borró la línea? ¡¿QUIÉN BORRÓ LA LÍNEA?!",
+    "No ganaste. Solo lo retrasaste. El Abismo nunca tiene prisa, y Choronzon tiene todas las formas del mundo para volver."
+   ],
+   "provocacoes": [
+    "Dantalion, tráeme lo que es suyo.",
+    "Tres, tres, tres. Tu Cornucopia se agrieta.",
+    "Una pieza menos. El Abismo ni lo notó."
+   ],
+   "arcade_intro": [
+    "Silas Ashcombe. Trazo círculos, abro triángulos y cierro destinos. Quédate dentro del círculo, por favor. Por tu seguridad.",
+    "No salgas del círculo, pase lo que pase. Al último que salió todavía lo están recogiendo, pedazo a pedazo, en el Abismo."
+   ],
+   "retrato_prompt": "Half-body portrait of a gaunt white Englishman in his mid-fifties, facing forward and looking directly at the viewer. He has pale sallow skin, hollow cheeks, piercing ice-blue eyes, long silver hair tied back at the nape and a neatly trimmed silver goatee. He wears a high-collared black ceremonial robe with crimson lining, closed to the throat, and a plain golden triangle pendant, a simple upward-pointing triangle with a single dot in its center, hanging on a chain over his chest. He holds a black wand tipped with a silver triangle in one hand and a red wax sigil disc engraved with the number 333 in the other. Dark desert night behind him, a triangle traced in the sand glowing faintly.",
+   "falas": {
+    "inicio": [
+     "El Círculo está cerrado. Tú estás dentro.",
+     "Comencemos. El Abismo está impaciente por mí."
+    ],
+    "carta_forte": [
+     "Dantalion, tráeme lo que es suyo.",
+     "Fiat. Y así es.",
+     "Observa el Arte. No intentes entenderlo."
+    ],
+    "golpe": [
+     "Tres, tres, tres. Tu Cornucopia se agrieta.",
+     "Cada herida es una letra de mi sigilo.",
+     "Siente cómo se cierra el Triángulo."
+    ],
+    "perdeu_carta": [
+     "Una pieza menos. El Abismo ni lo notó.",
+     "Un sacrificio previsto.",
+     "Ya eran trescientos treinta y tres pedazos."
+    ],
+    "vida_baixa": [
+     "Una línea corrida. Nada más.",
+     "¿Quién borró la línea? ¿Quién?"
+    ],
+    "vantagem": [
+     "Tu nombre ya se está olvidando.",
+     "Choronzon ya te huele."
+    ],
+    "emote": [
+     [
+      "Saludos. Serán los últimos.",
+      "Bienvenido al Círculo."
+     ],
+     [
+      "Lo sé. Siempre lo sé.",
+      "Cumplido registrado en el Códice."
+     ],
+     [
+      "Piensa. El Abismo también piensa en ti.",
+      "Vacilación. Deliciosa."
+     ],
+     [
+      "Eso fue solo el primer sello.",
+      "Espera al Sigilo 333."
+     ]
+    ]
+   }
+  }
+ }
+}

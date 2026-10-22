@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Quando o oponente jogar um Rito: anule-o (vai ao cemitério sem efeito). Compre 1 carta.
+Quando o oponente jogar um Rito, anule-o (ele vai ao cemitério sem efeito). Compre 1 carta.
 
 ## Contexto mitológico
 *Fulu* (符籙) são os talismãs escritos do taoismo: tiras de papel amarelo com caracteres em tinta vermelha ou preta numa "escrita celeste" que mistura grafias arcaicas, nomes de deuses, estrelas e ordens ("ao receber esta ordem, obedeça depressa, depressa, conforme a lei"). O *fu* é o talismã; o *lu* é o registro dos espíritos que o sacerdote tem autoridade para comandar. A tradição remonta a Zhang Daoling, fundador dos Mestres Celestiais (142 d.C.), que teria recebido de Laozi o pacto e os selos.

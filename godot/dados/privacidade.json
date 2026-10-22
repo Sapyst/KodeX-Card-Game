@@ -179,5 +179,95 @@
    "txt",
    "Before any new feature that uses data (such as email or a newsletter), this policy will be updated and the notice will appear in the news scroll. Nothing will be collected without your consent."
   ]
+ ],
+ "es": [
+  [
+   "sub",
+   "Resumen"
+  ],
+  [
+   "txt",
+   "KodeX no exige correo ni contraseña (son opcionales), no muestra anuncios y no usa rastreo ni análisis de uso."
+  ],
+  [
+   "sub",
+   "Lo que queda en tu dispositivo"
+  ],
+  [
+   "txt",
+   "Nombre de jugador, imagen o foto de perfil, monedas, colección, mazos, progreso y opciones. La foto elegida se recorta y se guarda en el dispositivo; solo sale de él en una partida en línea, en tamaño pequeño, para tu rival (ver Partidas en línea)."
+  ],
+  [
+   "sub",
+   "Cuenta en línea (cuando el servidor del juego esté activo)"
+  ],
+  [
+   "txt",
+   "El juego crea una cuenta anónima: un número aleatorio y un secreto, guardados cifrados en el dispositivo. En el servidor del juego (Cloudflare) quedan el nombre de jugador, las monedas, los Koins, la colección, los mazos y el progreso de los modos, para que valgan en otro dispositivo y para evitar trampas. No guardamos correo, teléfono, ubicación ni la foto."
+  ],
+  [
+   "txt",
+   "Para cambiar de dispositivo, el juego genera un código de 8 letras válido por 10 minutos. En Opciones > Eliminar cuenta, todo lo que está en el servidor se borra de inmediato."
+  ],
+  [
+   "sub",
+   "Partidas en línea"
+  ],
+  [
+   "txt",
+   "Para encontrar rivales cerca de ti, el servidor usa el país de la conexión (informado por Cloudflare) solo mientras estás en la fila de búsqueda. Tu rival ve tu nombre de jugador, tu imagen de perfil (la foto se envía en tamaño pequeño, 60×80, solo a quien juega contigo, y se borra del servidor hasta 3 horas después de la partida) y las cartas que juegas. Las jugadas de la partida quedan en el servidor para la reconexión y la verificación; no guardamos el país después de la búsqueda."
+  ],
+  [
+   "sub",
+   "Informe de errores"
+  ],
+  [
+   "txt",
+   "Cuando algo sale mal, el juego guarda el texto técnico del error (fecha, versión, tipo de dispositivo y dónde ocurrió) solo en tu dispositivo. Nada se envía automáticamente: en Opciones > Informe de errores puedes verlo y elegir si lo envías al servidor del juego. Eliminar la cuenta borra los informes enviados."
+  ],
+  [
+   "sub",
+   "Kode y correo (opcionales)"
+  ],
+  [
+   "txt",
+   "Kode: eliges un usuario y una contraseña. El juego transforma la contraseña y la frase de 12 palabras (200 000 rondas de SHA-256) antes de enviarlas; el servidor guarda solo ese resultado con sal, nunca la contraseña ni la frase. Quien pierda la contraseña y la frase pierde la cuenta."
+  ],
+  [
+   "txt",
+   "Correo: si vinculas un correo, queda guardado en el servidor solo para enviar el código de acceso de 6 dígitos (mediante el servicio de envío Resend). No enviamos publicidad. Eliminar la cuenta borra el correo."
+  ],
+  [
+   "sub",
+   "Internet"
+  ],
+  [
+   "txt",
+   "Para obtener la hora correcta (regalos diarios), el juego consulta un servidor de Cloudflare. Al abrirse, lee en GitHub (proyecto Sapyst/KodeX-Card-Game) la dirección del servidor del juego. Como en todo acceso a internet, estos servicios ven la dirección IP de la conexión, conforme a sus propias políticas de privacidad. Nosotros no guardamos la IP."
+  ],
+  [
+   "sub",
+   "Tus derechos (LGPD)"
+  ],
+  [
+   "txt",
+   "Puedes ver y corregir tu nombre en el juego, llevar la cuenta a otro dispositivo y eliminar todo con la opción Eliminar cuenta. Desinstalar la app borra los datos del dispositivo. Dudas: página del proyecto en GitHub (Sapyst/KodeX-Card-Game)."
+  ],
+  [
+   "sub",
+   "Niños"
+  ],
+  [
+   "txt",
+   "El juego no pide ningún dato personal a nadie, incluidos los niños."
+  ],
+  [
+   "sub",
+   "Cambios"
+  ],
+  [
+   "txt",
+   "Antes de cualquier función nueva que use datos (como correo o boletín), esta política se actualizará y el aviso aparecerá en el pergamino de novedades. No se recopilará nada sin tu consentimiento."
+  ]
  ]
 }

@@ -141,7 +141,7 @@ func tocar(p: Vector2) -> String:
 
 
 func _tex(cid: String) -> Texture2D:
-	return Carta.textura("carta_en" if Sessao.idioma == "en" else "carta", cid, "webp")
+	return Carta.textura(Sessao.pasta("carta"), cid, "webp")
 
 
 ## Desenha só a parte da textura que cabe entre TOPO e BASE (a grade rola por baixo do cabeçalho).
@@ -244,23 +244,22 @@ func _nome(cid: String) -> String:
 		return str(Sessao.db["cartas"][cid]["nome"])
 	for nome in Sessao.tokens:
 		if Sessao.tokens[nome]["id"] == cid:
-			return str(Sessao.tokens[nome]["en"]) if Sessao.idioma == "en" else str(nome)
+			return Sessao.nome_token(nome)
 	return cid
 
 
 func _linhas_lore() -> Array:
 	var e := _entrada_lore()
-	var en := Sessao.idioma == "en"
 	var out: Array = []                     # [tipo, texto]
-	out.append(["titulo", str(e.get("titulo_en" if en else "titulo_pt", ""))])
+	out.append(["titulo", str(Sessao.campo(e, "titulo"))])
 	var eg := Fonte57.grande()
 	if eg > 1 and Sessao.db["cartas"].has(carta):         # texto grande: o texto da carta antes da lore
 		for ln in Fonte57.quebrar(str(Sessao.db["cartas"][carta].get("texto", "")), 318, eg):
 			out.append(["carta", ln])
 		out.append(["espaco", ""])
-	for ln in Fonte57.quebrar(str(e.get("lore_en" if en else "lore_pt", "")), 318, eg):
+	for ln in Fonte57.quebrar(str(Sessao.campo(e, "lore")), 318, eg):
 		out.append(["texto", ln])
-	var cur := str(e.get("curiosidade_en" if en else "curiosidade_pt", ""))
+	var cur := str(Sessao.campo(e, "curiosidade"))
 	if cur != "":
 		out.append(["espaco", ""])
 		out.append(["cur_titulo", Sessao.t("CURIOSIDADE")])
@@ -296,7 +295,7 @@ func desenhar_lore(ci: CanvasItem) -> void:
 	var tex := _tex(carta)
 	var foil := int(Sessao.perfil["foils"].get(carta, 0)) > 0 and Sessao.tem_foil(carta)
 	if foil:                              # possui a versão foil: mostra a full-art com brilho
-		tex = Carta.textura("carta_foil_en" if Sessao.idioma == "en" else "carta_foil", carta, "webp")
+		tex = Carta.textura(Sessao.pasta("carta_foil"), carta, "webp")
 	var r := Rect2(116, off + 4, 128, 179)
 	if tex:
 		ci.draw_rect(r.intersection(Rect2(0, y0, 360, BASE - y0)).grow(2), f.ESCURO)

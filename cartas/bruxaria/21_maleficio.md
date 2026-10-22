@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Uma Entidade inimiga à escolha perde 3 ATK e 2 Vida permanentemente e é silenciada (perde palavras-chave e habilidades).
+Uma Entidade inimiga recebe -3/-2 e é silenciada (perde palavras-chave e efeitos).
 
 ## Contexto mitológico
 *Maleficium* — "mal-feito" — é a palavra latina para o dano causado por magia, e é o que a bruxaria foi, antes de tudo, aos olhos de vizinhos e juízes: a vaca que seca, o leite que não vira manteiga, a criança que definha, o homem que fica impotente na noite de núpcias, a tempestade de granizo sobre a vinha. Os tribunais seculares puniam o *maleficium* como crime de dano muito antes de a Igreja o tratar como heresia (Brian Levack, *The Witch-Hunt in Early Modern Europe*); o próprio título do *Malleus Maleficarum* — "martelo das malfeitoras" — toma a palavra como nome do ofício.

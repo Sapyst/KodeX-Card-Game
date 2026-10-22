@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: destrua uma Entidade inimiga de custo 3 ou menos.
+Despertar: Destrua uma Entidade inimiga de custo 3 ou menos.
 
 ## Contexto mitológico
 Narasimha ("homem-leão") é o quarto avatar de Vishnu. O Bhagavata Purana (livro 7) conta que o rei asura Hiranyakashipu, querendo vingar o irmão Hiranyaksha morto por Varaha, obteve de Brahma uma bênção quase perfeita: não poderia ser morto por homem nem animal, por deva nem asura, de dia nem de noite, dentro nem fora de casa, no chão nem no ar, por arma alguma. Tornou-se tirano dos três mundos e perseguiu o próprio filho, o menino Prahlada, devoto de Vishnu, tentando matá-lo com veneno, elefantes, fogo e precipícios — sem sucesso.

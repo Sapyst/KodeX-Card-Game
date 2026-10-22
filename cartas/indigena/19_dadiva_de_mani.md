@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Devolve uma Entidade do seu cemitério à sua mão. Sua Cornucópia cura 6. Compre 1 carta.
+Devolva uma Entidade do seu cemitério para a mão. Cure 6 da sua Cornucópia. Compre 1 carta.
 
 ## Contexto mitológico
 A lenda da mandioca foi recolhida por Couto de Magalhães (*O Selvagem*, 1876) entre falantes de nheengatu no Amazonas e é uma das mais contadas do país. A filha de um chefe apareceu grávida sem ter marido; o pai, furioso, só se acalmou quando um homem branco lhe apareceu em sonho dizendo que a moça era inocente. Nasceu uma menina branca, **Mani**, que andou e falou cedo e morreu com um ano, sem doença. Foi enterrada dentro da casa (*oca*), como era o costume, e a sepultura regada com as lágrimas da mãe.

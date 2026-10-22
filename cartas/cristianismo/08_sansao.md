@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Último Sopro: causa 2 de dano a todas as Entidades inimigas.
+Último Sopro: Cause 2 de dano a todas as Entidades inimigas.
 
 ## Contexto mitológico
 Sansão, da tribo de Dã, é nazireu desde o ventre: não corta o cabelo, não bebe vinho, e nele "o espírito do Senhor" desce como força bruta (Jz 13–16). Despedaça um leão com as mãos, mata mil filisteus com a mandíbula fresca de um jumento em Ramat-Leí (Jz 15,15-17), arranca as portas de Gaza e as carrega montanha acima. Traído por Dalila, que lhe corta as sete tranças, é cegado e posto a girar a mó na prisão.

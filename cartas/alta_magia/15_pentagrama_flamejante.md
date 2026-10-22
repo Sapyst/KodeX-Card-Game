@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Quando o oponente jogar um Rito, anule-o, compre 1 carta e cure 2 da sua Cornucópia.
+Quando o oponente jogar um Rito, anule-o. Compre 1 carta e cure 2 da sua Cornucópia.
 
 ## Contexto mitológico
 O pentagrama é o sinal de proteção mais antigo da magia ocidental — aparece como *Drudenfuss* ("pé de bruxa") nas portas alemãs, no Pentáculo de Salomão do Lemegeton, e nos talismãs de Agrippa (*De occulta philosophia* II.27, onde a estrela de cinco pontas contém o homem de braços abertos). Mas foi Éliphas Lévi quem o fez emblema da alta magia moderna: no *Dogma* (1854), cap. V, a "estrela flamejante" com uma ponta para cima é o microcosmo, o domínio do espírito sobre os quatro elementos — e invertida, com duas pontas para cima, é a cabeça do bode, o signo da matéria que domina.

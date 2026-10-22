@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Quando uma Entidade aliada morrer, reviva uma Entidade do seu cemitério para o campo.
+Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério para o campo.
 
 ## Contexto mitológico
 Na manhã do primeiro dia da semana, as mulheres vão ao sepulcro com aromas e encontram a pedra removida. "Não vos assusteis. Buscais Jesus de Nazaré, o crucificado? Ressuscitou, não está aqui; eis o lugar onde o puseram" (Mc 16,6). João acrescenta a corrida de Pedro e do discípulo amado, as faixas de linho no chão e o sudário dobrado à parte (Jo 20,1-9). O sepulcro aberto e vazio é o centro da fé cristã: não uma descrição da ressurreição em si — nenhum evangelho a narra —, mas o seu sinal.

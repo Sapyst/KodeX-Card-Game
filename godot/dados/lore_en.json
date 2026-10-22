@@ -1,22 +1,22 @@
 {
  "prologo": [
-  "There is a place where every faith crosses without blending. The ancients called it the Crossroads. Today, they call it the arena.",
-  "Each generation, a Codex awakens: an authorless book that holds the name of every god, and the door to all that has no name.",
-  "Six champions came to claim it. Five want to protect it. One wants to open it.",
-  "And you? No one knows your name. No one saw you arrive. Only the arena sand recorded your steps.",
-  "Choose the faith you will carry. On the other side, the Abyss has already begun to count: three, three, three."
+  "There is a place where every faith meets and none of them blend. The ancients called it the Crossroads. Now they call it the arena.",
+  "Once a generation, a Codex wakes: a book with no author that holds the name of every god, and the door to everything that has no name.",
+  "Six champions have come to claim it. Five would guard it. One would open it.",
+  "And you? No one knows your name. No one saw you arrive. Only the sand of the arena kept your footprints.",
+  "Choose the faith you will carry. On the other side, the Abyss has already started counting: three, three, three."
  ],
  "epilogo_vitoria": [
-  "The Triangle cracks. The Circle fades. Sigil 333 becomes nothing but dry ink on scrap paper.",
-  "Silas Ashcombe falls to his knees and, for the first time in years, no one answers when he calls into the dark.",
-  "The Codex opens in your hand. On its pages, every god. On the last one, blank, a space for your name.",
-  "You close the book. Some doors exist so that someone will have the wisdom not to open them.",
-  "The champions go home. The Abyss goes back to waiting. It always waits. But not today."
+  "The Triangle cracks. The Circle goes dark. Sigil 333 is nothing now but dry ink on a scrap of paper.",
+  "Silas Ashcombe sinks to his knees. For the first time in years, he calls into the dark, and the dark does not answer.",
+  "The Codex opens in your hands. Every god lives in its pages. The last one is blank, with room for your name.",
+  "You close the book. Some doors exist only so that someone will be wise enough to leave them shut.",
+  "The champions go home. The Abyss goes back to waiting. It always waits. Not today."
  ],
  "epilogo_derrota": [
-  "Your journey ends here. The Codex closes its pages, and the Crossroads forgets your steps.",
-  "But Silas Ashcombe does not forget. Every fallen challenger is one less obstacle between him and the Abyss.",
-  "Get up. The tournament begins again, and down below someone is still counting to three."
+  "Your journey ends here. The Codex closes, and the Crossroads forgets your footsteps.",
+  "Silas Ashcombe does not forget. Every challenger who falls is one less obstacle between him and the Abyss.",
+  "Get up. The tournament starts again, and somewhere below, something is still counting to three."
  ],
  "personagens": {
   "indigena": {
@@ -24,19 +24,19 @@
    "titulo": "Guardian of the Forest",
    "cor": "#3f8f3a",
    "intro": [
-    "You walked into the forest without asking permission. Curupira already turned his feet to fool you. I came to see if you find your way back.",
+    "You walked into the forest without asking permission. Curupira has already turned his feet around to lead you astray. I came to see if you can find your way back.",
     "I'm not here for any book. I'm here because the man in black wants to tear a hole in the world, and every hole starts in a clearing.",
     "Tupã is listening. If your faith is hollow, the thunder will know before I do.",
-    "Play. The forest answers."
+    "Play. The forest will answer."
    ],
-   "resposta_jogador": "I ask permission now. Does it still count?",
+   "resposta_jogador": "Then I'm asking now. Does it still count?",
    "ao_vencer": [
-    "Boitatá put out your fire before you lit it. Come back when you've learned to listen.",
-    "There's no shame in losing to the forest. It's older than all of us."
+    "Boitatá put out your fire before you even lit it. Come back when you've learned to listen.",
+    "No shame in losing to the forest. She's older than all of us."
    ],
    "ao_perder": [
-    "You found the way. Few do. Curupira will be grumpy all week.",
-    "If the man in black opens the Abyss, there'll be no forest left for anyone. Don't let him, hear me?"
+    "You found the way. Few do. Curupira's going to sulk all week.",
+    "If the man in black opens the Abyss, there won't be a forest left for anyone. Don't let him. You hear me?"
    ],
    "provocacoes": [
     "Tupã speaks loud. Listen.",
@@ -45,12 +45,12 @@
    ],
    "arcade_intro": [
     "I'm Moema Arani. The forest sent me to see who's making all this noise.",
-    "Play fair. Curupira plays dirty for me."
+    "Play clean. Curupira plays dirty for me."
    ],
    "retrato_prompt": "Half-body portrait of an Indigenous Brazilian woman in her early thirties, facing forward and looking directly at the viewer. She has warm brown skin, long straight black hair with a straight-cut fringe and calm dark eyes. Red urucum paint lines cross her cheekbones and black jenipapo geometric patterns cover her forearms. She wears a woven earth-brown cotton top that fully covers her chest, a headband of green and yellow parrot feathers and a green stone muiraquitã frog amulet on a cord. She holds a wooden maracá rattle decorated with feathers in her right hand. Dark Amazon rainforest at night behind her, giant tree roots and faint fireflies.",
    "falas": {
     "inicio": [
-     "Ask permission before sitting in the clearing.",
+     "Ask permission before you sit in the clearing.",
      "The forest is watching. Play fair."
     ],
     "carta_forte": [
@@ -59,38 +59,38 @@
      "Boitatá woke up hungry."
     ],
     "golpe": [
-     "The forest charges for what is taken.",
+     "The forest charges for what's taken.",
      "That was the river rising.",
-     "Hear the branch snap? That was you."
+     "Hear that branch snap? That was you."
     ],
     "perdeu_carta": [
-     "Saci laughed at that move.",
+     "Saci laughed at that one.",
      "Back to the earth. The earth gives back.",
      "Fine. The forest has deep roots."
     ],
     "vida_baixa": [
-     "There's still Curupira's feet to fool you.",
-     "Old trees bend, but don't fall easy."
+     "Curupira still has tracks to lead you astray.",
+     "Old trees bend. They don't fall easy."
     ],
     "vantagem": [
      "Lost? The way out is behind you.",
-     "The clearing is closing, you see?"
+     "The clearing's closing in. See it?"
     ],
     "emote": [
      [
       "Permission granted. For now.",
-      "Welcome to the forest. Mind your step."
+      "Welcome to the forest. Watch your step."
      ],
      [
-      "You played with respect. I like it.",
-      "The forest saw. It remembers."
+      "You played with respect. I like that.",
+      "The forest saw. She remembers."
      ],
      [
-      "Think like the river: flow around.",
+      "Think like the river: go around.",
       "Listen to the wind first."
      ],
      [
-      "That's just the start of the trail.",
+      "That's only the start of the trail.",
       "The forest has more creatures than you think."
      ]
     ]
@@ -101,24 +101,24 @@
    "titulo": "The Exorcist of Ouro Preto",
    "cor": "#d4af37",
    "intro": [
-    "Peace and goodwill, my son. Or my daughter. With that hood, honestly, I can't tell.",
-    "I spent forty years pulling bad things out of good people. Now I've come to stop something far worse being pulled out of the Abyss.",
-    "Saint Michael holds the spear, Lazarus already rose once, and Jonah got out of the fish. My deck has patience to spare.",
-    "Let's go. And if I lose, I promise not to bless you by force."
+    "Peace and all good, my son. Or my daughter. With that hood on, honestly, I can't tell.",
+    "I spent forty years pulling bad things out of good people. Now I've come to stop someone from pulling something far worse out of the Abyss.",
+    "Saint Michael holds the spear, Lazarus already got up once, and Jonah made it out of the fish. My deck has patience to spare.",
+    "Shall we? And if I lose, I promise not to bless you against your will."
    ],
    "resposta_jogador": "Save the blessing for the end, Friar.",
    "ao_vencer": [
-    "That wasn't punishment, it was a lesson. The Ark doesn't open for those in a hurry.",
-    "Go in peace. But go train, because the man in black won't show you my mercy."
+    "That wasn't punishment, it was a lesson. The Ark doesn't open for people in a hurry.",
+    "Go in peace. But go train, too. The man in black won't show you my mercy."
    ],
    "ao_perder": [
     "David was small too. I should have remembered that before I underestimated you.",
-    "Take my blessing, like it or not. At the end of the tournament there's a door no card can close alone."
+    "Take my blessing, like it or not. At the end of this tournament there's a door no card can close alone."
    ],
    "provocacoes": [
     "Saint Michael never misses.",
     "Even Jonah got out of the fish.",
-    "Lazarus, rise. Again."
+    "Lazarus, get up. Again."
    ],
    "arcade_intro": [
     "Friar Bento Amaral, at your service. Exorcisms on Tuesdays, duels as needed.",
@@ -127,26 +127,26 @@
    "retrato_prompt": "Half-body portrait of an elderly Afro-Brazilian man of mixed African and Portuguese descent, about sixty-four years old, facing forward and looking directly at the viewer. He has warm tan-brown skin, a short white beard, a bald crown ringed by short white hair, deep laugh lines and kind but tired dark eyes. He wears a coarse brown Franciscan friar habit with the hood down, a knotted white rope belt and a purple stole draped over his shoulders. He holds a plain worn wooden cross in one hand and a small brass holy-water sprinkler in the other. Dark candlelit baroque chapel behind him, a gilded altar faintly glowing.",
    "falas": {
     "inicio": [
-     "Peace and good. And good luck, you'll need it.",
+     "Peace and all good. And good luck, you'll need it.",
      "I'll pray for you. After the match."
     ],
     "carta_forte": [
      "Saint Michael never misses with the spear.",
-     "Glory! That came from above.",
+     "Glory! That one came from above.",
      "Amen to that card."
     ],
     "golpe": [
      "Even Jonah got out of the fish.",
      "Penance, my child. Penance.",
-     "That hurt me more. A lie."
+     "That hurt me more than you. Kidding."
     ],
     "perdeu_carta": [
-     "Lazarus, rise. Again.",
-     "The Lord gave, the Lord took away.",
-     "Rest. I'll come back for you."
+     "Lazarus, get up. Again.",
+     "The Lord gave, and the Lord has taken away.",
+     "Rest now. I'll come back for you."
     ],
     "vida_baixa": [
-     "I still have faith. And three Hail Marys.",
+     "I've still got faith. And three Hail Marys.",
      "David won with a stone. I have cards."
     ],
     "vantagem": [
@@ -155,20 +155,20 @@
     ],
     "emote": [
      [
-      "Peace and good!",
+      "Peace and all good!",
       "God bless you. Now play."
      ],
      [
-      "Well played, child. Don't get vain.",
-      "Thanks. Humility thanks you."
+      "Well played, child. Don't let it go to your head.",
+      "Thank you. Humility thanks you too."
      ],
      [
-      "Thinking is also praying.",
+      "Thinking is a kind of prayer.",
       "Easy. Golgotha wasn't built in a day."
      ],
      [
       "A miracle? No. Practice.",
-      "Wait until you see the Last Judgment."
+      "Wait till you see the Last Judgment."
      ]
     ]
    }
@@ -178,74 +178,74 @@
    "titulo": "The Immortal of Cloudy Peak",
    "cor": "#3aa58a",
    "intro": [
-    "No need to hurry. I waited one hundred and eighty years for this tournament; I can wait for you to shuffle.",
-    "The Jade Emperor dislikes doors open to the void. And mind you, the void is the house specialty.",
-    "The Eight Immortals asked me to defeat you with balance. He Xiangu also asked that I do it politely.",
-    "Water doesn't beat stone by force. Let's find out if you are stone or river."
+    "No need to hurry. I waited a hundred and eighty years for this tournament. I can wait for you to shuffle.",
+    "The Jade Emperor does not care for doors left open to the void. And mind you, the void is something of a house specialty.",
+    "The Eight Immortals asked me to defeat you with balance. He Xiangu asked that I also do it politely.",
+    "Water does not beat stone by force. Let us find out whether you are stone or river."
    ],
    "resposta_jogador": "A hundred and eighty years? You look wonderful, ma'am.",
    "ao_vencer": [
-    "You pushed too hard and fell to the other side. That too is the Tao.",
-    "Come back in a hundred years. I'll still be here. Probably with this same face."
+    "You pushed too hard and fell through to the other side. That, too, is the Tao.",
+    "Come back in a hundred years. I will still be here. Most likely with this same face."
    ],
    "ao_perder": [
-    "Curious. I lost and I feel lighter. Zhang Guolao would laugh at me, riding backwards on his donkey.",
+    "Curious. I lost, and I feel lighter. Zhang Guolao would laugh at me, riding backwards on his donkey as always.",
     "Take a peach. The man of the Abyss wants a world without end, and everything without end rots."
    ],
    "provocacoes": [
-    "Nezha has left his cloud.",
+    "Nezha has come down from his cloud.",
     "Yin rises, yang falls.",
-    "One Immortal fell. The other seven smile."
+    "One Immortal falls. The other seven smile."
    ],
    "arcade_intro": [
-    "Lin Yuehua, of Cloudy Peak. I came for tea, but I'll accept a duel.",
-    "If I lose, blame the tea. If I win, blame the Tao."
+    "Lin Yuehua, of Cloudy Peak. I came for tea, but I will accept a duel.",
+    "If I lose, blame the tea. If I win, thank the Tao."
    ],
    "retrato_prompt": "Half-body portrait of a young Han Chinese woman who looks about twenty-five years old, facing forward and looking directly at the viewer. She has pale ivory skin, calm dark almond-shaped eyes and long black hair gathered in a high topknot fixed with a green jade hairpin. She wears a high-collared deep blue Taoist priest robe closed up to the neck, embroidered with white clouds and cranes, with black trim and a round yin-yang medallion. She holds a white horsetail fly-whisk in one hand and a yellow paper fulu talisman with red brush script in the other. Misty dark mountain temple at night behind her, pine silhouettes and drifting incense smoke.",
    "falas": {
     "inicio": [
      "Breathe. Then shuffle.",
-     "The tea cools, the match begins."
+     "The tea cools. The match begins."
     ],
     "carta_forte": [
-     "Nezha has come down from the cloud.",
+     "Nezha has come down from his cloud.",
      "The Jade Emperor approves.",
      "A leaf falls. The mountain smiles."
     ],
     "golpe": [
      "Yin rises, yang falls.",
      "The water found the crack.",
-     "It wasn't strength. It was timing."
+     "It was not strength. It was timing."
     ],
     "perdeu_carta": [
-     "One Immortal fell. The other seven smile.",
+     "One Immortal falls. The other seven smile.",
      "Losing is also flowing.",
-     "She returns to the void. Good for her."
+     "Back to the void. Good for her."
     ],
     "vida_baixa": [
-     "A hundred and eighty years and I'm still surprised.",
-     "Bamboo bends. It doesn't break."
+     "A hundred and eighty years, and still I am surprised.",
+     "Bamboo bends. It does not break."
     ],
     "vantagem": [
-     "You rush too much. The river is patient.",
-     "Feel the balance leaving you?"
+     "You rush. The river is patient.",
+     "Do you feel the balance slipping away?"
     ],
     "emote": [
      [
       "Greetings, young one. Very young.",
-      "May the Tao be with you."
+      "May the Tao walk with you."
      ],
      [
-      "Pretty. Almost balanced.",
+      "Lovely. Almost balanced.",
       "He Xiangu would applaud."
      ],
      [
-      "The void thinks too.",
-      "Wait. The moment comes."
+      "The void thinks, too.",
+      "Wait. The moment will come."
      ],
      [
-      "That? The Eight do it before breakfast.",
-      "You haven't seen the Taiji yet."
+      "That? The Eight do that before breakfast.",
+      "You have not seen the Taiji yet."
      ]
     ]
    }
@@ -255,28 +255,28 @@
    "titulo": "The Archer of Varanasi",
    "cor": "#e8731c",
    "intro": [
-    "Finally! I thought I'd only be fighting the line at the Crossroads. Grab your cards, the Ganges waits for no one.",
-    "Hanuman leapt an ocean out of loyalty. I only need to leap over you.",
-    "Vishnu descends whenever dharma falters. A man trying to open the Abyss? That's a lot of faltering.",
-    "Krishna taught me to fight without attachment to the outcome. But I confess, I really like winning."
+    "Finally! I thought the only fight here would be the line at the Crossroads. Grab your cards, the Ganges waits for no one.",
+    "Hanuman leapt an ocean out of loyalty. I only have to leap over you.",
+    "Vishnu comes down whenever dharma falters. A man trying to open the Abyss? That's a whole lot of faltering.",
+    "Krishna taught me to fight without clinging to the outcome. I'll be honest, though: I really like winning."
    ],
    "resposta_jogador": "Aim well, archer. I move.",
    "ao_vencer": [
     "Too fast? Kali doesn't apologize, and I learned from her.",
-    "Breathe, get up and come back. The wheel turns for everyone."
+    "Breathe, get up, come back. The wheel turns for everyone."
    ],
    "ao_perder": [
-    "Ha! What a blow. Even Arjuna needed good advice before the battle.",
-    "Shiva dances one world's end so another can be born. Go to the end of the tournament and don't let this world end."
+    "Ha! What a shot. Even Arjuna needed good advice before his battle.",
+    "Shiva dances one world to its end so another can be born. Go to the end of this tournament, and don't let this world end."
    ],
    "provocacoes": [
     "Jai Hanuman! One more leap!",
     "Gandiva never misses twice.",
-    "The wheel of Samsara returns all."
+    "The wheel of Samsara brings everything back."
    ],
    "arcade_intro": [
     "Aditya Rao, of Varanasi. Bow ready, heart even readier.",
-    "No sermons, no waiting. Let's fight before the chai gets cold."
+    "No sermons, no waiting. Let's fight before the chai goes cold."
    ],
    "retrato_prompt": "Half-body portrait of a young Indian man of about twenty-eight, facing forward and looking directly at the viewer. He has warm medium-brown skin, an athletic build, short wavy black hair, a neatly trimmed beard, bright confident dark eyes and a red and white tilak mark on his forehead. He wears a saffron cotton kurta closed at the collar, a deep red shawl draped over one shoulder, a rudraksha bead mala around his neck and a brass armband on his upper arm. He holds an ornate wooden longbow wrapped in gold thread. Dark riverside ghats of Varanasi at night behind him, small oil lamps floating on black water.",
    "falas": {
@@ -285,23 +285,23 @@
      "The Ganges doesn't wait. Neither do I."
     ],
     "carta_forte": [
-     "Jai Hanuman! Another leap!",
-     "Kali arrived dancing.",
-     "That one came straight from the Mahabharata."
+     "Jai Hanuman! One more leap!",
+     "Kali came in dancing.",
+     "That one's straight out of the Mahabharata."
     ],
     "golpe": [
-     "The Gandiva doesn't miss twice.",
+     "Gandiva never misses twice.",
      "Bullseye!",
      "Arjuna would be proud."
     ],
     "perdeu_carta": [
-     "The wheel of Samsara returns everything.",
-     "Ah, I liked that one.",
-     "Come back next life, friend."
+     "The wheel of Samsara brings everything back.",
+     "Aw, I liked that one.",
+     "See you next life, friend."
     ],
     "vida_baixa": [
-     "Krishna said: fight without attachment. I'm trying!",
-     "I still have arrows. I always have arrows."
+     "Krishna said fight without attachment. I'm trying!",
+     "I've still got arrows. I always have arrows."
     ],
     "vantagem": [
      "Breathe. The wheel turns for everyone.",
@@ -310,19 +310,19 @@
     "emote": [
      [
       "Namaste! Now aim.",
-      "Greetings! Ready to run?"
+      "Hey there! Ready to run?"
      ],
      [
-      "Ha! Well played indeed!",
-      "Respect. But I win."
+      "Ha! Well played, really!",
+      "Respect. But I'm still winning."
      ],
      [
-      "Think fast, the Ganges flows.",
-      "Hmm is good. Too much hmm is sleep."
+      "Think fast, the Ganges is flowing.",
+      "Hmm is good. Too much hmm is a nap."
      ],
      [
       "Right? I liked it too!",
-      "Wait for Shiva to dance."
+      "Wait till Shiva dances."
      ]
     ]
    }
@@ -332,22 +332,22 @@
    "titulo": "The Witch of the Crossroads",
    "cor": "#6b3fa0",
    "intro": [
-    "Sit down, child. No, it's not tea. Or it is. Depends on how much you annoy me.",
-    "Baba Yaga taught me that every visitor is either a guest or dinner. I'm still deciding on you.",
-    "Hecate guards the crossroads, and this tournament is the biggest I've ever seen. Someone has to sweep the door before the magus opens it.",
+    "Sit down, child. No, it's not tea. Or it is. Depends how much you annoy me.",
+    "Baba Yaga taught me that every visitor is either a guest or dinner. I haven't decided about you yet.",
+    "Hecate guards the crossroads, and this tournament is the biggest one I've ever seen. Somebody has to sweep the doorstep before the magus opens that door.",
     "The man of the Triangle thinks the Abyss is a tool. I think it's a mouth. And mouths eat."
    ],
    "resposta_jogador": "Guest, please. Guest.",
    "ao_vencer": [
-    "Don't cry. The Black Cat has nine lives; you have at least two.",
+    "Don't cry. A black cat has nine lives; you've got at least two.",
     "Come back when the evil eye wears off. And keep salt in your pocket."
    ],
    "ao_perder": [
-    "Well, well. The Morrígan warned me through her crows, and I, stubborn old woman, wouldn't read it.",
+    "Well, well. The Morrígan warned me through her crows, and I, stubborn old woman, wouldn't read the signs.",
     "Take a witch bottle. Bury it by the magus's door. Or throw it at his head, that works too."
    ],
    "provocacoes": [
-    "Free evil eye, enjoy it.",
+    "Free evil eye. Enjoy.",
     "Hecate holds the torch. I hold the broom.",
     "My cat still has eight lives, see?"
    ],
@@ -358,48 +358,48 @@
    "retrato_prompt": "Half-body portrait of an elderly Polish woman of about seventy, facing forward and looking directly at the viewer. She has pale weathered skin with deep wrinkles, sharp grey-green eyes, a strong nose, thin lips set in a wry smile and a long silver braid falling over one shoulder. She wears a high-necked black wool dress that fully covers her chest, a fringed black shawl embroidered with red roses and a necklace of dried rowan berries. A black crow perches on her shoulder. She holds a small glass witch bottle filled with iron pins, herbs and red thread. Dark misty birch-forest crossroads at night behind her, a single lantern glowing.",
    "falas": {
     "inicio": [
-     "Sit. Don't touch the cauldron.",
+     "Sit. And don't touch the cauldron.",
      "Guest or dinner? We'll see."
     ],
     "carta_forte": [
      "Hecate holds the torch. I hold the broom.",
-     "Look how pretty my cat is.",
-     "This one came straight from the cauldron."
+     "Look at my cat. Isn't he handsome?",
+     "This one came straight out of the cauldron."
     ],
     "golpe": [
-     "Free evil eye, enjoy.",
-     "Did it hurt? Put salt on it.",
+     "Free evil eye. Enjoy.",
+     "Did it hurt? Rub some salt on it.",
      "The crows told me where to hit."
     ],
     "perdeu_carta": [
-     "My cat still has six lives, you know?",
-     "Hmpf. It'll be compost.",
+     "My cat still has eight lives, you know.",
+     "Hmph. It'll make good compost.",
      "Noted. In my book of shadows."
     ],
     "vida_baixa": [
-     "Old, but not dead. Yet.",
-     "The Morrigan is laughing at me. Let her."
+     "Old, not dead. Not yet.",
+     "The Morrígan is laughing at me. Let her."
     ],
     "vantagem": [
-     "The cauldron is already boiling.",
+     "The cauldron's already boiling.",
      "Dinner, then. Decided."
     ],
     "emote": [
      [
       "Hello, child. Wipe your feet.",
-      "Greetings. The cat says hi too."
+      "Greetings. The cat says hello too."
      ],
      [
       "Well played? I know. Thank you.",
-      "Hmpf. Beginner's luck."
+      "Hmph. Beginner's luck."
      ],
      [
-      "Think, think. I'll wait. Knitting.",
-      "Hmm is the cauldron's sound."
+      "Think, think. I'll wait. I'm knitting.",
+      "Hmm is the sound the cauldron makes."
      ],
      [
       "Wow is nothing. Wait for Baba Yaga.",
-      "Liked it? There's more in the pantry."
+      "Liked that? There's more in the pantry."
      ]
     ]
    }
@@ -409,39 +409,39 @@
    "titulo": "The Magus of the Triangle",
    "cor": "#8b1a1a",
    "intro": [
-    "So you're the last one. Fascinating. Five champions felled just so I'd have the pleasure of felling the sixth.",
-    "The Triangle of Art is drawn. The Circle, closed. Only Sigil 333 remains, and the Codex is the ink. Thank you for bringing my ink.",
-    "Dee and Kelley spoke with angels and fled in fear. I looked into the Abyss, and the Abyss asked me for directions home.",
-    "Choronzon is not a demon. It is the end of the self. All that dissolves in it becomes three hundred thirty-three shards of silence."
+    "So you are the last. Fascinating. Five champions brought down, just so I could have the pleasure of bringing down the sixth.",
+    "The Triangle of Art is drawn. The Circle is closed. Only Sigil 333 remains, and the Codex is the ink. Thank you for bringing me my ink.",
+    "Dee and Kelley spoke with angels and fled in terror. I looked into the Abyss, and the Abyss asked me the way home.",
+    "Choronzon is not a demon. It is the end of the self. Everything that dissolves in it becomes three hundred and thirty-three shards of silence."
    ],
    "resposta_jogador": "Your Abyss will have to wait.",
    "ao_vencer": [
-    "Three, three, three. Do you hear it? It's your name being forgotten, syllable by syllable, at the edge of the Abyss.",
-    "Thank you for the Codex. Don't worry: on the other side, no one will miss you. Not even you."
+    "Three, three, three. Do you hear it? That is your name being forgotten, syllable by syllable, at the edge of the Abyss.",
+    "Thank you for the Codex. Do not worry: on the other side, no one will miss you. Not even you."
    ],
    "ao_perder": [
-    "Impossible. The Circle was closed. I traced every line in the sand... who erased the line? Who erased the line?",
-    "You didn't win. You only delayed it. The Abyss is in no hurry, and Choronzon has every shape in the world to return."
+    "Impossible. The Circle was sealed. I traced every line in the sand myself... Who erased the line? WHO ERASED THE LINE?",
+    "You did not win. You only delayed it. The Abyss is never in a hurry, and Choronzon has every shape in the world to come back in."
    ],
    "provocacoes": [
-    "Dantalion, bring me what is his.",
+    "Dantalion, bring me what is theirs.",
     "Three, three, three. Your Cornucopia cracks.",
-    "One less piece. The Abyss didn't notice."
+    "One piece fewer. The Abyss didn't notice."
    ],
    "arcade_intro": [
-    "Silas Ashcombe. I trace circles, open triangles, close fates. Stay inside the circle, please. For your safety.",
-    "Don't leave the circle, whatever happens. The last one who left is still being collected, in pieces, in the Abyss."
+    "Silas Ashcombe. I trace circles, open triangles and close fates. Stay inside the circle, please. For your own safety.",
+    "Do not leave the circle, whatever happens. The last one who did is still being gathered up, piece by piece, in the Abyss."
    ],
    "retrato_prompt": "Half-body portrait of a gaunt white Englishman in his mid-fifties, facing forward and looking directly at the viewer. He has pale sallow skin, hollow cheeks, piercing ice-blue eyes, long silver hair tied back at the nape and a neatly trimmed silver goatee. He wears a high-collared black ceremonial robe with crimson lining, closed to the throat, and a plain golden triangle pendant, a simple upward-pointing triangle with a single dot in its center, hanging on a chain over his chest. He holds a black wand tipped with a silver triangle in one hand and a red wax sigil disc engraved with the number 333 in the other. Dark desert night behind him, a triangle traced in the sand glowing faintly.",
    "falas": {
     "inicio": [
-     "The Circle is closed. You are inside.",
-     "Let us begin. The Abyss is eager for me."
+     "The Circle is closed. You are inside it.",
+     "Let us begin. The Abyss grows impatient for me."
     ],
     "carta_forte": [
      "Dantalion, bring me what is theirs.",
      "Fiat. And so it is.",
-     "Observe the Art. Don't understand it."
+     "Observe the Art. Do not try to understand it."
     ],
     "golpe": [
      "Three, three, three. Your Cornucopia cracks.",
@@ -449,12 +449,12 @@
      "Feel the Triangle tighten."
     ],
     "perdeu_carta": [
-     "One piece less. The Abyss didn't even notice.",
+     "One piece fewer. The Abyss didn't even notice.",
      "A foreseen sacrifice.",
-     "It was already three hundred thirty-three pieces."
+     "It was already three hundred and thirty-three pieces."
     ],
     "vida_baixa": [
-     "A smudged line. That's all.",
+     "A smudged line. Nothing more.",
      "Who erased the line? Who?"
     ],
     "vantagem": [
@@ -463,15 +463,15 @@
     ],
     "emote": [
      [
-      "Greetings. It will be the last.",
+      "Greetings. They will be your last.",
       "Welcome to the Circle."
      ],
      [
       "I know. I always know.",
-      "Compliment noted in the Codex."
+      "Compliment recorded in the Codex."
      ],
      [
-      "Think. The Abyss thinks of you too.",
+      "Think. The Abyss is thinking of you, too.",
       "Hesitation. Delicious."
      ],
      [

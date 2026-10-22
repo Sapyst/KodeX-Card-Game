@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-A portadora ganha +3 Vida e Guarda. Enquanto ela estiver em campo, todas as suas Entidades ganham +1 ATK.
+A portadora ganha +3 Vida e Guarda. Suas Entidades têm +1 ATK.
 
 ## Contexto mitológico
 *Morubixaba* (*mburuvixá*, "o que é grande") era o título do chefe tupinambá — não um rei, mas o guerreiro mais respeitado, que falava primeiro no conselho e conduzia a guerra, e cuja autoridade dependia de dar o exemplo e de generosidade. Gabriel Soares de Sousa (*Tratado Descritivo do Brasil*, 1587) e Jean de Léry (1578) descrevem os principais pelo ornamento: o **cocar** (*acangatara*, "coisa da cabeça") de penas de arara, guará e tucano, e o manto de penas (*guará-abucu*) reservado às grandes cerimônias.

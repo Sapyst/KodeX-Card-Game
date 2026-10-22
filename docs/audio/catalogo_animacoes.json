@@ -1,0 +1,2516 @@
+{
+  "gerado_em": "2026-10-22",
+  "fonte": "godot/*.gd",
+  "observacoes": {
+    "player_atual": "mesa.gd:3137 tocar_som(): um único AudioStreamPlayer (-6 dB); som novo corta o anterior; só a mesa toca som",
+    "velocidade": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+    "sons_existentes": [
+      {
+        "arquivo": "godot/audio/sfx/embaralhar_1.wav",
+        "duracao_s": 2.55,
+        "formato": "44,1 kHz, 16 bits, estéreo",
+        "chamado_em": [
+          "mesa.gd:633 _riffle() — só no 1º riffle (o 2º não toca porque _som ainda está tocando)"
+        ]
+      },
+      {
+        "arquivo": "godot/audio/sfx/embaralhar_2.wav",
+        "duracao_s": 2.55,
+        "formato": "44,1 kHz, 16 bits, estéreo",
+        "chamado_em": [
+          "mesa.gd:1940 _reembaralhar()",
+          "mesa.gd:3207 _mulligan() (quando troca 1–2 cartas)"
+        ]
+      },
+      {
+        "arquivo": "arte/som/fogo.wav / fogo.ogg (sfx_fogo.py)",
+        "duracao_s": 2.4,
+        "formato": "44,1 kHz, 16 bits, estéreo",
+        "chamado_em": [
+          "não usado no jogo (referência de síntese por código)"
+        ]
+      },
+      {
+        "arquivo": "arte/som/kenney_casino/*.ogg (card-fan-1/2, card-place-1/2/3)",
+        "duracao_s": null,
+        "formato": "ogg",
+        "chamado_em": [
+          "não usado no jogo (pacote baixado; não é síntese)"
+        ]
+      }
+    ]
+  },
+  "contagem_por_grupo": {
+    "Partida: cartas": 22,
+    "Partida: combate e vida": 11,
+    "Efeitos das cartas": 21,
+    "Selos e especiais": 10,
+    "Fim de partida": 8,
+    "Menus e interface": 19,
+    "Booster/loja": 6
+  },
+  "animacoes": [
+    {
+      "id": "intro_camera",
+      "grupo": "Partida: cartas",
+      "descricao": "Abertura da partida: a câmera começa longe (zoom 0,34) e girada -2,5 rad, gira até 0 (2,8 s, quart ease-out) e aproxima até 1,06 (2,2 s) e assenta em 1,0 (0,55 s). A cor ambiente sobe do preto até a luz de vela (1,6 s, atraso 0,2 s).",
+      "origem": "mesa inteira, vista de longe e girada",
+      "destino": "mesa enquadrada",
+      "arquivo_linha": "mesa.gd:538 _intro()",
+      "duracao_s": 2.8,
+      "duracao_obs": "rotação 2,8 s; zoom 2,2 + 0,55 = 2,75 s; ambiente 0,2→1,8 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por partida",
+      "variacoes": [
+        "online: igual",
+        "enigma: igual (depois vai direto ao enigma, sem embaralhar)"
+      ],
+      "direcao_sonora": "Whoosh largo de vento girando: ruído rosa com passa-faixa subindo 200→1 200 Hz e pan estéreo girando (acompanha a rotação), sub 40–60 Hz entrando em swell, cauda que assenta junto com o zoom final (0,55 s). Ataque lento (0,3 s), pico ~1,8 s, decaimento 1 s.",
+      "duracao_som_s": 2.8,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "luz_acender",
+      "grupo": "Partida: cartas",
+      "descricao": "As 4 luzes da mesa acendem durante a intro: a central acende devagar; as laterais acendem com um estouro de chama (energia a 125%) e assentam em 100%. Cada uma: 40% do tempo subindo (quad ease-out) e 60% assentando.",
+      "origem": "velas/tochas apagadas nas bordas da mesa",
+      "destino": "luz acesa tremulando",
+      "arquivo_linha": "mesa.gd:554 _acender() (chamado em _intro 538)",
+      "duracao_s": 1.4,
+      "duracao_obs": "luz 0: início 0,5 s, dur 1,4 · luz 3: início 1,0 s, dur 1,2 · luz 1: início 1,1 s, dur 0,5 · luz 2: início 1,35 s, dur 0,5",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "4 (escalonadas em 0,5 / 1,0 / 1,1 / 1,35 s)",
+      "variacoes": [
+        "estouro lateral (luzes 1 e 2): curto e forte",
+        "acendimento lento (luzes 0 e 3): suave"
+      ],
+      "direcao_sonora": "Reaproveitar a ignição de sfx_fogo.py: 'fuump' (baque 70→38 Hz + sopro com filtro abrindo 200→1 500 Hz). Estouro: 0,35 s, ataque 10 ms. Acendimento lento: 0,9 s, ataque 0,2 s, mais sopro e menos baque. Volume baixo: é cama da intro.",
+      "duracao_som_s": 0.9,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "deck_cascata",
+      "grupo": "Partida: cartas",
+      "descricao": "As 32 cartas do jogador caem do alto da tela (y −90, x aleatório ±70 do centro, rotação ±0,6 rad) em arco de 40 px até formar o monte no centro (180,320), cada uma com rotação final ±0,04.",
+      "origem": "acima da tela, espalhadas",
+      "destino": "monte no centro da mesa",
+      "arquivo_linha": "mesa.gd:603 _cascata_deck()",
+      "duracao_s": 1.41,
+      "duracao_obs": "cada carta voa 0,42 s; uma nova a cada 0,03 s (31×0,03 = 0,93 s) + espera 0,45 s; as aterrissagens vão de 0,42 s a 1,35 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "32 cartas, uma a cada 0,03 s",
+      "variacoes": [
+        "sem variação de contexto"
+      ],
+      "direcao_sonora": "Chuva de cartas: um único arquivo com ~32 'tics' de papelão (clique 2–5 kHz, 6–12 ms, decaimento exponencial) com jitter de ±8 ms começando em 0,42 s e espaçados 30 ms, intensidade crescendo (monte engrossa: tics mais graves/abafados no fim, passa-baixa 5 k→2,5 kHz). Embaixo, whoosh leve de ar 0,4 s. Mesmo material do embaralhar.",
+      "duracao_som_s": 1.4,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "embaralhar_riffle",
+      "grupo": "Partida: cartas",
+      "descricao": "Embaralhar (riffle), 2 vezes seguidas: o monte se divide em duas metades que levantam em arco de 14 px e inclinam ±0,16 rad para os lados (±64 px, 0,3 s); depois as cartas caem intercaladas, 1–3 de cada lado, de baixo para cima, em arcos curtos (8 px, 0,16 s, quad ease-in).",
+      "origem": "monte central",
+      "destino": "duas metades → monte central",
+      "arquivo_linha": "mesa.gd:631 _riffle() (chamado 2× em _ready 175–195)",
+      "duracao_s": 1.28,
+      "duracao_obs": "separar 0,3 s (espera 0,38) + 32 quedas a cada 0,022 s (0,70 s) + 0,16 + espera 0,2 ≈ 1,28 s por riffle; 2 riffles ≈ 2,56 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "2 riffles; cada um com 32 quedas a cada 22 ms",
+      "variacoes": [
+        "1º riffle toca embaralhar_1",
+        "2º riffle não toca nada: o código só toca se _som não estiver tocando (o arquivo de 2,55 s cobre os dois)"
+      ],
+      "direcao_sonora": "JÁ EXISTE (embaralhar_1.wav, 2,55 s). Se for refeito por síntese: separar = 'fwip' duplo 0,3 s; intercalar = trem de 32 tics acelerando de leve (22 ms) com ruído de borda 3–7 kHz e um 'brrrt' final quando o monte fecha.",
+      "duracao_som_s": 1.3,
+      "prioridade": 3,
+      "som_existente": "embaralhar_1 (mesa.gd:633)"
+    },
+    {
+      "id": "embaralhar_corte",
+      "grupo": "Partida: cartas",
+      "descricao": "3 cortes do monte: um bloco de 7–12 cartas de baixo sai pela direita (+58 px, sobe 30 px, inclina 0,12 rad) em 0,18 s; o resto do monte reassenta (0,14 s); o bloco volta por cima em arco curto (6 px, 0,2 s).",
+      "origem": "base do monte",
+      "destino": "lado direito → topo do monte",
+      "arquivo_linha": "mesa.gd:670 _cortes()",
+      "duracao_s": 1.44,
+      "duracao_obs": "por corte: 0,22 s + 0,26 s = 0,48 s; 3 cortes = 1,44 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "3 cortes seguidos (a cada 0,48 s)",
+      "variacoes": [
+        "blocos de tamanho diferente (7–12 cartas): bloco maior = som mais encorpado"
+      ],
+      "direcao_sonora": "SEM SOM HOJE (o embaralhar_1 acaba bem quando os cortes começam). Por corte: deslize de bloco (ruído passa-faixa 1–5 kHz, 0,15 s, ataque 10 ms) + 'tac' de bloco caindo por cima (thump 150–300 Hz 40 ms + clique 3 kHz). Mesmo timbre do embaralhar. 3 variações para o round-robin.",
+      "duracao_som_s": 0.45,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "monte_bater",
+      "grupo": "Partida: cartas",
+      "descricao": "O monte se alinha (posição e rotação, 0,1 s) e dá uma batidinha: escala Y 1 → 0,94 (0,06 s) → 1 (0,12 s, back ease-out), como bater o maço na mesa.",
+      "origem": "monte central",
+      "destino": "monte central",
+      "arquivo_linha": "mesa.gd:615 _bater_monte()",
+      "duracao_s": 0.37,
+      "duracao_obs": "0,12 s de alinhamento + 0,25 s de espera (batida 0,18 s)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por partida (e a batidinha do reembaralhar, mesa.gd:1931)",
+      "variacoes": [
+        "abertura da partida",
+        "fim do reembaralhar do cemitério (mesmo gesto)"
+      ],
+      "direcao_sonora": "'Toc' de maço na mesa: corpo 120–250 Hz (seno com queda de pitch 250→140 Hz em 40 ms) + clique de borda 2–4 kHz. Total 0,15 s, ataque < 2 ms, decaimento 80 ms.",
+      "duracao_som_s": 0.15,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "deck_para_espaco",
+      "grupo": "Partida: cartas",
+      "descricao": "O monte do jogador voa do centro até o espaço do deck (306,458) em arco de 26 px (0,5 s), carta a carta a cada 0,008 s, encolhendo para a escala do campo. Em seguida o deck do oponente desliza de fora da tela (−60,−80, rot −0,5) até (55,126) em arco de 30 px (0,55 s), a cada 0,006 s.",
+      "origem": "centro da mesa / fora da tela no alto-esquerdo",
+      "destino": "espaço do deck do jogador (embaixo, direita) / do oponente (em cima, esquerda)",
+      "arquivo_linha": "mesa.gd:695 _ir_para_deck()",
+      "duracao_s": 1.1,
+      "duracao_obs": "jogador 32×0,008 = 0,26 s (+0,5 de voo); oponente 32×0,006 = 0,19 s (+0,55); espera 0,65 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "2 maços (32 cartas cada) em sequência",
+      "variacoes": [
+        "maço do jogador (perto, cheio)",
+        "maço do oponente (longe: mais baixo e abafado)"
+      ],
+      "direcao_sonora": "Dois 'fwiiip' de maço deslizando: ruído com passa-faixa descendo 5 k→1,5 kHz (0,5 s), pan para a direita-baixo (jogador); o do oponente −6 dB, passa-baixa 2,5 kHz, pan esquerda. Termina com 1–2 tics de assentamento.",
+      "duracao_som_s": 0.55,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "carta_distribuir",
+      "grupo": "Partida: cartas",
+      "descricao": "Mão inicial (a usuária notou que NÃO TEM SOM): 4 rodadas; em cada uma a carta do topo do deck do jogador levanta 10 px (0,12 s), voa em arco de 40 px até o leque da mão embaixo (0,42 s) e vira no ar (virar 0,26 s, começa 0,1 s após o voo); as cartas que já estão na mão se reorganizam (0,3 s). Ao mesmo tempo a carta do oponente sai do deck dele e vai ao leque em cima (arco 20 px, 0,42 s, escala 0,62, sem virar). No fim a mão 'assenta': 4 pulsos de escala 1,06 (0,08 + 0,16 s) a cada 0,05 s.",
+      "origem": "deck do jogador (306,458) e deck do oponente (55,126)",
+      "destino": "leque da mão embaixo (y≈600) e leque do oponente em cima (y≈−6)",
+      "arquivo_linha": "mesa.gd:759 _comprar_mao()",
+      "duracao_s": 3.1,
+      "duracao_obs": "por rodada 0,12 + 0,5 = 0,62 s; 4 rodadas = 2,48 s; assentar 4×0,05 + 0,4 de espera",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "4 rodadas × 2 cartas simultâneas (jogador + oponente), uma rodada a cada 0,62 s; depois 4 pulsos a cada 0,05 s",
+      "variacoes": [
+        "carta do jogador: levanta + voo + virar (som completo)",
+        "carta do oponente: só voo, mais baixo/abafado",
+        "assentar da mão: 4 tics bem leves",
+        "online: espera a revelação do servidor antes de cada carta (o intervalo pode ser maior)"
+      ],
+      "direcao_sonora": "PARECIDO COM O EMBARALHAR (mesmo material de papelão): 'snap' de tirar a carta do maço (clique 3–6 kHz, 8 ms) + 'fwip' de voo (ruído passa-faixa 1,5–6 kHz com envelope ataque 5 ms / decaimento 150 ms e leve sweep descendente) + mini-flip no meio (o virar). Fazer 4 variações (pitch ±4%, grãos diferentes) para round-robin. Oponente: mesma amostra −7 dB e passa-baixa 3 kHz. Duração 0,3–0,4 s.",
+      "duracao_som_s": 0.35,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "carta_comprar",
+      "grupo": "Partida: cartas",
+      "descricao": "Compra de 1 carta (início do turno, efeito COMPRE N, busca, troca do mulligan): mesmo gesto da mão inicial — levanta 10 px (0,12 s), arco de 40 px até o leque (0,42 s) virando no ar (0,26 s); a mão se reorganiza (0,3 s). Oponente: arco de 20 px até o leque de cima, sem mostrar a face.",
+      "origem": "deck do dono",
+      "destino": "leque da mão do dono",
+      "arquivo_linha": "mesa.gd:1999 _receber_comprada() (chamada por _comprar 1883, motor_efeitos.gd:599 draw, 768 _buscar, mesa.gd:3165 _mulligan)",
+      "duracao_s": 0.62,
+      "duracao_obs": "0,12 + 0,5 de espera (voo 0,42)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por turno + N por efeito COMPRE N (em sequência, 0,62 s cada)",
+      "variacoes": [
+        "jogador × oponente (mais baixo)",
+        "compra comum × busca (precedida de folhear)",
+        "mão cheia: em vez de ir à mão, queima (ver carta_queimar)"
+      ],
+      "direcao_sonora": "Mesmo arquivo de carta_distribuir (round-robin de 4). Pode ganhar um 'swish' 10% mais longo quando vier de efeito.",
+      "duracao_som_s": 0.35,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "carta_virar",
+      "grupo": "Partida: cartas",
+      "descricao": "Virar a carta no ar: a escala X vai a 0 (sine ease-in, metade do tempo), troca a face e volta a 1 (sine ease-out). Usado em compra, Rito, Selo revelado, descarte, devolver à mão, queda no campo, mulligan, reembaralhar.",
+      "origem": "a própria carta",
+      "destino": "a própria carta (outra face)",
+      "arquivo_linha": "carta.gd:252 virar()",
+      "duracao_s": 0.26,
+      "duracao_obs": "0,2 a 0,3 s conforme quem chama (0,26 compra, 0,24 Rito/Selo/devolver, 0,2 queda/descarte/reembaralhar)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "muito frequente; no reembaralhar até ~30 em sequência (a cada 0,04 s)",
+      "variacoes": [
+        "virar para cima (revela)",
+        "virar para baixo (esconde, mais seco)"
+      ],
+      "direcao_sonora": "'Flip' de cartão: dois micro-transientes (bordas) separados por dur/2 com ruído passa-faixa 2–5 kHz varrendo para cima no meio (25–40 ms). Leve, −10 dB em relação à compra; pode ir embutido em carta_comprar.",
+      "duracao_som_s": 0.12,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "carta_pegar",
+      "grupo": "Partida: cartas",
+      "descricao": "Encostar numa carta jogável da mão ou do campo: cresce para 115% (0,12 s, back ease-out), 'levanta' (sombra), os espaços válidos piscam em dourado; depois segue o dedo com atraso e inclina conforme a velocidade.",
+      "origem": "mão ou espaço do campo",
+      "destino": "segue o dedo",
+      "arquivo_linha": "mesa.gd:1012 _pegar()",
+      "duracao_s": 0.12,
+      "duracao_obs": "0,12 s (depois fica presa ao dedo)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "a cada toque",
+      "variacoes": [
+        "da mão",
+        "do campo (Entidade que vai atacar ou mudar de lugar)"
+      ],
+      "direcao_sonora": "'Lift' curto: swish ascendente de papel 0,1 s (ruído passa-faixa 2→4 kHz) + tic suave 1,5 kHz. Bem baixo (é muito repetido).",
+      "duracao_som_s": 0.1,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "carta_recusar",
+      "grupo": "Partida: cartas",
+      "descricao": "Soltar a carta num lugar inválido (ou sem Fé, campo cheio, motivo de recusa): a carta sacode 6 vezes (±5, ±4, ±2 px, 0,034 s cada), solta 6 faíscas vermelho-laranja e volta à origem como puxada por ímã (elástico 0,5 s); aparece o motivo em texto ('CANSADA', 'GUARDA'…).",
+      "origem": "onde foi solta",
+      "destino": "volta à mão ou ao espaço de origem",
+      "arquivo_linha": "mesa.gd:1148 _recusar()",
+      "duracao_s": 0.7,
+      "duracao_obs": "sacudir 0,2 s + volta elástica 0,5 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "por jogada inválida",
+      "variacoes": [
+        "da mão",
+        "do campo",
+        "tempo esgotado com carta na mão"
+      ],
+      "direcao_sonora": "Negação: dois toques curtos e dissonantes (220 + 233 Hz, onda quadrada filtrada a 1,2 kHz, 60 ms cada, 80 ms de intervalo) + 'boing' elástico do retorno (seno 420→260 Hz com vibrato 12 Hz decaindo, 0,35 s).",
+      "duracao_som_s": 0.5,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "carta_cair_campo",
+      "grupo": "Partida: cartas",
+      "descricao": "Queda no espaço do campo: (vira 0,2 s se precisar) sobe 24 px e cresce 125% (0,12 s), cai acelerando (0,16 s, quad ease-in), achata (1,08 × 0,9 em 0,05 s) e volta (0,14 s back); onda de poeira em elipse (~30 baforadas que crescem 2→7 px e somem em 0,45–0,8 s) + poeira; tremor 2 px; vibra 20 ms.",
+      "origem": "mão (ou ponto de origem: token, cemitério, outro lado)",
+      "destino": "espaço de Entidade/Selo",
+      "arquivo_linha": "mesa.gd:1202 _cair() + 1223 _impacto(); chamado por _por_em_campo 2117 e _jogar_selo 2508",
+      "duracao_s": 0.47,
+      "duracao_obs": "0,12 + 0,16 até o impacto (0,28 s) + 0,19 de achatamento; poeira até 0,8 s (+0,2 s se virar antes)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por Entidade/Selo/token posto em campo",
+      "variacoes": [
+        "Entidade (impacto forte, força 1,0)",
+        "Selo virado para baixo (seco, abafado, misterioso)",
+        "token (mais leve)",
+        "por custo: 1–3 leve, 4–6 médio, 7–8 pesado",
+        "Lendária (seguida de lendaria_entrada)"
+      ],
+      "direcao_sonora": "Whoosh curto descendente (0,16 s, ruído com filtro 3 k→800 Hz) + baque de cartão na madeira/feltro (corpo 80–200 Hz com queda de pitch, 60 ms; clique 2–3 kHz) + cauda de poeira (ruído marrom passa-baixa 800 Hz, 0,4 s, −14 dB). Sincronizar o baque em 0,28 s.",
+      "duracao_som_s": 0.6,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "carta_mover_campo",
+      "grupo": "Partida: cartas",
+      "descricao": "Arrastar uma Entidade para outro espaço livre do próprio lado: arco de 18 px (0,28 s) e impacto com metade da força (poeira menor, tremor 1 px).",
+      "origem": "espaço do campo",
+      "destino": "outro espaço livre do campo",
+      "arquivo_linha": "mesa.gd:1105 _soltar_do_campo() (ramo 'mudar de lugar')",
+      "duracao_s": 0.47,
+      "duracao_obs": "0,28 s de arco + 0,19 s de achatamento",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "por movimento",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "Versão leve de carta_cair_campo: swish 0,2 s + baque −6 dB, sem cauda de poeira longa.",
+      "duracao_som_s": 0.35,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "carta_voltar_espaco",
+      "grupo": "Partida: cartas",
+      "descricao": "Depois de arrastar uma Entidade até o alvo, ela volta ao próprio espaço (0,14 s, quad ease-out) antes de executar o ataque; também ao cancelar o arraste.",
+      "origem": "posição do dedo",
+      "destino": "espaço de origem",
+      "arquivo_linha": "mesa.gd:1135 _voltar_ao_espaco()",
+      "duracao_s": 0.14,
+      "duracao_obs": "0,14 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "por ataque declarado",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "Opcional: tic de encaixe 1,8 kHz muito baixo. Pode ficar sem som (o ataque logo em seguida já tem).",
+      "duracao_som_s": 0.06,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "mao_rearrumar",
+      "grupo": "Partida: cartas",
+      "descricao": "O leque da mão se reorganiza quando entra ou sai carta (posição e rotação, 0,25–0,3 s, cubic ease-out); o leque do oponente idem.",
+      "origem": "leque",
+      "destino": "leque reorganizado",
+      "arquivo_linha": "mesa.gd:1174 _rearrumar_mao(), 749 _rearrumar()",
+      "duracao_s": 0.3,
+      "duracao_obs": "0,25–0,3 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "a cada mudança na mão",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "Sem som próprio (já coberto pela compra/jogada). Se quiser: farfalhar muito leve 0,2 s a −20 dB.",
+      "duracao_som_s": 0.2,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "carta_zoom",
+      "grupo": "Partida: cartas",
+      "descricao": "Segurar parado 0,4 s numa carta (mão, campo, Selos meus): abre o painel com a carta grande + texto de regra; qualquer toque fecha. Se estava arrastando, a carta volta ao lugar sem sacudir (0,15–0,2 s).",
+      "origem": "carta tocada",
+      "destino": "painel de leitura no centro",
+      "arquivo_linha": "mesa.gd:2696 _atualizar_zoom(), 3002 _devolver(); desenho efeitos.gd:251 _desenhar_zoom()",
+      "duracao_s": 0.2,
+      "duracao_obs": "abre na hora após 0,4 s segurando; devolver 0,2 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "sob demanda",
+      "variacoes": [
+        "abrir",
+        "fechar"
+      ],
+      "direcao_sonora": "Abrir: whoosh suave ascendente 0,15 s + brilho (seno 1,2 kHz com leve chorus, 0,2 s). Fechar: mesmo invertido, mais curto.",
+      "duracao_som_s": 0.2,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "carta_descartar",
+      "grupo": "Partida: cartas",
+      "descricao": "Descarte (mão acima de 7 no fim do turno — a mais cara — ou efeito DESCARTE): a carta sai da mão, vira para cima (0,2 s), mostra 'DESCARTE' em roxo, espera 0,3 s e se desfaz em ~70 fragmentos roxos/creme (#c88aff, #4e2c6c, #f2e6c8) que voam e caem (0,45–0,9 s).",
+      "origem": "mão do dono",
+      "destino": "some no lugar (vai ao cemitério sem animação de pilha)",
+      "arquivo_linha": "mesa.gd:2069 _descartar() (chamado por _fim_turno 1813 e motor_efeitos.gd:605 discard)",
+      "duracao_s": 1.1,
+      "duracao_obs": "virar 0,2 + espera 0,3 + estilhaço 0,45–0,9",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por carta descartada (efeitos podem descartar N em sequência)",
+      "variacoes": [
+        "excesso de mão (fim de turno)",
+        "efeito de descarte (bruxaria ×4, outras ×3): mais sombrio"
+      ],
+      "direcao_sonora": "Rasgo/desintegração mágica: rasgar de papel (ruído com modulação de amplitude rápida 30–60 Hz, 0,15 s) seguido de cintilação roxa descendente (sinos FM 1 200→600 Hz, 4–6 notas espalhadas em 0,5 s, decaimento 0,3 s).",
+      "duracao_som_s": 0.7,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "carta_queimar",
+      "grupo": "Partida: cartas",
+      "descricao": "Compra com a mão cheia (7): a carta vira (0,2 s), mostra 'MÃO CHEIA', espera 0,3 s e se estilhaça nas cores da tradição dela — vai direto ao cemitério.",
+      "origem": "deck",
+      "destino": "some sobre o deck",
+      "arquivo_linha": "mesa.gd:1999 _receber_comprada() (ramo queimar)",
+      "duracao_s": 0.95,
+      "duracao_obs": "0,2 + 0,3 + estilhaço 0,45",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "raro",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "Puff de chama curto (reaproveitar a ignição de sfx_fogo.py, 0,3 s) + estilhaço leve. Total 0,6 s.",
+      "duracao_som_s": 0.6,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "reembaralhar_cemiterio",
+      "grupo": "Partida: cartas",
+      "descricao": "Deck vazio + escolha REEMBARALHAR: paga 5 de Cornucópia (popup −5, exceto Peregrinação), tremor 2,5, clarão roxo (0,25), texto 'REEMBARALHAR'; as cartas do cemitério voam viradas (vira 0,2) para o deck em arco de 30 px (0,38 s), uma a cada 0,04 s, cada uma soltando 4 faíscas lilás; espera 0,45; batidinha do monte (0,06 + 0,12 s); anel lilás de 40 px; espera 0,3.",
+      "origem": "pilha do cemitério",
+      "destino": "espaço do deck",
+      "arquivo_linha": "mesa.gd:1931 _reembaralhar()",
+      "duracao_s": 1.6,
+      "duracao_obs": "0,04 × N cartas (N = 3–30 → 0,12–1,2 s) + 0,38 + 0,45 + 0,3",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por reembaralhar; N cartas a cada 0,04 s",
+      "variacoes": [
+        "com custo (−5 Cornucópia: somar cornucopia_dano)",
+        "grátis (Peregrinação)"
+      ],
+      "direcao_sonora": "JÁ EXISTE (embaralhar_2.wav, 2,55 s). Faltam camadas: whoosh roxo mágico no início (sweep 300→1 500 Hz com chorus, 0,4 s) e o 'toc' do monte_bater no fim.",
+      "duracao_som_s": 2.55,
+      "prioridade": 3,
+      "som_existente": "embaralhar_2 (mesa.gd:1940)"
+    },
+    {
+      "id": "mulligan_trocar",
+      "grupo": "Partida: cartas",
+      "descricao": "Mulligan: o jogador marca até 2 cartas (X vermelho, ver mulligan_marcar) e toca TROCAR: as marcadas viram (0,2 s) e voam ao deck (arco 30 px, 0,38 s, uma a cada 0,12 s); espera 0,45; texto 'EMBARALHANDO'; espera 0,35; compra a mesma quantidade (0,62 s cada).",
+      "origem": "leque da mão",
+      "destino": "deck do jogador → de volta à mão",
+      "arquivo_linha": "mesa.gd:3165 _mulligan()",
+      "duracao_s": 2.1,
+      "duracao_obs": "1 carta ≈ 0,12 + 0,45 + 0,35 + 0,62 = 1,54 s; 2 cartas ≈ 2,28 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 vez por partida, 1–2 cartas",
+      "variacoes": [
+        "1 carta",
+        "2 cartas",
+        "MANTER (sem animação)"
+      ],
+      "direcao_sonora": "JÁ EXISTE embaralhar_2 no início. A volta das cartas pede carta_comprar (que hoje não tem som).",
+      "duracao_som_s": 2.55,
+      "prioridade": 3,
+      "som_existente": "embaralhar_2 (mesa.gd:3207)"
+    },
+    {
+      "id": "cemiterio_carrossel",
+      "grupo": "Partida: cartas",
+      "descricao": "Tocar numa pilha de cemitério (ou escolher quem reviver): fundo escurece (0,2 s), raios lilases girando, as cartas saem da pilha uma a uma (atraso 0,035 s por carta, até 10) e abrem em leque horizontal (0,4 s cada, ease-back); arrastar rola com inércia e trava na carta mais próxima (mola); escolher: a carta sobe e some num clarão; fechar: as cartas voltam para a pilha (0,02 s entre elas, 0,3 s cada).",
+      "origem": "pilha do cemitério",
+      "destino": "leque no centro da tela (e de volta)",
+      "arquivo_linha": "carrossel.gd:54 abrir(), 67 fechar(), 201 soltar(); mesa.gd:2257 abrir_cemiterio()",
+      "duracao_s": 0.75,
+      "duracao_obs": "abrir ≈ 0,35 + 0,4 = 0,75 s; fechar 0,55 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "sob demanda; rolagem: 1 tic por carta que passa pelo centro",
+      "variacoes": [
+        "abrir",
+        "rolar (tic por índice)",
+        "escolher (reviver: clarão)",
+        "fechar"
+      ],
+      "direcao_sonora": "Abrir: cartas saindo em leque = 6–10 'fwips' rápidos (35 ms) com reverberação de cripta (pré-delay 20 ms, cauda 0,8 s) + drone lilás baixo. Rolar: tic de catraca de madeira (20 ms, 1–2 kHz). Escolher: sino claro + swell 0,6 s. Fechar: fwips invertidos 0,5 s.",
+      "duracao_som_s": 0.8,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "ataque_investida",
+      "grupo": "Partida: combate e vida",
+      "descricao": "Ataque entre Entidades (fase de ida e volta): o atacante recua 8 px na direção oposta ao alvo, cresce 112% e levanta (0,14 s, sine ease-out); dispara até 22 px do alvo (0,11 s, expo ease-in); depois do impacto volta ao espaço (0,3 s, cubic ease-out).",
+      "origem": "espaço do atacante",
+      "destino": "alvo inimigo → de volta ao espaço",
+      "arquivo_linha": "mesa.gd:1244 _atacar()",
+      "duracao_s": 0.55,
+      "duracao_obs": "recuo 0,14 + investida 0,11 + (impacto) + volta 0,3",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por ataque (a IA faz vários por turno, com 0,35 s entre ações)",
+      "variacoes": [
+        "ida (wind-up + disparo)",
+        "volta (whoosh reverso, mais suave)",
+        "IA acelerada (2,5×): encurtar"
+      ],
+      "direcao_sonora": "Wind-up: ruído com sweep ascendente leve 0,14 s (respiração/tensão) → disparo: whoosh rápido 0,11 s (ruído passa-faixa 800→4 000 Hz, ataque 5 ms). Volta: whoosh reverso −8 dB 0,25 s. Arquivos separados ida/volta ou um só de 0,6 s com o impacto à parte.",
+      "duracao_som_s": 0.3,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "ataque_impacto",
+      "grupo": "Partida: combate e vida",
+      "descricao": "Impacto simultâneo do ataque: clarão branco (alfa 0,18, some em ~0,13 s), 18 faíscas douradas no ponto de contato, números '−N' vermelhos sobre os dois (sobem 28 px/s por 0,9 s), os dois piscam (brilho 0,9 em 0,04 s → 0 em 0,22 s), o alvo sacode 3 px (7 × 0,035 = 0,25 s), tremor de câmera 3,5 px, vibra 35 ms.",
+      "origem": "ponto de contato entre atacante e alvo",
+      "destino": "—",
+      "arquivo_linha": "mesa.gd:1244 _atacar() (bloco 'impacto')",
+      "duracao_s": 0.3,
+      "duracao_obs": "transiente imediato; sacudir 0,25 s; flash 0,13 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por ataque",
+      "variacoes": [
+        "dano 0–2 (leve)",
+        "dano 3–4 (médio)",
+        "dano 5+ (pesado; ATK base vai até 6 e buffs passam disso)",
+        "contragolpe (dd > 0): segundo impacto −6 dB 30 ms depois",
+        "golpe letal (alvo morre): emendar entidade_morte"
+      ],
+      "direcao_sonora": "Hit: transiente de ruído branco 3 ms + corpo 90–160 Hz com queda de pitch (seno, 80 ms) + crunch 1–3 kHz. Leve = 0,2 s e sem sub; médio = + sub 60 Hz; pesado = + 'clang' metálico inarmônico (FM 1:1,41) e cauda 0,5 s. 3 intensidades × 2 variações.",
+      "duracao_som_s": 0.35,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "golpe_direto",
+      "grupo": "Partida: combate e vida",
+      "descricao": "Golpe direto na Cornucópia (inimigo sem defensores): recua 14 px, cresce 120%, levanta e gira para apontar o alvo (0,2 s); dispara até o placar (0,13 s, expo); impacto: clarão vermelho (alfa 0,3, ~0,21 s), 26 faíscas laranja, '−N' grande (escala 3), o placar pula, tremor 5 px, vibra 60 ms; volta (0,35 s).",
+      "origem": "espaço do atacante",
+      "destino": "placar da Cornucópia inimiga (lado esquerdo da linha central)",
+      "arquivo_linha": "mesa.gd:1421 _golpe_direto()",
+      "duracao_s": 0.68,
+      "duracao_obs": "0,2 + 0,13 + 0,35",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por golpe direto",
+      "variacoes": [
+        "por ATK: 1–2 / 3–4 / 5+",
+        "golpe que vence a partida (Cornucópia ≤ 0): emendar vitória",
+        "IA golpeando você: mais ameaçador"
+      ],
+      "direcao_sonora": "Mais pesado que ataque_impacto: swell de tensão 0,2 s + whoosh + impacto grave (boom 50–80 Hz, 0,3 s) + 'crack' oco de chifre/madeira (ressonância 300–600 Hz, Q alto, 0,15 s) + tilintar de vida caindo (2–3 notas descendentes 1,5 kHz). Total 0,8 s.",
+      "duracao_som_s": 0.8,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "cornucopia_dano",
+      "grupo": "Partida: combate e vida",
+      "descricao": "Cornucópia perde vida por efeito, Selo, fadiga ou custo: o placar pula (escala decai em 0,33 s), tremor 3 px, 16 faíscas laranja e '−N' vermelho ao lado do placar.",
+      "origem": "placar da Cornucópia",
+      "destino": "—",
+      "arquivo_linha": "motor_efeitos.gd:504 dano_cornucopia(); mesa.gd:1883 _comprar (fadiga −2), 1931 _reembaralhar (−5)",
+      "duracao_s": 0.33,
+      "duracao_obs": "pulo do placar 0,33 s; popup 0,9 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "por evento",
+      "variacoes": [
+        "dano de efeito 1–4",
+        "fadiga de deck vazio (−2 + 'DECK VAZIO')",
+        "custo de reembaralhar (−5, mais 'pagamento' que dor)",
+        "Cornucópia ≤ 5 (perigo): opcional batida de coração"
+      ],
+      "direcao_sonora": "'Thump' oco (corpo 120 Hz, 0,12 s) + tilintar descendente (2 notas, 1 200→900 Hz, sinos). Intensidade pelo N: 1–2 uma nota, 3–4 duas, 5 três + sub. 0,4 s.",
+      "duracao_som_s": 0.4,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "cornucopia_cura",
+      "grupo": "Partida: combate e vida",
+      "descricao": "Cornucópia ganha vida (cura com alvo Cornucópia, teto 15): '+N' verde ao lado do placar e 12 faíscas verdes.",
+      "origem": "placar da Cornucópia",
+      "destino": "—",
+      "arquivo_linha": "motor_efeitos.gd:684 aplicar_em_alvo('heal', Cornucópia)",
+      "duracao_s": 0.3,
+      "duracao_obs": "popup 0,9 s; faíscas 0,2–0,4 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "por cura",
+      "variacoes": [
+        "+2",
+        "+4",
+        "+6",
+        "por tradição (ver efeito_cura)"
+      ],
+      "direcao_sonora": "Mesma família de efeito_cura com uma camada de 'enchimento' (gole/fonte: seno com glissando 300→600 Hz 0,2 s). 0,6 s.",
+      "duracao_som_s": 0.6,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "entidade_morte",
+      "grupo": "Partida: combate e vida",
+      "descricao": "Entidade destruída: sacode 2 px, pisca 2× (brilho 1,0 em 0,06 s → 0,2 em 0,08 s), se estilhaça em ~70 fragmentos 2×2 px nas cores da tradição (voam 30–110 px/s e caem com gravidade, 0,45–0,9 s), tremor 2,5, vibra 45 ms; 0,35 s depois reaparece pequena no cemitério do dono (escala 0→1, 0,25 s back).",
+      "origem": "espaço do campo",
+      "destino": "pilha do cemitério do dono",
+      "arquivo_linha": "mesa.gd:1309 _destruir() (chamado por motor_efeitos.gd:529 morrer)",
+      "duracao_s": 0.88,
+      "duracao_obs": "piscar 0,28 + espera 0,35 + chegada 0,25; fragmentos até 0,9 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por morte; mortes em cadeia saem em sequência",
+      "variacoes": [
+        "por tradição (cores_estilhaco): indígena = madeira/sementes; cristianismo = vitral; taoísmo = porcelana/jade; hinduísmo = bronze/sino; bruxaria = ossos/galhos secos; alta magia = cristal; abismo = grave e distorcido",
+        "minha × do oponente",
+        "chegada no cemitério (tic suave)"
+      ],
+      "direcao_sonora": "Shatter granular: ~20 grãos de clique/estalo (2–8 kHz, 5–15 ms) espalhados em 0,4 s com densidade decrescente, sobre um 'puff' de ar 0,1 s e um sub-drop 120→50 Hz. Timbre do grão muda por tradição (filtros/ressonâncias diferentes: madeira 800 Hz, vidro 3–6 kHz, bronze FM inarmônico). Tic de chegada 0,05 s em 0,63 s.",
+      "duracao_som_s": 0.9,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "token_desfazer",
+      "grupo": "Partida: combate e vida",
+      "descricao": "Token que morre ou é devolvido (some sem ir à pilha): sacode 2 px, espera 0,15 s e se estilhaça.",
+      "origem": "espaço do campo",
+      "destino": "some",
+      "arquivo_linha": "mesa.gd:2086 _desfazer()",
+      "duracao_s": 0.35,
+      "duracao_obs": "0,15 + 0,2",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "por token",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "Versão curta e etérea do entidade_morte: poof de fumaça (ruído passa-baixa 1,5 kHz 0,25 s) + 5–6 grãos agudos. 0,35 s.",
+      "duracao_som_s": 0.35,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "turno_inicio",
+      "grupo": "Partida: combate e vida",
+      "descricao": "Começo do turno: Fé máxima +1 e recarrega (placar da Fé muda), Entidades acordam; o texto 'SEU TURNO' (dourado) ou 'TURNO DELE' (azul) aparece no centro (escala 2) e sobe 28 px/s por 0,9 s; espera 0,6 s e compra.",
+      "origem": "centro da mesa (linha central)",
+      "destino": "sobe e some",
+      "arquivo_linha": "mesa.gd:1781 _inicio_turno()",
+      "duracao_s": 0.9,
+      "duracao_obs": "popup 0,9 s; espera 0,6 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por turno (até 80 turnos)",
+      "variacoes": [
+        "SEU TURNO (brilhante, convida a agir)",
+        "TURNO DELE (frio, mais grave)",
+        "1º turno da partida"
+      ],
+      "direcao_sonora": "Seu turno: gongo/sino de bronze curto (fundamental 330 Hz + parciais inarmônicas, ataque 3 ms, decaimento 1,2 s) com brilho de Fé enchendo (arpejo de 3 notas cristalinas). Turno dele: o mesmo gongo uma quarta abaixo, abafado (passa-baixa 1,5 kHz), sem arpejo.",
+      "duracao_som_s": 1.0,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "turno_fim_botao",
+      "grupo": "Partida: combate e vida",
+      "descricao": "Botão FIM TURNO (vibra 10 ms) → fim do turno. No turno do oponente o mesmo botão vira '>> RÁPIDO' e liga/desliga a aceleração 2,5×.",
+      "origem": "botão à direita da linha central",
+      "destino": "—",
+      "arquivo_linha": "mesa.gd:892 pressionar() (botao_fim); rótulo em _desenhar_placar 809",
+      "duracao_s": 0.1,
+      "duracao_obs": "instantâneo",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por turno",
+      "variacoes": [
+        "FIM TURNO",
+        "RÁPIDO ligado (sobe)",
+        "RÁPIDO desligado (desce)"
+      ],
+      "direcao_sonora": "Botão de bronze/pedra: 'clunk' 0,12 s (corpo 200 Hz + clique). RÁPIDO: whoosh com pitch subindo 0,25 s (ligar) ou descendo (desligar).",
+      "duracao_som_s": 0.2,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "relogio_corda",
+      "grupo": "Partida: combate e vida",
+      "descricao": "Limite de turno (online, bot, opção 'tempo de turno'): nos últimos 20 s a corda queima ao lado do botão com o número dos segundos; aos 10 s vibra; ao zerar aparece 'TEMPO!' (laranja), vibra 2 pulsos e o turno passa sozinho.",
+      "origem": "placar/botão FIM TURNO",
+      "destino": "—",
+      "arquivo_linha": "mesa.gd:836 (_desenhar_placar, corda), 3764 _atualizar_relogio(), 3778 _tempo_esgotado()",
+      "duracao_s": 20.0,
+      "duracao_obs": "corda 20 s (TEMPO_TURNO 75 s; AVISO_TEMPO 20 s)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "loop de 20 s; tiques nos últimos 10 s (1 por segundo)",
+      "variacoes": [
+        "chiado da corda (loop)",
+        "tique por segundo nos últimos 10 s",
+        "TEMPO! (estouro)"
+      ],
+      "direcao_sonora": "Loop de pavio queimando: ruído passa-alta 3 kHz com crepitar esparso (estalos de sfx_fogo em densidade baixa), −18 dB. Tique: clique de relógio 2,5 kHz 15 ms. TEMPO!: gongo abafado + 'pfft' de pavio apagando, 0,6 s.",
+      "duracao_som_s": 1.0,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "previa_ataque",
+      "grupo": "Partida: combate e vida",
+      "descricao": "Ao arrastar uma Entidade sobre um inimigo aparecem os números de dano dos dois lados e uma caveira em quem morreria (ou o motivo da recusa).",
+      "origem": "carta arrastada",
+      "destino": "alvo sob o dedo",
+      "arquivo_linha": "mesa_hud.gd:373 _desenhar_previa(); mesa.gd:3145 _atualizar_previa()",
+      "duracao_s": 0.0,
+      "duracao_obs": "enquanto o dedo estiver sobre o alvo",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "contínuo",
+      "variacoes": [
+        "alvo válido",
+        "golpe letal (caveira)",
+        "inválido (motivo)"
+      ],
+      "direcao_sonora": "Opcional: tic de mira (1 kHz, 20 ms) ao entrar num alvo; caveira = tom grave curto 110 Hz. Bem baixo.",
+      "duracao_som_s": 0.05,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_anunciar",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Gatilho de uma Entidade vai resolver: ela pisca, um anel dourado de 30 px se expande (0,3 s) e o nome do gatilho aparece em cima ('DESPERTAR', 'ÚLTIMO SOPRO', 'AO ATACAR', 'AO SOFRER DANO', 'PROTEÇÃO', 'INÍCIO/FIM DO TURNO', 'ALIADA/INIMIGA MORREU'); espera 0,25 s. Também quando o gatilho é de Relíquia (pisca + nome dela).",
+      "origem": "Entidade fonte",
+      "destino": "—",
+      "arquivo_linha": "motor_efeitos.gd:478 _anunciar_fonte(); 410 disparar_efeitos_reliquia()",
+      "duracao_s": 0.25,
+      "duracao_obs": "0,25 s (anel 0,3 s)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por gatilho; podem encadear vários",
+      "variacoes": [
+        "Despertar (ascendente)",
+        "Último Sopro (descendente, sopro)",
+        "demais gatilhos (neutro)",
+        "Relíquia (metálico)"
+      ],
+      "direcao_sonora": "Shimmer curto: sino FM 1,5–2,5 kHz com chorus, ataque 5 ms, decaimento 0,3 s; Despertar = 2 notas subindo (quinta); Último Sopro = 2 notas descendo + sopro de ar.",
+      "duracao_som_s": 0.35,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_dano",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Dano de efeito (op damage): um feixe de faíscas viaja da fonte ao alvo em 6 passos (0,02 s cada) e explode em 10 faíscas vermelhas; '−N' vermelho; o alvo pisca e sacode 3 px; tremor 2,5; espera 0,3 s. Repete para cada alvo (em área, até 4 seguidos). Alvo Cornucópia usa cornucopia_dano.",
+      "origem": "carta fonte (ou centro, se Rito)",
+      "destino": "Entidade alvo ou Cornucópia",
+      "arquivo_linha": "motor_efeitos.gd:593 executar_acao() ramo damage + 669 _feixe()",
+      "duracao_s": 0.42,
+      "duracao_obs": "feixe 0,12 s + 0,3 s de espera (por lista de alvos)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por alvo; 38 cartas com dano (n = 1 ×16, 2 ×13, 3 ×6, 4 ×3)",
+      "variacoes": [
+        "n 1 / 2 / 3 / 4 (intensidade)",
+        "hinduísmo (15): fogo de Agni/raio — chama + estalo",
+        "indígena (9): flecha/trovão de Tupã — zunido + baque de madeira",
+        "cristianismo (8): luz sagrada/espada — 'zing' brilhante",
+        "bruxaria/taoísmo (2 cada): maldição / raio",
+        "alta magia, abismo (1 cada): arcano / sombra",
+        "múltiplos alvos: pitch +3% a cada um"
+      ],
+      "direcao_sonora": "Projétil 'zip' 0,12 s (ruído passa-faixa varrendo 1→5 kHz + seno com glissando) + impacto proporcional ao N (n1 = estalo 0,15 s; n4 = estalo + sub 60 Hz + cauda 0,4 s). Camada de tradição opcional por cima (fogo de sfx_fogo, trovão = ruído marrom com envoltória de rolamento, luz = acorde de sinos).",
+      "duracao_som_s": 0.45,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_cura",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Cura (op heal) numa Entidade: '+N' verde e 10 faíscas verdes; na Cornucópia ver cornucopia_cura. Espera 0,25 s depois de todos os alvos.",
+      "origem": "—",
+      "destino": "Entidade curada",
+      "arquivo_linha": "motor_efeitos.gd:684 aplicar_em_alvo('heal')",
+      "duracao_s": 0.25,
+      "duracao_obs": "faíscas 0,2–0,4 s; popup 0,9 s; espera 0,25",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por alvo; 25 cartas (n 2 ×14, 4 ×10, 6 ×1)",
+      "variacoes": [
+        "cristianismo (9): anjos — coral celestial, sinos, shimmer longo",
+        "indígena (6): ervas/pajé — maracá suave + flauta de bambu",
+        "taoísmo (5): água/jade — gota + campainha",
+        "alta magia (3): cristal",
+        "bruxaria (1): poção borbulhando",
+        "intensidade: +2 três notas, +4 cinco notas, +6 sete notas + coro"
+      ],
+      "direcao_sonora": "Arpejo ascendente em escala maior (seno/triângulo 500–2 000 Hz), ataque 20 ms, decaimento 0,6 s, shimmer (chorus + delay curto). Versão celestial: acorde sustentado de 'coro' (soma de serras filtradas com formantes 'aa' 700/1 200 Hz) + sinos agudos. 0,6–1,0 s.",
+      "duracao_som_s": 0.8,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_buff",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Buff/debuff (op buff): rótulo '+A/+V' (dourado) ou '−A/−V' (roxo) sobre a Entidade, 10 faíscas da mesma cor, piscar. Buffs ativos deixam uma aura arco-íris contínua na carta.",
+      "origem": "—",
+      "destino": "Entidade alvo",
+      "arquivo_linha": "motor_efeitos.gd:696 aplicar_em_alvo('buff')",
+      "duracao_s": 0.25,
+      "duracao_obs": "piscar 0,26 s; popup 0,9 s; espera 0,25",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por alvo; 47 ocorrências (taoísmo 11, bruxaria 11, indígena 7…)",
+      "variacoes": [
+        "buff positivo (dourado)",
+        "debuff (roxo)",
+        "temporário (só no turno)",
+        "via Relíquia ao equipar"
+      ],
+      "direcao_sonora": "Buff: power-up metálico ascendente (dente de serra filtrado 300→900 Hz em 0,25 s + brilho 3 kHz), 0,4 s. Debuff: o mesmo descendente e levemente desafinado (dois osciladores a ±15 cents), com filtro fechando.",
+      "duracao_som_s": 0.4,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_destruir",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Destruir (op destroy): clarão escuro (#300010, alfa 0,25), anel vermelho de 36 px e em seguida a morte normal (entidade_morte).",
+      "origem": "—",
+      "destino": "Entidade alvo",
+      "arquivo_linha": "motor_efeitos.gd:715 aplicar_em_alvo('destroy')",
+      "duracao_s": 0.3,
+      "duracao_obs": "clarão ~0,18 s + entidade_morte 0,88 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por alvo; 10 cartas (cristianismo 4, hinduísmo 4)",
+      "variacoes": [
+        "julgamento divino (cristianismo)",
+        "Shiva/destruição cósmica (hinduísmo)",
+        "remover Relíquia (alvo Relíquia)"
+      ],
+      "direcao_sonora": "Golpe sombrio antes do estilhaço: sub-drop 80→30 Hz (0,3 s) + 'whump' de ar reverso (0,2 s). Encadeia com entidade_morte.",
+      "duracao_som_s": 0.4,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_devolver",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Devolver à mão (op bounce): 12 faíscas azul-claro, 'DEVOLVIDA'; a carta perde Relíquia, volta para a mão do dono (vira 0,24 s, encaixe no leque 0,3 s, espera 0,35). Token devolvido se desfaz.",
+      "origem": "espaço do campo",
+      "destino": "mão do dono",
+      "arquivo_linha": "motor_efeitos.gd:859 devolver_a_mao() → mesa.gd:2047 _entrar_na_mao()",
+      "duracao_s": 0.65,
+      "duracao_obs": "0,3 + 0,35",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por alvo; 7 cartas",
+      "variacoes": [
+        "para a minha mão",
+        "para a mão do oponente",
+        "token (desfaz)"
+      ],
+      "direcao_sonora": "Whoosh reverso (swell de ruído 0,3 s cortado seco) + tic de encaixe; cor fria (passa-faixa 2–6 kHz, leve flanger).",
+      "duracao_som_s": 0.5,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_reviver",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Reviver (op revive): no cemitério surgem 18 faíscas douradas + anel de 30 px + 'REVIVE'; a carta vai ao campo (arco 0,35 s + queda) ou à mão (_entrar_na_mao).",
+      "origem": "pilha do cemitério",
+      "destino": "espaço livre do campo ou mão",
+      "arquivo_linha": "motor_efeitos.gd:828 _reviver()",
+      "duracao_s": 0.9,
+      "duracao_obs": "0,35 + queda 0,47 (campo) ou 0,65 (mão)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por revive; 15 cartas",
+      "variacoes": [
+        "para o campo",
+        "para a mão",
+        "cristianismo (ressurreição) mais solene"
+      ],
+      "direcao_sonora": "Swell grave→agudo (0,5 s) com coro + sinos, terminando no baque da queda. 0,8 s.",
+      "duracao_som_s": 0.8,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_silenciar",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Silêncio (op silence): a Entidade perde palavras-chave e efeitos; 12 faíscas cinza e 'SILÊNCIO'.",
+      "origem": "—",
+      "destino": "Entidade alvo",
+      "arquivo_linha": "motor_efeitos.gd:727 aplicar_em_alvo('silence')",
+      "duracao_s": 0.25,
+      "duracao_obs": "faíscas 0,2–0,4; espera 0,25",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por alvo; 6 cartas",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "'Abafar': um tom brilhante (1 kHz + harmônicos) é cortado por passa-baixa fechando rápido 8 k→300 Hz em 0,15 s + 'shhh' (ruído rosa 0,25 s). 0,4 s.",
+      "duracao_som_s": 0.4,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_congelar",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Congelar (op freeze): anel azul-gelo de 32 px, 12 faíscas azul-gelo, 'CONGELADA'; a Entidade perde o próximo ataque.",
+      "origem": "—",
+      "destino": "Entidade alvo",
+      "arquivo_linha": "motor_efeitos.gd:735 aplicar_em_alvo('freeze')",
+      "duracao_s": 0.3,
+      "duracao_obs": "anel 0,3 s; espera 0,25",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por alvo; 5 cartas (indígena 2, bruxaria 2, cristianismo 1)",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "Cristalização: crepitar de gelo (estalos 4–10 kHz, densos no início e rareando, 0,4 s) + tom vítreo ressonante 1,8 kHz com leve glissando para baixo, cauda 0,4 s.",
+      "duracao_som_s": 0.6,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_palavra_chave",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Dar palavra-chave (op give_keyword): o nome em dourado sobre a Entidade ('GUARDA', 'ÍMPETO', 'RENASCER', 'FURTIVO') e piscar. Guarda também desenha um escudo contínuo.",
+      "origem": "—",
+      "destino": "Entidade alvo",
+      "arquivo_linha": "motor_efeitos.gd:741 aplicar_em_alvo('give_keyword')",
+      "duracao_s": 0.26,
+      "duracao_obs": "piscar 0,26 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por alvo; 15 cartas",
+      "variacoes": [
+        "guarda: escudo metálico",
+        "ímpeto: rush de ar",
+        "renascer: sino suave",
+        "furtivo: sussurro"
+      ],
+      "direcao_sonora": "Base de buff curto (0,25 s) + assinatura: guarda = 'clang' de escudo FM 600 Hz; ímpeto = whoosh rápido; renascer = sino 880 Hz; furtivo = ruído soprado filtrado 2 kHz.",
+      "duracao_som_s": 0.35,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_mudar_stats",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Definir atributos (op set_stats): 'A/V' grande em dourado, 14 faíscas, piscar. Copiar atributos (copy_stats): só o piscar na própria Entidade.",
+      "origem": "—",
+      "destino": "Entidade alvo / a própria",
+      "arquivo_linha": "motor_efeitos.gd:747 set_stats, 755 copy_stats",
+      "duracao_s": 0.26,
+      "duracao_obs": "piscar 0,26 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "raro (3 cartas)",
+      "variacoes": [
+        "set_stats",
+        "copy_stats"
+      ],
+      "direcao_sonora": "Transformação: sweep de morph (dois osciladores que convergem 400↔800 Hz em 0,3 s) + brilho.",
+      "duracao_som_s": 0.4,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_dominar",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Dominar (op swap_control): 'DOMINADA' roxo; a Entidade atravessa a linha central para o lado do novo dono (arco 0,35 s) e cai num espaço livre (queda 0,47 s), entrando cansada. No fim do turno, se for temporário, volta ao dono (devolver_controle).",
+      "origem": "espaço do oponente",
+      "destino": "espaço livre do lado de quem dominou (e de volta)",
+      "arquivo_linha": "motor_efeitos.gd:875 roubar(), 890 devolver_controle()",
+      "duracao_s": 0.82,
+      "duracao_obs": "0,35 + 0,47",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "raro (alta magia ×1)",
+      "variacoes": [
+        "dominar",
+        "devolver o controle no fim do turno"
+      ],
+      "direcao_sonora": "Hipnose: tom com vibrato lento (4 Hz) e chorus, glissando lateral + whoosh cruzando o estéreo (pan da origem ao destino), terminando no baque. 0,8 s.",
+      "duracao_som_s": 0.8,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_invocar",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Invocar token (op summon): 'INVOCA <NOME>'; cada token nasce na posição da fonte em escala 0,5, voa em arco (0,35 s) até o espaço livre e cai (queda 0,47 s).",
+      "origem": "carta fonte",
+      "destino": "espaço livre do campo",
+      "arquivo_linha": "motor_efeitos.gd:805 _invocar_tokens()",
+      "duracao_s": 0.82,
+      "duracao_obs": "0,35 + 0,47 por token",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "N tokens em sequência; 13 cartas (indígena 5, bruxaria 4)",
+      "variacoes": [
+        "por tradição: indígena = espírito animal (sopro + chocalho)",
+        "bruxaria = familiar (pop sombrio)",
+        "taoísmo = Cão Celestial",
+        "N = 1 / 2 / 3"
+      ],
+      "direcao_sonora": "'Pop' de surgimento mágico (seno 200→800 Hz em 40 ms + brilho) + whoosh curto + baque leve de token. 0,6 s.",
+      "duracao_som_s": 0.6,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_buscar",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Busca (op search): 'BUSCA <TIPO>'; a carta escolhida sai do deck (o deck é embaralhado na hora, sem animação) e vai à mão com o arco de compra (0,62 s); se não há: 'NADA NO DECK' cinza.",
+      "origem": "deck",
+      "destino": "mão",
+      "arquivo_linha": "motor_efeitos.gd:768 _buscar()",
+      "duracao_s": 0.62,
+      "duracao_obs": "0,62 s (falha: 0,3 s)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "6 cartas",
+      "variacoes": [
+        "achou",
+        "nada no deck"
+      ],
+      "direcao_sonora": "Folhear rápido (riffle curto: 8 tics em 0,25 s) + carta_comprar. Falha: duas notas neutras descendentes (sino abafado).",
+      "duracao_som_s": 0.6,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_fe",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Ganhar Fé (op gain_fe): '+N FÉ' ou '+N FÉ MÁX' azul no centro e 12 faíscas azuis no contador de Fé; espera 0,3 s.",
+      "origem": "—",
+      "destino": "contador de Fé (direita da linha central)",
+      "arquivo_linha": "motor_efeitos.gd:618 executar_acao('gain_fe')",
+      "duracao_s": 0.3,
+      "duracao_obs": "0,3 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "9 cartas",
+      "variacoes": [
+        "temporária (+N FÉ)",
+        "permanente (+N FÉ MÁX: mais grave e longa)"
+      ],
+      "direcao_sonora": "Gema cristalina ascendente: 2–3 notas de sino FM (1 760–2 640 Hz) + brilho, 0,4 s. Permanente: acrescentar nota grave sustentada 440 Hz e cauda 0,6 s.",
+      "duracao_som_s": 0.45,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_anular",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Anular (op counter, quase sempre de Selo): 'ANULADO' roxo no centro, clarão roxo (0,25), espera 0,35 s; o Rito/Entidade/Relíquia anulado não resolve (Entidade anulada: 'ANULADA' + morte).",
+      "origem": "Selo",
+      "destino": "carta anulada",
+      "arquivo_linha": "motor_efeitos.gd:629 executar_acao('counter'); mesa.gd:2529 _jogar_rito (ramo anulado), 2459 _jogar_entidade (ANULADA)",
+      "duracao_s": 0.35,
+      "duracao_obs": "0,35 s (+0,4 s no Rito)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "7 cartas",
+      "variacoes": [
+        "Rito anulado",
+        "Entidade anulada (+ morte)",
+        "Relíquia anulada"
+      ],
+      "direcao_sonora": "Negação mágica: sweep reverso (ruído com envelope crescente cortado seco, 0,25 s) + choque abafado 150 Hz + tom dissonante (trítono) 0,3 s.",
+      "duracao_som_s": 0.5,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_sacrificio",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Entidade com custo de sacrifício: a carta vai para baixo do centro (0,18 s), o jogador escolhe a(s) vítima(s) (faixa 'SACRIFIQUE N'); cada vítima mostra 'SACRIFÍCIO' roxo e morre sem Renascer.",
+      "origem": "Entidades aliadas",
+      "destino": "cemitério",
+      "arquivo_linha": "mesa.gd:2372 _soltar_da_mao_partida (escolha) e 2459 _jogar_entidade (sacrifícios)",
+      "duracao_s": 0.9,
+      "duracao_obs": "por vítima: entidade_morte 0,88 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1–2 vítimas",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "Lâmina ritual: 'shhing' metálico (ruído passa-alta 4 kHz com ressonância 5 kHz, 0,2 s) + batida grave de tambor 70 Hz; depois entidade_morte.",
+      "duracao_som_s": 0.5,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_renascer",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Palavra-chave Renascer (ao morrer volta à mão uma vez): pisca, 16 faíscas douradas, 'RENASCER', espera 0,35 s e a carta volta à mão (vira 0,24, encaixe 0,3, espera 0,35).",
+      "origem": "espaço do campo",
+      "destino": "mão do dono",
+      "arquivo_linha": "mesa.gd:2648 _renascer() (chamado por motor_efeitos.gd:529 morrer)",
+      "duracao_s": 1.0,
+      "duracao_obs": "0,35 + 0,65",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "8 cartas com Renascer",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "Subida mágica: arpejo ascendente de sinos (5 notas em 0,35 s) + whoosh para a mão. 0,8 s.",
+      "duracao_som_s": 0.8,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "efeito_reliquia_fim",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Relíquia sai (usos esgotados, portadora morre, destruída): 10 faíscas douradas sob a portadora; 'USOS ESGOTADOS' em cinza quando acabam os usos.",
+      "origem": "faixa dourada sob a portadora",
+      "destino": "cemitério",
+      "arquivo_linha": "motor_efeitos.gd:571 remover_reliquia(), 432 (usos)",
+      "duracao_s": 0.3,
+      "duracao_obs": "faíscas 0,2–0,4 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "raro",
+      "variacoes": [
+        "usos esgotados",
+        "portadora morreu",
+        "destruída"
+      ],
+      "direcao_sonora": "Quebra metálica leve: 'tlink' inarmônico 2–4 kHz + chocalhar de corrente curta 0,3 s.",
+      "duracao_som_s": 0.35,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "alvo_escolher",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Escolha de alvo pelo jogador: véu escurece a mesa (0,2 s), as candidatas sobem acima do véu e crescem 115% (0,2 s back) com brilho dourado pulsando e setas quicando; faixa 'ESCOLHA O ALVO' atravessa a mesa com o nome do efeito e botão PULAR. Ao tocar: anel dourado de 40 px, 18 faíscas, brilho (0,07 + 0,15 s), vibra 18 ms; véu sai (0,18 s).",
+      "origem": "carta que pediu (vai ao canto esquerdo da faixa)",
+      "destino": "candidatas destacadas",
+      "arquivo_linha": "mesa.gd:2191 pedir_alvo(); desenho efeitos.gd:423 _desenhar_alvos, 451 _desenhar_faixa_alvo",
+      "duracao_s": 0.2,
+      "duracao_obs": "abrir 0,2 s; confirmar 0,22 s; fechar 0,18 s (espera do jogador no meio)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por efeito com alvo escolhido",
+      "variacoes": [
+        "abrir (suspense)",
+        "confirmar alvo",
+        "PULAR/CANCELAR",
+        "pedido sim/não (DECK VAZIO) usa o mesmo véu (mesa.gd:1984)"
+      ],
+      "direcao_sonora": "Abrir: swell grave de suspense (pad 110 Hz + ruído filtrado subindo, 0,3 s). Confirmar: ping dourado (sino 1 320 Hz + quinta, 0,3 s). Pular: tic neutro descendente.",
+      "duracao_som_s": 0.3,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "vitrine_carta",
+      "grupo": "Efeitos das cartas",
+      "descricao": "Vitrine: a carta montada sai da posição dela e aparece grande (160×224) no centro com fundo escurecido e 12 raios girando na cor do evento; entra em 0,24 s (ease-back) e sai nos últimos 0,18 s voltando à origem.",
+      "origem": "posição da carta",
+      "destino": "centro da tela (180,290)",
+      "arquivo_linha": "mesa.gd:2172 _vitrine(); desenho efeitos.gd:503 _desenhar_vitrine()",
+      "duracao_s": 1.15,
+      "duracao_obs": "Rito 1,15 s (dourado) · Selo revelado 1,2 s (lilás) · Entidade do oponente 1,0 s (salmão)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por Rito, Selo revelado e Entidade jogada pelo oponente",
+      "variacoes": [
+        "Rito lançado (dourado)",
+        "Selo revelado (lilás, ver selo_revelar)",
+        "Entidade do oponente (salmão: aviso)"
+      ],
+      "direcao_sonora": "Apresentação: swell de 0,24 s (ruído + pad subindo) com 'shing' no pico + cama brilhante curta; saída: whoosh reverso 0,18 s. Entidade do oponente: versão mais grave/ameaçadora.",
+      "duracao_som_s": 1.0,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "entidade_jogar",
+      "grupo": "Selos e especiais",
+      "descricao": "Jogar uma Entidade: paga Fé, sai da mão (leque se reorganiza), sacrifícios morrem, cai no espaço (carta_cair_campo); se for do oponente, vitrine de 1,0 s; se tiver Ímpeto, popup 'ÍMPETO'; Bênção 'impeto1' mostra 'BÊNÇÃO'; depois Selos do outro lado e Despertar.",
+      "origem": "mão",
+      "destino": "espaço de Entidade",
+      "arquivo_linha": "mesa.gd:2459 _jogar_entidade()",
+      "duracao_s": 0.47,
+      "duracao_obs": "queda 0,47 s (+ vitrine 1,0 s se oponente; + lendaria_entrada 2,0 s)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por Entidade jogada",
+      "variacoes": [
+        "minha",
+        "do oponente (com vitrine)",
+        "com Ímpeto (rush)",
+        "Lendária"
+      ],
+      "direcao_sonora": "Usa carta_cair_campo; Ímpeto/BÊNÇÃO: chime curto dourado 0,3 s.",
+      "duracao_som_s": 0.47,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "selo_colocar",
+      "grupo": "Selos e especiais",
+      "descricao": "Jogar um Selo (armadilha): paga Fé, vai ao espaço de Selo (do oponente ou de longe: arco 0,35 s de 20 px) e cai virado para baixo (queda 0,28 s + achatamento).",
+      "origem": "mão",
+      "destino": "espaço de Selo (2 por lado, atrás das Entidades)",
+      "arquivo_linha": "mesa.gd:2508 _jogar_selo()",
+      "duracao_s": 0.47,
+      "duracao_obs": "queda 0,47 s (+0,35 s de arco)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por Selo",
+      "variacoes": [
+        "meu (sei qual é)",
+        "do oponente (mistério)"
+      ],
+      "direcao_sonora": "Queda seca e abafada (variante 'selo' de carta_cair_campo) + leve 'selo de cera' (tom grave curto 90 Hz) para dar a sensação de armadilha armada. 0,4 s.",
+      "duracao_som_s": 0.4,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "selo_revelar",
+      "grupo": "Selos e especiais",
+      "descricao": "Selo dispara: clarão roxo (0,22), cresce 135% e levanta (0,15 s back), vira (0,24 s), anel lilás de 44 px + 20 faíscas lilás, vitrine lilás (1,2 s), pisca 2× (0,07 + 0,14 s cada), espera 0,2 s; depois o efeito e o Selo vai ao cemitério.",
+      "origem": "espaço de Selo",
+      "destino": "vitrine no centro → volta ao espaço",
+      "arquivo_linha": "mesa.gd:2132 _revelar_selo(); motor_efeitos.gd:437 disparar_selos()",
+      "duracao_s": 2.2,
+      "duracao_obs": "0,15 + 0,24 + 1,2 + 0,42 + 0,2 ≈ 2,2 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por Selo disparado (nunca no turno em que foi posto)",
+      "variacoes": [
+        "meu Selo (vantagem)",
+        "Selo do oponente (ameaça)",
+        "anulação (seguida de efeito_anular)"
+      ],
+      "direcao_sonora": "Armadilha disparando: 'clack' mecânico/estalo de lacre (0,05 s) + reveal místico (swell lilás 0,4 s com acorde menor de sinos + chorus) e 2 pulsos de brilho sincronizados com as piscadas. 1,2–1,5 s.",
+      "duracao_som_s": 1.4,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "selo_cemiterio",
+      "grupo": "Selos e especiais",
+      "descricao": "Selo resolvido se desfaz: espera 0,2 s, estilhaça em fragmentos lilás/roxo (#c8b0f0, #7a5aa8, #3b2d5e), espera 0,2 s.",
+      "origem": "espaço de Selo",
+      "destino": "some (vai ao cemitério)",
+      "arquivo_linha": "mesa.gd:2156 _selo_ao_cemiterio()",
+      "duracao_s": 0.4,
+      "duracao_obs": "0,2 + 0,2 (fragmentos até 0,9 s)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por Selo disparado",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "Cristal quebrando curto: 8–10 grãos vítreos 3–7 kHz em 0,25 s + puff lilás. 0,4 s.",
+      "duracao_som_s": 0.4,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "rito_lancar",
+      "grupo": "Selos e especiais",
+      "descricao": "Rito (magia de uso único): paga, sai da mão, sobe ao centro do lado de quem joga (0,3 s, escala 1,2, levantada), vira (0,24 s), vitrine dourada (1,15 s), pisca 3× (0,08 + 0,12 s cada), resolve os efeitos e se desfaz em fragmentos verdes (70×100) com tremor 2; espera 0,3 s.",
+      "origem": "mão",
+      "destino": "centro do lado do dono (180, 291 ± 40) → some",
+      "arquivo_linha": "mesa.gd:2529 _jogar_rito()",
+      "duracao_s": 2.3,
+      "duracao_obs": "0,3 + 0,24 + 1,15 + 0,6 + (efeitos) + 0,3",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por Rito",
+      "variacoes": [
+        "por tradição (o efeito decide o resto)",
+        "anulado",
+        "do oponente"
+      ],
+      "direcao_sonora": "Conjuração: subida (whoosh 0,3 s) + 3 pulsos de energia (zumbido/sino a cada 0,2 s, crescendo) sincronizados com as piscadas + liberação; no fim, dissolver verde (granular brilhante 0,4 s).",
+      "duracao_som_s": 1.0,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "reliquia_equipar",
+      "grupo": "Selos e especiais",
+      "descricao": "Relíquia: vira (0,2 s), voa até a portadora (arco 24 px, 0,32 s, escala 0,9), pisca 2× (0,07 + 0,1 s), encolhe e vira a faixa dourada sob a portadora (0,18 s, quad ease-in); 18 faíscas douradas, anel de 36 px, nome da Relíquia; a portadora pisca.",
+      "origem": "mão",
+      "destino": "Entidade portadora (faixa embaixo da carta)",
+      "arquivo_linha": "mesa.gd:2578 _jogar_reliquia()",
+      "duracao_s": 0.84,
+      "duracao_obs": "0,32 + 0,34 + 0,18",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por Relíquia",
+      "variacoes": [
+        "Relíquia comum",
+        "Triângulo de Choronzon (aby_triangulo): sombrio"
+      ],
+      "direcao_sonora": "Joia/metal: whoosh 0,3 s + 'clink' de encaixe metálico (FM inarmônico 1,5–3 kHz, 0,2 s) + shimmer dourado 0,3 s.",
+      "duracao_som_s": 0.7,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "lendaria_entrada",
+      "grupo": "Selos e especiais",
+      "descricao": "Lendária entra em campo: o HUD escurece a tela (82%), 12 raios girando, a carta cresce de 0,3 a 1,15 (0,45 s, ease-out-back) com respiração; 'LENDÁRIA' e o nome aparecem a partir de 0,35 s; segura até 1,6 s e some até 2,0 s. Em 0,45 s: tremor 6, clarão dourado (laranja se for do oponente), 30 faíscas, vibra 2 pulsos.",
+      "origem": "espaço onde caiu",
+      "destino": "centro da tela",
+      "arquivo_linha": "mesa.gd:3230 _entrada_lendaria(); mesa_hud.gd:156 entrada_lendaria(), 431 _desenhar_lendaria()",
+      "duracao_s": 2.0,
+      "duracao_obs": "2,0 s (impacto em 0,45 s)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por Lendária jogada",
+      "variacoes": [
+        "minha (dourado, triunfal)",
+        "do oponente (laranja, ameaça)",
+        "por tradição (6 + abismo)"
+      ],
+      "direcao_sonora": "Fanfarra épica sintetizada: impacto grave em 0,45 s (boom 45 Hz + prato de ruído) + acorde maior (minha) / menor (oponente) de metais sintetizados (serra filtrada com ataque 60 ms) + sinos e coro; cauda até 2,0 s.",
+      "duracao_som_s": 2.0,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "choronzon_ritual",
+      "grupo": "Selos e especiais",
+      "descricao": "Ritual de Choronzon (Sigilo 333): com Triângulo + Círculo em campo e Choronzon na mão, 'SIGILO 333' roxo; Choronzon sai da mão (se o campo estiver cheio a 1ª Entidade morre sem Renascer), vira (0,2 s), voa e cai (arco 0,35 + queda 0,47) e dispara o Despertar. Sem as peças: 'COMPRE 1'.",
+      "origem": "mão",
+      "destino": "espaço do campo",
+      "arquivo_linha": "motor_efeitos.gd:905 _ritual_choronzon()",
+      "duracao_s": 1.0,
+      "duracao_obs": "0,2 + 0,35 + 0,47 (+ morte 0,88 se precisar abrir espaço)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "raro (Choronzon = exódia)",
+      "variacoes": [
+        "ritual completo",
+        "ritual falho (compra 1)"
+      ],
+      "direcao_sonora": "Ritual abissal: drone grave 40–55 Hz com batimento, trítono, sussurros (ruído com formantes variando), 3 batidas de tambor (3-3-3) e impacto final. 2,5 s.",
+      "duracao_som_s": 2.5,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "choronzon_vitoria",
+      "grupo": "Selos e especiais",
+      "descricao": "Efeito 'win' de Choronzon: encerra a partida com o motivo 'CHORONZON' (popup lilás escala 3 no centro, 0,6 s) e emenda a vitória/derrota.",
+      "origem": "centro",
+      "destino": "—",
+      "arquivo_linha": "motor_efeitos.gd:634 executar_acao('win'); mesa.gd:1845 _encerrar()",
+      "duracao_s": 0.6,
+      "duracao_obs": "0,6 s + vitória/derrota",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "raríssimo",
+      "variacoes": [
+        "Choronzon meu",
+        "Choronzon do oponente"
+      ],
+      "direcao_sonora": "Rugido abissal: sub boom 30 Hz + ruído marrom com modulação em anel 50 Hz + reverb longo, 1,5 s.",
+      "duracao_som_s": 1.5,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "chefe_fala",
+      "grupo": "Selos e especiais",
+      "descricao": "Fala do personagem da IA (início, carta forte, golpe, perdeu carta, vida baixa, vantagem): balão do lado de cima com retrato e nome na cor dele, 3,2 s.",
+      "origem": "topo da mesa",
+      "destino": "—",
+      "arquivo_linha": "mesa.gd:2986 _falar_chefe(); efeitos.gd:105 falar(), 383 _desenhar_fala_oponente()",
+      "duracao_s": 3.2,
+      "duracao_obs": "balão 3,2 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "várias por partida (no mínimo 6 s entre falas)",
+      "variacoes": [
+        "por personagem (6 oponentes + Choronzon)"
+      ],
+      "direcao_sonora": "Pop de balão (0,08 s) + 'resmungo' sintético curto (3–5 sílabas de formantes aleatórios em pitch do personagem), 0,4 s. Sem voz real.",
+      "duracao_som_s": 0.4,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "vitoria",
+      "grupo": "Fim de partida",
+      "descricao": "Vitória: espera 0,3 s, vibra 3 pulsos, a faixa 'VITÓRIA' abre (altura 0→34 px em 0,35 s) com 16 raios dourados girando e o texto quicando; confete (90 peças, 1,8–3,2 s caindo); clarão dourado (0,4); a mão comemora com pulinhos de 14 px (0,15 + 0,2 bounce) a cada 0,08 s; o retrato do vencedor sobe ao centro (0,25→0,85 s, ease-out-back) com louros nascendo, nome e subtítulo a partir de 0,85 s; o retrato do perdedor fica cinza e trincado; espera 2,6 s.",
+      "origem": "linha central / retrato na moldura",
+      "destino": "faixa no centro (y 300), retrato em (180,214)",
+      "arquivo_linha": "mesa.gd:1499 _vitoria(); efeitos.gd:218 _desenhar_faixa(), 717 _desenhar_fim()",
+      "duracao_s": 3.2,
+      "duracao_obs": "0,3 + pulinhos (≤7×0,08) + 2,6 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por partida",
+      "variacoes": [
+        "vitória normal",
+        "vitória por Choronzon",
+        "vitória no torneio/arcade (segue para a chave)"
+      ],
+      "direcao_sonora": "Jingle de vitória 3 s: fanfarra de metais sintetizados (I–IV–V–I, ataque 40 ms) + sinos + brilho de confete (grãos agudos esparsos 0,5–3 s); camada 'crack' de vidro leve quando o retrato do perdedor trinca (~0,5 s); tics alegres dos pulinhos da mão.",
+      "duracao_som_s": 3.0,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "derrota",
+      "grupo": "Fim de partida",
+      "descricao": "Derrota: espera 0,3 s, tremor 6, clarão escuro (#300010, alfa 0,6, ~0,43 s), o ambiente escurece e as 4 luzes caem para 45% (1,0 s), vibra 150 ms; a faixa 'DERROTA' desce de cima (0,35 s) com rachaduras; cinzas (70, 2–3,5 s); a mão afunda 30 px (0,8 s, quad ease-in); retrato do vencedor (oponente) sobe com halo vermelho pulsando; espera 3,0 s.",
+      "origem": "mesa inteira",
+      "destino": "faixa no centro",
+      "arquivo_linha": "mesa.gd:1516 _derrota(); efeitos.gd:218, 717",
+      "duracao_s": 3.3,
+      "duracao_obs": "0,3 + 3,0 s (luzes 1,0 s, mão 0,8 s)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por partida",
+      "variacoes": [
+        "derrota normal",
+        "desistência (popup 'DESISTÊNCIA' antes)",
+        "tempo/queda online"
+      ],
+      "direcao_sonora": "Impacto grave (boom 40 Hz + crack de faixa rachando) + acorde menor descendente lento (pad, 2 s) + velas apagando (sopro de ar e chiado de fogo morrendo, reaproveitar cauda de sfx_fogo invertida) + vento de cinzas (ruído rosa baixo). 3 s.",
+      "duracao_som_s": 3.0,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "empate",
+      "grupo": "Fim de partida",
+      "descricao": "Empate: faixa 'EMPATE' (estilo derrota, sem retrato) por 2,5 s.",
+      "origem": "centro",
+      "destino": "—",
+      "arquivo_linha": "mesa.gd:1845 _encerrar() (v = 2)",
+      "duracao_s": 2.5,
+      "duracao_obs": "2,5 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "raro (limite de 80 turnos ou ambos ≤ 0)",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "Acorde suspenso neutro (sus4 sem resolver) com gongo médio, 1,5 s.",
+      "duracao_som_s": 1.5,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "fim_motivo",
+      "grupo": "Fim de partida",
+      "descricao": "Antes do fim, quando há motivo: popup lilás escala 3 'DESISTÊNCIA', 'CHORONZON' (ou fim do servidor) no centro e espera 0,6 s.",
+      "origem": "centro",
+      "destino": "sobe e some",
+      "arquivo_linha": "mesa.gd:1845 _encerrar()",
+      "duracao_s": 0.6,
+      "duracao_obs": "0,6 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "quando houver motivo",
+      "variacoes": [
+        "desistência",
+        "Choronzon",
+        "queda/servidor"
+      ],
+      "direcao_sonora": "Golpe de gongo abafado curto 0,5 s (desistência); Choronzon usa choronzon_vitoria.",
+      "duracao_som_s": 0.5,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "resumo_partida",
+      "grupo": "Fim de partida",
+      "descricao": "Resumo depois da partida: pergaminho com turnos, cartas, dano, XP (barra de nível), missões, conquistas e moedas ganhas (ver pergaminho_abrir).",
+      "origem": "—",
+      "destino": "pergaminho no centro",
+      "arquivo_linha": "mesa.gd:3251 _resumo() → pergaminho.gd",
+      "duracao_s": 1.0,
+      "duracao_obs": "abrir 0,97 s (tempo real)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "1 por partida (modos com Sessao.modo)",
+      "variacoes": [
+        "com nível novo / missão / conquista (somar conquista_fanfarra)",
+        "com moedas (somar moedas_voando ao voltar ao Início)"
+      ],
+      "direcao_sonora": "Usa pergaminho_abrir; itens de progresso podem ganhar 'ding' por linha.",
+      "duracao_som_s": 1.0,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "torneio_avancar",
+      "grupo": "Fim de partida",
+      "descricao": "Chave do torneio arcade: os resultados aparecem um a cada 0,8 s; a carta vencedora voa até a fileira de cima (0,6 s, smoothstep, arco de 26 px) deixando rastro dourado e pousa com 18 faíscas douradas (vibra 10 ms).",
+      "origem": "fileira da rodada",
+      "destino": "fileira de cima (quartas → semi → final → campeão)",
+      "arquivo_linha": "torneio_arcade.gd:65 atualizar(), 100 animar()",
+      "duracao_s": 0.6,
+      "duracao_obs": "voo 0,6 s; um resultado a cada 0,8 s (início +0,4 s)",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "quartas 4, semi 2, final 1 (em sequência)",
+      "variacoes": [
+        "meu avanço (mais brilhante)",
+        "avanço de outro participante"
+      ],
+      "direcao_sonora": "Whoosh ascendente com cauda brilhante (0,6 s) + pouso: 'ding' + baque leve. Pitch sobe a cada rodada (quartas → final).",
+      "duracao_som_s": 0.7,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "torneio_derrotado",
+      "grupo": "Fim de partida",
+      "descricao": "Na chave, o derrotado escurece (0,5 s), racha, tomba e solta cinzas (22 cinza + 8 vermelhas) 0,15 s depois do início do voo do vencedor.",
+      "origem": "carta derrotada na fileira",
+      "destino": "—",
+      "arquivo_linha": "torneio_arcade.gd:65 atualizar() (ramo 'caiu'), desenho 210",
+      "duracao_s": 0.5,
+      "duracao_obs": "0,5 s",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "1 por confronto",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "Crack seco + crumble baixo (granular grave 300–800 Hz, 0,4 s).",
+      "duracao_som_s": 0.45,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "torneio_campeao",
+      "grupo": "Fim de partida",
+      "descricao": "Campeão do torneio: escurece (0,4 s), 16 raios girando, a carta do campeão cresce no centro (ease-back), 'CAMPEÃO!' desce; um booster cai quicando (0,6→1,3 s); moedas se empilham (1,0→2,2 s, até 9) com o contador subindo; chuva de moedas (0,5→3,2 s); vibra 4 pulsos.",
+      "origem": "chave",
+      "destino": "centro",
+      "arquivo_linha": "torneio_arcade.gd:305 _tela_campeao(), 100 animar()",
+      "duracao_s": 3.2,
+      "duracao_obs": "3,2 s",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "1 por torneio vencido",
+      "variacoes": [
+        "campeão",
+        "eliminado / fim do torneio (faixa 0,3 s com prêmio, torneio_arcade.gd:284)"
+      ],
+      "direcao_sonora": "Fanfarra grande (versão estendida da vitória) + thump do booster quicando em 1,3 s + tilintar contínuo de moedas 1,0–2,2 s (contador). Eliminado: tom grave descendente + moeda se houver prêmio.",
+      "duracao_som_s": 3.2,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "carregamento",
+      "grupo": "Menus e interface",
+      "descricao": "Tela de carregamento: 5 cartas sorteadas giram em órbita (1,1 rad/s) virando sobre o próprio eixo (verso ↔ frente a cada ~1,3 s), anéis dourados girando, barra de progresso e dica; mínimo 2,4 s, depois esmaece 0,3 s.",
+      "origem": "centro",
+      "destino": "—",
+      "arquivo_linha": "carregamento.gd:68 _draw(), 48 _process()",
+      "duracao_s": 2.7,
+      "duracao_obs": "mínimo 2,4 s + fade 0,3 s",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "1 por abertura do app",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "Stinger de abertura 2,5 s: pad místico + whoosh suave cada vez que uma carta passa na frente (~1 por 1,1 s) + 'tic' de virar. Termina com fade junto. (Não é música: só ambiência curta.)",
+      "duracao_som_s": 2.5,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "transicao_tela",
+      "grupo": "Menus e interface",
+      "descricao": "Cortina entre telas do menu: grade de losangos de 16 px que crescem do centro para as bordas (atraso pela distância, fio dourado nos pequenos) e depois somem (transicao 1→0 em 0,33 s). Trocar aba: a tela desliza 70 px e cortina curta (0,45→0 em 0,15 s). JOGAR: a cortina fecha (0→1 em 0,35 s) e entra a mesa.",
+      "origem": "centro da tela",
+      "destino": "bordas",
+      "arquivo_linha": "fluxo.gd:398 _ir(), 86 trocar_aba(), 1339 _jogar(), desenho 2234 _desenhar_cortina()",
+      "duracao_s": 0.33,
+      "duracao_obs": "0,33 s (aba 0,15 s; jogar 0,35 s)",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "a cada troca de tela",
+      "variacoes": [
+        "trocar de tela",
+        "trocar aba da barra inferior (swipe)",
+        "JOGAR (entra na partida: mais épico)"
+      ],
+      "direcao_sonora": "Whoosh de pano/cortina 0,3 s (ruído passa-faixa 600–3 000 Hz, ataque 30 ms). Aba: swipe 0,15 s com pan na direção. JOGAR: whoosh 0,35 s + porta/impacto grave 60 Hz no fim.",
+      "duracao_som_s": 0.35,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "botao",
+      "grupo": "Menus e interface",
+      "descricao": "Botões do menu: ao encostar o botão afunda (vibra 10 ms); ao soltar em cima dele dispara depois de 0,07 s (vibra 18 ms). Toque longo (0,45 s) em botão de carta abre o visor.",
+      "origem": "botão",
+      "destino": "—",
+      "arquivo_linha": "fluxo.gd:1438 apertar(), 1482 soltar_toque()",
+      "duracao_s": 0.07,
+      "duracao_obs": "0,07 s entre soltar e a ação",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "muito frequente",
+      "variacoes": [
+        "apertar (press)",
+        "soltar (confirmar)",
+        "voltar/cancelar",
+        "erro ('Moedas insuficientes', vibra 30 ms)"
+      ],
+      "direcao_sonora": "Press: tic grave de madeira/bronze 40 ms (corpo 300 Hz + clique). Release: clique + leve 'ding' 1,2 kHz 80 ms. Voltar: ding descendente. Erro: buzz suave 2 notas dissonantes 0,2 s. Volumes baixos.",
+      "duracao_som_s": 0.1,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "menu_leque_modos",
+      "grupo": "Menus e interface",
+      "descricao": "Menu principal: leque de cartas-modo; arrastar para os lados gira o leque com inércia e mola até a carta mais próxima; vibra 6 ms a cada carta que passa pelo centro; botão JOGAR do modo escolhido.",
+      "origem": "leque no centro",
+      "destino": "—",
+      "arquivo_linha": "menu_principal.gd:77 mover(), 50 atualizar(), 45 jogar()",
+      "duracao_s": 0.0,
+      "duracao_obs": "contínuo (gesto)",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "1 tic por carta que passa pelo centro",
+      "variacoes": [
+        "tic de passagem",
+        "JOGAR (ver transicao_tela JOGAR)"
+      ],
+      "direcao_sonora": "Catraca de madeira/papel: tic 20 ms (1,5–2,5 kHz) com pitch levemente aleatório.",
+      "duracao_som_s": 0.03,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "pergaminho_abrir",
+      "grupo": "Menus e interface",
+      "descricao": "Pergaminho (novidades, presente, resumo, conquistas, correio, regras): o rolo lacrado surge (0,30 s, ease-out-back) → o selo de cera racha e cai (0,22 s, vibra 20 ms) → o papel desenrola do centro para cima e para baixo (0,45 s, cubic ease-out) → leitura com rolagem por arraste e inércia (os rolos 'giram') → fecha (0,28 s, ease-in) e some (0,12 s).",
+      "origem": "centro da tela",
+      "destino": "—",
+      "arquivo_linha": "pergaminho.gd:73 abrir(), 88 fechar(), 297 _process()",
+      "duracao_s": 0.97,
+      "duracao_obs": "abrir 0,30 + 0,22 + 0,45 = 0,97 s; fechar 0,28 + 0,12 = 0,4 s",
+      "escala_tempo": "tempo real (não escala)",
+      "repeticoes": "sob demanda",
+      "variacoes": [
+        "surgir",
+        "lacre rachando",
+        "desenrolar",
+        "rolar (rolos girando)",
+        "enrolar/fechar"
+      ],
+      "direcao_sonora": "Sequência em 1 arquivo (0,97 s) ou 3: surgir = whoosh suave 0,3 s; lacre = crack de cera (estalo 1–3 kHz 30 ms + 2 pedacinhos caindo) em 0,30 s; desenrolar = farfalhar de pergaminho 0,45 s (ruído passa-faixa 500–4 000 Hz com AM irregular). Fechar = farfalhar reverso 0,28 s + 'toc' do rolo 0,12 s. Rolagem: rangido de rolo de madeira em loop baixo (opcional).",
+      "duracao_som_s": 1.0,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "presente_diario",
+      "grupo": "Menus e interface",
+      "descricao": "Presente do dia (botão redondo no Início ou automático): pergaminho 'Presente' com sequência de dias, +moedas, +Koins, +booster; vibra 2 pulsos; ao fechar, as moedas voam até o contador.",
+      "origem": "botão de presente (8,90)",
+      "destino": "pergaminho → contadores",
+      "arquivo_linha": "fluxo.gd:684 verificar_presente()",
+      "duracao_s": 1.0,
+      "duracao_obs": "pergaminho 0,97 s + moedas_voando",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "1 por dia",
+      "variacoes": [
+        "presente comum",
+        "7º dia (bônus)",
+        "já pego / offline (só texto)"
+      ],
+      "direcao_sonora": "Caixinha de música curta (4–6 notas de sino, 1 s) por cima do pergaminho; bônus do 7º dia: versão com acorde final maior.",
+      "duracao_som_s": 1.0,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "moedas_voando",
+      "grupo": "Menus e interface",
+      "descricao": "Ganhou moedas/Koins (presente, prêmio, missão, correio): no Início, 4 a 14 moedas saem do meio da tela em curva de Bézier (desvio ±80 px, sobe 90 px) até o contador, uma a cada 0,06 s, 0,7 s de voo; ao chegar cada uma soma ao número, o contador pula e dá um clarão; os Koins saem 0,3 s depois.",
+      "origem": "centro da tela (180, 300)",
+      "destino": "contador de moedas / Koins no topo",
+      "arquivo_linha": "fluxo.gd:2172 _atualizar_moedas(), 2215 _desenhar_voando()",
+      "duracao_s": 1.5,
+      "duracao_obs": "0,7 s de voo + (n−1)×0,06 (4–14 moedas → 0,9–1,5 s); Koins +0,3 s",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "4–14 moedas por tipo (n = dif/10 + 3)",
+      "variacoes": [
+        "moeda (ouro)",
+        "Koin (cristal)",
+        "poucas × muitas"
+      ],
+      "direcao_sonora": "Tilintar por chegada: moeda = FM metálico 2–5 kHz com decaimento 80–120 ms, pitch subindo 1 semitom a cada 3 moedas; Koin = sino de cristal mais agudo 4–6 kHz. Saída: whoosh leve. Fazer 4 grãos de moeda + 3 de Koin para round-robin.",
+      "duracao_som_s": 0.15,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "conquista",
+      "grupo": "Menus e interface",
+      "descricao": "Conquista/missão/nível ao voltar ao Início: pergaminho 'Conquistas' com os prêmios, vibra 20 ms.",
+      "origem": "—",
+      "destino": "pergaminho",
+      "arquivo_linha": "fluxo.gd:2112 _avisar_progresso()",
+      "duracao_s": 1.0,
+      "duracao_obs": "pergaminho 0,97 s",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "eventual",
+      "variacoes": [
+        "conquista",
+        "nível novo",
+        "missão cumprida"
+      ],
+      "direcao_sonora": "Fanfarra curta 1,2 s (3 notas ascendentes de metais sintetizados + brilho).",
+      "duracao_som_s": 1.2,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "correio",
+      "grupo": "Menus e interface",
+      "descricao": "Mensagem do KodeX (correio do painel admin): pergaminho com texto e itens (moedas, Koins, boosters, cartas), vibra 25 ms.",
+      "origem": "—",
+      "destino": "pergaminho",
+      "arquivo_linha": "fluxo.gd:2256 _abrir_carta()",
+      "duracao_s": 1.0,
+      "duracao_obs": "pergaminho 0,97 s",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "eventual",
+      "variacoes": [
+        "com itens",
+        "só mensagem"
+      ],
+      "direcao_sonora": "Lacre de carta + farfalhar (usa pergaminho_abrir) + 'ding' de correio 0,4 s.",
+      "duracao_som_s": 0.4,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "aviso_toast",
+      "grupo": "Menus e interface",
+      "descricao": "Aviso rápido no menu ('Moedas insuficientes.', 'Sem conexão…', '+N moedas pelas repetidas.'), 2,2 s.",
+      "origem": "—",
+      "destino": "faixa de aviso",
+      "arquivo_linha": "menu_perfil.gd:178 avisar()",
+      "duracao_s": 2.2,
+      "duracao_obs": "2,2 s",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "eventual",
+      "variacoes": [
+        "informativo",
+        "erro",
+        "ganho"
+      ],
+      "direcao_sonora": "Info: pop 0,1 s. Erro: buzz suave 2 notas 0,2 s. Ganho: moeda tilintando.",
+      "duracao_som_s": 0.2,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "confirmar_janela",
+      "grupo": "Menus e interface",
+      "descricao": "Janela de confirmação por cima de tudo (trocar missão, enviar relatório, etc.); sim vibra 18 ms, não 10 ms.",
+      "origem": "—",
+      "destino": "janela central",
+      "arquivo_linha": "fluxo.gd:775 confirmar(), 1438 apertar()",
+      "duracao_s": 0.0,
+      "duracao_obs": "instantânea",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "eventual",
+      "variacoes": [
+        "abrir",
+        "sim",
+        "não"
+      ],
+      "direcao_sonora": "Abrir: pop de painel (0,1 s, 600 Hz). Sim/Não: usa botao.",
+      "duracao_som_s": 0.1,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "visor_carta",
+      "grupo": "Menus e interface",
+      "descricao": "Visor de carta (coleção, decks): a carta sai da grade e cresce até 300×420 no centro (0,32 s), com brilho foil se for UR; arrastar ↑ abre a lore (carta encolhe para o topo e o painel do Códex sobe), ↓ volta; fechar devolve a carta à grade (0,42 s).",
+      "origem": "posição da carta na grade",
+      "destino": "centro da tela (e de volta)",
+      "arquivo_linha": "visor.gd:42 abrir(), 56 fechar(); colecao.gd:232 abrir_carta()",
+      "duracao_s": 0.32,
+      "duracao_obs": "abrir 0,32 s; fechar 0,42 s; lore 0,25 s",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "sob demanda",
+      "variacoes": [
+        "abrir",
+        "abrir foil (UR: brilho a mais)",
+        "lore sobe",
+        "fechar"
+      ],
+      "direcao_sonora": "Abrir: whoosh de carta grande 0,3 s + tic; foil: + shimmer arco-íris (sinos em glissando 0,4 s). Lore: papel deslizando 0,25 s. Fechar: whoosh reverso 0,4 s + tic de encaixe.",
+      "duracao_som_s": 0.4,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "dialogo_falas",
+      "grupo": "Menus e interface",
+      "descricao": "Falas do modo história/torneio (Silas e oponentes): o texto aparece digitando a 45 letras/s; toque completa ou avança (vibra 8 ms). Capítulo: 'CAPÍTULO N' desce, linha dourada abre e o retrato do oponente aparece (entrada 0,32 s). Créditos: rolagem 22 px/s.",
+      "origem": "caixa de fala / centro",
+      "destino": "—",
+      "arquivo_linha": "fluxo.gd:1367 _avancar_fala(), 1164 _capitulo(), 1178 _desenhar_capitulo(), 1227 _creditos()",
+      "duracao_s": 0.32,
+      "duracao_obs": "texto 45 letras/s; capítulo 0,32 s de entrada",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "por fala",
+      "variacoes": [
+        "blips de digitação (por personagem: pitch diferente)",
+        "avançar fala",
+        "capítulo (gongo)",
+        "créditos (sem som; música depois)"
+      ],
+      "direcao_sonora": "Blip de digitação: onda quadrada filtrada 20 ms a cada 2–3 letras (~18 por s), pitch por personagem (Silas grave 180 Hz, outros 220–330 Hz) com ±1 semitom aleatório. Avançar: tic de página. Capítulo: gongo/tambor 1,5 s.",
+      "duracao_som_s": 0.03,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "tutorial_guia",
+      "grupo": "Menus e interface",
+      "descricao": "Tutorial: painel do Silas no topo (entra 0,18 s, texto digitando 45 letras/s, 'toque para continuar'); dedo-fantasma mostrando o gesto (encosta com anel fechando, arrasta com rastro de 6 pontos e solta; loop de 1,6 s); retângulos de foco pulsando em dourado.",
+      "origem": "topo / origem do gesto",
+      "destino": "destino do gesto",
+      "arquivo_linha": "tutorial.gd:122 falar(), 160 _guia(); efeitos.gd:525 _desenhar_guia(), 546 _desenhar_tutor()",
+      "duracao_s": 1.6,
+      "duracao_obs": "painel 0,18 s; loop do dedo 1,6 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "durante o tutorial",
+      "variacoes": [
+        "painel entrando",
+        "blips do Silas",
+        "dedo encostando (a cada 1,6 s)"
+      ],
+      "direcao_sonora": "Painel: pop 0,1 s. Blips: os de dialogo_falas (voz grave do Silas). Dedo: tic muito suave a cada encostar (−20 dB), para não cansar.",
+      "duracao_som_s": 0.1,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "emote",
+      "grupo": "Menus e interface",
+      "descricao": "Emotes na partida: abrir o menu de 4 falas (vibra 8 ms); escolher mostra o balão do jogador (sobe 0,15 s, dura 2,4 s); o oponente responde 60% das vezes 1,2 s depois (balão dele 3,2 s). Online o balão vai para o adversário.",
+      "origem": "botão do canto superior direito",
+      "destino": "balão em (180,488) / balão do oponente no topo",
+      "arquivo_linha": "mesa_hud.gd:124 emote_jogador(), 149 emote_oponente(), 418 _balao()",
+      "duracao_s": 2.4,
+      "duracao_obs": "balão 2,4 s (entra 0,15 s); resposta após 1,2 s",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "no máximo 1 a cada 2,5 s",
+      "variacoes": [
+        "meu emote",
+        "resposta/emote do oponente"
+      ],
+      "direcao_sonora": "Pop de balão 0,08 s + blip de voz curto (2–3 sílabas de formantes). Oponente: mesmo, pitch mais grave.",
+      "duracao_som_s": 0.3,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "hud_menu_pausa",
+      "grupo": "Menus e interface",
+      "descricao": "Menu da partida (pausa com Engine.time_scale = 0): abrir/fechar o painel (continuar, regras, animações, vibração, desistir/confirmar); histórico: tocar numa miniatura abre a carta grande.",
+      "origem": "botão do canto superior esquerdo / coluna do histórico",
+      "destino": "painel central",
+      "arquivo_linha": "mesa_hud.gd:165 pressionar(), 201 _acao_menu()",
+      "duracao_s": 0.0,
+      "duracao_obs": "instantâneo (o motor está parado)",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "eventual",
+      "variacoes": [
+        "abrir pausa",
+        "fechar",
+        "histórico abrir",
+        "confirmar desistência"
+      ],
+      "direcao_sonora": "Usar botao/confirmar_janela. IMPORTANTE: o player de som destes precisa process_mode = ALWAYS (a mesa fica em time_scale 0).",
+      "duracao_som_s": 0.1,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "mulligan_marcar",
+      "grupo": "Menus e interface",
+      "descricao": "Mulligan: tocar numa carta da mão marca/desmarca com um X vermelho (vibra 10 ms); o botão muda para 'TROCAR (n)'. Online: contagem de 25 s no subtítulo.",
+      "origem": "carta da mão",
+      "destino": "—",
+      "arquivo_linha": "mesa.gd:892 pressionar() (ramo hud.mulligan); desenho mesa_hud.gd:225",
+      "duracao_s": 0.0,
+      "duracao_obs": "instantâneo",
+      "escala_tempo": "escala com a velocidade da mesa (Engine.time_scale: 1,5× com animações rápidas, 2,5× com RÁPIDO no turno do oponente, 4× online alcançando a fila, 0 em pausa)",
+      "repeticoes": "até 2 marcações",
+      "variacoes": [
+        "marcar",
+        "desmarcar"
+      ],
+      "direcao_sonora": "Marcar: risco de pincel/caneta (ruído passa-faixa 2–4 kHz com sweep, 0,12 s). Desmarcar: tic neutro.",
+      "duracao_som_s": 0.12,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "online_encontrada",
+      "grupo": "Menus e interface",
+      "descricao": "Online: buscar partida (estados buscando → encontrada); ao encontrar vibra 3 pulsos e há 12 s para aceitar (bot: 2 pulsos).",
+      "origem": "tela Online",
+      "destino": "—",
+      "arquivo_linha": "menu_online.gd:102 buscar(), 120–175 (encontrada, _prazo, _oferecer_bot), 184 aceitar()",
+      "duracao_s": 12.0,
+      "duracao_obs": "prazo para aceitar 12 s",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "por busca",
+      "variacoes": [
+        "partida encontrada (gente)",
+        "bot oferecido",
+        "tempo esgotado"
+      ],
+      "direcao_sonora": "Alerta: sino duplo forte (2 batidas 880/1 320 Hz, 1 s) para chamar atenção mesmo com o celular de lado. Tempo esgotado: tom descendente.",
+      "duracao_som_s": 1.0,
+      "prioridade": 2,
+      "som_existente": null
+    },
+    {
+      "id": "cosmetico_comprar",
+      "grupo": "Menus e interface",
+      "descricao": "Loja de cosméticos: comprar um verso com Koins (vibra 30 ms + 2 pulsos) e equipar (vibra 18 ms). Trocar missão (vibra 15 ms).",
+      "origem": "botões da loja",
+      "destino": "—",
+      "arquivo_linha": "fluxo.gd:≈500 (estado 'cosmetico'); menu_progresso.gd:66 _trocar()",
+      "duracao_s": 0.0,
+      "duracao_obs": "instantâneo",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "eventual",
+      "variacoes": [
+        "comprar",
+        "equipar",
+        "Koins insuficientes",
+        "trocar missão"
+      ],
+      "direcao_sonora": "Comprar: caixa registradora mágica (2 tilintares de cristal + 'ka-ching' 0,5 s). Equipar: clique de encaixe + shimmer. Insuficiente: erro de botao.",
+      "duracao_som_s": 0.5,
+      "prioridade": 3,
+      "som_existente": null
+    },
+    {
+      "id": "booster_comprar",
+      "grupo": "Booster/loja",
+      "descricao": "Comprar booster (moedas ou grátis): o contador desce na hora; o pacote holográfico cai de cima (y −160 → centro, 0,6 s, ease-out-back, rotação 0,5 → 0); vibra 25 ms. Etapa 'entra' dura 0,7 s.",
+      "origem": "acima da tela",
+      "destino": "centro (pacote 120×184)",
+      "arquivo_linha": "booster.gd:53 comprar(), 397 desenhar_booster() (etapa 'entra')",
+      "duracao_s": 0.7,
+      "duracao_obs": "0,6 s de queda; etapa 0,7 s",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "1 por booster",
+      "variacoes": [
+        "pago com moedas",
+        "grátis"
+      ],
+      "direcao_sonora": "Pagamento: 3 moedas tilintando rápidas (0,2 s; omitir se grátis) + whoosh de queda + 'thump' macio com crinkle de plástico/foil no pouso (ruído 3–8 kHz em micro-impulsos, 0,15 s).",
+      "duracao_som_s": 0.8,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "booster_cortar",
+      "grupo": "Booster/loja",
+      "descricao": "Abrir o pacote: o jogador desliza o dedo na linha pontilhada; cada coluna cortada solta faíscas laranja (45%) e pedacinhos de papel (20%); o pacote treme e inclina conforme o dedo; vibra 5 ms em 30% dos movimentos.",
+      "origem": "lado do pacote onde o dedo começa",
+      "destino": "outro lado (linha de corte)",
+      "arquivo_linha": "booster.gd:166 mover(), 430 _linha_corte()",
+      "duracao_s": 1.0,
+      "duracao_obs": "depende do gesto (~0,4–1,5 s)",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "1 grão por coluna cortada (até 120 colunas)",
+      "variacoes": [
+        "corte lento",
+        "corte rápido"
+      ],
+      "direcao_sonora": "Rasgo granular de foil: 5–6 grãos de 40–80 ms (ruído com micro-impulsos 1–8 kHz + estalos de plástico), tocados de acordo com a velocidade do dedo (taxa máx. ~25 grãos/s), pitch ±5%.",
+      "duracao_som_s": 0.06,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "booster_rasgar",
+      "grupo": "Booster/loja",
+      "descricao": "Rasgo completo (85% cortado): 70 faíscas (douradas + lilás), 18 pedaços de papel, a ponta do pacote voa girando (vel −340 px/s, gravidade 900); o pacote dá um tranco de 6 px (0,25 s) e abre um brilho com 16 raios saindo (0,75 s); vibra 45 ms.",
+      "origem": "linha de corte",
+      "destino": "ponta voando para cima/lado",
+      "arquivo_linha": "booster.gd:166 mover() (fim), 461 _brilho_abertura() (etapa 'rasga')",
+      "duracao_s": 0.75,
+      "duracao_obs": "etapa 'rasga' 0,75 s",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "1 por booster",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "Rip final forte (ruído rasgado 0,25 s com ataque seco) + swell luminoso 'aaah' (pad em quinta + shimmer de sinos, 0,75 s) que leva às cartas saindo.",
+      "duracao_som_s": 1.0,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "booster_cartas_saem",
+      "grupo": "Booster/loja",
+      "descricao": "As 3 cartas (verso) sobem do pacote escalonadas (0,18 s entre si, 0,55 s cada, ease-back); o pacote cai para fora da tela (0,7→1,15 s); as cartas deslizam para as 3 posições (0,9→1,5 s, cubic ease-out). Etapa 'saem' 1,6 s.",
+      "origem": "dentro do pacote",
+      "destino": "3 posições (66 / 180 / 294, y 300)",
+      "arquivo_linha": "booster.gd:474 _cartas_saindo()",
+      "duracao_s": 1.6,
+      "duracao_obs": "1,6 s",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "3 cartas (a cada 0,18 s)",
+      "variacoes": [
+        "única"
+      ],
+      "direcao_sonora": "3 'fwips' ascendentes (como carta_distribuir, pitch subindo) + whoosh descendente do pacote caindo (0,45 s) + 3 tics de assentamento entre 1,2 e 1,5 s.",
+      "duracao_som_s": 1.6,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "booster_revelar",
+      "grupo": "Booster/loja",
+      "descricao": "Tocar numa carta vira (0,35 s; troca de face em 0,175 s). Comum: 18 faíscas brancas, vibra 15 ms. Lendária: 60 faíscas douradas, raios dourados girando atrás, borda dourada pulsando, vibra 3 pulsos. Foil (UR): 5×22 faíscas arco-íris, raios arco-íris, brilho foil contínuo, borda arco-íris, vibra 5 pulsos. A 0,4 s aparecem a tag 'NOVA!' (verde) ou 'REPETIDA' (laranja) e o selo de raridade.",
+      "origem": "verso no lugar",
+      "destino": "frente no lugar",
+      "arquivo_linha": "booster.gd:207 _virar(), 493 _cartas_reveladas()",
+      "duracao_s": 0.4,
+      "duracao_obs": "virar 0,35 s; tag em 0,4 s",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "3 por booster (no ritmo do jogador)",
+      "variacoes": [
+        "comum",
+        "lendária",
+        "foil/UR",
+        "NOVA!",
+        "REPETIDA"
+      ],
+      "direcao_sonora": "Flip (carta_virar) + reveal por raridade: comum = tic + brilho pequeno 0,3 s; lendária = impacto + acorde dourado de metais/sinos 1,2 s; foil = glissando arco-íris de sinos (escala pentatônica subindo 2 oitavas) + shimmer 1,5 s. Tags: NOVA = ding ascendente 0,3 s; REPETIDA = tom neutro 0,2 s.",
+      "duracao_som_s": 1.5,
+      "prioridade": 1,
+      "som_existente": null
+    },
+    {
+      "id": "booster_trocar_repetida",
+      "grupo": "Booster/loja",
+      "descricao": "Depois de revelar: botão por carta 'Guardar' ↔ '+N' (moeda) para trocar repetidas (vibra 10 ms); concluir mostra '+N moedas pelas repetidas.'; zoom de carta (300×420, com foil).",
+      "origem": "botões sob as cartas",
+      "destino": "—",
+      "arquivo_linha": "booster.gd:243 alternar_troca(), 249 concluir(), 534 _desenhar_zoom()",
+      "duracao_s": 0.0,
+      "duracao_obs": "instantâneo",
+      "escala_tempo": "menu (sem time_scale da mesa)",
+      "repeticoes": "até 3",
+      "variacoes": [
+        "marcar troca",
+        "desmarcar",
+        "concluir com ganho",
+        "zoom"
+      ],
+      "direcao_sonora": "Marcar: moeda tilintando 0,15 s. Concluir com ganho: usa moedas_voando/aviso. Zoom: whoosh do visor_carta.",
+      "duracao_som_s": 0.15,
+      "prioridade": 3,
+      "som_existente": null
+    }
+  ],
+  "lacunas_principais": [
+    {
+      "id": "carta_distribuir",
+      "motivo": "mão inicial: 4 rodadas × 2 cartas voando do deck à mão, 0,62 s cada — silenciosa (apontado pela usuária); a compra de cada turno (carta_comprar) também"
+    },
+    {
+      "id": "embaralhar_corte + deck_cascata + monte_bater + deck_para_espaco",
+      "motivo": "o resto da preparação do monte: só o riffle tem som; cascata (1,4 s), 3 cortes (1,44 s), batida e ida ao deck (1,1 s) são mudos"
+    },
+    {
+      "id": "carta_cair_campo",
+      "motivo": "jogar Entidade/Selo/token: queda com baque, poeira, tremor e vibração — sem som"
+    },
+    {
+      "id": "ataque_investida + ataque_impacto",
+      "motivo": "o ataque inteiro (recuo, disparo, clarão, faíscas, tremor 3,5) é mudo"
+    },
+    {
+      "id": "golpe_direto",
+      "motivo": "golpe na Cornucópia com clarão vermelho, tremor 5 e vibração 60 ms — mudo"
+    },
+    {
+      "id": "entidade_morte",
+      "motivo": "estilhaço em 70 fragmentos e ida ao cemitério — mudo"
+    },
+    {
+      "id": "efeito_dano / efeito_cura / efeito_buff",
+      "motivo": "os 3 efeitos mais comuns das cartas (38 + 25 + 47 cartas) só têm faíscas e números"
+    },
+    {
+      "id": "selo_revelar / rito_lancar / vitrine_carta / lendaria_entrada",
+      "motivo": "momentos de destaque com clarão, raios e carta grande no centro — mudos"
+    },
+    {
+      "id": "vitoria / derrota",
+      "motivo": "faixa, confete/cinzas, retrato subindo, luzes apagando — sem nenhum som"
+    },
+    {
+      "id": "booster (comprar → cortar → rasgar → cartas saem → revelar)",
+      "motivo": "a abertura de pacote inteira, incluindo foil/lendária, é muda; idem moedas_voando e botões do menu"
+    }
+  ],
+  "prioridade_sintese": [
+    {
+      "ordem": 1,
+      "id": "carta_distribuir / carta_comprar",
+      "duracao_s": 0.35,
+      "descricao": "carta saindo do deck e voando à mão (mesmo material do embaralhar); serve à mão inicial, compra, busca e mulligan",
+      "variacoes": 4
+    },
+    {
+      "ordem": 2,
+      "id": "carta_cair_campo",
+      "duracao_s": 0.6,
+      "descricao": "carta caindo no espaço do campo com baque e poeira (Entidade, Selo virado, token)",
+      "variacoes": 3
+    },
+    {
+      "ordem": 3,
+      "id": "ataque_impacto",
+      "duracao_s": 0.35,
+      "descricao": "golpe entre Entidades, por intensidade de dano",
+      "variacoes": 6
+    },
+    {
+      "ordem": 4,
+      "id": "ataque_investida",
+      "duracao_s": 0.3,
+      "descricao": "recuo + disparo do atacante (ida) e volta",
+      "variacoes": 2
+    },
+    {
+      "ordem": 5,
+      "id": "golpe_direto",
+      "duracao_s": 0.8,
+      "descricao": "golpe pesado na Cornucópia",
+      "variacoes": 3
+    },
+    {
+      "ordem": 6,
+      "id": "entidade_morte",
+      "duracao_s": 0.9,
+      "descricao": "estilhaço granular + chegada no cemitério, timbre por tradição",
+      "variacoes": 7
+    },
+    {
+      "ordem": 7,
+      "id": "efeito_dano",
+      "duracao_s": 0.45,
+      "descricao": "feixe de faíscas + impacto do dano de efeito (n 1–4)",
+      "variacoes": 4
+    },
+    {
+      "ordem": 8,
+      "id": "efeito_cura",
+      "duracao_s": 0.8,
+      "descricao": "arpejo de cura; versão celestial (anjos) e versões por tradição",
+      "variacoes": 4
+    },
+    {
+      "ordem": 9,
+      "id": "turno_inicio",
+      "duracao_s": 1.0,
+      "descricao": "gongo de SEU TURNO / TURNO DELE",
+      "variacoes": 2
+    },
+    {
+      "ordem": 10,
+      "id": "vitoria",
+      "duracao_s": 3.0,
+      "descricao": "jingle de vitória com confete",
+      "variacoes": 1
+    },
+    {
+      "ordem": 11,
+      "id": "derrota",
+      "duracao_s": 3.0,
+      "descricao": "impacto + acorde menor + velas apagando",
+      "variacoes": 1
+    },
+    {
+      "ordem": 12,
+      "id": "deck_cascata",
+      "duracao_s": 1.4,
+      "descricao": "chuva de 32 cartas formando o monte",
+      "variacoes": 1
+    },
+    {
+      "ordem": 13,
+      "id": "embaralhar_corte",
+      "duracao_s": 0.45,
+      "descricao": "corte do maço (3× seguidas)",
+      "variacoes": 3
+    },
+    {
+      "ordem": 14,
+      "id": "selo_revelar",
+      "duracao_s": 1.4,
+      "descricao": "armadilha disparando + reveal místico",
+      "variacoes": 2
+    },
+    {
+      "ordem": 15,
+      "id": "rito_lancar",
+      "duracao_s": 1.0,
+      "descricao": "conjuração com 3 pulsos sincronizados",
+      "variacoes": 1
+    },
+    {
+      "ordem": 16,
+      "id": "vitrine_carta",
+      "duracao_s": 1.0,
+      "descricao": "apresentação da carta grande no centro",
+      "variacoes": 2
+    },
+    {
+      "ordem": 17,
+      "id": "lendaria_entrada",
+      "duracao_s": 2.0,
+      "descricao": "fanfarra épica de Lendária (minha/oponente)",
+      "variacoes": 2
+    },
+    {
+      "ordem": 18,
+      "id": "efeito_buff",
+      "duracao_s": 0.4,
+      "descricao": "power-up / debuff",
+      "variacoes": 2
+    },
+    {
+      "ordem": 19,
+      "id": "cornucopia_dano",
+      "duracao_s": 0.4,
+      "descricao": "thump + tilintar de vida caindo, por N",
+      "variacoes": 3
+    },
+    {
+      "ordem": 20,
+      "id": "selo_colocar",
+      "duracao_s": 0.4,
+      "descricao": "queda abafada de Selo virado",
+      "variacoes": 1
+    },
+    {
+      "ordem": 21,
+      "id": "booster_revelar",
+      "duracao_s": 1.5,
+      "descricao": "flip + reveal por raridade (comum, lendária, foil) + tags",
+      "variacoes": 5
+    },
+    {
+      "ordem": 22,
+      "id": "booster_rasgar",
+      "duracao_s": 1.0,
+      "descricao": "rip final + swell luminoso",
+      "variacoes": 1
+    },
+    {
+      "ordem": 23,
+      "id": "booster_cortar",
+      "duracao_s": 0.06,
+      "descricao": "grãos de rasgo de foil acompanhando o dedo",
+      "variacoes": 6
+    },
+    {
+      "ordem": 24,
+      "id": "booster_cartas_saem",
+      "duracao_s": 1.6,
+      "descricao": "3 cartas saindo do pacote + pacote caindo",
+      "variacoes": 1
+    },
+    {
+      "ordem": 25,
+      "id": "booster_comprar",
+      "duracao_s": 0.8,
+      "descricao": "pagamento + pacote caindo",
+      "variacoes": 2
+    },
+    {
+      "ordem": 26,
+      "id": "moedas_voando",
+      "duracao_s": 0.15,
+      "descricao": "tilintar de moeda/Koin por chegada",
+      "variacoes": 7
+    },
+    {
+      "ordem": 27,
+      "id": "botao",
+      "duracao_s": 0.1,
+      "descricao": "press / release / voltar / erro",
+      "variacoes": 4
+    },
+    {
+      "ordem": 28,
+      "id": "transicao_tela",
+      "duracao_s": 0.35,
+      "descricao": "cortina entre telas, aba, JOGAR",
+      "variacoes": 3
+    },
+    {
+      "ordem": 29,
+      "id": "pergaminho_abrir",
+      "duracao_s": 1.0,
+      "descricao": "surgir + lacre + desenrolar; fechar",
+      "variacoes": 2
+    },
+    {
+      "ordem": 30,
+      "id": "efeito_congelar",
+      "duracao_s": 0.6,
+      "descricao": "cristalização",
+      "variacoes": 1
+    },
+    {
+      "ordem": 31,
+      "id": "efeito_silenciar",
+      "duracao_s": 0.4,
+      "descricao": "tom abafado",
+      "variacoes": 1
+    },
+    {
+      "ordem": 32,
+      "id": "efeito_anular",
+      "duracao_s": 0.5,
+      "descricao": "negação mágica",
+      "variacoes": 1
+    },
+    {
+      "ordem": 33,
+      "id": "efeito_fe",
+      "duracao_s": 0.45,
+      "descricao": "gema de Fé (temporária/permanente)",
+      "variacoes": 2
+    },
+    {
+      "ordem": 34,
+      "id": "efeito_invocar",
+      "duracao_s": 0.6,
+      "descricao": "surgimento de token",
+      "variacoes": 2
+    },
+    {
+      "ordem": 35,
+      "id": "efeito_reviver",
+      "duracao_s": 0.8,
+      "descricao": "ressurreição",
+      "variacoes": 1
+    },
+    {
+      "ordem": 36,
+      "id": "efeito_devolver",
+      "duracao_s": 0.5,
+      "descricao": "whoosh reverso para a mão",
+      "variacoes": 1
+    },
+    {
+      "ordem": 37,
+      "id": "efeito_renascer",
+      "duracao_s": 0.8,
+      "descricao": "arpejo ascendente para a mão",
+      "variacoes": 1
+    },
+    {
+      "ordem": 38,
+      "id": "carta_descartar",
+      "duracao_s": 0.7,
+      "descricao": "rasgo + cintilação roxa",
+      "variacoes": 1
+    },
+    {
+      "ordem": 39,
+      "id": "efeito_anunciar",
+      "duracao_s": 0.35,
+      "descricao": "shimmer de gatilho (Despertar/Último Sopro/neutro)",
+      "variacoes": 3
+    },
+    {
+      "ordem": 40,
+      "id": "alvo_escolher",
+      "duracao_s": 0.3,
+      "descricao": "suspense ao abrir + ping ao confirmar + pular",
+      "variacoes": 3
+    },
+    {
+      "ordem": 41,
+      "id": "relogio_corda",
+      "duracao_s": 1.0,
+      "descricao": "pavio queimando (loop), tique, TEMPO!",
+      "variacoes": 3
+    },
+    {
+      "ordem": 42,
+      "id": "carta_recusar",
+      "duracao_s": 0.5,
+      "descricao": "negação + elástico",
+      "variacoes": 1
+    },
+    {
+      "ordem": 43,
+      "id": "carta_pegar",
+      "duracao_s": 0.1,
+      "descricao": "lift de carta",
+      "variacoes": 2
+    },
+    {
+      "ordem": 44,
+      "id": "monte_bater",
+      "duracao_s": 0.15,
+      "descricao": "toc de maço na mesa",
+      "variacoes": 1
+    },
+    {
+      "ordem": 45,
+      "id": "deck_para_espaco",
+      "duracao_s": 0.55,
+      "descricao": "maço deslizando (jogador/oponente)",
+      "variacoes": 2
+    },
+    {
+      "ordem": 46,
+      "id": "reliquia_equipar",
+      "duracao_s": 0.7,
+      "descricao": "encaixe metálico de joia",
+      "variacoes": 1
+    },
+    {
+      "ordem": 47,
+      "id": "selo_cemiterio",
+      "duracao_s": 0.4,
+      "descricao": "cristal quebrando",
+      "variacoes": 1
+    },
+    {
+      "ordem": 48,
+      "id": "token_desfazer",
+      "duracao_s": 0.35,
+      "descricao": "poof etéreo",
+      "variacoes": 1
+    },
+    {
+      "ordem": 49,
+      "id": "choronzon_ritual",
+      "duracao_s": 2.5,
+      "descricao": "ritual abissal 333",
+      "variacoes": 1
+    },
+    {
+      "ordem": 50,
+      "id": "intro_camera",
+      "duracao_s": 2.8,
+      "descricao": "whoosh de abertura girando",
+      "variacoes": 1
+    },
+    {
+      "ordem": 51,
+      "id": "luz_acender",
+      "duracao_s": 0.9,
+      "descricao": "velas acendendo (estouro / lento)",
+      "variacoes": 2
+    },
+    {
+      "ordem": 52,
+      "id": "torneio_avancar",
+      "duracao_s": 0.7,
+      "descricao": "voo e pouso na chave",
+      "variacoes": 2
+    },
+    {
+      "ordem": 53,
+      "id": "torneio_campeao",
+      "duracao_s": 3.2,
+      "descricao": "campeão + booster + moedas",
+      "variacoes": 2
+    },
+    {
+      "ordem": 54,
+      "id": "conquista",
+      "duracao_s": 1.2,
+      "descricao": "fanfarra curta",
+      "variacoes": 1
+    },
+    {
+      "ordem": 55,
+      "id": "presente_diario",
+      "duracao_s": 1.0,
+      "descricao": "caixinha de música",
+      "variacoes": 2
+    },
+    {
+      "ordem": 56,
+      "id": "online_encontrada",
+      "duracao_s": 1.0,
+      "descricao": "alerta de partida encontrada",
+      "variacoes": 2
+    },
+    {
+      "ordem": 57,
+      "id": "dialogo_falas",
+      "duracao_s": 0.03,
+      "descricao": "blip de digitação por personagem + gongo de capítulo",
+      "variacoes": 4
+    },
+    {
+      "ordem": 58,
+      "id": "visor_carta",
+      "duracao_s": 0.4,
+      "descricao": "carta grande abrindo/fechando (+foil)",
+      "variacoes": 3
+    },
+    {
+      "ordem": 59,
+      "id": "demais (prioridade 3)",
+      "duracao_s": null,
+      "descricao": "carta_virar, carta_mover_campo, carta_queimar, cemiterio_carrossel, efeito_palavra_chave, efeito_mudar_stats, efeito_dominar, efeito_buscar, efeito_destruir, efeito_sacrificio, efeito_reliquia_fim, chefe_fala, emote, empate, fim_motivo, carregamento, menu_leque_modos, aviso_toast, confirmar_janela, mulligan_marcar, cosmetico_comprar, booster_trocar_repetida, previa_ataque, carta_zoom, tutorial_guia, torneio_derrotado",
+      "variacoes": null
+    }
+  ]
+}

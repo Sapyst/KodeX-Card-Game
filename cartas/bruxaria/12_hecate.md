@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Sacrifício 1. Despertar: todas as Entidades inimigas perdem 2 ATK e 2 Vida permanentemente.
+Sacrifício 1. Despertar: Todas as Entidades inimigas recebem -2/-2.
 
 ## Contexto mitológico
 Hécate (*Hekátē*) é a deusa grega das encruzilhadas, da noite, dos fantasmas, dos cães e da magia. Hesíodo lhe dedica o hino mais longo da *Teogonia* (411–452): filha dos titãs Perses e Astéria, Zeus a honrou acima de todos e lhe deu parte na terra, no mar e no céu estrelado; concede vitória nas assembleias, na guerra, nos jogos, na pesca e na criação de gado, e é a ama de todos os jovens. No *Hino Homérico a Deméter* é ela quem, com a tocha na mão, ouve o grito de Perséfone raptada e acompanha a mãe na busca — por isso é companheira da rainha do Hades.

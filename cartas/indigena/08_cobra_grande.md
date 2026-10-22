@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Sempre que uma Entidade inimiga morrer, Cobra-Grande ganha +1/+1 permanente.
+Sempre que uma Entidade inimiga morrer, esta ganha +1/+1.
 
 ## Contexto mitológico
 A Cobra-Grande, *Boiúna* ou *Mboiúna* ("cobra preta" em tupi), é a serpente colossal dos rios amazônicos: com os olhos acesos como faróis, vira barco iluminado, afunda canoas, abre igarapés com o corpo e vive no fundo dos lagos. Barbosa Rodrigues (*Poranduba Amazonense*, 1890) e Cascudo (*Geografia dos Mitos Brasileiros*) a situam no centro do imaginário ribeirinho do Pará e do Amazonas: toda cidade grande, dizem, tem uma Cobra-Grande dormindo embaixo da igreja.

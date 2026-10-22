@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Uma Entidade aliada ganha +2/+2 permanente e uma Entidade inimiga recebe −2/−2 permanente.
+Uma Entidade aliada ganha +2/+2 e uma Entidade inimiga recebe -2/-2.
 
 ## Contexto mitológico
 *Taiji* (太極), a "Polaridade Suprema", é o nome que o *Yijing* dá ao estado anterior à divisão: "a Mudança tem o Taiji; este gera as Duas Potências (yin e yang); as duas geram as Quatro Imagens; as quatro geram os Oito Trigramas" ("Xici" I.11). O *Daodejing* (cap. 42) diz o mesmo em outra chave: "o Dao gera o Um, o Um gera o Dois, o Dois gera o Três, o Três gera as dez mil coisas; elas carregam o yin e abraçam o yang". Yin (陰, a encosta sombria da montanha) e yang (陽, a encosta ensolarada) não são bem e mal: são o par que só existe junto, cada um crescendo enquanto o outro míngua, cada um com a semente do outro — os dois pontos no diagrama.

@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Causa 2 de dano a todas as Entidades inimigas e 1 de dano à Cornucópia inimiga.
+Cause 2 de dano a todas as Entidades inimigas e 1 à Cornucópia inimiga.
 
 ## Contexto mitológico
 Monan é o criador primordial dos Tupinambá segundo André Thevet (*Cosmographie Universelle*, 1575, livro XXI), que recolheu o relato dos pajés da Guanabara. Monan — "o antigo", "o que fez" — criou o céu, a terra, os animais e os primeiros homens, e vivia entre eles. Mas os homens se tornaram ingratos e esqueceram quem os fizera; então Monan mandou **Tatá**, o fogo do céu, que queimou toda a superfície da terra e a deixou com os vales e serras que tem hoje.

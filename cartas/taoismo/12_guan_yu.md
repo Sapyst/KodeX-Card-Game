@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Guarda. Despertar: uma Entidade aliada ganha +1 ATK permanente.
+Guarda. Despertar: Uma Entidade aliada ganha +1 ATK.
 
 ## Contexto mitológico
 Guan Yu (關羽, m. 220) foi general de Liu Bei no fim dos Han, um dos três irmãos do Juramento do Jardim dos Pessegueiros no *Sanguo yanyi* (Romance dos Três Reinos, séc. XIV): rosto vermelho, barba de dois chi, a Alabarda do Dragão Verde na mão e o cavalo Lebre Vermelha. Capturado por Sun Quan e executado, a lealdade ao irmão até a morte fez dele, ao longo de mil anos, mais do que um herói: um deus.

@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Equipe numa Entidade aliada: +0/+2. Conta como "Triângulo" para Sigilo 333.
+A portadora ganha +2 Vida. Conta como o Triângulo do Sigilo 333.
 
 ## Contexto mitológico
 O Triângulo da Arte (ou Triângulo de Salomão) é o espaço, fora do círculo do mago, onde o espírito evocado é obrigado a se manifestar. Na *Goetia* (Lemegeton, séc. XVII) ele é desenhado a dois pés do círculo, com os nomes Tetragrammaton, Primeumaton e Anaphaxeton nos lados e "Michael" dividido nos vértices; dentro dele fica o espelho negro ou o incensório.

@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Sacrifício 1. Sempre que qualquer Entidade morrer, Babalon ganha +1/+1 permanente.
+Sacrifício 1. Sempre que outra Entidade morrer, esta ganha +1/+1.
 
 ## Contexto mitológico
 Babalon é a deusa central da Thelema de Aleister Crowley. Nasce da leitura invertida do Apocalipse 17 — a "grande prostituta" montada na Besta de sete cabeças, com a taça cheia de abominações — e se revela a Crowley nos Aethyrs enochianos em 1909 (*The Vision and the Voice*, Liber 418), sobretudo nos Aethyrs 15º a 12º. Ali ela é a Mulher Escarlate, a Mãe das Abominações, a Cidade das Pirâmides: a porta do Abismo.

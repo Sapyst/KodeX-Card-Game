@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-A portadora ganha +1 ATK e +2 Vida. Quando ela morrer, reviva uma Entidade do seu cemitério para o campo.
+A portadora ganha +1/+2. Quando ela morrer, devolva uma Entidade do seu cemitério para o campo.
 
 ## Contexto mitológico
 O caldeirão é o objeto da bruxa por excelência — Cerridwen o ferve um ano e um dia pela inspiração (*Hanes Taliesin*), Medeia rejuvenesce Éson nele e mata Pélias por ele (Ovídio, *Metamorfoses* VII), as Três Irmãs de *Macbeth* (IV.1) jogam nele "olho de salamandra e dedo de rã" para ver o futuro. Mas o caldeirão deste nome específico vem do segundo ramo do *Mabinogion*, *Branwen ferch Llŷr*: o *Pair Dadeni*, "Caldeirão de Renascimento", trazido da Irlanda por um gigante que saía de um lago com a mulher, e dado por Bendigeidfran (Brân, o Abençoado) ao rei irlandês Matholwch como presente de casamento com sua irmã Branwen.

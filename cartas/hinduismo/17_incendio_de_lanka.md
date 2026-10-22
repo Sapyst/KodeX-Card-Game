@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-No fim do turno do oponente, 1 de dano a todas as Entidades inimigas e 1 à Cornucópia inimiga.
+No fim do turno do oponente, cause 1 de dano a todas as Entidades inimigas e 1 à Cornucópia inimiga.
 
 ## Contexto mitológico
 No Sundara Kanda do Ramayana, Hanuman, depois de encontrar Sita no bosque de ashoka e lhe entregar o anel de Rama, decide se deixar capturar para medir a força do inimigo e falar com Ravana cara a cara. Levado à corte como prisioneiro, fala como embaixador: pede ao rei de Lanka que devolva Sita e se poupe. Ravana, enfurecido, manda matá-lo; o irmão Vibhishana lembra que um mensageiro não se mata, e a pena vira humilhação — embrulhar a cauda do macaco em panos embebidos em óleo e atear fogo.

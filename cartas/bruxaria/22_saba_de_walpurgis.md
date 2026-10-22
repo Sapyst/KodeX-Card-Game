@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Todas as Entidades aliadas ganham +1 ATK e +1 Vida permanentemente. Invoque uma Lebre 1/2.
+Todas as suas Entidades ganham +1/+1. Invoque uma Lebre 1/2.
 
 ## Contexto mitológico
 O **sabá** — a assembleia noturna em que as bruxas chegam voando, dançam de costas, banqueteiam-se, beijam o bode e recebem ordens do Diabo — é, como Carlo Ginzburg demonstra em *História Noturna* (1989), uma construção dos juízes e inquisidores dos Alpes ocidentais a partir de 1430 (*Formicarius* de Johannes Nider, *Errores Gazariorum*), que fundiu a velha acusação de reunião secreta feita a judeus, leprosos e hereges com um material folclórico real: os cortejos noturnos da "senhora do jogo" (Diana, Holda, Perchta, Richella, Oriente), as batalhas em espírito dos benandanti, as viagens em êxtase das *völur*. Por baixo da caricatura havia experiência — e é a experiência, não a caricatura, que a bruxaria moderna reivindica.

@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Ímpeto. Último Sopro: compre 1 carta.
+Ímpeto. Último Sopro: Compre 1 carta.
 
 ## Contexto mitológico
 Jatayu é o rei dos abutres do Ramayana, velho amigo do rei Dasharatha, pai de Rama. No Aranya Kanda, quando Ravana sobrevoa a floresta de Dandaka levando Sita raptada em seu carro voador, Jatayu é o único a enfrentá-lo: ataca o carro, quebra o arco e mata as mulas, e por um instante força o rei de Lanka a descer. Ravana então saca a espada e corta-lhe as asas.

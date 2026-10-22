@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Furtivo. Despertar: devolva uma Entidade do seu cemitério à sua mão.
+Furtivo. Despertar: Devolva uma Entidade do seu cemitério para a mão.
 
 ## Contexto mitológico
 Em 1 Samuel 28, na véspera da batalha de Gilboa contra os filisteus, o rei Saul — que havia expulsado de Israel os necromantes e adivinhos — disfarça-se e vai de noite a Endor consultar "uma mulher que tem um *ôb*" (um espírito familiar, ou o próprio ofício de evocar os mortos). Ela teme uma armadilha; ele jura por Yahweh que nada lhe acontecerá. Ela faz subir da terra um ancião envolto num manto: é Samuel, que pergunta por que o perturbaram e anuncia que Saul e seus filhos morrerão no dia seguinte. A mulher, vendo o rei prostrado, mata um bezerro e assa pães para que ele coma antes de partir.

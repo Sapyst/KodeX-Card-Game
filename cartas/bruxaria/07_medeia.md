@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: uma Entidade inimiga à escolha perde 2 ATK permanentemente.
+Despertar: Uma Entidade inimiga recebe -2 ATK.
 
 ## Contexto mitológico
 Medeia, princesa da Cólquida, é neta de Hélio, sobrinha de Circe e sacerdotisa de Hécate. Em Apolônio de Rodes (*Argonáuticas* III) ela se apaixona por Jasão e lhe dá o unguento de Prometeu, que o torna invulnerável ao fogo dos touros de bronze; no livro IV é ela quem adormece com cantos e drogas o dragão guardião do Velo de Ouro e quem arma a emboscada em que Jasão mata seu irmão Apsirto. Em Apolodoro (*Biblioteca* I.9.24) e Ovídio (*Tristia* III.9) a versão é mais crua: Medeia mesma esquarteja o irmão e espalha os pedaços para atrasar a perseguição do pai. É a feiticeira que trai a casa pelo estrangeiro — e será traída por ele.

@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: destrua uma Entidade inimiga de custo 3 ou menos.
+Despertar: Destrua uma Entidade inimiga de custo 3 ou menos.
 
 ## Contexto mitológico
 Andras é o 63º espírito da *Ars Goetia*: um Grande Marquês que aparece com corpo de anjo e cabeça de corvo noturno (ou coruja), montado num forte lobo negro e brandindo uma espada afiada e brilhante. Seu ofício é **semear discórdias** — e a Goetia acrescenta a advertência mais dura da lista: "se o exorcista não tomar cuidado, ele o matará, e aos seus companheiros". Governa 30 legiões. Weyer (1577) repete a descrição e o aviso.

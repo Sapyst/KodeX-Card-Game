@@ -1,5 +1,39 @@
 [
  {
+  "versao": "0.20.0-alpha",
+  "data": "22/10/2026",
+  "pt": [
+   "Agora em espanhol! Troque o idioma em Opções ou no botão de globo na primeira tela.",
+   "Todos os textos foram reescritos: cartas, Códice, falas dos campeões, missões e menus, em português, inglês e espanhol.",
+   "32 cartas tinham texto que não batia com o efeito. Agora o texto diz exatamente o que a carta faz.",
+   "Segurar uma carta mostra o texto de regra em letra grande, embaixo da carta.",
+   "Nova tela de entrada: jogue como convidado ou entre com seu Kode (usuário e senha). Google, E-mail e Apple chegam na versão final.",
+   "Kode: botão para copiar as 12 palavras de uma vez, e na recuperação é só colar.",
+   "Nova tela para criar o perfil na primeira vez.",
+   "Versão web: tela cheia no celular e formato largo no PC e com o celular deitado (abas na lateral, visor de carta e letras maiores)."
+  ],
+  "en": [
+   "Now in Spanish! Change the language in Options or with the globe button on the first screen.",
+   "Every text was rewritten: cards, Codex, champion lines, missions and menus, in Portuguese, English and Spanish.",
+   "32 cards had text that didn't match their effect. Now the text says exactly what the card does.",
+   "Holding a card now shows its rules text in large print, right below the card.",
+   "New sign-in screen: play as a guest or use your Kode (username and password). Google, E-mail and Apple arrive in the final version.",
+   "Kode: one button copies all 12 words at once, and recovery accepts a single paste.",
+   "New profile creation screen for your first time.",
+   "Web version: full screen on phones and a wide layout on PC and in landscape (side tabs, card viewer and larger text)."
+  ],
+  "es": [
+   "¡Ahora en español! Cambia el idioma en Opciones o con el botón del globo en la primera pantalla.",
+   "Todos los textos se reescribieron: cartas, Códice, frases de los campeones, misiones y menús, en portugués, inglés y español.",
+   "32 cartas tenían un texto que no coincidía con su efecto. Ahora el texto dice exactamente lo que hace la carta.",
+   "Al mantener pulsada una carta, su texto de reglas aparece en letra grande debajo de ella.",
+   "Nueva pantalla de entrada: juega como invitado o entra con tu Kode (usuario y contraseña). Google, E-mail y Apple llegan en la versión final.",
+   "Kode: un botón copia las 12 palabras de una vez, y para recuperar basta con pegarlas.",
+   "Nueva pantalla para crear tu perfil la primera vez.",
+   "Versión web: pantalla completa en el celular y formato ancho en PC y con el celular horizontal (pestañas laterales, visor de cartas y letra más grande)."
+  ]
+ },
+ {
   "versao": "0.19.0-alpha",
   "data": "22/10/2026",
   "pt": [
@@ -23,6 +57,17 @@
    "Victory and defeat with the winner's portrait, coins flying to the counter, new transitions and tips on the loading screen.",
    "History with wins in green and losses in red. Error report in Options (you choose whether to send it).",
    "Fixes: a card that vanished in the middle of a death chain, and other tweaks."
+  ],
+  "es": [
+   "Online de verdad: ahora el servidor es el juez. Baraja, roba y revisa cada jugada; tu celular solo recibe tus cartas y lo que se revela en la mesa. Nadie ve tu mano.",
+   "¿Nadie en la búsqueda tras 30 segundos? Aparece un bot (\"Nombre - Bot\") para jugar mientras esperas, con premio de partida en línea.",
+   "Retratos en la mesa: tú abajo y el rival arriba, con una placa tallada con el nombre. Contra la IA aparece el personaje; en línea, la foto de la persona.",
+   "Progreso (botón de medalla en Inicio): 3 misiones diarias y 3 semanales, niveles con premio en cada nivel, maestría por tradición, 50 logros y títulos para usar.",
+   "Días seguidos: cada 7 días seguidos, +1 sobre y +20 Koins.",
+   "Los jefes ahora tienen frases con personalidad durante la partida y respuestas propias a los emotes.",
+   "Victoria y derrota con el retrato de quien ganó, monedas que vuelan hasta el contador, transiciones nuevas y consejos en la pantalla de carga.",
+   "Historial con victorias en verde y derrotas en rojo. Informe de errores en Opciones (tú decides si lo envías).",
+   "Correcciones: una carta que desaparecía en medio de una cadena de muertes, entre otros ajustes."
   ]
  },
  {
@@ -41,6 +86,13 @@
    "Lost connection? The game retries by itself. Closed the app? Go back through Online > Back to the match. If you don't return within 2 minutes, the other player wins.",
    "End of match with a report from both sides and a rematch (both must accept). Emotes go to your real opponent.",
    "History: online matches count as \"against players\", with the name of who you faced."
+  ],
+  "es": [
+   "¡Online! Nueva carta de modo en el menú: busca partida (primero gente de tu país, luego de tu continente, luego del mundo) y acepta o rechaza en 12 segundos.",
+   "Juega con un amigo: uno crea la sala y comparte el código de 4 letras; el otro entra con ese código.",
+   "¿Se cayó la conexión? El juego reintenta solo. ¿Cerraste la app? Vuelve en Online > Volver a la partida. Si no vuelves en 2 minutos, la victoria es del otro.",
+   "Fin de partida con el informe de ambos lados y revancha (ambos deben aceptar). Los emotes llegan a tu rival de verdad.",
+   "Historial: las partidas en línea cuentan como \"contra jugadores\", con el nombre de quien enfrentaste."
   ]
  },
  {
@@ -53,6 +105,10 @@
   "en": [
    "Turn timer: 75 seconds, with the rope burning in the last 20. When time runs out, the turn passes by itself. You can turn it off in Options (against the AI).",
    "History and stats in the Profile: matches against the AI and against players, by mode and by opponent, and the last 30 matches with date, time and a play-by-play log."
+  ],
+  "es": [
+   "Tiempo por turno: 75 segundos, con la cuerda ardiendo en los últimos 20. Si se acaba el tiempo, el turno pasa solo. Se puede desactivar en Opciones (contra la IA).",
+   "Historial y estadísticas en el Perfil: partidas contra la IA y contra jugadores, por modo y por rival, y las últimas 30 partidas con fecha, hora y registro jugada a jugada."
   ]
  },
  {
@@ -63,6 +119,9 @@
   ],
   "en": [
    "Sturdier connection: if the game server changes address, the game finds the new one by itself and tries again."
+  ],
+  "es": [
+   "Conexión más resistente: si el servidor del juego cambia de dirección, el juego encuentra la nueva solo y vuelve a intentarlo."
   ]
  },
  {
@@ -81,6 +140,13 @@
    "Email (optional): link an email to log in on another device with a 6-digit code.",
    "Device code: move your account to another phone with an 8-letter code.",
    "Privacy policy updated."
+  ],
+  "es": [
+   "Cuenta en línea (Opciones > Cuenta y acceso). Sin cuenta, juegas como invitado y tu progreso ya queda guardado en el servidor del juego.",
+   "Kode: crea usuario y contraseña. Para cambiar o recuperar la contraseña, usa la frase secreta de 12 palabras, que se muestra una sola vez.",
+   "Correo (opcional): vincula un correo para entrar en otro dispositivo con un código de 6 dígitos.",
+   "Código de dispositivo: pasa tu cuenta a otro celular con un código de 8 letras.",
+   "Política de privacidad actualizada."
   ]
  },
  {
@@ -93,6 +159,10 @@
   "en": [
    "Getting ready for online play: anonymous account, cloud save, switching devices with a code and server-checked economy. Still off: it turns on when the game server goes live.",
    "Privacy policy updated for the online account."
+  ],
+  "es": [
+   "Preparación para el modo en línea: cuenta anónima, guardado en la nube, cambio de dispositivo con código y economía verificada por el servidor. Aún desactivado: se activa cuando el servidor del juego esté en línea.",
+   "Política de privacidad actualizada para la cuenta en línea."
   ]
  },
  {
@@ -103,6 +173,9 @@
   ],
   "en": [
    "Button and menu box labels centered horizontally and vertically."
+  ],
+  "es": [
+   "Textos de botones y cuadros de los menús centrados en horizontal y en vertical."
   ]
  },
  {
@@ -115,8 +188,13 @@
   ],
   "en": [
    "Free decks: a new drawer in the Decks screen. Build decks with any card in the game (32 per deck, 1 copy of a Legendary, 2 of the rest), even ones you don't own.",
-   "In the free drawer, New deck, Suggested and Import create free decks. They count in Free mode (Play in Free mode button in the editor).",
+   "In the free drawer, New deck, Suggested and Import create free decks. They work in Free Play (Play in Free Play button in the editor).",
    "Up to 8 decks in each drawer."
+  ],
+  "es": [
+   "Mazos libres: nuevo cajón en la pantalla Mazos. Arma mazos con cualquier carta del juego (32 por mazo, 1 copia de cada Legendaria y 2 de las demás), aunque no las tengas.",
+   "En el cajón libre, Nuevo mazo, Sugerido e Importar crean mazos libres. Valen en el Modo libre (botón Jugar en Modo libre en el editor).",
+   "Hasta 8 mazos en cada cajón."
   ]
  },
  {
@@ -127,6 +205,9 @@
   ],
   "en": [
    "Pilgrimage: when the deck runs out, the graveyard is reshuffled for free, with no Cornucopia cost (this mode only)."
+  ],
+  "es": [
+   "Peregrinación: cuando se acaba el mazo, el cementerio vuelve barajado gratis, sin costo de Cornucopia (solo en este modo)."
   ]
  },
  {
@@ -145,6 +226,13 @@
    "Colorblind mode: a card ready to attack turns blue (no longer orange) and highlights get icons (arrow to play, sword to attack).",
    "Confirmation before spending: booster, card back, trading duplicates, deleting a deck, abandoning the Pilgrimage and restarting the Tournament. Crafting and disenchanting ask for a second tap.",
    "Long press on reward cards and Legendary challenges opens the big card without picking it."
+  ],
+  "es": [
+   "Accesibilidad en Opciones.",
+   "Texto grande: el texto de las cartas aparece en letra grande al mantener pulsada una carta en la mesa y en el visor; la historia, los pergaminos y los diálogos también se ven 2× más grandes.",
+   "Modo daltónico: la carta lista para atacar se ve azul (ya no naranja) y los resaltados llevan ícono (flecha para jugar, espada para atacar).",
+   "Confirmación antes de gastar: sobre, reverso, cambio de repetidas, eliminar mazo, abandonar la Peregrinación y reiniciar el Torneo. Crear y deshacer cartas piden un segundo toque.",
+   "Mantener pulsadas las cartas de premio y los Desafíos legendarios abre la carta en grande, sin elegirla."
   ]
  },
  {
@@ -159,6 +247,11 @@
    "New art: Baba Yaga, Dantalion, Homunculus and Arrows of Houyi.",
    "Revised art: Lan Caihe, Paimon, Ibirapema and Shiva Nataraja.",
    "Only the Curupira still has art under review."
+  ],
+  "es": [
+   "Arte nuevo: Baba Yaga, Dantalion, Homúnculo y Flechas de Houyi.",
+   "Arte revisado: Lan Caihe, Paimon, Ibirapema y Shiva Nataraja.",
+   "Solo el Curupira sigue con el arte en revisión."
   ]
  },
  {
@@ -177,6 +270,13 @@
    "3 illustrated backs: Tree of Life, Stained Glass and Jade Dragon (300 Koins).",
    "2 animated legendary backs: Ouroboros and Cosmic Lotus, with shine, sparkles and aura (800 Koins).",
    "Your equipped back shows on your cards at the table and in boosters."
+  ],
+  "es": [
+   "Tienda de cosméticos (pestaña Cosméticos en la Tienda): 9 reversos de carta nuevos para comprar con Koins y equipar.",
+   "4 reversos en pixel art: Códice, Mandala, Constelación y Azulejo (150 Koins).",
+   "3 reversos ilustrados: Árbol de la Vida, Vitral y Dragón de Jade (300 Koins).",
+   "2 reversos legendarios animados: Ouroboros y Loto Cósmico, con brillo, chispas y aura (800 Koins).",
+   "El reverso equipado aparece en tus cartas en la mesa y en los sobres."
   ]
  },
  {
@@ -185,7 +285,7 @@
   "pt": [
    "IA com as mesmas regras para todos: o Arquimago não tem mais vantagem, vence por jogar melhor (planeja o turno, usa o mulligan, olha a resposta do oponente). O Mestre erra um pouco.",
    "Koins, a moeda dos cosméticos: 10 por dia (acumula até 3 dias) e 100 toda sexta. O dia vira à meia-noite de Nova York.",
-   "Cada versão nova dá +30 Koins e +50 de ouro.",
+   "Cada versão nova dá +30 Koins e +50 moedas.",
    "Essência: desfaça cartas repetidas e crie a carta que quiser (no visor da Coleção).",
    "Garantia de Lendária: no máximo 10 boosters seguidos sem uma.",
    "Booster de uma tradição: escolha o pacote na Loja (70% das cartas vêm dela).",
@@ -197,14 +297,26 @@
   "en": [
    "AI with the same rules for everyone: the Archmage no longer gets an advantage, it wins by playing better (plans the turn, uses the mulligan, looks at the opponent's reply). The Master makes a few mistakes.",
    "Koins, the cosmetics currency: 10 a day (stacks up to 3 days) and 100 every Friday. Days reset at midnight, New York time.",
-   "Every new version gives +30 Koins and +50 gold.",
+   "Every new version gives +30 Koins and +50 coins.",
    "Essence: disenchant duplicate cards and craft the card you want (in the Collection viewer).",
-   "Legendary guarantee: at most 10 boosters in a row without one.",
+   "Legendary guarantee: never more than 10 boosters in a row without one.",
    "Tradition boosters: pick the pack in the Shop (70% of the cards come from it).",
    "Collection with filters (owned, missing, type, cost), name search, completion percentage and a NEW tag.",
    "Foils shine as you tilt your phone.",
    "Decks: Faith curve, Complete button, suggested deck per tradition, share and import codes.",
-   "Puzzles: now 12."
+   "Enigmas: now 12."
+  ],
+  "es": [
+   "IA con las mismas reglas para todos: el Archimago ya no tiene ventaja; gana porque juega mejor (planea el turno, usa el mulligan, mira la respuesta del rival). El Maestro se equivoca un poco.",
+   "Koins, la moneda de los cosméticos: 10 por día (se acumulan hasta 3 días) y 100 cada viernes. El día cambia a la medianoche de Nueva York.",
+   "Cada versión nueva da +30 Koins y +50 monedas.",
+   "Esencia: deshaz cartas repetidas y crea la carta que quieras (en el visor de la Colección).",
+   "Legendaria garantizada: como máximo 10 sobres seguidos sin una.",
+   "Sobre de una tradición: elige el sobre en la Tienda (70% de las cartas vienen de ella).",
+   "Colección con filtros (tengo, faltan, tipo, costo), búsqueda por nombre, porcentaje completado y etiqueta NUEVA.",
+   "Las foils brillan al inclinar el celular.",
+   "Mazos: curva de Fe, botón Completar, mazo sugerido por tradición y código para compartir e importar.",
+   "Enigmas: ahora son 12."
   ]
  },
  {
@@ -230,13 +342,27 @@
    "Difficulty rises through the Tournament and the 8-player Tournament. In Arcade you choose (10, 15 or 25 coins).",
    "New Solo card on Home, with 6 modes.",
    "Pilgrimage: 8 stops, paths, new cards, Blessings and a boss. Your life carries over between battles.",
-   "Daily challenge: the same match for everyone, 30 coins for a win once a day.",
+   "Daily Challenge: the same match for everyone, 30 coins for a win once a day.",
    "Legendary challenges: beat the Archmage and conquer each of the 12 Legendaries.",
-   "Puzzles: 9 win-this-turn challenges, with a hint after 2 tries.",
-   "Free mode: decks with any card to test ideas, no rewards.",
+   "Enigmas: 9 win-this-turn challenges, with a hint after 2 tries.",
+   "Free Play: decks with any card to test ideas, no rewards.",
    "Choronzon: a secret boss that unlocks after you win the Tournament.",
    "Tournament in chapters, with credits at the end.",
    "Fix: matches now really shuffle (before, the card order repeated)."
+  ],
+  "es": [
+   "Tres niveles de IA: Aprendiz, Maestro y Archimago. El Archimago planea el turno completo y empieza con +3 de vida y 1 carta más.",
+   "Cada campeón tiene personalidad: agresivo, de control o guardián de Sellos.",
+   "La dificultad sube a lo largo del Torneo y del Torneo de 8. En el Arcade tú eliges (10, 15 o 25 monedas).",
+   "Nueva carta Solo en Inicio, con 6 modos.",
+   "Peregrinación: 8 paradas, caminos, cartas nuevas, Bendiciones y un jefe. La vida se mantiene de una batalla a otra.",
+   "Desafío diario: la misma partida para todos, 30 monedas por victoria una vez al día.",
+   "Desafíos legendarios: vence al Archimago y conquista cada una de las 12 Legendarias.",
+   "Enigmas: 9 desafíos de ganar en este turno, con pista después de 2 intentos.",
+   "Modo libre: mazos con cualquier carta para probar ideas, sin premios.",
+   "Choronzon: jefe secreto que se desbloquea al ganar el Torneo.",
+   "Torneo en capítulos, con créditos al final.",
+   "Corrección: las partidas ahora barajan de verdad (antes el orden de las cartas se repetía)."
   ]
  },
  {
@@ -269,6 +395,20 @@
    "The Tournament is now saved: closing the app mid-way no longer sends you back to fight 1.",
    "Options: vibration on/off and fast animations.",
    "Shuffle sound and a new app icon."
+  ],
+  "es": [
+   "Mulligan: al comienzo de la partida, toca hasta 2 cartas de tu mano para cambiarlas.",
+   "Menú en la partida (esquina superior): pausa, reglas completas, velocidad, vibración y rendirse.",
+   "Botón RÁPIDO en el turno del rival: acelera sus jugadas hasta tu turno.",
+   "Historial en la columna izquierda: las últimas 6 jugadas. Toca una para ver la carta.",
+   "Vista previa del ataque: al arrastrar, muestra cuánto infliges, cuánto recibes y quién muere.",
+   "¿Sin jugadas posibles? El botón FIN TURNO late para avisarte.",
+   "Resumen al final de la partida: turnos, cartas, daño y Entidades destruidas.",
+   "Las Legendarias tienen entrada propia, con rayos dorados y la carta destacada.",
+   "Emotes: 4 frases cortas en la esquina superior derecha. A veces el rival responde.",
+   "El Torneo ahora se guarda: cerrar la app a mitad ya no te devuelve al duelo 1.",
+   "Opciones: activar/desactivar vibración y animaciones rápidas.",
+   "Sonido de barajar e ícono nuevo de la app."
   ]
  },
  {
@@ -289,6 +429,14 @@
    "News scroll: shows up on every new version, and all previous ones live under the scroll button on Home.",
    "Protected save: your progress is now stored encrypted, with a backup copy.",
    "Privacy policy in Options."
+  ],
+  "es": [
+   "Regalo diario: 50 monedas por día (cambia a la medianoche de Brasilia). ¿No jugaste? Se acumula hasta 3 días.",
+   "Sobre gratis cada semana, renovado el lunes. Ábrelo en la Tienda.",
+   "La hora viene de internet, no del celular: cambiar el reloj del dispositivo no sirve.",
+   "Pergamino de novedades: aparece con cada versión nueva y todas las anteriores quedan en el botón del pergamino en Inicio.",
+   "Guardado protegido: el progreso ahora se guarda cifrado, con copia de seguridad.",
+   "Política de privacidad en Opciones."
   ]
  },
  {
@@ -299,6 +447,9 @@
   ],
   "en": [
    "Player and deck names can be typed on the web version (iPhone)."
+  ],
+  "es": [
+   "Nombres del jugador y del mazo editables en la versión web (iPhone)."
   ]
  },
  {
@@ -309,6 +460,9 @@
   ],
   "en": [
    "Photo upload on iPhone accepts JPEG, PNG and WebP (iOS converts HEIC by itself)."
+  ],
+  "es": [
+   "Subir fotos en iPhone acepta JPEG, PNG y WebP (iOS convierte HEIC solo)."
   ]
  },
  {
@@ -321,6 +475,10 @@
   "en": [
    "4 ready-made profile pictures to choose from.",
    "Photo upload now works on iPhone (web)."
+  ],
+  "es": [
+   "4 imágenes de perfil listas para elegir.",
+   "Subir fotos ya funciona en iPhone (web)."
   ]
  },
  {
@@ -331,6 +489,9 @@
   ],
   "en": [
    "Bigger graveyard cards with pinch or mouse-wheel zoom. One tap resets it."
+  ],
+  "es": [
+   "Cartas del cementerio más grandes, con zoom de pellizco o rueda del mouse. Un toque vuelve a la normalidad."
   ]
  },
  {
@@ -341,6 +502,9 @@
   ],
   "en": [
    "New logo: golden pixel Kode and the black brush X, with splatter."
+  ],
+  "es": [
+   "Logo nuevo: Kode dorado en pixel y la X de pincel negro, con salpicaduras."
   ]
  },
  {
@@ -355,6 +519,11 @@
    "Tab bar fixed at the bottom of the screen.",
    "Full screen that respects the camera notch and gesture bar.",
    "Text and light rays no longer spill out of windows."
+  ],
+  "es": [
+   "Barra de pestañas fija en la parte inferior de la pantalla.",
+   "Pantalla completa que respeta la cámara y la barra de gestos.",
+   "Los textos y rayos de luz ya no se salen de las ventanas."
   ]
  },
  {
@@ -365,6 +534,9 @@
   ],
   "en": [
    "Photo adjustment only starts when the touch begins inside the crop window."
+  ],
+  "es": [
+   "El ajuste de la foto solo empieza cuando el toque comienza dentro de la ventana de recorte."
   ]
  },
  {
@@ -375,6 +547,9 @@
   ],
   "en": [
    "Photo crop buttons work again."
+  ],
+  "es": [
+   "Los botones del recorte de foto vuelven a funcionar."
   ]
  },
  {
@@ -389,6 +564,11 @@
    "New menu: a fan of cards to pick the mode and an animated tab bar.",
    "Options screen.",
    "Profile photo fixes."
+  ],
+  "es": [
+   "Menú nuevo: abanico de cartas para elegir el modo y barra de pestañas animada.",
+   "Pantalla de Opciones.",
+   "Correcciones en la foto de perfil."
   ]
  },
  {
@@ -401,6 +581,10 @@
   "en": [
    "Loading screen with random cards.",
    "Blinking cursor and a 16-letter limit on names."
+  ],
+  "es": [
+   "Pantalla de carga con cartas al azar.",
+   "Cursor parpadeante y límite de 16 letras en los nombres."
   ]
  },
  {
@@ -413,6 +597,10 @@
   "en": [
    "Card viewer: swipe up to read the lore.",
    "The graveyard carousel closes cleanly."
+  ],
+  "es": [
+   "Visor de cartas: desliza hacia arriba para leer la historia.",
+   "El carrusel del cementerio se cierra sin dejar rastro."
   ]
  },
  {
@@ -423,6 +611,9 @@
   ],
   "en": [
    "Graveyard pile tidied up and in the real order the cards fell."
+  ],
+  "es": [
+   "Pila del cementerio ordenada y en el orden real en que cayeron las cartas."
   ]
  },
  {
@@ -433,6 +624,9 @@
   ],
   "en": [
    "Graveyard carousel to browse the cards and pick who to revive."
+  ],
+  "es": [
+   "Carrusel del cementerio para ver las cartas y elegir a quién revivir."
   ]
  },
  {
@@ -443,6 +637,9 @@
   ],
   "en": [
    "Arcade tournament bracket made of cards, climbing from the bottom up."
+  ],
+  "es": [
+   "Llave del torneo arcade hecha de cartas, que sube de abajo hacia arriba."
   ]
  },
  {
@@ -455,6 +652,10 @@
   "en": [
    "8-player arcade tournament in a knockout bracket.",
    "The champion takes 150 coins and a free booster."
+  ],
+  "es": [
+   "Torneo arcade de 8 jugadores con llave eliminatoria.",
+   "El campeón se lleva 150 monedas y un sobre gratis."
   ]
  },
  {
@@ -467,6 +668,10 @@
   "en": [
    "The booster cut follows your finger.",
    "Rarity badges C, R, SR and UR."
+  ],
+  "es": [
+   "El corte del sobre sigue tu dedo.",
+   "Sellos de rareza C, R, SR y UR."
   ]
  },
  {
@@ -479,6 +684,10 @@
   "en": [
    "Shop and booster opening: cut the top of the pack and flip the 3 cards.",
    "12 legendaries in foil, with their own art."
+  ],
+  "es": [
+   "Tienda y apertura de sobres: corta la punta del sobre y voltea las 3 cartas.",
+   "12 legendarias en versión foil, con arte propio."
   ]
  },
  {
@@ -489,6 +698,9 @@
   ],
   "en": [
    "Accents, cedilla and parentheses in the pixel font."
+  ],
+  "es": [
+   "Acentos, cedilla y paréntesis en la fuente pixel."
   ]
  },
  {
@@ -503,6 +715,11 @@
    "Profile with name and photo.",
    "Coins, deck building and a collection of owned cards.",
    "Automatic saving."
+  ],
+  "es": [
+   "Perfil con nombre y foto.",
+   "Monedas, armado de mazos y colección de cartas obtenidas.",
+   "Guardado automático."
   ]
  },
  {
@@ -513,6 +730,9 @@
   ],
   "en": [
    "Collection with the lore of every card, in Portuguese and English."
+  ],
+  "es": [
+   "Colección con la historia de cada carta, en portugués e inglés."
   ]
  },
  {
@@ -523,6 +743,9 @@
   ],
   "en": [
    "Tutorial lines rewritten and a gradient at the bottom of the screen."
+  ],
+  "es": [
+   "Diálogos del tutorial reescritos y degradado en la parte inferior de la pantalla."
   ]
  },
  {
@@ -533,6 +756,9 @@
   ],
   "en": [
    "Silas sits at the bottom of the screen during the tutorial."
+  ],
+  "es": [
+   "Silas se queda en la parte inferior de la pantalla durante el tutorial."
   ]
  },
  {
@@ -543,6 +769,9 @@
   ],
   "en": [
    "Silas shown big in the tutorial."
+  ],
+  "es": [
+   "Silas en tamaño grande en el tutorial."
   ]
  },
  {
@@ -553,6 +782,9 @@
   ],
   "en": [
    "Tutorial with Silas Ashcombe."
+  ],
+  "es": [
+   "Tutorial con Silas Ashcombe."
   ]
  },
  {
@@ -567,6 +799,11 @@
    "Graveyard reshuffles into the deck.",
    "Guard visual.",
    "Version shown on the title screen."
+  ],
+  "es": [
+   "El cementerio se baraja de vuelta en el mazo.",
+   "Efecto visual de la Guardia.",
+   "Versión visible en la pantalla de título."
   ]
  },
  {
@@ -577,6 +814,9 @@
   ],
   "en": [
    "First KodeX Alpha: 6 traditions, 32 cards each, matches against the AI."
+  ],
+  "es": [
+   "Primera versión Alpha de KodeX: 6 tradiciones, 32 cartas cada una, partidas contra la IA."
   ]
  }
 ]

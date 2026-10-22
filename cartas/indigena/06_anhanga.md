@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Sempre que outra Entidade aliada morrer, invoca um Veado Branco 1/2.
+Sempre que outra Entidade aliada morrer, invoque um Veado Branco 1/2.
 
 ## Contexto mitológico
 Para os Tupinambá do século XVI, *Anhanga* era o espírito errante dos mortos, o terror das noites: Anchieta (1560) e Cardim (c. 1584) o descrevem como o ser que "anda pelo mato" e de quem todos têm medo; os jesuítas o traduziram como "diabo", o que distorceu a figura. Métraux (*A religião dos Tupinambás*, 1928) a devolve ao lugar: um espectro ligado aos mortos e à floresta, não um princípio do mal.

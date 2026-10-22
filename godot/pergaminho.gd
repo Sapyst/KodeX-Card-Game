@@ -69,9 +69,11 @@ func aberto() -> bool:
 
 ## blocos: [[tipo, texto, (extra)], ...]. Tipos: titulo, versao (texto, data), item, txt, sub, centro, destaque
 ## (texto grande + ícone "moeda"/"booster"), espaco, divisor.
-func abrir(blocos: Array, ao_fechar := Callable()) -> void:
+## extra = {"texto", "acao"}: um 2º botão ao lado do Fechar (ex.: copiar as 12 palavras do Kode); não fecha o pergaminho.
+func abrir(blocos: Array, ao_fechar := Callable(), extra := {}) -> void:
 	_blocos = blocos
 	_ao_fechar = ao_fechar
+	_extra = extra
 	if _papel == null:
 		_papel = _gerar_papel()
 	_montar()
@@ -103,8 +105,17 @@ func _y_rolos() -> Vector2:              # centros do rolo de cima e de baixo
 	return Vector2(_cy() - h / 2.0 - _rh() / 2.0, _cy() + h / 2.0 + _rh() / 2.0)
 
 
+var _extra := {}
+var _extra_aperto := false
+
+
 func _rect_botao() -> Rect2:
-	return Rect2(130, _y_rolos().y + _rh() / 2.0 + 12.0, 100, 24)
+	var y := _y_rolos().y + _rh() / 2.0 + 12.0
+	return Rect2(186, y, 110, 24) if not _extra.is_empty() else Rect2(130, y, 100, 24)
+
+
+func _rect_extra() -> Rect2:
+	return Rect2(64, _y_rolos().y + _rh() / 2.0 + 12.0, 110, 24)
 
 
 # ---------------- layout e textura ----------------
@@ -381,6 +392,13 @@ func _draw() -> void:
 		draw_rect(Rect2(rb.position + Vector2(0, off), rb.size), Color(0.55, 0.12, 0.13, ab).darkened(0.25 if _botao_aperto else 0.0))
 		draw_rect(Rect2(rb.position + Vector2(1, 1 + off), Vector2(rb.size.x - 2, 1)), Color(0.85, 0.35, 0.3, ab))
 		PixelFonte.centrado(self, rb.get_center() + Vector2(0, off), Sessao.t("Fechar").to_upper(), Color(1.0, 0.9, 0.75, ab), 1)
+		if not _extra.is_empty():                       # 2º botão (dourado)
+			var re := _rect_extra()
+			var oe := 1.0 if _extra_aperto else 0.0
+			draw_rect(re.grow(1), Color(0.08, 0.05, 0.04, ab))
+			draw_rect(Rect2(re.position + Vector2(0, oe), re.size), Color(0.45, 0.32, 0.1, ab).darkened(0.25 if _extra_aperto else 0.0))
+			draw_rect(Rect2(re.position + Vector2(1, 1 + oe), Vector2(re.size.x - 2, 1)), Color(1.0, 0.85, 0.45, ab))
+			PixelFonte.centrado(self, re.get_center() + Vector2(0, oe), Sessao.t(str(_extra["texto"])).to_upper(), Color(1.0, 0.95, 0.8, ab), 1)
 	draw_set_transform(Vector2.ZERO)
 
 
@@ -448,11 +466,17 @@ func entrada(ev: InputEvent, p: Vector2) -> bool:
 			_moveu = false
 			vel = 0.0
 			_botao_aperto = _rect_botao().has_point(p)
+			_extra_aperto = not _extra.is_empty() and _rect_extra().has_point(p)
 		else:
 			_dedo = false
+			if _extra_aperto and _rect_extra().grow(8).has_point(p):
+				_extra_aperto = false
+				(_extra["acao"] as Callable).call()
+				return true
+			_extra_aperto = false
 			if _botao_aperto and _rect_botao().grow(8).has_point(p):
 				fechar()
-			elif not _moveu and not papel.grow(6).has_point(p) and not _rect_botao().has_point(_ini):
+			elif not _moveu and not papel.grow(6).has_point(p) and not _rect_botao().has_point(_ini) and not (not _extra.is_empty() and _rect_extra().grow(8).has_point(_ini)):
 				fechar()                                    # toque fora do papel fecha
 			_botao_aperto = false
 	elif ev is InputEventMouseButton and ev.pressed and ev.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:

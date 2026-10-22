@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Sacrifício 1. Despertar: devore uma Entidade inimiga à escolha (destrua-a).
+Sacrifício 1. Despertar: Destrua uma Entidade inimiga.
 
 ## Contexto mitológico
 Baba Yaga é a velha da floresta dos contos russos e eslavos: nariz que toca o teto, perna de osso, dentes de ferro. Mora numa *izbá* que gira sobre pés de galinha e só se abre quando se diz "cabaninha, cabaninha, fica de costas para a floresta e de frente para mim"; a cerca é de ossos humanos e os postes têm caveiras cujos olhos brilham à noite. Voa num pilão, remando com o socador e apagando o rastro com a vassoura. Fareja o visitante — "cheira a russo aqui!" — e come quem não cumpre suas tarefas.

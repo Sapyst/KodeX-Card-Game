@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Portadora: +3 ATK / +1 Vida. Quando a portadora atacar, causa 1 de dano a todas as Entidades inimigas.
+A portadora ganha +3/+1. Sempre que ela atacar, cause 1 de dano a todas as Entidades inimigas.
 
 ## Contexto mitológico
 O Gandiva é o arco de Arjuna, o mais famoso do Mahabharata. Feito por Brahma, passou por Prajapati, Indra, Soma e Varuna até que, no episódio do incêndio de Khandava (Adi Parva), Agni, querendo devorar a floresta protegida por Indra, pede ajuda a Krishna e Arjuna; para que o herói possa enfrentar a chuva de Indra, Varuna lhe entrega o Gandiva, duas aljavas inesgotáveis e um carro com cavalos brancos. O arco é indestrutível e sua corda, ao vibrar, soa como o trovão; as aljavas que o acompanham nunca se esvaziam.

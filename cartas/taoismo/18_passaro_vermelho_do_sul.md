@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando uma Entidade aliada morrer: reviva uma Entidade do seu cemitério para o campo e cure 2 da sua Cornucópia.
+Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério para o campo. Cure 2 da sua Cornucópia.
 
 ## Contexto mitológico
 Zhuque (朱雀), o Pássaro Vermelho do Sul, governa o verão, o fogo e o meio-dia. Nas fontes Han (*Shiji*, "Tianguan shu"; *Huainanzi*) é a figura das sete mansões meridionais (de Jing, em Gêmeos, a Zhen, em Corvus; Antares, muitas vezes citada por engano, pertence à mansão Xin do Dragão Azul); nas tumbas aparece como ave de longa cauda e crista, asas abertas, entre chamas. Não é a fênix (*fenghuang*), ave de bom augúrio ligada à imperatriz, mas as duas se confundem desde cedo, e a confusão trouxe para Zhuque a ideia que o Ocidente associa à fênix: o fogo que consome e devolve.

@@ -1,0 +1,439 @@
+{
+ "_doc": "Versões novas (PT-BR / EN / ES) das constantes de texto dos scripts .gd, prontas para colar de volta. Mesma ordem e mesmas chaves do código. Listas no formato [pt, en, es]. Gerado na revisão de textos (EN base, adaptado para PT e ES).",
+ "tutorial.FALAS": {
+  "en": {
+   "oi": "Ah, you came. Silas Ashcombe, Magus of the Triangle. Before the tournament, a private lesson. I've set this table my way, so follow my instructions and no one gets hurt... much.",
+   "cornucopia": "Across from you sits Lin Yuehua: a hundred and eighty years of Taoist patience. The numbers by the circle are the Cornucopias, each player's life. Hers is already down to 6. Yours is full: 15. Bring hers to zero.",
+   "fe": "This is your Faith. Every card is paid for with it, and the number in the corner is the price. Today it's on me. Consider it a loan... I'll collect later.",
+   "mao": "Your hand. Cards glowing gold are the ones you can afford right now. The rest will wait their turn.",
+   "silfo": "Let's begin with an Entity, a creature that fights for you. Drag the Sylph onto one of the four spaces in your row.",
+   "silfo_ok": "Welcome to the table, little Sylph. The red number is attack; the blue one, defense. And note: it has Rush. Most creatures need a turn to get used to the world. Not this one.",
+   "direto": "Her side is empty, and an empty field is an open door. Drag the Sylph into Lin's territory and strike her Cornucopia directly.",
+   "direto_ok": "One point. It seems small, but every fall begins with a stumble. When you're ready, tap END TURN.",
+   "lan": "Lan Caihe, the Immortal who sings through the streets with a basket of flowers. Graceful and fragile: 1 attack, 1 defense. Want to read a card at your leisure? Hold your finger on it.",
+   "reliquia": "New turn, new card, Faith restored. This is a Relic: John Dee's Shew Stone, through which he swore he spoke with angels. Drag it onto the Sylph.",
+   "reliquia_ok": "One more attack, three more defense. And that rainbow under the card? That's the table telling you it's stronger than it was born.",
+   "ataque": "Time to get your hands dirty. Drag the Sylph onto Lan Caihe. They strike each other at the same time, and whoever runs out of defense goes to the graveyard.",
+   "ataque_ok": "Petals everywhere. The Sylph took a hit back and is still standing. That's the secret: pick fights where you hit harder than you get hit.",
+   "selo": "Now, my favorite part: a Seal. It sits face down, silent, and fires on its own during her turn. Place the Blazing Pentagram on one of the Seal spaces in the lower row.",
+   "selo_ok": "She'll stare at that face-down card and imagine the worst. She'll be right. Tap END TURN and watch.",
+   "anulou": "Hear that crack? The Arrows of Houyi never got near the Sylph: the Pentagram burned the Rite out of the air. It even earned me a card and 2 life. A good trap is worth more than an army.",
+   "guarda": "But she brought Cao Guojiu. See the shield and the blue frame? That's Guard: while he stands, every attack of yours has to go through him first.",
+   "andras": "Which is why I brought Andras, the sower of discord. I'll advance you 7 Faith today. Put him in an empty space: when he awakens, he destroys an enemy Entity that costs 3 or less.",
+   "andras_alvo": "Awaken needs a target. Tap Cao Guojiu.",
+   "andras_ok": "There goes the wall. Andras just arrived and needs a turn, but the Sylph is wide awake.",
+   "direto2": "The way is clear again. Send the Sylph straight at her Cornucopia.",
+   "direto2_ok": "Three. Now she feels it. And I saved the best for last.",
+   "rito": "Abrahadabra. A Rite: magic that happens at once and is gone. Three damage straight to the Cornucopia, exactly what's left. Drag it to the middle of the table.",
+   "fim1": "Splendid. Faith, Entities, Relics, Seals, Rites, Guard, Awaken... In three turns you learned what many take a whole tournament to grasp.",
+   "fim2": "Lin will recover, and so will the other champions. Go to the Tournament, defeat all five, and at the end, come find me. I'll be waiting... and this time, I won't lend you anything.",
+   "lin1": "A trap?! My Rite turned to ash!",
+   "toque": "tap to continue"
+  },
+  "pt": {
+   "oi": "Ah, você veio. Silas Ashcombe, Magus do Triângulo. Antes do torneio, uma aula particular. Arrumei esta mesa do meu jeito; siga minhas instruções e ninguém se machuca... muito.",
+   "cornucopia": "Do outro lado está Lin Yuehua: cento e oitenta anos de paciência taoísta. Os números junto ao círculo são as Cornucópias, a vida de cada um. A dela já caiu para 6. A sua está cheia: 15. Leve a dela a zero.",
+   "fe": "Aqui fica a sua Fé. Toda carta se paga com ela, e o número no canto é o preço. Hoje a conta é minha. Considere um empréstimo... eu cobro depois.",
+   "mao": "Sua mão. As cartas com brilho dourado são as que você pode pagar agora. As outras esperam a vez delas.",
+   "silfo": "Comecemos por uma Entidade, uma criatura que luta por você. Arraste o Silfo para um dos quatro espaços da sua fileira.",
+   "silfo_ok": "Bem-vindo à mesa, pequeno Silfo. O número vermelho é o ataque; o azul, a defesa. E repare: ele tem Ímpeto. Quase toda criatura precisa de um turno para se acostumar com o mundo. Ele, não.",
+   "direto": "O lado dela está vazio, e campo vazio é porta aberta. Arraste o Silfo até o território da Lin e acerte a Cornucópia dela em cheio.",
+   "direto_ok": "Um ponto. Parece pouco, mas toda queda começa com um tropeço. Quando estiver pronto, toque em FIM TURNO.",
+   "lan": "Lan Caihe, a Imortal que canta pelas ruas com um cesto de flores. Graciosa e frágil: 1 de ataque, 1 de defesa. Quer ler uma carta com calma? Segure o dedo sobre ela.",
+   "reliquia": "Turno novo, carta nova, Fé renovada. Isto é uma Relíquia: a Pedra de Visão de John Dee, por onde ele jurava falar com anjos. Arraste-a sobre o Silfo.",
+   "reliquia_ok": "Um de ataque e três de defesa a mais. E esse arco-íris sob a carta? É a mesa avisando que ela está mais forte do que nasceu.",
+   "ataque": "Hora de sujar as mãos. Arraste o Silfo sobre Lan Caihe. Os dois se golpeiam ao mesmo tempo, e quem ficar sem defesa vai para o cemitério.",
+   "ataque_ok": "Pétalas para todo lado. O Silfo levou o troco e continua de pé. O segredo é esse: escolha brigas em que você bate mais forte do que apanha.",
+   "selo": "Agora, minha parte favorita: um Selo. Fica virado para baixo, calado, e dispara sozinho no turno dela. Ponha o Pentagrama Flamejante num dos espaços de Selo, na fileira de baixo.",
+   "selo_ok": "Ela vai olhar para essa carta virada e imaginar o pior. E vai acertar. Toque em FIM TURNO e assista.",
+   "anulou": "Ouviu o estalo? As Flechas de Houyi nem chegaram perto do Silfo: o Pentagrama queimou o Rito no ar. E ainda me rendeu uma carta e 2 de vida. Uma boa armadilha vale mais que um exército.",
+   "guarda": "Mas ela trouxe Cao Guojiu. Está vendo o escudo e a moldura azul? Isso é Guarda: enquanto ele estiver de pé, todo ataque seu tem que passar por ele primeiro.",
+   "andras": "Por isso eu trouxe Andras, o semeador da discórdia. Hoje te adianto 7 de Fé. Ponha-o num espaço vazio: ao despertar, ele destrói uma Entidade inimiga de custo 3 ou menos.",
+   "andras_alvo": "O Despertar pede um alvo. Toque em Cao Guojiu.",
+   "andras_ok": "Lá se vai a muralha. Andras acabou de chegar e precisa de um turno, mas o Silfo está bem acordado.",
+   "direto2": "Caminho livre outra vez. Mande o Silfo direto na Cornucópia dela.",
+   "direto2_ok": "Três. Agora ela sentiu. E eu guardei o melhor para o fim.",
+   "rito": "Abrahadabra. Um Rito: magia que acontece na hora e se desfaz. Três de dano direto na Cornucópia, exatamente o que falta. Arraste-o para o meio da mesa.",
+   "fim1": "Esplêndido. Fé, Entidades, Relíquias, Selos, Ritos, Guarda, Despertar... Em três turnos você aprendeu o que muita gente leva um torneio inteiro para entender.",
+   "fim2": "A Lin vai se recuperar, e os outros campeões também. Vá ao Torneio, vença os cinco e, no fim, venha me encontrar. Estarei esperando... e, dessa vez, não vou te emprestar nada.",
+   "lin1": "Uma armadilha?! Meu Rito virou cinza!",
+   "toque": "toque para continuar"
+  },
+  "es": {
+   "oi": "Ah, viniste. Silas Ashcombe, Magus del Triángulo. Antes del torneo, una lección privada. Preparé esta mesa a mi manera; sigue mis instrucciones y nadie saldrá herido... demasiado.",
+   "cornucopia": "Frente a ti está Lin Yuehua: ciento ochenta años de paciencia taoísta. Los números junto al círculo son las Cornucopias, la vida de cada uno. La suya ya bajó a 6. La tuya está llena: 15. Lleva la suya a cero.",
+   "fe": "Aquí está tu Fe. Cada carta se paga con ella, y el número de la esquina es el precio. Hoy invito yo. Considéralo un préstamo... luego cobro.",
+   "mao": "Tu mano. Las cartas con brillo dorado son las que puedes pagar ahora. Las demás esperan su turno.",
+   "silfo": "Empecemos con una Entidad, una criatura que lucha por ti. Arrastra al Silfo a uno de los cuatro espacios de tu fila.",
+   "silfo_ok": "Bienvenido a la mesa, pequeño Silfo. El número rojo es el ataque; el azul, la defensa. Y fíjate: tiene Ímpetu. Casi todas las criaturas necesitan un turno para acostumbrarse al mundo. Él no.",
+   "direto": "Su lado está vacío, y un campo vacío es una puerta abierta. Arrastra al Silfo al territorio de Lin y golpea su Cornucopia directamente.",
+   "direto_ok": "Un punto. Parece poco, pero toda caída empieza con un tropiezo. Cuando estés listo, toca FIN TURNO.",
+   "lan": "Lan Caihe, la Inmortal que canta por las calles con una canasta de flores. Grácil y frágil: 1 de ataque, 1 de defensa. ¿Quieres leer una carta con calma? Mantén el dedo sobre ella.",
+   "reliquia": "Turno nuevo, carta nueva, Fe renovada. Esto es una Reliquia: la Piedra de Visión de John Dee, por la que juraba hablar con ángeles. Arrástrala sobre el Silfo.",
+   "reliquia_ok": "Uno más de ataque, tres más de defensa. ¿Y ese arcoíris bajo la carta? Es la mesa avisándote que está más fuerte de lo que nació.",
+   "ataque": "Hora de ensuciarse las manos. Arrastra al Silfo sobre Lan Caihe. Los dos se golpean al mismo tiempo, y quien se quede sin defensa va al cementerio.",
+   "ataque_ok": "Pétalos por todas partes. El Silfo recibió el contragolpe y sigue en pie. Ese es el secreto: elige peleas donde pegues más fuerte de lo que te pegan.",
+   "selo": "Ahora, mi parte favorita: un Sello. Queda boca abajo, en silencio, y se activa solo durante su turno. Pon el Pentagrama Llameante en uno de los espacios de Sello, en la fila de abajo.",
+   "selo_ok": "Va a mirar esa carta boca abajo e imaginar lo peor. Y tendrá razón. Toca FIN TURNO y observa.",
+   "anulou": "¿Oíste el chasquido? Las Flechas de Houyi ni se acercaron al Silfo: el Pentagrama quemó el Rito en el aire. Y encima me dio una carta y 2 de vida. Una buena trampa vale más que un ejército.",
+   "guarda": "Pero ella trajo a Cao Guojiu. ¿Ves el escudo y el marco azul? Eso es Guardia: mientras siga en pie, todos tus ataques tienen que pasar primero por él.",
+   "andras": "Por eso traje a Andras, el sembrador de discordia. Hoy te adelanto 7 de Fe. Ponlo en un espacio vacío: al despertar, destruye una Entidad enemiga de costo 3 o menos.",
+   "andras_alvo": "El Despertar pide un objetivo. Toca a Cao Guojiu.",
+   "andras_ok": "Adiós a la muralla. Andras acaba de llegar y necesita un turno, pero el Silfo está bien despierto.",
+   "direto2": "El camino está libre otra vez. Manda al Silfo directo a su Cornucopia.",
+   "direto2_ok": "Tres. Ahora sí lo siente. Y guardé lo mejor para el final.",
+   "rito": "Abrahadabra. Un Rito: magia que ocurre al instante y se desvanece. Tres de daño directo a la Cornucopia, justo lo que falta. Arrástralo al centro de la mesa.",
+   "fim1": "Espléndido. Fe, Entidades, Reliquias, Sellos, Ritos, Guardia, Despertar... En tres turnos aprendiste lo que a muchos les toma un torneo entero entender.",
+   "fim2": "Lin se recuperará, y los demás campeones también. Ve al Torneo, vence a los cinco y, al final, ven a buscarme. Te estaré esperando... y esta vez no te voy a prestar nada.",
+   "lin1": "¡¿Una trampa?! ¡Mi Rito se hizo cenizas!",
+   "toque": "toca para continuar"
+  }
+ },
+ "mesa_hud.EMOTES": [
+  [
+   "Saudações!",
+   "Greetings!",
+   "¡Saludos!"
+  ],
+  [
+   "Boa jogada.",
+   "Well played.",
+   "Buena jugada."
+  ],
+  [
+   "Hmm...",
+   "Hmm...",
+   "Hmm..."
+  ],
+  [
+   "Uau!",
+   "Wow!",
+   "¡Guau!"
+  ]
+ ],
+ "mesa_hud.RESPOSTAS": [
+  [
+   [
+    "Que os deuses decidam.",
+    "Let the gods decide.",
+    "Que decidan los dioses."
+   ],
+   [
+    "Saudações. Agora, lute.",
+    "Greetings. Now, fight.",
+    "Saludos. Ahora, pelea."
+   ]
+  ],
+  [
+   [
+    "Eu sei.",
+    "I know.",
+    "Lo sé."
+   ],
+   [
+    "Valeu. Não vai se repetir... para você.",
+    "Thanks. It won't happen again... for you.",
+    "Gracias. No se repetirá... para ti."
+   ]
+  ],
+  [
+   [
+    "Pense rápido.",
+    "Think fast.",
+    "Piensa rápido."
+   ],
+   [
+    "O tempo está do meu lado.",
+    "Time is on my side.",
+    "El tiempo está de mi lado."
+   ]
+  ],
+  [
+   [
+    "Você ainda não viu nada.",
+    "You haven't seen anything yet.",
+    "Todavía no has visto nada."
+   ],
+   [
+    "O Códice guarda mais.",
+    "The Codex holds more.",
+    "El Códice guarda más."
+   ]
+  ]
+ ],
+ "historico.MODOS": {
+  "arcade": [
+   "Arcade",
+   "Arcade",
+   "Arcade"
+  ],
+  "arcade_t": [
+   "Torneio de 8",
+   "8-Player Tournament",
+   "Torneo de 8"
+  ],
+  "torneio": [
+   "Torneio",
+   "Tournament",
+   "Torneo"
+  ],
+  "peregrinacao": [
+   "Peregrinação",
+   "Pilgrimage",
+   "Peregrinación"
+  ],
+  "diario": [
+   "Desafio do dia",
+   "Daily Challenge",
+   "Desafío diario"
+  ],
+  "lendario": [
+   "Lendário",
+   "Legendary",
+   "Legendario"
+  ],
+  "livre": [
+   "Modo livre",
+   "Free Play",
+   "Modo libre"
+  ],
+  "choronzon": [
+   "Choronzon",
+   "Choronzon",
+   "Choronzon"
+  ],
+  "online": [
+   "Online",
+   "Online",
+   "En línea"
+  ],
+  "bot": [
+   "Online (bot)",
+   "Online (bot)",
+   "En línea (bot)"
+  ]
+ },
+ "historico.NIVEIS": [
+  [
+   "Aprendiz",
+   "Apprentice",
+   "Aprendiz"
+  ],
+  [
+   "Mestre",
+   "Master",
+   "Maestro"
+  ],
+  [
+   "Arquimago",
+   "Archmage",
+   "Archimago"
+  ]
+ ],
+ "fluxo.CREDITOS": [
+  [
+   "KODEX",
+   "",
+   ""
+  ],
+  [
+   "o torneio do Códice",
+   "the tournament of the Codex",
+   "el torneo del Códice"
+  ],
+  [
+   "",
+   "",
+   ""
+  ],
+  [
+   "um jogo de Sapyst",
+   "a game by Sapyst",
+   "un juego de Sapyst"
+  ],
+  [
+   "",
+   "",
+   ""
+  ],
+  [
+   "Design, código e direção",
+   "Design, code and direction",
+   "Diseño, código y dirección"
+  ],
+  [
+   "Sapyst",
+   "Sapyst",
+   "Sapyst"
+  ],
+  [
+   "",
+   "",
+   ""
+  ],
+  [
+   "Arte das cartas",
+   "Card art",
+   "Arte de las cartas"
+  ],
+  [
+   "geração local (ComfyUI) revisada por Sapyst",
+   "generated locally (ComfyUI), curated by Sapyst",
+   "generación local (ComfyUI) revisada por Sapyst"
+  ],
+  [
+   "",
+   "",
+   ""
+  ],
+  [
+   "Fontes",
+   "Fonts",
+   "Fuentes"
+  ],
+  [
+   "fontes pixel art próprias; Source Serif 4 (SIL OFL)",
+   "original pixel fonts; Source Serif 4 (SIL OFL)",
+   "fuentes pixel art propias; Source Serif 4 (SIL OFL)"
+  ],
+  [
+   "",
+   "",
+   ""
+  ],
+  [
+   "Motor",
+   "Engine",
+   "Motor"
+  ],
+  [
+   "Godot Engine (MIT)",
+   "Godot Engine (MIT)",
+   "Godot Engine (MIT)"
+  ],
+  [
+   "",
+   "",
+   ""
+  ],
+  [
+   "Mitologias",
+   "Mythologies",
+   "Mitologías"
+  ],
+  [
+   "indígena brasileira, cristã, taoísta, hindu,",
+   "Brazilian Indigenous, Christian, Taoist, Hindu,",
+   "indígena brasileña, cristiana, taoísta, hindú,"
+  ],
+  [
+   "bruxaria e alta magia, com respeito",
+   "witchcraft and high magic, with respect",
+   "brujería y alta magia, con respeto"
+  ],
+  [
+   "",
+   "",
+   ""
+  ],
+  [
+   "",
+   "",
+   ""
+  ],
+  [
+   "Obrigado por jogar.",
+   "Thank you for playing.",
+   "Gracias por jugar."
+  ]
+ ],
+ "cosmeticos.VERSOS.nome": {
+  "classico": [
+   "Clássico",
+   "Classic",
+   "Clásico"
+  ],
+  "codice": [
+   "Códice",
+   "Codex",
+   "Códice"
+  ],
+  "mandala": [
+   "Mandala",
+   "Mandala",
+   "Mandala"
+  ],
+  "constelacao": [
+   "Constelação",
+   "Constellation",
+   "Constelación"
+  ],
+  "azulejo": [
+   "Azulejo",
+   "Azulejo",
+   "Azulejo"
+  ],
+  "arvore": [
+   "Árvore da Vida",
+   "Tree of Life",
+   "Árbol de la Vida"
+  ],
+  "vitral": [
+   "Vitral",
+   "Stained Glass",
+   "Vitral"
+  ],
+  "dragao": [
+   "Dragão de Jade",
+   "Jade Dragon",
+   "Dragón de Jade"
+  ],
+  "ouroboros": [
+   "Ouroboros",
+   "Ouroboros",
+   "Ouroboros"
+  ],
+  "lotus": [
+   "Lótus Cósmica",
+   "Cosmic Lotus",
+   "Loto Cósmico"
+  ]
+ },
+ "sessao.NOME_DECK": {
+  "indigena": [
+   "Indígena",
+   "Indigenous",
+   "Indígena"
+  ],
+  "cristianismo": [
+   "Cristianismo",
+   "Christianity",
+   "Cristianismo"
+  ],
+  "taoismo": [
+   "Taoismo",
+   "Taoism",
+   "Taoísmo"
+  ],
+  "hinduismo": [
+   "Hinduísmo",
+   "Hinduism",
+   "Hinduismo"
+  ],
+  "bruxaria": [
+   "Bruxaria",
+   "Witchcraft",
+   "Brujería"
+  ],
+  "alta_magia": [
+   "Alta Magia",
+   "High Magic",
+   "Alta Magia"
+  ],
+  "misto": [
+   "Misto",
+   "Mixed",
+   "Mixto"
+  ]
+ }
+}

@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: cura 4 de Vida de uma Entidade aliada.
+Despertar: Cure 4 de Vida de uma Entidade aliada.
 
 ## Contexto mitológico
 Rafael ("Deus cura") é o protagonista oculto do Livro de Tobias. Disfarçado como o viajante Azarias, acompanha o jovem Tobias de Nínive à Média, ensina-o a tirar o coração, o fígado e o fel de um peixe do Tigre, com a fumaça expulsa o demônio Asmodeu que matara os sete noivos de Sara, e com o fel cura a cegueira do velho Tobit (Tb 6; 8; 11). Só no fim se revela: "Eu sou Rafael, um dos sete anjos que estão diante da glória do Senhor" (Tb 12,15).

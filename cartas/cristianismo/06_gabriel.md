@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: busque um Rito do seu deck para a mão.
+Despertar: Compre um Rito do seu deck.
 
 ## Contexto mitológico
 Gabriel ("Fortaleza de Deus") é, com Miguel e Rafael, um dos três anjos nomeados na Bíblia. Aparece primeiro a Daniel, para explicar a visão do carneiro e do bode (Dn 8,16) e a profecia das setenta semanas (Dn 9,21). No Novo Testamento é o anúncio feito pessoa: aparece a Zacarias no Templo para anunciar João Batista (Lc 1,11-20) e a Maria em Nazaré para anunciar o nascimento de Jesus (Lc 1,26-38) — "Ave, cheia de graça".

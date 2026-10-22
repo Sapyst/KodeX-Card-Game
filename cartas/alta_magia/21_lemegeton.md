@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Busque uma Entidade do seu deck e coloque-a na mão.
+Compre uma Entidade do seu deck.
 
 ## Contexto mitológico
 O *Lemegeton Clavicula Salomonis* — a Chave Menor de Salomão — é o grimório mais influente da magia ocidental. Compilado em inglês no século XVII (Sloane MSS 2731 e 3825, British Library) a partir de materiais mais antigos, reúne cinco livros: a **Ars Goetia**, catálogo dos 72 espíritos com selos, ofícios, legiões e as conjurações para chamá-los; a *Theurgia-Goetia* (espíritos dos pontos cardeais); a *Ars Paulina* (anjos das horas e dos signos); a *Ars Almadel* (anjos das quatro altitudes, via tábua de cera); e a *Ars Notoria* (orações para a ciência instantânea).

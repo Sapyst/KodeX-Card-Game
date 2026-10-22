@@ -17,8 +17,8 @@ func _init(menu) -> void:
 	f = menu
 
 
-func _l(par: Array) -> String:
-	return str(par[1] if Sessao.idioma == "en" else par[0])
+func _l(par) -> String:
+	return str(Sessao.par(par))
 
 
 func botoes() -> void:
@@ -73,16 +73,16 @@ func _trocar(k: int) -> void:
 
 # ---------------- desenho ----------------
 func desenhar() -> void:
-	f._cabecalho(_l(["Progresso", "Progress"]), _l(["missões, nível e conquistas", "missions, level and achievements"]))
+	f._cabecalho(Sessao.t("Progresso"), Sessao.t("missões, nível e conquistas"))
 	match aba:
 		"missoes":
 			var h := Relogio.segundos_ate_amanha()
-			_rotulo(Vector2(18, 128), _l(["HOJE", "TODAY"]), _l(["novas em %dh %02dmin", "new in %dh %02dmin"]) % [h / 3600, (h % 3600) / 60])
+			_rotulo(Vector2(18, 128), Sessao.t("HOJE"), Sessao.t("novas em %dh %02dmin") % [h / 3600, (h % 3600) / 60])
 			var b := Relogio.segundos_ate_segunda()
-			_rotulo(Vector2(18, 310), _l(["SEMANA", "WEEK"]), _l(["novas em %d dias e %dh", "new in %d days %dh"]) % [b / 86400, (b % 86400) / 3600])
+			_rotulo(Vector2(18, 310), Sessao.t("SEMANA"), Sessao.t("novas em %d dias e %dh") % [b / 86400, (b % 86400) / 3600])
 			var seq := int(Sessao.perfil.get("resgates", {}).get("seq", 0))
-			f._texto_central(Vector2(180, 486), _l(["Dias seguidos: %d  ·  bônus a cada 7 (+1 booster, +20 Koins)", "Days in a row: %d  ·  bonus every 7 (+1 booster, +20 Koins)"]) % seq, Color("#9ad0ff"))
-			f._texto_central(Vector2(180, 502), _l(["Missões pagam na hora, ao terminar a partida.", "Missions pay right away, when the match ends."]), Color(0.72, 0.66, 0.6))
+			f._texto_central(Vector2(180, 486), Sessao.t("Dias seguidos: %d  ·  bônus a cada 7 (+1 booster, +20 Koins)") % seq, Color("#9ad0ff"))
+			f._texto_central(Vector2(180, 502), Sessao.t("Missões pagam na hora, ao terminar a partida."), Color(0.72, 0.66, 0.6))
 		"nivel":
 			_desenhar_nivel()
 		"maestria":
@@ -90,7 +90,7 @@ func desenhar() -> void:
 		"conquistas":
 			var feitas: int = (Progresso.p()["conquistas"] as Array).size()
 			var tot: int = (Progresso.dados()["conquistas"] as Array).size()
-			f._texto_central(Vector2(180, 552), "%d / %d  ·  %s %d/%d" % [feitas, tot, _l(["página", "page"]), pagina + 1, ceili(tot / float(POR_PAGINA))], Color(0.72, 0.66, 0.6))
+			f._texto_central(Vector2(180, 552), "%d / %d  ·  %s %d/%d" % [feitas, tot, Sessao.t("página"), pagina + 1, ceili(tot / float(POR_PAGINA))], Color(0.72, 0.66, 0.6))
 
 
 func _rotulo(pos: Vector2, titulo: String, sub: String) -> void:
@@ -101,7 +101,7 @@ func _rotulo(pos: Vector2, titulo: String, sub: String) -> void:
 func _botao_aba(_b: Dictionary, r: Rect2, pressao: float, i: int) -> void:
 	var ativa: bool = ABAS[i][0] == aba
 	var dd: Rect2 = f._painel(r, ativa, pressao, Color("#3a2410") if ativa else Color("#241a20"))
-	f._texto_central(dd.get_center(), _l([ABAS[i][1], ABAS[i][2]]), f.OURO[0] if ativa else Color("#b8b0c0"))
+	f._texto_central(dd.get_center(), Sessao.t(ABAS[i][1]), f.OURO[0] if ativa else Color("#b8b0c0"))
 
 
 func _barra(r: Rect2, frac: float, cor: Color) -> void:
@@ -124,34 +124,32 @@ func _linha_missao(_b: Dictionary, r: Rect2, pressao: float, escopo: String, m: 
 	var alvo := int(m["alvo"])
 	_barra(Rect2(dd.position + Vector2(8, 18), Vector2(150, 5)), float(andamento) / alvo, Color("#3a8a4a") if feita else f.OURO[1])
 	Fonte57.desenhar(f, dd.position + Vector2(164, 15), "%d/%d" % [andamento, alvo], Color(0.72, 0.66, 0.6), f.ESCURO)
-	Fonte57.desenhar(f, dd.position + Vector2(8, 26), Progresso.premio_txt(prem) + ("  ·  " + _l(["feita", "done"]) if feita else ""),
+	Fonte57.desenhar(f, dd.position + Vector2(8, 26), Progresso.premio_txt(prem) + ("  ·  " + Sessao.t("feita") if feita else ""),
 		Color("#9ad08a") if feita else Color("#e0c88a"), f.ESCURO)
 
 
 func _botao_trocar(_b: Dictionary, r: Rect2, pressao: float) -> void:
 	var dd: Rect2 = f._painel(r, false, pressao, Color("#30202a"))
-	f._texto_central(dd.get_center(), _l(["trocar", "swap"]), Color("#d8c8ff"))
+	f._texto_central(dd.get_center(), Sessao.t("trocar"), Color("#d8c8ff"))
 
 
 func _desenhar_nivel() -> void:
 	var pr := Progresso.p()
 	var nv: Array = Progresso.nivel_de(int(pr.get("xp", 0)))
 	PixelFonte.centrado(f, Vector2(180, 150), str(nv[0]), f.OURO[0], 5, f.ESCURO)
-	f._texto_central(Vector2(180, 182), _l(["nível", "level"]), Color(0.72, 0.66, 0.6))
+	f._texto_central(Vector2(180, 182), Sessao.t("nível"), Color(0.72, 0.66, 0.6))
 	_barra(Rect2(60, 194, 240, 8), float(nv[1]) / float(nv[2]), f.OURO[1])
 	f._texto_central(Vector2(180, 214), "%d / %d XP" % [nv[1], nv[2]], f.CREME)
-	f._texto_central(Vector2(180, 226), _l(["XP: vitória 30 · derrota 15 · empate 20 · online +10",
-		"XP: win 30 · loss 15 · draw 20 · online +10"]), Color(0.6, 0.55, 0.55))
-	f._texto_central(Vector2(180, 238), _l(["missão do dia +20 · semanal +60", "daily mission +20 · weekly +60"]), Color(0.6, 0.55, 0.55))
-	PixelFonte.desenhar(f, Vector2(18, 254), _l(["PRÓXIMOS PRÊMIOS", "NEXT REWARDS"]), f.OURO[0])
+	f._texto_central(Vector2(180, 226), Sessao.t("XP: vitória 30 · derrota 15 · empate 20 · online +10"), Color(0.6, 0.55, 0.55))
+	f._texto_central(Vector2(180, 238), Sessao.t("missão do dia +20 · semanal +60"), Color(0.6, 0.55, 0.55))
+	PixelFonte.desenhar(f, Vector2(18, 254), Sessao.t("PRÓXIMOS PRÊMIOS"), f.OURO[0])
 	for k in 4:
 		var n: int = int(nv[0]) + 1 + k
-		Fonte57.desenhar(f, Vector2(24, 268 + k * 14), _l(["Nível %d", "Level %d"]) % n, f.CREME, f.ESCURO)
+		Fonte57.desenhar(f, Vector2(24, 268 + k * 14), Sessao.t("Nível %d") % n, f.CREME, f.ESCURO)
 		Fonte57.desenhar(f, Vector2(90, 268 + k * 14), Progresso.premio_txt(Progresso.premio_nivel(n)), Color("#e0c88a"), f.ESCURO)
-	PixelFonte.desenhar(f, Vector2(18, 340), _l(["TÍTULOS  (TOQUE PARA USAR)", "TITLES  (TAP TO WEAR)"]), f.OURO[0])
+	PixelFonte.desenhar(f, Vector2(18, 340), Sessao.t("TÍTULOS  (TOQUE PARA USAR)"), f.OURO[0])
 	if (Sessao.perfil.get("titulos", []) as Array).is_empty():
-		f._texto_central(Vector2(180, 372), _l(["Ganhe títulos subindo de nível, nas conquistas e na maestria.",
-			"Earn titles by leveling up, with achievements and mastery."]), Color(0.72, 0.66, 0.6))
+		f._texto_central(Vector2(180, 372), Sessao.t("Ganhe títulos subindo de nível, nas conquistas e na maestria."), Color(0.72, 0.66, 0.6))
 
 
 func _botao_titulo(_b: Dictionary, r: Rect2, pressao: float, id: String) -> void:
@@ -181,10 +179,10 @@ func _desenhar_maestria() -> void:
 		var prox := int(lim[mini(n, lim.size() - 1)])
 		var ant := 0 if n == 0 else int(lim[n - 1])
 		_barra(Rect2(dd.position + Vector2(50, 18), Vector2(dd.size.x - 58, 5)), 1.0 if n >= lim.size() else float(x - ant) / float(prox - ant), f.OURO[1])
-		var sub := _l(["máxima!", "maxed!"]) if n >= lim.size() else ("%d / %d XP  ·  " % [x, prox] + _l(["próximo: ", "next: "]) +
+		var sub := Sessao.t("máxima!") if n >= lim.size() else ("%d / %d XP  ·  " % [x, prox] + Sessao.t("próximo: ") +
 			Progresso.premio_txt(_premio_maestria(t, n + 1)))
 		Fonte57.desenhar(f, dd.position + Vector2(50, 28), sub, Color("#e0c88a"), f.ESCURO)
-		Fonte57.desenhar(f, dd.position + Vector2(50, 40), _l(["XP das partidas com um deck desta tradição", "XP from matches with a deck of this tradition"]), Color(0.6, 0.55, 0.55), f.ESCURO)
+		Fonte57.desenhar(f, dd.position + Vector2(50, 40), Sessao.t("XP das partidas com um deck desta tradição"), Color(0.6, 0.55, 0.55), f.ESCURO)
 		k += 1
 
 
@@ -212,5 +210,5 @@ func _linha_conquista(_b: Dictionary, r: Rect2, pressao: float, c: Dictionary) -
 	var r2 := {"moedas": int(c.get("moedas", 0))}
 	if c.has("titulo"):
 		r2["titulo"] = c["titulo"]
-	Fonte57.desenhar(f, dd.position + Vector2(8, 26), Progresso.premio_txt(r2) + ("  ·  " + _l(["conquistada", "earned"]) if feita else ""),
+	Fonte57.desenhar(f, dd.position + Vector2(8, 26), Progresso.premio_txt(r2) + ("  ·  " + Sessao.t("conquistada") if feita else ""),
 		Color("#9ad08a") if feita else Color("#e0c88a"), f.ESCURO)

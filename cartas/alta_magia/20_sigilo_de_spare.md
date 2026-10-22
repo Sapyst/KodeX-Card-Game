@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-No fim do turno do oponente, ele descarta 1 carta aleatória da mão e você compra 1 carta.
+No fim do turno do oponente, ele descarta 1 carta aleatória. Compre 1 carta.
 
 ## Contexto mitológico
 Austin Osman Spare (1886–1956), artista londrino que a imprensa chamou de "o novo Beardsley" aos dezoito anos, abandonou as galerias para desenvolver uma magia pessoal, descrita em *The Book of Pleasure (Self-Love): The Psychology of Ecstasy* (1913). Seu método — a **sigilização** — tornou-se a técnica mais influente da magia moderna: escreve-se o desejo numa frase, eliminam-se as letras repetidas, condensam-se as restantes num glifo abstrato, carrega-se o glifo num momento de exaustão ou êxtase (o "vazio", a *death posture*) e, essencial, **esquece-se o desejo**, para que trabalhe no subconsciente sem a interferência da mente consciente. O sigilo não age na hora: fica guardado e dispara sozinho, mais tarde, quando a mente desatenta lhe dá passagem.

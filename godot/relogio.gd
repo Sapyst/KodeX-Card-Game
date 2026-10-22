@@ -112,6 +112,7 @@ func sincronizar() -> bool:
 
 func _pedir(url: String) -> float:
 	var http := HTTPRequest.new()
+	http.accept_gzip = not OS.has_feature("web")   # no navegador, Accept-Encoding vira preflight de CORS
 	http.timeout = ESPERA
 	add_child(http)
 	if http.request(url) != OK:

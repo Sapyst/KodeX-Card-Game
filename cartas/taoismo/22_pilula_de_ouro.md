@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Reviva uma Entidade do seu cemitério para o campo. Compre 1 carta.
+Devolva uma Entidade do seu cemitério para o campo. Compre 1 carta.
 
 ## Contexto mitológico
 *Jindan* (金丹), a "pílula de ouro" ou "elixir dourado", é o objeto central da alquimia taoista. Na alquimia externa (*waidan*) é uma substância real: cinábrio (sulfeto de mercúrio) aquecido no caldeirão vira mercúrio, que recombinado com enxofre volta a ser cinábrio — um ciclo de morte e retorno que, repetido nove vezes (*jiuzhuan huandan*, "o elixir que retorna nove vezes"), produziria o remédio da imortalidade. Ge Hong, no *Baopuzi* (cap. 4, "Jindan"), diz que ervas e exercícios prolongam a vida, mas só o elixir dourado dá a imortalidade verdadeira: "o ouro não apodrece nem no fogo nem na terra; quem o ingere adquire a mesma natureza". O *Zhouyi cantong qi* (séc. II) codifica a receita em linguagem do *Yijing*.

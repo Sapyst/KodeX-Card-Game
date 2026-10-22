@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: se você controla 2 ou mais Entidades, ganhe 2 Fé temporária.
+Despertar: Se você controla 2 ou mais Entidades, ganhe 2 de Fé neste turno.
 
 ## Contexto mitológico
 Han Xiangzi (韓湘子) é o músico dos Oito Imortais, sempre com uma flauta transversal (*dizi*) nas mãos. A tradição o faz sobrinho-neto de Han Yu (768–824), o grande prosador confuciano dos Tang, que desprezava o taoismo. A lenda inverte o jogo: o jovem Han Xiang, discípulo de Lü Dongbin, faz peônias florescerem no meio do inverno diante do tio, e nas pétalas aparece um dístico que o tio só entenderá anos depois, exilado, na passagem nevada de Lan — episódio que ecoa um poema real de Han Yu ao sobrinho.

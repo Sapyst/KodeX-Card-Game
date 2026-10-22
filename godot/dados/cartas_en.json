@@ -2,11 +2,11 @@
  "cartas": {
   "ind_saci_perere": {
    "nome": "Saci-Pererê",
-   "texto": "Stealth. Awaken: An enemy Entity can't attack on its next turn."
+   "texto": "Stealth. Awaken: Freeze an enemy Entity."
   },
   "ind_curupira": {
    "nome": "Curupira",
-   "texto": "Guard. Whenever this takes damage, deal 1 damage to the attacker."
+   "texto": "Guard. Whenever an attacker damages this, the attacker takes 1 damage."
   },
   "ind_caipora": {
    "nome": "Caipora",
@@ -18,7 +18,7 @@
   },
   "ind_boitata": {
    "nome": "Boitatá",
-   "texto": "Guard. Whenever this takes damage from an attack, deal 1 damage to the attacker."
+   "texto": "Guard. Whenever an attacker damages this, the attacker takes 1 damage."
   },
   "ind_anhanga": {
    "nome": "Anhangá",
@@ -26,63 +26,63 @@
   },
   "ind_mapinguari": {
    "nome": "Mapinguari",
-   "texto": "Whenever this takes damage, deal 2 damage to the attacker."
+   "texto": "Whenever an attacker damages this, the attacker takes 2 damage."
   },
   "ind_cobra_grande": {
    "nome": "Cobra-Grande",
-   "texto": "Whenever an enemy Entity dies, Cobra-Grande gains permanent +1/+1."
+   "texto": "Whenever an enemy Entity dies, this gains +1/+1."
   },
   "ind_jaci": {
    "nome": "Jaci, the Moon",
-   "texto": "Legendary. Awaken: Summon a 0/2 Water Lily with Guard. At the end of your turn, heal all allied Entities for 2."
+   "texto": "Awaken: Summon a 0/2 Water Lily with Guard. At the end of your turn, heal all your Entities for 2."
   },
   "ind_tupa": {
    "nome": "Tupã, the Thunder",
-   "texto": "Legendary. Guard. Awaken: Deal 2 damage to all enemy Entities."
+   "texto": "Guard. Awaken: Deal 2 damage to all enemy Entities."
   },
   "ind_arapuca": {
    "nome": "Arapuca",
-   "texto": "When an enemy Entity attacks one of your Entities: it takes 1 damage, can't attack on its next turn, and you draw 1 card."
+   "texto": "When one of your Entities is attacked, the attacker takes 1 damage and is frozen. Draw 1 card."
   },
   "ind_mundeu": {
    "nome": "Mundéu",
-   "texto": "When an enemy Entity attacks one of your Entities: it takes 4 damage and your Cornucopia heals 4."
+   "texto": "When one of your Entities is attacked, the attacker takes 4 damage. Heal your Cornucopia for 4."
   },
   "ind_assovio_da_matinta": {
    "nome": "Matinta's Whistle",
-   "texto": "At the end of your opponent's turn: they discard 1 random card and their Cornucopia takes 1 damage."
+   "texto": "At the end of your opponent's turn, they discard 1 random card. Deal 1 damage to the enemy Cornucopia."
   },
   "ind_sopro_do_paje": {
    "nome": "Pajé's Breath",
-   "texto": "When your opponent plays a Rite: counter it and draw 1 card."
+   "texto": "When your opponent plays a Rite, counter it. Draw 1 card."
   },
   "ind_cauim": {
    "nome": "Cauim",
-   "texto": "Your Cornucopia heals 2. Draw 1 card."
+   "texto": "Heal your Cornucopia for 2. Draw 1 card."
   },
   "ind_visao_do_caapi": {
    "nome": "Caapi Vision",
-   "texto": "Draw 2 cards. Gain +1 Faith this turn."
+   "texto": "Draw 2 cards. Gain 1 Faith this turn."
   },
   "ind_fogo_de_monan": {
    "nome": "Monan's Fire",
    "texto": "Deal 2 damage to all enemy Entities and 1 damage to the enemy Cornucopia."
   },
   "ind_danca_do_aruana": {
-   "nome": "Aruanã Dance",
-   "texto": "Summon two 1/1 Aruanãs. Your Cornucopia heals 2."
+   "nome": "Arowana Dance",
+   "texto": "Summon two 1/1 Arowanas. Heal your Cornucopia for 2."
   },
   "ind_dadiva_de_mani": {
    "nome": "Gift of Mani",
-   "texto": "Return an Entity from your graveyard to your hand. Your Cornucopia heals 6. Draw 1 card."
+   "texto": "Return an Entity from your graveyard to your hand. Heal your Cornucopia for 6. Draw 1 card."
   },
   "ind_kuarup": {
    "nome": "Kuarup",
-   "texto": "Bring an Entity from your graveyard back to the field. Draw 1 card."
+   "texto": "Return an Entity from your graveyard to the field. Draw 1 card."
   },
   "ind_terra_sem_males": {
    "nome": "Land Without Evil",
-   "texto": "All your Entities gain permanent +1/+1. Your Cornucopia heals 4."
+   "texto": "All your Entities gain +1/+1. Heal your Cornucopia for 4."
   },
   "ind_ibirapema": {
    "nome": "Ibirapema",
@@ -94,11 +94,11 @@
   },
   "ind_maraca_do_paje": {
    "nome": "Pajé's Maracá",
-   "texto": "The bearer gains +1/+2. When it dies, summon a 1/1 Spirit."
+   "texto": "The bearer gains +1/+2. When the bearer dies, summon a 1/1 Spirit."
   },
   "ind_cocar_do_morubixaba": {
    "nome": "Morubixaba's Headdress",
-   "texto": "The bearer gains +3 Health and Guard. While it's on the field, all your Entities have +1 ATK."
+   "texto": "The bearer gains +3 Health and Guard. Your Entities have +1 ATK."
   },
   "cri_anjo_da_guarda": {
    "nome": "Guardian Angel",
@@ -106,15 +106,15 @@
   },
   "cri_jonas": {
    "nome": "Jonah",
-   "texto": "Rebirth. (When it dies, it returns to your hand once.)"
+   "texto": "Rebirth. (When it dies, it returns to your hand. Once.)"
   },
   "cri_davi_o_pastor": {
    "nome": "David, the Shepherd",
-   "texto": "When this attacks, deal 2 damage to an enemy Entity of your choice."
+   "texto": "Whenever this attacks, deal 2 damage to an enemy Entity."
   },
   "cri_lazaro_de_betania": {
    "nome": "Lazarus of Bethany",
-   "texto": "Rebirth. (When it dies, it returns to your hand once.)"
+   "texto": "Rebirth. (When it dies, it returns to your hand. Once.)"
   },
   "cri_judite": {
    "nome": "Judith",
@@ -122,11 +122,11 @@
   },
   "cri_gabriel": {
    "nome": "Gabriel, the Messenger",
-   "texto": "Awaken: Search your deck for a Rite and put it into your hand."
+   "texto": "Awaken: Draw a Rite from your deck."
   },
   "cri_rafael": {
    "nome": "Raphael, the Healer",
-   "texto": "Awaken: Restore 4 Health to an allied Entity."
+   "texto": "Awaken: Heal an allied Entity for 4."
   },
   "cri_sansao": {
    "nome": "Samson",
@@ -142,23 +142,23 @@
   },
   "cri_elias": {
    "nome": "Elijah, Chariot of Fire",
-   "texto": "Legendary. Rebirth. Awaken: fire from heaven — 2 damage to all enemy Entities."
+   "texto": "Rebirth. Awaken: Deal 2 damage to all enemy Entities."
   },
   "cri_sao_miguel_arcanjo": {
    "nome": "Saint Michael the Archangel",
-   "texto": "Legendary. Guard. Awaken: Destroy an enemy Entity."
+   "texto": "Guard. Awaken: Destroy an enemy Entity."
   },
   "cri_cova_dos_leoes": {
    "nome": "Lions' Den",
-   "texto": "When an allied Entity takes damage, heal it for 4 and it gains permanent +1/+1."
+   "texto": "When an allied Entity takes damage, heal it for 4. It gains +1/+1."
   },
   "cri_tumba_vazia": {
    "nome": "Empty Tomb",
-   "texto": "When an allied Entity dies, revive an Entity from your graveyard to the field."
+   "texto": "When an allied Entity dies, return an Entity from your graveyard to the field."
   },
   "cri_portao_do_eden": {
    "nome": "Gate of Eden",
-   "texto": "When your opponent summons an Entity, it takes 3 damage and can't attack on its next turn."
+   "texto": "When your opponent plays an Entity, it takes 3 damage and is frozen."
   },
   "cri_mudez_de_zacarias": {
    "nome": "Zechariah's Silence",
@@ -166,7 +166,7 @@
   },
   "cri_sangue_nos_umbrais": {
    "nome": "Blood on the Doorposts",
-   "texto": "When an enemy Entity attacks, destroy it. Heal your Cornucopia for 4."
+   "texto": "When one of your Entities is attacked, destroy the attacker. Heal your Cornucopia for 4."
   },
   "cri_multiplicacao_dos_paes": {
    "nome": "Loaves and Fishes",
@@ -174,7 +174,7 @@
   },
   "cri_exorcismo": {
    "nome": "Exorcism",
-   "texto": "Return an enemy Entity to its owner's hand. Restore 4 Health to an allied Entity."
+   "texto": "Return an enemy Entity to its owner's hand. Heal an allied Entity for 4."
   },
   "cri_praga_dos_gafanhotos": {
    "nome": "Plague of Locusts",
@@ -182,7 +182,7 @@
   },
   "cri_talita_cumi": {
    "nome": "Talitha Koum",
-   "texto": "Revive an Entity from your graveyard to the field."
+   "texto": "Return an Entity from your graveyard to the field."
   },
   "cri_vale_dos_ossos_secos": {
    "nome": "Valley of Dry Bones",
@@ -194,11 +194,11 @@
   },
   "cri_juizo_final": {
    "nome": "Last Judgment",
-   "texto": "Destroy all Entities on the field, yours and the enemy's. Then a random Entity from your graveyard returns to your hand."
+   "texto": "Destroy all Entities, yours and the enemy's. Then return a random Entity from your graveyard to your hand."
   },
   "cri_funda_de_davi": {
    "nome": "David's Sling",
-   "texto": "The bearer gains +2 ATK and Rush. When it attacks, deal 1 damage to an enemy Entity of your choice."
+   "texto": "The bearer gains +2 ATK and Rush. Whenever the bearer attacks, deal 1 damage to an enemy Entity."
   },
   "cri_veu_de_veronica": {
    "nome": "Veil of Veronica",
@@ -206,11 +206,11 @@
   },
   "cri_santo_graal": {
    "nome": "Holy Grail",
-   "texto": "The bearer gains +0/+2. When equipped, heal your Cornucopia for 4. When the bearer attacks, heal it for 2."
+   "texto": "The bearer gains +2 Health. When equipped, heal your Cornucopia for 4. Whenever the bearer attacks, heal it for 2."
   },
   "cri_arca_da_alianca": {
    "nome": "Ark of the Covenant",
-   "texto": "The bearer gains +0/+3 and Guard. While the Ark is on the field, your Entities have +1 ATK."
+   "texto": "The bearer gains +3 Health and Guard. Your Entities have +1 ATK."
   },
   "tao_lan_caihe": {
    "nome": "Lan Caihe",
@@ -218,11 +218,11 @@
   },
   "tao_he_xiangu": {
    "nome": "He Xiangu",
-   "texto": "At the end of your turn, restore 2 Health to an allied Entity."
+   "texto": "At the end of your turn, heal an allied Entity for 2."
   },
   "tao_han_xiangzi": {
    "nome": "Han Xiangzi",
-   "texto": "Awaken: If you control 2 or more Entities, gain 2 temporary Faith."
+   "texto": "Awaken: If you control 2 or more Entities, gain 2 Faith this turn."
   },
   "tao_li_tieguai": {
    "nome": "Li Tieguai",
@@ -234,7 +234,7 @@
   },
   "tao_lu_dongbin": {
    "nome": "Lü Dongbin",
-   "texto": "Aura: Your other Entities have +1 ATK while Lü Dongbin is on the field."
+   "texto": "Your other Entities have +1 ATK."
   },
   "tao_zhang_guolao": {
    "nome": "Zhang Guolao",
@@ -242,7 +242,7 @@
   },
   "tao_cao_guojiu": {
    "nome": "Cao Guojiu",
-   "texto": "Guard. Awaken: Restore 2 Health to an allied Entity."
+   "texto": "Guard. Awaken: Heal an allied Entity for 2."
   },
   "tao_nezha": {
    "nome": "Nezha",
@@ -250,47 +250,47 @@
   },
   "tao_zhong_kui": {
    "nome": "Zhong Kui",
-   "texto": "Awaken: Silence an enemy Entity (it loses keywords and abilities)."
+   "texto": "Awaken: Silence an enemy Entity (it loses keywords and effects)."
   },
   "tao_erlang_shen": {
    "nome": "Erlang Shen",
-   "texto": "Awaken: Summon Xiaotian Quan, the Celestial Hound (2/1), if there's a free slot."
+   "texto": "Awaken: Summon a 2/1 Xiaotian Quan, Celestial Hound."
   },
   "tao_guan_yu": {
    "nome": "Guan Yu, Emperor Guan",
-   "texto": "Guard. Awaken: An allied Entity gains permanent +1 ATK."
+   "texto": "Guard. Awaken: An allied Entity gains +1 ATK."
   },
   "tao_xiwangmu": {
    "nome": "Xiwangmu, Queen Mother of the West",
-   "texto": "Awaken: Revive an Entity from your graveyard to the field."
+   "texto": "Awaken: Return an Entity from your graveyard to the field."
   },
   "tao_imperador_de_jade": {
    "nome": "Jade Emperor",
-   "texto": "Aura: Your other Entities have +1/+1 while the Jade Emperor is on the field."
+   "texto": "Your other Entities have +1/+1."
   },
   "tao_fulu_de_selamento": {
    "nome": "Sealing Fulu",
-   "texto": "When your opponent plays a Rite: counter it (it goes to the graveyard with no effect). Draw 1 card."
+   "texto": "When your opponent plays a Rite, counter it (it goes to the graveyard with no effect). Draw 1 card."
   },
   "tao_dragao_azul_do_leste": {
    "nome": "Azure Dragon of the East",
-   "texto": "At the end of your opponent's turn: all your Entities gain permanent +1/+1."
+   "texto": "At the end of your opponent's turn, all your Entities gain +1/+1."
   },
   "tao_tigre_branco_do_oeste": {
    "nome": "White Tiger of the West",
-   "texto": "When an enemy Entity attacks: it takes 4 damage and gets permanent −1 ATK."
+   "texto": "When one of your Entities is attacked, the attacker takes 4 damage and gets -1 ATK."
   },
   "tao_passaro_vermelho_do_sul": {
    "nome": "Vermilion Bird of the South",
-   "texto": "When an allied Entity dies: revive an Entity from your graveyard to the field and heal your Cornucopia for 2."
+   "texto": "When an allied Entity dies, return an Entity from your graveyard to the field. Heal your Cornucopia for 2."
   },
   "tao_tartaruga_negra_do_norte": {
    "nome": "Black Tortoise of the North",
-   "texto": "When an allied Entity takes damage: restore 4 Health to it; it gains permanent +0/+1 and Guard."
+   "texto": "When an allied Entity takes damage, heal it for 4. It gains +1 Health and Guard."
   },
   "tao_circulacao_do_qi": {
    "nome": "Qi Circulation",
-   "texto": "Gain 1 temporary Faith. Draw 1 card."
+   "texto": "Gain 1 Faith this turn. Draw 1 card."
   },
   "tao_flechas_de_houyi": {
    "nome": "Arrows of Houyi",
@@ -298,27 +298,27 @@
   },
   "tao_pilula_de_ouro": {
    "nome": "Golden Pill",
-   "texto": "Revive an Entity from your graveyard to the field. Draw 1 card."
+   "texto": "Return an Entity from your graveyard to the field. Draw 1 card."
   },
   "tao_banquete_dos_pessegos": {
    "nome": "Peach Banquet",
-   "texto": "All your Entities gain permanent +1/+1. Heal your Cornucopia for 2."
+   "texto": "All your Entities gain +1/+1. Heal your Cornucopia for 2."
   },
   "tao_taiji": {
    "nome": "Taiji",
-   "texto": "An allied Entity gains permanent +2/+2 and an enemy Entity gets permanent −2/−2."
+   "texto": "An allied Entity gains +2/+2 and an enemy Entity gets -2/-2."
   },
   "tao_pessego_da_imortalidade": {
    "nome": "Peach of Immortality",
-   "texto": "Equip an allied Entity: +1/+2. The bearer gains Rebirth."
+   "texto": "The bearer gains +1/+2 and Rebirth."
   },
   "tao_espelho_de_bronze": {
    "nome": "Bronze Mirror",
-   "texto": "Equip an allied Entity: +1/+1 and Stealth. When equipped, silence an enemy Entity."
+   "texto": "The bearer gains +1/+1 and Stealth. When equipped, silence an enemy Entity."
   },
   "hin_matsya": {
    "nome": "Matsya, the Fish",
-   "texto": "Awaken: Search your deck for a Relic and put it into your hand."
+   "texto": "Awaken: Draw a Relic from your deck."
   },
   "hin_garuda": {
    "nome": "Garuda",
@@ -334,11 +334,11 @@
   },
   "hin_arjuna": {
    "nome": "Arjuna",
-   "texto": "Stealth. When this attacks, deal 1 damage to an enemy Entity of your choice."
+   "texto": "Stealth. Whenever this attacks, deal 1 damage to an enemy Entity."
   },
   "hin_hanuman": {
    "nome": "Hanuman",
-   "texto": "Rush. Whenever this attacks, it gains permanent +1 ATK."
+   "texto": "Rush. Whenever this attacks, it gains +1 ATK."
   },
   "hin_narasimha": {
    "nome": "Narasimha",
@@ -350,7 +350,7 @@
   },
   "hin_krishna": {
    "nome": "Krishna, the Charioteer",
-   "texto": "While Krishna is on the field, your Entities have Rush."
+   "texto": "Your Entities have Rush."
   },
   "hin_durga": {
    "nome": "Durga, the Fortress",
@@ -358,7 +358,7 @@
   },
   "hin_kali": {
    "nome": "Kali",
-   "texto": "Awaken: 1 damage to all enemy Entities. Whenever an enemy Entity dies, Kali gains permanent +1 ATK."
+   "texto": "Awaken: Deal 1 damage to all enemy Entities. Whenever an enemy Entity dies, this gains +1 ATK."
   },
   "hin_shiva_nataraja": {
    "nome": "Shiva Nataraja",
@@ -366,15 +366,15 @@
   },
   "hin_chamas_de_agni": {
    "nome": "Flames of Agni",
-   "texto": "When your opponent summons an Entity, it takes 1 damage and the enemy Cornucopia takes 1."
+   "texto": "When your opponent plays an Entity, it takes 1 damage and the enemy Cornucopia takes 1 damage."
   },
   "hin_roda_do_samsara": {
    "nome": "Wheel of Samsara",
-   "texto": "When an allied Entity dies, return an Entity from your graveyard to your hand and draw 1 card."
+   "texto": "When an allied Entity dies, return an Entity from your graveyard to your hand. Draw 1 card."
   },
   "hin_lei_do_karma": {
    "nome": "Law of Karma",
-   "texto": "When an enemy Entity attacks, it takes 3 damage. Draw 1 card."
+   "texto": "When one of your Entities is attacked, the attacker takes 3 damage. Draw 1 card."
   },
   "hin_veu_de_maya": {
    "nome": "Veil of Maya",
@@ -382,23 +382,23 @@
   },
   "hin_incendio_de_lanka": {
    "nome": "Burning of Lanka",
-   "texto": "At the end of your opponent's turn, 1 damage to all enemy Entities and 1 to the enemy Cornucopia."
+   "texto": "At the end of your opponent's turn, deal 1 damage to all enemy Entities and 1 to the enemy Cornucopia."
   },
   "hin_pashupatastra": {
    "nome": "Pashupatastra",
-   "texto": "When an enemy Entity attacks, destroy it. Draw 1 card."
+   "texto": "When one of your Entities is attacked, destroy the attacker. Draw 1 card."
   },
   "hin_om": {
    "nome": "Om",
-   "texto": "Draw 1 card and gain 1 temporary Faith."
+   "texto": "Draw 1 card. Gain 1 Faith this turn."
   },
   "hin_yajna": {
    "nome": "Yajna, the Sacrificial Fire",
-   "texto": "Deal 2 damage to an enemy Entity and gain 2 temporary Faith."
+   "texto": "Deal 2 damage to an enemy Entity. Gain 2 Faith this turn."
   },
   "hin_samudra_manthan": {
    "nome": "Samudra Manthan",
-   "texto": "Draw 2 cards, gain 2 temporary Faith and heal your Cornucopia for 2."
+   "texto": "Draw 2 cards. Gain 2 Faith this turn. Heal your Cornucopia for 2."
   },
   "hin_brahmastra": {
    "nome": "Brahmastra",
@@ -406,59 +406,59 @@
   },
   "hin_descida_do_avatar": {
    "nome": "Descent of the Avatar",
-   "texto": "Revive an Entity from your graveyard to the field."
+   "texto": "Return an Entity from your graveyard to the field."
   },
   "hin_vishvarupa": {
    "nome": "Vishvarupa, the Universal Form",
-   "texto": "An allied Entity becomes 6 ATK and 6 Health and gains Rush."
+   "texto": "An allied Entity becomes 6/6 and gains Rush."
   },
   "hin_tandava": {
    "nome": "Tandava",
-   "texto": "2 damage to all enemy Entities and 3 damage to the enemy Cornucopia."
+   "texto": "Deal 2 damage to all enemy Entities and 3 damage to the enemy Cornucopia."
   },
   "hin_vajra": {
    "nome": "Vajra",
-   "texto": "Bearer: +2 ATK. When equipped, deal 2 damage to an enemy Entity."
+   "texto": "The bearer gains +2 ATK. When equipped, deal 2 damage to an enemy Entity."
   },
   "hin_sudarshana_chakra": {
    "nome": "Sudarshana Chakra",
-   "texto": "Bearer: +2 ATK / +1 Health and Rush. When the bearer attacks, deal 1 damage to an enemy Entity."
+   "texto": "The bearer gains +2/+1 and Rush. Whenever the bearer attacks, deal 1 damage to an enemy Entity."
   },
   "hin_gandiva": {
    "nome": "Gandiva",
-   "texto": "Bearer: +3 ATK / +1 Health. When the bearer attacks, deal 1 damage to all enemy Entities."
+   "texto": "The bearer gains +3/+1. Whenever the bearer attacks, deal 1 damage to all enemy Entities."
   },
   "hin_trishula": {
    "nome": "Trishula",
-   "texto": "Bearer: +3 ATK / +1 Health. When it attacks, 1 damage to an enemy Entity. When it dies, 2 damage to all enemy Entities."
+   "texto": "The bearer gains +3/+1. Whenever the bearer attacks, deal 1 damage to an enemy Entity. When the bearer dies, deal 2 damage to all enemy Entities."
   },
   "bru_sapo_familiar": {
    "nome": "Toad Familiar",
-   "texto": "Last Breath: An enemy Entity of your choice loses 1 ATK and 1 Health permanently."
+   "texto": "Last Breath: An enemy Entity gets -1/-1."
   },
   "bru_gato_preto": {
    "nome": "Black Cat",
-   "texto": "Stealth. Rebirth. *(Nine lives: when it dies, it returns to your hand once.)*"
+   "texto": "Stealth. Rebirth. (Nine lives: when it dies, it returns to your hand once.)"
   },
   "bru_corvo_agourento": {
    "nome": "Ill-Omened Crow",
-   "texto": "Awaken: Your opponent discards 1 random card from their hand."
+   "texto": "Awaken: Your opponent discards 1 random card."
   },
   "bru_strega_de_benevento": {
    "nome": "Strega of Benevento",
-   "texto": "Awaken: Summon a 1/1 Strix (owl familiar)."
+   "texto": "Awaken: Summon a 1/1 Strix."
   },
   "bru_benandante": {
    "nome": "Benandante",
-   "texto": "Awaken: Freeze an enemy Entity of your choice (it can't attack on its next turn)."
+   "texto": "Awaken: Freeze an enemy Entity (it can't attack on its next turn)."
   },
   "bru_circe": {
    "nome": "Circe",
-   "texto": "Awaken: An enemy Entity of your choice becomes a pig — its ATK and Health become 1/1."
+   "texto": "Awaken: An enemy Entity becomes 1/1."
   },
   "bru_medeia": {
    "nome": "Medea, the Poisoner",
-   "texto": "Awaken: An enemy Entity of your choice loses 2 ATK permanently."
+   "texto": "Awaken: An enemy Entity gets -2 ATK."
   },
   "bru_bruxa_de_endor": {
    "nome": "The Witch of Endor",
@@ -466,7 +466,7 @@
   },
   "bru_baba_yaga": {
    "nome": "Baba Yaga",
-   "texto": "Sacrifice 1. Awaken: Devour an enemy Entity of your choice (destroy it)."
+   "texto": "Sacrifice 1. Awaken: Destroy an enemy Entity."
   },
   "bru_cerridwen": {
    "nome": "Cerridwen, Lady of the Cauldron",
@@ -474,63 +474,63 @@
   },
   "bru_a_morrigan": {
    "nome": "The Morrígan",
-   "texto": "Rush. Whenever an Entity — allied or enemy — dies, summon a 1/1 Crow."
+   "texto": "Rush. Whenever another Entity dies, summon a 1/1 Raven."
   },
   "bru_hecate": {
    "nome": "Hecate, Lady of the Crossroads",
-   "texto": "Sacrifice 1. Awaken: All enemy Entities lose 2 ATK and 2 Health permanently."
+   "texto": "Sacrifice 1. Awaken: All enemy Entities get -2/-2."
   },
   "bru_mau_olhado": {
    "nome": "Evil Eye",
-   "texto": "When your opponent summons an Entity, it is frozen and loses 1 ATK and 1 Health permanently."
+   "texto": "When your opponent plays an Entity, it is frozen and gets -1/-1."
   },
   "bru_circulo_de_sal": {
    "nome": "Salt Circle",
-   "texto": "When an enemy Entity attacks, return it to its owner's hand; your opponent discards 1 random card and you draw 1."
+   "texto": "When one of your Entities is attacked, return the attacker to its owner's hand. Your opponent discards 1 random card. Draw 1 card."
   },
   "bru_garrafa_de_bruxa": {
    "nome": "Witch Bottle",
-   "texto": "When your opponent plays a Rite, counter it; your opponent discards 1 random card."
+   "texto": "When your opponent plays a Rite, counter it. Your opponent discards 1 random card."
   },
   "bru_boneco_de_cera": {
    "nome": "Wax Poppet",
-   "texto": "When an allied Entity takes damage from an attack, the attacker takes 4 damage and loses 2 ATK and 2 Health permanently."
+   "texto": "When an allied Entity takes damage: if an attacker dealt it, the attacker takes 4 damage and gets -2/-2."
   },
   "bru_pocao_de_beladona": {
    "nome": "Belladonna Potion",
-   "texto": "An allied Entity of your choice heals 2 Health and gains +1 ATK and +1 Health permanently."
+   "texto": "Heal an allied Entity for 2. It gains +1/+1."
   },
   "bru_pacto_na_encruzilhada": {
    "nome": "Crossroads Pact",
-   "texto": "Gain 2 temporary Faith (this turn only)."
+   "texto": "Gain 2 Faith this turn."
   },
   "bru_seidr": {
    "nome": "Seiðr",
-   "texto": "Search your deck for an Entity and put it into your hand. Shuffle."
+   "texto": "Draw an Entity from your deck."
   },
   "bru_po_de_ossos": {
    "nome": "Bone Dust",
-   "texto": "All enemy Entities take 2 damage; your opponent discards 1 random card."
+   "texto": "Deal 2 damage to all enemy Entities. Your opponent discards 1 random card."
   },
   "bru_maleficio": {
    "nome": "Maleficium",
-   "texto": "An enemy Entity of your choice loses 3 ATK and 2 Health permanently and is silenced (loses keywords and abilities)."
+   "texto": "An enemy Entity gets -3/-2 and is silenced (it loses keywords and effects)."
   },
   "bru_saba_de_walpurgis": {
    "nome": "Walpurgis Sabbath",
-   "texto": "All allied Entities gain +1 ATK and +1 Health permanently. Summon a 1/2 Hare."
+   "texto": "All your Entities gain +1/+1. Summon a 1/2 Hare."
   },
   "bru_vassoura": {
    "nome": "Broomstick",
-   "texto": "The bearer gains +1 ATK, +2 Health and Rush."
+   "texto": "The bearer gains +1/+2 and Rush."
   },
   "bru_livro_das_sombras": {
    "nome": "Book of Shadows",
-   "texto": "Uses 4. The bearer has +1 ATK and +1 Health while equipped. Whenever it attacks, draw 1 card and spend 1 Use."
+   "texto": "Uses 4. The bearer gains +1/+1. Whenever the bearer attacks, draw 1 card and spend 1 Use. At 0 Uses, this goes to the graveyard."
   },
   "bru_caldeirao_de_renascimento": {
    "nome": "Cauldron of Rebirth",
-   "texto": "The bearer gains +1 ATK and +2 Health. When it dies, revive an Entity from your graveyard to the field."
+   "texto": "The bearer gains +1/+2. When the bearer dies, return an Entity from your graveyard to the field."
   },
   "alt_homunculo": {
    "nome": "Homunculus",
@@ -538,7 +538,7 @@
   },
   "alt_edward_kelley": {
    "nome": "Edward Kelley, the Seer",
-   "texto": "Stealth. Awaken: Search your deck for a Relic."
+   "texto": "Stealth. Awaken: Draw a Relic from your deck."
   },
   "alt_silfo": {
    "nome": "Sylph",
@@ -546,11 +546,11 @@
   },
   "alt_vassago": {
    "nome": "Vassago, the Prince Who Finds",
-   "texto": "Awaken: Search your deck for a Seal."
+   "texto": "Awaken: Draw a Seal from your deck."
   },
   "alt_orobas": {
    "nome": "Orobas, the Faithful Prince",
-   "texto": "Guard. At the start of your turn, Orobas restores 2 Health to itself."
+   "texto": "Guard. At the start of your turn, heal this for 2."
   },
   "alt_andras": {
    "nome": "Andras, Sower of Discord",
@@ -566,7 +566,7 @@
   },
   "alt_dantalion": {
    "nome": "Dantalion of a Thousand Faces",
-   "texto": "Sacrifice 1. Awaken: Take permanent control of an enemy Entity."
+   "texto": "Sacrifice 1. Awaken: Take control of an enemy Entity."
   },
   "alt_paimon": {
    "nome": "Paimon, King of the West",
@@ -574,7 +574,7 @@
   },
   "alt_babalon": {
    "nome": "Babalon, the Scarlet Woman",
-   "texto": "Sacrifice 1. Whenever any Entity dies, Babalon gains permanent +1/+1."
+   "texto": "Sacrifice 1. Whenever another Entity dies, this gains +1/+1."
   },
   "alt_anjo_guardiao": {
    "nome": "Holy Guardian Angel",
@@ -582,31 +582,31 @@
   },
   "alt_pentagrama_flamejante": {
    "nome": "Blazing Pentagram",
-   "texto": "When your opponent plays a Rite, counter it, draw 1 card and heal your Cornucopia for 2."
+   "texto": "When your opponent plays a Rite, counter it. Draw 1 card and heal your Cornucopia for 2."
   },
   "alt_selo_de_salomao": {
    "nome": "Seal of Solomon",
-   "texto": "When your opponent summons an Entity, counter it (it goes to the graveyard) and draw 1 card."
+   "texto": "When your opponent plays an Entity, counter it (it goes to the graveyard). Draw 1 card."
   },
   "alt_solve_et_coagula": {
    "nome": "Solve et Coagula",
-   "texto": "When an allied Entity dies on your opponent's turn, return an Entity from your graveyard to your hand and draw 1 card."
+   "texto": "When an allied Entity dies, return an Entity from your graveyard to your hand. Draw 1 card."
   },
   "alt_sigilo_de_spare": {
    "nome": "Spare's Sigil",
-   "texto": "At the end of your opponent's turn, they discard 1 random card from their hand and you draw 1 card."
+   "texto": "At the end of your opponent's turn, they discard 1 random card. Draw 1 card."
   },
   "alt_lemegeton": {
    "nome": "Lemegeton, the Lesser Key",
-   "texto": "Search your deck for an Entity and put it into your hand."
+   "texto": "Draw an Entity from your deck."
   },
   "alt_azoth": {
    "nome": "Azoth",
-   "texto": "Your maximum Faith increases by 1 (up to 8). Gain 1 Faith this turn. Draw 1 card."
+   "texto": "Your max Faith increases by 1 (up to 8). Gain 1 Faith this turn. Draw 1 card."
   },
   "alt_conjuracao_elementais": {
    "nome": "Conjuration of the Elementals",
-   "texto": "Summon two 1/1 Elementals (if there are free slots)."
+   "texto": "Summon two 1/1 Elementals."
   },
   "alt_ritual_menor_pentagrama": {
    "nome": "Lesser Banishing Ritual of the Pentagram",
@@ -618,31 +618,31 @@
   },
   "alt_anel_de_salomao": {
    "nome": "Ring of Solomon",
-   "texto": "The equipped Entity gains +1/+2 and Rush. Whenever it attacks, silence an enemy Entity."
+   "texto": "The bearer gains +1/+2 and Rush. Whenever the bearer attacks, silence an enemy Entity."
   },
   "alt_sigillum_dei_aemeth": {
    "nome": "Sigillum Dei Aemeth",
-   "texto": "The equipped Entity gains +0/+3 and Guard. When it dies, draw 1 card."
+   "texto": "The bearer gains +3 Health and Guard. When the bearer dies, draw 1 card."
   },
   "alt_pedra_de_visao": {
    "nome": "Dee's Shew Stone",
-   "texto": "The equipped Entity gains +1/+3."
+   "texto": "The bearer gains +1/+3."
   },
   "aby_choronzon": {
    "nome": "Choronzon, Dweller in the Abyss",
-   "texto": "Can only be summoned by Sigil 333. When Choronzon enters the field, you win the game."
+   "texto": "Can only be summoned by Sigil 333. Awaken: You win the game."
   },
   "aby_triangulo": {
    "nome": "Triangle of Art",
-   "texto": "Equip to an allied Entity: +0/+2. Counts as \"Triangle\" for Sigil 333."
+   "texto": "The bearer gains +2 Health. Counts as the Triangle for Sigil 333."
   },
   "aby_circulo": {
    "nome": "Circle of Protection",
-   "texto": "When an enemy Entity attacks, the attacker takes 2 damage. While face down, counts as \"Circle\" for Sigil 333."
+   "texto": "When one of your Entities is attacked, the attacker takes 2 damage. While face down, counts as the Circle for Sigil 333."
   },
   "aby_sigilo": {
    "nome": "Sigil 333",
-   "texto": "If you control Triangle of Art and Circle of Protection and have Choronzon in hand, summon it. Otherwise, draw 1 card."
+   "texto": "If you control Triangle of Art and Circle of Protection and have Choronzon in your hand, summon it. Otherwise, draw 1 card."
   }
  }
 }

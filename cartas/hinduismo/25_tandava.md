@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-2 de dano a todas as Entidades inimigas e 3 de dano à Cornucópia inimiga.
+Cause 2 de dano a todas as Entidades inimigas e 3 à Cornucópia inimiga.
 
 ## Contexto mitológico
 Tandava é a dança cósmica de Shiva — nome derivado de Tandu, o servo a quem Shiva a ensinou e que a transmitiu ao sábio Bharata, autor do Natya Shastra, tratado fundador da dança e do teatro indianos. Há duas faces: o Ananda Tandava, a dança do êxtase, em que Shiva, como Nataraja, sustenta o ritmo do universo dentro do círculo de fogo; e o Rudra Tandava, a dança da fúria, em que o mesmo ritmo acelera até desfazer a criação no fim do ciclo (pralaya).

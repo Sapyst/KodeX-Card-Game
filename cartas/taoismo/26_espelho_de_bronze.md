@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Equipe uma Entidade aliada: +1/+1 e Furtivo. Ao equipar, silencie uma Entidade inimiga.
+A portadora ganha +1/+1 e Furtivo. Ao equipar, silencie uma Entidade inimiga.
 
 ## Contexto mitológico
 "As coisas velhas, de dez mil anos, são capazes de tomar forma humana para iludir os olhos dos homens — mas não conseguem alterar sua forma verdadeira dentro de um espelho." A frase é de Ge Hong, *Baopuzi*, cap. 17 ("Dengshe", "Subir montanhas e atravessar rios"), que recomenda ao taoista que entra nas montanhas levar às costas um espelho de bronze de nove polegadas ou mais: os espíritos, ao se aproximarem por trás, veem-se refletidos como são — raposa, tartaruga, árvore velha — e fogem, ou ficam paralisados de vergonha. O espelho não mata: desmascara.

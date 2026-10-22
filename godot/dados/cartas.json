@@ -25,7 +25,7 @@
     }
    ],
    "usos": null,
-   "texto": "Furtivo. Despertar: uma Entidade inimiga não ataca no próximo turno dela.",
+   "texto": "Furtivo. Despertar: Congele uma Entidade inimiga.",
    "copias": 2,
    "arte": "res://arte/indigena/ind_saci_perere.png"
   },
@@ -55,7 +55,7 @@
     }
    ],
    "usos": null,
-   "texto": "Guarda. Sempre que sofrer dano, causa 1 de dano ao atacante.",
+   "texto": "Guarda. Sempre que um atacante a ferir, ele sofre 1 de dano.",
    "copias": 2,
    "arte": "res://arte/indigena/ind_curupira.png"
   },
@@ -85,7 +85,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: invoca um Queixada 1/2.",
+   "texto": "Despertar: Invoque um Queixada 1/2.",
    "copias": 2,
    "arte": "res://arte/indigena/ind_caipora.png"
   },
@@ -112,7 +112,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: devolve uma Entidade inimiga à mão do dono.",
+   "texto": "Despertar: Devolva uma Entidade inimiga para a mão do dono.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_iara.png"
   },
@@ -142,7 +142,7 @@
     }
    ],
    "usos": null,
-   "texto": "Guarda. Sempre que sofrer dano de um ataque, causa 1 de dano ao atacante.",
+   "texto": "Guarda. Sempre que um atacante a ferir, ele sofre 1 de dano.",
    "copias": 2,
    "arte": "res://arte/indigena/ind_boitata.png"
   },
@@ -172,7 +172,7 @@
     }
    ],
    "usos": null,
-   "texto": "Sempre que outra Entidade aliada morrer, invoca um Veado Branco 1/2.",
+   "texto": "Sempre que outra Entidade aliada morrer, invoque um Veado Branco 1/2.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_anhanga.png"
   },
@@ -200,7 +200,7 @@
     }
    ],
    "usos": null,
-   "texto": "Sempre que sofrer dano, causa 2 de dano ao atacante.",
+   "texto": "Sempre que um atacante a ferir, ele sofre 2 de dano.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_mapinguari.png"
   },
@@ -230,7 +230,7 @@
     }
    ],
    "usos": null,
-   "texto": "Sempre que uma Entidade inimiga morrer, Cobra-Grande ganha +1/+1 permanente.",
+   "texto": "Sempre que uma Entidade inimiga morrer, esta ganha +1/+1.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_cobra_grande.png"
   },
@@ -273,7 +273,7 @@
     }
    ],
    "usos": null,
-   "texto": "Lendária. Despertar: invoca uma Vitória-régia 0/2 com Guarda. No fim do seu turno, cura 2 em todas as Entidades aliadas.",
+   "texto": "Despertar: Invoque uma Vitória-régia 0/2 com Guarda. No fim do seu turno, cure 2 de Vida de todas as suas Entidades.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_jaci.png"
   },
@@ -303,7 +303,7 @@
     }
    ],
    "usos": null,
-   "texto": "Lendária. Guarda. Despertar: causa 2 de dano a todas as Entidades inimigas.",
+   "texto": "Guarda. Despertar: Cause 2 de dano a todas as Entidades inimigas.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_tupa.png"
   },
@@ -339,7 +339,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade inimiga atacar uma Entidade sua: ela sofre 1 de dano, não ataca no próximo turno dela, e você compra 1 carta.",
+   "texto": "Quando atacarem uma Entidade sua, o atacante sofre 1 de dano e fica congelado. Compre 1 carta.",
    "copias": 2,
    "arte": "res://arte/indigena/ind_arapuca.png"
   },
@@ -372,7 +372,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade inimiga atacar uma Entidade sua: ela sofre 4 de dano e sua Cornucópia cura 4.",
+   "texto": "Quando atacarem uma Entidade sua, o atacante sofre 4 de dano. Cure 4 da sua Cornucópia.",
    "copias": 2,
    "arte": "res://arte/indigena/ind_mundeu.png"
   },
@@ -405,7 +405,7 @@
     }
    ],
    "usos": null,
-   "texto": "No fim do turno do oponente: ele descarta 1 carta aleatória e sua Cornucópia sofre 1 de dano.",
+   "texto": "No fim do turno do oponente, ele descarta 1 carta aleatória. Cause 1 de dano à Cornucópia inimiga.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_assovio_da_matinta.png"
   },
@@ -435,7 +435,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando o oponente jogar um Rito: anula esse Rito e você compra 1 carta.",
+   "texto": "Quando o oponente jogar um Rito, anule-o. Compre 1 carta.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_sopro_do_paje.png"
   },
@@ -467,7 +467,7 @@
     }
    ],
    "usos": null,
-   "texto": "Sua Cornucópia cura 2. Compre 1 carta.",
+   "texto": "Cure 2 da sua Cornucópia. Compre 1 carta.",
    "copias": 2,
    "arte": "res://arte/indigena/ind_cauim.png"
   },
@@ -499,7 +499,7 @@
     }
    ],
    "usos": null,
-   "texto": "Compre 2 cartas. Ganhe +1 Fé neste turno.",
+   "texto": "Compre 2 cartas. Ganhe 1 de Fé neste turno.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_visao_do_caapi.png"
   },
@@ -532,7 +532,7 @@
     }
    ],
    "usos": null,
-   "texto": "Causa 2 de dano a todas as Entidades inimigas e 1 de dano à Cornucópia inimiga.",
+   "texto": "Cause 2 de dano a todas as Entidades inimigas e 1 à Cornucópia inimiga.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_fogo_de_monan.png"
   },
@@ -567,7 +567,7 @@
     }
    ],
    "usos": null,
-   "texto": "Invoca dois Aruanãs 1/1. Sua Cornucópia cura 2.",
+   "texto": "Invoque dois Aruanãs 1/1. Cure 2 da sua Cornucópia.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_danca_do_aruana.png"
   },
@@ -604,7 +604,7 @@
     }
    ],
    "usos": null,
-   "texto": "Devolve uma Entidade do seu cemitério à sua mão. Sua Cornucópia cura 6. Compre 1 carta.",
+   "texto": "Devolva uma Entidade do seu cemitério para a mão. Cure 6 da sua Cornucópia. Compre 1 carta.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_dadiva_de_mani.png"
   },
@@ -636,7 +636,7 @@
     }
    ],
    "usos": null,
-   "texto": "Traz uma Entidade do seu cemitério de volta ao campo. Compre 1 carta.",
+   "texto": "Devolva uma Entidade do seu cemitério para o campo. Compre 1 carta.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_kuarup.png"
   },
@@ -671,7 +671,7 @@
     }
    ],
    "usos": null,
-   "texto": "Todas as suas Entidades ganham +1/+1 permanente. Sua Cornucópia cura 4.",
+   "texto": "Todas as suas Entidades ganham +1/+1. Cure 4 da sua Cornucópia.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_terra_sem_males.png"
   },
@@ -783,7 +783,7 @@
     }
    ],
    "usos": null,
-   "texto": "A portadora ganha +1/+2. Quando ela morrer, invoca um Espírito 1/1.",
+   "texto": "A portadora ganha +1/+2. Quando ela morrer, invoque um Espírito 1/1.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_maraca_do_paje.png"
   },
@@ -830,7 +830,7 @@
     }
    ],
    "usos": null,
-   "texto": "A portadora ganha +3 Vida e Guarda. Enquanto ela estiver em campo, todas as suas Entidades ganham +1 ATK.",
+   "texto": "A portadora ganha +3 Vida e Guarda. Suas Entidades têm +1 ATK.",
    "copias": 1,
    "arte": "res://arte/indigena/ind_cocar_do_morubixaba.png"
   },
@@ -860,7 +860,7 @@
     }
    ],
    "usos": null,
-   "texto": "Guarda. Último Sopro: cura 2 da sua Cornucópia.",
+   "texto": "Guarda. Último Sopro: Cure 2 da sua Cornucópia.",
    "copias": 2,
    "arte": "res://arte/cristianismo/cri_anjo_da_guarda.png"
   },
@@ -907,7 +907,7 @@
     }
    ],
    "usos": null,
-   "texto": "Ao atacar, causa 2 de dano a uma Entidade inimiga à sua escolha.",
+   "texto": "Sempre que esta atacar, cause 2 de dano a uma Entidade inimiga.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_davi_o_pastor.png"
   },
@@ -957,7 +957,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: destrói uma Entidade inimiga de custo 3 ou menos.",
+   "texto": "Despertar: Destrua uma Entidade inimiga de custo 3 ou menos.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_judite.png"
   },
@@ -984,7 +984,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: busque um Rito do seu deck para a mão.",
+   "texto": "Despertar: Compre um Rito do seu deck.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_gabriel.png"
   },
@@ -1012,7 +1012,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: cura 4 de Vida de uma Entidade aliada.",
+   "texto": "Despertar: Cure 4 de Vida de uma Entidade aliada.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_rafael.png"
   },
@@ -1040,7 +1040,7 @@
     }
    ],
    "usos": null,
-   "texto": "Último Sopro: causa 2 de dano a todas as Entidades inimigas.",
+   "texto": "Último Sopro: Cause 2 de dano a todas as Entidades inimigas.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_sansao.png"
   },
@@ -1069,7 +1069,7 @@
     }
    ],
    "usos": null,
-   "texto": "Guarda. Despertar: silencia uma Entidade inimiga (perde palavras-chave e efeitos).",
+   "texto": "Guarda. Despertar: Silencie uma Entidade inimiga (ela perde palavras-chave e efeitos).",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_serafim.png"
   },
@@ -1097,7 +1097,7 @@
     }
    ],
    "usos": null,
-   "texto": "Sacrifício 1. Último Sopro: cura 4 da sua Cornucópia.",
+   "texto": "Sacrifício 1. Último Sopro: Cure 4 da sua Cornucópia.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_leviata.png"
   },
@@ -1127,7 +1127,7 @@
     }
    ],
    "usos": null,
-   "texto": "Lendária. Renascer. Despertar: fogo do céu — 2 de dano a todas as Entidades inimigas.",
+   "texto": "Renascer. Despertar: Cause 2 de dano a todas as Entidades inimigas.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_elias.png"
   },
@@ -1156,7 +1156,7 @@
     }
    ],
    "usos": null,
-   "texto": "Lendária. Guarda. Despertar: destrói uma Entidade inimiga.",
+   "texto": "Guarda. Despertar: Destrua uma Entidade inimiga.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_sao_miguel_arcanjo.png"
   },
@@ -1191,7 +1191,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade aliada sofrer dano, cure 4 dela e ela ganha +1/+1 permanente.",
+   "texto": "Quando uma Entidade aliada sofrer dano, cure 4 de Vida dela; ela ganha +1/+1.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_cova_dos_leoes.png"
   },
@@ -1219,7 +1219,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade aliada morrer, reviva uma Entidade do seu cemitério para o campo.",
+   "texto": "Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério para o campo.",
    "copias": 2,
    "arte": "res://arte/cristianismo/cri_tumba_vazia.png"
   },
@@ -1251,7 +1251,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando o oponente invocar uma Entidade, ela sofre 3 de dano e não ataca no próximo turno dela.",
+   "texto": "Quando o oponente jogar uma Entidade, ela sofre 3 de dano e fica congelada.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_portao_do_eden.png"
   },
@@ -1313,7 +1313,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade inimiga atacar, destrua-a. Cure 4 da sua Cornucópia.",
+   "texto": "Quando atacarem uma Entidade sua, destrua o atacante. Cure 4 da sua Cornucópia.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_sangue_nos_umbrais.png"
   },
@@ -1377,7 +1377,7 @@
     }
    ],
    "usos": null,
-   "texto": "Devolva uma Entidade inimiga à mão do dono. Cure 4 de Vida de uma Entidade aliada.",
+   "texto": "Devolva uma Entidade inimiga para a mão do dono. Cure 4 de Vida de uma Entidade aliada.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_exorcismo.png"
   },
@@ -1410,7 +1410,7 @@
     }
    ],
    "usos": null,
-   "texto": "Causa 2 de dano a todas as Entidades inimigas. O oponente descarta 1 carta aleatória.",
+   "texto": "Cause 2 de dano a todas as Entidades inimigas. O oponente descarta 1 carta aleatória.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_praga_dos_gafanhotos.png"
   },
@@ -1438,7 +1438,7 @@
     }
    ],
    "usos": null,
-   "texto": "Reviva uma Entidade do seu cemitério para o campo.",
+   "texto": "Devolva uma Entidade do seu cemitério para o campo.",
    "copias": 2,
    "arte": "res://arte/cristianismo/cri_talita_cumi.png"
   },
@@ -1473,7 +1473,7 @@
     }
    ],
    "usos": null,
-   "texto": "Invoque dois Ossos Erguidos 1/1. Reviva uma Entidade aleatória do seu cemitério para a mão.",
+   "texto": "Invoque dois Ossos Erguidos 1/1. Devolva uma Entidade aleatória do seu cemitério para a mão.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_vale_dos_ossos_secos.png"
   },
@@ -1506,7 +1506,7 @@
     }
    ],
    "usos": null,
-   "texto": "Causa 3 de dano a todas as Entidades inimigas e 1 de dano à Cornucópia inimiga.",
+   "texto": "Cause 3 de dano a todas as Entidades inimigas e 1 à Cornucópia inimiga.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_granizo_e_fogo.png"
   },
@@ -1538,7 +1538,7 @@
     }
    ],
    "usos": null,
-   "texto": "Destrua todas as Entidades em campo, inimigas e suas. Depois, uma Entidade aleatória do seu cemitério volta à sua mão.",
+   "texto": "Destrua todas as Entidades, suas e inimigas. Depois, devolva uma Entidade aleatória do seu cemitério para a mão.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_juizo_final.png"
   },
@@ -1583,7 +1583,7 @@
     }
    ],
    "usos": null,
-   "texto": "A portadora ganha +2 ATK e Ímpeto. Quando ela ataca, causa 1 de dano a uma Entidade inimiga à sua escolha.",
+   "texto": "A portadora ganha +2 ATK e Ímpeto. Sempre que ela atacar, cause 1 de dano a uma Entidade inimiga.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_funda_de_davi.png"
   },
@@ -1663,7 +1663,7 @@
     }
    ],
    "usos": null,
-   "texto": "A portadora ganha +0/+2. Ao equipar, cure 4 da sua Cornucópia. Quando a portadora ataca, cure 2 dela.",
+   "texto": "A portadora ganha +2 Vida. Ao equipar, cure 4 da sua Cornucópia. Sempre que ela atacar, cure 2 de Vida dela.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_santo_graal.png"
   },
@@ -1710,7 +1710,7 @@
     }
    ],
    "usos": null,
-   "texto": "A portadora ganha +0/+3 e Guarda. Enquanto a Arca estiver em campo, suas Entidades têm +1 ATK.",
+   "texto": "A portadora ganha +3 Vida e Guarda. Suas Entidades têm +1 ATK.",
    "copias": 1,
    "arte": "res://arte/cristianismo/cri_arca_da_alianca.png"
   },
@@ -1741,7 +1741,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: se você controla 2 ou mais Entidades, compre 1 carta.",
+   "texto": "Despertar: Se você controla 2 ou mais Entidades, compre 1 carta.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_lan_caihe.png"
   },
@@ -1801,7 +1801,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: se você controla 2 ou mais Entidades, ganhe 2 Fé temporária.",
+   "texto": "Despertar: Se você controla 2 ou mais Entidades, ganhe 2 de Fé neste turno.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_han_xiangzi.png"
   },
@@ -1848,7 +1848,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: devolva uma Entidade do seu cemitério para a sua mão.",
+   "texto": "Despertar: Devolva uma Entidade do seu cemitério para a mão.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_zhongli_quan.png"
   },
@@ -1878,7 +1878,7 @@
     }
    ],
    "usos": null,
-   "texto": "Aura: suas outras Entidades têm +1 ATK enquanto Lü Dongbin estiver em campo.",
+   "texto": "Suas outras Entidades têm +1 ATK.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_lu_dongbin.png"
   },
@@ -1905,7 +1905,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: devolva uma Entidade inimiga à mão do dono.",
+   "texto": "Despertar: Devolva uma Entidade inimiga para a mão do dono.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_zhang_guolao.png"
   },
@@ -1935,7 +1935,7 @@
     }
    ],
    "usos": null,
-   "texto": "Guarda. Despertar: cure 2 de Vida de uma Entidade aliada.",
+   "texto": "Guarda. Despertar: Cure 2 de Vida de uma Entidade aliada.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_cao_guojiu.png"
   },
@@ -1982,7 +1982,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: silencie uma Entidade inimiga (ela perde palavras-chave e habilidades).",
+   "texto": "Despertar: Silencie uma Entidade inimiga (ela perde palavras-chave e efeitos).",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_zhong_kui.png"
   },
@@ -2012,7 +2012,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: invoque Xiaotian Quan, o Cão Celestial (2/1), se houver slot livre.",
+   "texto": "Despertar: Invoque Xiaotian Quan, Cão Celestial 2/1.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_erlang_shen.png"
   },
@@ -2044,7 +2044,7 @@
     }
    ],
    "usos": null,
-   "texto": "Guarda. Despertar: uma Entidade aliada ganha +1 ATK permanente.",
+   "texto": "Guarda. Despertar: Uma Entidade aliada ganha +1 ATK.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_guan_yu.png"
   },
@@ -2072,7 +2072,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: reviva uma Entidade do seu cemitério para o campo.",
+   "texto": "Despertar: Devolva uma Entidade do seu cemitério para o campo.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_xiwangmu.png"
   },
@@ -2102,7 +2102,7 @@
     }
    ],
    "usos": null,
-   "texto": "Aura: suas outras Entidades têm +1/+1 enquanto o Imperador de Jade estiver em campo.",
+   "texto": "Suas outras Entidades têm +1/+1.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_imperador_de_jade.png"
   },
@@ -2132,7 +2132,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando o oponente jogar um Rito: anule-o (vai ao cemitério sem efeito). Compre 1 carta.",
+   "texto": "Quando o oponente jogar um Rito, anule-o (ele vai ao cemitério sem efeito). Compre 1 carta.",
    "copias": 2,
    "arte": "res://arte/taoismo/tao_fulu_de_selamento.png"
   },
@@ -2162,7 +2162,7 @@
     }
    ],
    "usos": null,
-   "texto": "No fim do turno do oponente: todas as suas Entidades ganham +1/+1 permanente.",
+   "texto": "No fim do turno do oponente, todas as suas Entidades ganham +1/+1.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_dragao_azul_do_leste.png"
   },
@@ -2197,7 +2197,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade inimiga atacar: ela sofre 4 de dano e recebe −1 ATK permanente.",
+   "texto": "Quando atacarem uma Entidade sua, o atacante sofre 4 de dano e recebe -1 ATK.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_tigre_branco_do_oeste.png"
   },
@@ -2230,7 +2230,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade aliada morrer: reviva uma Entidade do seu cemitério para o campo e cure 2 da sua Cornucópia.",
+   "texto": "Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério para o campo. Cure 2 da sua Cornucópia.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_passaro_vermelho_do_sul.png"
   },
@@ -2270,7 +2270,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade aliada sofrer dano: cure 4 de Vida dela; ela ganha +0/+1 permanente e Guarda.",
+   "texto": "Quando uma Entidade aliada sofrer dano, cure 4 de Vida dela; ela ganha +1 Vida e Guarda.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_tartaruga_negra_do_norte.png"
   },
@@ -2302,7 +2302,7 @@
     }
    ],
    "usos": null,
-   "texto": "Ganhe 1 Fé temporária. Compre 1 carta.",
+   "texto": "Ganhe 1 de Fé neste turno. Compre 1 carta.",
    "copias": 2,
    "arte": "res://arte/taoismo/tao_circulacao_do_qi.png"
   },
@@ -2366,7 +2366,7 @@
     }
    ],
    "usos": null,
-   "texto": "Reviva uma Entidade do seu cemitério para o campo. Compre 1 carta.",
+   "texto": "Devolva uma Entidade do seu cemitério para o campo. Compre 1 carta.",
    "copias": 2,
    "arte": "res://arte/taoismo/tao_pilula_de_ouro.png"
   },
@@ -2401,7 +2401,7 @@
     }
    ],
    "usos": null,
-   "texto": "Todas as suas Entidades ganham +1/+1 permanente. Cure 2 da sua Cornucópia.",
+   "texto": "Todas as suas Entidades ganham +1/+1. Cure 2 da sua Cornucópia.",
    "copias": 1,
    "arte": "res://arte/taoismo/tao_banquete_dos_pessegos.png"
   },
@@ -2438,7 +2438,7 @@
     }
    ],
    "usos": null,
-   "texto": "Uma Entidade aliada ganha +2/+2 permanente e uma Entidade inimiga recebe −2/−2 permanente.",
+   "texto": "Uma Entidade aliada ganha +2/+2 e uma Entidade inimiga recebe -2/-2.",
    "copias": 2,
    "arte": "res://arte/taoismo/tao_taiji.png"
   },
@@ -2473,7 +2473,7 @@
     }
    ],
    "usos": null,
-   "texto": "Equipe uma Entidade aliada: +1/+2. A portadora ganha Renascer.",
+   "texto": "A portadora ganha +1/+2 e Renascer.",
    "copias": 2,
    "arte": "res://arte/taoismo/tao_pessego_da_imortalidade.png"
   },
@@ -2512,7 +2512,7 @@
     }
    ],
    "usos": null,
-   "texto": "Equipe uma Entidade aliada: +1/+1 e Furtivo. Ao equipar, silencie uma Entidade inimiga.",
+   "texto": "A portadora ganha +1/+1 e Furtivo. Ao equipar, silencie uma Entidade inimiga.",
    "copias": 2,
    "arte": "res://arte/taoismo/tao_espelho_de_bronze.png"
   },
@@ -2539,7 +2539,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: busque uma Relíquia do seu deck para a mão.",
+   "texto": "Despertar: Compre uma Relíquia do seu deck.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_matsya.png"
   },
@@ -2587,7 +2587,7 @@
     }
    ],
    "usos": null,
-   "texto": "Ímpeto. Último Sopro: compre 1 carta.",
+   "texto": "Ímpeto. Último Sopro: Compre 1 carta.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_jatayu.png"
   },
@@ -2614,7 +2614,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: devolva uma Entidade inimiga à mão do dono.",
+   "texto": "Despertar: Devolva uma Entidade inimiga para a mão do dono.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_ganesha.png"
   },
@@ -2644,7 +2644,7 @@
     }
    ],
    "usos": null,
-   "texto": "Furtivo. Ao atacar, causa 1 de dano a uma Entidade inimiga à sua escolha.",
+   "texto": "Furtivo. Sempre que esta atacar, cause 1 de dano a uma Entidade inimiga.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_arjuna.png"
   },
@@ -2676,7 +2676,7 @@
     }
    ],
    "usos": null,
-   "texto": "Ímpeto. Sempre que atacar, ganha +1 ATK permanente.",
+   "texto": "Ímpeto. Sempre que esta atacar, ganha +1 ATK.",
    "copias": 2,
    "arte": "res://arte/hinduismo/hin_hanuman.png"
   },
@@ -2707,7 +2707,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: destrua uma Entidade inimiga de custo 3 ou menos.",
+   "texto": "Despertar: Destrua uma Entidade inimiga de custo 3 ou menos.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_narasimha.png"
   },
@@ -2754,7 +2754,7 @@
     }
    ],
    "usos": null,
-   "texto": "Enquanto Krishna estiver em campo, suas Entidades têm Ímpeto.",
+   "texto": "Suas Entidades têm Ímpeto.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_krishna.png"
   },
@@ -2814,7 +2814,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: 1 de dano a todas as Entidades inimigas. Sempre que uma Entidade inimiga morrer, Kali ganha +1 ATK permanente.",
+   "texto": "Despertar: Cause 1 de dano a todas as Entidades inimigas. Sempre que uma Entidade inimiga morrer, esta ganha +1 ATK.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_kali.png"
   },
@@ -2843,7 +2843,7 @@
     }
    ],
    "usos": null,
-   "texto": "Ímpeto. Despertar: destrua uma Entidade inimiga.",
+   "texto": "Ímpeto. Despertar: Destrua uma Entidade inimiga.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_shiva_nataraja.png"
   },
@@ -2876,7 +2876,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando o oponente invocar uma Entidade, ela sofre 1 de dano e a Cornucópia inimiga sofre 1.",
+   "texto": "Quando o oponente jogar uma Entidade, ela sofre 1 de dano e a Cornucópia inimiga sofre 1.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_chamas_de_agni.png"
   },
@@ -2908,7 +2908,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério à sua mão e compre 1 carta.",
+   "texto": "Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério para a mão. Compre 1 carta.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_roda_do_samsara.png"
   },
@@ -2940,7 +2940,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade inimiga atacar, ela sofre 3 de dano. Compre 1 carta.",
+   "texto": "Quando atacarem uma Entidade sua, o atacante sofre 3 de dano. Compre 1 carta.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_lei_do_karma.png"
   },
@@ -2970,7 +2970,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando o oponente jogar um Rito, anule-o e devolva uma Entidade inimiga à mão do dono.",
+   "texto": "Quando o oponente jogar um Rito, anule-o e devolva uma Entidade inimiga para a mão do dono.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_veu_de_maya.png"
   },
@@ -3003,7 +3003,7 @@
     }
    ],
    "usos": null,
-   "texto": "No fim do turno do oponente, 1 de dano a todas as Entidades inimigas e 1 à Cornucópia inimiga.",
+   "texto": "No fim do turno do oponente, cause 1 de dano a todas as Entidades inimigas e 1 à Cornucópia inimiga.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_incendio_de_lanka.png"
   },
@@ -3034,7 +3034,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade inimiga atacar, destrua-a. Compre 1 carta.",
+   "texto": "Quando atacarem uma Entidade sua, destrua o atacante. Compre 1 carta.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_pashupatastra.png"
   },
@@ -3066,7 +3066,7 @@
     }
    ],
    "usos": null,
-   "texto": "Compre 1 carta e ganhe 1 de Fé temporária.",
+   "texto": "Compre 1 carta. Ganhe 1 de Fé neste turno.",
    "copias": 2,
    "arte": "res://arte/hinduismo/hin_om.png"
   },
@@ -3099,7 +3099,7 @@
     }
    ],
    "usos": null,
-   "texto": "Cause 2 de dano a uma Entidade inimiga e ganhe 2 de Fé temporária.",
+   "texto": "Cause 2 de dano a uma Entidade inimiga. Ganhe 2 de Fé neste turno.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_yajna.png"
   },
@@ -3136,7 +3136,7 @@
     }
    ],
    "usos": null,
-   "texto": "Compre 2 cartas, ganhe 2 de Fé temporária e cure 2 da sua Cornucópia.",
+   "texto": "Compre 2 cartas. Ganhe 2 de Fé neste turno. Cure 2 da sua Cornucópia.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_samudra_manthan.png"
   },
@@ -3191,7 +3191,7 @@
     }
    ],
    "usos": null,
-   "texto": "Reviva uma Entidade do seu cemitério para o campo.",
+   "texto": "Devolva uma Entidade do seu cemitério para o campo.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_descida_do_avatar.png"
   },
@@ -3225,7 +3225,7 @@
     }
    ],
    "usos": null,
-   "texto": "Uma Entidade aliada passa a ter ATK 6 e Vida 6 e ganha Ímpeto.",
+   "texto": "Uma Entidade aliada passa a ser 6/6 e ganha Ímpeto.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_vishvarupa.png"
   },
@@ -3258,7 +3258,7 @@
     }
    ],
    "usos": null,
-   "texto": "2 de dano a todas as Entidades inimigas e 3 de dano à Cornucópia inimiga.",
+   "texto": "Cause 2 de dano a todas as Entidades inimigas e 3 à Cornucópia inimiga.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_tandava.png"
   },
@@ -3293,7 +3293,7 @@
     }
    ],
    "usos": null,
-   "texto": "Portadora: +2 ATK. Ao equipar, causa 2 de dano a uma Entidade inimiga.",
+   "texto": "A portadora ganha +2 ATK. Ao equipar, cause 2 de dano a uma Entidade inimiga.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_vajra.png"
   },
@@ -3338,7 +3338,7 @@
     }
    ],
    "usos": null,
-   "texto": "Portadora: +2 ATK / +1 Vida e Ímpeto. Quando a portadora atacar, causa 1 de dano a uma Entidade inimiga.",
+   "texto": "A portadora ganha +2/+1 e Ímpeto. Sempre que ela atacar, cause 1 de dano a uma Entidade inimiga.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_sudarshana_chakra.png"
   },
@@ -3378,7 +3378,7 @@
     }
    ],
    "usos": null,
-   "texto": "Portadora: +3 ATK / +1 Vida. Quando a portadora atacar, causa 1 de dano a todas as Entidades inimigas.",
+   "texto": "A portadora ganha +3/+1. Sempre que ela atacar, cause 1 de dano a todas as Entidades inimigas.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_gandiva.png"
   },
@@ -3428,7 +3428,7 @@
     }
    ],
    "usos": null,
-   "texto": "Portadora: +3 ATK / +1 Vida. Quando atacar, 1 de dano a uma Entidade inimiga. Quando morrer, 2 de dano a todas as Entidades inimigas.",
+   "texto": "A portadora ganha +3/+1. Sempre que ela atacar, cause 1 de dano a uma Entidade inimiga. Quando ela morrer, cause 2 de dano a todas as inimigas.",
    "copias": 1,
    "arte": "res://arte/hinduismo/hin_trishula.png"
   },
@@ -3458,7 +3458,7 @@
     }
    ],
    "usos": null,
-   "texto": "Último Sopro: uma Entidade inimiga à escolha perde 1 ATK e 1 Vida permanentemente.",
+   "texto": "Último Sopro: Uma Entidade inimiga recebe -1/-1.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_sapo_familiar.png"
   },
@@ -3478,7 +3478,7 @@
    "sacrificio": 0,
    "efeitos": [],
    "usos": null,
-   "texto": "Furtivo. Renascer. *(Sete vidas: quando morre, volta à sua mão uma vez.)*",
+   "texto": "Furtivo. Renascer. (Sete vidas: quando morrer, volta para a sua mão uma vez.)",
    "copias": 2,
    "arte": "res://arte/bruxaria/bru_gato_preto.png"
   },
@@ -3506,7 +3506,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: o oponente descarta 1 carta aleatória da mão.",
+   "texto": "Despertar: O oponente descarta 1 carta aleatória.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_corvo_agourento.png"
   },
@@ -3536,7 +3536,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: invoque uma Strix 1/1 (coruja familiar).",
+   "texto": "Despertar: Invoque uma Strix 1/1.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_strega_de_benevento.png"
   },
@@ -3563,7 +3563,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: congele uma Entidade inimiga à escolha (ela não ataca no próximo turno).",
+   "texto": "Despertar: Congele uma Entidade inimiga (ela não ataca no próximo turno).",
    "copias": 2,
    "arte": "res://arte/bruxaria/bru_benandante.png"
   },
@@ -3592,7 +3592,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: uma Entidade inimiga à escolha vira porco — seu ATK e sua Vida passam a ser 1/1.",
+   "texto": "Despertar: Uma Entidade inimiga passa a ser 1/1.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_circe.png"
   },
@@ -3622,7 +3622,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: uma Entidade inimiga à escolha perde 2 ATK permanentemente.",
+   "texto": "Despertar: Uma Entidade inimiga recebe -2 ATK.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_medeia.png"
   },
@@ -3652,7 +3652,7 @@
     }
    ],
    "usos": null,
-   "texto": "Furtivo. Despertar: devolva uma Entidade do seu cemitério à sua mão.",
+   "texto": "Furtivo. Despertar: Devolva uma Entidade do seu cemitério para a mão.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_bruxa_de_endor.png"
   },
@@ -3679,7 +3679,7 @@
     }
    ],
    "usos": null,
-   "texto": "Sacrifício 1. Despertar: devore uma Entidade inimiga à escolha (destrua-a).",
+   "texto": "Sacrifício 1. Despertar: Destrua uma Entidade inimiga.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_baba_yaga.png"
   },
@@ -3706,7 +3706,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: compre 2 cartas.",
+   "texto": "Despertar: Compre 2 cartas.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_cerridwen.png"
   },
@@ -3750,7 +3750,7 @@
     }
    ],
    "usos": null,
-   "texto": "Ímpeto. Sempre que uma Entidade — aliada ou inimiga — morrer, invoque um Corvo 1/1.",
+   "texto": "Ímpeto. Sempre que outra Entidade morrer, invoque um Corvo 1/1.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_a_morrigan.png"
   },
@@ -3780,7 +3780,7 @@
     }
    ],
    "usos": null,
-   "texto": "Sacrifício 1. Despertar: todas as Entidades inimigas perdem 2 ATK e 2 Vida permanentemente.",
+   "texto": "Sacrifício 1. Despertar: Todas as Entidades inimigas recebem -2/-2.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_hecate.png"
   },
@@ -3814,7 +3814,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando o oponente invocar uma Entidade, ela fica congelada e perde 1 ATK e 1 Vida permanentemente.",
+   "texto": "Quando o oponente jogar uma Entidade, ela fica congelada e recebe -1/-1.",
    "copias": 2,
    "arte": "res://arte/bruxaria/bru_mau_olhado.png"
   },
@@ -3850,7 +3850,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade inimiga atacar, devolva-a à mão do dono; o oponente descarta 1 carta aleatória e você compra 1.",
+   "texto": "Quando atacarem uma Entidade sua, devolva o atacante para a mão do dono. O oponente descarta 1 carta aleatória. Compre 1 carta.",
    "copias": 2,
    "arte": "res://arte/bruxaria/bru_circulo_de_sal.png"
   },
@@ -3881,7 +3881,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando o oponente jogar um Rito, anule-o; o oponente descarta 1 carta aleatória.",
+   "texto": "Quando o oponente jogar um Rito, anule-o. O oponente descarta 1 carta aleatória.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_garrafa_de_bruxa.png"
   },
@@ -3916,7 +3916,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade aliada sofrer dano de um ataque, o atacante sofre 4 de dano e perde 2 ATK e 2 Vida permanentemente.",
+   "texto": "Quando uma Entidade aliada sofrer dano: se veio de um atacante, ele sofre 4 de dano e recebe -2/-2.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_boneco_de_cera.png"
   },
@@ -3951,7 +3951,7 @@
     }
    ],
    "usos": null,
-   "texto": "Uma Entidade aliada à escolha cura 2 de Vida e ganha +1 ATK e +1 Vida permanentemente.",
+   "texto": "Cure 2 de Vida de uma Entidade aliada; ela ganha +1/+1.",
    "copias": 2,
    "arte": "res://arte/bruxaria/bru_pocao_de_beladona.png"
   },
@@ -3979,7 +3979,7 @@
     }
    ],
    "usos": null,
-   "texto": "Ganhe 2 de Fé temporária (só neste turno).",
+   "texto": "Ganhe 2 de Fé neste turno.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_pacto_na_encruzilhada.png"
   },
@@ -4006,7 +4006,7 @@
     }
    ],
    "usos": null,
-   "texto": "Busque uma Entidade do seu deck e ponha-a na mão. Embaralhe.",
+   "texto": "Compre uma Entidade do seu deck.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_seidr.png"
   },
@@ -4039,7 +4039,7 @@
     }
    ],
    "usos": null,
-   "texto": "Todas as Entidades inimigas sofrem 2 de dano; o oponente descarta 1 carta aleatória.",
+   "texto": "Cause 2 de dano a todas as Entidades inimigas. O oponente descarta 1 carta aleatória.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_po_de_ossos.png"
   },
@@ -4073,7 +4073,7 @@
     }
    ],
    "usos": null,
-   "texto": "Uma Entidade inimiga à escolha perde 3 ATK e 2 Vida permanentemente e é silenciada (perde palavras-chave e habilidades).",
+   "texto": "Uma Entidade inimiga recebe -3/-2 e é silenciada (perde palavras-chave e efeitos).",
    "copias": 2,
    "arte": "res://arte/bruxaria/bru_maleficio.png"
   },
@@ -4110,7 +4110,7 @@
     }
    ],
    "usos": null,
-   "texto": "Todas as Entidades aliadas ganham +1 ATK e +1 Vida permanentemente. Invoque uma Lebre 1/2.",
+   "texto": "Todas as suas Entidades ganham +1/+1. Invoque uma Lebre 1/2.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_saba_de_walpurgis.png"
   },
@@ -4145,7 +4145,7 @@
     }
    ],
    "usos": null,
-   "texto": "A portadora ganha +1 ATK e +2 Vida e Ímpeto.",
+   "texto": "A portadora ganha +1/+2 e Ímpeto.",
    "copias": 2,
    "arte": "res://arte/bruxaria/bru_vassoura.png"
   },
@@ -4184,7 +4184,7 @@
     }
    ],
    "usos": 4,
-   "texto": "Usos 4. A portadora ganha +1 ATK e +1 Vida enquanto o porta. Sempre que ela atacar, compre 1 carta e gaste 1 Uso.",
+   "texto": "Usos 4. A portadora ganha +1/+1. Sempre que ela atacar, compre 1 carta e gaste 1 Uso. Sem Usos, vai ao cemitério.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_livro_das_sombras.png"
   },
@@ -4224,7 +4224,7 @@
     }
    ],
    "usos": null,
-   "texto": "A portadora ganha +1 ATK e +2 Vida. Quando ela morrer, reviva uma Entidade do seu cemitério para o campo.",
+   "texto": "A portadora ganha +1/+2. Quando ela morrer, devolva uma Entidade do seu cemitério para o campo.",
    "copias": 1,
    "arte": "res://arte/bruxaria/bru_caldeirao_de_renascimento.png"
   },
@@ -4251,7 +4251,7 @@
     }
    ],
    "usos": null,
-   "texto": "Último Sopro: compre 1 carta.",
+   "texto": "Último Sopro: Compre 1 carta.",
    "copias": 2,
    "arte": "res://arte/alta_magia/alt_homunculo.png"
   },
@@ -4280,7 +4280,7 @@
     }
    ],
    "usos": null,
-   "texto": "Furtivo. Despertar: busque uma Relíquia do seu deck.",
+   "texto": "Furtivo. Despertar: Compre uma Relíquia do seu deck.",
    "copias": 1,
    "arte": "res://arte/alta_magia/alt_edward_kelley.png"
   },
@@ -4306,7 +4306,7 @@
   },
   "alt_vassago": {
    "id": "alt_vassago",
-   "nome": "Vassago, o Príncipe que Acha",
+   "nome": "Vassago, o Príncipe que Encontra",
    "cultura": "alta_magia",
    "tipo": "entidade",
    "custo": 3,
@@ -4327,7 +4327,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: busque um Selo do seu deck.",
+   "texto": "Despertar: Compre um Selo do seu deck.",
    "copias": 2,
    "arte": "res://arte/alta_magia/alt_vassago.png"
   },
@@ -4357,7 +4357,7 @@
     }
    ],
    "usos": null,
-   "texto": "Guarda. No início do seu turno, Orobas cura 2 de Vida de si mesmo.",
+   "texto": "Guarda. No início do seu turno, cure 2 de Vida desta.",
    "copias": 1,
    "arte": "res://arte/alta_magia/alt_orobas.png"
   },
@@ -4388,7 +4388,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: destrua uma Entidade inimiga de custo 3 ou menos.",
+   "texto": "Despertar: Destrua uma Entidade inimiga de custo 3 ou menos.",
    "copias": 1,
    "arte": "res://arte/alta_magia/alt_andras.png"
   },
@@ -4415,7 +4415,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: silencie uma Entidade inimiga (ela perde palavras-chave e efeitos).",
+   "texto": "Despertar: Silencie uma Entidade inimiga (ela perde palavras-chave e efeitos).",
    "copias": 1,
    "arte": "res://arte/alta_magia/alt_marbas.png"
   },
@@ -4442,7 +4442,7 @@
     }
    ],
    "usos": null,
-   "texto": "Sacrifício 1. Despertar: compre 2 cartas.",
+   "texto": "Sacrifício 1. Despertar: Compre 2 cartas.",
    "copias": 1,
    "arte": "res://arte/alta_magia/alt_astaroth.png"
   },
@@ -4470,7 +4470,7 @@
     }
    ],
    "usos": null,
-   "texto": "Sacrifício 1. Despertar: tome o controle permanente de uma Entidade inimiga.",
+   "texto": "Sacrifício 1. Despertar: Domine uma Entidade inimiga.",
    "copias": 1,
    "arte": "res://arte/alta_magia/alt_dantalion.png"
   },
@@ -4500,7 +4500,7 @@
     }
    ],
    "usos": null,
-   "texto": "Despertar: invoque dois Espíritos de Paimon 1/1.",
+   "texto": "Despertar: Invoque dois Espíritos de Paimon 1/1.",
    "copias": 1,
    "arte": "res://arte/alta_magia/alt_paimon.png"
   },
@@ -4542,7 +4542,7 @@
     }
    ],
    "usos": null,
-   "texto": "Sacrifício 1. Sempre que qualquer Entidade morrer, Babalon ganha +1/+1 permanente.",
+   "texto": "Sacrifício 1. Sempre que outra Entidade morrer, esta ganha +1/+1.",
    "copias": 1,
    "arte": "res://arte/alta_magia/alt_babalon.png"
   },
@@ -4573,7 +4573,7 @@
     }
    ],
    "usos": null,
-   "texto": "Guarda. Renascer. Despertar: cure 4 da sua Cornucópia.",
+   "texto": "Guarda. Renascer. Despertar: Cure 4 da sua Cornucópia.",
    "copias": 1,
    "arte": "res://arte/alta_magia/alt_anjo_guardiao.png"
   },
@@ -4608,7 +4608,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando o oponente jogar um Rito, anule-o, compre 1 carta e cure 2 da sua Cornucópia.",
+   "texto": "Quando o oponente jogar um Rito, anule-o. Compre 1 carta e cure 2 da sua Cornucópia.",
    "copias": 2,
    "arte": "res://arte/alta_magia/alt_pentagrama_flamejante.png"
   },
@@ -4638,7 +4638,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando o oponente invocar uma Entidade, anule-a (ela vai ao cemitério) e compre 1 carta.",
+   "texto": "Quando o oponente jogar uma Entidade, anule-a (ela vai ao cemitério). Compre 1 carta.",
    "copias": 1,
    "arte": "res://arte/alta_magia/alt_selo_de_salomao.png"
   },
@@ -4670,7 +4670,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade aliada morrer no turno do oponente, devolva uma Entidade do seu cemitério à mão e compre 1 carta.",
+   "texto": "Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério para a mão. Compre 1 carta.",
    "copias": 2,
    "arte": "res://arte/alta_magia/alt_solve_et_coagula.png"
   },
@@ -4702,7 +4702,7 @@
     }
    ],
    "usos": null,
-   "texto": "No fim do turno do oponente, ele descarta 1 carta aleatória da mão e você compra 1 carta.",
+   "texto": "No fim do turno do oponente, ele descarta 1 carta aleatória. Compre 1 carta.",
    "copias": 1,
    "arte": "res://arte/alta_magia/alt_sigilo_de_spare.png"
   },
@@ -4729,7 +4729,7 @@
     }
    ],
    "usos": null,
-   "texto": "Busque uma Entidade do seu deck e coloque-a na mão.",
+   "texto": "Compre uma Entidade do seu deck.",
    "copias": 2,
    "arte": "res://arte/alta_magia/alt_lemegeton.png"
   },
@@ -4766,7 +4766,7 @@
     }
    ],
    "usos": null,
-   "texto": "Sua Fé máxima aumenta em 1 (até 8). Ganhe 1 de Fé neste turno. Compre 1 carta.",
+   "texto": "Sua Fé máxima sobe 1 (até 8). Ganhe 1 de Fé neste turno. Compre 1 carta.",
    "copias": 2,
    "arte": "res://arte/alta_magia/alt_azoth.png"
   },
@@ -4796,7 +4796,7 @@
     }
    ],
    "usos": null,
-   "texto": "Invoque dois Elementais 1/1 (se houver slots livres).",
+   "texto": "Invoque dois Elementais 1/1.",
    "copias": 2,
    "arte": "res://arte/alta_magia/alt_conjuracao_elementais.png"
   },
@@ -4823,7 +4823,7 @@
     }
    ],
    "usos": null,
-   "texto": "Devolva todas as Entidades inimigas à mão do dono.",
+   "texto": "Devolva todas as Entidades inimigas para a mão do dono.",
    "copias": 1,
    "arte": "res://arte/alta_magia/alt_ritual_menor_pentagrama.png"
   },
@@ -4895,7 +4895,7 @@
     }
    ],
    "usos": null,
-   "texto": "A Entidade equipada ganha +1/+2 e Ímpeto. Sempre que ela atacar, silencie uma Entidade inimiga.",
+   "texto": "A portadora ganha +1/+2 e Ímpeto. Sempre que ela atacar, silencie uma Entidade inimiga.",
    "copias": 1,
    "arte": "res://arte/alta_magia/alt_anel_de_salomao.png"
   },
@@ -4939,7 +4939,7 @@
     }
    ],
    "usos": null,
-   "texto": "A Entidade equipada ganha +0/+3 e Guarda. Quando ela morrer, compre 1 carta.",
+   "texto": "A portadora ganha +3 Vida e Guarda. Quando ela morrer, compre 1 carta.",
    "copias": 1,
    "arte": "res://arte/alta_magia/alt_sigillum_dei_aemeth.png"
   },
@@ -4969,7 +4969,7 @@
     }
    ],
    "usos": null,
-   "texto": "A Entidade equipada ganha +1/+3.",
+   "texto": "A portadora ganha +1/+3.",
    "copias": 2,
    "arte": "res://arte/alta_magia/alt_pedra_de_visao.png"
   },
@@ -4995,7 +4995,7 @@
     }
    ],
    "usos": null,
-   "texto": "Só pode ser invocado pelo efeito de Sigilo 333. Quando Choronzon entra em campo, você vence o jogo.",
+   "texto": "Só pode ser invocado pelo Sigilo 333. Despertar: Você vence a partida.",
    "copias": 1,
    "arte": "res://arte/abismo/aby_choronzon.png"
   },
@@ -5025,7 +5025,7 @@
     }
    ],
    "usos": null,
-   "texto": "Equipe numa Entidade aliada: +0/+2. Conta como \"Triângulo\" para Sigilo 333.",
+   "texto": "A portadora ganha +2 Vida. Conta como o Triângulo do Sigilo 333.",
    "copias": 1,
    "arte": "res://arte/abismo/aby_triangulo.png"
   },
@@ -5053,7 +5053,7 @@
     }
    ],
    "usos": null,
-   "texto": "Quando uma Entidade inimiga atacar, o atacante sofre 2 de dano. Enquanto virado para baixo, conta como \"Círculo\" para Sigilo 333.",
+   "texto": "Quando atacarem uma Entidade sua, o atacante sofre 2 de dano. Virado para baixo, conta como o Círculo do Sigilo 333.",
    "copias": 1,
    "arte": "res://arte/abismo/aby_circulo.png"
   },

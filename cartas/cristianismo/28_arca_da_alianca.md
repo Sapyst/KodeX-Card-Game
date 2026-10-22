@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-A portadora ganha +0/+3 e Guarda. Enquanto a Arca estiver em campo, suas Entidades têm +1 ATK.
+A portadora ganha +3 Vida e Guarda. Suas Entidades têm +1 ATK.
 
 ## Contexto mitológico
 Construída por Bezalel no Sinai segundo as medidas dadas a Moisés — madeira de acácia revestida de ouro, dois querubins de ouro batido sobre a tampa, o *propiciatório*, onde Deus "falaria" com Moisés (Ex 25,10-22) —, a Arca guarda as tábuas da Lei, e, segundo Hb 9,4, a vara de Aarão e um vaso de maná. É o objeto mais sagrado de Israel, carregado pelos levitas com varais, nunca tocado.

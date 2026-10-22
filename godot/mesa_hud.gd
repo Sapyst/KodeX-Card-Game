@@ -15,12 +15,12 @@ const AZUL := Color("#7aa8ff")
 const VERMELHO := Color("#e86a6a")
 const OURO := [Color("#ffe39a"), Color("#e2b85a"), Color("#9c7430")]
 const ESCURO := Color("#140c10")
-const EMOTES := [["Saudações!", "Greetings!"], ["Bem jogado.", "Well played."], ["Hmm...", "Hmm..."], ["Uau!", "Wow!"]]
+const EMOTES := [["Saudações!", "Greetings!", "¡Saludos!"], ["Boa jogada.", "Well played.", "Buena jugada."], ["Hmm...", "Hmm...", "Hmm..."], ["Uau!", "Wow!", "¡Guau!"]]
 const RESPOSTAS := [
-	[["Que os deuses decidam.", "Let the gods decide."], ["Saudações. Agora, lute.", "Greetings. Now, fight."]],
-	[["Eu sei.", "I know."], ["Obrigado. Não vai se repetir... para você.", "Thanks. It won't happen again... for you."]],
-	[["Pense rápido.", "Think fast."], ["O tempo corre a meu favor.", "Time is on my side."]],
-	[["Ainda não viu nada.", "You haven't seen anything yet."], ["O Códice guarda mais.", "The Codex holds more."]],
+	[["Que os deuses decidam.", "Let the gods decide.", "Que decidan los dioses."], ["Saudações. Agora, lute.", "Greetings. Now, fight.", "Saludos. Ahora, pelea."]],
+	[["Eu sei.", "I know.", "Lo sé."], ["Valeu. Não vai se repetir... para você.", "Thanks. It won't happen again... for you.", "Gracias. No se repetirá... para ti."]],
+	[["Pense rápido.", "Think fast.", "Piensa rápido."], ["O tempo está do meu lado.", "Time is on my side.", "El tiempo está de mi lado."]],
+	[["Você ainda não viu nada.", "You haven't seen anything yet.", "Todavía no has visto nada."], ["O Códice guarda mais.", "The Codex holds more.", "El Códice guarda más."]],
 ]
 
 var m                                    # a mesa (mesa.gd)
@@ -78,6 +78,8 @@ func rect_emote() -> Rect2:
 
 
 func _rect_hist(k: int) -> Rect2:
+	if Sessao.largo:                                  # formato largo: miniaturas maiores, com o nome ao lado
+		return Rect2(tela().position.x + 10, rect_menu().end.y + 14 + k * 70, 44, 61)
 	return Rect2(tela().position.x + 4, rect_menu().end.y + 10 + k * PASSO_H, MINI.x, MINI.y)
 
 
@@ -123,7 +125,7 @@ func emote_jogador(k: int) -> void:
 	if t - _ultimo_emote < 2.5:
 		return
 	_ultimo_emote = t
-	fala_jog = {"texto": EMOTES[k][1 if Sessao.idioma == "en" else 0], "t": 0.0}
+	fala_jog = {"texto": Sessao.par(EMOTES[k]), "t": 0.0}
 	Sessao.vibrar(10, 0.3)
 	if m.online_partida():                             # online: a fala vai para o adversário (gente de verdade)
 		m.rede.enviar_emote(k)
@@ -136,7 +138,7 @@ func emote_jogador(k: int) -> void:
 			texto = str(proprias[k][randi() % (proprias[k] as Array).size()])
 		else:
 			var linha: Array = RESPOSTAS[k][randi() % RESPOSTAS[k].size()]
-			texto = linha[1 if Sessao.idioma == "en" else 0]
+			texto = Sessao.par(linha)
 		get_tree().create_timer(1.2).timeout.connect(func() -> void:
 			if m.acabou:
 				return
@@ -148,11 +150,11 @@ func emote_oponente(k: int) -> void:
 	if m.acabou or k < 0 or k >= EMOTES.size():
 		return
 	var p: Dictionary = Sessao.personagem(Sessao.oponente)
-	m.efeitos.falar(str(m.online_info.get("adversario", "")), EMOTES[k][1 if Sessao.idioma == "en" else 0], Color(p.get("cor", "#e2b85a")), Sessao.oponente)
+	m.efeitos.falar(str(m.online_info.get("adversario", "")), Sessao.par(EMOTES[k]), Color(p.get("cor", "#e2b85a")), Sessao.oponente)
 
 
 func entrada_lendaria(c: Carta) -> void:
-	var tex := Carta.textura("carta_en" if Sessao.idioma == "en" else "carta", c.id, "webp")
+	var tex := Carta.textura(Sessao.pasta("carta"), c.id, "webp")
 	if tex == null:
 		return
 	lendaria = {"tex": tex, "nome": str(c.dados.get("nome", "")), "t": 0.0, "dono": c.dono}
@@ -245,7 +247,7 @@ func _draw() -> void:
 			draw_rect(r.grow(1), ESCURO)
 			draw_rect(r, Color("#2a1f2a"))
 			draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), OURO[2])
-			Fonte57.desenhar(self, r.position + Vector2(7, 6), EMOTES[k][1 if Sessao.idioma == "en" else 0], Color("#f2e6c8"))
+			Fonte57.desenhar(self, r.position + Vector2(7, 6), Sessao.par(EMOTES[k]), Color("#f2e6c8"))
 	if sem_jogadas and not m.acabou and m.ativo == 0 and menu == "":
 		var r: Rect2 = m.botao_fim
 		var a := 0.6 + 0.4 * sin(t * 5.0)
@@ -319,30 +321,42 @@ func _desenhar_hist() -> void:
 			draw_rect(r, Color(0.24, 0.12, 0.2, al))
 			PixelFonte.centrado(self, r.get_center(), "?", Color(OURO[1], al), 2)
 		_icone_tipo(r.end - Vector2(2, 3), h["tipo"], Color(cor.lightened(0.3), al))
+		if Sessao.largo:                              # nome e o que aconteceu, ao lado da miniatura
+			var larg := clampf(-r.end.x - 20.0, 60.0, 220.0)          # até a borda esquerda do tabuleiro (x ≈ 0)
+			var nome := "?" if oculto else _nome(h["cid"])
+			var quem := Sessao.t("Você") if h["dono"] == 0 else Sessao.t("Oponente")
+			var acao: String = {"ataque": Sessao.t("atacou"), "golpe": Sessao.t("golpeou a Cornucópia"), "selo": Sessao.t("colocou um Selo"),
+				"selo_revelado": Sessao.t("Selo disparado")}.get(h["tipo"], Sessao.t("jogou"))
+			var ls := Fonte57.quebrar(nome, int(larg), 2)
+			var y := r.position.y + 2
+			for ln in ls.slice(0, 2):
+				Fonte57.desenhar(self, Vector2(r.end.x + 8, y), ln, Color(OURO[0], al), ESCURO, 2)
+				y += 19
+			var sub := Fonte57.quebrar(quem + " · " + acao, int(larg))
+			Fonte57.desenhar(self, Vector2(r.end.x + 8, y + 3), sub[0] if not sub.is_empty() else "", Color(cor.lightened(0.35), al), ESCURO)
 
 
 func _desenhar_carta_hist(h: Dictionary, tl: Rect2) -> void:
 	draw_rect(tl, Color(0.02, 0.01, 0.03, 0.78))
-	var en := Sessao.idioma == "en"
 	var oculto: bool = h["tipo"] == "selo" and h["dono"] == 1
-	var tex: Texture2D = null if oculto else Carta.textura("carta_en" if en else "carta", h["cid"], "webp")
+	var tex: Texture2D = null if oculto else Carta.textura(Sessao.pasta("carta"), h["cid"], "webp")
 	var r := Rect2(100, m.CENTRO.y - 140, 160, 224)
 	if tex:
 		draw_texture_rect(tex, r, false)
 	else:
 		draw_rect(r, Color("#3d1f33"))
 		PixelFonte.centrado(self, r.get_center(), "?", OURO[1], 4)
-	var quem := ("You" if en else "Você") if h["dono"] == 0 else ("Opponent" if en else "Oponente")
+	var quem := Sessao.t("Você") if h["dono"] == 0 else Sessao.t("Oponente")
 	var acao := ""
 	match h["tipo"]:
-		"ataque": acao = ("attacked %s" if en else "atacou %s") % _nome(h["alvo"])
-		"golpe": acao = "hit the Cornucopia" if en else "golpeou a Cornucópia"
-		"selo": acao = "set a Seal" if en else "colocou um Selo"
-		"selo_revelado": acao = "Seal triggered" if en else "Selo disparado"
-		_: acao = "played" if en else "jogou"
+		"ataque": acao = Sessao.t("atacou %s") % _nome(h["alvo"])
+		"golpe": acao = Sessao.t("golpeou a Cornucópia")
+		"selo": acao = Sessao.t("colocou um Selo")
+		"selo_revelado": acao = Sessao.t("Selo disparado")
+		_: acao = Sessao.t("jogou")
 	var s := quem + " " + acao
 	Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(s) / 2.0), r.end.y + 10), s, AZUL if h["dono"] == 0 else Color("#ffb0a0"), ESCURO)
-	var dica := "tap to close" if en else "toque para fechar"
+	var dica := Sessao.t("toque para fechar")
 	Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(dica) / 2.0), r.end.y + 24), dica, Color(0.7, 0.66, 0.6, 0.7))
 
 
@@ -353,7 +367,7 @@ func _nome(cid: String) -> String:
 		return str(Sessao.db["cartas"][cid]["nome"])
 	for nome in Sessao.tokens:
 		if Sessao.tokens[nome]["id"] == cid:
-			return str(Sessao.tokens[nome]["en"]) if Sessao.idioma == "en" else str(nome)
+			return Sessao.nome_token(nome)
 	return cid
 
 

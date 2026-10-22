@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando o oponente jogar um Rito, anule-o; o oponente descarta 1 carta aleatória.
+Quando o oponente jogar um Rito, anule-o. O oponente descarta 1 carta aleatória.
 
 ## Contexto mitológico
 A garrafa de bruxa (*witch bottle*) é um dos poucos objetos de magia popular que a arqueologia encontra em quantidade: jarras de grés de barba (tipo *Bellarmine*, importadas da Renânia), do séc. XVII em diante, enterradas de boca para baixo sob a lareira ou a soleira de casas inglesas, cheias de urina, pregos e alfinetes dobrados, cabelo, unhas, às vezes um coração de pano espetado. Ralph Merrifield (*The Archaeology of Ritual and Magic*, 1987) catalogou dezenas; a garrafa de Greenwich (2004) chegou lacrada e com conteúdo intacto. A prática atravessou o Atlântico e seguiu até o séc. XX.

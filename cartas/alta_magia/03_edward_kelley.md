@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Furtivo. Despertar: busque uma Relíquia do seu deck.
+Furtivo. Despertar: Compre uma Relíquia do seu deck.
 
 ## Contexto mitológico
 Edward Kelley (1555–1597) foi o *skryer* — vidente — de John Dee de 1582 a 1589. Dee, matemático e astrólogo de Elizabeth I, não via nada no cristal; Kelley via. Sentado diante da pedra de visão, descrevia anjos, tábuas de letras e cenas que Dee anotava palavra por palavra em latim e inglês. Dessas sessões saiu o sistema enochiano inteiro: as 48 Chaves, as Tábuas de Vigia, os 30 Aethyrs. Casaubon publicou os diários em 1659 como *A True & Faithful Relation*, para desacreditar Dee — e acabou criando o cânone.

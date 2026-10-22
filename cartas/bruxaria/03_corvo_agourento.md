@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: o oponente descarta 1 carta aleatória da mão.
+Despertar: O oponente descarta 1 carta aleatória.
 
 ## Contexto mitológico
 Em toda a Europa o corvo e a gralha são aves de agouro: comem os mortos nos campos de batalha, gritam sobre as casas onde alguém vai morrer e repetem palavras humanas. Na Irlanda são a forma da Morrigan e de Badb, a "corvo-de-batalha", que pousa no ombro de Cú Chulainn morto para que seus inimigos saibam que ele já não é perigoso (*Aided Con Culainn*, "A morte de Cú Chulainn", no ciclo do Ulster). No Norte, Huginn e Muninn — Pensamento e Memória — voam o mundo todo e voltam a sussurrar no ouvido de Odin (*Grímnismál* 20).

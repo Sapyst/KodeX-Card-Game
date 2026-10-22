@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Uma Entidade aliada passa a ter ATK 6 e Vida 6 e ganha Ímpeto.
+Uma Entidade aliada passa a ser 6/6 e ganha Ímpeto.
 
 ## Contexto mitológico
 No capítulo 11 da Bhagavad Gita, Arjuna, depois de ouvir Krishna explicar que ele é a origem e o fim de todas as coisas, pede para ver essa forma. Krishna lhe dá um olho divino, e Arjuna vê a Vishvarupa — a forma universal: incontáveis bocas e olhos, ornamentos e armas erguidas, sóis a arder ao mesmo tempo, todos os deuses e todos os seres contidos num só corpo sem começo, meio ou fim. Vê os guerreiros dos dois exércitos — Bhishma, Drona, Karna, os Kauravas — já entrando nas bocas em chamas do deus. Aterrorizado, pergunta quem é aquele, e a resposta é o verso mais lembrado do capítulo: "Eu sou o Tempo, destruidor dos mundos, que vem consumir todos os seres" (BG 11.32).

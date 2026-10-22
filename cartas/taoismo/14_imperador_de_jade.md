@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Aura: suas outras Entidades têm +1/+1 enquanto o Imperador de Jade estiver em campo.
+Suas outras Entidades têm +1/+1.
 
 ## Contexto mitológico
 O Imperador de Jade (玉皇大帝, Yuhuang Dadi; também Yudi, "Augusto de Jade") é o soberano do céu na religião chinesa: não o princípio mais alto — acima dele, imóveis, estão os Três Puros —, mas o administrador, aquele que governa deuses, homens e demônios por meio de uma burocracia celeste espelhada na imperial, com ministérios, censos e relatórios anuais (o Deus da Cozinha sobe no fim do ano para contar o que viu em cada casa). Sua escritura própria, o *Gaoshang Yuhuang benxing jijing*, narra como, príncipe de um reino de luz, renunciou ao trono, cultivou o Dao por milhões de kalpas e alcançou a soberania.

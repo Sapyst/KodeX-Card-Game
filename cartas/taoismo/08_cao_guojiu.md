@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Guarda. Despertar: cure 2 de Vida de uma Entidade aliada.
+Guarda. Despertar: Cure 2 de Vida de uma Entidade aliada.
 
 ## Contexto mitológico
 Cao Guojiu (曹國舅, "Tio Imperial Cao") é o aristocrata dos Oito Imortais — o único retratado com roupa de corte, chapéu oficial e um tablete de jade (*hu*) nas mãos. A lenda o faz irmão da imperatriz Cao, consorte do imperador Song Renzong (r. 1022–1063), ligando-o a uma família histórica, a do general Cao Bin. O irmão mais novo, protegido pelo parentesco, cometia crimes impunemente; Cao Guojiu, envergonhado, tentou corrigi-lo, fracassou, distribuiu sua fortuna e se retirou para as montanhas.

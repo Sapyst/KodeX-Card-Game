@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Invoque dois Ossos Erguidos 1/1. Reviva uma Entidade aleatória do seu cemitério para a mão.
+Invoque dois Ossos Erguidos 1/1. Devolva uma Entidade aleatória do seu cemitério para a mão.
 
 ## Contexto mitológico
 "A mão do Senhor veio sobre mim e me levou em espírito e me pôs no meio de um vale, que estava cheio de ossos; eram muitíssimos sobre a superfície do vale, e estavam sequíssimos" (Ez 37,1-2). Deus pergunta ao profeta se aqueles ossos podem viver e manda que ele profetize sobre eles. "Houve um ruído, e eis um rebuliço, e os ossos se achegaram, cada osso ao seu osso"; vêm nervos, carne, pele — e então o sopro dos quatro ventos, "e viveram e se puseram em pé, um exército muito grande" (Ez 37,7-10).

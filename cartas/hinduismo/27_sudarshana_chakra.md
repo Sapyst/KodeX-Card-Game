@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Portadora: +2 ATK / +1 Vida e Ímpeto. Quando a portadora atacar, causa 1 de dano a uma Entidade inimiga.
+A portadora ganha +2/+1 e Ímpeto. Sempre que ela atacar, cause 1 de dano a uma Entidade inimiga.
 
 ## Contexto mitológico
 O Sudarshana Chakra ("disco de boa visão") é a arma de Vishnu: um disco de 108 dentes serrilhados que gira no indicador de sua mão direita, dispara à velocidade do pensamento, destrói o alvo e volta à mão. Nos bronzes e pinturas, aparece com chamas ao redor e, em templos do sul, é adorado como uma divindade própria (Chakrattalvar).

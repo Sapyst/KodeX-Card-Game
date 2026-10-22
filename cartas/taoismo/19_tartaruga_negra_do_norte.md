@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando uma Entidade aliada sofrer dano: cure 4 de Vida dela; ela ganha +0/+1 permanente e Guarda.
+Quando uma Entidade aliada sofrer dano, cure 4 de Vida dela; ela ganha +1 Vida e Guarda.
 
 ## Contexto mitológico
 Xuanwu (玄武), a Tartaruga Negra — literalmente "Guerreiro Sombrio" —, é o Símbolo do norte, do inverno e da água: uma tartaruga enlaçada por uma serpente, imagem já presente nos espelhos e tijolos Han e explicada por comentadores como a união do yin (a tartaruga, que se fecha) com o yang (a serpente, que se enrola). O norte é a direção da morte e do frio, mas também da longevidade, pois a tartaruga vive mil anos e carrega nas costas o mapa do mundo — os cascos usados nos oráculos Shang eram lidos como céu e terra. O *Liji* põe Xuanwu na retaguarda do exército: quem protege as costas.

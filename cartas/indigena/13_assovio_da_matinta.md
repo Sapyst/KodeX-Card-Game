@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-No fim do turno do oponente: ele descarta 1 carta aleatória e sua Cornucópia sofre 1 de dano.
+No fim do turno do oponente, ele descarta 1 carta aleatória. Cause 1 de dano à Cornucópia inimiga.
 
 ## Contexto mitológico
 A Matinta Perera (Matintaperera, Matinta-Pereira) é figura do Pará e do baixo Amazonas: uma velha que, à noite, se transforma num pássaro e pousa nos telhados assobiando um silvo agudo e repetido — *matinta-perê, matinta-perê* — até que alguém da casa prometa fumo. Na manhã seguinte uma velha da vizinhança aparece para cobrar o tabaco prometido; quem não dá sofre uma desgraça. Cascudo (*Dicionário do Folclore Brasileiro*) e Barbosa Rodrigues (*Poranduba Amazonense*, 1890) registram o mito, aparentado ao Saci do Norte, que também é pássaro e também se chama matinta.

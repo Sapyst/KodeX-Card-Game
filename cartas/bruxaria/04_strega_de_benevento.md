@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: invoque uma Strix 1/1 (coruja familiar).
+Despertar: Invoque uma Strix 1/1.
 
 ## Contexto mitológico
 *Strega*, bruxa em italiano, vem do latim *strix*, a coruja-das-torres. Para os romanos a *strix* era um pássaro noturno que entrava pelas janelas e sugava o sangue e as entranhas dos recém-nascidos; Ovídio dá o remédio — ramos de medronheiro e espinheiro na porta, entranhas de leitoa em troca (*Fastos* VI.131–168) — e Petrônio conta uma *striga* roubando o corpo de um menino (*Satyricon* 63). Em Apuleio (*Asno de Ouro* III.21) a bruxa Pânfila unta-se, bate os braços e vira coruja: a bruxa e a ave são a mesma coisa.

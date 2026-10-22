@@ -1,22 +1,22 @@
 {
  "prologo": [
-  "Há um lugar onde todas as crenças se cruzam sem se misturar. Os antigos o chamavam de Encruzilhada. Hoje, chamam de arena.",
-  "A cada geração desperta um Códice: um livro sem autor que guarda o nome de todos os deuses, e a porta de tudo o que não tem nome.",
-  "Seis campeões vieram reclamá-lo. Cinco querem protegê-lo. Um quer abri-lo.",
-  "E você? Ninguém sabe seu nome. Ninguém viu você chegar. A areia da arena só registrou seus passos.",
+  "Existe um lugar onde todas as fés se encontram e nenhuma se mistura. Os antigos o chamavam de Encruzilhada. Hoje, chamam de arena.",
+  "A cada geração, um Códice desperta: um livro sem autor que guarda o nome de todos os deuses, e a porta para tudo o que não tem nome.",
+  "Seis campeões vieram buscá-lo. Cinco querem protegê-lo. Um quer abri-lo.",
+  "E você? Ninguém sabe seu nome. Ninguém viu você chegar. Só a areia da arena guardou suas pegadas.",
   "Escolha a fé que vai carregar. Do outro lado, o Abismo já começou a contar: três, três, três."
  ],
  "epilogo_vitoria": [
-  "O Triângulo racha. O Círculo se apaga. O Sigilo 333 vira só tinta seca num papel qualquer.",
-  "Silas Ashcombe cai de joelhos e, pela primeira vez em anos, ninguém responde quando ele chama no escuro.",
-  "O Códice se abre na sua mão. Nas páginas, todos os deuses. Na última, em branco, um espaço para o seu nome.",
-  "Você fecha o livro. Algumas portas existem para que alguém tenha a sabedoria de não abri-las.",
-  "Os campeões voltam para casa. O Abismo volta a esperar. Ele sempre espera. Mas não hoje."
+  "O Triângulo racha. O Círculo se apaga. O Sigilo 333 agora é só tinta seca num pedaço de papel.",
+  "Silas Ashcombe cai de joelhos. Pela primeira vez em anos, ele chama no escuro, e o escuro não responde.",
+  "O Códice se abre nas suas mãos. Todos os deuses moram nas páginas dele. A última está em branco, com espaço para o seu nome.",
+  "Você fecha o livro. Certas portas existem só para que alguém tenha a sabedoria de mantê-las fechadas.",
+  "Os campeões voltam para casa. O Abismo volta a esperar. Ele sempre espera. Hoje, não."
  ],
  "epilogo_derrota": [
-  "Sua jornada termina aqui. O Códice fecha as páginas, e a Encruzilhada esquece seus passos.",
-  "Mas Silas Ashcombe não esquece. Cada desafiante caído é um obstáculo a menos entre ele e o Abismo.",
-  "Levante-se. O torneio recomeça, e lá embaixo alguém continua contando até três."
+  "Sua jornada termina aqui. O Códice se fecha, e a Encruzilhada esquece suas pegadas.",
+  "Silas Ashcombe não esquece. Cada desafiante que cai é um obstáculo a menos entre ele e o Abismo.",
+  "Levante-se. O torneio recomeça, e lá embaixo alguma coisa continua contando até três."
  ],
  "personagens": {
   "indigena": {
@@ -24,18 +24,18 @@
    "titulo": "Guardiã da Mata",
    "cor": "#3f8f3a",
    "intro": [
-    "Você pisou na mata sem pedir licença. O Curupira já virou os pés pra te confundir. Eu só vim ver se você acha o caminho de volta.",
-    "Não vim aqui por livro nenhum. Vim porque o homem de preto quer abrir um buraco no mundo, e todo buraco começa numa clareira.",
-    "Tupã está ouvindo. Se a sua fé for oca, o trovão vai saber antes de mim.",
+    "Você entrou na mata sem pedir licença. O Curupira já virou os pés pra te confundir. Eu vim ver se você acha o caminho de volta.",
+    "Não vim por livro nenhum. Vim porque o homem de preto quer rasgar um buraco no mundo, e todo buraco começa numa clareira.",
+    "Tupã tá ouvindo. Se a sua fé for oca, o trovão vai saber antes de mim.",
     "Joga. A mata responde."
    ],
-   "resposta_jogador": "Peço licença agora. Ainda vale?",
+   "resposta_jogador": "Então peço licença agora. Ainda vale?",
    "ao_vencer": [
-    "O Boitatá apagou seu fogo antes de você acender. Volte quando aprender a escutar.",
-    "Não tem vergonha em perder pra mata. Ela é mais velha que todos nós."
+    "O Boitatá apagou seu fogo antes de você acender. Volta quando aprender a escutar.",
+    "Perder pra mata não é vergonha. Ela é mais velha que todos nós."
    ],
    "ao_perder": [
-    "Você achou o caminho. Poucos acham. O Curupira vai ficar de mau humor a semana inteira.",
+    "Você achou o caminho. Pouca gente acha. O Curupira vai ficar emburrado a semana inteira.",
     "Se o homem de preto abrir o Abismo, não sobra mata pra ninguém. Não deixa, ouviu?"
    ],
    "provocacoes": [
@@ -44,14 +44,14 @@
     "O Saci riu dessa jogada."
    ],
    "arcade_intro": [
-    "Sou Moema Arani. A mata me mandou ver quem anda fazendo tanto barulho.",
+    "Sou Moema Arani. A mata me mandou ver quem tá fazendo tanto barulho.",
     "Joga limpo, que o Curupira joga sujo por mim."
    ],
    "retrato_prompt": "Half-body portrait of an Indigenous Brazilian woman in her early thirties, facing forward and looking directly at the viewer. She has warm brown skin, long straight black hair with a straight-cut fringe and calm dark eyes. Red urucum paint lines cross her cheekbones and black jenipapo geometric patterns cover her forearms. She wears a woven earth-brown cotton top that fully covers her chest, a headband of green and yellow parrot feathers and a green stone muiraquitã frog amulet on a cord. She holds a wooden maracá rattle decorated with feathers in her right hand. Dark Amazon rainforest at night behind her, giant tree roots and faint fireflies.",
    "falas": {
     "inicio": [
      "Pede licença antes de sentar na clareira.",
-     "A mata está olhando. Joga direito."
+     "A mata tá olhando. Joga direito."
     ],
     "carta_forte": [
      "Tupã fala alto. Escuta.",
@@ -61,20 +61,20 @@
     "golpe": [
      "A mata cobra o que tiram dela.",
      "Isso foi o rio subindo.",
-     "Ouviu o galho quebrar? Era você."
+     "Ouviu o galho estalar? Era você."
     ],
     "perdeu_carta": [
-     "O Saci riu dessa jogada.",
+     "O Saci riu dessa.",
      "Volta pra terra. A terra devolve.",
      "Tudo bem. A mata tem raiz funda."
     ],
     "vida_baixa": [
-     "Ainda tem pé de Curupira pra te confundir.",
-     "Árvore velha dobra, mas não cai fácil."
+     "Ainda tem pegada de Curupira pra te confundir.",
+     "Árvore velha enverga, mas não cai fácil."
     ],
     "vantagem": [
-     "Tá perdido? O caminho é pra trás.",
-     "A clareira está fechando, viu?"
+     "Tá perdido? A saída é pra trás.",
+     "A clareira tá fechando, viu?"
     ],
     "emote": [
      [
@@ -86,12 +86,12 @@
       "A mata viu. Ela lembra."
      ],
      [
-      "Pensa como o rio: contorna.",
-      "Escuta o vento antes."
+      "Pensa feito rio: contorna.",
+      "Escuta o vento primeiro."
      ],
      [
       "Isso é só o começo da trilha.",
-      "A floresta tem mais bicho que você imagina."
+      "A mata tem mais bicho do que você imagina."
      ]
     ]
    }
@@ -102,18 +102,18 @@
    "cor": "#d4af37",
    "intro": [
     "Paz e bem, meu filho. Ou minha filha. Com esse capuz, sinceramente, não dá pra saber.",
-    "Passei quarenta anos tirando coisa ruim de dentro de gente boa. Agora vim impedir que tirem algo bem pior de dentro do Abismo.",
-    "São Miguel segura a lança, Lázaro já se levantou uma vez e Jonas saiu do peixe. Paciência não falta no meu baralho.",
-    "Vamos lá. E se eu perder, prometo não te benzer à força."
+    "Passei quarenta anos tirando coisa ruim de dentro de gente boa. Agora vim impedir que tirem coisa muito pior de dentro do Abismo.",
+    "São Miguel segura a lança, Lázaro já levantou uma vez e Jonas saiu do peixe. Paciência é o que não falta no meu deck.",
+    "Vamos lá. E, se eu perder, prometo não te benzer à força."
    ],
-   "resposta_jogador": "Guarde a bênção pro final, frei.",
+   "resposta_jogador": "Guarda a bênção pro final, frei.",
    "ao_vencer": [
-    "Não foi castigo, foi lição. A Arca não se abre pra quem tem pressa.",
-    "Vá em paz. Mas vá treinar, que o homem de preto não vai ter a minha misericórdia."
+    "Não foi castigo, foi lição. A Arca não abre pra quem tem pressa.",
+    "Vai em paz. Mas vai treinar também, que o homem de preto não vai ter a minha misericórdia."
    ],
    "ao_perder": [
     "Davi também era pequeno. Eu devia ter lembrado disso antes de te subestimar.",
-    "Leve minha bênção, querendo ou não. No fim do torneio há uma porta que nenhuma carta fecha sozinha."
+    "Leva a minha bênção, querendo ou não. No fim do torneio tem uma porta que nenhuma carta fecha sozinha."
    ],
    "provocacoes": [
     "São Miguel não erra a lança.",
@@ -121,8 +121,8 @@
     "Lázaro, levanta. De novo."
    ],
    "arcade_intro": [
-    "Frei Bento Amaral, às ordens. Exorcismo às terças, duelo quando precisa.",
-    "Prometo jogar com caridade. Caridade não quer dizer facilidade."
+    "Frei Bento Amaral, às ordens. Exorcismo às terças, duelo quando precisar.",
+    "Prometo jogar com caridade. Caridade não é moleza."
    ],
    "retrato_prompt": "Half-body portrait of an elderly Afro-Brazilian man of mixed African and Portuguese descent, about sixty-four years old, facing forward and looking directly at the viewer. He has warm tan-brown skin, a short white beard, a bald crown ringed by short white hair, deep laugh lines and kind but tired dark eyes. He wears a coarse brown Franciscan friar habit with the hood down, a knotted white rope belt and a purple stole draped over his shoulders. He holds a plain worn wooden cross in one hand and a small brass holy-water sprinkler in the other. Dark candlelit baroque chapel behind him, a gilded altar faintly glowing.",
    "falas": {
@@ -132,26 +132,26 @@
     ],
     "carta_forte": [
      "São Miguel não erra a lança.",
-     "Glória! Essa veio de cima.",
+     "Glória! Essa veio lá de cima.",
      "Amém pra essa carta."
     ],
     "golpe": [
      "Até Jonas saiu do peixe.",
      "Penitência, meu filho. Penitência.",
-     "Isso doeu mais em mim. Mentira."
+     "Doeu mais em mim. Mentira."
     ],
     "perdeu_carta": [
      "Lázaro, levanta. De novo.",
      "O Senhor deu, o Senhor tirou.",
-     "Descanse. Volto pra te buscar."
+     "Descansa. Eu volto pra te buscar."
     ],
     "vida_baixa": [
      "Ainda tenho fé. E três ave-marias.",
      "Davi venceu com uma pedra. Eu tenho cartas."
     ],
     "vantagem": [
-     "Confesse agora, que ainda dá tempo.",
-     "Vou te benzer de graça no fim."
+     "Confessa agora, que ainda dá tempo.",
+     "No fim eu te benzo de graça."
     ],
     "emote": [
      [
@@ -159,16 +159,16 @@
       "Deus te abençoe. Agora joga."
      ],
      [
-      "Bem jogado, filho. Não se envaideça.",
+      "Boa jogada, filho. Mas sem vaidade.",
       "Obrigado. A humildade agradece."
      ],
      [
       "Pensar também é rezar.",
-      "Calma. O Gólgota não foi construído num dia."
+      "Calma. Nem o Gólgota se fez num dia."
      ],
      [
       "Milagre? Não. Treino.",
-      "Espere até ver o Juízo Final."
+      "Espera até ver o Juízo Final."
      ]
     ]
    }
@@ -178,18 +178,18 @@
    "titulo": "A Imortal do Pico Nublado",
    "cor": "#3aa58a",
    "intro": [
-    "Não tenha pressa. Esperei cento e oitenta anos por este torneio, posso esperar você embaralhar.",
-    "O Imperador de Jade não gosta de portas abertas para o vazio. E olha que o vazio é a especialidade da casa.",
-    "Os Oito Imortais pediram que eu te vencesse com equilíbrio. He Xiangu pediu também que fosse com educação.",
+    "Não tenha pressa. Esperei cento e oitenta anos por este torneio. Posso esperar você embaralhar.",
+    "O Imperador de Jade não gosta de portas abertas para o vazio. E veja bem: o vazio é a especialidade da casa.",
+    "Os Oito Imortais me pediram para vencer você com equilíbrio. He Xiangu pediu que fosse também com educação.",
     "A água não vence a pedra pela força. Vamos descobrir se você é pedra ou rio."
    ],
    "resposta_jogador": "Cento e oitenta anos? A senhora está ótima.",
    "ao_vencer": [
     "Você empurrou demais e caiu do outro lado. Isso também é o Tao.",
-    "Volte daqui a cem anos. Eu ainda estarei aqui. Provavelmente com esta mesma cara."
+    "Volte daqui a cem anos. Eu ainda vou estar aqui. Provavelmente com esta mesma cara."
    ],
    "ao_perder": [
-    "Curioso. Perdi e me sinto mais leve. Zhang Guolao riria de mim, montado ao contrário no burro dele.",
+    "Curioso. Perdi e me sinto mais leve. Zhang Guolao ia rir de mim, montado ao contrário no burrico dele.",
     "Leve um pêssego. O homem do Abismo quer um mundo sem fim, e tudo o que não tem fim apodrece."
    ],
    "provocacoes": [
@@ -199,13 +199,13 @@
    ],
    "arcade_intro": [
     "Lin Yuehua, do Pico Nublado. Vim tomar chá, mas aceito um duelo.",
-    "Se eu perder, a culpa é do chá. Se eu vencer, a culpa é do Tao."
+    "Se eu perder, a culpa é do chá. Se eu vencer, o mérito é do Tao."
    ],
    "retrato_prompt": "Half-body portrait of a young Han Chinese woman who looks about twenty-five years old, facing forward and looking directly at the viewer. She has pale ivory skin, calm dark almond-shaped eyes and long black hair gathered in a high topknot fixed with a green jade hairpin. She wears a high-collared deep blue Taoist priest robe closed up to the neck, embroidered with white clouds and cranes, with black trim and a round yin-yang medallion. She holds a white horsetail fly-whisk in one hand and a yellow paper fulu talisman with red brush script in the other. Misty dark mountain temple at night behind her, pine silhouettes and drifting incense smoke.",
    "falas": {
     "inicio": [
      "Respire. Depois embaralhe.",
-     "O chá esfria, a partida começa."
+     "O chá esfria. A partida começa."
     ],
     "carta_forte": [
      "Nezha já desceu da nuvem.",
@@ -215,20 +215,20 @@
     "golpe": [
      "Yin sobe, yang desce.",
      "A água achou a fresta.",
-     "Não foi força. Foi o momento."
+     "Não foi força. Foi o momento certo."
     ],
     "perdeu_carta": [
      "Um Imortal caiu. Os outros sete sorriem.",
      "Perder também é fluir.",
-     "Ela volta ao vazio. Que bom para ela."
+     "Volta ao vazio. Bom para ela."
     ],
     "vida_baixa": [
      "Cento e oitenta anos e ainda me surpreendo.",
-     "O bambu verga. Não quebra."
+     "O bambu enverga. Não quebra."
     ],
     "vantagem": [
      "Você corre demais. O rio é paciente.",
-     "Sente o equilíbrio indo embora?"
+     "Sente o equilíbrio escapando?"
     ],
     "emote": [
      [
@@ -244,7 +244,7 @@
       "Espere. O momento chega."
      ],
      [
-      "Isso? Os Oito fazem antes do café.",
+      "Isso? Os Oito fazem antes do café da manhã.",
       "Você ainda não viu o Taiji."
      ]
     ]
@@ -255,19 +255,19 @@
    "titulo": "O Arqueiro de Varanasi",
    "cor": "#e8731c",
    "intro": [
-    "Finalmente! Achei que ia lutar só contra a fila da Encruzilhada. Pegue suas cartas, o Ganges não espera ninguém.",
-    "Hanuman saltou um oceano por lealdade. Eu só preciso saltar você.",
-    "Vishnu desce sempre que o dharma vacila. Um homem querendo abrir o Abismo? Isso é vacilar bastante.",
-    "Krishna me ensinou a lutar sem apego ao resultado. Mas, confesso, eu gosto bastante de ganhar."
+    "Finalmente! Achei que a única briga aqui ia ser com a fila da Encruzilhada. Pega suas cartas, que o Ganges não espera ninguém.",
+    "Hanuman pulou um oceano por lealdade. Eu só preciso pular você.",
+    "Vishnu desce toda vez que o dharma vacila. Um homem querendo abrir o Abismo? Isso é vacilo demais.",
+    "Krishna me ensinou a lutar sem apego ao resultado. Mas vou ser sincero: eu adoro ganhar."
    ],
    "resposta_jogador": "Mira bem, arqueiro. Eu me mexo.",
    "ao_vencer": [
-    "Rápido demais? Kali não pede desculpas, e eu aprendi com ela.",
-    "Respire, levante e volte. A roda gira para todos."
+    "Rápido demais? Kali não pede desculpa, e eu aprendi com ela.",
+    "Respira, levanta e volta. A roda gira pra todo mundo."
    ],
    "ao_perder": [
     "Ha! Que golpe. Até Arjuna precisou de um bom conselho antes da batalha.",
-    "Shiva dança o fim de um mundo para que outro nasça. Vá lá no fim do torneio e não deixe esse mundo acabar."
+    "Shiva dança o fim de um mundo pra que outro nasça. Vai até o fim do torneio e não deixa este mundo acabar."
    ],
    "provocacoes": [
     "Jai Hanuman! Mais um salto!",
@@ -276,7 +276,7 @@
    ],
    "arcade_intro": [
     "Aditya Rao, de Varanasi. Arco pronto, coração mais pronto ainda.",
-    "Sem sermão, sem espera. Vamos lutar antes que o chai esfrie."
+    "Sem sermão, sem enrolação. Bora lutar antes que o chai esfrie."
    ],
    "retrato_prompt": "Half-body portrait of a young Indian man of about twenty-eight, facing forward and looking directly at the viewer. He has warm medium-brown skin, an athletic build, short wavy black hair, a neatly trimmed beard, bright confident dark eyes and a red and white tilak mark on his forehead. He wears a saffron cotton kurta closed at the collar, a deep red shawl draped over one shoulder, a rudraksha bead mala around his neck and a brass armband on his upper arm. He holds an ornate wooden longbow wrapped in gold thread. Dark riverside ghats of Varanasi at night behind him, small oil lamps floating on black water.",
    "falas": {
@@ -287,38 +287,38 @@
     "carta_forte": [
      "Jai Hanuman! Mais um salto!",
      "Kali chegou dançando.",
-     "Essa foi direto do Mahabharata."
+     "Essa saiu direto do Mahabharata."
     ],
     "golpe": [
      "A Gandiva não erra duas vezes.",
      "Na mosca!",
-     "Arjuna ficaria orgulhoso."
+     "Arjuna ia ficar orgulhoso."
     ],
     "perdeu_carta": [
      "A roda do Samsara devolve tudo.",
-     "Ah, essa eu gostava.",
-     "Volta na próxima vida, amigo."
+     "Ah, eu gostava dessa.",
+     "Até a próxima vida, amigo."
     ],
     "vida_baixa": [
      "Krishna disse: luta sem apego. Tô tentando!",
      "Ainda tenho flecha. Sempre tenho flecha."
     ],
     "vantagem": [
-     "Respira. A roda gira pra todos.",
+     "Respira. A roda gira pra todo mundo.",
      "Mais uma flecha e acabou."
     ],
     "emote": [
      [
       "Namaste! Agora mira.",
-      "Saudações! Pronto pra correr?"
+      "Salve! Pronto pra correr?"
      ],
      [
-      "Ha! Bem jogado mesmo!",
-      "Respeito. Mas eu ganho."
+      "Ha! Boa jogada, de verdade!",
+      "Respeito. Mas quem ganha sou eu."
      ],
      [
       "Pensa rápido, o Ganges corre.",
-      "Hmm é bom. Hmm demais é sono."
+      "Hmm é bom. Hmm demais é soneca."
      ],
      [
       "Né? Eu também gostei!",
@@ -332,19 +332,19 @@
    "titulo": "A Bruxa da Encruzilhada",
    "cor": "#6b3fa0",
    "intro": [
-    "Senta aí, criança. Não, não é chá. Ou é. Depende de quanto você me irritar.",
-    "Baba Yaga me ensinou que todo visitante é convidado ou jantar. Ainda estou decidindo o seu caso.",
-    "Hécate guarda as encruzilhadas, e este torneio é a maior que já vi. Alguém precisa varrer a porta antes que o mago a abra.",
+    "Senta aí, criança. Não, não é chá. Ou é. Depende do quanto você me irritar.",
+    "A Baba Yaga me ensinou que visita ou é convidado ou é jantar. Ainda tô decidindo o seu caso.",
+    "Hécate guarda as encruzilhadas, e este torneio é a maior que eu já vi. Alguém tem que varrer a soleira antes que o mago abra essa porta.",
     "O homem do Triângulo acha que o Abismo é ferramenta. Eu acho que é boca. E boca come."
    ],
    "resposta_jogador": "Convidado, por favor. Convidado.",
    "ao_vencer": [
-    "Não chore. O Gato Preto tem sete vidas; você tem pelo menos duas.",
-    "Volte quando o mau-olhado passar. E leve sal no bolso."
+    "Não chora. Gato preto tem sete vidas; você tem pelo menos duas.",
+    "Volta quando o mau-olhado passar. E anda com sal no bolso."
    ],
    "ao_perder": [
-    "Ora, ora. A Morrigan avisou pelos corvos, e eu, velha teimosa, não quis ler.",
-    "Tome uma garrafa de bruxa. Enterre perto da porta do mago. Ou atire na cabeça dele, também serve."
+    "Ora, ora. A Morrígan me avisou pelos corvos, e eu, velha teimosa, não quis ler.",
+    "Toma uma garrafa de bruxa. Enterra perto da porta do mago. Ou taca na cabeça dele, que também funciona."
    ],
    "provocacoes": [
     "Mau-olhado de graça, aproveita.",
@@ -358,44 +358,44 @@
    "retrato_prompt": "Half-body portrait of an elderly Polish woman of about seventy, facing forward and looking directly at the viewer. She has pale weathered skin with deep wrinkles, sharp grey-green eyes, a strong nose, thin lips set in a wry smile and a long silver braid falling over one shoulder. She wears a high-necked black wool dress that fully covers her chest, a fringed black shawl embroidered with red roses and a necklace of dried rowan berries. A black crow perches on her shoulder. She holds a small glass witch bottle filled with iron pins, herbs and red thread. Dark misty birch-forest crossroads at night behind her, a single lantern glowing.",
    "falas": {
     "inicio": [
-     "Senta. Não toca no caldeirão.",
+     "Senta. E não mexe no caldeirão.",
      "Convidado ou jantar? Vamos ver."
     ],
     "carta_forte": [
      "Hécate segura a tocha. Eu, a vassoura.",
-     "Olha que bonita a minha gata.",
+     "Olha que lindo o meu gato.",
      "Essa veio direto do caldeirão."
     ],
     "golpe": [
      "Mau-olhado de graça, aproveita.",
-     "Doeu? Põe sal.",
-     "Os corvos contaram onde bater."
+     "Doeu? Passa sal.",
+     "Os corvos me contaram onde bater."
     ],
     "perdeu_carta": [
      "Meu gato ainda tem seis vidas, viu?",
      "Hmpf. Vai virar adubo.",
-     "Anotei. No meu livro das sombras."
+     "Anotado. No meu livro das sombras."
     ],
     "vida_baixa": [
      "Velha, mas não morta. Ainda.",
-     "A Morrigan está rindo de mim. Que ria."
+     "A Morrígan tá rindo de mim. Que ria."
     ],
     "vantagem": [
-     "O caldeirão já está fervendo.",
+     "O caldeirão já tá fervendo.",
      "Jantar, então. Decidido."
     ],
     "emote": [
      [
       "Oi, criança. Limpa os pés.",
-      "Saudações. O gato também manda."
+      "Saudações. O gato também manda um oi."
      ],
      [
-      "Bem jogado? Eu sei. Obrigada.",
+      "Boa jogada? Eu sei. Obrigada.",
       "Hmpf. Sorte de principiante."
      ],
      [
       "Pensa, pensa. Eu espero. Tricotando.",
-      "Hmm é o som do caldeirão."
+      "Hmm é o barulho do caldeirão."
      ],
      [
       "Uau é pouco. Espera a Baba Yaga.",
@@ -410,18 +410,18 @@
    "cor": "#8b1a1a",
    "intro": [
     "Então você é o último. Fascinante. Cinco campeões derrubados só para que eu tivesse o prazer de derrubar o sexto.",
-    "O Triângulo da Arte está traçado. O Círculo, fechado. Falta o Sigilo 333, e o Códice é a tinta. Obrigado por trazer a minha tinta.",
-    "Dee e Kelley falaram com anjos e fugiram de medo. Eu olhei para o Abismo, e o Abismo me perguntou o caminho de volta.",
-    "Choronzon não é um demônio. É o fim do eu. Tudo o que se dissolve nele vira trezentos e trinta e três pedaços de silêncio."
+    "O Triângulo da Arte está traçado. O Círculo, fechado. Falta só o Sigilo 333, e o Códice é a tinta. Obrigado por me trazer a tinta.",
+    "Dee e Kelley falaram com anjos e fugiram apavorados. Eu olhei para o Abismo, e o Abismo me perguntou o caminho de casa.",
+    "Choronzon não é um demônio. É o fim do eu. Tudo o que se dissolve nele vira trezentos e trinta e três cacos de silêncio."
    ],
    "resposta_jogador": "Seu Abismo vai ter que esperar.",
    "ao_vencer": [
     "Três, três, três. Está ouvindo? É o seu nome sendo esquecido, sílaba por sílaba, na beira do Abismo.",
-    "Obrigado pelo Códice. Não se preocupe: do outro lado ninguém vai sentir a sua falta. Nem você mesmo."
+    "Obrigado pelo Códice. Não se preocupe: do outro lado, ninguém vai sentir a sua falta. Nem você."
    ],
    "ao_perder": [
-    "Impossível. O Círculo estava fechado. Eu tracei cada linha na areia... quem apagou a linha? Quem apagou a linha?",
-    "Você não venceu. Só adiou. O Abismo não tem pressa, e Choronzon tem todas as formas do mundo para voltar."
+    "Impossível. O Círculo estava selado. Eu mesmo tracei cada linha na areia... Quem apagou a linha? QUEM APAGOU A LINHA?",
+    "Você não venceu. Só adiou. O Abismo nunca tem pressa, e Choronzon tem todas as formas do mundo para voltar."
    ],
    "provocacoes": [
     "Dantalion, traga-me o que é dele.",
@@ -429,19 +429,19 @@
     "Uma peça a menos. O Abismo nem notou."
    ],
    "arcade_intro": [
-    "Silas Ashcombe. Traço círculos, abro triângulos e fecho destinos. Fique dentro do círculo, por favor. Para sua segurança.",
-    "Não saia do círculo, aconteça o que acontecer. O último que saiu ainda está sendo recolhido, em pedaços, no Abismo."
+    "Silas Ashcombe. Traço círculos, abro triângulos e fecho destinos. Fique dentro do círculo, por favor. Para a sua segurança.",
+    "Não saia do círculo, aconteça o que acontecer. O último que saiu ainda está sendo recolhido, pedaço por pedaço, no Abismo."
    ],
    "retrato_prompt": "Half-body portrait of a gaunt white Englishman in his mid-fifties, facing forward and looking directly at the viewer. He has pale sallow skin, hollow cheeks, piercing ice-blue eyes, long silver hair tied back at the nape and a neatly trimmed silver goatee. He wears a high-collared black ceremonial robe with crimson lining, closed to the throat, and a plain golden triangle pendant, a simple upward-pointing triangle with a single dot in its center, hanging on a chain over his chest. He holds a black wand tipped with a silver triangle in one hand and a red wax sigil disc engraved with the number 333 in the other. Dark desert night behind him, a triangle traced in the sand glowing faintly.",
    "falas": {
     "inicio": [
      "O Círculo está fechado. Você está dentro.",
-     "Comecemos. O Abismo tem pressa de mim."
+     "Comecemos. O Abismo está impaciente por mim."
     ],
     "carta_forte": [
      "Dantalion, traga-me o que é dele.",
      "Fiat. E assim é.",
-     "Observe a Arte. Não a entenda."
+     "Observe a Arte. Não tente entendê-la."
     ],
     "golpe": [
      "Três, três, três. Sua Cornucópia racha.",
@@ -451,7 +451,7 @@
     "perdeu_carta": [
      "Uma peça a menos. O Abismo nem notou.",
      "Sacrifício previsto.",
-     "Ela já era trezentos e trinta e três pedaços."
+     "Já eram trezentos e trinta e três pedaços."
     ],
     "vida_baixa": [
      "Uma linha borrada. Só isso.",
@@ -459,24 +459,24 @@
     ],
     "vantagem": [
      "Seu nome já está sendo esquecido.",
-     "Choronzon sente o seu cheiro."
+     "Choronzon já sente o seu cheiro."
     ],
     "emote": [
      [
-      "Saudações. Será a última.",
+      "Saudações. Serão as últimas.",
       "Bem-vindo ao Círculo."
      ],
      [
       "Eu sei. Eu sempre sei.",
-      "Elogio anotado no Códice."
+      "Elogio registrado no Códice."
      ],
      [
-      "Pense. O Abismo também pensa em você.",
+      "Pense. O Abismo também está pensando em você.",
       "Hesitação. Deliciosa."
      ],
      [
       "Isso foi só o primeiro selo.",
-      "Espere até o Sigilo 333."
+      "Espere pelo Sigilo 333."
      ]
     ]
    }

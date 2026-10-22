@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-A portadora ganha +1/+2. Quando ela morrer, invoca um Espírito 1/1.
+A portadora ganha +1/+2. Quando ela morrer, invoque um Espírito 1/1.
 
 ## Contexto mitológico
 O maracá (*mbaraká*) é o chocalho de cabaça com sementes ou pedrinhas dentro, atravessado por um cabo de madeira e enfeitado com penas — o instrumento do pajé por excelência em todo o mundo tupi-guarani. Jean de Léry (*Viagem à Terra do Brasil*, 1578, cap. XVI) descreve, com espanto, os maracás "falantes" dos Tupinambá: os caraíbas sopravam fumaça neles, enfeitavam-nos com as melhores penas, fincavam-nos no chão da casa e lhes ofereciam comida e cauim, pois acreditavam que **um espírito morava dentro** e respondia pelo chocalho. André Thevet (1557) conta o mesmo e acrescenta que os maracás eram consultados antes da guerra.

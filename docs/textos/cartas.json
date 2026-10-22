@@ -1,0 +1,2320 @@
+{
+ "cartas": {
+  "ind_saci_perere": {
+   "en": {
+    "nome": "Saci-Pererê",
+    "texto": "Stealth. Awaken: Freeze an enemy Entity."
+   },
+   "pt": {
+    "nome": "Saci-Pererê",
+    "texto": "Furtivo. Despertar: Congele uma Entidade inimiga."
+   },
+   "es": {
+    "nome": "Saci-Pererê",
+    "texto": "Furtivo. Despertar: Congela una Entidad enemiga."
+   }
+  },
+  "ind_curupira": {
+   "en": {
+    "nome": "Curupira",
+    "texto": "Guard. Whenever an attacker damages this, the attacker takes 1 damage."
+   },
+   "pt": {
+    "nome": "Curupira",
+    "texto": "Guarda. Sempre que um atacante a ferir, ele sofre 1 de dano."
+   },
+   "es": {
+    "nome": "Curupira",
+    "texto": "Guardia. Cada vez que un atacante la dañe, recibe 1 de daño."
+   }
+  },
+  "ind_caipora": {
+   "en": {
+    "nome": "Caipora",
+    "texto": "Awaken: Summon a 1/2 Peccary."
+   },
+   "pt": {
+    "nome": "Caipora",
+    "texto": "Despertar: Invoque um Queixada 1/2."
+   },
+   "es": {
+    "nome": "Caipora",
+    "texto": "Despertar: Invoca un Pecarí 1/2."
+   }
+  },
+  "ind_iara": {
+   "en": {
+    "nome": "Iara",
+    "texto": "Awaken: Return an enemy Entity to its owner's hand."
+   },
+   "pt": {
+    "nome": "Iara",
+    "texto": "Despertar: Devolva uma Entidade inimiga para a mão do dono."
+   },
+   "es": {
+    "nome": "Iara",
+    "texto": "Despertar: Devuelve una Entidad enemiga a su mano."
+   }
+  },
+  "ind_boitata": {
+   "en": {
+    "nome": "Boitatá",
+    "texto": "Guard. Whenever an attacker damages this, the attacker takes 1 damage."
+   },
+   "pt": {
+    "nome": "Boitatá",
+    "texto": "Guarda. Sempre que um atacante a ferir, ele sofre 1 de dano."
+   },
+   "es": {
+    "nome": "Boitatá",
+    "texto": "Guardia. Cada vez que un atacante la dañe, recibe 1 de daño."
+   }
+  },
+  "ind_anhanga": {
+   "en": {
+    "nome": "Anhangá",
+    "texto": "Whenever another allied Entity dies, summon a 1/2 White Deer."
+   },
+   "pt": {
+    "nome": "Anhangá",
+    "texto": "Sempre que outra Entidade aliada morrer, invoque um Veado Branco 1/2."
+   },
+   "es": {
+    "nome": "Anhangá",
+    "texto": "Cada vez que otra Entidad aliada muera, invoca un Venado Blanco 1/2."
+   }
+  },
+  "ind_mapinguari": {
+   "en": {
+    "nome": "Mapinguari",
+    "texto": "Whenever an attacker damages this, the attacker takes 2 damage."
+   },
+   "pt": {
+    "nome": "Mapinguari",
+    "texto": "Sempre que um atacante a ferir, ele sofre 2 de dano."
+   },
+   "es": {
+    "nome": "Mapinguari",
+    "texto": "Cada vez que un atacante la dañe, recibe 2 de daño."
+   }
+  },
+  "ind_cobra_grande": {
+   "en": {
+    "nome": "Cobra-Grande",
+    "texto": "Whenever an enemy Entity dies, this gains +1/+1."
+   },
+   "pt": {
+    "nome": "Cobra-Grande",
+    "texto": "Sempre que uma Entidade inimiga morrer, esta ganha +1/+1."
+   },
+   "es": {
+    "nome": "Cobra-Grande",
+    "texto": "Cada vez que una Entidad enemiga muera, esta gana +1/+1."
+   }
+  },
+  "ind_jaci": {
+   "en": {
+    "nome": "Jaci, the Moon",
+    "texto": "Awaken: Summon a 0/2 Water Lily with Guard. At the end of your turn, heal all your Entities for 2."
+   },
+   "pt": {
+    "nome": "Jaci, a Lua",
+    "texto": "Despertar: Invoque uma Vitória-régia 0/2 com Guarda. No fim do seu turno, cure 2 de Vida de todas as suas Entidades."
+   },
+   "es": {
+    "nome": "Jaci, la Luna",
+    "texto": "Despertar: Invoca una Victoria Regia 0/2 con Guardia. Al final de tu turno, cura 2 de Vida a todas tus Entidades."
+   }
+  },
+  "ind_tupa": {
+   "en": {
+    "nome": "Tupã, the Thunder",
+    "texto": "Guard. Awaken: Deal 2 damage to all enemy Entities."
+   },
+   "pt": {
+    "nome": "Tupã, o Trovão",
+    "texto": "Guarda. Despertar: Cause 2 de dano a todas as Entidades inimigas."
+   },
+   "es": {
+    "nome": "Tupã, el Trueno",
+    "texto": "Guardia. Despertar: Inflige 2 de daño a todas las Entidades enemigas."
+   }
+  },
+  "ind_arapuca": {
+   "en": {
+    "nome": "Arapuca",
+    "texto": "When one of your Entities is attacked, the attacker takes 1 damage and is frozen. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Arapuca",
+    "texto": "Quando atacarem uma Entidade sua, o atacante sofre 1 de dano e fica congelado. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Arapuca",
+    "texto": "Cuando ataquen a una Entidad tuya, el atacante recibe 1 de daño y queda congelado. Roba 1 carta."
+   }
+  },
+  "ind_mundeu": {
+   "en": {
+    "nome": "Mundéu",
+    "texto": "When one of your Entities is attacked, the attacker takes 4 damage. Heal your Cornucopia for 4."
+   },
+   "pt": {
+    "nome": "Mundéu",
+    "texto": "Quando atacarem uma Entidade sua, o atacante sofre 4 de dano. Cure 4 da sua Cornucópia."
+   },
+   "es": {
+    "nome": "Mundéu",
+    "texto": "Cuando ataquen a una Entidad tuya, el atacante recibe 4 de daño. Cura 4 a tu Cornucopia."
+   }
+  },
+  "ind_assovio_da_matinta": {
+   "en": {
+    "nome": "Matinta's Whistle",
+    "texto": "At the end of your opponent's turn, they discard 1 random card. Deal 1 damage to the enemy Cornucopia."
+   },
+   "pt": {
+    "nome": "Assovio da Matinta",
+    "texto": "No fim do turno do oponente, ele descarta 1 carta aleatória. Cause 1 de dano à Cornucópia inimiga."
+   },
+   "es": {
+    "nome": "Silbido de la Matinta",
+    "texto": "Al final del turno enemigo, tu oponente descarta 1 carta al azar y su Cornucopia recibe 1 de daño."
+   }
+  },
+  "ind_sopro_do_paje": {
+   "en": {
+    "nome": "Pajé's Breath",
+    "texto": "When your opponent plays a Rite, counter it. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Sopro do Pajé",
+    "texto": "Quando o oponente jogar um Rito, anule-o. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Soplo del Pajé",
+    "texto": "Cuando tu oponente juegue un Rito, anúlalo. Roba 1 carta."
+   }
+  },
+  "ind_cauim": {
+   "en": {
+    "nome": "Cauim",
+    "texto": "Heal your Cornucopia for 2. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Cauim",
+    "texto": "Cure 2 da sua Cornucópia. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Cauim",
+    "texto": "Cura 2 a tu Cornucopia. Roba 1 carta."
+   }
+  },
+  "ind_visao_do_caapi": {
+   "en": {
+    "nome": "Caapi Vision",
+    "texto": "Draw 2 cards. Gain 1 Faith this turn."
+   },
+   "pt": {
+    "nome": "Visão do Caapi",
+    "texto": "Compre 2 cartas. Ganhe 1 de Fé neste turno."
+   },
+   "es": {
+    "nome": "Visión del Caapi",
+    "texto": "Roba 2 cartas. Gana 1 de Fe este turno."
+   }
+  },
+  "ind_fogo_de_monan": {
+   "en": {
+    "nome": "Monan's Fire",
+    "texto": "Deal 2 damage to all enemy Entities and 1 damage to the enemy Cornucopia."
+   },
+   "pt": {
+    "nome": "Fogo de Monan",
+    "texto": "Cause 2 de dano a todas as Entidades inimigas e 1 à Cornucópia inimiga."
+   },
+   "es": {
+    "nome": "Fuego de Monan",
+    "texto": "Inflige 2 de daño a todas las Entidades enemigas y 1 a la Cornucopia enemiga."
+   }
+  },
+  "ind_danca_do_aruana": {
+   "en": {
+    "nome": "Arowana Dance",
+    "texto": "Summon two 1/1 Arowanas. Heal your Cornucopia for 2."
+   },
+   "pt": {
+    "nome": "Dança do Aruanã",
+    "texto": "Invoque dois Aruanãs 1/1. Cure 2 da sua Cornucópia."
+   },
+   "es": {
+    "nome": "Danza de la Arahuana",
+    "texto": "Invoca dos Arahuanas 1/1. Cura 2 a tu Cornucopia."
+   }
+  },
+  "ind_dadiva_de_mani": {
+   "en": {
+    "nome": "Gift of Mani",
+    "texto": "Return an Entity from your graveyard to your hand. Heal your Cornucopia for 6. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Dádiva de Mani",
+    "texto": "Devolva uma Entidade do seu cemitério para a mão. Cure 6 da sua Cornucópia. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Don de Mani",
+    "texto": "Devuelve una Entidad de tu cementerio a tu mano. Cura 6 a tu Cornucopia. Roba 1 carta."
+   }
+  },
+  "ind_kuarup": {
+   "en": {
+    "nome": "Kuarup",
+    "texto": "Return an Entity from your graveyard to the field. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Kuarup",
+    "texto": "Devolva uma Entidade do seu cemitério para o campo. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Kuarup",
+    "texto": "Devuelve una Entidad de tu cementerio al campo. Roba 1 carta."
+   }
+  },
+  "ind_terra_sem_males": {
+   "en": {
+    "nome": "Land Without Evil",
+    "texto": "All your Entities gain +1/+1. Heal your Cornucopia for 4."
+   },
+   "pt": {
+    "nome": "Terra sem Males",
+    "texto": "Todas as suas Entidades ganham +1/+1. Cure 4 da sua Cornucópia."
+   },
+   "es": {
+    "nome": "Tierra sin Males",
+    "texto": "Todas tus Entidades ganan +1/+1. Cura 4 a tu Cornucopia."
+   }
+  },
+  "ind_ibirapema": {
+   "en": {
+    "nome": "Ibirapema",
+    "texto": "The bearer gains +2 ATK and Rush."
+   },
+   "pt": {
+    "nome": "Ibirapema",
+    "texto": "A portadora ganha +2 ATK e Ímpeto."
+   },
+   "es": {
+    "nome": "Ibirapema",
+    "texto": "La portadora gana +2 ATK e Ímpetu."
+   }
+  },
+  "ind_muiraquita": {
+   "en": {
+    "nome": "Muiraquitã",
+    "texto": "The bearer gains +3 Health and Rebirth."
+   },
+   "pt": {
+    "nome": "Muiraquitã",
+    "texto": "A portadora ganha +3 Vida e Renascer."
+   },
+   "es": {
+    "nome": "Muiraquitã",
+    "texto": "La portadora gana +3 Vida y Renacer."
+   }
+  },
+  "ind_maraca_do_paje": {
+   "en": {
+    "nome": "Pajé's Maracá",
+    "texto": "The bearer gains +1/+2. When the bearer dies, summon a 1/1 Spirit."
+   },
+   "pt": {
+    "nome": "Maracá do Pajé",
+    "texto": "A portadora ganha +1/+2. Quando ela morrer, invoque um Espírito 1/1."
+   },
+   "es": {
+    "nome": "Maraca del Pajé",
+    "texto": "La portadora gana +1/+2. Cuando muera, invoca un Espíritu 1/1."
+   }
+  },
+  "ind_cocar_do_morubixaba": {
+   "en": {
+    "nome": "Morubixaba's Headdress",
+    "texto": "The bearer gains +3 Health and Guard. Your Entities have +1 ATK."
+   },
+   "pt": {
+    "nome": "Cocar do Morubixaba",
+    "texto": "A portadora ganha +3 Vida e Guarda. Suas Entidades têm +1 ATK."
+   },
+   "es": {
+    "nome": "Penacho del Morubixaba",
+    "texto": "La portadora gana +3 Vida y Guardia. Tus Entidades tienen +1 ATK."
+   }
+  },
+  "cri_anjo_da_guarda": {
+   "en": {
+    "nome": "Guardian Angel",
+    "texto": "Guard. Last Breath: Heal your Cornucopia for 2."
+   },
+   "pt": {
+    "nome": "Anjo da Guarda",
+    "texto": "Guarda. Último Sopro: Cure 2 da sua Cornucópia."
+   },
+   "es": {
+    "nome": "Ángel de la Guarda",
+    "texto": "Guardia. Último Aliento: Cura 2 a tu Cornucopia."
+   }
+  },
+  "cri_jonas": {
+   "en": {
+    "nome": "Jonah",
+    "texto": "Rebirth. (When it dies, it returns to your hand. Once.)"
+   },
+   "pt": {
+    "nome": "Jonas",
+    "texto": "Renascer. (Quando morrer, volta para a sua mão uma vez.)"
+   },
+   "es": {
+    "nome": "Jonás",
+    "texto": "Renacer. (Cuando muera, vuelve a tu mano una vez.)"
+   }
+  },
+  "cri_davi_o_pastor": {
+   "en": {
+    "nome": "David, the Shepherd",
+    "texto": "Whenever this attacks, deal 2 damage to an enemy Entity."
+   },
+   "pt": {
+    "nome": "Davi, o Pastor",
+    "texto": "Sempre que esta atacar, cause 2 de dano a uma Entidade inimiga."
+   },
+   "es": {
+    "nome": "David, el Pastor",
+    "texto": "Cada vez que esta ataque, inflige 2 de daño a una Entidad enemiga."
+   }
+  },
+  "cri_lazaro_de_betania": {
+   "en": {
+    "nome": "Lazarus of Bethany",
+    "texto": "Rebirth. (When it dies, it returns to your hand. Once.)"
+   },
+   "pt": {
+    "nome": "Lázaro de Betânia",
+    "texto": "Renascer. (Quando morrer, volta para a sua mão uma vez.)"
+   },
+   "es": {
+    "nome": "Lázaro de Betania",
+    "texto": "Renacer. (Cuando muera, vuelve a tu mano una vez.)"
+   }
+  },
+  "cri_judite": {
+   "en": {
+    "nome": "Judith",
+    "texto": "Awaken: Destroy an enemy Entity that costs 3 or less."
+   },
+   "pt": {
+    "nome": "Judite",
+    "texto": "Despertar: Destrua uma Entidade inimiga de custo 3 ou menos."
+   },
+   "es": {
+    "nome": "Judit",
+    "texto": "Despertar: Destruye una Entidad enemiga de costo 3 o menos."
+   }
+  },
+  "cri_gabriel": {
+   "en": {
+    "nome": "Gabriel, the Messenger",
+    "texto": "Awaken: Draw a Rite from your deck."
+   },
+   "pt": {
+    "nome": "Gabriel, o Mensageiro",
+    "texto": "Despertar: Compre um Rito do seu deck."
+   },
+   "es": {
+    "nome": "Gabriel, el Mensajero",
+    "texto": "Despertar: Roba un Rito de tu mazo."
+   }
+  },
+  "cri_rafael": {
+   "en": {
+    "nome": "Raphael, the Healer",
+    "texto": "Awaken: Heal an allied Entity for 4."
+   },
+   "pt": {
+    "nome": "Rafael, o Curador",
+    "texto": "Despertar: Cure 4 de Vida de uma Entidade aliada."
+   },
+   "es": {
+    "nome": "Rafael, el Sanador",
+    "texto": "Despertar: Cura 4 de Vida a una Entidad aliada."
+   }
+  },
+  "cri_sansao": {
+   "en": {
+    "nome": "Samson",
+    "texto": "Last Breath: Deal 2 damage to all enemy Entities."
+   },
+   "pt": {
+    "nome": "Sansão",
+    "texto": "Último Sopro: Cause 2 de dano a todas as Entidades inimigas."
+   },
+   "es": {
+    "nome": "Sansón",
+    "texto": "Último Aliento: Inflige 2 de daño a todas las Entidades enemigas."
+   }
+  },
+  "cri_serafim": {
+   "en": {
+    "nome": "Seraph",
+    "texto": "Guard. Awaken: Silence an enemy Entity (it loses keywords and effects)."
+   },
+   "pt": {
+    "nome": "Serafim",
+    "texto": "Guarda. Despertar: Silencie uma Entidade inimiga (ela perde palavras-chave e efeitos)."
+   },
+   "es": {
+    "nome": "Serafín",
+    "texto": "Guardia. Despertar: Silencia una Entidad enemiga (pierde palabras clave y efectos)."
+   }
+  },
+  "cri_leviata": {
+   "en": {
+    "nome": "Leviathan",
+    "texto": "Sacrifice 1. Last Breath: Heal your Cornucopia for 4."
+   },
+   "pt": {
+    "nome": "Leviatã",
+    "texto": "Sacrifício 1. Último Sopro: Cure 4 da sua Cornucópia."
+   },
+   "es": {
+    "nome": "Leviatán",
+    "texto": "Sacrificio 1. Último Aliento: Cura 4 a tu Cornucopia."
+   }
+  },
+  "cri_elias": {
+   "en": {
+    "nome": "Elijah, Chariot of Fire",
+    "texto": "Rebirth. Awaken: Deal 2 damage to all enemy Entities."
+   },
+   "pt": {
+    "nome": "Elias, Carro de Fogo",
+    "texto": "Renascer. Despertar: Cause 2 de dano a todas as Entidades inimigas."
+   },
+   "es": {
+    "nome": "Elías, Carro de Fuego",
+    "texto": "Renacer. Despertar: Inflige 2 de daño a todas las Entidades enemigas."
+   }
+  },
+  "cri_sao_miguel_arcanjo": {
+   "en": {
+    "nome": "Saint Michael the Archangel",
+    "texto": "Guard. Awaken: Destroy an enemy Entity."
+   },
+   "pt": {
+    "nome": "São Miguel Arcanjo",
+    "texto": "Guarda. Despertar: Destrua uma Entidade inimiga."
+   },
+   "es": {
+    "nome": "San Miguel Arcángel",
+    "texto": "Guardia. Despertar: Destruye una Entidad enemiga."
+   }
+  },
+  "cri_cova_dos_leoes": {
+   "en": {
+    "nome": "Lions' Den",
+    "texto": "When an allied Entity takes damage, heal it for 4. It gains +1/+1."
+   },
+   "pt": {
+    "nome": "Cova dos Leões",
+    "texto": "Quando uma Entidade aliada sofrer dano, cure 4 de Vida dela; ela ganha +1/+1."
+   },
+   "es": {
+    "nome": "Foso de los Leones",
+    "texto": "Cuando una Entidad aliada reciba daño, cura 4 de su Vida; esta gana +1/+1."
+   }
+  },
+  "cri_tumba_vazia": {
+   "en": {
+    "nome": "Empty Tomb",
+    "texto": "When an allied Entity dies, return an Entity from your graveyard to the field."
+   },
+   "pt": {
+    "nome": "Tumba Vazia",
+    "texto": "Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério para o campo."
+   },
+   "es": {
+    "nome": "Tumba Vacía",
+    "texto": "Cuando una Entidad aliada muera, devuelve una Entidad de tu cementerio al campo."
+   }
+  },
+  "cri_portao_do_eden": {
+   "en": {
+    "nome": "Gate of Eden",
+    "texto": "When your opponent plays an Entity, it takes 3 damage and is frozen."
+   },
+   "pt": {
+    "nome": "Portão do Éden",
+    "texto": "Quando o oponente jogar uma Entidade, ela sofre 3 de dano e fica congelada."
+   },
+   "es": {
+    "nome": "Puerta del Edén",
+    "texto": "Cuando tu oponente juegue una Entidad, esta recibe 3 de daño y queda congelada."
+   }
+  },
+  "cri_mudez_de_zacarias": {
+   "en": {
+    "nome": "Zechariah's Silence",
+    "texto": "When your opponent plays a Rite, counter it. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Mudez de Zacarias",
+    "texto": "Quando o oponente jogar um Rito, anule-o. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Mudez de Zacarías",
+    "texto": "Cuando tu oponente juegue un Rito, anúlalo. Roba 1 carta."
+   }
+  },
+  "cri_sangue_nos_umbrais": {
+   "en": {
+    "nome": "Blood on the Doorposts",
+    "texto": "When one of your Entities is attacked, destroy the attacker. Heal your Cornucopia for 4."
+   },
+   "pt": {
+    "nome": "Sangue nos Umbrais",
+    "texto": "Quando atacarem uma Entidade sua, destrua o atacante. Cure 4 da sua Cornucópia."
+   },
+   "es": {
+    "nome": "Sangre en los Dinteles",
+    "texto": "Cuando ataquen a una Entidad tuya, destruye al atacante. Cura 4 a tu Cornucopia."
+   }
+  },
+  "cri_multiplicacao_dos_paes": {
+   "en": {
+    "nome": "Loaves and Fishes",
+    "texto": "Draw 2 cards. Heal your Cornucopia for 2."
+   },
+   "pt": {
+    "nome": "Multiplicação dos Pães",
+    "texto": "Compre 2 cartas. Cure 2 da sua Cornucópia."
+   },
+   "es": {
+    "nome": "Multiplicación de los Panes",
+    "texto": "Roba 2 cartas. Cura 2 a tu Cornucopia."
+   }
+  },
+  "cri_exorcismo": {
+   "en": {
+    "nome": "Exorcism",
+    "texto": "Return an enemy Entity to its owner's hand. Heal an allied Entity for 4."
+   },
+   "pt": {
+    "nome": "Exorcismo",
+    "texto": "Devolva uma Entidade inimiga para a mão do dono. Cure 4 de Vida de uma Entidade aliada."
+   },
+   "es": {
+    "nome": "Exorcismo",
+    "texto": "Devuelve una Entidad enemiga a su mano. Cura 4 de Vida a una Entidad aliada."
+   }
+  },
+  "cri_praga_dos_gafanhotos": {
+   "en": {
+    "nome": "Plague of Locusts",
+    "texto": "Deal 2 damage to all enemy Entities. Your opponent discards 1 random card."
+   },
+   "pt": {
+    "nome": "Praga dos Gafanhotos",
+    "texto": "Cause 2 de dano a todas as Entidades inimigas. O oponente descarta 1 carta aleatória."
+   },
+   "es": {
+    "nome": "Plaga de Langostas",
+    "texto": "Inflige 2 de daño a todas las Entidades enemigas. Tu oponente descarta 1 carta al azar."
+   }
+  },
+  "cri_talita_cumi": {
+   "en": {
+    "nome": "Talitha Koum",
+    "texto": "Return an Entity from your graveyard to the field."
+   },
+   "pt": {
+    "nome": "Talita Cumi",
+    "texto": "Devolva uma Entidade do seu cemitério para o campo."
+   },
+   "es": {
+    "nome": "Talita Cumi",
+    "texto": "Devuelve una Entidad de tu cementerio al campo."
+   }
+  },
+  "cri_vale_dos_ossos_secos": {
+   "en": {
+    "nome": "Valley of Dry Bones",
+    "texto": "Summon two 1/1 Risen Bones. Return a random Entity from your graveyard to your hand."
+   },
+   "pt": {
+    "nome": "Vale dos Ossos Secos",
+    "texto": "Invoque dois Ossos Erguidos 1/1. Devolva uma Entidade aleatória do seu cemitério para a mão."
+   },
+   "es": {
+    "nome": "Valle de los Huesos Secos",
+    "texto": "Invoca dos Huesos Alzados 1/1. Devuelve una Entidad al azar de tu cementerio a tu mano."
+   }
+  },
+  "cri_granizo_e_fogo": {
+   "en": {
+    "nome": "Hail and Fire",
+    "texto": "Deal 3 damage to all enemy Entities and 1 damage to the enemy Cornucopia."
+   },
+   "pt": {
+    "nome": "Granizo e Fogo",
+    "texto": "Cause 3 de dano a todas as Entidades inimigas e 1 à Cornucópia inimiga."
+   },
+   "es": {
+    "nome": "Granizo y Fuego",
+    "texto": "Inflige 3 de daño a todas las Entidades enemigas y 1 a la Cornucopia enemiga."
+   }
+  },
+  "cri_juizo_final": {
+   "en": {
+    "nome": "Last Judgment",
+    "texto": "Destroy all Entities, yours and the enemy's. Then return a random Entity from your graveyard to your hand."
+   },
+   "pt": {
+    "nome": "Juízo Final",
+    "texto": "Destrua todas as Entidades, suas e inimigas. Depois, devolva uma Entidade aleatória do seu cemitério para a mão."
+   },
+   "es": {
+    "nome": "Juicio Final",
+    "texto": "Destruye todas las Entidades, tuyas y enemigas. Luego, devuelve una Entidad al azar de tu cementerio a tu mano."
+   }
+  },
+  "cri_funda_de_davi": {
+   "en": {
+    "nome": "David's Sling",
+    "texto": "The bearer gains +2 ATK and Rush. Whenever the bearer attacks, deal 1 damage to an enemy Entity."
+   },
+   "pt": {
+    "nome": "Funda de Davi",
+    "texto": "A portadora ganha +2 ATK e Ímpeto. Sempre que ela atacar, cause 1 de dano a uma Entidade inimiga."
+   },
+   "es": {
+    "nome": "Honda de David",
+    "texto": "La portadora gana +2 ATK e Ímpetu. Cada vez que ataque, inflige 1 de daño a una Entidad enemiga."
+   }
+  },
+  "cri_veu_de_veronica": {
+   "en": {
+    "nome": "Veil of Veronica",
+    "texto": "The bearer gains +1/+2 and Rebirth."
+   },
+   "pt": {
+    "nome": "Véu de Verônica",
+    "texto": "A portadora ganha +1/+2 e Renascer."
+   },
+   "es": {
+    "nome": "Velo de Verónica",
+    "texto": "La portadora gana +1/+2 y Renacer."
+   }
+  },
+  "cri_santo_graal": {
+   "en": {
+    "nome": "Holy Grail",
+    "texto": "The bearer gains +2 Health. When equipped, heal your Cornucopia for 4. Whenever the bearer attacks, heal it for 2."
+   },
+   "pt": {
+    "nome": "Santo Graal",
+    "texto": "A portadora ganha +2 Vida. Ao equipar, cure 4 da sua Cornucópia. Sempre que ela atacar, cure 2 de Vida dela."
+   },
+   "es": {
+    "nome": "Santo Grial",
+    "texto": "La portadora gana +2 Vida. Al equipar, cura 4 a tu Cornucopia. Cada vez que ataque, cúrale 2 de Vida."
+   }
+  },
+  "cri_arca_da_alianca": {
+   "en": {
+    "nome": "Ark of the Covenant",
+    "texto": "The bearer gains +3 Health and Guard. Your Entities have +1 ATK."
+   },
+   "pt": {
+    "nome": "Arca da Aliança",
+    "texto": "A portadora ganha +3 Vida e Guarda. Suas Entidades têm +1 ATK."
+   },
+   "es": {
+    "nome": "Arca de la Alianza",
+    "texto": "La portadora gana +3 Vida y Guardia. Tus Entidades tienen +1 ATK."
+   }
+  },
+  "tao_lan_caihe": {
+   "en": {
+    "nome": "Lan Caihe",
+    "texto": "Awaken: If you control 2 or more Entities, draw 1 card."
+   },
+   "pt": {
+    "nome": "Lan Caihe",
+    "texto": "Despertar: Se você controla 2 ou mais Entidades, compre 1 carta."
+   },
+   "es": {
+    "nome": "Lan Caihe",
+    "texto": "Despertar: Si controlas 2 o más Entidades, roba 1 carta."
+   }
+  },
+  "tao_he_xiangu": {
+   "en": {
+    "nome": "He Xiangu",
+    "texto": "At the end of your turn, heal an allied Entity for 2."
+   },
+   "pt": {
+    "nome": "He Xiangu",
+    "texto": "No fim do seu turno, cure 2 de Vida de uma Entidade aliada."
+   },
+   "es": {
+    "nome": "He Xiangu",
+    "texto": "Al final de tu turno, cura 2 de Vida a una Entidad aliada."
+   }
+  },
+  "tao_han_xiangzi": {
+   "en": {
+    "nome": "Han Xiangzi",
+    "texto": "Awaken: If you control 2 or more Entities, gain 2 Faith this turn."
+   },
+   "pt": {
+    "nome": "Han Xiangzi",
+    "texto": "Despertar: Se você controla 2 ou mais Entidades, ganhe 2 de Fé neste turno."
+   },
+   "es": {
+    "nome": "Han Xiangzi",
+    "texto": "Despertar: Si controlas 2 o más Entidades, gana 2 de Fe este turno."
+   }
+  },
+  "tao_li_tieguai": {
+   "en": {
+    "nome": "Li Tieguai",
+    "texto": "Rebirth."
+   },
+   "pt": {
+    "nome": "Li Tieguai",
+    "texto": "Renascer."
+   },
+   "es": {
+    "nome": "Li Tieguai",
+    "texto": "Renacer."
+   }
+  },
+  "tao_zhongli_quan": {
+   "en": {
+    "nome": "Zhongli Quan",
+    "texto": "Awaken: Return an Entity from your graveyard to your hand."
+   },
+   "pt": {
+    "nome": "Zhongli Quan",
+    "texto": "Despertar: Devolva uma Entidade do seu cemitério para a mão."
+   },
+   "es": {
+    "nome": "Zhongli Quan",
+    "texto": "Despertar: Devuelve una Entidad de tu cementerio a tu mano."
+   }
+  },
+  "tao_lu_dongbin": {
+   "en": {
+    "nome": "Lü Dongbin",
+    "texto": "Your other Entities have +1 ATK."
+   },
+   "pt": {
+    "nome": "Lü Dongbin",
+    "texto": "Suas outras Entidades têm +1 ATK."
+   },
+   "es": {
+    "nome": "Lü Dongbin",
+    "texto": "Tus otras Entidades tienen +1 ATK."
+   }
+  },
+  "tao_zhang_guolao": {
+   "en": {
+    "nome": "Zhang Guolao",
+    "texto": "Awaken: Return an enemy Entity to its owner's hand."
+   },
+   "pt": {
+    "nome": "Zhang Guolao",
+    "texto": "Despertar: Devolva uma Entidade inimiga para a mão do dono."
+   },
+   "es": {
+    "nome": "Zhang Guolao",
+    "texto": "Despertar: Devuelve una Entidad enemiga a su mano."
+   }
+  },
+  "tao_cao_guojiu": {
+   "en": {
+    "nome": "Cao Guojiu",
+    "texto": "Guard. Awaken: Heal an allied Entity for 2."
+   },
+   "pt": {
+    "nome": "Cao Guojiu",
+    "texto": "Guarda. Despertar: Cure 2 de Vida de uma Entidade aliada."
+   },
+   "es": {
+    "nome": "Cao Guojiu",
+    "texto": "Guardia. Despertar: Cura 2 de Vida a una Entidad aliada."
+   }
+  },
+  "tao_nezha": {
+   "en": {
+    "nome": "Nezha",
+    "texto": "Rush. Rebirth."
+   },
+   "pt": {
+    "nome": "Nezha",
+    "texto": "Ímpeto. Renascer."
+   },
+   "es": {
+    "nome": "Nezha",
+    "texto": "Ímpetu. Renacer."
+   }
+  },
+  "tao_zhong_kui": {
+   "en": {
+    "nome": "Zhong Kui",
+    "texto": "Awaken: Silence an enemy Entity (it loses keywords and effects)."
+   },
+   "pt": {
+    "nome": "Zhong Kui",
+    "texto": "Despertar: Silencie uma Entidade inimiga (ela perde palavras-chave e efeitos)."
+   },
+   "es": {
+    "nome": "Zhong Kui",
+    "texto": "Despertar: Silencia una Entidad enemiga (pierde palabras clave y efectos)."
+   }
+  },
+  "tao_erlang_shen": {
+   "en": {
+    "nome": "Erlang Shen",
+    "texto": "Awaken: Summon a 2/1 Xiaotian Quan, Celestial Hound."
+   },
+   "pt": {
+    "nome": "Erlang Shen",
+    "texto": "Despertar: Invoque Xiaotian Quan, Cão Celestial 2/1."
+   },
+   "es": {
+    "nome": "Erlang Shen",
+    "texto": "Despertar: Invoca a Xiaotian Quan, Perro Celestial 2/1."
+   }
+  },
+  "tao_guan_yu": {
+   "en": {
+    "nome": "Guan Yu, Emperor Guan",
+    "texto": "Guard. Awaken: An allied Entity gains +1 ATK."
+   },
+   "pt": {
+    "nome": "Guan Yu, Imperador Guan",
+    "texto": "Guarda. Despertar: Uma Entidade aliada ganha +1 ATK."
+   },
+   "es": {
+    "nome": "Guan Yu, Emperador Guan",
+    "texto": "Guardia. Despertar: Una Entidad aliada gana +1 ATK."
+   }
+  },
+  "tao_xiwangmu": {
+   "en": {
+    "nome": "Xiwangmu, Queen Mother of the West",
+    "texto": "Awaken: Return an Entity from your graveyard to the field."
+   },
+   "pt": {
+    "nome": "Xiwangmu, Rainha Mãe do Oeste",
+    "texto": "Despertar: Devolva uma Entidade do seu cemitério para o campo."
+   },
+   "es": {
+    "nome": "Xiwangmu, Reina Madre del Oeste",
+    "texto": "Despertar: Devuelve una Entidad de tu cementerio al campo."
+   }
+  },
+  "tao_imperador_de_jade": {
+   "en": {
+    "nome": "Jade Emperor",
+    "texto": "Your other Entities have +1/+1."
+   },
+   "pt": {
+    "nome": "Imperador de Jade",
+    "texto": "Suas outras Entidades têm +1/+1."
+   },
+   "es": {
+    "nome": "Emperador de Jade",
+    "texto": "Tus otras Entidades tienen +1/+1."
+   }
+  },
+  "tao_fulu_de_selamento": {
+   "en": {
+    "nome": "Sealing Fulu",
+    "texto": "When your opponent plays a Rite, counter it (it goes to the graveyard with no effect). Draw 1 card."
+   },
+   "pt": {
+    "nome": "Fulu de Selamento",
+    "texto": "Quando o oponente jogar um Rito, anule-o (ele vai ao cemitério sem efeito). Compre 1 carta."
+   },
+   "es": {
+    "nome": "Fulu de Sellado",
+    "texto": "Cuando tu oponente juegue un Rito, anúlalo (va al cementerio sin efecto). Roba 1 carta."
+   }
+  },
+  "tao_dragao_azul_do_leste": {
+   "en": {
+    "nome": "Azure Dragon of the East",
+    "texto": "At the end of your opponent's turn, all your Entities gain +1/+1."
+   },
+   "pt": {
+    "nome": "Dragão Azul do Leste",
+    "texto": "No fim do turno do oponente, todas as suas Entidades ganham +1/+1."
+   },
+   "es": {
+    "nome": "Dragón Azul del Este",
+    "texto": "Al final del turno enemigo, todas tus Entidades ganan +1/+1."
+   }
+  },
+  "tao_tigre_branco_do_oeste": {
+   "en": {
+    "nome": "White Tiger of the West",
+    "texto": "When one of your Entities is attacked, the attacker takes 4 damage and gets -1 ATK."
+   },
+   "pt": {
+    "nome": "Tigre Branco do Oeste",
+    "texto": "Quando atacarem uma Entidade sua, o atacante sofre 4 de dano e recebe -1 ATK."
+   },
+   "es": {
+    "nome": "Tigre Blanco del Oeste",
+    "texto": "Cuando ataquen a una Entidad tuya, el atacante recibe 4 de daño y -1 ATK."
+   }
+  },
+  "tao_passaro_vermelho_do_sul": {
+   "en": {
+    "nome": "Vermilion Bird of the South",
+    "texto": "When an allied Entity dies, return an Entity from your graveyard to the field. Heal your Cornucopia for 2."
+   },
+   "pt": {
+    "nome": "Pássaro Vermelho do Sul",
+    "texto": "Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério para o campo. Cure 2 da sua Cornucópia."
+   },
+   "es": {
+    "nome": "Pájaro Bermellón del Sur",
+    "texto": "Cuando una Entidad aliada muera, devuelve una Entidad de tu cementerio al campo. Cura 2 a tu Cornucopia."
+   }
+  },
+  "tao_tartaruga_negra_do_norte": {
+   "en": {
+    "nome": "Black Tortoise of the North",
+    "texto": "When an allied Entity takes damage, heal it for 4. It gains +1 Health and Guard."
+   },
+   "pt": {
+    "nome": "Tartaruga Negra do Norte",
+    "texto": "Quando uma Entidade aliada sofrer dano, cure 4 de Vida dela; ela ganha +1 Vida e Guarda."
+   },
+   "es": {
+    "nome": "Tortuga Negra del Norte",
+    "texto": "Cuando una Entidad aliada reciba daño, cura 4 de su Vida; esta gana +1 Vida y Guardia."
+   }
+  },
+  "tao_circulacao_do_qi": {
+   "en": {
+    "nome": "Qi Circulation",
+    "texto": "Gain 1 Faith this turn. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Circulação do Qi",
+    "texto": "Ganhe 1 de Fé neste turno. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Circulación del Qi",
+    "texto": "Gana 1 de Fe este turno. Roba 1 carta."
+   }
+  },
+  "tao_flechas_de_houyi": {
+   "en": {
+    "nome": "Arrows of Houyi",
+    "texto": "Deal 3 damage to an enemy Entity. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Flechas de Houyi",
+    "texto": "Cause 3 de dano a uma Entidade inimiga. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Flechas de Houyi",
+    "texto": "Inflige 3 de daño a una Entidad enemiga. Roba 1 carta."
+   }
+  },
+  "tao_pilula_de_ouro": {
+   "en": {
+    "nome": "Golden Pill",
+    "texto": "Return an Entity from your graveyard to the field. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Pílula de Ouro",
+    "texto": "Devolva uma Entidade do seu cemitério para o campo. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Píldora de Oro",
+    "texto": "Devuelve una Entidad de tu cementerio al campo. Roba 1 carta."
+   }
+  },
+  "tao_banquete_dos_pessegos": {
+   "en": {
+    "nome": "Peach Banquet",
+    "texto": "All your Entities gain +1/+1. Heal your Cornucopia for 2."
+   },
+   "pt": {
+    "nome": "Banquete dos Pêssegos",
+    "texto": "Todas as suas Entidades ganham +1/+1. Cure 2 da sua Cornucópia."
+   },
+   "es": {
+    "nome": "Banquete de los Duraznos",
+    "texto": "Todas tus Entidades ganan +1/+1. Cura 2 a tu Cornucopia."
+   }
+  },
+  "tao_taiji": {
+   "en": {
+    "nome": "Taiji",
+    "texto": "An allied Entity gains +2/+2 and an enemy Entity gets -2/-2."
+   },
+   "pt": {
+    "nome": "Taiji",
+    "texto": "Uma Entidade aliada ganha +2/+2 e uma Entidade inimiga recebe -2/-2."
+   },
+   "es": {
+    "nome": "Taiji",
+    "texto": "Una Entidad aliada gana +2/+2 y una Entidad enemiga recibe -2/-2."
+   }
+  },
+  "tao_pessego_da_imortalidade": {
+   "en": {
+    "nome": "Peach of Immortality",
+    "texto": "The bearer gains +1/+2 and Rebirth."
+   },
+   "pt": {
+    "nome": "Pêssego da Imortalidade",
+    "texto": "A portadora ganha +1/+2 e Renascer."
+   },
+   "es": {
+    "nome": "Durazno de la Inmortalidad",
+    "texto": "La portadora gana +1/+2 y Renacer."
+   }
+  },
+  "tao_espelho_de_bronze": {
+   "en": {
+    "nome": "Bronze Mirror",
+    "texto": "The bearer gains +1/+1 and Stealth. When equipped, silence an enemy Entity."
+   },
+   "pt": {
+    "nome": "Espelho de Bronze",
+    "texto": "A portadora ganha +1/+1 e Furtivo. Ao equipar, silencie uma Entidade inimiga."
+   },
+   "es": {
+    "nome": "Espejo de Bronce",
+    "texto": "La portadora gana +1/+1 y Furtivo. Al equipar, silencia una Entidad enemiga."
+   }
+  },
+  "hin_matsya": {
+   "en": {
+    "nome": "Matsya, the Fish",
+    "texto": "Awaken: Draw a Relic from your deck."
+   },
+   "pt": {
+    "nome": "Matsya, o Peixe",
+    "texto": "Despertar: Compre uma Relíquia do seu deck."
+   },
+   "es": {
+    "nome": "Matsya, el Pez",
+    "texto": "Despertar: Roba una Reliquia de tu mazo."
+   }
+  },
+  "hin_garuda": {
+   "en": {
+    "nome": "Garuda",
+    "texto": "Rush."
+   },
+   "pt": {
+    "nome": "Garuda",
+    "texto": "Ímpeto."
+   },
+   "es": {
+    "nome": "Garuda",
+    "texto": "Ímpetu."
+   }
+  },
+  "hin_jatayu": {
+   "en": {
+    "nome": "Jatayu",
+    "texto": "Rush. Last Breath: Draw 1 card."
+   },
+   "pt": {
+    "nome": "Jatayu",
+    "texto": "Ímpeto. Último Sopro: Compre 1 carta."
+   },
+   "es": {
+    "nome": "Jatayu",
+    "texto": "Ímpetu. Último Aliento: Roba 1 carta."
+   }
+  },
+  "hin_ganesha": {
+   "en": {
+    "nome": "Ganesha, Remover of Obstacles",
+    "texto": "Awaken: Return an enemy Entity to its owner's hand."
+   },
+   "pt": {
+    "nome": "Ganesha, Removedor de Obstáculos",
+    "texto": "Despertar: Devolva uma Entidade inimiga para a mão do dono."
+   },
+   "es": {
+    "nome": "Ganesha, Removedor de Obstáculos",
+    "texto": "Despertar: Devuelve una Entidad enemiga a su mano."
+   }
+  },
+  "hin_arjuna": {
+   "en": {
+    "nome": "Arjuna",
+    "texto": "Stealth. Whenever this attacks, deal 1 damage to an enemy Entity."
+   },
+   "pt": {
+    "nome": "Arjuna",
+    "texto": "Furtivo. Sempre que esta atacar, cause 1 de dano a uma Entidade inimiga."
+   },
+   "es": {
+    "nome": "Arjuna",
+    "texto": "Furtivo. Cada vez que esta ataque, inflige 1 de daño a una Entidad enemiga."
+   }
+  },
+  "hin_hanuman": {
+   "en": {
+    "nome": "Hanuman",
+    "texto": "Rush. Whenever this attacks, it gains +1 ATK."
+   },
+   "pt": {
+    "nome": "Hanuman",
+    "texto": "Ímpeto. Sempre que esta atacar, ganha +1 ATK."
+   },
+   "es": {
+    "nome": "Hanuman",
+    "texto": "Ímpetu. Cada vez que esta ataque, gana +1 ATK."
+   }
+  },
+  "hin_narasimha": {
+   "en": {
+    "nome": "Narasimha",
+    "texto": "Awaken: Destroy an enemy Entity that costs 3 or less."
+   },
+   "pt": {
+    "nome": "Narasimha",
+    "texto": "Despertar: Destrua uma Entidade inimiga de custo 3 ou menos."
+   },
+   "es": {
+    "nome": "Narasimha",
+    "texto": "Despertar: Destruye una Entidad enemiga de costo 3 o menos."
+   }
+  },
+  "hin_rama": {
+   "en": {
+    "nome": "Rama, Prince of Ayodhya",
+    "texto": "Rebirth."
+   },
+   "pt": {
+    "nome": "Rama, Príncipe de Ayodhya",
+    "texto": "Renascer."
+   },
+   "es": {
+    "nome": "Rama, Príncipe de Ayodhya",
+    "texto": "Renacer."
+   }
+  },
+  "hin_krishna": {
+   "en": {
+    "nome": "Krishna, the Charioteer",
+    "texto": "Your Entities have Rush."
+   },
+   "pt": {
+    "nome": "Krishna, o Auriga",
+    "texto": "Suas Entidades têm Ímpeto."
+   },
+   "es": {
+    "nome": "Krishna, el Auriga",
+    "texto": "Tus Entidades tienen Ímpetu."
+   }
+  },
+  "hin_durga": {
+   "en": {
+    "nome": "Durga, the Fortress",
+    "texto": "Rush. Guard."
+   },
+   "pt": {
+    "nome": "Durga, a Fortaleza",
+    "texto": "Ímpeto. Guarda."
+   },
+   "es": {
+    "nome": "Durga, la Fortaleza",
+    "texto": "Ímpetu. Guardia."
+   }
+  },
+  "hin_kali": {
+   "en": {
+    "nome": "Kali",
+    "texto": "Awaken: Deal 1 damage to all enemy Entities. Whenever an enemy Entity dies, this gains +1 ATK."
+   },
+   "pt": {
+    "nome": "Kali",
+    "texto": "Despertar: Cause 1 de dano a todas as Entidades inimigas. Sempre que uma Entidade inimiga morrer, esta ganha +1 ATK."
+   },
+   "es": {
+    "nome": "Kali",
+    "texto": "Despertar: Inflige 1 de daño a todas las Entidades enemigas. Cada vez que una Entidad enemiga muera, esta gana +1 ATK."
+   }
+  },
+  "hin_shiva_nataraja": {
+   "en": {
+    "nome": "Shiva Nataraja",
+    "texto": "Rush. Awaken: Destroy an enemy Entity."
+   },
+   "pt": {
+    "nome": "Shiva Nataraja",
+    "texto": "Ímpeto. Despertar: Destrua uma Entidade inimiga."
+   },
+   "es": {
+    "nome": "Shiva Nataraja",
+    "texto": "Ímpetu. Despertar: Destruye una Entidad enemiga."
+   }
+  },
+  "hin_chamas_de_agni": {
+   "en": {
+    "nome": "Flames of Agni",
+    "texto": "When your opponent plays an Entity, it takes 1 damage and the enemy Cornucopia takes 1 damage."
+   },
+   "pt": {
+    "nome": "Chamas de Agni",
+    "texto": "Quando o oponente jogar uma Entidade, ela sofre 1 de dano e a Cornucópia inimiga sofre 1."
+   },
+   "es": {
+    "nome": "Llamas de Agni",
+    "texto": "Cuando tu oponente juegue una Entidad, esta recibe 1 de daño y la Cornucopia enemiga también."
+   }
+  },
+  "hin_roda_do_samsara": {
+   "en": {
+    "nome": "Wheel of Samsara",
+    "texto": "When an allied Entity dies, return an Entity from your graveyard to your hand. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Roda do Samsara",
+    "texto": "Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério para a mão. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Rueda del Samsara",
+    "texto": "Cuando una Entidad aliada muera, devuelve una Entidad de tu cementerio a tu mano. Roba 1 carta."
+   }
+  },
+  "hin_lei_do_karma": {
+   "en": {
+    "nome": "Law of Karma",
+    "texto": "When one of your Entities is attacked, the attacker takes 3 damage. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Lei do Karma",
+    "texto": "Quando atacarem uma Entidade sua, o atacante sofre 3 de dano. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Ley del Karma",
+    "texto": "Cuando ataquen a una Entidad tuya, el atacante recibe 3 de daño. Roba 1 carta."
+   }
+  },
+  "hin_veu_de_maya": {
+   "en": {
+    "nome": "Veil of Maya",
+    "texto": "When your opponent plays a Rite, counter it and return an enemy Entity to its owner's hand."
+   },
+   "pt": {
+    "nome": "Véu de Maya",
+    "texto": "Quando o oponente jogar um Rito, anule-o e devolva uma Entidade inimiga para a mão do dono."
+   },
+   "es": {
+    "nome": "Velo de Maya",
+    "texto": "Cuando tu oponente juegue un Rito, anúlalo y devuelve una Entidad enemiga a su mano."
+   }
+  },
+  "hin_incendio_de_lanka": {
+   "en": {
+    "nome": "Burning of Lanka",
+    "texto": "At the end of your opponent's turn, deal 1 damage to all enemy Entities and 1 to the enemy Cornucopia."
+   },
+   "pt": {
+    "nome": "Incêndio de Lanka",
+    "texto": "No fim do turno do oponente, cause 1 de dano a todas as Entidades inimigas e 1 à Cornucópia inimiga."
+   },
+   "es": {
+    "nome": "Incendio de Lanka",
+    "texto": "Al final del turno enemigo, inflige 1 de daño a todas las Entidades enemigas y 1 a su Cornucopia."
+   }
+  },
+  "hin_pashupatastra": {
+   "en": {
+    "nome": "Pashupatastra",
+    "texto": "When one of your Entities is attacked, destroy the attacker. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Pashupatastra",
+    "texto": "Quando atacarem uma Entidade sua, destrua o atacante. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Pashupatastra",
+    "texto": "Cuando ataquen a una Entidad tuya, destruye al atacante. Roba 1 carta."
+   }
+  },
+  "hin_om": {
+   "en": {
+    "nome": "Om",
+    "texto": "Draw 1 card. Gain 1 Faith this turn."
+   },
+   "pt": {
+    "nome": "Om",
+    "texto": "Compre 1 carta. Ganhe 1 de Fé neste turno."
+   },
+   "es": {
+    "nome": "Om",
+    "texto": "Roba 1 carta. Gana 1 de Fe este turno."
+   }
+  },
+  "hin_yajna": {
+   "en": {
+    "nome": "Yajna, the Sacrificial Fire",
+    "texto": "Deal 2 damage to an enemy Entity. Gain 2 Faith this turn."
+   },
+   "pt": {
+    "nome": "Yajna, o Fogo Sacrificial",
+    "texto": "Cause 2 de dano a uma Entidade inimiga. Ganhe 2 de Fé neste turno."
+   },
+   "es": {
+    "nome": "Yajna, el Fuego Sacrificial",
+    "texto": "Inflige 2 de daño a una Entidad enemiga. Gana 2 de Fe este turno."
+   }
+  },
+  "hin_samudra_manthan": {
+   "en": {
+    "nome": "Samudra Manthan",
+    "texto": "Draw 2 cards. Gain 2 Faith this turn. Heal your Cornucopia for 2."
+   },
+   "pt": {
+    "nome": "Samudra Manthan",
+    "texto": "Compre 2 cartas. Ganhe 2 de Fé neste turno. Cure 2 da sua Cornucópia."
+   },
+   "es": {
+    "nome": "Samudra Manthan",
+    "texto": "Roba 2 cartas. Gana 2 de Fe este turno. Cura 2 a tu Cornucopia."
+   }
+  },
+  "hin_brahmastra": {
+   "en": {
+    "nome": "Brahmastra",
+    "texto": "Destroy an enemy Entity."
+   },
+   "pt": {
+    "nome": "Brahmastra",
+    "texto": "Destrua uma Entidade inimiga."
+   },
+   "es": {
+    "nome": "Brahmastra",
+    "texto": "Destruye una Entidad enemiga."
+   }
+  },
+  "hin_descida_do_avatar": {
+   "en": {
+    "nome": "Descent of the Avatar",
+    "texto": "Return an Entity from your graveyard to the field."
+   },
+   "pt": {
+    "nome": "Descida do Avatar",
+    "texto": "Devolva uma Entidade do seu cemitério para o campo."
+   },
+   "es": {
+    "nome": "Descenso del Avatar",
+    "texto": "Devuelve una Entidad de tu cementerio al campo."
+   }
+  },
+  "hin_vishvarupa": {
+   "en": {
+    "nome": "Vishvarupa, the Universal Form",
+    "texto": "An allied Entity becomes 6/6 and gains Rush."
+   },
+   "pt": {
+    "nome": "Vishvarupa, a Forma Universal",
+    "texto": "Uma Entidade aliada passa a ser 6/6 e ganha Ímpeto."
+   },
+   "es": {
+    "nome": "Vishvarupa, la Forma Universal",
+    "texto": "Una Entidad aliada pasa a ser 6/6 y gana Ímpetu."
+   }
+  },
+  "hin_tandava": {
+   "en": {
+    "nome": "Tandava",
+    "texto": "Deal 2 damage to all enemy Entities and 3 damage to the enemy Cornucopia."
+   },
+   "pt": {
+    "nome": "Tandava",
+    "texto": "Cause 2 de dano a todas as Entidades inimigas e 3 à Cornucópia inimiga."
+   },
+   "es": {
+    "nome": "Tandava",
+    "texto": "Inflige 2 de daño a todas las Entidades enemigas y 3 a la Cornucopia enemiga."
+   }
+  },
+  "hin_vajra": {
+   "en": {
+    "nome": "Vajra",
+    "texto": "The bearer gains +2 ATK. When equipped, deal 2 damage to an enemy Entity."
+   },
+   "pt": {
+    "nome": "Vajra",
+    "texto": "A portadora ganha +2 ATK. Ao equipar, cause 2 de dano a uma Entidade inimiga."
+   },
+   "es": {
+    "nome": "Vajra",
+    "texto": "La portadora gana +2 ATK. Al equipar, inflige 2 de daño a una Entidad enemiga."
+   }
+  },
+  "hin_sudarshana_chakra": {
+   "en": {
+    "nome": "Sudarshana Chakra",
+    "texto": "The bearer gains +2/+1 and Rush. Whenever the bearer attacks, deal 1 damage to an enemy Entity."
+   },
+   "pt": {
+    "nome": "Sudarshana Chakra",
+    "texto": "A portadora ganha +2/+1 e Ímpeto. Sempre que ela atacar, cause 1 de dano a uma Entidade inimiga."
+   },
+   "es": {
+    "nome": "Sudarshana Chakra",
+    "texto": "La portadora gana +2/+1 e Ímpetu. Cada vez que ataque, inflige 1 de daño a una Entidad enemiga."
+   }
+  },
+  "hin_gandiva": {
+   "en": {
+    "nome": "Gandiva",
+    "texto": "The bearer gains +3/+1. Whenever the bearer attacks, deal 1 damage to all enemy Entities."
+   },
+   "pt": {
+    "nome": "Gandiva",
+    "texto": "A portadora ganha +3/+1. Sempre que ela atacar, cause 1 de dano a todas as Entidades inimigas."
+   },
+   "es": {
+    "nome": "Gandiva",
+    "texto": "La portadora gana +3/+1. Cada vez que ataque, inflige 1 de daño a todas las Entidades enemigas."
+   }
+  },
+  "hin_trishula": {
+   "en": {
+    "nome": "Trishula",
+    "texto": "The bearer gains +3/+1. Whenever the bearer attacks, deal 1 damage to an enemy Entity. When the bearer dies, deal 2 damage to all enemy Entities."
+   },
+   "pt": {
+    "nome": "Trishula",
+    "texto": "A portadora ganha +3/+1. Sempre que ela atacar, cause 1 de dano a uma Entidade inimiga. Quando ela morrer, cause 2 de dano a todas as inimigas."
+   },
+   "es": {
+    "nome": "Trishula",
+    "texto": "La portadora gana +3/+1. Cada vez que ataque, inflige 1 de daño a una Entidad enemiga. Cuando muera, inflige 2 a todas las enemigas."
+   }
+  },
+  "bru_sapo_familiar": {
+   "en": {
+    "nome": "Toad Familiar",
+    "texto": "Last Breath: An enemy Entity gets -1/-1."
+   },
+   "pt": {
+    "nome": "Sapo Familiar",
+    "texto": "Último Sopro: Uma Entidade inimiga recebe -1/-1."
+   },
+   "es": {
+    "nome": "Sapo Familiar",
+    "texto": "Último Aliento: Una Entidad enemiga recibe -1/-1."
+   }
+  },
+  "bru_gato_preto": {
+   "en": {
+    "nome": "Black Cat",
+    "texto": "Stealth. Rebirth. (Nine lives: when it dies, it returns to your hand once.)"
+   },
+   "pt": {
+    "nome": "Gato Preto",
+    "texto": "Furtivo. Renascer. (Sete vidas: quando morrer, volta para a sua mão uma vez.)"
+   },
+   "es": {
+    "nome": "Gato Negro",
+    "texto": "Furtivo. Renacer. (Siete vidas: cuando muera, vuelve a tu mano una vez.)"
+   }
+  },
+  "bru_corvo_agourento": {
+   "en": {
+    "nome": "Ill-Omened Crow",
+    "texto": "Awaken: Your opponent discards 1 random card."
+   },
+   "pt": {
+    "nome": "Corvo Agourento",
+    "texto": "Despertar: O oponente descarta 1 carta aleatória."
+   },
+   "es": {
+    "nome": "Cuervo de Mal Agüero",
+    "texto": "Despertar: Tu oponente descarta 1 carta al azar."
+   }
+  },
+  "bru_strega_de_benevento": {
+   "en": {
+    "nome": "Strega of Benevento",
+    "texto": "Awaken: Summon a 1/1 Strix."
+   },
+   "pt": {
+    "nome": "Strega de Benevento",
+    "texto": "Despertar: Invoque uma Strix 1/1."
+   },
+   "es": {
+    "nome": "Strega de Benevento",
+    "texto": "Despertar: Invoca una Strix 1/1."
+   }
+  },
+  "bru_benandante": {
+   "en": {
+    "nome": "Benandante",
+    "texto": "Awaken: Freeze an enemy Entity (it can't attack on its next turn)."
+   },
+   "pt": {
+    "nome": "Benandante",
+    "texto": "Despertar: Congele uma Entidade inimiga (ela não ataca no próximo turno)."
+   },
+   "es": {
+    "nome": "Benandante",
+    "texto": "Despertar: Congela una Entidad enemiga (no ataca en su próximo turno)."
+   }
+  },
+  "bru_circe": {
+   "en": {
+    "nome": "Circe",
+    "texto": "Awaken: An enemy Entity becomes 1/1."
+   },
+   "pt": {
+    "nome": "Circe",
+    "texto": "Despertar: Uma Entidade inimiga passa a ser 1/1."
+   },
+   "es": {
+    "nome": "Circe",
+    "texto": "Despertar: Una Entidad enemiga pasa a ser 1/1."
+   }
+  },
+  "bru_medeia": {
+   "en": {
+    "nome": "Medea, the Poisoner",
+    "texto": "Awaken: An enemy Entity gets -2 ATK."
+   },
+   "pt": {
+    "nome": "Medeia, a Envenenadora",
+    "texto": "Despertar: Uma Entidade inimiga recebe -2 ATK."
+   },
+   "es": {
+    "nome": "Medea, la Envenenadora",
+    "texto": "Despertar: Una Entidad enemiga recibe -2 ATK."
+   }
+  },
+  "bru_bruxa_de_endor": {
+   "en": {
+    "nome": "The Witch of Endor",
+    "texto": "Stealth. Awaken: Return an Entity from your graveyard to your hand."
+   },
+   "pt": {
+    "nome": "A Bruxa de Endor",
+    "texto": "Furtivo. Despertar: Devolva uma Entidade do seu cemitério para a mão."
+   },
+   "es": {
+    "nome": "La Bruja de Endor",
+    "texto": "Furtivo. Despertar: Devuelve una Entidad de tu cementerio a tu mano."
+   }
+  },
+  "bru_baba_yaga": {
+   "en": {
+    "nome": "Baba Yaga",
+    "texto": "Sacrifice 1. Awaken: Destroy an enemy Entity."
+   },
+   "pt": {
+    "nome": "Baba Yaga",
+    "texto": "Sacrifício 1. Despertar: Destrua uma Entidade inimiga."
+   },
+   "es": {
+    "nome": "Baba Yaga",
+    "texto": "Sacrificio 1. Despertar: Destruye una Entidad enemiga."
+   }
+  },
+  "bru_cerridwen": {
+   "en": {
+    "nome": "Cerridwen, Lady of the Cauldron",
+    "texto": "Awaken: Draw 2 cards."
+   },
+   "pt": {
+    "nome": "Cerridwen, Senhora do Caldeirão",
+    "texto": "Despertar: Compre 2 cartas."
+   },
+   "es": {
+    "nome": "Cerridwen, Señora del Caldero",
+    "texto": "Despertar: Roba 2 cartas."
+   }
+  },
+  "bru_a_morrigan": {
+   "en": {
+    "nome": "The Morrígan",
+    "texto": "Rush. Whenever another Entity dies, summon a 1/1 Raven."
+   },
+   "pt": {
+    "nome": "A Morrigan",
+    "texto": "Ímpeto. Sempre que outra Entidade morrer, invoque um Corvo 1/1."
+   },
+   "es": {
+    "nome": "La Morrígan",
+    "texto": "Ímpetu. Cada vez que otra Entidad muera, invoca un Cuervo 1/1."
+   }
+  },
+  "bru_hecate": {
+   "en": {
+    "nome": "Hecate, Lady of the Crossroads",
+    "texto": "Sacrifice 1. Awaken: All enemy Entities get -2/-2."
+   },
+   "pt": {
+    "nome": "Hécate, Senhora das Encruzilhadas",
+    "texto": "Sacrifício 1. Despertar: Todas as Entidades inimigas recebem -2/-2."
+   },
+   "es": {
+    "nome": "Hécate, Señora de las Encrucijadas",
+    "texto": "Sacrificio 1. Despertar: Todas las Entidades enemigas reciben -2/-2."
+   }
+  },
+  "bru_mau_olhado": {
+   "en": {
+    "nome": "Evil Eye",
+    "texto": "When your opponent plays an Entity, it is frozen and gets -1/-1."
+   },
+   "pt": {
+    "nome": "Mau-Olhado",
+    "texto": "Quando o oponente jogar uma Entidade, ela fica congelada e recebe -1/-1."
+   },
+   "es": {
+    "nome": "Mal de Ojo",
+    "texto": "Cuando tu oponente juegue una Entidad, esta queda congelada y recibe -1/-1."
+   }
+  },
+  "bru_circulo_de_sal": {
+   "en": {
+    "nome": "Salt Circle",
+    "texto": "When one of your Entities is attacked, return the attacker to its owner's hand. Your opponent discards 1 random card. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Círculo de Sal",
+    "texto": "Quando atacarem uma Entidade sua, devolva o atacante para a mão do dono. O oponente descarta 1 carta aleatória. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Círculo de Sal",
+    "texto": "Cuando ataquen a una Entidad tuya, devuelve el atacante a su mano. Tu oponente descarta 1 carta al azar. Roba 1 carta."
+   }
+  },
+  "bru_garrafa_de_bruxa": {
+   "en": {
+    "nome": "Witch Bottle",
+    "texto": "When your opponent plays a Rite, counter it. Your opponent discards 1 random card."
+   },
+   "pt": {
+    "nome": "Garrafa de Bruxa",
+    "texto": "Quando o oponente jogar um Rito, anule-o. O oponente descarta 1 carta aleatória."
+   },
+   "es": {
+    "nome": "Botella de Bruja",
+    "texto": "Cuando tu oponente juegue un Rito, anúlalo. Tu oponente descarta 1 carta al azar."
+   }
+  },
+  "bru_boneco_de_cera": {
+   "en": {
+    "nome": "Wax Poppet",
+    "texto": "When an allied Entity takes damage: if an attacker dealt it, the attacker takes 4 damage and gets -2/-2."
+   },
+   "pt": {
+    "nome": "Boneco de Cera",
+    "texto": "Quando uma Entidade aliada sofrer dano: se veio de um atacante, ele sofre 4 de dano e recebe -2/-2."
+   },
+   "es": {
+    "nome": "Muñeco de Cera",
+    "texto": "Cuando una Entidad aliada reciba daño: si vino de un atacante, este recibe 4 de daño y -2/-2."
+   }
+  },
+  "bru_pocao_de_beladona": {
+   "en": {
+    "nome": "Belladonna Potion",
+    "texto": "Heal an allied Entity for 2. It gains +1/+1."
+   },
+   "pt": {
+    "nome": "Poção de Beladona",
+    "texto": "Cure 2 de Vida de uma Entidade aliada; ela ganha +1/+1."
+   },
+   "es": {
+    "nome": "Poción de Belladona",
+    "texto": "Cura 2 de Vida a una Entidad aliada; esta gana +1/+1."
+   }
+  },
+  "bru_pacto_na_encruzilhada": {
+   "en": {
+    "nome": "Crossroads Pact",
+    "texto": "Gain 2 Faith this turn."
+   },
+   "pt": {
+    "nome": "Pacto na Encruzilhada",
+    "texto": "Ganhe 2 de Fé neste turno."
+   },
+   "es": {
+    "nome": "Pacto en la Encrucijada",
+    "texto": "Gana 2 de Fe este turno."
+   }
+  },
+  "bru_seidr": {
+   "en": {
+    "nome": "Seiðr",
+    "texto": "Draw an Entity from your deck."
+   },
+   "pt": {
+    "nome": "Seiðr",
+    "texto": "Compre uma Entidade do seu deck."
+   },
+   "es": {
+    "nome": "Seiðr",
+    "texto": "Roba una Entidad de tu mazo."
+   }
+  },
+  "bru_po_de_ossos": {
+   "en": {
+    "nome": "Bone Dust",
+    "texto": "Deal 2 damage to all enemy Entities. Your opponent discards 1 random card."
+   },
+   "pt": {
+    "nome": "Pó de Ossos",
+    "texto": "Cause 2 de dano a todas as Entidades inimigas. O oponente descarta 1 carta aleatória."
+   },
+   "es": {
+    "nome": "Polvo de Huesos",
+    "texto": "Inflige 2 de daño a todas las Entidades enemigas. Tu oponente descarta 1 carta al azar."
+   }
+  },
+  "bru_maleficio": {
+   "en": {
+    "nome": "Maleficium",
+    "texto": "An enemy Entity gets -3/-2 and is silenced (it loses keywords and effects)."
+   },
+   "pt": {
+    "nome": "Malefício",
+    "texto": "Uma Entidade inimiga recebe -3/-2 e é silenciada (perde palavras-chave e efeitos)."
+   },
+   "es": {
+    "nome": "Maleficio",
+    "texto": "Una Entidad enemiga recibe -3/-2 y queda silenciada (pierde palabras clave y efectos)."
+   }
+  },
+  "bru_saba_de_walpurgis": {
+   "en": {
+    "nome": "Walpurgis Sabbath",
+    "texto": "All your Entities gain +1/+1. Summon a 1/2 Hare."
+   },
+   "pt": {
+    "nome": "Sabá de Walpurgis",
+    "texto": "Todas as suas Entidades ganham +1/+1. Invoque uma Lebre 1/2."
+   },
+   "es": {
+    "nome": "Aquelarre de Walpurgis",
+    "texto": "Todas tus Entidades ganan +1/+1. Invoca una Liebre 1/2."
+   }
+  },
+  "bru_vassoura": {
+   "en": {
+    "nome": "Broomstick",
+    "texto": "The bearer gains +1/+2 and Rush."
+   },
+   "pt": {
+    "nome": "Vassoura",
+    "texto": "A portadora ganha +1/+2 e Ímpeto."
+   },
+   "es": {
+    "nome": "Escoba",
+    "texto": "La portadora gana +1/+2 e Ímpetu."
+   }
+  },
+  "bru_livro_das_sombras": {
+   "en": {
+    "nome": "Book of Shadows",
+    "texto": "Uses 4. The bearer gains +1/+1. Whenever the bearer attacks, draw 1 card and spend 1 Use. At 0 Uses, this goes to the graveyard."
+   },
+   "pt": {
+    "nome": "Livro das Sombras",
+    "texto": "Usos 4. A portadora ganha +1/+1. Sempre que ela atacar, compre 1 carta e gaste 1 Uso. Sem Usos, vai ao cemitério."
+   },
+   "es": {
+    "nome": "Libro de las Sombras",
+    "texto": "Usos 4. La portadora gana +1/+1. Cada vez que ataque, roba 1 carta y gasta 1 Uso. Sin Usos, va al cementerio."
+   }
+  },
+  "bru_caldeirao_de_renascimento": {
+   "en": {
+    "nome": "Cauldron of Rebirth",
+    "texto": "The bearer gains +1/+2. When the bearer dies, return an Entity from your graveyard to the field."
+   },
+   "pt": {
+    "nome": "Caldeirão de Renascimento",
+    "texto": "A portadora ganha +1/+2. Quando ela morrer, devolva uma Entidade do seu cemitério para o campo."
+   },
+   "es": {
+    "nome": "Caldero del Renacimiento",
+    "texto": "La portadora gana +1/+2. Cuando muera, devuelve una Entidad de tu cementerio al campo."
+   }
+  },
+  "alt_homunculo": {
+   "en": {
+    "nome": "Homunculus",
+    "texto": "Last Breath: Draw 1 card."
+   },
+   "pt": {
+    "nome": "Homúnculo",
+    "texto": "Último Sopro: Compre 1 carta."
+   },
+   "es": {
+    "nome": "Homúnculo",
+    "texto": "Último Aliento: Roba 1 carta."
+   }
+  },
+  "alt_edward_kelley": {
+   "en": {
+    "nome": "Edward Kelley, the Seer",
+    "texto": "Stealth. Awaken: Draw a Relic from your deck."
+   },
+   "pt": {
+    "nome": "Edward Kelley, o Vidente",
+    "texto": "Furtivo. Despertar: Compre uma Relíquia do seu deck."
+   },
+   "es": {
+    "nome": "Edward Kelley, el Vidente",
+    "texto": "Furtivo. Despertar: Roba una Reliquia de tu mazo."
+   }
+  },
+  "alt_silfo": {
+   "en": {
+    "nome": "Sylph",
+    "texto": "Rush. Stealth."
+   },
+   "pt": {
+    "nome": "Silfo",
+    "texto": "Ímpeto. Furtivo."
+   },
+   "es": {
+    "nome": "Silfo",
+    "texto": "Ímpetu. Furtivo."
+   }
+  },
+  "alt_vassago": {
+   "en": {
+    "nome": "Vassago, the Prince Who Finds",
+    "texto": "Awaken: Draw a Seal from your deck."
+   },
+   "pt": {
+    "nome": "Vassago, o Príncipe que Encontra",
+    "texto": "Despertar: Compre um Selo do seu deck."
+   },
+   "es": {
+    "nome": "Vassago, el Príncipe que Encuentra",
+    "texto": "Despertar: Roba un Sello de tu mazo."
+   }
+  },
+  "alt_orobas": {
+   "en": {
+    "nome": "Orobas, the Faithful Prince",
+    "texto": "Guard. At the start of your turn, heal this for 2."
+   },
+   "pt": {
+    "nome": "Orobas, o Príncipe Fiel",
+    "texto": "Guarda. No início do seu turno, cure 2 de Vida desta."
+   },
+   "es": {
+    "nome": "Orobas, el Príncipe Fiel",
+    "texto": "Guardia. Al inicio de tu turno, cura 2 de Vida a esta."
+   }
+  },
+  "alt_andras": {
+   "en": {
+    "nome": "Andras, Sower of Discord",
+    "texto": "Awaken: Destroy an enemy Entity that costs 3 or less."
+   },
+   "pt": {
+    "nome": "Andras, o Semeador de Discórdia",
+    "texto": "Despertar: Destrua uma Entidade inimiga de custo 3 ou menos."
+   },
+   "es": {
+    "nome": "Andras, el Sembrador de Discordia",
+    "texto": "Despertar: Destruye una Entidad enemiga de costo 3 o menos."
+   }
+  },
+  "alt_marbas": {
+   "en": {
+    "nome": "Marbas, Lion of Diseases",
+    "texto": "Awaken: Silence an enemy Entity (it loses keywords and effects)."
+   },
+   "pt": {
+    "nome": "Marbas, o Leão das Doenças",
+    "texto": "Despertar: Silencie uma Entidade inimiga (ela perde palavras-chave e efeitos)."
+   },
+   "es": {
+    "nome": "Marbas, el León de las Enfermedades",
+    "texto": "Despertar: Silencia una Entidad enemiga (pierde palabras clave y efectos)."
+   }
+  },
+  "alt_astaroth": {
+   "en": {
+    "nome": "Astaroth, the Revealing Duke",
+    "texto": "Sacrifice 1. Awaken: Draw 2 cards."
+   },
+   "pt": {
+    "nome": "Astaroth, o Duque Revelador",
+    "texto": "Sacrifício 1. Despertar: Compre 2 cartas."
+   },
+   "es": {
+    "nome": "Astaroth, el Duque Revelador",
+    "texto": "Sacrificio 1. Despertar: Roba 2 cartas."
+   }
+  },
+  "alt_dantalion": {
+   "en": {
+    "nome": "Dantalion of a Thousand Faces",
+    "texto": "Sacrifice 1. Awaken: Take control of an enemy Entity."
+   },
+   "pt": {
+    "nome": "Dantalion, das Mil Faces",
+    "texto": "Sacrifício 1. Despertar: Domine uma Entidade inimiga."
+   },
+   "es": {
+    "nome": "Dantalion, el de las Mil Caras",
+    "texto": "Sacrificio 1. Despertar: Domina una Entidad enemiga."
+   }
+  },
+  "alt_paimon": {
+   "en": {
+    "nome": "Paimon, King of the West",
+    "texto": "Awaken: Summon two 1/1 Spirits of Paimon."
+   },
+   "pt": {
+    "nome": "Paimon, Rei do Oeste",
+    "texto": "Despertar: Invoque dois Espíritos de Paimon 1/1."
+   },
+   "es": {
+    "nome": "Paimon, Rey del Oeste",
+    "texto": "Despertar: Invoca dos Espíritus de Paimon 1/1."
+   }
+  },
+  "alt_babalon": {
+   "en": {
+    "nome": "Babalon, the Scarlet Woman",
+    "texto": "Sacrifice 1. Whenever another Entity dies, this gains +1/+1."
+   },
+   "pt": {
+    "nome": "Babalon, a Mulher Escarlate",
+    "texto": "Sacrifício 1. Sempre que outra Entidade morrer, esta ganha +1/+1."
+   },
+   "es": {
+    "nome": "Babalon, la Mujer Escarlata",
+    "texto": "Sacrificio 1. Cada vez que otra Entidad muera, esta gana +1/+1."
+   }
+  },
+  "alt_anjo_guardiao": {
+   "en": {
+    "nome": "Holy Guardian Angel",
+    "texto": "Guard. Rebirth. Awaken: Heal your Cornucopia for 4."
+   },
+   "pt": {
+    "nome": "Anjo Guardião Sagrado",
+    "texto": "Guarda. Renascer. Despertar: Cure 4 da sua Cornucópia."
+   },
+   "es": {
+    "nome": "Santo Ángel Guardián",
+    "texto": "Guardia. Renacer. Despertar: Cura 4 a tu Cornucopia."
+   }
+  },
+  "alt_pentagrama_flamejante": {
+   "en": {
+    "nome": "Blazing Pentagram",
+    "texto": "When your opponent plays a Rite, counter it. Draw 1 card and heal your Cornucopia for 2."
+   },
+   "pt": {
+    "nome": "Pentagrama Flamejante",
+    "texto": "Quando o oponente jogar um Rito, anule-o. Compre 1 carta e cure 2 da sua Cornucópia."
+   },
+   "es": {
+    "nome": "Pentagrama Flamígero",
+    "texto": "Cuando tu oponente juegue un Rito, anúlalo. Roba 1 carta y cura 2 a tu Cornucopia."
+   }
+  },
+  "alt_selo_de_salomao": {
+   "en": {
+    "nome": "Seal of Solomon",
+    "texto": "When your opponent plays an Entity, counter it (it goes to the graveyard). Draw 1 card."
+   },
+   "pt": {
+    "nome": "Selo de Salomão",
+    "texto": "Quando o oponente jogar uma Entidade, anule-a (ela vai ao cemitério). Compre 1 carta."
+   },
+   "es": {
+    "nome": "Sello de Salomón",
+    "texto": "Cuando tu oponente juegue una Entidad, anúlala (va al cementerio). Roba 1 carta."
+   }
+  },
+  "alt_solve_et_coagula": {
+   "en": {
+    "nome": "Solve et Coagula",
+    "texto": "When an allied Entity dies, return an Entity from your graveyard to your hand. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Solve et Coagula",
+    "texto": "Quando uma Entidade aliada morrer, devolva uma Entidade do seu cemitério para a mão. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Solve et Coagula",
+    "texto": "Cuando una Entidad aliada muera, devuelve una Entidad de tu cementerio a tu mano. Roba 1 carta."
+   }
+  },
+  "alt_sigilo_de_spare": {
+   "en": {
+    "nome": "Spare's Sigil",
+    "texto": "At the end of your opponent's turn, they discard 1 random card. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Sigilo de Spare",
+    "texto": "No fim do turno do oponente, ele descarta 1 carta aleatória. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Sigilo de Spare",
+    "texto": "Al final del turno enemigo, este descarta 1 carta al azar. Roba 1 carta."
+   }
+  },
+  "alt_lemegeton": {
+   "en": {
+    "nome": "Lemegeton, the Lesser Key",
+    "texto": "Draw an Entity from your deck."
+   },
+   "pt": {
+    "nome": "Lemegeton, a Chave Menor",
+    "texto": "Compre uma Entidade do seu deck."
+   },
+   "es": {
+    "nome": "Lemegeton, la Llave Menor",
+    "texto": "Roba una Entidad de tu mazo."
+   }
+  },
+  "alt_azoth": {
+   "en": {
+    "nome": "Azoth",
+    "texto": "Your max Faith increases by 1 (up to 8). Gain 1 Faith this turn. Draw 1 card."
+   },
+   "pt": {
+    "nome": "Azoth",
+    "texto": "Sua Fé máxima sobe 1 (até 8). Ganhe 1 de Fé neste turno. Compre 1 carta."
+   },
+   "es": {
+    "nome": "Azoth",
+    "texto": "Tu Fe máxima sube 1 (hasta 8). Gana 1 de Fe este turno. Roba 1 carta."
+   }
+  },
+  "alt_conjuracao_elementais": {
+   "en": {
+    "nome": "Conjuration of the Elementals",
+    "texto": "Summon two 1/1 Elementals."
+   },
+   "pt": {
+    "nome": "Conjuração dos Elementais",
+    "texto": "Invoque dois Elementais 1/1."
+   },
+   "es": {
+    "nome": "Conjuración de los Elementales",
+    "texto": "Invoca dos Elementales 1/1."
+   }
+  },
+  "alt_ritual_menor_pentagrama": {
+   "en": {
+    "nome": "Lesser Banishing Ritual of the Pentagram",
+    "texto": "Return all enemy Entities to their owner's hand."
+   },
+   "pt": {
+    "nome": "Ritual Menor do Pentagrama",
+    "texto": "Devolva todas as Entidades inimigas para a mão do dono."
+   },
+   "es": {
+    "nome": "Ritual Menor del Pentagrama",
+    "texto": "Devuelve todas las Entidades enemigas a su mano."
+   }
+  },
+  "alt_abrahadabra": {
+   "en": {
+    "nome": "Abrahadabra",
+    "texto": "Deal 3 damage to the enemy Cornucopia."
+   },
+   "pt": {
+    "nome": "Abrahadabra",
+    "texto": "Cause 3 de dano à Cornucópia inimiga."
+   },
+   "es": {
+    "nome": "Abrahadabra",
+    "texto": "Inflige 3 de daño a la Cornucopia enemiga."
+   }
+  },
+  "alt_anel_de_salomao": {
+   "en": {
+    "nome": "Ring of Solomon",
+    "texto": "The bearer gains +1/+2 and Rush. Whenever the bearer attacks, silence an enemy Entity."
+   },
+   "pt": {
+    "nome": "Anel de Salomão",
+    "texto": "A portadora ganha +1/+2 e Ímpeto. Sempre que ela atacar, silencie uma Entidade inimiga."
+   },
+   "es": {
+    "nome": "Anillo de Salomón",
+    "texto": "La portadora gana +1/+2 e Ímpetu. Cada vez que ataque, silencia una Entidad enemiga."
+   }
+  },
+  "alt_sigillum_dei_aemeth": {
+   "en": {
+    "nome": "Sigillum Dei Aemeth",
+    "texto": "The bearer gains +3 Health and Guard. When the bearer dies, draw 1 card."
+   },
+   "pt": {
+    "nome": "Sigillum Dei Aemeth",
+    "texto": "A portadora ganha +3 Vida e Guarda. Quando ela morrer, compre 1 carta."
+   },
+   "es": {
+    "nome": "Sigillum Dei Aemeth",
+    "texto": "La portadora gana +3 Vida y Guardia. Cuando muera, roba 1 carta."
+   }
+  },
+  "alt_pedra_de_visao": {
+   "en": {
+    "nome": "Dee's Shew Stone",
+    "texto": "The bearer gains +1/+3."
+   },
+   "pt": {
+    "nome": "Pedra de Visão de Dee",
+    "texto": "A portadora ganha +1/+3."
+   },
+   "es": {
+    "nome": "Piedra de Visión de Dee",
+    "texto": "La portadora gana +1/+3."
+   }
+  },
+  "aby_choronzon": {
+   "en": {
+    "nome": "Choronzon, Dweller in the Abyss",
+    "texto": "Can only be summoned by Sigil 333. Awaken: You win the game."
+   },
+   "pt": {
+    "nome": "Choronzon, Habitante do Abismo",
+    "texto": "Só pode ser invocado pelo Sigilo 333. Despertar: Você vence a partida."
+   },
+   "es": {
+    "nome": "Choronzon, Morador del Abismo",
+    "texto": "Solo puede invocarse con el Sigilo 333. Despertar: Ganas la partida."
+   }
+  },
+  "aby_triangulo": {
+   "en": {
+    "nome": "Triangle of Art",
+    "texto": "The bearer gains +2 Health. Counts as the Triangle for Sigil 333."
+   },
+   "pt": {
+    "nome": "Triângulo da Arte",
+    "texto": "A portadora ganha +2 Vida. Conta como o Triângulo do Sigilo 333."
+   },
+   "es": {
+    "nome": "Triángulo del Arte",
+    "texto": "La portadora gana +2 Vida. Cuenta como el Triángulo del Sigilo 333."
+   }
+  },
+  "aby_circulo": {
+   "en": {
+    "nome": "Circle of Protection",
+    "texto": "When one of your Entities is attacked, the attacker takes 2 damage. While face down, counts as the Circle for Sigil 333."
+   },
+   "pt": {
+    "nome": "Círculo de Proteção",
+    "texto": "Quando atacarem uma Entidade sua, o atacante sofre 2 de dano. Virado para baixo, conta como o Círculo do Sigilo 333."
+   },
+   "es": {
+    "nome": "Círculo de Protección",
+    "texto": "Cuando ataquen a una Entidad tuya, el atacante recibe 2 de daño. Boca abajo, cuenta como el Círculo del Sigilo 333."
+   }
+  },
+  "aby_sigilo": {
+   "en": {
+    "nome": "Sigil 333",
+    "texto": "If you control Triangle of Art and Circle of Protection and have Choronzon in your hand, summon it. Otherwise, draw 1 card."
+   },
+   "pt": {
+    "nome": "Sigilo 333",
+    "texto": "Se você controla Triângulo da Arte e Círculo de Proteção e tem Choronzon na mão, invoque-o. Senão, compre 1 carta."
+   },
+   "es": {
+    "nome": "Sigilo 333",
+    "texto": "Si controlas Triángulo del Arte y Círculo de Protección y tienes a Choronzon en la mano, invócalo. Si no, roba 1 carta."
+   }
+  }
+ },
+ "tokens": {
+  "Queixada": {
+   "en": "Peccary",
+   "pt": "Queixada",
+   "es": "Pecarí"
+  },
+  "Veado Branco": {
+   "en": "White Deer",
+   "pt": "Veado Branco",
+   "es": "Venado Blanco"
+  },
+  "Vitória-régia": {
+   "en": "Water Lily",
+   "pt": "Vitória-régia",
+   "es": "Victoria Regia"
+  },
+  "Aruanã": {
+   "en": "Arowana",
+   "pt": "Aruanã",
+   "es": "Arahuana"
+  },
+  "Espírito": {
+   "en": "Spirit",
+   "pt": "Espírito",
+   "es": "Espíritu"
+  },
+  "Osso Erguido": {
+   "en": "Risen Bones",
+   "pt": "Osso Erguido",
+   "es": "Hueso Alzado"
+  },
+  "Xiaotian Quan, Cão Celestial": {
+   "en": "Xiaotian Quan, Celestial Hound",
+   "pt": "Xiaotian Quan, Cão Celestial",
+   "es": "Xiaotian Quan, Perro Celestial"
+  },
+  "Strix": {
+   "en": "Strix",
+   "pt": "Strix",
+   "es": "Strix"
+  },
+  "Corvo": {
+   "en": "Raven",
+   "pt": "Corvo",
+   "es": "Cuervo"
+  },
+  "Lebre": {
+   "en": "Hare",
+   "pt": "Lebre",
+   "es": "Liebre"
+  },
+  "Espírito de Paimon": {
+   "en": "Spirit of Paimon",
+   "pt": "Espírito de Paimon",
+   "es": "Espíritu de Paimon"
+  },
+  "Elemental": {
+   "en": "Elemental",
+   "pt": "Elemental",
+   "es": "Elemental"
+  }
+ }
+}

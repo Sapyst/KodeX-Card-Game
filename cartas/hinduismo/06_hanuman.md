@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Ímpeto. Sempre que atacar, ganha +1 ATK permanente.
+Ímpeto. Sempre que esta atacar, ganha +1 ATK.
 
 ## Contexto mitológico
 Hanuman é o vanara (homem-macaco) filho do deus do vento Vayu — por isso Anjaneya, Pavanaputra, Maruti — e o devoto perfeito de Rama. No Sundara Kanda do Ramayana, quando os aliados de Rama chegam à beira do oceano sem saber como alcançar Lanka, Hanuman cresce até o tamanho de uma montanha e salta os cem *yojanas* de mar num único impulso. Em Lanka, encolhe ao tamanho de um gato para procurar Sita, encontra-a no bosque de ashoka, deixa-se capturar para falar com Ravana e, quando os rakshasas incendeiam sua cauda, usa o fogo para queimar a cidade inteira antes de voltar.

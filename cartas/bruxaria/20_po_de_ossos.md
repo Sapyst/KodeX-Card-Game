@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Todas as Entidades inimigas sofrem 2 de dano; o oponente descarta 1 carta aleatória.
+Cause 2 de dano a todas as Entidades inimigas. O oponente descarta 1 carta aleatória.
 
 ## Contexto mitológico
 Osso moído, cinza de pira e terra de sepultura são os ingredientes da necromancia clássica. Erictho, a bruxa tessália de Lucano (*Farsália* VI.533–569), recolhe nos campos de batalha e nas piras funerárias "as cinzas que ainda fumegam e os ossos que ainda ardem dos jovens", arranca com os dentes os pregos e as cordas dos enforcados, e com isso prepara o caldo que fará um soldado morto falar. Medeia, no caldeirão de Ovídio (*Metamorfoses* VII.264–274), junta ossos, asas de coruja e a cabeça de um corvo de nove gerações. As *defixiones* gregas e romanas eram depositadas em túmulos para que os mortos as levassem aos deuses de baixo.

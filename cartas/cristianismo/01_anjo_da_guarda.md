@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Guarda. Último Sopro: cura 2 da sua Cornucópia.
+Guarda. Último Sopro: Cure 2 da sua Cornucópia.
 
 ## Contexto mitológico
 A ideia de um anjo designado a cada pessoa vem do Salmo 91,11 ("ele ordenou aos seus anjos que te guardem em todos os teus caminhos") e de Mt 18,10, onde os pequeninos têm "seus anjos nos céus" diante do Pai. A Carta aos Hebreus chama os anjos de "espíritos enviados em serviço" (Hb 1,14), e o Livro de Tobias mostra o modelo completo: Rafael, disfarçado de viajante, acompanha o jovem Tobias por todo o caminho.

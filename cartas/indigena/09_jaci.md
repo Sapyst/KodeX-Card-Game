@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Lendária. Despertar: invoca uma Vitória-régia 0/2 com Guarda. No fim do seu turno, cura 2 em todas as Entidades aliadas.
+Despertar: Invoque uma Vitória-régia 0/2 com Guarda. No fim do seu turno, cure 2 de Vida de todas as suas Entidades.
 
 ## Contexto mitológico
 *Jacy* (Jaci, Yacy) é a Lua no ciclo tupi-guarani: feminina, irmã ou esposa do Sol Guaraci, protetora das plantas, da reprodução e dos amantes. Couto de Magalhães (*O Selvagem*, 1876) recolheu cantos em que as mulheres pedem à lua cheia (*Cairé*) e à lua nova (*Catiti*) que tragam o amado de volta; Barbosa Rodrigues (*Poranduba Amazonense*) traz *Jacy-tatá*, "fogo da lua", para as estrelas. Entre os Mbyá-Guarani, *Jasy* é um dos gêmeos míticos, irmão de Kuaray, o Sol (Cadogan, *Ayvu Rapyta*, 1959).

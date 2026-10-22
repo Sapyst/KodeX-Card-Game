@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Lendária. Renascer. Despertar: fogo do céu — 2 de dano a todas as Entidades inimigas.
+Renascer. Despertar: Cause 2 de dano a todas as Entidades inimigas.
 
 ## Contexto mitológico
 Elias, o tesbita, surge sem genealogia em 1 Reis 17 anunciando seca ao rei Acab. Alimentado por corvos junto à torrente de Carit, hospeda-se com a viúva de Sarepta, cuja farinha e azeite não acabam; quando o filho dela morre, Elias se estende três vezes sobre o menino e o devolve vivo à mãe — a primeira ressurreição narrada na Bíblia (1Rs 17,17-24). No Monte Carmelo desafia 450 profetas de Baal: o fogo do Senhor desce e consome o holocausto, a lenha, as pedras e a água da vala (1Rs 18,38). Duas vezes mais, fogo do céu consome os cinquenta soldados enviados para prendê-lo (2Rs 1,10-12).

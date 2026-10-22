@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: devolve uma Entidade inimiga à mão do dono.
+Despertar: Devolva uma Entidade inimiga para a mão do dono.
 
 ## Contexto mitológico
 A Iara (Uiara, Mãe-d'água) é a sereia dos rios amazônicos: mulher de cabelos longos e cauda de peixe que canta nas tardes e atrai pescadores para o fundo, de onde não voltam — ou voltam "encantados", sem juízo. A forma atual é do século XIX; antes dela, Fernão Cardim (c. 1584) e Gabriel Soares de Sousa (1587) descreviam o **Ipupiara**, "morador do fundo", monstro masculino que abraçava e esmagava os banhistas. Barbosa Rodrigues (*Poranduba Amazonense*, 1890) e Cascudo (*Geografia dos Mitos Brasileiros*) acompanham a transformação do monstro em sereia sob influência romântica.

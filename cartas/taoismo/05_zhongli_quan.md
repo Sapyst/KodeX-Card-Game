@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: devolva uma Entidade do seu cemitério para a sua mão.
+Despertar: Devolva uma Entidade do seu cemitério para a mão.
 
 ## Contexto mitológico
 Zhongli Quan (鍾離權), também Han Zhongli, é o decano dos Oito Imortais: um homem gordo de barriga à mostra, barba longa e cabelo preso em dois coques, abanando-se com um leque de folha de palmeira ou de plumas. A tradição o faz general da dinastia Han que, derrotado em campanha contra os tibetanos, fugiu para as montanhas e ali encontrou um velho mestre que lhe ensinou a alquimia. Seu leque ressuscita os mortos e transforma pedra em ouro e prata — ouro que ele distribuía aos pobres em anos de fome.

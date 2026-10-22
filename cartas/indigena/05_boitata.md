@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-Guarda. Sempre que sofrer dano de um ataque, causa 1 de dano ao atacante.
+Guarda. Sempre que um atacante a ferir, ele sofre 1 de dano.
 
 ## Contexto mitológico
 *Mboi-tatá*, "cobra de fogo" em tupi. É um dos seres mais antigos do folclore brasileiro: Anchieta, na carta de 1560, já fala do *Baetatá*, "coisa de fogo", que corre pelos campos à noite e persegue os indígenas. Cascudo (*Geografia dos Mitos Brasileiros*, 1947) reúne as variantes: serpente de fogo que vive nos rios e campos, de olhos enormes e luminosos; no Rio Grande do Sul, *Baitatá*; no sertão, confundida com o fogo-fátuo dos pântanos.

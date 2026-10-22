@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Quando uma Entidade inimiga atacar: ela sofre 4 de dano e recebe −1 ATK permanente.
+Quando atacarem uma Entidade sua, o atacante sofre 4 de dano e recebe -1 ATK.
 
 ## Contexto mitológico
 Baihu (白虎), o Tigre Branco do Oeste, é o Símbolo do outono, do metal e do ocaso: a estação em que se colhe e se executa. Na cosmologia dos Cinco Agentes o metal corta e o oeste é o lado do poente e dos mortos; o tigre, único predador que a China antiga temia de fato, é o guardião que pune. O *Shiji* o liga às sete mansões ocidentais; o *Fengsu tongyi* (Ying Shao, séc. II) diz que o tigre é "o senhor das feras", devora demônios e, pintado nas portas, afasta o mal. Em pinturas murais Han, o tigre do oeste caça com as costelas à mostra e a cauda erguida, muitas vezes com asas.

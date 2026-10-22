@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-A portadora ganha +2 ATK e Ímpeto. Quando ela ataca, causa 1 de dano a uma Entidade inimiga à sua escolha.
+A portadora ganha +2 ATK e Ímpeto. Sempre que ela atacar, cause 1 de dano a uma Entidade inimiga.
 
 ## Contexto mitológico
 "Tomou o seu cajado na mão, escolheu para si cinco pedras lisas do ribeiro e pô-las no alforje de pastor que trazia, e, com a funda na mão, foi-se aproximando do filisteu" (1Sm 17,40). Golias zomba do menino sem armadura; Davi responde que vem "em nome do Senhor dos Exércitos". "Davi meteu a mão no alforje, tomou dali uma pedra, atirou-a com a funda e feriu o filisteu na testa; a pedra cravou-se-lhe na testa, e ele caiu com o rosto em terra" (1Sm 17,49). Só então Davi corre, toma a espada do gigante e lhe corta a cabeça.

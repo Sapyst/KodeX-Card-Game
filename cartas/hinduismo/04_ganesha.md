@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: devolva uma Entidade inimiga à mão do dono.
+Despertar: Devolva uma Entidade inimiga para a mão do dono.
 
 ## Contexto mitológico
 Ganesha (Ganapati, Vinayaka) é o deus de cabeça de elefante, filho de Parvati e Shiva, e uma das divindades mais amadas da Índia: é invocado antes de qualquer começo — uma viagem, um casamento, a primeira página de um livro. Seu epíteto mais comum é *Vighnaharta* ou *Vighneshvara*, "o que remove (e governa) os obstáculos".

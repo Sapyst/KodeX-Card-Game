@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Guarda. Renascer. Despertar: cure 4 da sua Cornucópia.
+Guarda. Renascer. Despertar: Cure 4 da sua Cornucópia.
 
 ## Contexto mitológico
 O Anjo Guardião Sagrado é o objetivo de toda a alta magia a partir de Abramelin. *O Livro da Magia Sagrada de Abramelin o Mago*, atribuído a Abraão de Worms (c. 1458; mss. alemães dos séc. XVII–XVIII, versão francesa traduzida por Mathers em 1898), prescreve uma operação de seis meses (dezoito, nos mss. alemães) de oração, jejum e reclusão num oratório com janela para o oriente. Ao fim, o Anjo aparece ao mago, e só então — com a autoridade do Anjo — ele convoca os quatro príncipes infernais e seus servos e os obriga a jurar obediência; a partir daí os quadrados mágicos do livro funcionam.

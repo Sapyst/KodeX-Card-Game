@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Ao atacar, causa 2 de dano a uma Entidade inimiga à sua escolha.
+Sempre que esta atacar, cause 2 de dano a uma Entidade inimiga.
 
 ## Contexto mitológico
 Davi, o caçula de Jessé, pastoreia ovelhas em Belém quando Samuel o unge rei em segredo (1Sm 16,1-13). Pouco depois, no vale de Elá, o gigante filisteu Golias desafia Israel por quarenta dias. Davi recusa a armadura de Saul, escolhe cinco pedras lisas no riacho e, com a funda, acerta a testa do gigante antes de decapitá-lo com a própria espada dele (1Sm 17,40-51). "Tu vens a mim com espada e lança; eu venho a ti em nome do Senhor."

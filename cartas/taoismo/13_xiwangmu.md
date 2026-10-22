@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: reviva uma Entidade do seu cemitério para o campo.
+Despertar: Devolva uma Entidade do seu cemitério para o campo.
 
 ## Contexto mitológico
 Xiwangmu (西王母, Rainha Mãe do Oeste) começa como monstro e termina como soberana. No *Shanhaijing* ("Clássico das Montanhas Oeste") ela "tem forma humana, cauda de leopardo e dentes de tigre, assobia bem, cabelo desgrenhado com um adorno *sheng*; preside às pragas do céu e às cinco punições". Vive na Montanha de Jade, no Kunlun, servida por três pássaros azuis. O *Mu Tianzi zhuan* já a mostra brindando com o rei Mu de Zhou, e nos Han ela se torna a rainha de todos os imortais, objeto de um culto de massas no ano 3 a.C. (registrado no *Hanshu*).

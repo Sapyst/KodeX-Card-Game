@@ -11,7 +11,7 @@
 | Cópias no deck | 2 |
 
 ## Texto da carta
-A Entidade equipada ganha +1/+3.
+A portadora ganha +1/+3.
 
 ## Contexto mitológico
 A pedra de visão (*shew-stone*) é o cristal em que Edward Kelley via os anjos enquanto John Dee anotava. Dee possuía mais de uma: uma **bola de cristal** de quartzo, e o **espelho de obsidiana** polida — um espelho asteca de Tezcatlipoca, trazido do México após a conquista, que a tradição desde Horace Walpole associa a Dee e cuja origem mexicana a análise geoquímica confirmou em 2021 (Campbell et al., *Antiquity*). Ambos estão no British Museum ao lado dos discos de cera do Sigillum Dei Aemeth.

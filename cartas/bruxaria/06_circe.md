@@ -11,7 +11,7 @@
 | Cópias no deck | 1 |
 
 ## Texto da carta
-Despertar: uma Entidade inimiga à escolha vira porco — seu ATK e sua Vida passam a ser 1/1.
+Despertar: Uma Entidade inimiga passa a ser 1/1.
 
 ## Contexto mitológico
 Circe (*Kirke*), filha de Hélio e da oceânide Perse, vive na ilha de Eeia entre lobos e leões que já foram homens. Em *Odisseia* X, os companheiros de Odisseu bebem de sua taça de queijo, farinha, mel e "drogas funestas" (*pharmaka lygra*), ela os toca com a varinha e eles ganham cabeça, voz e cerdas de porco — mas conservam a mente humana. Odisseu resiste graças à erva *moly* dada por Hermes, obriga-a a desfazer o encanto e fica um ano em sua cama; é ela quem lhe ensina o caminho ao Hades e o modo de passar pelas Sereias e por Cila.

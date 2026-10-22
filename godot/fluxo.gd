@@ -546,12 +546,16 @@ func _ir(novo: String) -> void:
 			_abas_loja("boosters")
 			_botao(Rect2(90, 404, 180, 30), "Comprar booster", func() -> void:
 				confirmar(Sessao.t("Comprar 1 booster?"), Sessao.t("por %d de ouro") % Sessao.BOOSTER_PRECO, bo.comprar))
-			_botao(Rect2(70, 440, 220, 22), "", func() -> void:
-				var ops := [""] + Sessao.DECKS
-				Sessao.perfil["pacote"] = ops[(ops.find(str(Sessao.perfil.get("pacote", ""))) + 1) % ops.size()]
-				Sessao.salvar(); _ir("loja"); transicao = 0.0, {"desenho": _botao_pacote})
+			_botao(Rect2(70, 440, 220, 22), "", func() -> void: _ir("pacotes"), {"desenho": _botao_pacote})
 			if Sessao.boosters_gratis() > 0:
 				_botao(Rect2(90, 512, 180, 30), Sessao.t("Abrir grátis (%d)") % Sessao.boosters_gratis(), bo.comprar.bind(true))
+		"pacotes":                                     # escolher o pacote: os 7 de uma vez
+			for k in Booster.OPCOES_PACOTE.size():
+				var tr: String = Booster.OPCOES_PACOTE[k]
+				_botao(bo.rect_opcao_pacote(k), "", func() -> void:
+					Sessao.perfil["pacote"] = tr; Sessao.salvar(); _ir("loja"),
+					{"desenho": func(_b: Dictionary, r: Rect2, pr: float) -> void: bo.desenhar_opcao_pacote(r, pr, tr)})
+			_botao(Rect2(110, 584, 140, 26), "Voltar", func() -> void: _ir("loja"))
 		"cosmeticos":
 			_abas_loja("cosmeticos")
 			for k in Cosmeticos.VERSOS.size():
@@ -588,7 +592,10 @@ func _ir(novo: String) -> void:
 						bo.concluir()
 					else:
 						confirmar(Sessao.t("Trocar %d repetidas?") % n, Sessao.t("+%d moedas") % ganho, bo.concluir))
-				if Sessao.moedas() >= Sessao.BOOSTER_PRECO:
+				if Sessao.boosters_gratis() > 0:                # tem booster grátis guardado: abre direto, sem cobrar
+					_botao(Rect2(100, 574, 160, 26), Sessao.t("Abrir grátis (%d)") % Sessao.boosters_gratis(), func() -> void:
+						bo.concluir(); bo.comprar(true))
+				elif Sessao.moedas() >= Sessao.BOOSTER_PRECO:
 					_botao(Rect2(110, 574, 140, 26), "Abrir outro", func() -> void:
 						confirmar(Sessao.t("Comprar 1 booster?"), Sessao.t("por %d de ouro") % Sessao.BOOSTER_PRECO, func() -> void: bo.concluir(); bo.comprar()))
 		"decks":
@@ -1776,6 +1783,8 @@ func _teste_recorte() -> void:
 
 ## Booster: toques e arrastes vão para o corte/revelação, exceto quando caem num botão (repetidas, concluir).
 func _entrada_booster(ev: InputEvent) -> bool:
+	if not confirma.is_empty() or not pedido.is_empty():   # janela de confirmação/digitação aberta: o toque é dela
+		return false
 	var inv := get_canvas_transform().affine_inverse()
 	if ev is InputEventScreenTouch or (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT):
 		var p: Vector2 = inv * (ev.position as Vector2) - position
@@ -1914,6 +1923,8 @@ func _draw() -> void:
 			solo.desenhar_livre()
 		"enigmas":
 			solo.desenhar_enigmas()
+		"pacotes":
+			_cabecalho(Sessao.t("Escolha o pacote"), Sessao.t("a tradição da capa sai em 70% das cartas"))
 		"loja":
 			bo.desenhar_loja()
 		"cosmeticos":

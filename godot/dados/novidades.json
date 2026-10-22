@@ -1,5 +1,27 @@
 [
  {
+  "versao": "0.20.5-alpha",
+  "data": "22/10/2026",
+  "pt": [
+   "Pacotes temáticos com arte nova: cada tradição tem sua embalagem, com a Lendária dela na capa.",
+   "Escolher o pacote ficou rápido: a loja abre uma tela com os 7 pacotes lado a lado.",
+   "Correção: \"Abrir outro\" agora usa seus boosters grátis antes de pedir moedas.",
+   "Correção: os botões Sim e Não da confirmação na tela do booster voltaram a funcionar."
+  ],
+  "en": [
+   "Themed packs with new art: every tradition has its own wrapper, with its Legendary on the cover.",
+   "Picking a pack is quick now: the shop opens a screen with all 7 packs side by side.",
+   "Fix: \"Open another\" now uses your free boosters before asking for coins.",
+   "Fix: the Yes and No buttons on the booster screen confirmation work again."
+  ],
+  "es": [
+   "Sobres temáticos con arte nuevo: cada tradición tiene su envoltorio, con su Legendaria en la portada.",
+   "Elegir el sobre ahora es rápido: la tienda abre una pantalla con los 7 sobres lado a lado.",
+   "Corrección: \"Abrir otro\" ahora usa tus sobres gratis antes de pedir monedas.",
+   "Corrección: los botones Sí y No de la confirmación en la pantalla del sobre vuelven a funcionar."
+  ]
+ },
+ {
   "versao": "0.20.4-alpha",
   "data": "22/10/2026",
   "pt": [

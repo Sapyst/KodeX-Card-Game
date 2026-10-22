@@ -3723,5 +3723,20 @@
   "en": "Nothing to update.",
   "pt": "Nada para refazer.",
   "es": "Nada que actualizar."
+ },
+ "Escolha o pacote": {
+  "en": "Choose your pack",
+  "pt": "Escolha o pacote",
+  "es": "Elige tu sobre"
+ },
+ "a tradição da capa sai em 70% das cartas": {
+  "en": "70% of the cards come from the cover's tradition",
+  "pt": "70% das cartas vêm da tradição da capa",
+  "es": "el 70% de las cartas son de la tradición de la portada"
+ },
+ "Todas": {
+  "en": "All",
+  "pt": "Todas",
+  "es": "Todas"
  }
 }

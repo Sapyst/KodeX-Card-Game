@@ -266,7 +266,20 @@ func concluir() -> void:
 # ---------------- desenho ----------------
 ## Pacote holográfico: corpo com faixas arco-íris correndo, reflexo diagonal, serrilhado prata em cima e embaixo,
 ## logo KodeX, "BOOSTER" e moldura dourada. `topo_off`/`topo_rot`: deslocamento da ponta cortada.
-func pacote(ci: CanvasItem, c: Vector2, rot: float, topo_off := Vector2.ZERO, topo_rot := 0.0, alfa := 1.0, separado := false, esc := 1.0) -> void:
+## Pacote temático: embalagem nas cores da tradição, com a arte da Lendária dela numa janela e o nome embaixo.
+const ARTE_PACOTE := {"indigena": "ind_tupa", "cristianismo": "cri_sao_miguel_arcanjo", "taoismo": "tao_imperador_de_jade",
+	"hinduismo": "hin_shiva_nataraja", "bruxaria": "bru_hecate", "alta_magia": "alt_anjo_guardiao"}
+const COR_PACOTE := {"indigena": [Color("#8a3a1e"), Color("#3a160c")], "cristianismo": [Color("#34509a"), Color("#141c3c")],
+	"taoismo": [Color("#1f8a76"), Color("#0a3028")], "hinduismo": [Color("#c4661a"), Color("#4a1c06")],
+	"bruxaria": [Color("#5e3488"), Color("#1e0e2e")], "alta_magia": [Color("#3a3040"), Color("#0c0a10")]}
+
+
+func pacote(ci: CanvasItem, c: Vector2, rot: float, topo_off := Vector2.ZERO, topo_rot := 0.0, alfa := 1.0, separado := false, esc := 1.0, trad := "-") -> void:
+	if trad == "-":
+		trad = str(Sessao.perfil.get("pacote", ""))
+	if trad != "" and COR_PACOTE.has(trad):
+		_pacote_tematico(ci, c, rot, topo_off, topo_rot, alfa, separado, esc, trad)
+		return
 	var x0 := c.x - PW / 2
 	var y0 := c.y - PH / 2
 	var yc := y_corte() - centro_pacote().y + c.y
@@ -308,6 +321,74 @@ func pacote(ci: CanvasItem, c: Vector2, rot: float, topo_off := Vector2.ZERO, to
 		ci.draw_rect(Rect2(o.x, o.y + CRIMP, PW, (yc - c.y) - (o.y + CRIMP)), Color(Color("#2a1838").lerp(Color("#c8b0f0"), 0.3), alfa))
 		_crimp(ci, o.y, true, alfa)
 		ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+
+func _pacote_tematico(ci: CanvasItem, c: Vector2, rot: float, topo_off: Vector2, topo_rot: float, alfa: float, separado: bool, esc: float, trad: String) -> void:
+	var yc := y_corte() - centro_pacote().y + c.y
+	var cores: Array = COR_PACOTE[trad]
+	ci.draw_set_transform(c, rot, Vector2.ONE * esc)
+	var o := -Vector2(PW, PH) / 2
+	var corpo_y0 := (yc - c.y) if separado else o.y + CRIMP
+	ci.draw_rect(Rect2(o.x - 1, corpo_y0 - 1, PW + 2, o.y + PH - CRIMP - corpo_y0 + 2), Color(0.06, 0.04, 0.08, alfa))
+	var alt := o.y + PH - CRIMP - corpo_y0
+	for k in int(alt):                                    # degradê vertical da cor da tradição + leve brilho que respira
+		var u := k / maxf(1.0, alt)
+		var cor: Color = (cores[0] as Color).lerp(cores[1], u).lightened(0.06 * sin(f.tempo * 1.3 + u * 3.0))
+		ci.draw_line(Vector2(o.x, corpo_y0 + k), Vector2(o.x + PW, corpo_y0 + k), Color(cor, alfa))
+	# janela com a arte da Lendária (recorte da área de arte da carta)
+	var jan := Rect2(o.x + 12, o.y + CRIMP + 26, PW - 24, 86)
+	var tex := Carta.textura("carta", str(ARTE_PACOTE.get(trad, "")), "webp")
+	ci.draw_rect(jan.grow(2), Color(0.05, 0.03, 0.06, alfa))
+	if tex:
+		var tw := float(tex.get_width())
+		var th := float(tex.get_height())
+		var art := Rect2(tw * 0.114, th * 0.079, tw * 0.771, th * 0.734)    # área da arte no frame (gerar_frame_v2 ART)
+		var k := jan.size.x / jan.size.y
+		var reg := Rect2(art.position.x, art.position.y + art.size.y * 0.06, art.size.x, art.size.x / k)
+		ci.draw_texture_rect_region(tex, jan, reg, Color(1, 1, 1, alfa))
+	ci.draw_rect(jan.grow(1), Color(0.89, 0.72, 0.35, 0.9 * alfa), false, 1.0)
+	ci.draw_rect(jan.grow(3), Color(0.61, 0.45, 0.19, 0.6 * alfa), false, 1.0)
+	# reflexo diagonal varrendo
+	var fase := fmod(f.tempo / 2.2, 1.0) * (PW + 120) - 60
+	for kk in 14:
+		var xx := o.x + fase + kk
+		if xx > o.x and xx < o.x + PW:
+			ci.draw_line(Vector2(xx, maxf(corpo_y0, o.y + CRIMP)), Vector2(xx - 40, o.y + PH - CRIMP), Color(1, 1, 1, 0.05 * alfa))
+	if f.logo_tex:                                        # logo pequeno no alto
+		var lw := 64.0
+		var lh: float = lw * f.logo_tex.get_height() / f.logo_tex.get_width()
+		ci.draw_texture_rect(f.logo_tex, Rect2(-lw / 2, o.y + CRIMP + 13 - lh / 2, lw, lh), false, Color(1, 1, 1, alfa))
+	PixelFonte.centrado(ci, Vector2(0, jan.end.y + 14), Sessao.t("BOOSTER"), Color(1.0, 0.89, 0.6, alfa), 2, Color(0.08, 0.04, 0.06, alfa))
+	if esc >= 0.9:                                        # no pacote pequeno (tela de escolha) o nome vai embaixo, fora
+		PixelFonte.centrado(ci, Vector2(0, jan.end.y + 30), Sessao.nome_deck(trad).to_upper(), Color(1, 1, 1, 0.92 * alfa), 1, Color(0.08, 0.04, 0.06, alfa))
+	_crimp(ci, o.y + PH - CRIMP, false, alfa)
+	if not separado:
+		_crimp(ci, o.y, true, alfa)
+	ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	if separado:
+		ci.draw_set_transform(c + topo_off, rot + topo_rot, Vector2.ONE * esc)
+		ci.draw_rect(Rect2(o.x, o.y + CRIMP, PW, (yc - c.y) - (o.y + CRIMP)), Color(cores[0], alfa))
+		_crimp(ci, o.y, true, alfa)
+		ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+
+## Tela de escolha do pacote: os 7 pacotes lado a lado (3 por linha), o escolhido com moldura dourada.
+const OPCOES_PACOTE := ["", "indigena", "cristianismo", "taoismo", "hinduismo", "bruxaria", "alta_magia"]
+
+
+func rect_opcao_pacote(k: int) -> Rect2:
+	return Rect2(14 + (k % 3) * 114, 96 + (k / 3) * 160, 104, 150)
+
+
+func desenhar_opcao_pacote(r: Rect2, pressao: float, trad: String) -> void:
+	var escolhido := str(Sessao.perfil.get("pacote", "")) == trad
+	if escolhido:
+		f.draw_rect(r.grow(2), Color(1.0, 0.85, 0.4, 0.25 + 0.15 * sin(f.tempo * 3.0)))
+		f.draw_rect(r.grow(1), f.OURO[0], false, 1.0)
+	var c := r.get_center() + Vector2(0, -10 + pressao * 2)
+	pacote(f, c, sin(f.tempo * 0.9 + r.position.x) * 0.03, Vector2.ZERO, 0.0, 1.0, false, 0.62, trad)
+	var nome := Sessao.t("Todas") if trad == "" else Sessao.nome_deck(trad)
+	f._texto_central(Vector2(r.get_center().x, r.end.y - 10), nome, f.OURO[0] if escolhido else f.CREME)
 
 
 func _crimp(ci: CanvasItem, y: float, cima: bool, alfa: float) -> void:

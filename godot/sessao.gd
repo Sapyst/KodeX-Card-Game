@@ -115,6 +115,8 @@ func _ready() -> void:
 	if OS.get_environment("GD_ACESS") != "":             # teste: "texto,dalt"
 		texto_grande = OS.get_environment("GD_ACESS").contains("texto")
 		daltonico = OS.get_environment("GD_ACESS").contains("dalt")
+	if OS.get_environment("GD_PACOTE") != "":            # teste: pacote escolhido na loja
+		perfil["pacote"] = OS.get_environment("GD_PACOTE").replace("todas", "")
 	if OS.get_environment("GD_VERSO") != "":             # teste: equipa um verso e dá Koins
 		perfil["versos"] = [OS.get_environment("GD_VERSO"), "codice"]
 		perfil["verso"] = OS.get_environment("GD_VERSO")

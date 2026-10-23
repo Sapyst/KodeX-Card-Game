@@ -1,21 +1,25 @@
 Gods Kodex
 Copyright (c) 2026 Sapyst. Todos os direitos reservados. / All rights reserved.
 
+Código-fonte visível ("source-available"): NÃO é software livre nem de código aberto.
+Source-available: this is NOT free or open-source software.
+
 PT-BR
-Este repositório (código-fonte, regras, cartas, textos, lore, artes, fontes de dados e qualquer
-material derivado) é propriedade exclusiva do autor. NÃO é concedida nenhuma licença de uso,
-cópia, modificação, distribuição, sublicenciamento, venda, publicação ou criação de obras
-derivadas, total ou parcial, sem autorização prévia e por escrito do autor.
-O acesso ao repositório e o download do APK para teste não transferem nenhum direito.
-Uso permitido apenas para avaliação pessoal mediante convite do autor.
+Você PODE: ler, estudar e analisar o código, as regras, as cartas e as artes deste repositório;
+baixá-lo ou cloná-lo para estudo pessoal; e comentar, discutir e citar trechos curtos com crédito.
+Você NÃO PODE, sem autorização prévia e por escrito do autor: copiar o código, as cartas, os textos,
+a lore ou as artes para outro projeto; redistribuir, publicar, vender ou sublicenciar qualquer
+parte; ou criar e distribuir obras derivadas (inclusive versões modificadas do jogo).
+O acesso ao repositório e o download do APK de teste não transferem nenhum outro direito.
 
 EN
-This repository (source code, rules, cards, texts, lore, artwork, data and any derived material)
-is the exclusive property of the author. NO license is granted to use, copy, modify, distribute,
-sublicense, sell, publish or create derivative works, in whole or in part, without the author's
-prior written permission. Access to this repository or downloading the test APK does not transfer
-any rights. Permitted use is limited to personal evaluation by invitation of the author.
+You MAY: read, study and analyse the code, rules, cards and artwork in this repository; download or
+clone it for personal study; and comment on, discuss and quote short excerpts with credit.
+You MAY NOT, without the author's prior written permission: copy the code, cards, texts, lore or
+artwork into another project; redistribute, publish, sell or sublicense any part of it; or create
+and distribute derivative works (including modified versions of the game).
+Access to this repository or downloading the test APK does not transfer any other right.
 
-Componentes de terceiros mantêm suas próprias licenças:
+Componentes de terceiros mantêm suas próprias licenças / Third-party components keep their own licenses:
 - Godot Engine (MIT) — https://godotengine.org/license
 - Fonte "Matcha Style" — Khurasan Studio, gratuita para uso pessoal e comercial (arte/fontes/CREDITOS.txt)

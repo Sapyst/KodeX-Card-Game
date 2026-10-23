@@ -1,322 +1,172 @@
 [
  {
-  "nome": "carta_comprar_1",
+  "nome": "intro_camera",
   "ini": 0.0,
-  "dur": 0.23
+  "dur": 3.4
  },
  {
-  "nome": "carta_comprar_2",
-  "ini": 0.68,
-  "dur": 0.23
+  "nome": "monte_bater",
+  "ini": 3.85,
+  "dur": 0.06
  },
  {
-  "nome": "carta_comprar_3",
-  "ini": 1.36,
-  "dur": 0.23
+  "nome": "deck_para_espaco",
+  "ini": 4.36,
+  "dur": 0.52
  },
  {
-  "nome": "carta_comprar_4",
-  "ini": 2.04,
-  "dur": 0.23
- },
- {
-  "nome": "deck_cascata",
-  "ini": 2.72,
-  "dur": 1.3596145124716554
- },
- {
-  "nome": "embaralhar_corte_1",
-  "ini": 4.529614512471655,
-  "dur": 0.24
- },
- {
-  "nome": "embaralhar_corte_2",
-  "ini": 5.219614512471655,
-  "dur": 0.24
- },
- {
-  "nome": "embaralhar_corte_3",
-  "ini": 5.909614512471656,
-  "dur": 0.24
- },
- {
-  "nome": "carta_cair_campo_leve",
-  "ini": 6.599614512471655,
-  "dur": 0.62
- },
- {
-  "nome": "carta_cair_campo_medio",
-  "ini": 7.6696145124716555,
-  "dur": 0.62
- },
- {
-  "nome": "carta_cair_campo_pesado",
-  "ini": 8.739614512471656,
-  "dur": 0.62
- },
- {
-  "nome": "selo_colocar",
-  "ini": 9.809614512471656,
-  "dur": 0.17
- },
- {
-  "nome": "ataque_investida",
-  "ini": 10.429614512471655,
-  "dur": 0.25
- },
- {
-  "nome": "ataque_impacto_leve_1",
-  "ini": 11.129614512471655,
+  "nome": "carta_virar_1",
+  "ini": 5.33,
   "dur": 0.08
  },
  {
-  "nome": "ataque_impacto_leve_2",
-  "ini": 11.659614512471656,
+  "nome": "carta_virar_2",
+  "ini": 5.86,
   "dur": 0.08
  },
  {
-  "nome": "ataque_impacto_medio_1",
-  "ini": 12.189614512471655,
+  "nome": "carta_virar_3",
+  "ini": 6.39,
+  "dur": 0.08
+ },
+ {
+  "nome": "carta_pegar",
+  "ini": 6.92,
+  "dur": 0.1
+ },
+ {
+  "nome": "carta_recusar",
+  "ini": 7.47,
+  "dur": 0.26
+ },
+ {
+  "nome": "carta_descartar",
+  "ini": 8.18,
+  "dur": 1.15
+ },
+ {
+  "nome": "carta_queimar",
+  "ini": 9.78,
+  "dur": 0.3368253968253968
+ },
+ {
+  "nome": "carta_zoom_abrir",
+  "ini": 10.566825396825397,
+  "dur": 0.31
+ },
+ {
+  "nome": "carta_zoom_fechar",
+  "ini": 11.326825396825397,
+  "dur": 0.12
+ },
+ {
+  "nome": "cemiterio_carrossel_abrir",
+  "ini": 11.896825396825397,
+  "dur": 1.3249886621315192
+ },
+ {
+  "nome": "cemiterio_carrossel_passo",
+  "ini": 13.671814058956915,
+  "dur": 0.08
+ },
+ {
+  "nome": "cemiterio_carrossel_fechar",
+  "ini": 14.201814058956916,
+  "dur": 1.03
+ },
+ {
+  "nome": "token_desfazer",
+  "ini": 15.681814058956917,
+  "dur": 1.0199773242630386
+ },
+ {
+  "nome": "turno_fim_botao_fim",
+  "ini": 17.151791383219955,
+  "dur": 0.08
+ },
+ {
+  "nome": "turno_fim_botao_rapido",
+  "ini": 17.681791383219956,
   "dur": 0.18
  },
  {
-  "nome": "ataque_impacto_medio_2",
-  "ini": 12.819614512471656,
-  "dur": 0.18
+  "nome": "efeito_anunciar",
+  "ini": 18.311791383219955,
+  "dur": 0.9699773242630385
  },
  {
-  "nome": "ataque_impacto_pesado_1",
-  "ini": 13.449614512471655,
-  "dur": 0.9049886621315193
+  "nome": "efeito_destruir",
+  "ini": 19.731768707482992,
+  "dur": 1.38
  },
  {
-  "nome": "ataque_impacto_pesado_2",
-  "ini": 14.804603174603175,
-  "dur": 0.9049886621315193
+  "nome": "efeito_devolver",
+  "ini": 21.561768707482994,
+  "dur": 0.5
  },
  {
-  "nome": "golpe_direto_1",
-  "ini": 16.159591836734695,
+  "nome": "efeito_reviver",
+  "ini": 22.511768707482993,
+  "dur": 1.94
+ },
+ {
+  "nome": "efeito_silenciar",
+  "ini": 24.901768707482994,
+  "dur": 0.4
+ },
+ {
+  "nome": "efeito_congelar",
+  "ini": 25.75176870748299,
+  "dur": 1.7
+ },
+ {
+  "nome": "efeito_invocar",
+  "ini": 27.901768707482994,
+  "dur": 0.95
+ },
+ {
+  "nome": "efeito_fe",
+  "ini": 29.301768707482992,
+  "dur": 1.209954648526077
+ },
+ {
+  "nome": "efeito_anular",
+  "ini": 30.96172335600907,
   "dur": 1.2499773242630385
  },
  {
-  "nome": "golpe_direto_2",
-  "ini": 17.859569160997733,
-  "dur": 1.3399773242630386
- },
- {
-  "nome": "golpe_direto_3",
-  "ini": 19.64954648526077,
-  "dur": 1.4299773242630385
- },
- {
-  "nome": "cornucopia_dano_1",
-  "ini": 21.52952380952381,
-  "dur": 0.36997732426303853
- },
- {
-  "nome": "cornucopia_dano_2",
-  "ini": 22.34950113378685,
-  "dur": 0.43997732426303854
- },
- {
-  "nome": "cornucopia_dano_3",
-  "ini": 23.239478458049888,
-  "dur": 0.5099773242630385
- },
- {
-  "nome": "cornucopia_cura",
-  "ini": 24.199455782312924,
-  "dur": 0.64
- },
- {
-  "nome": "entidade_morte_indigena",
-  "ini": 25.289455782312924,
-  "dur": 0.444172335600907
- },
- {
-  "nome": "entidade_morte_cristianismo",
-  "ini": 26.183628117913834,
-  "dur": 0.639795918367347
- },
- {
-  "nome": "entidade_morte_taoismo",
-  "ini": 27.273424036281178,
-  "dur": 0.5138095238095238
- },
- {
-  "nome": "entidade_morte_hinduismo",
-  "ini": 28.237233560090704,
-  "dur": 0.561859410430839
- },
- {
-  "nome": "entidade_morte_bruxaria",
-  "ini": 29.24909297052154,
-  "dur": 0.5067573696145125
- },
- {
-  "nome": "entidade_morte_alta_magia",
-  "ini": 30.205850340136056,
-  "dur": 0.592108843537415
- },
- {
-  "nome": "entidade_morte_abismo",
-  "ini": 31.24795918367347,
+  "nome": "efeito_renascer",
+  "ini": 32.66170068027211,
   "dur": 1.6
  },
  {
-  "nome": "turno_inicio_meu",
-  "ini": 33.29795918367347,
-  "dur": 2.1
+  "nome": "selo_cemiterio",
+  "ini": 34.71170068027211,
+  "dur": 0.9610884353741497
  },
  {
-  "nome": "turno_inicio_dele",
-  "ini": 35.84795918367347,
-  "dur": 2.1
+  "nome": "reliquia_equipar",
+  "ini": 36.122789115646256,
+  "dur": 1.4199773242630385
  },
  {
-  "nome": "efeito_dano_comum",
-  "ini": 38.39795918367347,
-  "dur": 0.12
- },
- {
-  "nome": "efeito_dano_fogo",
-  "ini": 38.96795918367347,
+  "nome": "alvo_escolher_abrir",
+  "ini": 37.992766439909296,
   "dur": 0.34997732426303857
  },
  {
-  "nome": "efeito_dano_trovao",
-  "ini": 39.76793650793651,
-  "dur": 1.6299773242630387
+  "nome": "alvo_escolher_confirmar",
+  "ini": 38.792743764172336,
+  "dur": 0.2
  },
  {
-  "nome": "efeito_dano_sagrado",
-  "ini": 41.847913832199545,
-  "dur": 1.6
+  "nome": "choronzon_ritual",
+  "ini": 39.442743764172334,
+  "dur": 4.0
  },
  {
-  "nome": "efeito_dano_sombrio",
-  "ini": 43.89791383219955,
-  "dur": 1.5
- },
- {
-  "nome": "efeito_cura_comum",
-  "ini": 45.847913832199545,
-  "dur": 1.5099773242630385
- },
- {
-  "nome": "efeito_cura_celestial",
-  "ini": 47.80789115646259,
-  "dur": 2.7599773242630388
- },
- {
-  "nome": "efeito_cura_natureza",
-  "ini": 51.017868480725625,
-  "dur": 1.519954648526077
- },
- {
-  "nome": "efeito_cura_agua",
-  "ini": 52.9878231292517,
-  "dur": 1.84
- },
- {
-  "nome": "efeito_buff",
-  "ini": 55.2778231292517,
-  "dur": 1.28
- },
- {
-  "nome": "vitrine_carta_comum",
-  "ini": 57.0078231292517,
-  "dur": 1.8
- },
- {
-  "nome": "vitrine_carta_ameaca",
-  "ini": 59.2578231292517,
-  "dur": 1.8
- },
- {
-  "nome": "selo_revelar",
-  "ini": 61.5078231292517,
-  "dur": 2.31
- },
- {
-  "nome": "rito_lancar",
-  "ini": 64.2678231292517,
-  "dur": 2.183333333333333
- },
- {
-  "nome": "lendaria_entrada_minha",
-  "ini": 66.90115646258504,
-  "dur": 3.6
- },
- {
-  "nome": "lendaria_entrada_dele",
-  "ini": 70.95115646258503,
-  "dur": 3.6
- },
- {
-  "nome": "vitoria",
-  "ini": 75.00115646258503,
-  "dur": 3.9499773242630387
- },
- {
-  "nome": "derrota",
-  "ini": 79.40113378684808,
-  "dur": 3.8399773242630384
- },
- {
-  "nome": "transicao_tela",
-  "ini": 83.69111111111111,
-  "dur": 0.3
- },
- {
-  "nome": "botao_1",
-  "ini": 84.44111111111111,
-  "dur": 0.04
- },
- {
-  "nome": "botao_2",
-  "ini": 84.93111111111111,
-  "dur": 0.04
- },
- {
-  "nome": "pergaminho_abrir",
-  "ini": 85.42111111111112,
-  "dur": 0.39997732426303856
- },
- {
-  "nome": "moedas_voando",
-  "ini": 86.27108843537415,
-  "dur": 0.7431519274376417
- },
- {
-  "nome": "booster_comprar",
-  "ini": 87.4642403628118,
-  "dur": 0.48
- },
- {
-  "nome": "booster_cortar",
-  "ini": 88.39424036281179,
-  "dur": 0.18
- },
- {
-  "nome": "booster_rasgar",
-  "ini": 89.0242403628118,
-  "dur": 0.45
- },
- {
-  "nome": "booster_cartas_saem",
-  "ini": 89.92424036281179,
-  "dur": 0.48
- },
- {
-  "nome": "booster_revelar_comum",
-  "ini": 90.8542403628118,
-  "dur": 0.12
- },
- {
-  "nome": "booster_revelar_raro",
-  "ini": 91.42424036281179,
-  "dur": 2.26
+  "nome": "empate",
+  "ini": 43.89274376417234,
+  "dur": 2.899954648526077
  }
 ]

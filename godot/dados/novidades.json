@@ -1,5 +1,27 @@
 [
  {
+  "versao": "0.20.7-alpha",
+  "data": "23/10/2026",
+  "pt": [
+   "Mesa em perspectiva de verdade: as cartas deitam na mesa junto com os espaços, o deck e o cemitério, e levantam quando você pega.",
+   "Retratos com moldura em arco, símbolo da tradição, barra de vida, nome e nível. Os dados do adversário ficaram maiores no topo.",
+   "Cartas do campo maiores, com o nome curto em até 2 linhas. O cemitério mostra a carta grande com o texto inteiro embaixo.",
+   "36 sons novos: virar, pegar e recusar carta, descartar, queimar, zoom, cemitério, efeitos (destruir, congelar, silenciar, reviver, anular, Fé...), botão de fim de turno e mais."
+  ],
+  "en": [
+   "True perspective table: cards lie on the table along with the slots, deck and graveyard, and lift up when you pick them.",
+   "Portraits with an arched frame, tradition symbol, life bar, name and level. The opponent's info is bigger at the top.",
+   "Bigger cards on the field, with the short name on up to 2 lines. The graveyard shows the card large with its full text below.",
+   "36 new sounds: flip, pick up and refuse a card, discard, burn, zoom, graveyard, effects (destroy, freeze, silence, revive, counter, Faith...), end-turn button and more."
+  ],
+  "es": [
+   "Mesa en perspectiva de verdad: las cartas se acuestan en la mesa junto con los espacios, el mazo y el cementerio, y se levantan cuando las tomas.",
+   "Retratos con marco en arco, símbolo de la tradición, barra de vida, nombre y nivel. Los datos del rival se ven más grandes arriba.",
+   "Cartas del campo más grandes, con el nombre corto en hasta 2 líneas. El cementerio muestra la carta grande con el texto completo debajo.",
+   "36 sonidos nuevos: voltear, tomar y rechazar carta, descartar, quemar, zoom, cementerio, efectos (destruir, congelar, silenciar, revivir, anular, Fe...), botón de fin de turno y más."
+  ]
+ },
+ {
   "versao": "0.20.6-alpha",
   "data": "22/10/2026",
   "pt": [

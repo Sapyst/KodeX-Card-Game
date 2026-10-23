@@ -31,6 +31,8 @@ var dano := 0
 var dono := 0                           # 0 = jogador, 1 = oponente
 var id := ""
 var nome := ""
+var _nome_cache_de := ""
+var _nome_cache := PackedStringArray()
 var custo := 0
 var keywords: Array = []
 var texto := ""
@@ -70,18 +72,37 @@ var sem_renascer := false
 
 
 var _fx: Node2D                          # camada sem luz da mesa (cores fiéis): efeito de Guarda
+const SHADER_PLANO := preload("res://perspectiva_carta.gdshader")
+const SHADER_PLANO_FX := preload("res://perspectiva_carta_fx.gdshader")
+static var PERSP := [0.0, 1.0, 0.85]   # [K, A, escorço] da mesa (mesa.gd define antes de criar as cartas)
+var plano_alvo := 0.0                    # 1 = deitada na mesa (campo, Selos, deck): a mesa decide a cada quadro
+var plano := 0.0
+var _mat_plano: ShaderMaterial
+var _mat_fx: ShaderMaterial
 
 
 func _ready() -> void:
+	_mat_plano = ShaderMaterial.new()
+	_mat_plano.shader = SHADER_PLANO
+	material = _mat_plano
+	_mat_fx = ShaderMaterial.new()
+	_mat_fx.shader = SHADER_PLANO_FX
+	for m in [_mat_plano, _mat_fx]:
+		m.set_shader_parameter("k", PERSP[0])
+		m.set_shader_parameter("a", PERSP[1])
+		m.set_shader_parameter("escorco", PERSP[2])
 	_fx = Node2D.new()
-	var mat := CanvasItemMaterial.new()
-	mat.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
-	_fx.material = mat
+	_fx.material = _mat_fx
 	_fx.draw.connect(_desenhar_fx)
 	add_child(_fx)
 
 
-func _process(_d: float) -> void:
+func _process(d: float) -> void:
+	var alvo := plano_alvo * (1.0 - clampf(levantada * 1.5, 0.0, 1.0))
+	if absf(plano - alvo) > 0.001:
+		plano = move_toward(plano, alvo, d * 5.0)        # deita/levanta em 0,2 s
+		_mat_plano.set_shader_parameter("plano", plano)
+		_mat_fx.set_shader_parameter("plano", plano)
 	queue_redraw()
 	if _fx:
 		_fx.queue_redraw()
@@ -214,12 +235,10 @@ func _frente(x0: int, y0: int) -> void:
 		draw_texture_rect(tex, janela, false)
 	else:
 		draw_rect(janela, Color("#6f6d76"))
-	draw_rect(Rect2(x0 + 12, y0 + 3, LARG - 14, 8), Color("#d8d6dc"))                  # pílula do nome
-	if nome != "":
-		var n := PixelFonte.normalizar(nome)
-		if n.length() > 12:
-			n = n.substr(0, 12)
-		PixelFonte.desenhar(self, Vector2(x0 + 14, y0 + 5), n, Color("#2a2028"))
+	var linhas := _linhas_nome()                                                         # pílula do nome: 1 ou 2 linhas
+	draw_rect(Rect2(x0 + 12, y0 + 3, LARG - 14, 2 + 6 * linhas.size()), Color("#d8d6dc"))
+	for k in linhas.size():
+		PixelFonte.desenhar(self, Vector2(x0 + 14, y0 + 5 + 6 * k), linhas[k], Color("#2a2028"))
 	_selo_num(Rect2(x0 + 1, y0 + 1, 0, 14), str(custo), Color("#2f4f9a"), Color.WHITE)   # custo (dígitos 2×)
 	if lendaria:
 		draw_rect(Rect2(x0 + 1, y0 + 1, LARG - 2, 1), Color("#ffe39a"))
@@ -248,8 +267,29 @@ func _frente(x0: int, y0: int) -> void:
 			PixelFonte.centrado(self, Vector2(x0 + LARG / 2, y0 + ALT - 7), Sessao.t("RELÍQUIA"), Color("#ffe39a"))
 
 
+## Nome da carta na pílula (12 letras de 4 px por linha): o nome curto (antes da vírgula: "Tupã, o Trovão" → "TUPÃ");
+## se não couber em 1 linha, quebra por palavra em 2; só corta o que passar disso.
+func _linhas_nome() -> PackedStringArray:
+	if nome == "":
+		return PackedStringArray()
+	if _nome_cache_de == nome:
+		return _nome_cache
+	var n := PixelFonte.normalizar(nome.get_slice(",", 0).strip_edges())
+	var linhas := PackedStringArray([n]) if n.length() <= 12 else PixelFonte.quebrar(n, 12)
+	linhas = PackedStringArray(Array(linhas).filter(func(l: String) -> bool: return l != ""))
+	if linhas.size() > 2:
+		linhas = PackedStringArray([linhas[0], linhas[1]])
+	for k in linhas.size():
+		linhas[k] = linhas[k].substr(0, 12)
+	_nome_cache_de = nome
+	_nome_cache = linhas
+	return linhas
+
+
 ## Vira no ar: escala X → 0 (troca a face) → volta, levantando junto.
 func virar(duracao: float = 0.3) -> void:
+	if is_inside_tree() and visible:
+		Som.tocar("carta_virar", "", -3.0, duracao / 2)
 	var t := create_tween()
 	t.tween_property(self, "giro", 0.0, duracao / 2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	t.tween_callback(func() -> void: virada_para_cima = not virada_para_cima)

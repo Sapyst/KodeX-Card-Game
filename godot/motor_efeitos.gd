@@ -479,6 +479,7 @@ func _anunciar_fonte(c: Carta, gat: String) -> void:
 	_linha_txt = 0
 	if not is_instance_valid(c):
 		return
+	Som.tocar("efeito_anunciar")
 	var nome_gat: String = {"on_play": "DESPERTAR", "on_death": "ÚLTIMO SOPRO", "on_attack": "AO ATACAR",
 		"on_damaged": "AO SOFRER DANO", "ally_attacked": "PROTEÇÃO", "start_turn": "INÍCIO DO TURNO",
 		"end_turn": "FIM DO TURNO", "ally_dies": "ALIADA MORREU", "enemy_dies": "INIMIGA MORREU"}.get(gat, "")
@@ -634,11 +635,13 @@ func executar_acao(a: Dictionary, ctx: Dictionary) -> void:
 				m.fe[dono] += n
 				_texto_centro(rotulo(a), COR_FE)
 			m.efeitos.faiscas(m._pos_fe(dono), 12, COR_FE)
+			Som.tocar("efeito_fe")
 			m._atualizar_apagadas()
 			await _esperar(0.3)
 		"counter":
 			ctx["anulado"] = true
 			_texto_centro("ANULADO", COR_DEBUFF)
+			Som.tocar("efeito_anular")
 			m.efeitos.flash(Color("#6a3aa8"), 0.25)
 			await _esperar(0.35)
 		"win":
@@ -731,6 +734,7 @@ func aplicar_em_alvo(op: String, a: Dictionary, t, ctx: Dictionary) -> void:
 				m._piscar(t)
 		"destroy":
 			if t is Carta:
+				Som.tocar("efeito_destruir")
 				m.efeitos.flash(Color("#300010"), 0.25)
 				m.efeitos.anel(t.position, COR_DANO, 36)
 				await morrer(t)
@@ -748,11 +752,13 @@ func aplicar_em_alvo(op: String, a: Dictionary, t, ctx: Dictionary) -> void:
 				t.silenciada = true
 				recalcular_auras()
 				m.efeitos.faiscas(t.position, 12, COR_MUDO)
+				Som.tocar("efeito_silenciar")
 				m.efeitos.numero(t.position + Vector2(0, -20), "SILÊNCIO", COR_MUDO, 1)
 		"freeze":
 			if t is Carta:
 				t.congelada = true
 				m.efeitos.anel(t.position, COR_GELO, 32)
+				Som.tocar("efeito_congelar")
 				m.efeitos.faiscas(t.position, 12, COR_GELO)
 				m.efeitos.numero(t.position + Vector2(0, -20), "CONGELADA", COR_GELO, 1)
 		"give_keyword":
@@ -822,6 +828,7 @@ func _buscar(d: int, a: Dictionary) -> void:
 func _invocar_tokens(d: int, a: Dictionary, fonte) -> void:
 	var nome := str(a.get("nome", "Token"))
 	var info: Dictionary = Sessao.tokens.get(nome, {})        # arte, tradição e nome em inglês do token
+	Som.tocar("efeito_invocar")
 	var de_quem := str(fonte.nome) if (fonte is Object and is_instance_valid(fonte) and fonte is Carta) else ""
 	var texto := (Sessao.t("Token invocado por %s.") % de_quem) if de_quem != "" else "Token."
 	if "guarda" in (a.get("keywords", []) as Array):
@@ -845,6 +852,7 @@ func _invocar_tokens(d: int, a: Dictionary, fonte) -> void:
 func _reviver(d: int, e, para: String) -> void:
 	if not (e is Dictionary) or not e.has("dados"):
 		return
+	Som.tocar("efeito_reviver")
 	var idx: int = -1
 	for k in m.cemit[d].size():
 		if is_same(m.cemit[d][k], e):
@@ -874,6 +882,7 @@ func _reviver(d: int, e, para: String) -> void:
 
 
 func devolver_a_mao(c: Carta) -> void:
+	Som.tocar("efeito_devolver")
 	m._remover_do_campo(c)
 	c.em_campo = false
 	var rel: Dictionary = c.reliquia
@@ -920,6 +929,7 @@ func devolver_controle(c: Carta) -> void:
 
 
 func _ritual_choronzon(d: int) -> void:
+	Som.tocar("choronzon_ritual")
 	var tri := false
 	for c in campo(d):
 		if not c.reliquia.is_empty() and c.reliquia["dados"]["id"] == CHORONZON["reliquia"]:

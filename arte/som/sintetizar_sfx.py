@@ -417,6 +417,163 @@ def s_booster_revelar(v):
     return mix((fwip(0.12, 1500, 4000, 0.5), 0, 1), (tic(3000, 0.01), 0.1, 0.4))
 
 
+# ---------------------------------------------------------------- 2ª leva (P2 da mesa + zoom, cemitério, queimar)
+def s_intro_camera(v):
+    x = filtro_varre(ruido(2.6, "rosa"), 200, 1200, q=1.5) * env(int(SR * 2.6), 0.9, 1.2, sustenta=0.3, curva=2.5)
+    return reverb(x, 0.8, 0.2)
+
+
+def s_monte_bater(v):
+    return mix((baque(250, 140, 0.05), 0, 0.9), (tic(2200, 0.01, 4), 0, 0.4),
+               (filtro(ruido(0.06), "faixa", (600, 2000)) * env(int(SR * 0.06), 0.001, 0.03), 0, 0.3))
+
+
+def s_deck_para_espaco(v):
+    a = filtro_varre(ruido(0.4), 5000, 1500, q=1.5) * env(int(SR * 0.4), 0.03, 0.25)
+    return mix((a, 0, 0.6), (filtro_varre(ruido(0.4), 4500, 1300, q=1.5) * env(int(SR * 0.4), 0.03, 0.25), 0.12, 0.45),
+               (baque(220, 130, 0.04), 0.48, 0.6))
+
+
+def s_carta_virar(v):
+    p = 1 + (v - 2) * 0.06
+    meio = filtro(ruido(0.07), "faixa", (2000 * p, 6000 * p)) * env(int(SR * 0.07), 0.02, 0.03)
+    return mix((tic(3500 * p, 0.006), 0, 0.5), (meio, 0.01, 0.5), (tic(2800 * p, 0.008), 0.07, 0.6))
+
+
+def s_carta_pegar(v):
+    return mix((filtro_varre(ruido(0.1), 2000, 4000, q=2) * env(int(SR * 0.1), 0.02, 0.05), 0, 0.6), (tic(1500, 0.01, 6), 0, 0.3))
+
+
+def s_carta_recusar(v):
+    t = t_(0.12)
+    def toque(f):
+        q = np.sign(np.sin(2 * np.pi * f * t)) + np.sign(np.sin(2 * np.pi * f * 1.06 * t))
+        return filtro(q, "baixa", 1200) * env(len(t), 0.003, 0.07)
+    return mix((toque(220), 0, 0.4), (toque(208), 0.14, 0.4), (baque(160, 110, 0.05), 0, 0.3))
+
+
+def s_carta_descartar(v):
+    n = 0.4
+    x = filtro(ruido(n), "faixa", (1500, 6000)) * env(int(SR * n), 0.02, 0.25)
+    x *= 0.5 + 0.5 * np.sign(np.sin(2 * np.pi * 45 * t_(n)))
+    brasa = chuva_tics(10, 0.15, 0.04, f=(3000, 7000), jitter=0.02, ganho_fim=0.1)
+    return reverb(mix((x, 0, 0.6), (brasa, 0, 0.4), (fwip(0.25, 6000, 1500, 0.3), 0.3, 1)), 0.6, 0.2)
+
+
+def s_carta_queimar(v):
+    puff = filtro_varre(ruido(0.3), 300, 3000, q=1) * env(int(SR * 0.3), 0.02, 0.2)
+    crep = chuva_tics(8, 0.05, 0.03, f=(1500, 4500), jitter=0.02, ganho_fim=0.2)
+    return mix((baque(70, 38, 0.15), 0, 0.6), (puff, 0, 0.5), (crep, 0.05, 0.5))
+
+
+def s_carta_zoom(v):
+    abrir = v == 1
+    w = fwip(0.15, 1200, 3500, 0.5) if abrir else fwip(0.12, 3000, 1000, 0.4)
+    brilho = sino(0.25, 1200, decai=0.15) if abrir else np.zeros(1)
+    return mix((w, 0, 1), (brilho, 0.06, 0.15))
+
+
+def s_cemiterio_carrossel(v):
+    if v == 1:                                                      # abrir: leque de fwips numa cripta
+        return reverb(mix(*[(fwip(0.08, 1500 + 300 * k, 4500, 0.5), k * 0.035, 0.6) for k in range(8)]), 1.0, 0.35, 3500)
+    if v == 2:                                                      # trava em cada carta ao rolar
+        return mix((tic(1800, 0.012, 5), 0, 1), (np.zeros(int(SR * 0.08)), 0, 1))
+    return reverb(mix(*[(fwip(0.08, 4000, 1500, 0.4), k * 0.03, 0.5) for k in range(6)]), 0.8, 0.25, 3500)
+
+
+def s_token_desfazer(v):
+    puff = filtro(ruido(0.25), "baixa", 1500) * env(int(SR * 0.25), 0.01, 0.15)
+    return reverb(mix((puff, 0, 0.6), (sino(0.3, 1800, decai=0.2), 0.02, 0.15), (seno_varre(0.2, 600, 300) * env(int(SR * 0.2), 0.005, 0.1), 0, 0.2)), 0.7, 0.3)
+
+
+def s_turno_fim_botao(v):
+    if v == 1:
+        return mix((baque(200, 150, 0.08), 0, 0.8), (tic(1800, 0.012, 5), 0, 0.5))
+    return mix((fwip(0.18, 800, 4000, 0.5), 0, 1), (tic(2400, 0.01), 0.15, 0.3))   # RÁPIDO
+
+
+def s_efeito_anunciar(v):
+    return reverb(mix((fm(0.35, 1800, 1.5, 2, 0.25), 0, 0.3), (sino(0.35, 2400, decai=0.25), 0.02, 0.2)), 0.6, 0.25)
+
+
+def s_efeito_destruir(v):
+    drop = seno_varre(0.3, 80, 30) * env(int(SR * 0.3), 0.005, 0.25)
+    rev = filtro(ruido(0.2), "faixa", (300, 1500)) * env(int(SR * 0.2), 0.18, 0.02)
+    return reverb(mix((rev, 0, 0.5), (drop, 0.18, 0.9), (tic(900, 0.02, 3), 0.18, 0.4)), 0.9, 0.3, 2500)
+
+
+def s_efeito_devolver(v):
+    rev = filtro(ruido(0.3), "faixa", (1500, 5000)) * env(int(SR * 0.3), 0.27, 0.02)
+    return mix((rev, 0, 0.6), (tic(2400, 0.01, 5), 0.3, 0.5), (sino(0.2, 1500, decai=0.1), 0.3, 0.15))
+
+
+def s_efeito_reviver(v):
+    sobe = filtro_varre(ruido(0.5), 200, 3000, q=2) * env(int(SR * 0.5), 0.4, 0.1)
+    c = coro(0.7, (392, 494, 587), ataque=0.3)
+    sinos = mix(*[(sino(0.5, f, decai=0.35), 0.3 + k * 0.07, 0.25) for k, f in enumerate((1175, 1480, 1760))])
+    return reverb(mix((sobe, 0, 0.4), (c, 0, 0.3), (sinos, 0, 1), (baque(200, 90, 0.07), 0.62, 0.6)), 1.0, 0.3)
+
+
+def s_efeito_silenciar(v):
+    t = t_(0.4)
+    tom = (np.sin(2 * np.pi * 1000 * t) + 0.5 * np.sin(2 * np.pi * 2000 * t) + 0.3 * np.sin(2 * np.pi * 3000 * t)) * env(len(t), 0.005, 0.3)
+    return mix((filtro_varre(tom, 6000, 200, q=0.7, tipo="baixa"), 0, 0.5), (baque(150, 100, 0.06), 0.15, 0.4))
+
+
+def s_efeito_congelar(v):
+    gelo = mix(*[(tic(rng.uniform(4000, 10000), rng.uniform(0.004, 0.01), 3), (rng.random() ** 2) * 0.4, rng.uniform(0.2, 0.6)) for _ in range(26)])
+    return reverb(mix((gelo, 0, 1), (sino(0.6, 2637, decai=0.5), 0.25, 0.2), (sino(0.6, 3520, decai=0.4), 0.3, 0.12)), 0.8, 0.3, 9000)
+
+
+def s_efeito_invocar(v):
+    pop = seno_varre(0.04, 200, 800) * env(int(SR * 0.04), 0.001, 0.03)
+    return reverb(mix((pop, 0, 0.7), (fwip(0.15, 2000, 6000, 0.4), 0.02, 1), (sino(0.3, 1568, decai=0.2), 0.03, 0.2), (baque(200, 100, 0.05), 0.3, 0.5)), 0.6, 0.2)
+
+
+def s_efeito_fe(v):
+    return reverb(mix(*[(fm(0.35, f, 1.0, 1.2, 0.25), k * 0.08, 0.3) for k, f in enumerate((1760, 2217, 2640))]), 0.7, 0.3, 9000)
+
+
+def s_efeito_anular(v):
+    rev = filtro(ruido(0.25), "faixa", (800, 4000)) * env(int(SR * 0.25), 0.23, 0.01)
+    choque = mix((baque(300, 120, 0.06), 0, 0.7), (tic(1200, 0.02, 2), 0, 0.5), (sino(0.3, 466, decai=0.2), 0, 0.2), (sino(0.3, 494, decai=0.2), 0, 0.2))
+    return reverb(mix((rev, 0, 0.6), (choque, 0.25, 1)), 0.7, 0.25)
+
+
+def s_efeito_renascer(v):
+    arp = mix(*[(sino(0.4, f, decai=0.3), k * 0.07, 0.28) for k, f in enumerate((784, 988, 1175, 1568, 1976))])
+    return reverb(mix((arp, 0, 1), (fwip(0.3, 1500, 6000, 0.4), 0.4, 1)), 0.9, 0.3)
+
+
+def s_selo_cemiterio(v):
+    graos = mix(*[(sino(0.12, rng.uniform(3000, 7000) / 3, decai=0.06), rng.random() * 0.25, rng.uniform(0.2, 0.5)) for _ in range(9)])
+    return reverb(mix((graos, 0, 1), (filtro(ruido(0.15), "baixa", 1500) * env(int(SR * 0.15), 0.01, 0.08), 0, 0.4)), 0.6, 0.25)
+
+
+def s_reliquia_equipar(v):
+    clink = fm(0.25, 1800, 1.41, 3, 0.15) + 0.6 * fm(0.25, 2700, 1.41, 2, 0.12)
+    return reverb(mix((fwip(0.3, 1000, 4000, 0.4), 0, 1), (clink, 0.3, 0.4), (sino(0.4, 1320, decai=0.3), 0.32, 0.15)), 0.7, 0.25)
+
+
+def s_alvo_escolher(v):
+    if v == 1:                                                      # abrir: suspense
+        t = t_(0.35)
+        pad = np.sin(2 * np.pi * 110 * t) * env(len(t), 0.15, 0.15, sustenta=0.2)
+        return mix((pad, 0, 0.4), (filtro_varre(ruido(0.35), 300, 1500, q=2) * env(len(t), 0.25, 0.1), 0, 0.3))
+    return mix((sino(0.2, 1320, decai=0.12), 0, 0.4), (tic(2000, 0.01), 0, 0.4))      # confirmar
+
+
+def s_choronzon_ritual(v):
+    t = t_(2.4)
+    drone = (np.sin(2 * np.pi * 45 * t) + np.sin(2 * np.pi * 47.5 * t) + 0.6 * np.sin(2 * np.pi * 63.6 * t)) * env(len(t), 0.6, 1.2, sustenta=0.4, curva=2)
+    sus = filtro(ruido(2.4), "faixa", (2500, 5000)) * env(len(t), 0.8, 1.0, sustenta=0.2) * (0.5 + 0.5 * np.sin(2 * np.pi * 3 * t))
+    return reverb(mix((drone, 0, 0.7), (sus, 0, 0.15), (baque(60, 30, 0.4, 0.5), 2.0, 0.6)), 1.6, 0.4, 2500)
+
+
+def s_empate(v):
+    return reverb(mix(*[(sino(1.4, f, decai=1.0), k * 0.05, 0.3) for k, f in enumerate((294, 392, 440))]), 1.4, 0.35)
+
+
 SONS = {  # id: (função, número de variações, ganho final dB)
     "carta_comprar": (s_carta_comprar, 4, -8), "deck_cascata": (s_deck_cascata, 1, -10), "embaralhar_corte": (s_embaralhar_corte, 3, -9),
     "carta_cair_campo": (s_carta_cair_campo, 3, -6), "selo_colocar": (s_selo_colocar, 1, -8),
@@ -429,6 +586,16 @@ SONS = {  # id: (função, número de variações, ganho final dB)
     "pergaminho_abrir": (s_pergaminho_abrir, 1, -10), "moedas_voando": (s_moedas_voando, 1, -10), "booster_comprar": (s_booster_comprar, 1, -8),
     "booster_cortar": (s_booster_cortar, 1, -9), "booster_rasgar": (s_booster_rasgar, 1, -7), "booster_cartas_saem": (s_booster_cartas_saem, 1, -9),
     "booster_revelar": (s_booster_revelar, 2, -8),
+    "intro_camera": (s_intro_camera, 1, -16), "monte_bater": (s_monte_bater, 1, -10), "deck_para_espaco": (s_deck_para_espaco, 1, -11),
+    "carta_virar": (s_carta_virar, 3, -12), "carta_pegar": (s_carta_pegar, 1, -14), "carta_recusar": (s_carta_recusar, 1, -12),
+    "carta_descartar": (s_carta_descartar, 1, -10), "carta_queimar": (s_carta_queimar, 1, -10), "carta_zoom": (s_carta_zoom, 2, -15),
+    "cemiterio_carrossel": (s_cemiterio_carrossel, 3, -12), "token_desfazer": (s_token_desfazer, 1, -10),
+    "turno_fim_botao": (s_turno_fim_botao, 2, -11), "efeito_anunciar": (s_efeito_anunciar, 1, -13), "efeito_destruir": (s_efeito_destruir, 1, -7),
+    "efeito_devolver": (s_efeito_devolver, 1, -9), "efeito_reviver": (s_efeito_reviver, 1, -8), "efeito_silenciar": (s_efeito_silenciar, 1, -9),
+    "efeito_congelar": (s_efeito_congelar, 1, -9), "efeito_invocar": (s_efeito_invocar, 1, -8), "efeito_fe": (s_efeito_fe, 1, -11),
+    "efeito_anular": (s_efeito_anular, 1, -8), "efeito_renascer": (s_efeito_renascer, 1, -9), "selo_cemiterio": (s_selo_cemiterio, 1, -10),
+    "reliquia_equipar": (s_reliquia_equipar, 1, -9), "alvo_escolher": (s_alvo_escolher, 2, -11), "choronzon_ritual": (s_choronzon_ritual, 1, -5),
+    "empate": (s_empate, 1, -6),
 }
 # nomes das variações (o jogo escolhe pelo nome; números = sorteio round-robin)
 NOMES = {"carta_cair_campo": ["leve", "medio", "pesado"], "ataque_impacto": ["leve_1", "leve_2", "medio_1", "medio_2", "pesado_1", "pesado_2"],
@@ -436,7 +603,9 @@ NOMES = {"carta_cair_campo": ["leve", "medio", "pesado"], "ataque_impacto": ["le
          "entidade_morte": ["indigena", "cristianismo", "taoismo", "hinduismo", "bruxaria", "alta_magia", "abismo"],
          "turno_inicio": ["meu", "dele"], "efeito_dano": ["comum", "fogo", "trovao", "sagrado", "sombrio"],
          "efeito_cura": ["comum", "celestial", "natureza", "agua"], "vitrine_carta": ["comum", "ameaca"],
-         "lendaria_entrada": ["minha", "dele"], "booster_revelar": ["comum", "raro"]}
+         "lendaria_entrada": ["minha", "dele"], "booster_revelar": ["comum", "raro"],
+         "carta_zoom": ["abrir", "fechar"], "cemiterio_carrossel": ["abrir", "passo", "fechar"], "turno_fim_botao": ["fim", "rapido"],
+         "alvo_escolher": ["abrir", "confirmar"]}
 
 
 def finalizar(x, ganho_db):

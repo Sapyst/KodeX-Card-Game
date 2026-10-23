@@ -8,11 +8,11 @@ extends Node2D
 signal selecionado(idx)
 
 const PASSO := 64.0               # distância entre cartas no leque (px por índice)
-const CW := 188.0                 # carta do centro 188×263 (maior, para ler o texto)
-const CH := 263.0
-const CY := 300.0
+const CW := 220.0                 # carta do centro 220×308 (a do zoom da mesa); embaixo, o texto em letra de ler
+const CH := 308.0
+const CY := 214.0
 
-var itens: Array = []             # [{tex, nome}]
+var itens: Array = []             # [{tex, nome, texto, info}]
 var origem := Vector2.ZERO        # pilha de onde saem e para onde voltam
 var modo := ""                    # "" (fechado) | "ver" | "escolher"
 var titulo := ""
@@ -36,7 +36,7 @@ var _ini := Vector2.ZERO
 var _ult := Vector2.ZERO
 var _moveu := false
 var _ult_t := 0
-var _btn := Rect2(130, 556, 100, 24)
+var _btn := Rect2(120, 598, 120, 26)
 
 
 func _ready() -> void:
@@ -62,6 +62,7 @@ func abrir(lista: Array, de: Vector2, m: String, tit: String) -> void:
 	fechando = -1.0
 	escolhido = -1
 	Sessao.vibrar(15, 0.4)
+	Som.tocar("cemiterio_carrossel", "abrir")
 
 
 func fechar() -> void:
@@ -69,6 +70,7 @@ func fechar() -> void:
 		return
 	fechando = 0.0
 	Sessao.vibrar(10, 0.3)
+	Som.tocar("cemiterio_carrossel", "fechar")
 	await get_tree().create_timer(0.55).timeout
 	modo = ""
 	itens = []
@@ -195,6 +197,7 @@ func mover(p: Vector2) -> void:
 	_ult_t = agora
 	if int(roundf(pos)) != int(roundf(pos + dx / PASSO)):
 		Sessao.vibrar(4, 0.15)
+		Som.tocar("cemiterio_carrossel", "passo", -4.0)
 	_ult = p
 
 
@@ -245,8 +248,8 @@ func _draw() -> void:
 	# leque de luz atrás da carta do centro
 	for k in 10:
 		Efeitos.raio(self, Vector2(180, CY), t * 0.3 + TAU * k / 10.0, 230, 0.12, Color(0.78, 0.68, 1.0, 0.12 * fundo))
-	PixelFonte.centrado(self, Vector2(180, 118), Sessao.t(titulo), Color(1.0, 0.89, 0.6, fundo), 2, Color("#140c10"))
-	PixelFonte.centrado(self, Vector2(180, 134), "%d / %d" % [clampi(int(roundf(pos)) + 1, 1, n), n], Color(0.81, 0.88, 1.0, fundo), 1)
+	PixelFonte.centrado(self, Vector2(180, 30), Sessao.t(titulo), Color(1.0, 0.89, 0.6, fundo), 2, Color("#140c10"))
+	PixelFonte.centrado(self, Vector2(180, 46), "%d / %d" % [clampi(int(roundf(pos)) + 1, 1, n), n], Color(0.81, 0.88, 1.0, fundo), 1)
 	# ordem: de fora para dentro (a do centro por cima)
 	var ordem: Array = range(n)
 	ordem.sort_custom(func(a: int, b: int) -> bool: return absf(a - pos) > absf(b - pos))
@@ -308,14 +311,13 @@ func _draw() -> void:
 	if fecha <= 0.0 and n > 0:
 		var centro := clampi(int(roundf(pos)), 0, n - 1)
 		var some := 1.0 - clampf((zoom - 1.0) * 3.0, 0.0, 1.0)          # textos de baixo somem com o zoom
-		var nome := PixelFonte.normalizar(str(itens[centro]["nome"]))
-		PixelFonte.centrado(self, Vector2(180, CY + CH / 2 + 18), nome, Color(1.0, 0.95, 0.85, fundo * some), 1, Color("#140c10"))
+		var y_fim := _painel(itens[centro], CY + CH / 2 + 12, fundo * some)
 		var dica := Sessao.t("toque na carta para reviver") if modo == "escolher" else Sessao.t("deslize para os lados")
 		if zoom_ativo():
 			dica = Sessao.t("toque para voltar")
 		elif fecha <= 0.0:
 			dica += "  -  " + Sessao.t("pinça para ampliar")
-		var y_dica := CY + CH / 2 + 32 if not zoom_ativo() else 96.0      # com zoom, a dica vai para o topo
+		var y_dica := minf(y_fim + 10, _btn.position.y - 10) if not zoom_ativo() else 96.0      # com zoom, a dica vai para o topo
 		var al_dica := (0.6 + 0.4 * sin(t * 4)) * (some if not zoom_ativo() else 1.0)
 		PixelFonte.centrado(self, Vector2(180, y_dica), dica, Color(0.81, 0.88, 1.0, al_dica), 1, Color("#140c10"))
 		# setas nas bordas
@@ -327,4 +329,38 @@ func _draw() -> void:
 		draw_rect(_btn.grow(1), Color("#140c10"))
 		draw_rect(_btn, Color("#3d1f33"))
 		draw_rect(Rect2(_btn.position, Vector2(_btn.size.x, 1)), Color("#e2b85a"))
-		PixelFonte.centrado(self, _btn.get_center(), Sessao.t("PULAR") if modo == "escolher" else Sessao.t("FECHAR"), Color("#ffe39a"), 1)
+		var rot_btn := Sessao.t("PULAR") if modo == "escolher" else Sessao.t("FECHAR")
+		var tv := Fonte57.tinta_v(rot_btn)
+		Fonte57.desenhar(self, Vector2(roundf(_btn.get_center().x - Fonte57.largura(rot_btn) / 2.0), roundf(_btn.get_center().y - (tv.x + tv.y + 1) / 2.0)),
+			rot_btn, Color("#ffe39a"), Color("#140c10"))
+
+
+## Painel de leitura da carta do centro: nome, tipo/custo/ATK/DEF e o texto inteiro (fonte 5×7). Devolve onde terminou.
+func _painel(it: Dictionary, y: float, al: float) -> float:
+	var w := 324.0
+	var tw := int(w - 20)
+	var nomes := Fonte57.quebrar(str(it.get("nome", "")), tw)
+	var infos := Fonte57.quebrar(str(it.get("info", "")), tw)
+	var linhas := Fonte57.quebrar(str(it.get("texto", "")), tw)
+	var max_l := int((_btn.position.y - 24 - y - 14 - 11 * (nomes.size() + infos.size())) / 10)
+	if linhas.size() > max_l:
+		linhas = linhas.slice(0, maxi(max_l, 0))
+	var h := 12 + 11 * (nomes.size() + infos.size()) + (10 * linhas.size() + 4 if linhas.size() > 0 else 0)
+	var r := Rect2(180 - w / 2, y, w, h)
+	draw_rect(r.grow(1), Color(0.08, 0.05, 0.06, al))
+	draw_rect(r, Color(0.16, 0.11, 0.14, 0.94 * al))
+	draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), Color(0.89, 0.72, 0.35, al))
+	var yy := y + 6
+	for l in nomes:
+		Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(l) / 2.0), yy), l, Color(1.0, 0.89, 0.6, al), Color(0.08, 0.05, 0.06, al))
+		yy += 11
+	for l in infos:
+		Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(l) / 2.0), yy), l, Color(0.75, 0.84, 1.0, al), Color(0.08, 0.05, 0.06, al))
+		yy += 11
+	if linhas.size() > 0:
+		yy += 4
+		draw_rect(Rect2(r.position.x + 10, yy - 3, w - 20, 1), Color(0.55, 0.42, 0.3, 0.6 * al))
+	for l in linhas:
+		Fonte57.desenhar(self, Vector2(r.position.x + 10, yy), l, Color(0.95, 0.9, 0.82, al), Color(0.08, 0.05, 0.06, al))
+		yy += 10
+	return r.end.y

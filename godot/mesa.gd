@@ -9,21 +9,26 @@ const MAO_INICIAL := 4
 # falsa perspectiva: a mesa encolhe para cima (fundo = 84% da largura da frente)
 const TOPO_Y := 34.0
 const BASE_Y := 606.0
-const ESC_TOPO := 0.84
+const ESC_TOPO := 0.66                  # largura da borda do fundo da mesa (× a da frente): o tombo
+const ESCORCO := 0.88                   # cartas/espaços deitados: altura × isto (o tampo é visto inclinado)
+## Perspectiva real do tampo (homografia): profundidade u = BASE_Y − y; q = 1 + K·u divide o x (afina) e o y (encurta).
+## A = escala vertical na frente, escolhida para a linha do meio (LINHA_Y) ficar no mesmo lugar da tela.
+const PERSP_K := (1.0 / ESC_TOPO - 1.0) / (606.0 - 34.0)
+const PERSP_A := 1.0 + PERSP_K * (606.0 - 291.0)
 
 # espaços em coordenadas "planas" da mesa
 # as duas metades são espelhadas em volta da linha do meio (y 291): cada lado tem a sua faixa na borda da mesa para o
 # retrato (em cima, menor pela perspectiva); a mão do jogador fica abaixo da faixa dele
-const ENT_OPON := [Vector2(68, 212), Vector2(143, 212), Vector2(218, 212), Vector2(293, 212)]
-const SELO_OPON := [Vector2(143, 126), Vector2(218, 126)]
-const ENT_JOG := [Vector2(68, 370), Vector2(143, 370), Vector2(218, 370), Vector2(293, 370)]
-const SELO_JOG := [Vector2(143, 458), Vector2(218, 458)]
-const DECK_JOG := Vector2(306, 458)
-const CEMIT_JOG := Vector2(55, 458)
-const DECK_OPON := Vector2(55, 126)
-const CEMIT_OPON := Vector2(306, 126)
+const ENT_OPON := [Vector2(60, 220), Vector2(140, 220), Vector2(220, 220), Vector2(300, 220)]
+const SELO_OPON := [Vector2(140, 118), Vector2(220, 118)]
+const ENT_JOG := [Vector2(60, 362), Vector2(140, 362), Vector2(220, 362), Vector2(300, 362)]
+const SELO_JOG := [Vector2(140, 458), Vector2(220, 458)]
+const DECK_JOG := Vector2(304, 458)
+const CEMIT_JOG := Vector2(56, 458)
+const DECK_OPON := Vector2(56, 118)
+const CEMIT_OPON := Vector2(304, 118)
 const LINHA_Y := 291.0
-const ESC_CAMPO := 0.88
+const ESC_CAMPO := 1.05
 const LUZ_PRINCIPAL := Vector2(180, -34)
 
 # paleta
@@ -85,7 +90,7 @@ var ativo := 0
 var turno_n := 0
 var selo_no_turno := false
 var acabou := false
-var botao_fim := Rect2(296, 318, 50, 14)
+var botao_fim := Rect2(290, 284, 54, 14)
 var segurando_t := 0.0
 var segurando_ini := Vector2.ZERO
 var nivel_ia := [1, 1]                 # 0 Aprendiz · 1 Mestre · 2 Arquimago (por lado; o jogador só usa com GD_AUTO)
@@ -105,6 +110,7 @@ var _som: AudioStreamPlayer
 
 
 func _ready() -> void:
+	Carta.PERSP = [PERSP_K, PERSP_A, ESCORCO]
 	RegistroErros.contexto = "partida:" + (Sessao.modo if Sessao.modo != "" else "teste")
 	# partida de verdade: embaralhamento novo a cada vez (antes era sempre a semente 7 = mesma ordem e mesma mão);
 	# testes fixam com GD_SEED; o Desafio do dia usa a semente do dia (igual para todo mundo)
@@ -189,6 +195,7 @@ func _ready() -> void:
 		rede.forcado.connect(_forcado)
 		await rede.iniciar(online_info, bool(online_info.get("retomar", false)))
 	_preparar_retratos()
+	_ret_info()
 	await _intro()
 	if modo_partida and Sessao.modo == "enigma":
 		await _enigma()
@@ -312,12 +319,36 @@ func _ready() -> void:
 
 
 # ---------------- perspectiva ----------------
+## Cartas na mesa (campo, Selos, decks) deitam no tampo com a perspectiva dele; as da mão ficam retas.
+func _deitar_cartas() -> void:
+	for d in 2:
+		for c in campo_ent[d] + campo_selo[d]:
+			if c != null and is_instance_valid(c):
+				(c as Carta).plano_alvo = 1.0
+	for c in deck_jog + deck_opon:
+		c.plano_alvo = 1.0
+	for c in topo_cem:
+		if c != null and is_instance_valid(c):
+			(c as Carta).plano_alvo = 1.0
+	for c in mao_jog + mao_opon:
+		c.plano_alvo = 0.0
+
+
+## Escala horizontal no ponto de altura y do PROJETO da mesa (antes da projeção).
 func escala_em(y: float) -> float:
-	return lerpf(ESC_TOPO, 1.0, clampf((y - TOPO_Y) / (BASE_Y - TOPO_Y), 0.0, 1.0))
+	return 1.0 / (1.0 + PERSP_K * (BASE_Y - y))
+
+
+## A mesma escala, a partir de uma altura y da TELA (posições já projetadas).
+func escala_tela(y: float) -> float:
+	var h := BASE_Y - y
+	var u := h / (PERSP_A - PERSP_K * h)
+	return 1.0 / (1.0 + PERSP_K * u)
 
 
 func proj(p: Vector2) -> Vector2:
-	return Vector2(CENTRO.x + (p.x - CENTRO.x) * escala_em(p.y), p.y).round()
+	var q := 1.0 + PERSP_K * (BASE_Y - p.y)
+	return Vector2(CENTRO.x + (p.x - CENTRO.x) / q, BASE_Y - PERSP_A * (BASE_Y - p.y) / q).round()
 
 
 func quad(c: Vector2, hw: float, hh: float) -> PackedVector2Array:
@@ -365,6 +396,7 @@ func _criar_luzes() -> void:
 
 
 func _process(delta: float) -> void:
+	_deitar_cartas()
 	if modo_partida and _corn_visto != -999 and cornucopia[0] < _corn_visto:
 		_sofreu = true
 		if cornucopia[0] <= 5 and not _falou_vantagem and not acabou:   # você quase perdendo: ele provoca
@@ -507,8 +539,8 @@ func _anel(c: Vector2, r: float, cor: Color) -> void:
 
 
 func _espaco(c: Vector2, cor: Color) -> void:
-	var hw := Carta.LARG * ESC_CAMPO / 2 + 2
-	var hh := Carta.ALT * ESC_CAMPO / 2 + 2
+	var hw := Carta.LARG * ESC_CAMPO / 2 + 1
+	var hh := Carta.ALT * ESC_CAMPO * ESCORCO / 2 + 1
 	var q := quad(c, hw, hh)
 	tabuleiro.draw_colored_polygon(q, VELUDO[2])
 	# entalhe: borda escura em cima/esquerda, clara embaixo/direita
@@ -536,6 +568,7 @@ func _placar(p: Vector2, s: String, cor: Color) -> void:
 
 # ---------------- entrada ----------------
 func _intro() -> void:
+	Som.tocar("intro_camera")
 	camera.zoom = Vector2(0.34, 0.34)
 	camera.rotation = -2.5
 	var t := create_tween().set_parallel(true)
@@ -614,6 +647,7 @@ func _cascata_deck() -> void:
 
 
 func _bater_monte() -> void:
+	Som.tocar("monte_bater", "", 0.0, 0.08)
 	# alinha e dá uma batidinha (escala 1 → 0,96 → 1)
 	for i in deck_jog.size():
 		var c: Carta = deck_jog[i]
@@ -695,6 +729,7 @@ func _cortes() -> void:
 
 # ---------------- monte → espaço do deck ----------------
 func _ir_para_deck() -> void:
+	Som.tocar("deck_para_espaco")
 	var destino := proj(DECK_JOG)
 	var esc := ESC_CAMPO * escala_em(DECK_JOG.y)
 	for i in deck_jog.size():
@@ -806,23 +841,17 @@ func _comprar_mao() -> void:
 
 
 # ================= placar dinâmico =================
+## Onde a vida (Cornucópia) é mostrada: a barra da moldura (quem chama soma (10, 2) para mirar o meio dela).
 func _pos_placar(dono: int) -> Vector2:
-	return proj(Vector2(34, LINHA_Y + 8)) if dono == 0 else proj(Vector2(34, LINHA_Y - 14))
+	var l := _ret_layout(dono)
+	return Vector2(l["cx"] - 10, l["barra"] + 2)
 
 
 func _desenhar_placar() -> void:
 	_desenhar_retratos()
 	for d in 2:
-		var p := _pos_placar(d)
-		var s := str(maxi(cornucopia[d], 0))
-		var pulo: float = placar_pulo[d]
-		var esc := 1 + int(pulo > 0.5)
-		var cor := Color("#ff6a6a") if pulo > 0.0 else Color("#f2e6c8")
-		placar.draw_rect(Rect2(p + Vector2(-2, -2), Vector2(9 + PixelFonte.largura(s, esc), 5 * esc + 4)), ESCURO)
-		placar.draw_rect(Rect2(p + Vector2(0, 1), Vector2(3, 3)), Color("#e86a6a"))
-		PixelFonte.desenhar(placar, p + Vector2(6, -(esc - 1) * 2), s, cor, esc)
 		if modo_partida:
-			var pf := proj(Vector2(300, LINHA_Y + 8)) if d == 0 else proj(Vector2(300, LINHA_Y - 14))
+			var pf := _pos_fe(d)
 			var sf := "%d/%d" % [fe[d], fe_max[d]]
 			placar.draw_rect(Rect2(pf + Vector2(-2, -2), Vector2(9 + PixelFonte.largura(sf), 9)), ESCURO)
 			placar.draw_rect(Rect2(pf + Vector2(0, 1), Vector2(3, 3)), Color("#7aa8ff"))
@@ -861,7 +890,7 @@ func pos_selo(dono: int, i: int) -> Vector2:
 
 
 func esc_em(p: Vector2) -> float:
-	return ESC_CAMPO * escala_em(p.y)
+	return ESC_CAMPO * escala_tela(p.y)
 
 
 func _rect_espaco(p: Vector2) -> Rect2:
@@ -946,9 +975,11 @@ func pressionar(p: Vector2) -> void:
 			return
 		if ativo == 0 and not ocupado and not acabou:
 			Sessao.vibrar(10, 0.4)
+			Som.tocar("turno_fim_botao", "fim")
 			fim_turno_pedido.emit()
 		elif ativo == 1 and not acabou:            # turno do oponente: liga/desliga o modo rápido
 			acelerar_ia = not acelerar_ia
+			Som.tocar("turno_fim_botao", "rapido")
 			Sessao.vibrar(10, 0.4)
 			aplicar_tempo()
 		return
@@ -1021,6 +1052,7 @@ func _pegar(c: Carta, de: String, idx: int) -> void:
 	segurando_t = 0.0
 	segurando_ini = ponteiro
 	segurando = c
+	Som.tocar("carta_pegar")
 	origem = de
 	origem_idx = idx
 	c.z_index = 800
@@ -1150,6 +1182,7 @@ func _voltar_ao_espaco(c: Carta) -> void:
 
 ## Soltou em lugar inválido: sacode (6 batidas em 0,2 s) e volta para a origem como puxada por um ímã (elástico 0,5 s).
 func _recusar(c: Carta) -> void:
+	Som.tocar("carta_recusar")
 	Sessao.vibrar_pulsos(2, 15, 0.5)
 	var base := c.position
 	var t := create_tween()
@@ -1418,15 +1451,16 @@ func _desenhar_pilhas() -> void:
 		var k := _topo_assentado(d)
 		if k < 1:
 			continue
-		var cem := proj(CEMIT_JOG if d == 0 else CEMIT_OPON)
-		var e := esc_em(cem)
-		var sz := Vector2(Carta.LARG, Carta.ALT) * e
+		var q := quad(CEMIT_JOG if d == 0 else CEMIT_OPON, Carta.LARG * ESC_CAMPO / 2, Carta.ALT * ESC_CAMPO * ESCORCO / 2)
 		var n := int(_altura_pilha(k))
-		pilha_cem.draw_rect(Rect2(cem - sz / 2 + Vector2(2, 3), sz + Vector2(0, n)), Color(0, 0, 0, 0.35))
-		for j in n:
-			var r := Rect2(cem - sz / 2 + Vector2(0, -j), sz)
-			pilha_cem.draw_rect(r, Carta.PAPEL if j % 2 == 0 else Carta.PAPEL_ESC)
-			pilha_cem.draw_rect(Rect2(r.position.x, r.end.y - 1, r.size.x, 1), Carta.PAPEL_ESC.darkened(0.25))
+		var sombra := PackedVector2Array([q[0] + Vector2(2, 3), q[1] + Vector2(2, 3), q[2] + Vector2(2, 3 + n), q[3] + Vector2(2, 3 + n)])
+		pilha_cem.draw_colored_polygon(sombra, Color(0, 0, 0, 0.35))
+		for j in n:                                     # lâminas no formato do espaço (perspectiva da mesa)
+			var lam := PackedVector2Array()
+			for p in q:
+				lam.append(p + Vector2(0, -j))
+			pilha_cem.draw_colored_polygon(lam, Carta.PAPEL if j % 2 == 0 else Carta.PAPEL_ESC)
+			pilha_cem.draw_line(lam[3], lam[2], Carta.PAPEL_ESC.darkened(0.25), 1.0)
 
 
 ## Golpe direto na Cornucópia (só com o campo inimigo vazio): recuo maior, investida até o placar, tremor de 5 px,
@@ -1890,6 +1924,7 @@ func _encerrar(v: int, motivo := "") -> void:
 		await _derrota()
 	else:
 		efeitos.faixa = "EMPATE"
+		Som.tocar("empate")
 		efeitos.faixa_t = 0.0
 		await get_tree().create_timer(2.5).timeout
 	fim_turno_pedido.emit()               # a partida podia estar esperando o botão FIM do jogador
@@ -2027,6 +2062,7 @@ func _receber_comprada(d: int, c: Carta, queimar := true) -> void:
 			await c.virar(0.2)
 		efeitos.numero(c.position + Vector2(0, -40), "MÃO CHEIA", Color("#ffd0a0"), 1)
 		await get_tree().create_timer(0.3).timeout
+		Som.tocar("carta_queimar")
 		efeitos.estilhacar(c.position, c.cores_estilhaco(), int(Carta.LARG * c.scale.x), int(Carta.ALT * c.scale.y))
 		cemit[d].append({"dados": c.dados, "no": null})
 		c.queue_free()
@@ -2085,6 +2121,7 @@ func _entrar_na_mao(d: int, c: Carta) -> void:
 
 ## Descarte (efeito ou mão > 7): a carta vira, mostra-se e se desfaz; vai ao cemitério.
 func _descartar(d: int, c: Carta) -> void:
+	Som.tocar("carta_descartar", "", 0.0 if d == 0 else -4.0)
 	_mao_de(d).erase(c)
 	_rearrumar_de(d)
 	c.z_index = 760
@@ -2102,6 +2139,7 @@ func _descartar(d: int, c: Carta) -> void:
 
 ## Token/carta que some sem ir à pilha do cemitério.
 func _desfazer(c: Carta) -> void:
+	Som.tocar("token_desfazer")
 	_remover_do_campo(c)
 	c.em_campo = false
 	_sacudir(c, 2.0)
@@ -2128,7 +2166,7 @@ func _embaralhar_deck(d: int) -> void:
 
 
 func _pos_fe(d: int) -> Vector2:
-	return proj(Vector2(300, LINHA_Y + 8)) if d == 0 else proj(Vector2(300, LINHA_Y - 14))
+	return proj(Vector2(34, LINHA_Y + 8)) if d == 0 else proj(Vector2(34, LINHA_Y - 14))
 
 
 ## Põe uma Entidade num espaço (invocação, token, revive, roubo): entra cansada; cai com poeira.
@@ -2174,6 +2212,7 @@ func _revelar_selo(s: Carta) -> void:
 
 func _selo_ao_cemiterio(s: Carta) -> void:
 	await get_tree().create_timer(0.2).timeout
+	Som.tocar("selo_cemiterio")
 	efeitos.estilhacar(s.position, [Color("#c8b0f0"), Color("#7a5aa8"), Color("#3b2d5e")], int(Carta.LARG * s.scale.x), int(Carta.ALT * s.scale.y))
 	cemiterio[s.dono_real] += 1
 	s.queue_free()
@@ -2239,8 +2278,10 @@ func pedir_alvo(cands: Array, dica: String, botao := "PULAR", fonte = null):
 	efeitos.escolha = [{"rect": Rect2(152, LINHA_Y + 19, 56, 14), "texto": botao, "valor": "pular"}]
 	_veu(1.0)
 	Sessao.vibrar(12, 0.4)
+	Som.tocar("alvo_escolher", "abrir")
 	var r = await alvo_tocado
 	if r != null:
+		Som.tocar("alvo_escolher", "confirmar")
 		var rc: Carta = r
 		efeitos.anel(rc.global_position, Color("#ffe39a"), 40)
 		efeitos.faiscas(rc.global_position, 18)
@@ -2270,7 +2311,13 @@ func _itens_cemiterio(lista: Array) -> Array:
 	var out: Array = []
 	for e in lista:
 		var dd: Dictionary = e["dados"]
-		out.append({"tex": Carta.textura(pasta, str(dd.get("id", "")), "webp"), "nome": str(dd.get("nome", ""))})
+		var tipo := str(dd.get("tipo", ""))
+		var info := "%s  ·  %s %d" % [Sessao.t({"entidade": "ENTIDADE", "selo": "SELO", "rito": "RITO", "reliquia": "RELÍQUIA"}.get(tipo, "")),
+			Sessao.t("CUSTO"), int(dd.get("custo", 0))]
+		if tipo == "entidade" and dd.get("atk") != null:
+			info += "  ·  ATK %d  DEF %d" % [int(dd["atk"]), int(dd.get("vida", 0))]
+		out.append({"tex": Carta.textura(pasta, str(dd.get("id", "")), "webp"), "nome": str(dd.get("nome", "")),
+			"texto": str(dd.get("texto", "")), "info": info})
 	return out
 
 
@@ -2598,6 +2645,7 @@ func _jogar_rito(c: Carta, d: int, pre = null, tipo_pre := "") -> void:
 
 ## Relíquia: voa até a portadora, encolhe e vira a faixa dourada sob ela → Selos enemy_plays_reliquia → on_equip.
 func _jogar_reliquia(c: Carta, d: int, port: Carta) -> void:
+	Som.tocar("reliquia_equipar", "", 0.0, 0.35)
 	_conta(d, "reliquias")
 	hud.registrar(d, c.id, "reliquia", port.id if port != null else "")
 	_pagar(d, c.custo)
@@ -2668,6 +2716,7 @@ func _pode_atacar(c: Carta, alvo: Carta) -> String:
 
 ## Renascer: em vez de ir ao cemitério, volta para a mão do dono (uma vez — perde a palavra-chave).
 func _renascer(c: Carta) -> void:
+	Som.tocar("efeito_renascer")
 	_piscar(c)
 	efeitos.faiscas(c.position, 16, Color("#ffe39a"))
 	efeitos.numero(c.position + Vector2(0, -34), "RENASCER", Color("#ffe39a"), 1)
@@ -2724,6 +2773,7 @@ func _atualizar_zoom(delta: float) -> void:
 			segurando = null
 			efeitos.destaques.clear()
 			efeitos.zoom = c
+			Som.tocar("carta_zoom", "abrir")
 			zoom_travado = true
 			_devolver(c)
 	elif zoom_pendente != null:
@@ -2733,6 +2783,7 @@ func _atualizar_zoom(delta: float) -> void:
 			efeitos.zoom = null
 		elif zoom_t > 0.4:
 			efeitos.zoom = zoom_pendente
+			Som.tocar("carta_zoom", "abrir")
 			zoom_travado = true
 			zoom_pendente = null
 
@@ -4313,7 +4364,6 @@ func _responder_auto() -> void:
 
 
 # ================= retratos: quem está de fato na mesa (você embaixo, o adversário em cima) =================
-const RET_TAM := Vector2(36, 48)                       # foto 3:4 (px nativos); a plaquinha cobre o pé da foto
 var ret_tex: Array = [null, null]
 var ret_nome: Array = ["", ""]
 
@@ -4346,37 +4396,78 @@ func _preparar_retratos() -> void:
 		ret_tex[1] = Carta.textura("arte", "aby_choronzon", "png")
 
 
-## Retrato no meio da faixa da borda de cada lado: o seu embaixo (entre os Selos e a mão), o do adversário em cima,
-## menor pela perspectiva da mesa.
+## Moldura de cada lado (Moldura.gd): retrato no arco com o medalhão da tradição; ao lado, de cima para baixo, a barra de
+## vida (Cornucópia), a plaquinha com o nome e a fita do nível. O seu grupo fica entre os Selos e a mão; o do adversário,
+## entre a mão dele e os Selos dele. Os dois no mesmo tamanho (sem perspectiva: legível dos dois lados).
+const RET_TAM := [Vector2i(40, 44), Vector2i(58, 66)]   # janela do arco: você (embaixo) · adversário (em cima, sobra mais espaço)
+const RET_Y := [497.0, 32.0]                             # ápice do arco
+const RET_ESC := [1, 2]                                  # letra da barra/nome/nível: o adversário em dobro (lê de longe)
+const RET_BARRA := [92, 150]
+var ret_trad: Array = ["misto", "misto"]
+var ret_mat: Array = ["bronze", "prata"]
+var ret_nivel: Array = ["", ""]
+var corn_max := [15, 15]
+
+
+## Grupo centrado: [arco] + pilha à direita (barra de vida, plaquinha do nome, fita do nível), alinhada ao arco.
+func _ret_layout(d: int) -> Dictionary:
+	var tam: Vector2i = RET_TAM[d]
+	var e: int = RET_ESC[d]
+	var larg_pilha := maxf(RET_BARRA[d], Fonte57.largura(ret_nome[d], e) + 18)
+	larg_pilha = maxf(larg_pilha, Fonte57.largura(ret_nivel[d], e) + 18)
+	var larg := tam.x + 16 + 8 + larg_pilha
+	var x := roundf(180 - larg / 2.0)
+	var y: float = RET_Y[d]
+	var px := x + tam.x + 16 + 8
+	var alt_pilha := (7 * e + 2) + 5 + (7 * e + 5) + 4 + (7 * e + 3)      # barra · plaquinha · fita
+	var y0 := roundf(y + tam.y / 2.0 - alt_pilha / 2.0)                  # pilha centrada na altura da janela
+	return {"janela": Rect2(x + 8, y, tam.x, tam.y), "cx": px + larg_pilha / 2.0, "esc": e, "barra": y0,
+		"nome": y0 + (7 * e + 2) + 5 + (7 * e + 5) / 2.0, "nivel": y0 + (7 * e + 2) + 5 + (7 * e + 5) + 4}
+
+
 func ret_rect(d: int) -> Rect2:
-	var y := 524.0 if d == 0 else 62.0
-	var tam := (RET_TAM * escala_em(y)).round()
-	return Rect2((Vector2(180, y) - tam / 2).round(), tam)
+	return _ret_layout(d)["janela"]
+
+
+func _ret_info() -> void:
+	ret_trad[0] = Sessao.deck_jogador_nome if Moldura.COR_TRAD.has(Sessao.deck_jogador_nome) else "misto"
+	var nv := Progresso.nivel()
+	ret_nivel[0] = Sessao.t("Nível %d") % nv
+	ret_mat[0] = "bronze" if nv < 5 else ("prata" if nv < 10 else ("ouro" if nv < 20 else ("jade" if nv < 30 else "obsidiana")))
+	var op := Sessao.oponente
+	ret_trad[1] = "abismo" if op == "choronzon" else (op if Moldura.COR_TRAD.has(op) else "misto")
+	if online_partida():
+		ret_mat[1] = "prata"
+		ret_nivel[1] = ""
+	elif op == "choronzon":
+		ret_mat[1] = "obsidiana"
+		ret_nivel[1] = Sessao.t("Arquimago")
+	else:
+		var n: int = nivel_ia[1]
+		ret_mat[1] = ["bronze", "prata", "ouro"][clampi(n, 0, 2)]
+		ret_nivel[1] = Sessao.t(["Aprendiz", "Mestre", "Arquimago"][clampi(n, 0, 2)])
+	corn_max = [maxi(15, cornucopia[0]), maxi(15, cornucopia[1])]
 
 
 func _desenhar_retratos() -> void:
 	for d in 2:
 		if ret_nome[d] == "":
 			continue
-		var r := ret_rect(d)
-		if ativo == d and not acabou:                  # de quem é a vez: brilho dourado pulsando em volta
-			var a := 0.35 + 0.3 * sin(tempo * 4.0)
-			placar.draw_rect(r.grow(5), Color(1.0, 0.85, 0.4, a * 0.5))
-			placar.draw_rect(r.grow(4), Color(1.0, 0.85, 0.4, a), false, 1.0)
-		placar.draw_rect(r.grow(3), ESCURO)
-		placar.draw_rect(r.grow(2), OURO[2])
-		placar.draw_rect(r.grow(1), OURO[1], false, 1.0)
-		placar.draw_rect(r, Color("#1a1218"))
-		if ret_tex[d] != null:
-			placar.draw_texture_rect(ret_tex[d], r, false)
-		else:                                          # silhueta: cabeça e ombros
-			var c := r.get_center()
-			placar.draw_circle(c + Vector2(0, -6), 6.0, Color("#3a2c36"))
-			placar.draw_colored_polygon(PackedVector2Array([c + Vector2(-11, 17), c + Vector2(-9, 4), c + Vector2(0, 1),
-				c + Vector2(9, 4), c + Vector2(11, 17)]), Color("#3a2c36"))
-		for cc in [r.position, Vector2(r.end.x, r.position.y)]:   # losangos nos cantos de cima
-			placar.draw_colored_polygon(PackedVector2Array([cc + Vector2(0, -3), cc + Vector2(3, 0), cc + Vector2(0, 3), cc + Vector2(-3, 0)]), OURO[0])
-		_plaquinha(Vector2(r.get_center().x, r.end.y - 1), ret_nome[d])
+		var l := _ret_layout(d)
+		var r: Rect2 = l["janela"]
+		var brilho := (0.6 + 0.4 * sin(tempo * 4.0)) if ativo == d and not acabou else 0.0
+		var e: int = l["esc"]
+		Moldura.arco(placar, r.position.x, r.position.y, int(r.size.x), int(r.size.y), ret_mat[d], ret_trad[d], ret_tex[d], brilho, 7 + e * 2 - 2)
+		corn_max[d] = maxi(corn_max[d], cornucopia[d])
+		var pulo: float = placar_pulo[d]
+		var tons: Array = Moldura.MATERIAIS[ret_mat[d]]
+		var lb: float = RET_BARRA[d]
+		Moldura.barra(placar, l["cx"] + roundf(sin(tempo * 70.0) * 2.0 * pulo), l["barra"], lb, cornucopia[d], corn_max[d], tons, e)
+		if pulo > 0.0:                                   # dano: a barra pisca em vermelho
+			placar.draw_rect(Rect2(l["cx"] - lb / 2.0, l["barra"], lb, 7 * e + 2), Color(1.0, 0.3, 0.25, 0.45 * pulo))
+		Moldura.plaquinha(placar, Vector2(l["cx"], l["nome"]), ret_nome[d], e)
+		if ret_nivel[d] != "":
+			Moldura.fita(placar, l["cx"], l["nivel"], ret_nivel[d], tons, e)
 		if d == 1 and rede != null:
 			_status_adversario(r)
 
@@ -4412,8 +4503,8 @@ func _status_adversario(r: Rect2) -> void:
 		txt = "." .repeat(1 + int(tempo * 3) % 3)
 	if txt == "":
 		return
-	var c := Vector2(r.end.x + 6, r.position.y + 2)
 	var w := PixelFonte.largura(txt) + 6
+	var c := Vector2(r.position.x - 14 - w, r.position.y + 2)
 	placar.draw_rect(Rect2(c, Vector2(w, 9)).grow(1), ESCURO)
 	placar.draw_rect(Rect2(c, Vector2(w, 9)), Color("#f2e6c8") if txt.begins_with(".") else Color("#5a1a1a"))
 	PixelFonte.desenhar(placar, c + Vector2(3, 2), txt, ESCURO if txt.begins_with(".") else Color("#ffb0a0"))

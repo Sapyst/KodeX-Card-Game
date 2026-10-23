@@ -1,5 +1,18 @@
 [
  {
+  "versao": "0.20.6-alpha",
+  "data": "22/10/2026",
+  "pt": [
+   "Versão web: o jogo agora se ajusta a qualquer tela, em pé ou deitado, sem cortar as bordas nem sobrar faixa preta."
+  ],
+  "en": [
+   "Web version: the game now fits any screen, portrait or landscape, without cutting the edges or leaving black bars."
+  ],
+  "es": [
+   "Versión web: el juego ahora se ajusta a cualquier pantalla, vertical u horizontal, sin cortar los bordes ni dejar franjas negras."
+  ]
+ },
+ {
   "versao": "0.20.5-alpha",
   "data": "22/10/2026",
   "pt": [

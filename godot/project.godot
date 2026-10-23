@@ -4,7 +4,7 @@ config_version=5
 [application]
 config/name="KodeX"
 config/quit_on_go_back=false
-config/version="0.20.5-alpha"
+config/version="0.20.6-alpha"
 run/main_scene="res://carregamento.tscn"
 boot_splash/show_image=false
 boot_splash/bg_color=Color(0.051, 0.043, 0.071, 1)

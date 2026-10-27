@@ -41,41 +41,46 @@ const MARCAS := {"agudo": [Vector2(2, -3), Vector2(1, -2)], "grave": [Vector2(0,
 
 ## Normaliza para a fonte 3×5: maiúsculas; acentos sem glifo próprio caem na letra base.
 static func normalizar(s: String) -> String:
-	var out := ""
-	for ch in s.to_upper():
-		out += ch if (G.has(ch) or ACENTOS.has(ch)) else SEM_ACENTO.get(ch, ch)
-	return out
+	return s.to_upper()
+
+
+## Alta resolução: maiúsculas em Noto Sans SemiCondensed Bold (OFL) na resolução real da tela; medidas em px do
+## layout 360×640 (maiúscula ≈ 5,7 px por esc). O desenho por retângulos (G, MARCAS) ficou só como referência.
+const TAM := 8
+const BASE := 5.6
+static var _f: Font
+
+
+static func fonte() -> Font:
+	if _f == null:
+		_f = load("res://fontes/NotoSans-SemiCondensedBold.ttf")
+	return _f
 
 
 static func largura(s: String, esc: int = 1) -> int:
-	return (s.length() * 4 - 1) * esc
+	return ceili(fonte().get_string_size(s.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, TAM * esc).x)
 
 
-## pos = canto superior esquerdo. `contorno` desenha 1 px (× esc) de borda em volta de cada pixel aceso.
+## pos = canto superior esquerdo. `contorno`: borda suave em volta das letras.
 static func desenhar(ci: CanvasItem, pos: Vector2, s: String, cor: Color, esc: int = 1, contorno := Color(0, 0, 0, 0)) -> void:
-	var pts: Array[Vector2] = []
-	var x := 0
-	for ch in normalizar(s):
-		var base: String = ACENTOS[ch][0] if ACENTOS.has(ch) else ch
-		var g: Array = G.get(base, G["-"])
-		for yy in 5:
-			var row: String = g[yy]
-			for xx in 3:
-				if row[xx] == "1":
-					pts.append(Vector2(x + xx, yy))
-		if ACENTOS.has(ch):
-			for m in MARCAS[ACENTOS[ch][1]]:
-				pts.append(Vector2(x, 0) + m)
-		x += 4
+	var f := fonte()
+	var t := s.to_upper()
+	var p := Vector2(pos.x, pos.y + BASE * esc)
 	if contorno.a > 0.0:
-		for p in pts:
-			ci.draw_rect(Rect2(pos + (p - Vector2.ONE) * esc, Vector2(3, 3) * esc), contorno)
-	for p in pts:
-		ci.draw_rect(Rect2(pos + p * esc, Vector2(esc, esc)), cor)
+		ci.draw_string_outline(f, p, t, HORIZONTAL_ALIGNMENT_LEFT, -1, TAM * esc, 2 * esc, contorno)
+	ci.draw_string(f, p, t, HORIZONTAL_ALIGNMENT_LEFT, -1, TAM * esc, cor)
+
+
+## Corta o texto até caber em `larg` px (sem reticências: rótulos curtos).
+static func cortar(s: String, larg: float, esc: int = 1) -> String:
+	var t := s.to_upper()
+	while t.length() > 1 and largura(t, esc) > larg:
+		t = t.substr(0, t.length() - 1)
+	return t.strip_edges()
 
 
 static func centrado(ci: CanvasItem, centro: Vector2, s: String, cor: Color, esc: int = 1, contorno := Color(0, 0, 0, 0)) -> void:
-	desenhar(ci, (centro - Vector2(largura(s, esc), 5 * esc) / 2).round(), s, cor, esc, contorno)
+	desenhar(ci, Vector2(roundf(centro.x - largura(s, esc) / 2.0), centro.y - 5 * esc / 2.0), s, cor, esc, contorno)
 
 
 ## Quebra o texto em linhas de no máximo `max_chars` caracteres (fonte monoespaçada).

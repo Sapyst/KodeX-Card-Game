@@ -130,66 +130,43 @@ static func grande() -> int:
 	return 2 if Sessao.texto_grande or Sessao.largo else 1      # formato largo: sobra espaço, letra maior
 
 
-## Linhas de pixel realmente acesas do texto (relativas a pos.y): [primeira, última]. Para centralizar pela tinta:
-## minúsculas e descendentes (g, p, ç) não ficam baixas como na centralização pela altura teórica de 7 px.
+## Alta resolução: o texto é desenhado com uma fonte de verdade (Noto Sans SemiCondensed, OFL) na resolução real da
+## tela (stretch canvas_items). As medidas continuam em px do layout 360×640: 7 px de altura de maiúscula por esc.
+## Os glifos G acima ficam só como referência da fonte pixel antiga.
+const TAM := 10                       # tamanho da fonte por esc (maiúscula ≈ 7,1 px, a mesma altura da fonte pixel 5×7)
+const BASE := 7.2                      # da linha de cima (pos.y) até a linha de base, por esc
+static var _f: Font
+
+
+static func fonte() -> Font:
+	if _f == null:
+		_f = load("res://fontes/NotoSans-SemiCondensedSemiBold.ttf")
+	return _f
+
+
+## Faixa vertical da tinta (relativa a pos.y), para centralizar: maiúsculas de 0 a 6 (por esc 1).
 static func tinta_v(s: String) -> Vector2i:
-	var lo := 99
-	var hi := -99
-	for ch in s:
-		var g: Array = G.get(ch, G["?"])
-		var off := g.size() - 7
-		for yy in g.size():
-			if (g[yy] as String).contains("1"):
-				lo = mini(lo, yy - off)
-				hi = maxi(hi, yy - off)
-	return Vector2i(0, 6) if lo > hi else Vector2i(lo, hi)
+	for ch in "gjpqyçQ,":
+		if s.contains(ch):
+			return Vector2i(0, 8)                 # letras que descem abaixo da linha
+	return Vector2i(0, 6)
 
 
 static func largura(s: String, esc := 1) -> int:
-	return _largura(s) * esc
+	return ceili(fonte().get_string_size(s, HORIZONTAL_ALIGNMENT_LEFT, -1, TAM * esc).x)
 
 
 static func _largura(s: String) -> int:
-	var w := 0
-	for ch in s:
-		var g: Array = G.get(ch, G["?"])
-		w += (g[0] as String).length() + 1
-	return maxi(w - 1, 0)
+	return largura(s)
 
 
-## pos = topo-esquerda da linha (7 px de altura). sombra: 1 px para baixo/direita.
+## pos = topo-esquerda da linha (7 px de altura por esc). sombra: contorno suave + 1 px de sombra embaixo.
 static func desenhar(ci: CanvasItem, pos: Vector2, s: String, cor: Color, sombra := Color(0, 0, 0, 0), esc := 1) -> void:
-	if esc != 1:
-		_desenhar_esc(ci, pos, s, cor, sombra, esc)
-		return
-	var x := pos.x
-	for ch in s:
-		var g: Array = G.get(ch, G["?"])
-		var off := g.size() - 7
-		for yy in g.size():
-			var row: String = g[yy]
-			for xx in row.length():
-				if row[xx] == "1":
-					if sombra.a > 0.0:
-						ci.draw_rect(Rect2(x + xx + 1, pos.y + yy - off + 1, 1, 1), sombra)
-					ci.draw_rect(Rect2(x + xx, pos.y + yy - off, 1, 1), cor)
-		x += (g[0] as String).length() + 1
-
-
-static func _desenhar_esc(ci: CanvasItem, pos: Vector2, s: String, cor: Color, sombra: Color, esc: int) -> void:
-	var x := pos.x
-	for ch in s:
-		var g: Array = G.get(ch, G["?"])
-		var off := g.size() - 7
-		for yy in g.size():
-			var row: String = g[yy]
-			for xx in row.length():
-				if row[xx] == "1":
-					var r := Rect2(x + xx * esc, pos.y + (yy - off) * esc, esc, esc)
-					if sombra.a > 0.0:
-						ci.draw_rect(Rect2(r.position + Vector2(esc, esc) * 0.5, r.size), sombra)
-					ci.draw_rect(r, cor)
-		x += ((g[0] as String).length() + 1) * esc
+	var f := fonte()
+	var p := Vector2(pos.x, pos.y + BASE * esc)
+	if sombra.a > 0.0:
+		ci.draw_string_outline(f, p + Vector2(0, 0.6 * esc), s, HORIZONTAL_ALIGNMENT_LEFT, -1, TAM * esc, 2 * esc, sombra)
+	ci.draw_string(f, p, s, HORIZONTAL_ALIGNMENT_LEFT, -1, TAM * esc, cor)
 
 
 ## Quebra por largura real em px (esc: tamanho do texto, a largura disponível não muda).

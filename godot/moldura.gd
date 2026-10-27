@@ -256,9 +256,22 @@ static func arco(ci: CanvasItem, x0: float, y0: float, larg: int, alt: int, mat:
 	ci.draw_texture(med, Vector2(roundf(x0 + larg / 2.0 - med.get_width() / 2.0), y0 + alt - raio_med))
 
 
+## Alturas das peças da pilha (barra · plaquinha · fita) para a letra de tamanho esc.
+static func alt_barra(esc: int) -> int:
+	return 8 * esc + 3
+
+
+static func alt_placa(esc: int) -> int:
+	return 10 * esc + 4
+
+
+static func alt_fita(esc: int) -> int:
+	return 10 * esc + 2
+
+
 ## Barra de vida (Cornucópia). esc = tamanho da letra (1 ou 2); a barra cresce junto.
 static func barra(ci: CanvasItem, cx: float, y: float, larg: float, vida: int, vida_max: int, tons: Array, esc := 1) -> void:
-	var r := Rect2(roundf(cx - larg / 2.0), roundf(y), roundf(larg), 7 * esc + 2)
+	var r := Rect2(roundf(cx - larg / 2.0), roundf(y), roundf(larg), alt_barra(esc))
 	ci.draw_rect(r.grow(1), ESCURO)
 	ci.draw_rect(r, tons[1])
 	ci.draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), tons[3])
@@ -273,15 +286,15 @@ static func barra(ci: CanvasItem, cx: float, y: float, larg: float, vida: int, v
 		ci.draw_rect(Rect2(cheio.position + Vector2(0, cheio.size.y - 2 * esc), Vector2(cheio.size.x, 2 * esc)), Color8(120, 14, 24))
 	var s := str(maxi(vida, 0))
 	var w := Fonte57.largura(s, esc)
-	var p := Vector2(roundf(cx - w / 2.0), r.position.y + 1)
-	ci.draw_rect(Rect2(p - Vector2(2 * esc, 0), Vector2(w + 4 * esc, 7 * esc)), Color(ESCURO, 0.75))
+	var p := Vector2(roundf(cx - w / 2.0), r.position.y + roundf((r.size.y - 7 * esc) / 2.0))
+	ci.draw_rect(Rect2(Vector2(p.x - 2 * esc, r.position.y + 1), Vector2(w + 4 * esc, r.size.y - 2)), Color(ESCURO, 0.75))
 	Fonte57.desenhar(ci, p, s, Color8(255, 246, 230), Color(0, 0, 0), esc)
 
 
 ## Plaquinha de madeira com o nome entalhado (a mesma da mesa).
 static func plaquinha(ci: CanvasItem, centro: Vector2, nome: String, esc := 1) -> void:
 	var w := float(Fonte57.largura(nome, esc) + 16)
-	var alt := 7 * esc + 5
+	var alt := alt_placa(esc)
 	var pr := Rect2(roundf(centro.x - w / 2), roundf(centro.y - alt / 2.0), w, alt)
 	ci.draw_rect(pr.grow(1), ESCURO)
 	ci.draw_rect(pr, MADEIRA[0])
@@ -293,13 +306,12 @@ static func plaquinha(ci: CanvasItem, centro: Vector2, nome: String, esc := 1) -
 		ci.draw_rect(Rect2(x, roundf(pr.get_center().y - 1), 2, 2), Color("#e2b85a"))
 	var tv := Fonte57.tinta_v(nome) * esc
 	var pos := Vector2(roundf(centro.x - Fonte57.largura(nome, esc) / 2.0), roundf(pr.get_center().y - (tv.x + tv.y + esc) / 2.0))
-	Fonte57.desenhar(ci, pos + Vector2(0, 1), nome, MADEIRA[3].lightened(0.35), Color(0, 0, 0, 0), esc)
-	Fonte57.desenhar(ci, pos, nome, Color("#24130c"), Color(0, 0, 0, 0), esc)
+	Fonte57.desenhar(ci, pos, nome, Color("#f6ead0"), Color("#1a0d08"), esc)       # creme com contorno: lê sobre a madeira
 
 
 static func fita(ci: CanvasItem, cx: float, y: float, texto: String, tons: Array, esc := 1) -> void:
 	var w := Fonte57.largura(texto, esc) + 10
-	var r := Rect2(roundf(cx - w / 2.0), roundf(y), w, 7 * esc + 3)
+	var r := Rect2(roundf(cx - w / 2.0), roundf(y), w, alt_fita(esc))
 	for lado in [-1, 1]:                                  # caudas em V
 		var bx := r.position.x - 4 if lado < 0 else r.end.x
 		ci.draw_colored_polygon(PackedVector2Array([Vector2(bx, r.position.y + 1), Vector2(bx + 4, r.position.y + 1),

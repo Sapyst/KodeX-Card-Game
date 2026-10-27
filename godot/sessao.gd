@@ -65,8 +65,8 @@ func _ajustar_escala() -> void:
 	var w := get_tree().root
 	var tam := Vector2(w.size)
 	var novo := tam.x > tam.y * 1.05
-	# no navegador a escala inteira corta a tela (canvas em px físicos, densidade 2,25 etc.): lá é sempre adaptativa
-	var st := Window.CONTENT_SCALE_STRETCH_FRACTIONAL if novo or OS.has_feature("web") else Window.CONTENT_SCALE_STRETCH_INTEGER
+	# desenho na resolução real da tela (canvas_items): a escala é sempre adaptativa, sem bloco de pixel ampliado
+	var st := Window.CONTENT_SCALE_STRETCH_FRACTIONAL
 	if w.content_scale_stretch != st:
 		w.content_scale_stretch = st
 		var tam_base := w.content_scale_size                 # no navegador a troca só vale depois de recalcular o tamanho:

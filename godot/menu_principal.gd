@@ -229,7 +229,7 @@ func botao_deck(_b: Dictionary, r: Rect2, pressao: float) -> void:
 	if tex:
 		f.draw_texture_rect(tex, mini, false)
 	Fonte57.desenhar(f, dentro.position + Vector2(24, 4), _caber(Sessao.t("Deck em uso") + ": " + str(d["nome"]), dentro.size.x - 40), f.CREME, f.ESCURO)
-	PixelFonte.desenhar(f, dentro.position + Vector2(24, 15), "%d/%d" % [n, Sessao.DECK_TAM], Color(0.81, 0.88, 1.0) if n == Sessao.DECK_TAM else Color("#ff9a8a"))
+	PixelFonte.desenhar(f, dentro.position + Vector2(24, 13), "%d/%d" % [n, Sessao.DECK_TAM], Color(0.81, 0.88, 1.0) if n == Sessao.DECK_TAM else Color("#ff9a8a"))
 	Fonte57.desenhar(f, Vector2(dentro.end.x - 10, dentro.position.y + 7), ">", f.OURO[1])
 
 

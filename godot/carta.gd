@@ -82,6 +82,7 @@ var _mat_fx: ShaderMaterial
 
 
 func _ready() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	_mat_plano = ShaderMaterial.new()
 	_mat_plano.shader = SHADER_PLANO
 	material = _mat_plano
@@ -230,15 +231,17 @@ func _frente(x0: int, y0: int) -> void:
 	draw_rect(Rect2(x0 + 1, y0 + 1, LARG - 2, 1), base.lightened(0.35))               # luz no topo
 	var janela := Rect2(x0 + 8, y0 + 13, 48, 64)                                        # janela da arte, 3:4 exato
 	draw_rect(janela.grow(1), Color("#140c10"))
-	var tex := textura("arte", id, "png") if id != "" else null
+	var tex := textura("arte_hd", id, "webp") if id != "" else null      # arte 240×320: nítida na tela real
+	if tex == null and id != "":
+		tex = textura("arte", id, "png")
 	if tex:
 		draw_texture_rect(tex, janela, false)
 	else:
 		draw_rect(janela, Color("#6f6d76"))
 	var linhas := _linhas_nome()                                                         # pílula do nome: 1 ou 2 linhas
-	draw_rect(Rect2(x0 + 12, y0 + 3, LARG - 14, 2 + 6 * linhas.size()), Color("#d8d6dc"))
+	draw_rect(Rect2(x0 + 12, y0 + 3, LARG - 14, 1 + 7 * linhas.size()), Color("#d8d6dc"))
 	for k in linhas.size():
-		PixelFonte.desenhar(self, Vector2(x0 + 14, y0 + 5 + 6 * k), linhas[k], Color("#2a2028"))
+		PixelFonte.desenhar(self, Vector2(x0 + 18, y0 + 4 + 7 * k), linhas[k], Color("#2a2028"))
 	_selo_num(Rect2(x0 + 1, y0 + 1, 0, 14), str(custo), Color("#2f4f9a"), Color.WHITE)   # custo (dígitos 2×)
 	if lendaria:
 		draw_rect(Rect2(x0 + 1, y0 + 1, LARG - 2, 1), Color("#ffe39a"))
@@ -249,7 +252,7 @@ func _frente(x0: int, y0: int) -> void:
 	for k in keywords + aura_keywords.filter(func(k2: String) -> bool: return not (k2 in keywords)):
 		kw += ({"guarda": "G", "impeto": "R", "furtivo": "S", "renascer": "B"} if Sessao.idioma == "en" else {"guarda": "G", "impeto": "I", "furtivo": "F", "renascer": "R"}).get(k, "")
 	if kw != "":
-		draw_rect(Rect2(x0 + 8, y0 + 69, kw.length() * 4 + 3, 8), Color("#2a2028"))
+		draw_rect(Rect2(x0 + 8, y0 + 69, PixelFonte.largura(kw) + 4, 8), Color("#2a2028"))
 		PixelFonte.desenhar(self, Vector2(x0 + 10, y0 + 71), kw, Color("#ffe39a"))
 	match tipo:
 		"entidade":
@@ -275,12 +278,22 @@ func _linhas_nome() -> PackedStringArray:
 	if _nome_cache_de == nome:
 		return _nome_cache
 	var n := PixelFonte.normalizar(nome.get_slice(",", 0).strip_edges())
-	var linhas := PackedStringArray([n]) if n.length() <= 12 else PixelFonte.quebrar(n, 12)
-	linhas = PackedStringArray(Array(linhas).filter(func(l: String) -> bool: return l != ""))
+	var linhas := PackedStringArray()                                   # quebra pela largura real (46 px da pílula)
+	var atual := ""
+	for p in n.split(" ", false):
+		var t := (atual + " " + p).strip_edges()
+		if PixelFonte.largura(t) <= 42 or atual == "":
+			atual = t
+		else:
+			linhas.append(atual)
+			atual = p
+	if atual != "":
+		linhas.append(atual)
 	if linhas.size() > 2:
 		linhas = PackedStringArray([linhas[0], linhas[1]])
 	for k in linhas.size():
-		linhas[k] = linhas[k].substr(0, 12)
+		while PixelFonte.largura(linhas[k]) > 42 and linhas[k].length() > 3:
+			linhas[k] = linhas[k].substr(0, linhas[k].length() - 1)
 	_nome_cache_de = nome
 	_nome_cache = linhas
 	return linhas
@@ -370,11 +383,8 @@ func resetar() -> void:
 
 ## Relíquia equipada: faixa dourada logo abaixo da carta, com o nome (e Usos, se tiver).
 func _faixa_reliquia(x0: int, y0: int) -> void:
-	var n := PixelFonte.normalizar(str(reliquia.get("nome", "")))
-	if n.length() > 13:
-		n = n.substr(0, 13)
-	if reliquia.get("usos") != null:
-		n += " " + str(reliquia["usos"])
+	var usos := (" " + str(reliquia["usos"])) if reliquia.get("usos") != null else ""
+	var n := PixelFonte.cortar(str(reliquia.get("nome", "")), LARG - 8 - PixelFonte.largura(usos)) + usos
 	var r := Rect2(x0 + 2, y0 + ALT + ESPESSURA, LARG - 4, 8)
 	draw_rect(r.grow(1), Color("#140c10"))
 	draw_rect(r, Color("#5a3a1a"))

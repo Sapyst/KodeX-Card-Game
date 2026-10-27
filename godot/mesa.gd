@@ -553,7 +553,7 @@ func _espaco(c: Vector2, cor: Color) -> void:
 
 
 func _placar(p: Vector2, s: String, cor: Color) -> void:
-	tabuleiro.draw_rect(Rect2(p + Vector2(-2, -2), Vector2(8 + s.length() * 4 + 3, 9)), ESCURO)
+	tabuleiro.draw_rect(Rect2(p + Vector2(-2, -2), Vector2(8 + PixelFonte.largura(s) + 4, 9)), ESCURO)
 	tabuleiro.draw_rect(Rect2(p + Vector2(0, 1), Vector2(3, 3)), cor)
 	var x := p.x + 6
 	for ch in s:
@@ -4419,10 +4419,12 @@ func _ret_layout(d: int) -> Dictionary:
 	var x := roundf(180 - larg / 2.0)
 	var y: float = RET_Y[d]
 	var px := x + tam.x + 16 + 8
-	var alt_pilha := (7 * e + 2) + 5 + (7 * e + 5) + 4 + (7 * e + 3)      # barra · plaquinha · fita
+	var ab := Moldura.alt_barra(e)
+	var ap := Moldura.alt_placa(e)
+	var alt_pilha := ab + 4 + ap + 3 + Moldura.alt_fita(e)               # barra · plaquinha · fita
 	var y0 := roundf(y + tam.y / 2.0 - alt_pilha / 2.0)                  # pilha centrada na altura da janela
 	return {"janela": Rect2(x + 8, y, tam.x, tam.y), "cx": px + larg_pilha / 2.0, "esc": e, "barra": y0,
-		"nome": y0 + (7 * e + 2) + 5 + (7 * e + 5) / 2.0, "nivel": y0 + (7 * e + 2) + 5 + (7 * e + 5) + 4}
+		"nome": y0 + ab + 4 + ap / 2.0, "nivel": y0 + ab + 4 + ap + 3}
 
 
 func ret_rect(d: int) -> Rect2:
@@ -4464,7 +4466,7 @@ func _desenhar_retratos() -> void:
 		var lb: float = RET_BARRA[d]
 		Moldura.barra(placar, l["cx"] + roundf(sin(tempo * 70.0) * 2.0 * pulo), l["barra"], lb, cornucopia[d], corn_max[d], tons, e)
 		if pulo > 0.0:                                   # dano: a barra pisca em vermelho
-			placar.draw_rect(Rect2(l["cx"] - lb / 2.0, l["barra"], lb, 7 * e + 2), Color(1.0, 0.3, 0.25, 0.45 * pulo))
+			placar.draw_rect(Rect2(l["cx"] - lb / 2.0, l["barra"], lb, Moldura.alt_barra(e)), Color(1.0, 0.3, 0.25, 0.45 * pulo))
 		Moldura.plaquinha(placar, Vector2(l["cx"], l["nome"]), ret_nome[d], e)
 		if ret_nivel[d] != "":
 			Moldura.fita(placar, l["cx"], l["nivel"], ret_nivel[d], tons, e)

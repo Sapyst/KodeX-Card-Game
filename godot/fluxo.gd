@@ -364,6 +364,15 @@ func _ready() -> void:
 				mp.gaveta = "livre"; mp.deck_sugerido("bruxaria")
 			"progresso":
 				prg.aba = st[1] if st.size() > 1 else "missoes"; _ir("progresso")
+			"perfil_hist":                                     # perfil com 14 partidas falsas (rolagem do histórico)
+				var advs := ["Aditya Rao", "Moema Arani", "Ana", "Silas Ashcombe", "Bia - Bot"]
+				for k in 14:
+					Sessao.registrar_partida({"resultado": ["vitoria", "derrota", "empate"][k % 3], "contra": ["ia", "jogador", "ia", "bot"][k % 4],
+						"modo": ["arcade", "online", "peregrinacao", "diario"][k % 4], "adversario": advs[k % 5], "nivel": k % 3,
+						"t": int(Time.get_unix_time_from_system()) - k * 5000, "turnos": 6 + k, "log": [], "stats": {}})
+				_ir("perfil")
+				if st.size() > 1:
+					mp.rol_hist = mp.limitar_hist(float(st[1]))
 			"historico_log":
 				_ir("historico"); hist.abrir_log(0)
 			"colecao_f":
@@ -517,17 +526,18 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(110, 604, 140, 26), "Voltar", func() -> void: _ir("colecao"))
 		"perfil":
 			mp.entrar_perfil()
+			if not criando_perfil:                      # perfil pronto: nome fixo, foto pelo lápis, histórico na página
+				mp.botoes_perfil()
+				return
 			_botao(Rect2(110, 266, 140, 24), "Escolher imagem", func() -> void: _ir("avatar"))
-			if OS.has_feature("web"):                   # web/iPhone: o campo vira um botão que abre a caixa nativa
+			if OS.has_feature("web"):                   # web: o campo abre a caixa de digitação do jogo
 				_botao(mp.campo_nome(), "", func() -> void: pass, {"web_nome": "perfil", "desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
-			if not criando_perfil:
-				_botao(Rect2(90, 466, 180, 26), "Histórico e estatísticas", func() -> void: _ir("historico"))
-			_botao(Rect2(80, 420, 200, 34) if criando_perfil else Rect2(90, 420, 180, 30), "Começar" if criando_perfil else "Continuar", func() -> void:
+			_botao(Rect2(80, 420, 200, 34), "Começar", func() -> void:
 				if str(Sessao.perfil.get("nome", "")).strip_edges() == "":
 					mp.avisar(Sessao.t("Escreva seu nome."))
 				else:
 					criando_perfil = false
-					_ir("titulo"), {"ouro": criando_perfil})
+					_ir("titulo"), {"ouro": true})
 		"avatar":
 			var avs := MenuPerfil.lista_avatares()
 			var cols := 2 if avs.size() <= 4 else 3            # mais retratos liberáveis: grade de 3, menor
@@ -1629,7 +1639,9 @@ func _unhandled_input(ev: InputEvent) -> void:
 		return
 	if visor.aberto():                                       # visor de carta por cima de tudo
 		var pv: Vector2 = get_canvas_transform().affine_inverse() * (ev.position as Vector2) - position if "position" in ev else Vector2.ZERO
-		if ev is InputEventScreenTouch or (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT):
+		if ev is InputEventMouseButton and ev.pressed and ev.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
+			visor.rodar(-40.0 if ev.button_index == MOUSE_BUTTON_WHEEL_UP else 40.0)
+		elif ev is InputEventScreenTouch or (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT):
 			if ev.pressed:
 				visor.pressionar(pv)
 			else:
@@ -1648,7 +1660,7 @@ func _unhandled_input(ev: InputEvent) -> void:
 	var botao_ev: bool = (ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT) or ev is InputEventScreenTouch
 	if botao_ev:
 		var p: Vector2 = get_canvas_transform().affine_inverse() * (ev.position as Vector2) - position
-		if estado in ["colecao", "lore", "deck_edit"]:
+		if estado in ["colecao", "lore", "deck_edit"] or (estado == "perfil" and not criando_perfil):
 			_toque_colecao(p, ev.pressed)
 		if ev.pressed:
 			apertar(p)
@@ -1668,6 +1680,9 @@ func _unhandled_input(ev: InputEvent) -> void:
 		elif estado == "deck_edit":
 			mp.rolagem = mp.limitar(mp.rolagem - dy)
 			mp.vel = v
+		elif estado == "perfil":
+			mp.rol_hist = mp.limitar_hist(mp.rol_hist - dy)
+			mp.vel_hist = v
 		else:
 			col.rolagem_lore = col.limitar_lore(col.rolagem_lore - dy)
 			col.vel = v
@@ -1784,6 +1799,9 @@ func _toque_colecao(p: Vector2, pressed: bool) -> void:
 	if pressed:
 		if estado == "deck_edit":
 			_rolando = p.y > MenuPerfil.GTOPO and p.y < MenuPerfil.GBASE
+		elif estado == "perfil":
+			_rolando = mp.na_lista(p)
+			mp.vel_hist = 0.0
 		else:
 			_rolando = p.y > Colecao.TOPO - 50 and p.y < Colecao.BASE
 		_rol_ini = p
@@ -1793,6 +1811,9 @@ func _toque_colecao(p: Vector2, pressed: bool) -> void:
 		return
 	var era := _rolando
 	_rolando = false
+	if era and not _rol_moveu and estado == "perfil" and apertado < 0:
+		mp.tocar_hist(p)
+		return
 	if era and not _rol_moveu and estado == "deck_edit" and apertado < 0:
 		mp.tocar_grade(p)
 		return
@@ -1850,26 +1871,42 @@ func _entrada_recorte(ev: InputEvent) -> bool:
 
 
 func _teste_visor() -> void:
+	# t≈1: abre a carta · 2,6: sobe a lore · 4: rola o texto · 5,5: força no fim (sai) · 7: reabre · 8: botão ‹ · 9: toque fora
 	await get_tree().create_timer(1.0).timeout
 	mp.tocar_grade(mp._rect(7).get_center())
-	var gesto := func(dy: float) -> void:
-		visor.pressionar(Vector2(180, 300))
-		for k in 12:
-			visor.mover(Vector2(180, 300 + dy * k / 11.0))
+	var gesto := func(y0: float, dy: float, passos: int) -> void:
+		visor.pressionar(Vector2(180, y0))
+		for k in passos:
+			visor.mover(Vector2(180, y0 + dy * (k + 1) / float(passos)))
 			await get_tree().process_frame
-		visor.soltar(Vector2(180, 300 + dy))
+		visor.soltar(Vector2(180, y0 + dy))
 	await get_tree().create_timer(1.6).timeout
-	await gesto.call(-120.0)
-	await get_tree().create_timer(2.4).timeout
-	await gesto.call(120.0)
-	await get_tree().create_timer(1.4).timeout
-	await gesto.call(150.0)
+	await gesto.call(300.0, -120.0, 12)
+	await get_tree().create_timer(1.2).timeout
+	await gesto.call(560.0, -160.0, 30)
+	print("VISOR rol=", visor.rol, " max=", visor.rol_max, " aberto=", visor.aberto())
+	await get_tree().create_timer(1.0).timeout
+	visor.pressionar(Vector2(180, 600))                  # força devagar para cima além do fim
+	for k in 60:
+		visor.mover(Vector2(180, 600 - k * 6.0))
+		if k == 30:
+			print("VISOR forca=", visor.forca, " aberto=", visor.aberto())
+		await get_tree().process_frame
+	visor.soltar(Vector2(180, 240))
+	print("VISOR depois de forçar: fase=", visor.fase)
 	await get_tree().create_timer(1.2).timeout
 	visor.abrir(mp._ids[3], mp._rect(3))
-	await get_tree().create_timer(1.2).timeout
+	await get_tree().create_timer(0.8).timeout
+	await gesto.call(300.0, -120.0, 12)
+	await get_tree().create_timer(0.8).timeout
+	visor.pressionar(Visor.VOLTAR.get_center())
+	visor.soltar(Visor.VOLTAR.get_center())
+	print("VISOR ‹ na lore: vis_alvo=", visor.vis_alvo)
+	await get_tree().create_timer(0.8).timeout
 	visor.pressionar(Vector2(340, 600))
 	visor.soltar(Vector2(340, 600))
-	await get_tree().create_timer(1.2).timeout
+	await get_tree().create_timer(1.0).timeout
+	print("VISOR toque fora: fase=", visor.fase)
 	get_tree().quit()
 
 

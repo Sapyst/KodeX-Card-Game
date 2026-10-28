@@ -3738,5 +3738,70 @@
   "en": "All",
   "pt": "Todas",
   "es": "Todas"
+ },
+ "PUXE MAIS: VOLTAR À CARTA": {
+  "en": "PULL MORE: BACK TO CARD",
+  "pt": "PUXE MAIS: VOLTAR À CARTA",
+  "es": "TIRA MÁS: VOLVER A LA CARTA"
+ },
+ "PUXE MAIS: FECHAR": {
+  "en": "PULL MORE: CLOSE",
+  "pt": "PUXE MAIS: FECHAR",
+  "es": "TIRA MÁS: CERRAR"
+ },
+ "ARRASTE PARA LER  ·  ‹ OU TOQUE NA CARTA: VOLTAR": {
+  "en": "DRAG TO READ  ·  ‹ OR TAP THE CARD: BACK",
+  "pt": "ARRASTE PARA LER  ·  ‹ OU TOQUE NA CARTA: VOLTAR",
+  "es": "ARRASTRA PARA LEER  ·  ‹ O TOCA LA CARTA: VOLVER"
+ },
+ "‹ OU TOQUE NA CARTA: VOLTAR": {
+  "en": "‹ OR TAP THE CARD: BACK",
+  "pt": "‹ OU TOQUE NA CARTA: VOLTAR",
+  "es": "‹ O TOCA LA CARTA: VOLVER"
+ },
+ "Escolha bem: o nome não pode ser trocado depois. A foto pode.": {
+  "en": "Choose well: the name can't be changed later. The photo can.",
+  "pt": "Escolha bem: o nome não pode ser trocado depois. A foto pode.",
+  "es": "Elige bien: el nombre no se puede cambiar después. La foto sí."
+ },
+ "CONTRA A IA": {
+  "en": "VS AI",
+  "pt": "CONTRA A IA",
+  "es": "CONTRA LA IA"
+ },
+ "CONTRA JOGADORES": {
+  "en": "VS PLAYERS",
+  "pt": "CONTRA JOGADORES",
+  "es": "CONTRA JUGADORES"
+ },
+ "%d%% de vitórias": {
+  "en": "%d%% wins",
+  "pt": "%d%% de vitórias",
+  "es": "%d%% de victorias"
+ },
+ "sem partidas": {
+  "en": "no matches",
+  "pt": "sem partidas",
+  "es": "sin partidas"
+ },
+ "toque para ver a partida": {
+  "en": "tap to see the match",
+  "pt": "toque para ver a partida",
+  "es": "toca para ver la partida"
+ },
+ "Convidado (sem Kode)": {
+  "en": "Guest (no Kode)",
+  "pt": "Convidado (sem Kode)",
+  "es": "Invitado (sin Kode)"
+ },
+ "%d partidas": {
+  "en": "%d matches",
+  "pt": "%d partidas",
+  "es": "%d partidas"
+ },
+ "arraste para ver mais": {
+  "en": "drag to see more",
+  "pt": "arraste para ver mais",
+  "es": "arrastra para ver más"
  }
 }

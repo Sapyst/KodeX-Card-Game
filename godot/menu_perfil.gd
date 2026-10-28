@@ -182,6 +182,12 @@ func avisar(s: String) -> void:
 
 func atualizar(delta: float, segurando: bool) -> void:
 	aviso_t = maxf(0.0, aviso_t - delta)
+	if f.estado == "perfil" and not segurando:              # inércia do histórico no perfil
+		if absf(vel_hist) > 1.0:
+			rol_hist = limitar_hist(rol_hist + vel_hist * delta)
+			vel_hist *= pow(0.04, delta)
+		else:
+			vel_hist = 0.0
 	if f.estado == "deck_edit" and not segurando:
 		if absf(vel) > 1.0:
 			rolagem = limitar(rolagem + vel * delta)
@@ -294,7 +300,9 @@ func entrar_perfil() -> void:
 	var r := campo_nome()
 	nome_edit.position = r.position
 	nome_edit.size = r.size
-	nome_edit.visible = not OS.has_feature("web")      # na web o nome é digitado numa caixa nativa (iPhone)
+	nome_edit.visible = f.criando_perfil and not OS.has_feature("web")   # nome só na criação; web: caixa do jogo
+	rol_hist = 0.0
+	vel_hist = 0.0
 
 
 func sair_texto() -> void:
@@ -303,6 +311,9 @@ func sair_texto() -> void:
 
 
 func desenhar_perfil() -> void:
+	if not f.criando_perfil:
+		_desenhar_perfil_pronto()
+		return
 	if f.criando_perfil:
 		f._cabecalho(Sessao.t("Crie seu perfil"), Sessao.t("é assim que os outros jogadores vão ver você"))
 	else:
@@ -318,7 +329,8 @@ func desenhar_perfil() -> void:
 	Fonte57.desenhar(f, Vector2(50, 304), Sessao.t("Nome"), Color("#b8a888"))
 	_contador(Vector2(310, 304), nome.length())
 	if f.criando_perfil:                                # tela de criação: só foto e nome
-		f._texto_central(Vector2(180, 384), Sessao.t("Você pode trocar nome e foto depois, no Perfil."), Color(0.62, 0.57, 0.62))
+		for k in Fonte57.quebrar(Sessao.t("Escolha bem: o nome não pode ser trocado depois. A foto pode."), 300).size():
+			f._texto_central(Vector2(180, 380 + k * 12), Fonte57.quebrar(Sessao.t("Escolha bem: o nome não pode ser trocado depois. A foto pode."), 300)[k], Color(0.62, 0.57, 0.62))
 		_desenhar_aviso()
 		return
 	var tm := "%d %s" % [Sessao.moedas(), Sessao.t("moedas")]
@@ -330,6 +342,172 @@ func desenhar_perfil() -> void:
 		n_cartas += int(Sessao.perfil["colecao"][cid])
 	f._texto_central(Vector2(180, 392), Sessao.t("%d cartas na coleção") % n_cartas, Color(0.81, 0.88, 1.0, 0.8))
 	_desenhar_aviso()
+
+
+# ---------------- perfil (depois de criado) ----------------
+## Página bordada: foto no canto (lápis para trocar), nome fixo, nível, moedas, coleção e Kode à direita; placar contra
+## a IA e contra jogadores; e o histórico rolando embaixo (toque numa partida abre o jogada a jogada).
+const P_FOTO := Rect2(24, 104, 90, 120)
+const P_LINHA := 38.0                     # passo das linhas do histórico (34 px + 4 de vão)
+const P_LISTA_TOPO := 304.0
+var rol_hist := 0.0
+var vel_hist := 0.0
+
+
+func p_pagina() -> Rect2:
+	return Rect2(10, 90, 340, f.alt_util - 146)
+
+
+func p_lista_base() -> float:
+	return p_pagina().end.y - 30.0             # 30 px de rodapé dentro da página (contagem) cobrem a sobra
+
+
+func rect_editar_foto() -> Rect2:
+	return Rect2(P_FOTO.end.x - 18, P_FOTO.end.y - 18, 30, 30)
+
+
+func botoes_perfil() -> void:
+	f._botao(P_FOTO, "", func() -> void: f._ir("avatar"), {"desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
+	f._botao(rect_editar_foto(), "", func() -> void: f._ir("avatar"), {"desenho": _botao_lapis})
+	f._botao(Rect2(110, f.alt_util - 46, 140, 28), "Voltar", func() -> void: f._ir("titulo"))
+
+
+func limitar_hist(alvo: float) -> float:
+	var n: int = (Sessao.perfil.get("historico", []) as Array).size()
+	return clampf(alvo, 0.0, maxf(0.0, n * P_LINHA - 4.0 - (p_lista_base() - P_LISTA_TOPO)))
+
+
+func na_lista(p: Vector2) -> bool:
+	return p.y > P_LISTA_TOPO and p.y < p_lista_base() and p.x > 16 and p.x < 344
+
+
+## Toque (sem arrastar) numa linha do histórico: abre o log daquela partida.
+func tocar_hist(p: Vector2) -> void:
+	if not na_lista(p):
+		return
+	var k := int((p.y - P_LISTA_TOPO + rol_hist) / P_LINHA)
+	var h: Array = Sessao.perfil.get("historico", [])
+	if k >= 0 and k < h.size() and fmod(p.y - P_LISTA_TOPO + rol_hist, P_LINHA) < 34.0:
+		f.vibrar(10, 0.35)
+		f.hist.abrir_log(k)
+
+
+func _desenhar_perfil_pronto() -> void:
+	f._cabecalho(Sessao.t("Seu perfil"), Sessao.t("quem joga online com você vê nome e foto"))
+	var pg := p_pagina()
+	var fundo := Color("#150e16")
+	f.draw_rect(Rect2(pg.position + Vector2(3, 4), pg.size), Color(0, 0, 0, 0.45))
+	f.draw_rect(pg, fundo)
+	# histórico (desenhado antes: o que passa da janela é coberto pela própria página logo depois)
+	var h: Array = Sessao.perfil.get("historico", [])
+	var base := p_lista_base()
+	for k in h.size():
+		var y := P_LISTA_TOPO + k * P_LINHA - rol_hist
+		if y + 34 < P_LISTA_TOPO - 2 or y + 34 > pg.end.y - 3:   # nunca passa da página; o resto o rodapé cobre
+			continue
+		f.hist.botao_linha({"hist_k": k}, Rect2(22, y, 316, 34), 0.0)
+	f.draw_rect(Rect2(pg.position.x, pg.position.y, pg.size.x, P_LISTA_TOPO - pg.position.y), fundo)
+	f.draw_rect(Rect2(pg.position.x, base, pg.size.x, pg.end.y - base), fundo)
+	for k in 6:                                          # esmaece 6 px nas bordas da janela
+		var a := 0.7 * (1.0 - k / 6.0)
+		f.draw_rect(Rect2(pg.position.x + 4, P_LISTA_TOPO + k, pg.size.x - 8, 1), Color(fundo, a))
+		f.draw_rect(Rect2(pg.position.x + 4, base - 1 - k, pg.size.x - 8, 1), Color(fundo, a))
+	if h.is_empty():
+		f._texto_central(Vector2(180, P_LISTA_TOPO + 30), Sessao.t("Nenhuma partida ainda."), Color(0.62, 0.57, 0.62))
+	else:
+		f._texto_central(Vector2(180, base + 13), Sessao.t("%d partidas") % h.size() + ("  ·  " + Sessao.t("arraste para ver mais") if limitar_hist(1e9) > 0.0 else ""),
+			Color(0.62, 0.57, 0.62))
+		if limitar_hist(1e9) > 0.0:
+			f.col._barra_rolagem(f, rol_hist, h.size() * P_LINHA - 4.0, P_LISTA_TOPO, base)
+	_bordado(pg)
+	# foto + lápis
+	moldura_foto(P_FOTO, foto_tex)
+	# dados à direita da foto
+	var x := 132.0
+	var nome := str(Sessao.perfil.get("nome", ""))
+	var esc := 2 if Fonte57.largura(nome) * 2 <= 206 else 1
+	Fonte57.desenhar(f, Vector2(x, 104), nome, f.OURO[0], f.ESCURO, esc)
+	var y := 104.0 + 12 * esc + 6
+	var tit := str(Sessao.perfil.get("titulo", ""))
+	Fonte57.desenhar(f, Vector2(x, y), (Sessao.t("Nv") + " %d" % Progresso.nivel()) + ("  ·  " + Progresso.nome_titulo(tit) if tit != "" else ""),
+		Color("#e0c88a"), f.ESCURO)
+	y += 18
+	moeda(Vector2(x + 5, y + 5))
+	var tm := str(Sessao.moedas())
+	Fonte57.desenhar(f, Vector2(x + 14, y), tm, f.OURO[0], f.ESCURO)
+	var xk := x + 14 + Fonte57.largura(tm) + 16
+	icone_koin(f, Vector2(xk + 5, y + 5))
+	Fonte57.desenhar(f, Vector2(xk + 14, y), str(Sessao.koins()), Color("#e0c0ff"), f.ESCURO)
+	y += 16
+	var n_cartas := 0
+	for cid in Sessao.perfil["colecao"]:
+		n_cartas += int(Sessao.perfil["colecao"][cid])
+	Fonte57.desenhar(f, Vector2(x, y), Sessao.t("%d cartas na coleção") % n_cartas, Color(0.81, 0.88, 1.0, 0.85), f.ESCURO)
+	y += 16
+	Fonte57.desenhar(f, Vector2(x, y), (Sessao.t("Kode") + ": " + Nuvem.kode) if Nuvem.kode != "" else Sessao.t("Convidado (sem Kode)"),
+		Color(0.72, 0.66, 0.6), f.ESCURO)
+	# placar
+	var contra: Dictionary = (Sessao.perfil.get("estat", {}) as Dictionary).get("contra", {})
+	_caixa_placar(Rect2(22, 238, 154, 44), Sessao.t("CONTRA A IA"), contra.get("ia", {}), f.CREME)
+	_caixa_placar(Rect2(184, 238, 154, 44), Sessao.t("CONTRA JOGADORES"), contra.get("jogador", {}), Color("#9ad0ff"))
+	PixelFonte.desenhar(f, Vector2(24, 290), Sessao.t("ÚLTIMAS PARTIDAS"), f.OURO[0])
+	if not h.is_empty():
+		var dica := Sessao.t("toque para ver a partida")
+		Fonte57.desenhar(f, Vector2(338 - Fonte57.largura(dica), 288), dica, Color(0.62, 0.57, 0.62))
+	_desenhar_aviso()
+
+
+func _caixa_placar(r: Rect2, titulo: String, l: Dictionary, cor: Color) -> void:
+	f.draw_rect(r, Color("#1f1520"))
+	f.draw_rect(r, Color(f.OURO[2], 0.7), false, 1.0)
+	PixelFonte.centrado(f, Vector2(r.get_center().x, r.position.y + 9), titulo, Color(cor, 0.85))
+	var v := int(l.get("v", 0))
+	var d := int(l.get("d", 0))
+	var e := int(l.get("e", 0))
+	var tot := v + d + e
+	var txt := "%dV  %dD  %dE" % [v, d, e]
+	f._texto_central(Vector2(r.get_center().x, r.position.y + 22), txt, cor)
+	var pct := Sessao.t("%d%% de vitórias") % roundi(100.0 * v / tot) if tot > 0 else Sessao.t("sem partidas")
+	f._texto_central(Vector2(r.get_center().x, r.position.y + 34), pct, Color(0.72, 0.66, 0.6))
+
+
+## Bordado da página: aro dourado, ponto corrido (traços de 4 px a cada 7 px) por dentro, ponto-cruz nos cantos e
+## losangos no meio de cada lado.
+func _bordado(r: Rect2) -> void:
+	f.draw_rect(r, f.OURO[2], false, 1.0)
+	var i := r.grow(-5)
+	var cor := Color(f.OURO[1], 0.75)
+	var x := i.position.x + 9
+	while x + 4 <= i.end.x - 9:
+		f.draw_line(Vector2(x, i.position.y), Vector2(x + 4, i.position.y), cor, 1.0)
+		f.draw_line(Vector2(x, i.end.y), Vector2(x + 4, i.end.y), cor, 1.0)
+		x += 7
+	var y := i.position.y + 9
+	while y + 4 <= i.end.y - 9:
+		f.draw_line(Vector2(i.position.x, y), Vector2(i.position.x, y + 4), cor, 1.0)
+		f.draw_line(Vector2(i.end.x, y), Vector2(i.end.x, y + 4), cor, 1.0)
+		y += 7
+	for c in [i.position, Vector2(i.end.x, i.position.y), i.end, Vector2(i.position.x, i.end.y)]:
+		f.draw_line(c + Vector2(-4, -4), c + Vector2(4, 4), f.OURO[0], 1.5)
+		f.draw_line(c + Vector2(-4, 4), c + Vector2(4, -4), f.OURO[0], 1.5)
+	for c in [Vector2(r.get_center().x, i.position.y), Vector2(r.get_center().x, i.end.y), Vector2(i.position.x, r.get_center().y), Vector2(i.end.x, r.get_center().y)]:
+		f.draw_colored_polygon(PackedVector2Array([c + Vector2(0, -4), c + Vector2(4, 0), c + Vector2(0, 4), c + Vector2(-4, 0)]), f.OURO[0])
+		f.draw_colored_polygon(PackedVector2Array([c + Vector2(0, -2), c + Vector2(2, 0), c + Vector2(0, 2), c + Vector2(-2, 0)]), Color("#150e16"))
+
+
+## Botão redondo com lápis: troca a foto.
+func _botao_lapis(_b: Dictionary, r: Rect2, pressao: float) -> void:
+	var c := r.get_center() + Vector2(0, pressao)
+	f.draw_circle(c + Vector2(1, 2), 15, Color(0, 0, 0, 0.5))
+	f.draw_circle(c, 15, f.OURO[0])
+	f.draw_circle(c, 13, Color("#2a1a24").darkened(pressao * 0.3))
+	var dir := Vector2(1, -1).normalized()
+	var n := Vector2(dir.y, -dir.x)
+	var a := c - dir * 6
+	var b := c + dir * 5
+	f.draw_colored_polygon(PackedVector2Array([a + n * 2.5, b + n * 2.5, b - n * 2.5, a - n * 2.5]), f.OURO[0])
+	f.draw_colored_polygon(PackedVector2Array([a + n * 2.5, a - n * 2.5, a - dir * 4]), Color("#f0dcb0"))
+	f.draw_colored_polygon(PackedVector2Array([b + n * 2.5, b - n * 2.5, b - n * 2.5 + dir * 2.5, b + n * 2.5 + dir * 2.5]), Color("#d06a6a"))
 
 
 func _desenhar_aviso() -> void:

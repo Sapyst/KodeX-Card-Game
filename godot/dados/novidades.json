@@ -1,5 +1,21 @@
 [
  {
+  "versao": "0.20.10-alpha",
+  "data": "28/10/2026",
+  "pt": [
+   "Perfil novo: página bordada com a foto no canto (lápis para trocar), nível, moedas, coleção, placar contra IA e jogadores com % de vitórias e o histórico de partidas rolando na mesma tela. O nome é escolhido só na criação do perfil.",
+   "Lore das cartas: o texto rola de verdade e para no fim. Para sair é preciso puxar com força além da ponta (o celular vibra): no topo volta para a carta, no fim fecha. Botão ‹ no canto e toque na carta para voltar."
+  ],
+  "en": [
+   "New profile: an embroidered page with the photo in the corner (pencil to change it), level, coins, collection, record vs AI and vs players with win %, and the match history scrolling on the same screen. The name is chosen only when creating the profile.",
+   "Card lore: the text really scrolls and stops at the end. To leave you must pull hard past the edge (the phone vibrates): at the top it goes back to the card, at the end it closes. ‹ button in the corner and tap the card to go back."
+  ],
+  "es": [
+   "Perfil nuevo: página bordada con la foto en la esquina (lápiz para cambiarla), nivel, monedas, colección, marcador contra IA y jugadores con % de victorias y el historial de partidas deslizándose en la misma pantalla. El nombre se elige solo al crear el perfil.",
+   "Historia de las cartas: el texto se desliza de verdad y se detiene al final. Para salir hay que tirar con fuerza más allá del borde (el celular vibra): arriba vuelve a la carta, al final se cierra. Botón ‹ en la esquina y toca la carta para volver."
+  ]
+ },
+ {
   "versao": "0.20.9-alpha",
   "data": "28/10/2026",
   "pt": [

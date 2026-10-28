@@ -73,6 +73,7 @@ var campo_ent := [[null, null, null, null], [null, null, null, null]]
 var campo_selo := [[null, null], [null, null]]
 var cemiterio := [0, 0]
 var tremor := 0.0
+var tremor_dir := Vector2.ZERO           # golpe com direção: o tremor começa nesse eixo
 var segurando: Carta = null
 var origem := ""                      # "mao" | "campo"
 var origem_idx := -1
@@ -415,8 +416,14 @@ func _process(delta: float) -> void:
 		l.energy = luz_base[i] * (0.88 + 0.08 * lento + 0.05 * rapido) * float(l.get_meta("liga", 0.0))
 		l.position = luz_pos0[i] + Vector2(lento * 3.0, rapido * 2.0)
 	# tremor de câmera
-	tremor = maxf(0.0, tremor - delta * 14.0)
-	camera.offset = Vector2(randf_range(-tremor, tremor), randf_range(-tremor, tremor)).round()
+	# tremor de câmera: ruído suave (2 frequências) em vez de sorteio por quadro; com direção, oscila naquele eixo
+	tremor = maxf(0.0, tremor - delta * (10.0 + tremor * 2.0))
+	if tremor <= 0.0:
+		tremor_dir = Vector2.ZERO
+	var rx := ruido.get_noise_1d(tempo * 8.0 + 300.0) * 1.6
+	var ry := ruido.get_noise_1d(tempo * 8.0 + 700.0) * 1.6
+	var eixo := tremor_dir * sin(tempo * 55.0) * 0.8
+	camera.offset = (Vector2(rx, ry) * (0.5 if tremor_dir != Vector2.ZERO else 1.0) + eixo) * tremor
 	# animação ociosa: mão respira (1 px), cartas do campo flutuam (1 px), alternando a fase
 	for k in mao_jog.size():
 		var c: Carta = mao_jog[k]
@@ -471,11 +478,12 @@ func _process(delta: float) -> void:
 	# carta segurada: segue o dedo com atraso, inclina conforme a velocidade
 	if segurando != null:
 		var alvo := ponteiro + Vector2(0, -14)
-		var novo := segurando.position.lerp(alvo, 0.35)
-		var vel := novo - segurando.position
+		# mesmas constantes de antes (35%, 30%, 25% por quadro a 60 qps), agora independentes da taxa de quadros
+		var novo := segurando.position.lerp(alvo, 1.0 - exp(-delta * 25.8))
+		var vel := (novo - segurando.position) * (1.0 / 60.0) / maxf(delta, 0.001)   # px por quadro de 60 qps
 		segurando.position = novo
-		segurando.inclinacao = lerpf(segurando.inclinacao, clampf(-vel.x * 0.045, -0.4, 0.4), 0.3)
-		segurando.rotation = lerpf(segurando.rotation, clampf(vel.x * 0.012, -0.2, 0.2), 0.25)
+		segurando.inclinacao = lerpf(segurando.inclinacao, clampf(-vel.x * 0.045, -0.4, 0.4), 1.0 - exp(-delta * 21.4))
+		segurando.rotation = lerpf(segurando.rotation, clampf(vel.x * 0.012, -0.2, 0.2), 1.0 - exp(-delta * 17.3))
 	for d in 2:
 		placar_pulo[d] = maxf(0.0, placar_pulo[d] - delta * 3.0)
 	placar.queue_redraw()
@@ -783,14 +791,16 @@ func _layout_mao_opon(n: int, k: int) -> Array:
 	return [Vector2(180 + d * 34, -6 - absf(d) * absf(d) * 2), PI - deg_to_rad(d * 6.0)]
 
 
+## Leque da mão: cada carta desliza com 0,02 s de atraso em relação à vizinha (onda da esquerda para a direita)
+## e assenta com um leve passo além (ease-out-back) em 0,28 s.
 func _rearrumar(mao: Array[Carta], layout: Callable, esc: float) -> void:
 	for k in mao.size():
 		var c: Carta = mao[k]
 		var lay: Array = layout.call(mao.size(), k)
 		var t := create_tween().set_parallel(true)
-		t.tween_property(c, "position", lay[0], 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		t.tween_property(c, "rotation", lay[1], 0.25)
-		t.tween_property(c, "scale", Vector2(esc, esc), 0.25)
+		t.tween_property(c, "position", lay[0], 0.28).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT).set_delay(k * 0.02)
+		t.tween_property(c, "rotation", lay[1], 0.28).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT).set_delay(k * 0.02)
+		t.tween_property(c, "scale", Vector2(esc, esc), 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 
 func _comprar_mao() -> void:
@@ -1267,6 +1277,7 @@ func _impacto(c: Carta, dest: Vector2, forca: float) -> void:
 	t.tween_property(c, "scale", Vector2(e * 1.08, e * 0.9), 0.05)
 	t.tween_property(c, "scale", Vector2(e, e), 0.14).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	chao.onda_poeira(dest, Carta.LARG * e, forca)
+	chao.choque(dest + Vector2(0, Carta.ALT * e * 0.3), Color("#e8d0a0"), Carta.LARG * e * 0.9 * forca)
 	chao.poeira(dest + Vector2(0, Carta.ALT * e / 2), int(10 * forca))
 	tremor = maxf(tremor, 2.0 * forca)
 
@@ -1280,8 +1291,10 @@ func _remover_do_campo(c: Carta) -> int:
 	return -1
 
 
-## Ataque entre Entidades: recua 8 px (0,14 s), dispara até o alvo (0,11 s), impacto com clarão, faíscas, números de dano,
-## tremor de 3 px, volta (0,3 s). Quem zerar a Vida é destruído.
+## Ataque entre Entidades: carga (recua 10 px e inclina 0,12 rad para o alvo, 0,16 s), investida (0,1 s, rastro de
+## silhuetas a cada 0,02 s), parada de impacto de 0,07 s (as duas cartas brancas), rasgo cruzando o alvo, onda de
+## choque no chão, faíscas saindo pelo outro lado, alvo empurrado 7 px na direção do golpe, números de dano com pulo,
+## tremor direcional; volta em 0,3 s com leve ricochete. Quem zerar a Vida é destruído.
 func _atacar(c: Carta, alvo: Carta) -> void:
 	c.atacou = true
 	if modo_partida:
@@ -1292,16 +1305,18 @@ func _atacar(c: Carta, alvo: Carta) -> void:
 			return
 	var ini := c.position
 	var dir := (alvo.position - ini).normalized()
+	var inclina := clampf(dir.x * 0.35, -0.22, 0.22)
 	c.z_index = 750
 	var t := create_tween().set_parallel(true)
-	t.tween_property(c, "position", ini - dir * 8, 0.14).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	t.tween_property(c, "scale", c.scale * 1.12, 0.14)
-	t.tween_property(c, "levantada", 0.8, 0.14)
+	t.tween_property(c, "position", ini - dir * 10, 0.16).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	t.tween_property(c, "scale", c.scale * 1.14, 0.16).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	t.tween_property(c, "levantada", 0.8, 0.16)
+	t.tween_property(c, "rotation", inclina, 0.16).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	Som.tocar("ataque_investida")
 	await t.finished
 	var contato := alvo.position - dir * 22
 	var t2 := create_tween()
-	t2.tween_property(c, "position", contato, 0.11).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+	t2.tween_method(func(u: float) -> void: _investida(c, ini - dir * 10, contato, u), 0.0, 1.0, 0.1)
 	await t2.finished
 	# impacto (simultâneo)
 	var da := c.atk
@@ -1311,19 +1326,25 @@ func _atacar(c: Carta, alvo: Carta) -> void:
 		Som.tocar("ataque_impacto", "leve" if dd <= 2 else ("medio" if dd <= 4 else "pesado"), -6.0, 0.03)
 	alvo.dano += da
 	c.dano += dd
-	tremor = 3.5
+	var forca := clampf(0.7 + da * 0.12, 0.8, 1.5)
+	await _parada_impacto([c, alvo], 0.07)
+	_tremer(dir, 3.0 + da * 0.5)
 	Sessao.vibrar(35, 0.7)
-	efeitos.flash(Color.WHITE, 0.18)
-	efeitos.faiscas((contato + alvo.position) / 2, 18)
-	efeitos.numero(alvo.position + Vector2(0, -20), "-%d" % da, Color("#ff6a6a"))
+	efeitos.flash(Color.WHITE, 0.14)
+	efeitos.corte(alvo.position, dir, Color("#ffe7b0"), 22.0 + 4.0 * forca)
+	chao.choque(alvo.position + Vector2(0, 8), Color("#ffe0a0"), 34.0 * forca)
+	efeitos.faiscas((contato + alvo.position) / 2, int(14 * forca), Color("#ffe39a"), dir)
+	efeitos.faiscas((contato + alvo.position) / 2, 6, Color("#ffb070"))
+	efeitos.numero(alvo.position + Vector2(0, -24), "-%d" % da, Color("#ff6a6a"), 3 if da >= 5 else 2)
 	if dd > 0:
-		efeitos.numero(c.position + Vector2(0, -20), "-%d" % dd, Color("#ff6a6a"))
+		efeitos.numero(ini + Vector2(0, -24), "-%d" % dd, Color("#ff6a6a"), 3 if dd >= 5 else 2)   # sobre a casa do atacante
 	_piscar(alvo); _piscar(c)
-	_sacudir(alvo, 3.0)
+	_empurrar(alvo, dir, 7.0 * forca)
 	var t3 := create_tween().set_parallel(true)
-	t3.tween_property(c, "position", ini, 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	t3.tween_property(c, "scale", Vector2.ONE * esc_em(ini), 0.3)
+	t3.tween_property(c, "position", ini, 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	t3.tween_property(c, "scale", Vector2.ONE * esc_em(ini), 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	t3.tween_property(c, "levantada", 0.0, 0.3)
+	t3.tween_property(c, "rotation", 0.0, 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	await t3.finished
 	c.z_index = 100
 	if modo_partida:
@@ -1334,6 +1355,41 @@ func _atacar(c: Carta, alvo: Carta) -> void:
 		await _destruir(alvo)
 	if c.vida() <= 0:
 		await _destruir(c)
+
+
+## Um passo da investida (u 0→1, ease-in expo): move a carta e deixa uma silhueta a cada 0,02 s.
+func _investida(c: Carta, de: Vector2, para: Vector2, u: float) -> void:
+	var e := 0.0 if u <= 0.0 else pow(2.0, 10.0 * (u - 1.0))
+	c.position = de.lerp(para, e)
+	var agora := Time.get_ticks_msec()
+	if agora - int(c.get_meta("rastro_ms", 0)) >= 20 and e > 0.05:
+		c.set_meta("rastro_ms", agora)
+		efeitos.fantasma(c.position, c.rotation, Vector2(Carta.LARG, Carta.ALT) * c.scale)
+
+
+## Parada de impacto: o golpe "pesa" — as cartas ficam brancas e tudo para por `dur` s antes das faíscas.
+func _parada_impacto(cartas: Array, dur: float) -> void:
+	for k in cartas:
+		(k as Carta).brilho = 0.85
+	await get_tree().create_timer(dur).timeout
+	for k in cartas:
+		if is_instance_valid(k):
+			var tb := create_tween()
+			tb.tween_property(k, "brilho", 0.0, 0.2)
+
+
+## Alvo recua `dist` px na direção do golpe (0,06 s) e volta com mola (0,32 s).
+func _empurrar(c: Carta, dir: Vector2, dist: float) -> void:
+	var base := c.position
+	var t := create_tween()
+	t.tween_property(c, "position", base + dir * dist, 0.06).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	t.tween_property(c, "position", base, 0.32).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+
+
+## Tremor de câmera com direção: começa empurrando para `dir` e decai em mola.
+func _tremer(dir: Vector2, amp: float) -> void:
+	tremor = maxf(tremor, amp)
+	tremor_dir = dir.normalized()
 
 
 func _piscar(c: Carta) -> void:
@@ -1357,11 +1413,14 @@ func _destruir(c: Carta) -> void:
 		c.em_campo = false
 		c.dono = c.dono_real
 	_sacudir(c, 2.0)
+	var tr := create_tween()                         # racha do centro para as bordas em 0,28 s enquanto pisca 2×
+	tr.tween_property(c, "rachadura", 1.0, 0.28).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	for k in 2:
 		var t := create_tween()
-		t.tween_property(c, "brilho", 1.0, 0.06)
-		t.tween_property(c, "brilho", 0.2, 0.08)
+		t.tween_property(c, "brilho", 0.8, 0.06)
+		t.tween_property(c, "brilho", 0.1, 0.08)
 		await t.finished
+	c.rachadura = 0.0
 	Som.tocar("entidade_morte", c.cultura if c.cultura != "" else "indigena")
 	efeitos.estilhacar(c.position, c.cores_estilhaco(), int(Carta.LARG * c.scale.x), int(Carta.ALT * c.scale.y))
 	Sessao.vibrar(45, 0.8)
@@ -1484,15 +1543,22 @@ func _golpe_direto(c: Carta, alvo_dono: int) -> void:
 	t.tween_property(c, "rotation", dir.angle() + PI / 2 if dir.y < 0 else 0.0, 0.2)
 	await t.finished
 	var t2 := create_tween()
-	t2.tween_property(c, "position", alvo + Vector2(0, 26 if alvo_dono == 1 else -26), 0.13).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+	var de := c.position
+	var ate := alvo + Vector2(0, 26 if alvo_dono == 1 else -26)
+	t2.tween_method(func(u: float) -> void: _investida(c, de, ate, u), 0.0, 1.0, 0.13)
 	await t2.finished
 	cornucopia[alvo_dono] -= c.atk
 	Som.tocar("golpe_direto", "1" if c.atk <= 2 else ("2" if c.atk <= 4 else "3"))
 	placar_pulo[alvo_dono] = 1.0
-	tremor = 5.0
+	await _parada_impacto([c], 0.08)
+	_tremer(dir, 5.0 + c.atk * 0.4)
 	Sessao.vibrar(60, 1.0)
 	efeitos.flash(Color("#ff3030"), 0.3)
-	efeitos.faiscas(alvo, 26, Color("#ff9a6a"))
+	efeitos.corte(alvo, dir, Color("#ffb0a0"), 30.0)
+	efeitos.choque(alvo, Color("#ff7a5a"), 46.0)
+	efeitos.anel(alvo, Color("#ffd0a0"), 30.0)
+	efeitos.faiscas(alvo, 20, Color("#ff9a6a"), dir)
+	efeitos.faiscas(alvo, 10, Color("#ffe39a"))
 	efeitos.numero(alvo + Vector2(20, -10), "-%d" % c.atk, Color("#ff5050"), 3)
 	var t3 := create_tween().set_parallel(true)
 	t3.tween_property(c, "position", ini, 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -1528,9 +1594,9 @@ func _lancar_rito(c: Carta, alvo_idx: int) -> void:
 		tb.tween_property(c, "brilho", 0.6, 0.08)
 		tb.tween_property(c, "brilho", 0.0, 0.1)
 		await tb.finished
-	for k in 8:
-		efeitos.faiscas(p.lerp(alvo.position, k / 8.0), 4, Color("#8ae3a8"))
-		await get_tree().create_timer(0.025).timeout
+	efeitos.feixe(p, alvo.position, Color("#8ae3a8"))
+	await get_tree().create_timer(0.16).timeout
+	efeitos.faiscas(alvo.position, 12, Color("#8ae3a8"), (alvo.position - p).normalized())
 	alvo.dano += 3
 	_piscar(alvo); _sacudir(alvo, 3.0)
 	tremor = 3.0
@@ -2668,6 +2734,8 @@ func _jogar_reliquia(c: Carta, d: int, port: Carta) -> void:
 	c.queue_free()
 	var rel := {"dados": c.dados, "nome": c.nome, "usos": c.dados.get("usos"), "portadora": port, "dono": d}
 	port.reliquia = rel
+	port.marcar("reliquia")
+	efeitos.motes(Rect2(port.position - Vector2(24, 34), Vector2(48, 60)), Color("#ffe39a"), true, 18)
 	efeitos.faiscas(port.position + Vector2(0, 36), 18, Color("#ffe39a"))
 	efeitos.anel(port.position, Color("#ffe39a"), 36)
 	efeitos.numero(port.position + Vector2(0, -44), PixelFonte.normalizar(c.nome), Color("#ffe39a"), 1)
@@ -3098,7 +3166,51 @@ func _carta_db(cid: String, d: int, pos: Vector2, esc: float) -> Carta:
 	return c
 
 
+## Teste visual de combate e marcas (GD_ROTEIRO=combate): ataque, buff, debuff, gelo, silêncio, raio, cura, golpe direto.
+func _roteiro_combate() -> void:
+	ativo = 0
+	turno_n = 5
+	var pos := {"hin_rama": [0, 1], "ind_tupa": [0, 2], "ind_boitata": [1, 1], "tao_nezha": [1, 2], "cri_serafim": [1, 3]}
+	var c := {}
+	for cid in pos:
+		var d: int = pos[cid][0]
+		var k := _carta_db(cid, d, proj(DECK_JOG if d == 0 else DECK_OPON), 0.5)
+		k.virada_para_cima = true
+		await _por_em_campo(k, d, pos[cid][1])
+		k.cansada = false
+		c[cid] = k
+	await get_tree().create_timer(0.8).timeout
+	await _atacar(c["hin_rama"], c["ind_boitata"])
+	await get_tree().create_timer(0.8).timeout
+	await motor.aplicar_em_alvo("buff", {"op": "buff", "atk": 2, "vida": 1}, c["ind_tupa"], {"dono": 0})
+	await get_tree().create_timer(0.9).timeout
+	await motor.aplicar_em_alvo("buff", {"op": "buff", "atk": -2, "vida": 0}, c["tao_nezha"], {"dono": 0})
+	await get_tree().create_timer(0.9).timeout
+	await motor.aplicar_em_alvo("freeze", {"op": "freeze"}, c["cri_serafim"], {"dono": 0})
+	await get_tree().create_timer(0.9).timeout
+	await motor.aplicar_em_alvo("silence", {"op": "silence"}, c["tao_nezha"], {"dono": 0})
+	await get_tree().create_timer(0.9).timeout
+	await motor._feixe(c["ind_tupa"], c["cri_serafim"], MotorEfeitos.COR_DANO)
+	c["cri_serafim"].dano += 2
+	c["cri_serafim"].marcar("dano")
+	efeitos.numero(c["cri_serafim"].position + Vector2(0, -24), "-2", MotorEfeitos.COR_DANO)
+	_piscar(c["cri_serafim"]); _sacudir(c["cri_serafim"], 3.0)
+	await get_tree().create_timer(0.9).timeout
+	if is_instance_valid(c["hin_rama"]) and c["hin_rama"].em_campo:
+		await motor.aplicar_em_alvo("heal", {"op": "heal", "n": 2}, c["hin_rama"], {"dono": 0})
+	await get_tree().create_timer(0.9).timeout
+	c["ind_tupa"].atacou = false
+	await _atacar(c["ind_tupa"], c["tao_nezha"])
+	await get_tree().create_timer(1.2).timeout
+	c["ind_tupa"].atacou = false
+	await _golpe_direto(c["ind_tupa"], 1)
+	await get_tree().create_timer(1.5).timeout
+
+
 func _roteiro_efeitos() -> void:
+	if OS.get_environment("GD_ROTEIRO") == "combate":
+		await _roteiro_combate()
+		return
 	ativo = 0
 	turno_n = 5
 	fe_max = [8, 7]

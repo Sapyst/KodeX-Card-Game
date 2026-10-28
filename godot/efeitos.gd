@@ -6,6 +6,10 @@ extends Node2D
 var particulas: Array[Dictionary] = []
 var popups: Array[Dictionary] = []
 var aneis: Array[Dictionary] = []
+var cortes: Array[Dictionary] = []      # rasgos de golpe: {p, dir, cor, t, dur, larg}
+var fantasmas: Array[Dictionary] = []   # rastro da carta em investida: {p, rot, tam, cor, t}
+var feixes: Array[Dictionary] = []      # raio de efeito viajando da fonte ao alvo: {de, para, cor, t, dur}
+var choques: Array[Dictionary] = []     # onda de choque elíptica no chão: {p, r, cor, t, dur}
 var clarao := Color(0, 0, 0, 0)
 var faixa := ""                        # "VITÓRIA" / "DERROTA" / ""
 var faixa_t := 0.0
@@ -62,19 +66,56 @@ func onda_poeira(c: Vector2, raio: float, forca: float = 1.0) -> void:
 				"cor": [Color("#c9b994"), Color("#a8987a"), Color("#8c7a6a")][randi() % 3], "a0": 0.55 if anel == 0 else 0.35})
 
 
-func faiscas(p: Vector2, n: int = 16, cor := Color("#ffe39a")) -> void:
+## Faíscas: riscos luminosos (comprimento ∝ velocidade, 0,035 s de rastro) com arrasto de 4%/quadro e gravidade
+## 120 px/s². `dir` ≠ 0 concentra o leque num cone de ±0,7 rad naquela direção (golpe saindo pelo outro lado do alvo).
+func faiscas(p: Vector2, n: int = 16, cor := Color("#ffe39a"), dir := Vector2.ZERO) -> void:
 	for i in n:
-		var a := randf() * TAU
-		particulas.append({"p": p, "v": Vector2.from_angle(a) * randf_range(60, 140), "cor": cor if i % 3 else Color.WHITE,
-			"vida": randf_range(0.2, 0.4), "max": 0.4, "g": 120.0, "tam": 1 + int(i % 4 == 0)})
+		var a := randf() * TAU if dir == Vector2.ZERO else dir.angle() + randf_range(-0.7, 0.7)
+		var vel := randf_range(60, 140) * (1.6 if dir != Vector2.ZERO else 1.0)
+		particulas.append({"p": p, "v": Vector2.from_angle(a) * vel, "cor": cor if i % 3 else Color.WHITE,
+			"vida": randf_range(0.2, 0.4), "max": 0.4, "g": 120.0, "tam": 1 + int(i % 4 == 0), "risco": true})
+
+
+## Partículas que sobem (buff, cura) ou escorrem (debuff) de dentro de um retângulo: 1–2 px, 0,5–0,9 s, sem gravidade.
+func motes(r: Rect2, cor: Color, sobe := true, n := 14) -> void:
+	for i in n:
+		var pp := Vector2(randf_range(r.position.x, r.end.x), randf_range(r.position.y, r.end.y))
+		var vy := randf_range(-38, -18) if sobe else randf_range(14, 30)
+		particulas.append({"p": pp, "v": Vector2(randf_range(-6, 6), vy), "cor": cor if i % 3 else Color.WHITE,
+			"vida": randf_range(0.5, 0.9), "max": 0.9, "g": 0.0 if sobe else 30.0, "tam": 1 + int(i % 3 == 0), "brilho": true})
+
+
+## Rasgo de golpe: lâmina crescente de 2·larg px cruzando `p` perpendicular a `dir`, abre em 0,08 s e some até 0,3 s.
+func corte(p: Vector2, dir: Vector2, cor := Color("#fff4d0"), larg := 26.0) -> void:
+	cortes.append({"p": p, "dir": dir.normalized(), "cor": cor, "t": 0.0, "dur": 0.3, "larg": larg})
+
+
+## Rastro da investida: silhueta da carta (tam em px de tela) que esmaece em 0,16 s.
+func fantasma(p: Vector2, rot: float, tam: Vector2, cor := Color(1.0, 0.9, 0.7)) -> void:
+	fantasmas.append({"p": p, "rot": rot, "tam": tam, "cor": cor, "t": 0.0})
+
+
+## Raio de efeito: a cabeça viaja de `de` a `para` em `dur` s com cauda de 40% do caminho; brilho de 3 camadas.
+func feixe(de: Vector2, para: Vector2, cor: Color, dur := 0.16) -> void:
+	feixes.append({"de": de, "para": para, "cor": cor, "t": 0.0, "dur": dur})
+
+
+## Onda de choque no chão: elipse (altura 0,5× a largura, perspectiva da mesa) que cresce até r em 0,32 s.
+func choque(p: Vector2, cor: Color, r := 40.0) -> void:
+	choques.append({"p": p, "r": r, "cor": cor, "t": 0.0, "dur": 0.32})
 
 
 func estilhacar(centro: Vector2, cores: Array, larg: int, alt: int) -> void:
-	## a carta se desfaz em ~70 fragmentos de 2×2 px nas cores dela, voando para fora e caindo
-	for i in 70:
+	## a carta se desfaz em 36 cacos de 3–6 px que giram (±9 rad/s) voando para fora e caindo, mais 30 grãos de 1–2 px
+	for i in 36:
+		var off := Vector2(randf_range(-larg / 2.0, larg / 2.0), randf_range(-alt / 2.0, alt / 2.0))
+		particulas.append({"p": centro + off, "v": off.normalized() * randf_range(40, 120) + Vector2(0, -50),
+			"cor": cores[i % cores.size()], "vida": randf_range(0.55, 1.0), "max": 1.0, "g": 260.0,
+			"tam": randi_range(3, 6), "caco": true, "rot": randf() * TAU, "vr": randf_range(-9, 9)})
+	for i in 30:
 		var off := Vector2(randf_range(-larg / 2.0, larg / 2.0), randf_range(-alt / 2.0, alt / 2.0))
 		particulas.append({"p": centro + off, "v": off.normalized() * randf_range(30, 110) + Vector2(0, -40),
-			"cor": cores[i % cores.size()], "vida": randf_range(0.45, 0.9), "max": 0.9, "g": 220.0, "tam": 2})
+			"cor": cores[i % cores.size()], "vida": randf_range(0.45, 0.9), "max": 0.9, "g": 220.0, "tam": 1 + i % 2})
 
 
 func confete(n: int = 80) -> void:
@@ -90,12 +131,14 @@ func cinzas(n: int = 60) -> void:
 			"cor": Color("#6a6470") if i % 2 else Color("#3a3640"), "vida": randf_range(2.0, 3.5), "max": 3.5, "g": 0.0, "tam": 1})
 
 
+## Texto flutuante: entra com pulo (escala 1,7 → 1 em 0,16 s, ease-out-back), sobe 22 px desacelerando e some
+## nos últimos 0,35 s. Números de dano ("-N") tremem 1,5 px no primeiro 0,1 s. Nunca sai da tela (margem 6 px).
 func numero(p: Vector2, texto: String, cor: Color, esc: int = 2) -> void:
-	popups.append({"p": p, "texto": texto, "cor": cor, "vida": 0.9, "esc": esc})
+	popups.append({"p": p, "texto": texto, "cor": cor, "vida": 1.0, "esc": esc, "t": 0.0, "dano": texto.begins_with("-")})
 
 
 func anel(p: Vector2, cor: Color, r_max: float = 30.0) -> void:
-	aneis.append({"p": p, "r": 2.0, "rmax": r_max, "cor": cor, "vida": 0.3})
+	aneis.append({"p": p, "r": 2.0, "rmax": r_max, "cor": cor, "vida": 0.34})
 
 
 func flash(cor: Color, alfa: float = 0.35) -> void:
@@ -114,6 +157,10 @@ func _process(delta: float) -> void:
 			fala = {}
 	for p in particulas:
 		p["v"] += Vector2(0, p["g"]) * delta
+		if p.has("risco"):
+			p["v"] *= exp(-delta * 2.4)
+		if p.has("caco"):
+			p["rot"] += p["vr"] * delta
 		p["p"] += p["v"] * delta
 		p["vida"] -= delta
 	particulas = particulas.filter(func(p: Dictionary) -> bool: return p["vida"] > 0.0)
@@ -123,13 +170,20 @@ func _process(delta: float) -> void:
 		nv["v"] *= 0.90
 	nuvens = nuvens.filter(func(nv: Dictionary) -> bool: return nv["t"] < nv["vida"])
 	for p in popups:
-		p["p"] += Vector2(0, -28) * delta
+		p["t"] += delta
 		p["vida"] -= delta
 	popups = popups.filter(func(p: Dictionary) -> bool: return p["vida"] > 0.0)
 	for a in aneis:
-		a["r"] = lerpf(a["r"], a["rmax"], 0.25)
+		a["r"] = lerpf(a["r"], a["rmax"], 1.0 - exp(-delta * 16.0))
 		a["vida"] -= delta
 	aneis = aneis.filter(func(a: Dictionary) -> bool: return a["vida"] > 0.0)
+	for lst in [cortes, fantasmas, feixes, choques]:
+		for e in lst:
+			e["t"] += delta
+	cortes = cortes.filter(func(e: Dictionary) -> bool: return e["t"] < e["dur"])
+	fantasmas = fantasmas.filter(func(e: Dictionary) -> bool: return e["t"] < 0.16)
+	feixes = feixes.filter(func(e: Dictionary) -> bool: return e["t"] < e["dur"] * 1.8)
+	choques = choques.filter(func(e: Dictionary) -> bool: return e["t"] < e["dur"])
 	clarao.a = maxf(0.0, clarao.a - delta * 1.4)
 	t_escolha += delta
 	if not tutor.is_empty():
@@ -154,16 +208,70 @@ func _draw() -> void:
 		var u: float = nv["t"] / nv["vida"]
 		var r: float = lerpf(nv["r"], nv["rmax"], 1.0 - pow(1.0 - u, 2.0))
 		draw_circle((nv["p"] as Vector2).round(), r, Color(nv["cor"], nv["a0"] * (1.0 - u)))
+	for e in choques:
+		var u: float = e["t"] / e["dur"]
+		var r: float = e["r"] * (1.0 - pow(1.0 - u, 3.0))
+		_elipse(e["p"], r, 0.5, Color(e["cor"], 0.75 * (1.0 - u)), 3.0 * (1.0 - u) + 0.6)
+		_elipse(e["p"], r * 0.7, 0.5, Color(e["cor"], 0.3 * (1.0 - u)), 1.0)
 	for a in aneis:
-		draw_arc(a["p"], a["r"], 0, TAU, 32, Color(a["cor"], a["vida"] / 0.3), 1.0)
+		var al: float = a["vida"] / 0.34
+		draw_arc(a["p"], a["r"], 0, TAU, 40, Color(a["cor"], al), 0.6 + 2.0 * al)
+		draw_arc(a["p"], a["r"] * 0.82, 0, TAU, 40, Color(a["cor"], al * 0.3), 1.0)
+	for f in fantasmas:
+		var al: float = 0.28 * (1.0 - f["t"] / 0.16)
+		draw_set_transform(f["p"], f["rot"], Vector2.ONE)
+		draw_rect(Rect2(-(f["tam"] as Vector2) / 2.0, f["tam"]), Color(f["cor"], al))
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	for fx in feixes:
+		_desenhar_feixe(fx)
 	for p in particulas:
 		var al := clampf(p["vida"] / p["max"] * 1.5, 0, 1)
 		var t: int = p["tam"]
-		draw_rect(Rect2((p["p"] as Vector2).round(), Vector2(t, t)), Color(p["cor"], al))
+		var cor: Color = p["cor"]
+		if p.has("risco"):
+			var v: Vector2 = p["v"]
+			var cauda: Vector2 = p["p"] - v * 0.035
+			draw_line(cauda, p["p"], Color(cor, al * 0.35), t + 1.6)
+			draw_line(cauda.lerp(p["p"], 0.4), p["p"], Color(cor.lightened(0.4), al), t * 0.8 + 0.4)
+		elif p.has("caco"):                       # caco girando: largura varia com cos(rot) = efeito de virar no ar
+			var w := t * (0.35 + 0.65 * absf(cos(p["rot"])))
+			draw_set_transform(p["p"], p["rot"] * 0.5, Vector2.ONE)
+			draw_rect(Rect2(-w / 2.0 - 0.5, -t / 2.0 - 0.5, w + 1, t + 1), Color(0.06, 0.03, 0.05, al * 0.8))
+			draw_rect(Rect2(-w / 2.0, -t / 2.0, w, t), Color(cor, al))
+			draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+		elif p.has("brilho"):
+			draw_circle(p["p"], t + 1.5, Color(cor, al * 0.25))
+			draw_circle(p["p"], t * 0.6, Color(cor.lightened(0.5), al))
+		else:
+			draw_rect(Rect2(p["p"] as Vector2, Vector2(t, t)), Color(cor, al))
+	for e in cortes:
+		_desenhar_corte(e)
+	var tela := _tela()
 	for p in popups:
-		var al := clampf(p["vida"] / 0.4, 0, 1)
+		var al := clampf(p["vida"] / 0.35, 0, 1)
 		var esc: int = p["esc"]
-		PixelFonte.centrado(self, (p["p"] as Vector2).round(), Sessao.t(p["texto"]), Color(p["cor"], al), esc, Color(0.08, 0.04, 0.06, al))
+		var t: float = p["t"]
+		var u := clampf(t / 0.16, 0.0, 1.0)
+		var s := 1.0 + 0.7 * (1.0 - _back(u)) if u < 1.0 else 1.0
+		var pos: Vector2 = p["p"] + Vector2(0, -22.0 * (1.0 - exp(-t * 3.2)))
+		if p["dano"] and t < 0.1:
+			pos.x += sin(t * 140.0) * 1.5
+		var txt: String = Sessao.t(p["texto"])
+		# rótulos (SILÊNCIO, DANO 1, +2/+1 pequeno…) ficam sobre uma plaquinha escura; os de esc 1 crescem 1,5×
+		var rotulo := esc == 1 or not txt.substr(0, 1) in ["-", "+", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+		if esc == 1:
+			s *= 1.5
+		var meia := PixelFonte.largura(txt, esc) * s / 2.0 + 6.0
+		pos.x = clampf(pos.x, tela.position.x + meia, tela.end.x - meia)
+		pos.y = clampf(pos.y, tela.position.y + 6.0 * esc, tela.end.y - 6.0 * esc)
+		draw_set_transform(pos, 0.0, Vector2(s, s))
+		if rotulo:
+			var lw := PixelFonte.largura(txt, esc) + 8.0 * esc
+			var pl := Rect2(-lw / 2.0, -5.5 * esc, lw, 11 * esc)
+			Carta.rr(self, pl, 3.0 * esc, Color(0.08, 0.04, 0.06, 0.72 * al))
+			Carta.rr_linha(self, pl, 3.0 * esc, Color(p["cor"], 0.5 * al), 0.6 * esc)
+		PixelFonte.centrado(self, Vector2.ZERO, txt, Color(p["cor"], al), esc, Color(0.08, 0.04, 0.06, al))
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 	if not alvos.is_empty():
 		_desenhar_alvos()
 	if not faixa_alvo.is_empty():
@@ -776,3 +884,63 @@ func _desenhar_fim() -> void:
 		var ws := Fonte57.largura(sub) + 16
 		draw_rect(Rect2(roundf(180 - ws / 2.0), 322, ws, 13), Color(0.05, 0.03, 0.06, 0.85 * a2))
 		Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(sub) / 2.0), 326), sub, Color(0.95, 0.88, 0.7, a2) if vit else Color(0.75, 0.7, 0.75, a2), Color(0.05, 0.03, 0.05, a2))
+
+
+## ease-out-back: passa 10% do alvo e volta.
+static func _back(u: float) -> float:
+	var c1 := 1.70158
+	return 1.0 + (c1 + 1.0) * pow(u - 1.0, 3.0) + c1 * pow(u - 1.0, 2.0)
+
+
+func _elipse(c: Vector2, r: float, achat: float, cor: Color, larg: float) -> void:
+	var pts := PackedVector2Array()
+	for k in 41:
+		var a := TAU * k / 40.0
+		pts.append(c + Vector2(cos(a) * r, sin(a) * r * achat))
+	draw_polyline(pts, cor, larg, true)
+
+
+## Lâmina crescente: 13 pontos ao longo da perpendicular, espessura máxima 5 px no meio, abaulada 6 px para `dir`;
+## abre do centro para as pontas em 0,06 s e esmaece depois. Núcleo branco + halo da cor.
+func _desenhar_corte(e: Dictionary) -> void:
+	var u: float = e["t"] / e["dur"]
+	var abre := clampf(u / 0.28, 0.0, 1.0)
+	var al := 1.0 - clampf((u - 0.28) / 0.72, 0.0, 1.0)
+	var d: Vector2 = e["dir"]
+	var n := Vector2(-d.y, d.x)
+	var L: float = e["larg"] * abre
+	var c: Vector2 = e["p"] + d * 4.0 * u
+	for camada in 2:
+		var esp := 5.0 if camada == 0 else 2.2
+		var cor: Color = Color(e["cor"], 0.45 * al) if camada == 0 else Color(1, 1, 1, al)
+		var cima := PackedVector2Array()
+		var baixo := PackedVector2Array()
+		for k in 13:
+			var s := (k / 12.0) * 2.0 - 1.0
+			var curva := (1.0 - s * s) * 6.0
+			var w := (1.0 - s * s) * esp * 1.4 * (1.0 - 0.5 * u)
+			var base := c + n * s * L + d * curva
+			cima.append(base + d * w / 2.0)
+			baixo.append(base - d * w / 2.0)
+		baixo.reverse()
+		var poly := cima + baixo
+		if Geometry2D.triangulate_polygon(poly).size() > 0:
+			draw_colored_polygon(poly, cor)
+
+
+func _desenhar_feixe(fx: Dictionary) -> void:
+	var u: float = fx["t"] / fx["dur"]
+	var cab := clampf(u, 0.0, 1.0)
+	var cauda := clampf(u - 0.4, 0.0, 1.0) if u < 1.0 else clampf(0.6 + (u - 1.0) / 0.8 * 0.4, 0.0, 1.0)
+	var de: Vector2 = fx["de"]
+	var para: Vector2 = fx["para"]
+	var a := de.lerp(para, cauda)
+	var b := de.lerp(para, cab)
+	var al := 1.0 if u < 1.0 else 1.0 - (u - 1.0) / 0.8
+	var cor: Color = fx["cor"]
+	var tremido := Vector2(-(b - a).y, (b - a).x).normalized() * sin(fx["t"] * 90.0) * 0.8
+	draw_line(a, b, Color(cor, 0.22 * al), 9.0)
+	draw_line(a + tremido, b + tremido, Color(cor, 0.6 * al), 4.0)
+	draw_line(a, b, Color(cor.lightened(0.7), al), 1.6)
+	draw_circle(b, 4.5, Color(cor, 0.4 * al))
+	draw_circle(b, 2.2, Color(1, 1, 1, al))

@@ -424,6 +424,7 @@ func disparar_efeitos_reliquia(rel: Dictionary, gat: String, ctx_base: Dictionar
 			_conta("gatilho", gat)
 			if gat != "on_equip":
 				m._piscar(port)
+				port.marcar("reliquia")
 				m.efeitos.numero(port.position + Vector2(0, 34), PixelFonte.normalizar(str(rel["nome"])), COR_BUFF, 1)
 			await executar_acoes(ef["acoes"], ctx)
 	if gat == "equipped_attacks" and rel.get("usos") != null and is_same(port.reliquia, rel):
@@ -665,7 +666,8 @@ func executar_acao(a: Dictionary, ctx: Dictionary) -> void:
 					await _feixe(fonte, t, COR_DANO)
 					if t is Carta and t.em_campo:
 						t.dano += n
-						m.efeitos.numero(t.position + Vector2(0, -20), "-%d" % n, COR_DANO)
+						t.marcar("dano")
+						m.efeitos.numero(t.position + Vector2(0, -24), "-%d" % n, COR_DANO)
 						m._piscar(t)
 						m._sacudir(t, 3.0)
 						pend.append(t)
@@ -681,16 +683,24 @@ func executar_acao(a: Dictionary, ctx: Dictionary) -> void:
 				await _esperar(0.25)
 
 
+## Raio da fonte até o alvo (0,16 s) e estouro de faíscas na ponta, saindo na direção do raio.
 func _feixe(fonte, alvo, cor: Color) -> void:
 	var de := _pos_de(fonte)
 	var para := _pos_de(alvo)
 	if de.distance_to(para) < 4:
 		m.efeitos.faiscas(para, 10, cor)
+		m.efeitos.anel(para, cor, 26)
 		return
-	for k in 6:
-		m.efeitos.faiscas(de.lerp(para, k / 6.0), 3, cor)
-		await _esperar(0.02)
-	m.efeitos.faiscas(para, 10, cor)
+	m.efeitos.feixe(de, para, cor)
+	await _esperar(0.16)
+	m.efeitos.faiscas(para, 12, cor, (para - de).normalized())
+	m.efeitos.anel(para, cor, 24)
+
+
+## Retângulo da carta na tela (para espalhar partículas sobre ela).
+func _caixa(c: Carta) -> Rect2:
+	var tam := Vector2(Carta.LARG, Carta.ALT) * c.scale * Vector2(1.0, 0.85)
+	return Rect2(c.position - tam / 2.0, tam)
 
 
 func aplicar_em_alvo(op: String, a: Dictionary, t, ctx: Dictionary) -> void:
@@ -701,8 +711,9 @@ func aplicar_em_alvo(op: String, a: Dictionary, t, ctx: Dictionary) -> void:
 			Som.tocar("efeito_cura", {"cristianismo": "celestial", "indigena": "natureza", "taoismo": "agua"}.get(_trad(ctx.get("fonte")), "comum"))
 			if t is Carta and t.em_campo:
 				t.dano = maxi(0, t.dano - n)
-				m.efeitos.numero(t.position + Vector2(0, -20), "+%d" % n, COR_CURA)
-				m.efeitos.faiscas(t.position, 10, COR_CURA)
+				t.marcar("cura")
+				m.efeitos.numero(t.position + Vector2(0, -24), "+%d" % n, COR_CURA)
+				m.efeitos.motes(_caixa(t), COR_CURA, true, 16)
 			elif t is Dictionary and t.has("cornucopia"):
 				var idx: int = t["cornucopia"]
 				m.cornucopia[idx] = mini(CORNUCOPIA_MAX, m.cornucopia[idx] + n)
@@ -729,9 +740,9 @@ func aplicar_em_alvo(op: String, a: Dictionary, t, ctx: Dictionary) -> void:
 					Som.tocar("efeito_dano", "sombrio", -4.0)
 				else:
 					Som.tocar("efeito_buff")
-				m.efeitos.numero(t.position + Vector2(0, -20), rotulo(a), COR_DEBUFF if neg else COR_BUFF, 1)
-				m.efeitos.faiscas(t.position, 10, COR_DEBUFF if neg else COR_BUFF)
-				m._piscar(t)
+				t.marcar("debuff" if neg else "buff")
+				m.efeitos.numero(t.position + Vector2(0, -24), rotulo(a), COR_DEBUFF if neg else COR_BUFF, 1)
+				m.efeitos.motes(_caixa(t), COR_DEBUFF if neg else COR_BUFF, not neg, 16)
 		"destroy":
 			if t is Carta:
 				Som.tocar("efeito_destruir")
@@ -751,37 +762,41 @@ func aplicar_em_alvo(op: String, a: Dictionary, t, ctx: Dictionary) -> void:
 				t.efeitos = []
 				t.silenciada = true
 				recalcular_auras()
-				m.efeitos.faiscas(t.position, 12, COR_MUDO)
+				t.marcar("mudo")
+				m.efeitos.motes(_caixa(t), COR_MUDO, false, 12)
 				Som.tocar("efeito_silenciar")
-				m.efeitos.numero(t.position + Vector2(0, -20), "SILÊNCIO", COR_MUDO, 1)
+				m.efeitos.numero(t.position + Vector2(0, -24), "SILÊNCIO", COR_MUDO, 1)
 		"freeze":
 			if t is Carta:
 				t.congelada = true
+				t.marcar("gelo")
 				m.efeitos.anel(t.position, COR_GELO, 32)
 				Som.tocar("efeito_congelar")
 				m.efeitos.faiscas(t.position, 12, COR_GELO)
-				m.efeitos.numero(t.position + Vector2(0, -20), "CONGELADA", COR_GELO, 1)
+				m.efeitos.numero(t.position + Vector2(0, -24), "CONGELADA", COR_GELO, 1)
 		"give_keyword":
 			if t is Carta and t.em_campo:
 				if not (a["keyword"] in t.keywords):
 					t.keywords.append(a["keyword"])
+				t.marcar("buff")
 				m.efeitos.numero(t.position + Vector2(0, -28), str(a["keyword"]).to_upper(), COR_BUFF, 1)
-				m._piscar(t)
+				m.efeitos.motes(_caixa(t), COR_BUFF, true, 10)
 		"set_stats":
 			if t is Carta and t.em_campo:
 				t.atk_base = int(a["atk"])
 				t.vida_base = int(a["vida"])
 				t.limpar_stats()
-				m.efeitos.numero(t.position + Vector2(0, -20), "%d/%d" % [t.atk_base, t.vida_base], COR_BUFF, 2)
-				m.efeitos.faiscas(t.position, 14, COR_BUFF)
-				m._piscar(t)
+				t.marcar("buff")
+				m.efeitos.numero(t.position + Vector2(0, -24), "%d/%d" % [t.atk_base, t.vida_base], COR_BUFF, 2)
+				m.efeitos.motes(_caixa(t), COR_BUFF, true, 16)
 		"copy_stats":
 			var s = ctx.get("self")
 			if t is Carta and s is Carta and s.em_campo:
 				s.atk_base = t.atk
 				s.vida_base = maxi(1, t.vida())
 				s.limpar_stats()
-				m._piscar(s)
+				s.marcar("buff")
+				m.efeitos.motes(_caixa(s), COR_BUFF, true, 12)
 		"swap_control":
 			if t is Carta and t.em_campo and t.dono != dono:
 				await roubar(t, dono, a.get("perm", true))

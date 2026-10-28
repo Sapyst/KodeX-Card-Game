@@ -377,27 +377,19 @@ func _escolher_web() -> void:
 ## documento quando o dedo ENCOSTA no botão: o click() roda quando o dedo sai, ainda dentro do gesto.
 ## O input fica DENTRO da página (o Safari ignora click() em elemento solto) e aceita só JPEG/PNG/WebP: assim o
 ## iPhone converte as fotos HEIC para JPEG na hora de escolher (o Godot não abre HEIC).
-## Nome na web: o teclado do iPhone não abre para o campo do Godot. Igual ao seletor de foto, armamos no toque
-## um prompt() nativo do navegador, que roda quando o dedo sai (dentro do gesto) e devolve o texto ao jogo.
-var _cb_nome: JavaScriptObject = null
-
-
+## Nome, busca e códigos na web: abrem a caixa de digitação do próprio jogo (com um <input> HTML embutido, ver
+## fluxo.pedir_texto), chamada no toque — o foco que abre o teclado do iPhone fica armado para quando o dedo sair.
 func armar_nome_web(qual: String) -> void:
 	if not OS.has_feature("web"):
 		return
 	editando = qual
-	if _cb_nome == null:
-		_cb_nome = JavaScriptBridge.create_callback(_ao_nome_web)
-		JavaScriptBridge.get_interface("window").kodexNome = _cb_nome
 	var atual: String = str(Sessao.perfil.get("nome", "")) if qual == "perfil" else (f.col.busca if qual == "busca" else ("" if qual in ["codigo", "codigo_conta"] else str(Sessao.perfil["decks"][deck_idx]["nome"])))
 	var titulo: String = Sessao.t("Seu nome") if qual == "perfil" else (Sessao.t("Buscar carta") if qual == "busca" else (Sessao.t("Cole o código do deck") if qual == "codigo" else (Sessao.t("Código da conta (8 letras)") if qual == "codigo_conta" else Sessao.t("Nome do deck"))))
-	JavaScriptBridge.eval("""(function(){
-		var t=%s, v=%s;
-		var abrir=function(){document.removeEventListener('pointerup',abrir,true);document.removeEventListener('touchend',abrir,true);
-			window.kodexNomeArmado=false;var r=window.prompt(t,v);if(r!==null){window.kodexNome(r);}};
-		if(!window.kodexNomeArmado){window.kodexNomeArmado=true;
-			document.addEventListener('pointerup',abrir,true);document.addEventListener('touchend',abrir,true);}
-	})()""" % [JSON.stringify(titulo + ("" if qual in ["codigo", "codigo_conta"] else " (máx. 16)")), JSON.stringify(atual)], true)
+	var maximo := 400 if qual == "codigo" else (8 if qual == "codigo_conta" else nome_edit.max_length)
+	var r: String = await f.pedir_texto(titulo, false, maximo, atual)
+	if f.cancelou:
+		return
+	_ao_nome_web([r])
 
 
 func _ao_nome_web(args: Array) -> void:

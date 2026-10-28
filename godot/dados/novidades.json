@@ -1,5 +1,18 @@
 [
  {
+  "versao": "0.20.9-alpha",
+  "data": "28/10/2026",
+  "pt": [
+   "No site, usuário, senha, nome, busca e códigos agora são digitados dentro da caixa do próprio jogo, sem janela externa do navegador. Funciona no iPhone, Android, Mac e PC, com o teclado do aparelho, colar e preenchimento automático de senha."
+  ],
+  "en": [
+   "On the website, username, password, name, search and codes are now typed inside the game's own box, with no external browser popup. Works on iPhone, Android, Mac and PC, with the device keyboard, paste and password autofill."
+  ],
+  "es": [
+   "En el sitio, usuario, contraseña, nombre, búsqueda y códigos ahora se escriben dentro de la caja del propio juego, sin ventana externa del navegador. Funciona en iPhone, Android, Mac y PC, con el teclado del dispositivo, pegar y autocompletar contraseñas."
+  ]
+ },
+ {
   "versao": "0.20.8-alpha",
   "data": "27/10/2026",
   "pt": [

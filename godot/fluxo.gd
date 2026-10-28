@@ -399,6 +399,8 @@ var inclinacao_foil := Vector2.ZERO        # -1..1: inclinação do celular (ace
 
 func _process(delta: float) -> void:
 	tempo += delta
+	if not pedido.is_empty() and OS.has_feature("web"):
+		_posicionar_campo_web()
 	_atualizar_moedas(delta)
 	var acc := Input.get_accelerometer()
 	var alvo_inc := Vector2.ZERO
@@ -896,39 +898,155 @@ func _abas_loja(atual: String) -> void:
 
 # ---------- caixa de digitação (um campo por vez) ----------
 signal texto_pronto(t: String)
-var pedido := {}                          # {titulo, secreto}: caixa aberta
+var pedido := {}                          # {titulo, secreto, leitura}: caixa aberta
 var campo_txt: LineEdit
+var cancelou := false                     # o último pedir_texto terminou em Cancelar/Voltar (≠ OK com campo vazio)
+var _txt_web := ""                        # web: texto atual do <input> embutido
+var _rect_web := Rect2()                  # web: último retângulo (px da janela) enviado ao <input>
+var _cbs_web: Array = []                  # web: callbacks JS (precisam continuar vivos)
 
 
-## Pede um texto. Web: caixa nativa do navegador. Celular/PC: campo do jogo (teclado do sistema). "" = cancelou.
-func pedir_texto(titulo: String, secreto := false, maximo := 160) -> String:
+## Pede um texto na caixa do jogo. "" = cancelou (ver `cancelou`) ou OK vazio.
+## Celular/PC: LineEdit invisível (teclado do sistema) e o jogo desenha o texto.
+## Web: um <input> HTML de verdade fica por cima da caixa, com a cara do jogo — o teclado do celular, colar,
+## autocorreção desligada e o preenchimento de senhas funcionam em Safari/iPhone, Android, Mac e PC, sem popup.
+## auto = autocomplete do navegador ("username", "current-password", "new-password", "email"); leitura = só mostra
+## o texto para copiar.
+func pedir_texto(titulo: String, secreto := false, maximo := 160, inicial := "", leitura := false, auto := "") -> String:
+	cancelou = false
+	pedido = {"titulo": titulo, "secreto": secreto, "leitura": leitura}
 	if OS.has_feature("web"):
-		var r = JavaScriptBridge.eval("window.prompt(%s, '') || ''" % JSON.stringify(titulo), true)
-		return str(r).strip_edges() if r != null else ""
-	if campo_txt == null:
-		campo_txt = LineEdit.new()
-		campo_txt.modulate = Color(1, 1, 1, 0)
-		campo_txt.text_submitted.connect(func(t: String) -> void: _fim_pedido(t))
-		add_child(campo_txt)
-	campo_txt.text = ""
-	campo_txt.secret = secreto
-	campo_txt.max_length = maximo
-	campo_txt.position = Vector2(40, 270 + extra())
-	campo_txt.size = Vector2(280, 24)
-	campo_txt.visible = true
-	campo_txt.grab_focus()
-	pedido = {"titulo": titulo, "secreto": secreto}
+		_abrir_campo_web(inicial, secreto, maximo, leitura, auto)
+	else:
+		if campo_txt == null:
+			campo_txt = LineEdit.new()
+			campo_txt.modulate = Color(1, 1, 1, 0)
+			campo_txt.text_submitted.connect(func(t: String) -> void: _fim_pedido(t))
+			add_child(campo_txt)
+		campo_txt.text = inicial
+		campo_txt.editable = not leitura
+		campo_txt.secret = secreto
+		campo_txt.max_length = maximo
+		campo_txt.position = Vector2(40, 270 + extra())
+		campo_txt.size = Vector2(280, 24)
+		campo_txt.visible = true
+		campo_txt.grab_focus()
+		campo_txt.caret_column = inicial.length()
 	var t: String = await texto_pronto
 	return t.strip_edges()
+
+
+func texto_pedido() -> String:
+	return _txt_web if OS.has_feature("web") else (campo_txt.text if campo_txt else "")
+
+
+func cancelar_pedido() -> void:
+	cancelou = true
+	_fim_pedido("")
 
 
 func _fim_pedido(t: String) -> void:
 	if pedido.is_empty():
 		return
+	if pedido.get("leitura", false) and not cancelou:
+		t = ""
 	pedido = {}
-	campo_txt.release_focus()
-	campo_txt.visible = false
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval("window.kodexCampoFechar && window.kodexCampoFechar()", true)
+	elif campo_txt:
+		campo_txt.release_focus()
+		campo_txt.visible = false
 	texto_pronto.emit(t)
+
+
+## Cria uma vez o <input> e as funções JS. O foco (que abre o teclado) só vale dentro de um gesto no iPhone:
+## além de tentar focar na hora, armamos o foco para o próximo "pointerup"/"touchend" (o dedo saindo do botão que
+## abriu a caixa); tocar no próprio campo também foca, porque o <input> está por cima do jogo.
+func _abrir_campo_web(inicial: String, secreto: bool, maximo: int, leitura: bool, auto: String) -> void:
+	if _cbs_web.is_empty():
+		var w := JavaScriptBridge.get_interface("window")
+		var cb_txt := JavaScriptBridge.create_callback(func(a: Array) -> void: _txt_web = str(a[0]))
+		var cb_ok := JavaScriptBridge.create_callback(func(a: Array) -> void:
+			_txt_web = str(a[0])
+			_fim_pedido(_txt_web))
+		_cbs_web = [cb_txt, cb_ok]
+		w.kodexCampoTexto = cb_txt
+		w.kodexCampoOk = cb_ok
+		JavaScriptBridge.eval(CAMPO_WEB_JS, true)
+	_txt_web = inicial
+	_rect_web = Rect2()
+	_posicionar_campo_web()
+	JavaScriptBridge.eval("window.kodexCampoAbrir(%s)" % JSON.stringify({"valor": inicial, "secreto": secreto,
+		"max": maximo, "leitura": leitura, "auto": auto if auto != "" else ("current-password" if secreto else "off")}), true)
+
+
+## Leva o <input> para cima da caixa desenhada (px da janela → CSS no JS). Chamado a cada quadro com a caixa aberta:
+## acompanha giro de tela, teclado redimensionando a janela e a barra de baixo (extra()).
+func _posicionar_campo_web() -> void:
+	var caixa := Rect2(40, 270 + extra(), 280, 24)
+	var xf := get_viewport().get_screen_transform() * get_global_transform_with_canvas()
+	var a: Vector2 = xf * caixa.position
+	var b: Vector2 = xf * caixa.end
+	var r := Rect2(a, b - a)
+	if r.is_equal_approx(_rect_web):
+		return
+	_rect_web = r
+	JavaScriptBridge.eval("window.kodexCampoPos && window.kodexCampoPos(%f,%f,%f,%f)" % [r.position.x, r.position.y, r.size.x, r.size.y], true)
+
+
+const CAMPO_WEB_JS := """(function(){
+	if (window.kodexCampoAbrir) return;
+	var i = document.createElement('input');
+	i.id = 'kodex-campo';
+	i.setAttribute('autocapitalize', 'off'); i.setAttribute('autocorrect', 'off'); i.setAttribute('enterkeyhint', 'done');
+	i.spellcheck = false;
+	var s = i.style;
+	s.position = 'fixed'; s.zIndex = '20'; s.display = 'none'; s.boxSizing = 'border-box'; s.margin = '0';
+	s.padding = '0 0.45em'; s.border = '0'; s.outline = 'none'; s.background = 'transparent'; s.borderRadius = '0';
+	s.color = '#efe3c8'; s.caretColor = '#f2c35a'; s.webkitAppearance = 'none'; s.appearance = 'none';
+	s.fontFamily = '"Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'; s.fontWeight = '600';
+	s.webkitTapHighlightColor = 'transparent';
+	document.body.appendChild(i);
+	var armado = null;
+	var desarmar = function(){ if (armado) { document.removeEventListener('pointerup', armado, true); document.removeEventListener('touchend', armado, true); armado = null; } };
+	var focar = function(){
+		try { i.focus({preventScroll: true}); } catch (e) { i.focus(); }
+		if (i.readOnly) { i.select(); } else { var n = i.value.length; try { i.setSelectionRange(n, n); } catch (e) {} }
+	};
+	i.addEventListener('focus', function(){
+		desarmar();
+		if (i.readOnly) { i.select(); if (navigator.clipboard) { navigator.clipboard.writeText(i.value).catch(function(){}); } }
+	});
+	i.addEventListener('input', function(){ window.kodexCampoTexto(i.value); });
+	i.addEventListener('keydown', function(e){
+		e.stopPropagation();
+		if (e.key === 'Enter') { e.preventDefault(); window.kodexCampoOk(i.value); }
+	});
+	i.addEventListener('keyup', function(e){ e.stopPropagation(); });
+	i.addEventListener('blur', function(){ setTimeout(function(){ if (document.activeElement !== i) window.scrollTo(0, 0); }, 60); });
+	window.kodexCampoPos = function(x, y, w, h){
+		var c = document.querySelector('canvas');
+		var b = c ? c.getBoundingClientRect() : {left: 0, top: 0, width: window.innerWidth};
+		var k = c && c.width ? b.width / c.width : 1 / (window.devicePixelRatio || 1);
+		s.left = (b.left + x * k) + 'px'; s.top = (b.top + y * k) + 'px';
+		s.width = (w * k) + 'px'; s.height = (h * k) + 'px';
+		s.fontSize = Math.max(16, h * k * 0.6) + 'px';   // < 16 px faz o Safari dar zoom na página ao focar
+		s.lineHeight = (h * k) + 'px';
+	};
+	window.kodexCampoAbrir = function(o){
+		i.type = o.secreto ? 'password' : 'text';
+		i.setAttribute('autocomplete', o.auto);
+		i.inputMode = o.auto === 'email' ? 'email' : 'text';
+		i.maxLength = o.max; i.readOnly = !!o.leitura; i.value = o.valor;
+		s.display = 'block';
+		desarmar();
+		armado = function(){ desarmar(); if (s.display !== 'none') focar(); };
+		document.addEventListener('pointerup', armado, true); document.addEventListener('touchend', armado, true);
+		focar();
+		if (document.activeElement === i) desarmar();
+	};
+	window.kodexCampoFechar = function(){ desarmar(); i.blur(); s.display = 'none'; i.value = ''; };
+})()"""
 
 
 func _rects_pedido() -> Array:
@@ -946,11 +1064,12 @@ func _desenhar_pedido() -> void:
 	var caixa := Rect2(40, 270 + extra(), 280, 24)
 	draw_rect(caixa, Color("#0c080a"))
 	draw_rect(caixa, OURO[2], false, 1.0)
-	var t := campo_txt.text if campo_txt else ""
-	var vis := "*".repeat(t.length()) if pedido["secreto"] else t
-	while Fonte57.largura(vis) > 266:
-		vis = vis.substr(1)
-	Fonte57.desenhar(self, caixa.position + Vector2(7, 9), vis + ("|" if int(tempo * 2) % 2 == 0 else ""), CREME)
+	if not OS.has_feature("web"):                      # web: o <input> por cima da caixa mostra o texto e o cursor
+		var t := texto_pedido()
+		var vis := "*".repeat(t.length()) if pedido["secreto"] else t
+		while Fonte57.largura(vis) > 266:
+			vis = vis.substr(1)
+		Fonte57.desenhar(self, caixa.position + Vector2(7, 9), vis + ("" if pedido.get("leitura", false) or int(tempo * 2) % 2 else "|"), CREME)
 	var bs := _rects_pedido()
 	var b0 := _painel(bs[0], true, 0.0, Color("#3a2410"))
 	_texto_central(b0.get_center(), Sessao.t("OK"), OURO[0])
@@ -964,10 +1083,10 @@ func _kode_pendencias() -> void:
 	if Nuvem.kode_senha_temp:
 		perg.abrir([["titulo", Sessao.t("Senha temporária")], ["centro", Sessao.t("O suporte redefiniu o acesso ao seu Kode. Escolha uma senha nova.")]])
 		await perg.fechou
-		var s1 := await pedir_texto(Sessao.t("Crie uma senha (8 caracteres ou mais)"), true, 64)
+		var s1 := await pedir_texto(Sessao.t("Crie uma senha (8 caracteres ou mais)"), true, 64, "", false, "new-password")
 		if s1.length() < 8:
 			mp.avisar(Sessao.t("A senha precisa de 8 caracteres ou mais.")); return
-		var s2 := await pedir_texto(Sessao.t("Repita a senha"), true, 64)
+		var s2 := await pedir_texto(Sessao.t("Repita a senha"), true, 64, "", false, "new-password")
 		if s1 != s2:
 			mp.avisar(Sessao.t("As senhas não batem.")); return
 		var e1 := await Nuvem.kode_nova_senha(s1)
@@ -1015,13 +1134,13 @@ func _usar_codigo_aparelho() -> void:
 
 ## Criar Kode: usuário → senha (2×) → mostra a frase de 12 palavras → confere 1 palavra sorteada → cria.
 func _criar_kode() -> void:
-	var u := await pedir_texto(Sessao.t("Escolha um usuário (3 a 16: letras minúsculas, números, _)"), false, 16)
+	var u := await pedir_texto(Sessao.t("Escolha um usuário (3 a 16: letras minúsculas, números, _)"), false, 16, "", false, "username")
 	if u == "":
 		return
-	var s1 := await pedir_texto(Sessao.t("Crie uma senha (8 caracteres ou mais)"), true, 64)
+	var s1 := await pedir_texto(Sessao.t("Crie uma senha (8 caracteres ou mais)"), true, 64, "", false, "new-password")
 	if s1.length() < 8:
 		mp.avisar(Sessao.t("A senha precisa de 8 caracteres ou mais.")); return
-	var s2 := await pedir_texto(Sessao.t("Repita a senha"), true, 64)
+	var s2 := await pedir_texto(Sessao.t("Repita a senha"), true, 64, "", false, "new-password")
 	if s1 != s2:
 		mp.avisar(Sessao.t("As senhas não batem.")); return
 	var frase := await _frase_nova()
@@ -1046,9 +1165,7 @@ func _frase_nova() -> String:
 	blocos.append(["centro", Sessao.t("Toque em Copiar e cole num lugar seguro (bloco de notas, gerenciador de senhas).")])
 	perg.abrir(blocos, Callable(), {"texto": "Copiar", "acao": func() -> void:
 		DisplayServer.clipboard_set(frase)                 # uma linha, palavras separadas por espaço: cola direto na recuperação
-		if OS.has_feature("web"):                          # iPhone/Safari pode bloquear a cópia: caixa nativa com a frase para copiar à mão
-			JavaScriptBridge.eval("window.prompt(%s, %s)" % [JSON.stringify(Sessao.t("Suas 12 palavras (segure para copiar):")), JSON.stringify(frase)], true)
-		mp.avisar(Sessao.t("As 12 palavras foram copiadas."))})
+		mp.avisar(Sessao.t("As 12 palavras foram copiadas.")), "web_copiar": frase})
 	await perg.fechou
 	var n := randi_range(1, 12)
 	var conf := await pedir_texto(Sessao.t("Para conferir: qual é a palavra número %d?") % n)
@@ -1065,7 +1182,7 @@ static func frase_colada(s: String) -> String:
 
 
 func _entrar_kode() -> void:
-	var u := await pedir_texto(Sessao.t("Usuário Kode"), false, 16)
+	var u := await pedir_texto(Sessao.t("Usuário Kode"), false, 16, "", false, "username")
 	if u == "":
 		return
 	var s := await pedir_texto(Sessao.t("Senha"), true, 64)
@@ -1076,13 +1193,13 @@ func _entrar_kode() -> void:
 
 
 func _recuperar_kode() -> void:
-	var u := await pedir_texto(Sessao.t("Usuário Kode"), false, 16)
+	var u := await pedir_texto(Sessao.t("Usuário Kode"), false, 16, "", false, "username")
 	if u == "":
 		return
 	var f := frase_colada(await pedir_texto(Sessao.t("Cole ou digite as 12 palavras, na ordem"), false, 400))
 	if f.split(" ", false).size() != 12:
 		mp.avisar(Sessao.t("São 12 palavras.")); return
-	var s1 := await pedir_texto(Sessao.t("Nova senha (8 caracteres ou mais)"), true, 64)
+	var s1 := await pedir_texto(Sessao.t("Nova senha (8 caracteres ou mais)"), true, 64, "", false, "new-password")
 	if s1.length() < 8:
 		mp.avisar(Sessao.t("A senha precisa de 8 caracteres ou mais.")); return
 	mp.avisar(Sessao.t("Conferindo..."))
@@ -1091,7 +1208,7 @@ func _recuperar_kode() -> void:
 
 ## Email: pede o endereço, manda o código de 6 dígitos e confere. entrar=true: entra na conta ligada a esse email.
 func _email(entrar: bool) -> void:
-	var e := await pedir_texto(Sessao.t("Seu email"), false, 254)
+	var e := await pedir_texto(Sessao.t("Seu email"), false, 254, "", false, "email")
 	if e == "":
 		return
 	var r: Dictionary = await Nuvem.email_pedir(e)
@@ -1564,10 +1681,10 @@ func _unhandled_input(ev: InputEvent) -> void:
 func apertar(p: Vector2) -> void:
 	if not pedido.is_empty():                        # caixa de digitação aberta
 		if _rects_pedido()[0].has_point(p):
-			_fim_pedido(campo_txt.text)
+			_fim_pedido(texto_pedido())
 		elif _rects_pedido()[1].has_point(p):
-			_fim_pedido("")
-		elif campo_txt:
+			cancelar_pedido()
+		elif campo_txt and not OS.has_feature("web"):
 			campo_txt.grab_focus()
 		return
 	if not confirma.is_empty():                      # janela de confirmação por cima de tudo
@@ -1625,7 +1742,7 @@ func soltar_toque(p: Vector2) -> void:
 ## no Início pergunta se quer sair. Telas de animação/história ignoram.
 func voltar() -> void:
 	if not pedido.is_empty():
-		_fim_pedido("")
+		cancelar_pedido()
 		return
 	if not confirma.is_empty():
 		confirma = {}

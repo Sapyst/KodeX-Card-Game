@@ -468,6 +468,8 @@ func entrada(ev: InputEvent, p: Vector2) -> bool:
 			vel = 0.0
 			_botao_aperto = _rect_botao().has_point(p)
 			_extra_aperto = not _extra.is_empty() and _rect_extra().has_point(p)
+			if _extra_aperto and _extra.has("web_copiar") and OS.has_feature("web"):
+				_armar_copia_web(str(_extra["web_copiar"]))
 		else:
 			_dedo = false
 			if _extra_aperto and _rect_extra().grow(8).has_point(p):
@@ -492,3 +494,13 @@ func entrada(ev: InputEvent, p: Vector2) -> bool:
 		rolagem = _limitar(rolagem - dy)
 		vel = -dy / maxf(get_process_delta_time(), 0.008)
 	return true
+
+
+## Web (Safari/iPhone): a cópia só é aceita dentro do gesto. O jogo recebe o toque depois do navegador, então
+## armamos a cópia para quando o dedo sair do botão ("pointerup"/"touchend"), ainda dentro do gesto.
+func _armar_copia_web(txt: String) -> void:
+	JavaScriptBridge.eval("""(function(t){
+		var f = function(){ document.removeEventListener('pointerup', f, true); document.removeEventListener('touchend', f, true);
+			if (navigator.clipboard) { navigator.clipboard.writeText(t).catch(function(){}); } };
+		document.addEventListener('pointerup', f, true); document.addEventListener('touchend', f, true);
+	})(%s)""" % JSON.stringify(txt), true)

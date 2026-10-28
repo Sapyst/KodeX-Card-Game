@@ -1,5 +1,27 @@
 [
  {
+  "versao": "0.20.8-alpha",
+  "data": "27/10/2026",
+  "pt": [
+   "Jogo em alta resolução: tudo é desenhado na resolução do seu celular, com fonte nova mais legível e artes das cartas em HD (português, inglês, espanhol e lendárias foil).",
+   "Cartas com cantos arredondados, custo em gema, ATK e Vida em medalhas que pulsam quando mudam. Nomes longos e acentos cabem inteiros, sem encostar nas bordas.",
+   "Ataques com impacto: a carta toma impulso, avança com rastro, o golpe corta o alvo, o chão faz onda e o alvo é empurrado. Ao morrer, a carta racha e se desfaz em cacos.",
+   "Efeitos visíveis na carta: luz subindo em buff, cura e relíquia; descendo em debuff; gelo nos cantos ao congelar; faixa \"MUDO\" com cadeado ao silenciar. Textos de efeito maiores, com fundo escuro."
+  ],
+  "en": [
+   "High-resolution game: everything is drawn at your phone's resolution, with a new, more readable font and HD card art (Portuguese, English, Spanish and legendary foils).",
+   "Cards with rounded corners, cost in a gem, ATK and Life in medallions that pulse when they change. Long names and accents fit whole, never touching the edges.",
+   "Attacks with impact: the card winds up, lunges with a trail, the strike slashes the target, the floor ripples and the target is knocked back. When it dies, the card cracks and shatters.",
+   "Effects shown on the card: light rising on buffs, heals and relics; falling on debuffs; ice on the corners when frozen; a \"MUTED\" band with a lock. Bigger effect texts on a dark backing."
+  ],
+  "es": [
+   "Juego en alta resolución: todo se dibuja a la resolución de tu celular, con una fuente nueva más legible y artes de cartas en HD (portugués, inglés, español y legendarias foil).",
+   "Cartas con esquinas redondeadas, costo en gema, ATK y Vida en medallas que laten cuando cambian. Los nombres largos y los acentos caben enteros, sin tocar los bordes.",
+   "Ataques con impacto: la carta toma impulso, avanza con estela, el golpe corta al objetivo, el suelo ondula y el objetivo es empujado. Al morir, la carta se agrieta y se rompe en pedazos.",
+   "Efectos visibles en la carta: luz que sube en mejoras, curas y reliquias; que baja en debilitaciones; hielo en las esquinas al congelar; franja \"MUDA\" con candado. Textos de efecto más grandes, con fondo oscuro."
+  ]
+ },
+ {
   "versao": "0.20.7-alpha",
   "data": "23/10/2026",
   "pt": [

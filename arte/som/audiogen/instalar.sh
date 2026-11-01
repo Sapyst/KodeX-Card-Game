@@ -1,5 +1,5 @@
 set -e
-cd /mnt/d/AI_LOCAL/AudioGen
+cd /mnt/d/AI_LOCAL/Outros/AudioGen
 BASEPY=$(/mnt/d/Comfy-Desktop/venv/bin/python -c "import sys,os;print(os.path.join(sys.base_prefix,'bin','python3.12'))")
 $BASEPY -m venv venv
 ./venv/bin/pip install -q --upgrade pip wheel

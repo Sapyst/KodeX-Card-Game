@@ -157,6 +157,7 @@ Forjar ações: coberto (juiz valida mão, Fé, alvos). Mão do oponente: cobert
 - **Bloco 1 (bugs graves)**: feito na v0.20.11-alpha (06/11/2026) — 1.1, 1.2, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 1.10 e 2.1.
 - **Bloco 2 (netcode de borda)**: feito na v0.20.12-alpha (06/11/2026) — 3.1, 3.2, 3.3, 3.5, 3.6, 3.9, 3.10, 3.11, limites de mensagem/emote. Ficam: 3.4 (rollback via retomar), 3.7, 3.8, 3.12, 3.13, 3.14, 3.15.
 - **Bloco 3 (alvo escolhido pelo humano, 1.3)**: feito na v0.20.13-alpha (06/11/2026), jogo e juiz; 14 cartas.
+- **Bloco 4 (QoL mesa e menus)**: feito na v0.20.14-alpha (06/11/2026) — 7.1, 7.2, 7.3, 7.5, 7.7, 8.1, 8.2, 8.5, 8.7 (e 2.2). Fica 7.3 só contra IA e online igual; 8.3, 8.4, 8.6 e o resto de 7/8 para os próximos blocos.
 
 ## Ordem sugerida (blocos de ~1 dia)
 1. **Correções graves**: 1.1, 1.2 (dois lados), 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 1.4 → release.

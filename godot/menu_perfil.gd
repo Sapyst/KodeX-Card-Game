@@ -8,7 +8,7 @@ const MINI := Rect2(14, 8, 21, 28)                # foto na barra de perfil do t
 const GW := 60.0                                  # grade do editor de deck: carta 60×84, 5 colunas
 const GH := 84.0
 const GPASSO := 96.0
-const GTOPO := 110.0
+const GTOPO := 134.0                              # abaixo das 2 linhas de filtros (tradição; tipo/custo/ordem/busca)
 const GBASE := 532.0
 const ALVO_TIPOS := {"entidade": 14, "selo": 6, "rito": 8, "reliquia": 4}   # regras.md: distribuição de um deck
 const CURVA_ENT := [[1, 2, 4], [3, 4, 6], [5, 6, 3], [7, 8, 1]]             # Entidades: [custo de, até, quantas]
@@ -29,6 +29,11 @@ var _esc_ini := 1.0
 var deck_idx := 0
 var aba_deck := "cartas"                          # "cartas" (coleção: toque adiciona) | "deck" (toque remove)
 var filtro := "alta_magia"
+# filtros da 2ª linha do editor (os da Coleção): tipo, faixa de custo, ordem e busca por nome
+var tipo_deck := ""
+var custo_deck := ""
+var ordem_deck := "custo"
+var busca_deck := ""
 var rolagem := 0.0
 var vel := 0.0
 var _ids: Array = []
@@ -46,6 +51,9 @@ func _init(menu) -> void:
 	nome_edit.text_changed.connect(func(t: String) -> void:
 		if editando == "busca":
 			f.col.definir_busca(t)
+			return
+		if editando == "busca_deck":
+			definir_busca_deck(t)
 			return
 		if editando == "codigo_conta":
 			if t.strip_edges().length() >= 8:
@@ -561,8 +569,8 @@ func armar_nome_web(qual: String) -> void:
 	if not OS.has_feature("web"):
 		return
 	editando = qual
-	var atual: String = str(Sessao.perfil.get("nome", "")) if qual == "perfil" else (f.col.busca if qual == "busca" else ("" if qual in ["codigo", "codigo_conta"] else str(Sessao.perfil["decks"][deck_idx]["nome"])))
-	var titulo: String = Sessao.t("Seu nome") if qual == "perfil" else (Sessao.t("Buscar carta") if qual == "busca" else (Sessao.t("Cole o código do deck") if qual == "codigo" else (Sessao.t("Código da conta (8 letras)") if qual == "codigo_conta" else Sessao.t("Nome do deck"))))
+	var atual: String = str(Sessao.perfil.get("nome", "")) if qual == "perfil" else (f.col.busca if qual == "busca" else (busca_deck if qual == "busca_deck" else ("" if qual in ["codigo", "codigo_conta"] else str(Sessao.perfil["decks"][deck_idx]["nome"]))))
+	var titulo: String = Sessao.t("Seu nome") if qual == "perfil" else (Sessao.t("Buscar carta") if qual in ["busca", "busca_deck"] else (Sessao.t("Cole o código do deck") if qual == "codigo" else (Sessao.t("Código da conta (8 letras)") if qual == "codigo_conta" else Sessao.t("Nome do deck"))))
 	var maximo := 400 if qual == "codigo" else (8 if qual == "codigo_conta" else nome_edit.max_length)
 	var r: String = await f.pedir_texto(titulo, false, maximo, atual)
 	if f.cancelou:
@@ -581,6 +589,10 @@ func _ao_nome_web(args: Array) -> void:
 	if editando == "busca":
 		f.col.definir_busca(v)
 		f._ir("colecao")
+		return
+	if editando == "busca_deck":
+		definir_busca_deck(v)
+		f._ir("deck_edit")
 		return
 	if editando == "deck":
 		if v != "":
@@ -845,6 +857,17 @@ func abrir_deck(i: int) -> void:
 	rolagem = 0.0
 	_montar_lista()
 	f._ir("deck_edit")
+	_dica_editor()
+
+
+## Nas 3 primeiras vezes em cada aba: como o toque funciona.
+func _dica_editor() -> void:
+	var chave := "dica_editor_" + aba_deck
+	var n := int(Sessao.perfil.get(chave, 0))
+	if n >= 3:
+		return
+	Sessao.perfil[chave] = n + 1
+	avisar(Sessao.t("Toque: adiciona · Segure: detalhes" if aba_deck == "cartas" else "Toque: tira do deck · Segure: detalhes"))
 
 
 func _montar_lista() -> void:
@@ -855,11 +878,105 @@ func _montar_lista() -> void:
 				_ids.append(cid)
 	else:
 		var livre := Sessao.deck_livre(deck_idx)              # deck livre: todas as cartas (menos o Abismo)
+		var b := Colecao._sem_acento(busca_deck)
 		for cid in Sessao.db["cartas"]:
 			var cul := str(Sessao.db["cartas"][cid]["cultura"])
-			if (Sessao.copias(cid) > 0 or (livre and cul != "abismo")) and (filtro == "" or cul == filtro):
+			if b != "":                                       # busca por nome vale para todas as tradições
+				if cul == "abismo" or not Colecao._sem_acento(str(Sessao.db["cartas"][cid]["nome"])).contains(b):
+					continue
+			elif not (filtro == "" or cul == filtro):
+				continue
+			if Sessao.copias(cid) > 0 or (livre and cul != "abismo"):
 				_ids.append(cid)
+	_ids = _ids.filter(_passa_filtro_deck)
+	_ids.sort_custom(_antes)
 	rolagem = limitar(rolagem)
+
+
+func _passa_filtro_deck(cid: String) -> bool:
+	var c: Dictionary = Sessao.db["cartas"][cid]
+	if tipo_deck != "" and str(c["tipo"]) != tipo_deck:
+		return false
+	var cu := int(c["custo"])
+	if custo_deck == "0-2" and cu > 2 or custo_deck == "3-4" and (cu < 3 or cu > 4) or custo_deck == "5+" and cu < 5:
+		return false
+	return true
+
+
+## Ordem da grade: custo (depois nome), nome, ou tipo (Entidade, Selo, Rito, Relíquia; depois custo).
+func _antes(a: String, b: String) -> bool:
+	var ca: Dictionary = Sessao.db["cartas"][a]
+	var cb: Dictionary = Sessao.db["cartas"][b]
+	var na := Colecao._sem_acento(str(ca["nome"]))
+	var nb := Colecao._sem_acento(str(cb["nome"]))
+	match ordem_deck:
+		"nome":
+			return na < nb
+		"tipo":
+			var ta := Colecao.TIPOS.find(str(ca["tipo"]))
+			var tb := Colecao.TIPOS.find(str(cb["tipo"]))
+			if ta != tb:
+				return ta < tb
+	if int(ca["custo"]) != int(cb["custo"]):
+		return int(ca["custo"]) < int(cb["custo"])
+	return na < nb
+
+
+func ciclar_deck(q: String) -> void:
+	match q:
+		"tipo": tipo_deck = Colecao.TIPOS[(Colecao.TIPOS.find(tipo_deck) + 1) % Colecao.TIPOS.size()]
+		"custo": custo_deck = Colecao.CUSTOS[(Colecao.CUSTOS.find(custo_deck) + 1) % Colecao.CUSTOS.size()]
+		"ordem": ordem_deck = ["custo", "nome", "tipo"][(["custo", "nome", "tipo"].find(ordem_deck) + 1) % 3]
+	rolagem = 0.0
+	_montar_lista()
+
+
+func filtro_deck_ativo(q: String) -> bool:
+	match q:
+		"tipo": return tipo_deck != ""
+		"custo": return custo_deck != ""
+		"ordem": return ordem_deck != "custo"
+	return busca_deck != ""
+
+
+func rotulo_filtro_deck(q: String) -> String:
+	match q:
+		"tipo": return Sessao.t({"": "TIPO", "entidade": "ENTIDADE", "selo": "SELO", "rito": "RITO", "reliquia": "RELÍQUIA"}[tipo_deck])
+		"custo": return Sessao.t("CUSTO") + (" " + custo_deck if custo_deck != "" else "")
+		"ordem": return Sessao.t({"custo": "ORDEM: CUSTO", "nome": "ORDEM: NOME", "tipo": "ORDEM: TIPO"}[ordem_deck])
+	return busca_deck.to_upper() if busca_deck != "" else Sessao.t("BUSCAR")
+
+
+func definir_busca_deck(t: String) -> void:
+	busca_deck = t.substr(0, 16)
+	rolagem = 0.0
+	_montar_lista()
+
+
+func editar_busca_deck() -> void:
+	editando = "busca_deck"
+	if OS.has_feature("web"):
+		return
+	nome_edit.text = busca_deck
+	nome_edit.position = Vector2(262, 106)
+	nome_edit.size = Vector2(82, 22)
+	nome_edit.visible = true
+	nome_edit.grab_focus()
+	nome_edit.caret_column = nome_edit.text.length()
+
+
+## Toque curto numa carta da grade: na Coleção adiciona ao deck, em "No deck" tira. (Segurar abre o visor.)
+func tocar_rapido(p: Vector2) -> void:
+	if p.y < GTOPO or p.y > GBASE:
+		return
+	for k in _ids.size():
+		if _rect(k).has_point(p):
+			var cid: String = _ids[k]
+			if aba_deck == "deck":
+				tirar(cid)
+			else:
+				adicionar(cid)
+			return
 
 
 func trocar_aba(a: String) -> void:
@@ -867,6 +984,7 @@ func trocar_aba(a: String) -> void:
 	rolagem = 0.0
 	_montar_lista()
 	f._ir("deck_edit")
+	_dica_editor()
 
 
 func trocar_filtro(d: String) -> void:

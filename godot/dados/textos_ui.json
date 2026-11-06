@@ -3803,5 +3803,140 @@
   "en": "drag to see more",
   "pt": "arraste para ver mais",
   "es": "arrastra para ver más"
+ },
+ "GUARDA: as Entidades inimigas precisam atacá-la antes das outras.": {
+  "en": "GUARD: enemy Entities must attack it before the others.",
+  "pt": "GUARDA: as Entidades inimigas precisam atacá-la antes das outras.",
+  "es": "GUARDIA: las Entidades enemigas deben atacarla antes que a las demás."
+ },
+ "ÍMPETO: pode atacar no turno em que entra em campo.": {
+  "en": "RUSH: can attack on the turn it enters the field.",
+  "pt": "ÍMPETO: pode atacar no turno em que entra em campo.",
+  "es": "ÍMPETU: puede atacar en el turno en que entra al campo."
+ },
+ "FURTIVO: não pode ser alvo de efeitos inimigos até atacar pela primeira vez.": {
+  "en": "STEALTH: cannot be targeted by enemy effects until it attacks for the first time.",
+  "pt": "FURTIVO: não pode ser alvo de efeitos inimigos até atacar pela primeira vez.",
+  "es": "FURTIVO: no puede ser objetivo de efectos enemigos hasta que ataque por primera vez."
+ },
+ "RENASCER: ao morrer, volta para a sua mão (uma vez).": {
+  "en": "REBIRTH: when it dies, returns to your hand (once).",
+  "pt": "RENASCER: ao morrer, volta para a sua mão (uma vez).",
+  "es": "RENACER: al morir, vuelve a tu mano (una vez)."
+ },
+ "DESPERTAR: efeito ao ser jogada da mão (reviver não dispara).": {
+  "en": "AWAKEN: effect when played from the hand (reviving does not trigger it).",
+  "pt": "DESPERTAR: efeito ao ser jogada da mão (reviver não dispara).",
+  "es": "DESPERTAR: efecto al jugarse desde la mano (revivir no lo activa)."
+ },
+ "ÚLTIMO SOPRO: efeito ao morrer.": {
+  "en": "LAST BREATH: effect when it dies.",
+  "pt": "ÚLTIMO SOPRO: efeito ao morrer.",
+  "es": "ÚLTIMO ALIENTO: efecto al morir."
+ },
+ "SACRIFÍCIO %d: para jogar, destrói esse número de Entidades suas.": {
+  "en": "SACRIFICE %d: to play it, destroy that many of your Entities.",
+  "pt": "SACRIFÍCIO %d: para jogar, destrói esse número de Entidades suas.",
+  "es": "SACRIFICIO %d: para jugarla, destruye ese número de Entidades tuyas."
+ },
+ "USOS %d: a Relíquia se gasta depois desse número de ataques da portadora.": {
+  "en": "USES %d: the Relic wears out after that many attacks by its bearer.",
+  "pt": "USOS %d: a Relíquia se gasta depois desse número de ataques da portadora.",
+  "es": "USOS %d: la Reliquia se agota tras ese número de ataques de la portadora."
+ },
+ "FÉ %d": {
+  "en": "FAITH %d",
+  "pt": "FÉ %d",
+  "es": "FE %d"
+ },
+ "%d ATAQUE": {
+  "en": "%d ATTACK",
+  "pt": "%d ATAQUE",
+  "es": "%d ATAQUE"
+ },
+ "%d ATAQUES": {
+  "en": "%d ATTACKS",
+  "pt": "%d ATAQUES",
+  "es": "%d ATAQUES"
+ },
+ "CERTEZA?": {
+  "en": "SURE?",
+  "pt": "CERTEZA?",
+  "es": "¿SEGURO?"
+ },
+ "MÃO %d": {
+  "en": "HAND %d",
+  "pt": "MÃO %d",
+  "es": "MANO %d"
+ },
+ "TURNO %d": {
+  "en": "TURN %d",
+  "pt": "TURNO %d",
+  "es": "TURNO %d"
+ },
+ "ANIMAÇÕES": {
+  "en": "ANIMATIONS",
+  "pt": "ANIMAÇÕES",
+  "es": "ANIMACIONES"
+ },
+ "Animações: %s": {
+  "en": "Animations: %s",
+  "pt": "Animações: %s",
+  "es": "Animaciones: %s"
+ },
+ "Confirmar FIM TURNO: ligado": {
+  "en": "Confirm END TURN: on",
+  "pt": "Confirmar FIM TURNO: ligado",
+  "es": "Confirmar FIN DE TURNO: activado"
+ },
+ "Confirmar FIM TURNO: desligado": {
+  "en": "Confirm END TURN: off",
+  "pt": "Confirmar FIM TURNO: desligado",
+  "es": "Confirmar FIN DE TURNO: desactivado"
+ },
+ "Abrindo o booster...": {
+  "en": "Opening the booster...",
+  "pt": "Abrindo o booster...",
+  "es": "Abriendo el booster..."
+ },
+ "Buscando o presente...": {
+  "en": "Fetching the gift...",
+  "pt": "Buscando o presente...",
+  "es": "Buscando el regalo..."
+ },
+ "Criando o Kode...": {
+  "en": "Creating the Kode...",
+  "pt": "Criando o Kode...",
+  "es": "Creando el Kode..."
+ },
+ "Trocando a senha...": {
+  "en": "Changing the password...",
+  "pt": "Trocando a senha...",
+  "es": "Cambiando la contraseña..."
+ },
+ "Toque: adiciona · Segure: detalhes": {
+  "en": "Tap: add · Hold: details",
+  "pt": "Toque: adiciona · Segure: detalhes",
+  "es": "Toca: añade · Mantén: detalles"
+ },
+ "Toque: tira do deck · Segure: detalhes": {
+  "en": "Tap: remove from deck · Hold: details",
+  "pt": "Toque: tira do deck · Segure: detalhes",
+  "es": "Toca: quita del mazo · Mantén: detalles"
+ },
+ "ORDEM: CUSTO": {
+  "en": "SORT: COST",
+  "pt": "ORDEM: CUSTO",
+  "es": "ORDEN: COSTE"
+ },
+ "ORDEM: NOME": {
+  "en": "SORT: NAME",
+  "pt": "ORDEM: NOME",
+  "es": "ORDEN: NOMBRE"
+ },
+ "ORDEM: TIPO": {
+  "en": "SORT: TYPE",
+  "pt": "ORDEM: TIPO",
+  "es": "ORDEN: TIPO"
  }
 }

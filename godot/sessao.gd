@@ -102,6 +102,11 @@ func _ready() -> void:
 		tempo_turno = bool(cfg.get_value("geral", "tempo_turno", true))
 		daltonico = bool(cfg.get_value("geral", "daltonico", false))
 		animacao_rapida = bool(cfg.get_value("geral", "animacao_rapida", false))
+		velocidade = float(cfg.get_value("geral", "velocidade", VEL_RAPIDA if animacao_rapida else 1.0))
+		if not velocidade in VELOCIDADES:
+			velocidade = 1.0
+		confirmar_fim = bool(cfg.get_value("geral", "confirmar_fim", true))
+		rapido_ia = bool(cfg.get_value("geral", "rapido_ia", false))
 	if not idioma in IDIOMAS:
 		idioma = OS.get_locale_language() if OS.get_locale_language() in IDIOMAS else "en"   # 1ª vez: idioma do celular
 	if OS.get_environment("GD_IDIOMA") != "":
@@ -172,6 +177,10 @@ var texto_grande := false              # acessibilidade: textos longos em 2× (F
 var tempo_turno := true                # limite de 75 s por turno contra a IA (online é sempre ligado)
 var daltonico := false                 # acessibilidade: cores de destaque trocadas por pares azul/laranja + ícones
 const VEL_RAPIDA := 1.5
+const VELOCIDADES := [1.0, 1.5, 2.0]
+var velocidade := 1.0                  # velocidade das animações da mesa (opção 1× / 1,5× / 2×)
+var confirmar_fim := true              # FIM TURNO com Fé jogável ou ataque sobrando pede um 2º toque
+var rapido_ia := false                 # botão RÁPIDO no turno do oponente: lembrado entre turnos e partidas
 
 
 func _gravar_opcao(chave: String, v) -> void:
@@ -210,13 +219,29 @@ func alternar_daltonico() -> void:
 	_gravar_opcao("daltonico", daltonico)
 
 
+## Cicla 1× → 1,5× → 2× → 1×.
 func alternar_animacao() -> void:
-	animacao_rapida = not animacao_rapida
-	_gravar_opcao("animacao_rapida", animacao_rapida)
+	velocidade = VELOCIDADES[(VELOCIDADES.find(velocidade) + 1) % VELOCIDADES.size()]
+	animacao_rapida = velocidade > 1.0
+	_gravar_opcao("velocidade", velocidade)
+
+
+func rotulo_velocidade() -> String:
+	return {1.0: "1×", 1.5: "1,5×", 2.0: "2×"}.get(velocidade, "1×")
 
 
 func velocidade_mesa() -> float:
-	return VEL_RAPIDA if animacao_rapida else 1.0
+	return velocidade
+
+
+func alternar_confirmar_fim() -> void:
+	confirmar_fim = not confirmar_fim
+	_gravar_opcao("confirmar_fim", confirmar_fim)
+
+
+func definir_rapido_ia(v: bool) -> void:
+	rapido_ia = v
+	_gravar_opcao("rapido_ia", v)
 
 
 func trocar_idioma() -> void:

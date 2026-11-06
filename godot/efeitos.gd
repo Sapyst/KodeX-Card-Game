@@ -435,8 +435,12 @@ func _painel_carta(c: Carta, p: Vector2, w: float, esc: int) -> float:
 	var linhas := Fonte57.quebrar(c.texto, int(tw), esc)
 	var infos := Fonte57.quebrar(info, int(tw), esc)
 	var kws := Fonte57.quebrar(kw.strip_edges(), int(tw), esc) if kw != "" else PackedStringArray()
+	var glos: PackedStringArray = []                     # explicação curta de cada palavra-chave/gatilho da carta
+	for g in glossario(c):
+		glos.append_array(Fonte57.quebrar(g, int(tw), esc))
 	var lh := 10 * esc
-	var h := 10 + nomes.size() * (lh + 2) + 4 + (infos.size() + kws.size()) * lh + 6 + linhas.size() * lh + 8
+	var h := 10 + nomes.size() * (lh + 2) + 4 + (infos.size() + kws.size()) * lh + 6 + linhas.size() * lh + 8 \
+		+ ((glos.size() * lh + 6) if not glos.is_empty() else 0)
 	var r := Rect2(p, Vector2(w, h))
 	draw_rect(r.grow(2), Color("#140c10"))
 	draw_rect(r, Color("#24161f"))
@@ -457,7 +461,41 @@ func _painel_carta(c: Carta, p: Vector2, w: float, esc: int) -> float:
 	for ln in linhas:
 		Fonte57.desenhar(self, Vector2(p.x + 10, y), ln, Color("#f2e6c8"), Color("#140c10"), esc)
 		y += lh
+	if not glos.is_empty():
+		y += 2
+		draw_rect(Rect2(p.x + 10, y, w - 20, 1), Color(0.89, 0.72, 0.35, 0.35))
+		y += 4
+		for ln in glos:
+			Fonte57.desenhar(self, Vector2(p.x + 10, y), ln, Color("#b8b0c0"), Color("#140c10"), esc)
+			y += lh
 	return h
+
+
+## Glossário da carta: uma linha por palavra-chave (Guarda, Ímpeto, Furtivo, Renascer) e por mecânica do texto
+## (Despertar, Último Sopro, Sacrifício N, Usos N), nas regras exatas do motor.
+static func glossario(c: Carta) -> Array[String]:
+	var out: Array[String] = []
+	var todas: Array = c.keywords + c.aura_keywords.filter(func(k2: String) -> bool: return not (k2 in c.keywords))
+	var defs := {"guarda": "GUARDA: as Entidades inimigas precisam atacá-la antes das outras.",
+		"impeto": "ÍMPETO: pode atacar no turno em que entra em campo.",
+		"furtivo": "FURTIVO: não pode ser alvo de efeitos inimigos até atacar pela primeira vez.",
+		"renascer": "RENASCER: ao morrer, volta para a sua mão (uma vez)."}
+	for k in todas:
+		if defs.has(k):
+			out.append(Sessao.t(defs[k]))
+	var gats: Array = []
+	for e in c.dados.get("efeitos", []):
+		gats.append(str((e as Dictionary).get("gatilho", "")))
+	if "on_play" in gats:
+		out.append(Sessao.t("DESPERTAR: efeito ao ser jogada da mão (reviver não dispara)."))
+	if "on_death" in gats:
+		out.append(Sessao.t("ÚLTIMO SOPRO: efeito ao morrer."))
+	var sac := int(c.dados.get("sacrificio", 0))
+	if sac > 0:
+		out.append(Sessao.t("SACRIFÍCIO %d: para jogar, destrói esse número de Entidades suas.") % sac)
+	if c.dados.get("usos") != null:
+		out.append(Sessao.t("USOS %d: a Relíquia se gasta depois desse número de ataques da portadora.") % int(c.dados["usos"]))
+	return out
 
 
 ## Formato largo: visor fixo na lateral direita com a última carta tocada (ou com o mouse em cima), legível.

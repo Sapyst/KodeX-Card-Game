@@ -50,7 +50,12 @@ func y_corte() -> float:
 
 
 # ---------------- ciclo ----------------
+var _comprando := false                # espera do servidor: um 2º toque em Comprar não compra de novo
+
+
 func comprar(gratis := false) -> void:
+	if _comprando:
+		return
 	var r: Array = []
 	Som.tocar("booster_comprar")
 	if Nuvem.ativo():                              # online: o servidor sorteia (e cobra); o jogo só anima
@@ -58,7 +63,11 @@ func comprar(gratis := false) -> void:
 			gratis = false
 		if not gratis and Sessao.moedas() < Sessao.BOOSTER_PRECO:
 			f.mp.avisar(Sessao.t("Moedas insuficientes.")); f.vibrar(30, 0.6); return
+		_comprando = true
+		f.esperar(Sessao.t("Abrindo o booster..."))
 		var res: Dictionary = await Nuvem.op("booster", {"gratis": gratis, "pacote": str(Sessao.perfil.get("pacote", ""))})
+		f.esperar("")
+		_comprando = false
 		if res.is_empty():
 			f.mp.avisar(Sessao.t("Sem conexão: boosters precisam de internet.")); f.vibrar(30, 0.6); return
 		if res.has("erro"):

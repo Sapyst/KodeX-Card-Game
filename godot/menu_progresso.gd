@@ -41,7 +41,7 @@ func botoes() -> void:
 			if int(pr["dia"].get("troca", -1)) < 0:
 				for k in 3:
 					if not Progresso.feita("dia", str(lista[k]["id"])):
-						f._botao(Rect2(292, 152 + k * 46, 48, 16), "", _trocar.bind(k), {"desenho": _botao_trocar})
+						f._botao(Rect2(292, 152 + k * 46, 48, 16), "", _trocar.bind(k), {"desenho": _botao_trocar, "toque": Rect2(284, 144 + k * 46, 64, 32)})
 		"nivel":
 			var ts: Array = Sessao.perfil.get("titulos", [])
 			for i in mini(ts.size(), 12):

@@ -1,5 +1,39 @@
 [
  {
+  "versao": "0.20.14-alpha",
+  "data": "06/11/2026",
+  "pt": [
+   "Mesa: contadores de cartas no deck (vermelho perto da fadiga), mão do oponente e número do turno sempre visíveis.",
+   "FIM TURNO com Fé jogável ou ataque sobrando pede um 2º toque (\"FÉ 3 · 1 ATAQUE\"); dá para desligar em Opções.",
+   "Segurar uma carta para ampliar agora leva 0,7 s (quem hesita no arraste não perde mais a jogada).",
+   "Painel da carta explica cada palavra-chave: Guarda, Ímpeto, Furtivo, Renascer, Despertar, Último Sopro, Sacrifício e Usos.",
+   "Animações em 1×, 1,5× ou 2×; o botão RÁPIDO fica lembrado entre turnos e partidas.",
+   "Editor de deck: toque adiciona (Coleção) ou tira (No deck); segurar abre a carta. Filtros de tipo, custo, busca e ordem por custo/nome/tipo.",
+   "Abas, filtros e botões pequenos com área de toque maior (≥ 32 px).",
+   "Booster, presente diário e Kode mostram \"aguardando\" enquanto o servidor responde; um 2º toque não compra de novo."
+  ],
+  "en": [
+   "Board: deck card count (red near fatigue), opponent's hand size and turn number are always visible.",
+   "END TURN with playable Faith or an attack left asks for a 2nd tap (\"FAITH 3 · 1 ATTACK\"); can be turned off in Options.",
+   "Holding a card to zoom now takes 0.7 s (hesitating mid-drag no longer loses the play).",
+   "The card panel explains every keyword: Guard, Rush, Stealth, Rebirth, Awaken, Last Breath, Sacrifice and Uses.",
+   "Animations at 1×, 1.5× or 2×; the FAST button is remembered across turns and matches.",
+   "Deck editor: tap adds (Collection) or removes (In deck); hold opens the card. Type, cost and search filters, sort by cost/name/type.",
+   "Tabs, filters and small buttons have bigger touch areas (≥ 32 px).",
+   "Booster, daily gift and Kode show \"waiting\" while the server answers; a 2nd tap no longer buys twice."
+  ],
+  "es": [
+   "Mesa: contadores de cartas en el mazo (rojo cerca de la fatiga), mano del rival y número de turno siempre visibles.",
+   "FIN DE TURNO con Fe jugable o ataque pendiente pide un 2.º toque (\"FE 3 · 1 ATAQUE\"); se puede desactivar en Opciones.",
+   "Mantener una carta para ampliarla ahora tarda 0,7 s (dudar al arrastrar ya no pierde la jugada).",
+   "El panel de la carta explica cada palabra clave: Guardia, Ímpetu, Furtivo, Renacer, Despertar, Último Aliento, Sacrificio y Usos.",
+   "Animaciones a 1×, 1,5× o 2×; el botón RÁPIDO se recuerda entre turnos y partidas.",
+   "Editor de mazo: tocar añade (Colección) o quita (En el mazo); mantener abre la carta. Filtros de tipo, coste, búsqueda y orden por coste/nombre/tipo.",
+   "Pestañas, filtros y botones pequeños con área táctil mayor (≥ 32 px).",
+   "Booster, regalo diario y Kode muestran \"esperando\" mientras el servidor responde; un 2.º toque ya no compra dos veces."
+  ]
+ },
+ {
   "versao": "0.20.13-alpha",
   "data": "06/11/2026",
   "pt": [

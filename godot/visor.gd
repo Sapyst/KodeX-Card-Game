@@ -40,6 +40,7 @@ var forca := 0.0                  # lore: dedo além da ponta (− = topo, + = f
 var _ult := Vector2.ZERO
 var _t_ult := 0
 var _no_botao := false
+var _ignorar_soltar := false              # aberto por toque longo (editor): o dedo que ainda está na tela não conta
 
 
 func _ready() -> void:
@@ -65,6 +66,7 @@ func abrir(id: String, de: Rect2, bts: Array = [], inf := Callable()) -> void:
 	rol = 0.0
 	rol_vel = 0.0
 	forca = 0.0
+	_ignorar_soltar = true
 	Sessao.vibrar(12, 0.4)
 
 
@@ -133,6 +135,7 @@ func _na_lore() -> bool:
 func pressionar(p: Vector2) -> void:
 	if fase != "aberto":
 		return
+	_ignorar_soltar = false
 	_no_botao = VOLTAR.grow(6).has_point(p)
 	if _no_botao:
 		return                                           # botão ‹: decide no soltar
@@ -205,6 +208,9 @@ func rodar(d: float) -> void:
 
 func soltar(p: Vector2) -> void:
 	if fase != "aberto":
+		return
+	if _ignorar_soltar:
+		_ignorar_soltar = false
 		return
 	if _no_botao:
 		_no_botao = false

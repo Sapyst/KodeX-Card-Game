@@ -105,7 +105,11 @@ var perg: Pergaminho                  # regras e resumo da partida (numa CanvasL
 var alt_util := 640.0                 # usados pelo Pergaminho (mesma interface do menu)
 var pos_base := Vector2.ZERO
 var pausado := false
-var acelerar_ia := false              # botão ">> RÁPIDO" no turno do oponente: 2,5× até a sua vez
+var acelerar_ia := false              # botão ">> RÁPIDO" no turno do oponente: 2,5× (lembrado em Sessao.rapido_ia)
+var _fim_armado := false              # FIM TURNO tocado com Fé jogável/ataque sobrando: espera o 2º toque
+var _fim_armado_t := 0.0
+var _fim_sobra := ""
+var _print_armado := false
 var _vel_teste := 1.0
 var _som: AudioStreamPlayer
 
@@ -398,6 +402,10 @@ func _criar_luzes() -> void:
 
 func _process(delta: float) -> void:
 	_deitar_cartas()
+	if _fim_armado:
+		_fim_armado_t -= delta
+		if _fim_armado_t <= 0.0 or ativo != 0 or acabou:
+			_fim_armado = false
 	if modo_partida and _corn_visto != -999 and cornucopia[0] < _corn_visto:
 		_sofreu = true
 		if cornucopia[0] <= 5 and not _falou_vantagem and not acabou:   # você quase perdendo: ele provoca
@@ -887,7 +895,55 @@ func _desenhar_placar() -> void:
 			placar.draw_circle(ponta, 1.5, Color(1.0, 0.95, 0.6))
 			PixelFonte.centrado(placar, Vector2(r.get_center().x, r.position.y - 13), "%d" % ceili(restante), Color(1.0, 0.7, 0.4), 1)
 		var rot := "FIM TURNO" if vez else (("RÁPIDO" if acelerar_ia else ">> RÁPIDO") if ia else "AGUARDE")
-		PixelFonte.centrado(placar, r.get_center(), Sessao.t(rot), Color("#ffe39a") if vez else (Color("#d8c8ff") if ia else Color("#8a8090")))
+		if vez and _fim_armado:                          # 2º toque confirma: o que sobrou fica escrito acima do botão
+			rot = "CERTEZA?"
+			var a2 := 0.7 + 0.3 * sin(tempo * 8.0)
+			placar.draw_rect(r.grow(2), Color(1.0, 0.6, 0.3, a2), false, 1.0)
+			var ws := PixelFonte.largura(_fim_sobra) + 8
+			var rs := Rect2(r.end.x - ws, r.position.y - 16, ws, 11)
+			placar.draw_rect(rs, Color(0.1, 0.05, 0.04, 0.9))
+			PixelFonte.desenhar(placar, rs.position + Vector2(4, 2), _fim_sobra, Color(1.0, 0.75, 0.4))
+		PixelFonte.centrado(placar, r.get_center(), Sessao.t(rot), (Color("#ffb070") if _fim_armado else Color("#ffe39a")) if vez else (Color("#d8c8ff") if ia else Color("#8a8090")))
+		_desenhar_contadores()
+
+
+## O que ainda dá para fazer neste turno: "FÉ 3 · 2 ATAQUES" ("" = nada sobrando). Fé só conta se há carta jogável.
+func _sobra_turno() -> String:
+	var partes: Array[String] = []
+	var jogavel := false                                 # conta na hora (a lista _jogaveis pode estar velha)
+	for c in mao_jog:
+		if _motivo_jogar(c, 0) == "":
+			jogavel = true
+			break
+	if fe[0] > 0 and jogavel:
+		partes.append(Sessao.t("FÉ %d") % fe[0])
+	var n := 0
+	for c in campo_ent[0]:
+		if c != null and (c as Carta).virada_para_cima and motor.pode_atacar(c):
+			n += 1
+	if n > 0:
+		partes.append(Sessao.t("%d ATAQUE" if n == 1 else "%d ATAQUES") % n)
+	return " · ".join(partes)
+
+
+## Contadores que ficavam escondidos: cartas no deck (vermelho quando a fadiga está perto), mão do oponente e turno.
+func _desenhar_contadores() -> void:
+	if turno_n <= 0:
+		return
+	for d in 2:
+		var n := deck_jog.size() if d == 0 else deck_opon.size()
+		var p := proj(DECK_JOG if d == 0 else DECK_OPON) + Vector2(12, -26)
+		_pilula(p, "%d" % n, Color("#ff9a8a") if n <= 3 else Color("#f2e6c8"))
+	_pilula(proj(Vector2(180, 36)), Sessao.t("MÃO %d") % mao_opon.size(), Color("#cfe0ff"))
+	_pilula(proj(Vector2(317, 306)), Sessao.t("TURNO %d") % turno_n, Color("#b8b0c0"))
+
+
+func _pilula(centro: Vector2, s: String, cor: Color) -> void:
+	var w := PixelFonte.largura(s) + 8
+	var r := Rect2(centro - Vector2(w / 2.0, 6), Vector2(w, 11))
+	placar.draw_rect(r, Color(0.08, 0.04, 0.06, 0.85))
+	placar.draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), Color(0.89, 0.72, 0.35, 0.5))
+	PixelFonte.desenhar(placar, r.position + Vector2(4, 2), s, cor)
 
 
 # ================= posições do campo =================
@@ -984,11 +1040,21 @@ func pressionar(p: Vector2) -> void:
 		if tut != null and not tut.fim_ok:
 			return
 		if ativo == 0 and not ocupado and not acabou:
+			var sobra := _sobra_turno()
+			if sobra != "" and not _fim_armado and Sessao.confirmar_fim and tut == null:
+				_fim_armado = true                 # 1º toque: mostra o que sobrou; 2º toque em 3 s confirma
+				_fim_armado_t = 3.0
+				_fim_sobra = sobra
+				Sessao.vibrar(14, 0.5)
+				Som.tocar("turno_fim_botao", "rapido")
+				return
+			_fim_armado = false
 			Sessao.vibrar(10, 0.4)
 			Som.tocar("turno_fim_botao", "fim")
 			fim_turno_pedido.emit()
-		elif ativo == 1 and not acabou:            # turno do oponente: liga/desliga o modo rápido
+		elif ativo == 1 and not acabou:            # turno do oponente: liga/desliga o modo rápido (fica lembrado)
 			acelerar_ia = not acelerar_ia
+			Sessao.definir_rapido_ia(acelerar_ia)
 			Som.tocar("turno_fim_botao", "rapido")
 			Sessao.vibrar(10, 0.4)
 			aplicar_tempo()
@@ -1834,6 +1900,7 @@ func _partida() -> void:
 	if online_partida():
 		ativo = 0 if int(online_info.get("primeiro", 0)) == rede.eu else 1
 	turno_n = 0
+	acelerar_ia = Sessao.rapido_ia                    # RÁPIDO como ficou da última vez
 	_inicio_ms = Time.get_ticks_msec()
 	_corn_ini = cornucopia.duplicate()
 	_sofreu = false                                   # vida inicial dos modos (Peregrinação) não conta como dano
@@ -1896,9 +1963,8 @@ func _partida() -> void:
 ## Entidades acordam (congeladas perdem este turno); compra 1 (quem começa não compra no 1º turno); "início do turno".
 func _inicio_turno(d: int) -> void:
 	Som.tocar("turno_inicio", "meu" if d == 0 else "dele")
-	if d == 0 and acelerar_ia:
-		acelerar_ia = false
-		aplicar_tempo()
+	_fim_armado = false
+	aplicar_tempo()                                      # RÁPIDO fica ligado: 2,5× só no turno do oponente
 	fe_max[d] = mini(FE_TETO, fe_max[d] + 1)
 	fe[d] = fe_max[d]
 	if turno_n == 2:                                     # quem joga em segundo: +1 Fé no 1º turno dele
@@ -2835,7 +2901,7 @@ func _tentar_zoom(p: Vector2) -> void:
 func _atualizar_zoom(delta: float) -> void:
 	if segurando != null:
 		segurando_t += delta
-		if segurando_t > 0.4 and ponteiro.distance_to(segurando_ini) < 5.0:
+		if segurando_t > 0.7 and ponteiro.distance_to(segurando_ini) < 5.0:
 			# segurou parado: abre a carta e cancela o arraste (ela volta ao lugar)
 			var c := segurando
 			segurando = null
@@ -4459,6 +4525,12 @@ func _toque_auto() -> void:
 		await get_tree().process_frame
 	if not acabou and ativo == 0:
 		pressionar(botao_fim.get_center())
+		if _fim_armado:                                  # sobrou Fé/ataque: o 2º toque confirma
+			await get_tree().create_timer(0.2).timeout
+			if OS.get_environment("GD_PRINTS_DIR") != "" and not _print_armado:   # teste visual: o botão armado
+				_print_armado = true
+				get_viewport().get_texture().get_image().save_png(OS.get_environment("GD_PRINTS_DIR") + "/armado.png")
+			pressionar(botao_fim.get_center())
 
 
 ## Responde sozinho às perguntas do toque (alvo, sim/não, cemitério, mão inicial, relatório, revanche): sempre a 1ª opção.

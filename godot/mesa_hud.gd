@@ -97,7 +97,7 @@ func _botoes_menu() -> Array:
 		out.append([Rect2(x, p.position.y + 114, w, 22), "VOLTAR", "voltar"])
 		return out
 	var itens := [["CONTINUAR", "continuar"], ["REGRAS", "regras"],
-		["ANIMAÇÕES: RÁPIDAS" if Sessao.animacao_rapida else "ANIMAÇÕES: NORMAIS", "animacao"],
+		[Sessao.t("ANIMAÇÕES") + ": " + Sessao.rotulo_velocidade(), "animacao"],
 		["VIBRAÇÃO: LIGADA" if Sessao.vibracao else "VIBRAÇÃO: DESLIGADA", "vibracao"],
 		["SAIR DO TUTORIAL" if m.tut != null else "DESISTIR", "desistir"]]
 	for k in itens.size():
@@ -248,7 +248,7 @@ func _draw() -> void:
 			draw_rect(r, Color("#2a1f2a"))
 			draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), OURO[2])
 			Fonte57.desenhar(self, r.position + Vector2(7, 6), Sessao.par(EMOTES[k]), Color("#f2e6c8"))
-	if sem_jogadas and not m.acabou and m.ativo == 0 and menu == "":
+	if sem_jogadas and not m.acabou and m.ativo == 0 and menu == "" and not m._fim_armado:
 		var r: Rect2 = m.botao_fim
 		var a := 0.6 + 0.4 * sin(t * 5.0)
 		PixelFonte.centrado(self, r.get_center() + Vector2(0, -14), Sessao.t("SEM JOGADAS"), Color(OURO[0], a), 1, ESCURO)

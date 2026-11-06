@@ -206,6 +206,7 @@ var bo: Booster
 var ta: TorneioArcade
 var _rolando := false                 # dedo encostado na Coleção (arrastando a grade)
 var _rol_ini := Vector2.ZERO
+var _rol_t0 := 0                      # quando o dedo encostou (editor: segurar 0,45 s parado abre o visor)
 var _rol_ult := Vector2.ZERO
 var _rol_moveu := false
 var logo_no: Node2D
@@ -453,6 +454,9 @@ func _process(delta: float) -> void:
 		apertado = -1
 		vibrar(16, 0.5)
 		visor.abrir(str(bl["carta_id"]), bl["rect"])
+	if _rolando and not _rol_moveu and estado == "deck_edit" and apertado < 0 and Time.get_ticks_msec() - _rol_t0 > 450:
+		_rolando = false                              # segurou parado na grade: abre o visor (o soltar não conta)
+		mp.tocar_grade(_rol_ini)
 	if estado == "chave":
 		ta.atualizar(delta)
 	if estado == "colecao":
@@ -494,7 +498,7 @@ func _ir(novo: String) -> void:
 				func() -> void: Sessao.alternar_som(); _ir("opcoes"); transicao = 0.0)
 			_botao(Rect2(90, 222, 180, 26), "Vibração: ligada" if Sessao.vibracao else "Vibração: desligada",
 				func() -> void: Sessao.alternar_vibracao(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 254, 180, 26), "Animações: rápidas" if Sessao.animacao_rapida else "Animações: normais",
+			_botao(Rect2(90, 254, 180, 26), Sessao.t("Animações: %s") % Sessao.rotulo_velocidade(),
 				func() -> void: Sessao.alternar_animacao(); _ir("opcoes"); transicao = 0.0)
 			_botao(Rect2(90, 286, 180, 26), "Texto: grande" if Sessao.texto_grande else "Texto: normal",
 				func() -> void: Sessao.alternar_texto(); _ir("opcoes"); transicao = 0.0)
@@ -502,18 +506,20 @@ func _ir(novo: String) -> void:
 				func() -> void: Sessao.alternar_daltonico(); _ir("opcoes"); transicao = 0.0)
 			_botao(Rect2(90, 350, 180, 26), "Tempo por turno: 75 s" if Sessao.tempo_turno else "Tempo por turno: sem limite",
 				func() -> void: Sessao.alternar_tempo_turno(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 392, 180, 26), "Novidades", abrir_novidades.bind(true))
-			_botao(Rect2(90, 424, 180, 26), "Privacidade", abrir_privacidade)
+			_botao(Rect2(90, 382, 180, 26), "Confirmar FIM TURNO: ligado" if Sessao.confirmar_fim else "Confirmar FIM TURNO: desligado",
+				func() -> void: Sessao.alternar_confirmar_fim(); _ir("opcoes"); transicao = 0.0)
+			_botao(Rect2(90, 424, 180, 26), "Novidades", abrir_novidades.bind(true))
+			_botao(Rect2(90, 456, 180, 26), "Privacidade", abrir_privacidade)
 			var ne := RegistroErros.quantos()
-			_botao(Rect2(90, 456, 180, 26), (Sessao.t("Relatório de erros") + " (%d)" % ne) if ne > 0 else Sessao.t("Nenhum erro registrado"), _relatorio_erros)
+			_botao(Rect2(90, 488, 180, 26), (Sessao.t("Relatório de erros") + " (%d)" % ne) if ne > 0 else Sessao.t("Nenhum erro registrado"), _relatorio_erros)
 			if Nuvem.url != "":                          # conta na nuvem (só quando há servidor)
-				_botao(Rect2(90, 488, 180, 26), "Sincronizar conta", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
+				_botao(Rect2(90, 520, 180, 26), "Sincronizar conta", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
 			for i in Colecao.ABAS.size():
 				var d: String = Colecao.ABAS[i]
-				_botao(Rect2(14 + i * 48, 48, 44, 22), "", func() -> void: col.abrir_aba(d); _ir("colecao"), {"aba": d})
+				_botao(Rect2(14 + i * 48, 48, 44, 22), "", func() -> void: col.abrir_aba(d); _ir("colecao"), {"aba": d, "toque": Rect2(12 + i * 48, 40, 48, 33)})
 			var filtros := [["posse", 14, 70], ["tipo", 88, 76], ["custo", 168, 70], ["busca", 242, 104]]
 			for fl in filtros:
 				var q: String = fl[0]
@@ -521,6 +527,7 @@ func _ir(novo: String) -> void:
 				var ex := {"filtro_col": q, "desenho": _botao_filtro}
 				if q == "busca" and OS.has_feature("web"):
 					ex["web_nome"] = "busca"
+				ex["toque"] = Rect2(fl[1] - 2, 73, fl[2] + 4, 32)
 				_botao(Rect2(fl[1], 76, fl[2], 18), "", acao, ex)
 		"lore":
 			_botao(Rect2(110, 604, 140, 26), "Voltar", func() -> void: _ir("colecao"))
@@ -624,12 +631,21 @@ func _ir(novo: String) -> void:
 			_botao(Rect2(238, 498, 106, 28), "Importar", mp.colar_codigo, {"web_nome": "codigo"} if OS.has_feature("web") else {})
 		"deck_edit":
 			_botao(Rect2(60, 4, 240, 28), "", mp.renomear_deck, {"web_nome": "deck", "desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
-			_botao(Rect2(70, 54, 104, 22), "Coleção", mp.trocar_aba.bind("cartas"), {"aba_deck": "cartas"})
-			_botao(Rect2(186, 54, 104, 22), "No deck", mp.trocar_aba.bind("deck"), {"aba_deck": "deck"})
+			_botao(Rect2(70, 54, 104, 22), "Coleção", mp.trocar_aba.bind("cartas"), {"aba_deck": "cartas", "toque": Rect2(66, 44, 112, 30)})
+			_botao(Rect2(186, 54, 104, 22), "No deck", mp.trocar_aba.bind("deck"), {"aba_deck": "deck", "toque": Rect2(182, 44, 112, 30)})
 			if mp.aba_deck == "cartas":
 				for i in 6:
 					var d: String = Sessao.DECKS[i]
-					_botao(Rect2(16 + i * 55, 82, 51, 20), "", mp.trocar_filtro.bind(d), {"filtro": d})
+					_botao(Rect2(16 + i * 55, 82, 51, 20), "", mp.trocar_filtro.bind(d), {"filtro": d, "toque": Rect2(14 + i * 55, 74, 55, 31)})
+			# 2ª linha: tipo, custo, ordem e busca (os mesmos filtros da Coleção)
+			var fdeck := [["tipo", 16, 78], ["custo", 98, 78], ["ordem", 180, 78], ["busca", 262, 82]]
+			for fl in fdeck:
+				var q: String = fl[0]
+				var acao := (func() -> void: mp.ciclar_deck(q); _ir("deck_edit"); transicao = 0.0) if q != "busca" else mp.editar_busca_deck
+				var ex := {"filtro_deck": q, "desenho": _botao_filtro, "toque": Rect2(fl[1] - 2, 105, fl[2] + 4, 32)}
+				if q == "busca" and OS.has_feature("web"):
+					ex["web_nome"] = "busca_deck"
+				_botao(Rect2(fl[1], 106, fl[2], 22), "", acao, ex)
 			_botao(Rect2(16, 538, 106, 26), "Completar", mp.completar)
 			_botao(Rect2(127, 538, 106, 26), "Código", mp.copiar_codigo)
 			if Sessao.deck_livre(mp.deck_idx):            # deck livre: vai direto para o Modo livre com ele escolhido
@@ -781,7 +797,11 @@ func abrir_novidades(todas := true, depois := Callable()) -> void:
 
 ## Pede a hora ao servidor e paga o presente pendente. manual = tocado no botão: mostra também "volte amanhã"/sem rede.
 func verificar_presente(manual := true) -> void:
+	if espera != "":
+		return
+	esperar(Sessao.t("Buscando o presente..."))
 	var r: Dictionary = await Sessao.resgatar()
+	esperar("")
 	if OS.get_environment("GD_DEBUG_PRESENTE") != "":
 		print("PRESENTE ", r, " moedas=", Sessao.moedas(), " boosters=", Sessao.boosters_gratis(), " dia=", Relogio.dia(), " semana=", Relogio.semana())
 	if perg.aberto():
@@ -1158,8 +1178,10 @@ func _criar_kode() -> void:
 	var frase := await _frase_nova()
 	if frase == "":
 		return
-	mp.avisar(Sessao.t("Criando..."))
-	_avisar_erro(await Nuvem.kode_criar(u, s1, frase))
+	esperar(Sessao.t("Criando o Kode..."))
+	var rc: String = await Nuvem.kode_criar(u, s1, frase)
+	esperar("")
+	_avisar_erro(rc)
 
 
 ## Gera a frase de 12 palavras, mostra (com Copiar) e confere 1 palavra sorteada. "" = falhou ou a pessoa errou.
@@ -1200,8 +1222,10 @@ func _entrar_kode() -> void:
 	var s := await pedir_texto(Sessao.t("Senha"), true, 64)
 	if s == "":
 		return
-	mp.avisar(Sessao.t("Entrando..."))
-	_avisar_erro(await Nuvem.kode_entrar(u, s))
+	esperar(Sessao.t("Entrando..."))
+	var re_: String = await Nuvem.kode_entrar(u, s)
+	esperar("")
+	_avisar_erro(re_)
 
 
 func _recuperar_kode() -> void:
@@ -1214,8 +1238,10 @@ func _recuperar_kode() -> void:
 	var s1 := await pedir_texto(Sessao.t("Nova senha (8 caracteres ou mais)"), true, 64, "", false, "new-password")
 	if s1.length() < 8:
 		mp.avisar(Sessao.t("A senha precisa de 8 caracteres ou mais.")); return
-	mp.avisar(Sessao.t("Conferindo..."))
-	_avisar_erro(await Nuvem.kode_recuperar(u, f, s1))
+	esperar(Sessao.t("Trocando a senha..."))
+	var rr: String = await Nuvem.kode_recuperar(u, f, s1)
+	esperar("")
+	_avisar_erro(rr)
 
 
 ## Email: pede o endereço, manda o código de 6 dígitos e confere. entrar=true: entra na conta ligada a esse email.
@@ -1369,11 +1395,17 @@ func _dois_toques(b: Dictionary, acao: Callable) -> void:
 
 
 func _botao_filtro(b: Dictionary, r: Rect2, pressao: float) -> void:
-	var q: String = b["filtro_col"]
-	var ativo := (q == "posse" and col.posse != "todas") or (q == "tipo" and col.tipo != "") or (q == "custo" and col.custo != "") \
-		or (q == "busca" and col.busca != "")
+	var q: String = b.get("filtro_col", b.get("filtro_deck", ""))
+	var ativo: bool
+	var s: String
+	if b.has("filtro_deck"):                             # editor de deck: os mesmos filtros, estado em mp
+		ativo = mp.filtro_deck_ativo(q)
+		s = mp.rotulo_filtro_deck(q)
+	else:
+		ativo = (q == "posse" and col.posse != "todas") or (q == "tipo" and col.tipo != "") or (q == "custo" and col.custo != "") \
+			or (q == "busca" and col.busca != "")
+		s = col.rotulo_filtro(q)
 	var dd := _painel(r, ativo, pressao, Color("#3a2a40") if ativo else Color("#1e161e"))
-	var s := col.rotulo_filtro(q)
 	if q == "busca":
 		var lupa := dd.position + Vector2(7, dd.size.y / 2.0)
 		draw_arc(lupa + Vector2(0, -1), 3.0, 0, TAU, 10, OURO[1], 1.0)
@@ -1690,12 +1722,15 @@ func _unhandled_input(ev: InputEvent) -> void:
 			col.vel = v
 	elif (ev is InputEventMouseMotion or ev is InputEventScreenDrag) and apertado >= 0:
 		var p2: Vector2 = get_canvas_transform().affine_inverse() * (ev.position as Vector2) - position
-		if not (botoes[apertado]["rect"] as Rect2).grow(8).has_point(p2):
+		if not _rect_toque(botoes[apertado]).grow(8).has_point(p2):
 			apertado = -1                           # arrastou para fora: cancela sem disparar
 
 
 ## Dedo encostou: botão afunda 1 px, escurece e vibra 10 ms.
 func apertar(p: Vector2) -> void:
+	if espera != "":                                 # servidor respondendo: nada dispara
+		vibrar(10, 0.3)
+		return
 	if not pedido.is_empty():                        # caixa de digitação aberta
 		if _rects_pedido()[0].has_point(p):
 			_fim_pedido(texto_pedido())
@@ -1723,7 +1758,7 @@ func apertar(p: Vector2) -> void:
 	if estado == "creditos":
 		_fim_creditos(); return
 	for i in botoes.size():
-		if (botoes[i]["rect"] as Rect2).has_point(p):
+		if _rect_toque(botoes[i]).has_point(p):
 			apertado = i
 			_aperto_t = Time.get_ticks_msec()
 			vibrar(10, 0.35)
@@ -1744,7 +1779,7 @@ func soltar_toque(p: Vector2) -> void:
 		apertado = -1; return
 	var b := botoes[apertado]
 	apertado = -1                                # já consumido: um segundo "soltar" não dispara de novo
-	if (b["rect"] as Rect2).grow(8).has_point(p):
+	if _rect_toque(b).grow(8).has_point(p):
 		vibrar(18, 0.6)
 		Som.tocar("botao")
 		_soltando = b
@@ -1805,6 +1840,7 @@ func vibrar(ms: int, forca: float = 0.5) -> void:
 ## Coleção: arrastar rola a grade/página (com inércia); toque curto numa carta abre a lore.
 func _toque_colecao(p: Vector2, pressed: bool) -> void:
 	if pressed:
+		_rol_t0 = Time.get_ticks_msec()
 		if estado == "deck_edit":
 			_rolando = p.y > MenuPerfil.GTOPO and p.y < MenuPerfil.GBASE
 		elif estado == "perfil":
@@ -1823,7 +1859,7 @@ func _toque_colecao(p: Vector2, pressed: bool) -> void:
 		mp.tocar_hist(p)
 		return
 	if era and not _rol_moveu and estado == "deck_edit" and apertado < 0:
-		mp.tocar_grade(p)
+		mp.tocar_rapido(p)                            # toque curto: adiciona (Coleção) ou tira (No deck)
 		return
 	if era and not _rol_moveu and estado == "colecao" and apertado < 0:
 		var cid := col.tocar(p)
@@ -2028,6 +2064,34 @@ func _botao(r: Rect2, texto: String, acao: Callable, extra := {}) -> void:
 	botoes.append(b)
 
 
+## Área que responde ao dedo: "toque" (≥ 32 px nos botões pequenos: abas, filtros, trocar) ou o próprio desenho.
+func _rect_toque(b: Dictionary) -> Rect2:
+	return b["toque"] if b.has("toque") else b["rect"]
+
+
+# ================= espera de rede =================
+## Enquanto o servidor responde (booster, presente, Kode): faixa "aguardando" na base e nenhum botão dispara.
+var espera := ""
+
+
+func esperar(txt: String) -> void:
+	espera = txt
+	queue_redraw()
+
+
+func _desenhar_espera() -> void:
+	if espera == "":
+		return
+	var y := y_barra() - 34.0
+	draw_rect(Rect2(-400, y - 2, 1200, 30), Color(0.04, 0.02, 0.05, 0.9))
+	draw_rect(Rect2(-400, y - 2, 1200, 1), Color(0.89, 0.72, 0.35, 0.5))
+	var pontos := ".".repeat(1 + int(fmod(tempo * 3.0, 3.0)))
+	var txt := espera.trim_suffix("...") + pontos
+	Fonte57.desenhar(self, Vector2(roundf(180.0 - Fonte57.largura(txt) / 2.0), y + 8), txt, OURO[0], ESCURO)
+	var a := 0.5 + 0.5 * sin(tempo * 6.0)
+	draw_circle(Vector2(180.0 - Fonte57.largura(txt) / 2.0 - 12, y + 12), 3.0, Color(OURO[1], a))
+
+
 # ================= desenho =================
 func _draw() -> void:
 	_fundo()
@@ -2111,6 +2175,7 @@ func _draw() -> void:
 			PixelFonte.centrado(self, Vector2(180, 290 - 20 * (1.0 - e)), Sessao.t("DERROTA"), Color(0.91, 0.42, 0.42, e), 4, ESCURO)
 	for i in botoes.size():
 		_desenhar_botao(botoes[i], i)
+	_desenhar_espera()
 	if estado == "falas" and not falas.is_empty():
 		_desenhar_fala(falas[0])
 	if not confirma.is_empty():
@@ -2181,11 +2246,11 @@ func _opcoes() -> void:
 	_cabecalho(Sessao.t("Opções"), Sessao.t("idioma e informações"))
 	if Nuvem.url != "":
 		var st := (Sessao.t("Conta online") + " · " + Nuvem.id_curto()) if Nuvem.online and Nuvem.ativo() else Sessao.t("Conta: sem conexão")
-		_texto_central(Vector2(180, 494), st, Color("#9ad0ff") if Nuvem.online else Color("#ff9a8a"))
+		_texto_central(Vector2(180, 552), st, Color("#9ad0ff") if Nuvem.online else Color("#ff9a8a"))
 	Fonte57.desenhar(self, Vector2(110, 134), Sessao.t("Idioma"), Color("#b8a888"))
 	var ver := "KodeX v" + str(ProjectSettings.get_setting("application/config/version", ""))
-	_texto_central(Vector2(180, 560), ver, Color(0.89, 0.72, 0.35, 0.7))
-	_texto_central(Vector2(180, 574), "Sapyst 2026", Color(0.6, 0.55, 0.6))
+	_texto_central(Vector2(180, 568), ver, Color(0.89, 0.72, 0.35, 0.7))
+	_texto_central(Vector2(180, 582), "Sapyst 2026", Color(0.6, 0.55, 0.6))
 
 
 ## Painel metálico (contorno, aro claro em cima/esquerda e escuro embaixo/direita, filete interno, fundo).

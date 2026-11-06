@@ -1,5 +1,24 @@
 [
  {
+  "versao": "0.20.12-alpha",
+  "data": "06/11/2026",
+  "pt": [
+   "Online mais responsivo: quando o adversário perde a conexão o placar mostra \"SEM SINAL\" na hora, com o tempo contando; se o aparelho dele morreu, a sala passa o turno em 80 s (antes até 115 s) e a mão inicial tem 30 s (antes 40).",
+   "Conexão mais firme: o jogo confere o servidor a cada 10 s e reabre sozinho um socket morto (segundo plano, troca de wi-fi para 4G); as tentativas de reconectar espaçam (1,5 → 10 s). O relógio do turno do adversário segue o da sala. Voltar a uma partida que não responde não deixa mais a tela presa.",
+   "Servidor: limite de tamanho por mensagem, no máximo 1 emote por segundo e alarmes que não morrem por erro."
+  ],
+  "en": [
+   "More responsive online: when the opponent loses connection the scoreboard shows \"NO SIGNAL\" right away, with the time counting; if their device died the room passes the turn in 80 s (up to 115 s before) and the opening hand has 30 s (40 before).",
+   "Sturdier connection: the game checks the server every 10 s and reopens a dead socket by itself (background, wi-fi to 4G); reconnect attempts back off (1.5 → 10 s). The opponent's turn clock follows the room's. Resuming a match that doesn't answer no longer freezes the screen.",
+   "Server: message size limit, at most 1 emote per second and alarms that don't die on errors."
+  ],
+  "es": [
+   "Online más responsivo: cuando el rival pierde la conexión el marcador muestra \"SIN SEÑAL\" al instante, con el tiempo contando; si su aparato murió, la sala pasa el turno en 80 s (antes hasta 115 s) y la mano inicial tiene 30 s (antes 40).",
+   "Conexión más firme: el juego comprueba el servidor cada 10 s y reabre solo un socket muerto (segundo plano, cambio de wi-fi a 4G); los reintentos se espacian (1,5 → 10 s). El reloj del turno del rival sigue el de la sala. Volver a una partida que no responde ya no deja la pantalla trabada.",
+   "Servidor: límite de tamaño por mensaje, máximo 1 emote por segundo y alarmas que no mueren por error."
+  ]
+ },
+ {
   "versao": "0.20.11-alpha",
   "data": "06/11/2026",
   "pt": [

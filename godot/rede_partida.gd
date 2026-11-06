@@ -6,7 +6,9 @@ extends Node
 ##   r   revelação: minhas compras, sorteios, descartes, buscas, Selos do adversário que dispararam, retrato do turno
 ##   eu  eco das minhas jogadas (só para refazer a partida quando o app volta)
 ##   fim resultado decidido pelo juiz
-## Caiu a conexão? Tenta de novo a cada 1,5 s e pede tudo desde a última sequência recebida.
+## Caiu a conexão? Tenta de novo (1,5 → 3 → 6 → 10 s) e pede tudo desde a última sequência recebida. Um ping a cada
+## PING_S confere que o socket está vivo (em segundo plano ou trocando de wi-fi para 4G ele morre sem avisar): sem
+## pong em PONG_S, fecha e reabre. A sala avisa a presença do adversário ("presenca"): vira o "SEM SINAL" do placar.
 
 signal chegou                       # jogada do adversário na fila (ou a partida acabou)
 signal revelou                      # revelação nova na fila
@@ -27,10 +29,18 @@ var proprias: Array = []            # reconexão: minhas jogadas já feitas (ref
 var conectado := false
 var encerrada := false
 var op_ausente := 0
-var pedido := {}                    # o que a sala está esperando de mim agora ({tipo, turno})
+var pedido := {}                    # o que a sala está esperando de mim agora ({tipo, jogador, turno, prazo_s, passou_ms})
+var prazo_ms := 0                   # ticks (ms) em que o prazo do pedido atual vence no servidor (0 = sem pedido)
 var _parar := false
 var _reconectar_em := 0.0
+var _tentativas := 0                # reconexões seguidas sem sucesso (recuo)
 var _retomando := false
+var _ping_em := 0.0
+var _pong_em := 0.0                 # > 0: esperando o pong há esse tempo restante
+var _ausente_ms := 0                # ticks em que o adversário sumiu (0 = ligado)
+const PING_S := 10.0
+const PONG_S := 5.0
+const RETOMAR_S := 15.0
 var _log := OS.get_environment("GD_REDE_LOG") != ""
 
 
@@ -40,7 +50,13 @@ func iniciar(p: Dictionary, retomar := false) -> void:
 	_retomando = retomar
 	_abrir()
 	if retomar:                                  # volta ao app: espera o servidor mandar tudo (com os ecos)
+		var limite := Time.get_ticks_msec() + int(RETOMAR_S * 1000)
 		while _retomando and not _parar:
+			if Time.get_ticks_msec() > limite:   # sem "pronto": não fica preso na tela; a partida segue salva para tentar de novo
+				_retomando = false
+				encerrada = true
+				fim_servidor.emit(2, true)
+				return
 			await get_tree().create_timer(0.1, true, false, true).timeout
 
 
@@ -65,6 +81,9 @@ func _process(delta: float) -> void:
 		_estado_ws = st
 		if st == WebSocketPeer.STATE_OPEN:
 			conectado = true
+			_tentativas = 0
+			_ping_em = PING_S
+			_pong_em = 0.0
 			if _log:
 				print("REDE abriu; pedindo desde ", desde)
 			_ws.send_text(JSON.stringify({"t": "ola", "desde": desde}))
@@ -73,9 +92,24 @@ func _process(delta: float) -> void:
 			_pendentes.clear()
 		elif st == WebSocketPeer.STATE_CLOSED:
 			conectado = false
-			_reconectar_em = 1.5
+			_reconectar_em = minf(10.0, 1.5 * pow(2.0, _tentativas))
+			_tentativas += 1
 			if _log:
-				print("REDE fechou: ", _ws.get_close_code(), " ", _ws.get_close_reason())
+				print("REDE fechou: ", _ws.get_close_code(), " ", _ws.get_close_reason(), " · tenta em ", _reconectar_em, " s")
+	if st == WebSocketPeer.STATE_OPEN and not encerrada:
+		_ping_em -= delta
+		if _ping_em <= 0.0:
+			_ping_em = PING_S
+			_pong_em = PONG_S
+			_ws.send_text(JSON.stringify({"t": "ping"}))
+		elif _pong_em > 0.0:
+			_pong_em -= delta
+			if _pong_em <= 0.0:                      # socket morto sem avisar: derruba e reabre
+				if _log:
+					print("REDE sem pong: reabrindo")
+				_ws.close()
+	if _ausente_ms > 0:
+		op_ausente = int((Time.get_ticks_msec() - _ausente_ms) / 1000)
 	if st == WebSocketPeer.STATE_CLOSED and not encerrada:
 		_reconectar_em -= delta
 		if _reconectar_em <= 0.0:
@@ -93,6 +127,15 @@ func _mensagem(texto: String) -> void:
 	match str(m.get("t", "")):
 		"pedido":
 			pedido = m
+			prazo_ms = Time.get_ticks_msec() + int(m.get("prazo_s", 0)) * 1000 - int(m.get("passou_ms", 0))
+			return
+		"presenca":                              # o adversário sumiu (ausente_s já contados) ou voltou
+			if bool(m.get("ligado", true)):
+				_ausente_ms = 0
+				op_ausente = 0
+			else:
+				_ausente_ms = Time.get_ticks_msec() - int(m.get("ausente_s", 0)) * 1000
+				op_ausente = int(m.get("ausente_s", 0))
 			return
 		"pronto":
 			_retomando = false
@@ -105,6 +148,7 @@ func _mensagem(texto: String) -> void:
 			emote.emit(int(m.get("k", 0)))
 			return
 		"pong":
+			_pong_em = 0.0
 			return
 	if not m.has("s") or int(m["s"]) <= desde:
 		return
@@ -187,8 +231,13 @@ func avisar_fim(_vencedor_local: int) -> void:
 
 
 func cutucar() -> void:
-	if not _parar and not encerrada and _ws.get_ready_state() != WebSocketPeer.STATE_OPEN:
+	if _parar or encerrada:
+		return
+	_tentativas = 0
+	if _ws.get_ready_state() != WebSocketPeer.STATE_OPEN:
 		_abrir()
+	else:                                        # voltou do segundo plano com o socket "aberto": confere já com um ping
+		_ping_em = 0.0
 
 
 func parar() -> void:

@@ -3393,7 +3393,7 @@ func _mulligan() -> void:
 		refeito = true
 	else:
 		if online_partida():
-			_contagem_mulligan(25)
+			_contagem_mulligan(28)                     # a sala mantém a mão com 30 s
 		v = await escolhido
 	var trocar: Array = hud.marcadas.duplicate() if v == true else []
 	if online_partida() and not refeito:
@@ -3969,6 +3969,10 @@ func _atualizar_relogio() -> void:
 		return
 	var antes := restante
 	restante -= dt
+	if online_partida() and rede.prazo_ms > 0 and int(rede.pedido.get("turno", -1)) == turno_n and str(rede.pedido.get("tipo", "")) == "acao" \
+			and int(rede.pedido.get("jogador", -1)) == (rede.eu if ativo == 0 else 1 - rede.eu):
+		# relógio da sala (80 s) menos a folga de 5 s = os 75 s mostrados; corrige o atraso de quem aplicou o turno depois
+		restante = minf(restante, (rede.prazo_ms - Time.get_ticks_msec()) / 1000.0 - 5.0)
 	if antes > 10.0 and restante <= 10.0:
 		Sessao.vibrar(30, 0.5)
 	if restante <= 0.0:
@@ -4622,7 +4626,7 @@ func _status_adversario(r: Rect2) -> void:
 	PixelFonte.desenhar(placar, c + Vector2(3, 2), txt, ESCURO if txt.begins_with(".") else Color("#ffb0a0"))
 
 
-## Online: a mão inicial tem 25 s, contados no subtítulo; esgotou = mantém a mão.
+## Online: a mão inicial tem 28 s, contados no subtítulo; esgotou = mantém a mão.
 func _contagem_mulligan(seg: int) -> void:
 	var fim := Time.get_ticks_msec() + seg * 1000
 	while hud.mulligan and not acabou:

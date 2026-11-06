@@ -26,7 +26,7 @@ function jogador(nome, auth, lado) {
       const m = JSON.parse(ev.data);
       if (m.t === "erro") { j.erros.push(m.erro); return; }
       if (m.t === "pedido") { j.pedido = m; return; }
-      if (m.t === "pronto" || m.t === "pong") return;
+      if (m.t === "pronto" || m.t === "pong" || m.t === "presenca") return;   // fora de sequência (sem s), como no jogo
       if (m.s <= j.ultimo) return;
       j.ultimo = m.s; j.msgs.push(m);
       if (m.r?.r === "turno") { j.turno = m.r.n; j.ativo = +m.r.canon.split("|")[0].split("A")[1]; }

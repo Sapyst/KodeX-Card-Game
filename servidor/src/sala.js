@@ -9,10 +9,13 @@
 // com a mesma semente (o motor é determinístico).
 import { Partida, sorteioJuiz } from "./motor/regras.js";
 
-const PRAZO_ACAO = 100;          // s sem jogada na vez → a sala passa o turno (o celular já passa com 75 s)
+const PRAZO_ACAO = 80;           // s sem jogada na vez → a sala passa o turno (o celular já passa com 75 s + folga de rede)
 const PRAZO_ESCOLHA = 45;        // s sem escolher alvo / sim-não → pula
-const PRAZO_MULLIGAN = 40;       // s sem decidir a mão inicial → mantém
+const PRAZO_MULLIGAN = 30;       // s sem decidir a mão inicial → mantém (o celular conta 28 s)
 const PRAZO_QUEDA = 120;         // s sem nenhum dos dois aparelhos do jogador ligado → derrota por abandono
+const ALARME_MS = 15000;         // passo máximo do alarme; perto de um prazo ele é agendado para o prazo
+const MSG_MAX = 2048;            // bytes por mensagem do celular (intenções têm ~40–80)
+const EMOTE_MS = 1000;           // no máximo 1 emote por segundo
 
 export class SalaPartida {
   constructor(ctx, env) {
@@ -29,6 +32,8 @@ export class SalaPartida {
       this.entradas = (await this.ctx.storage.get("entradas")) || [];
       this.ultN = (await this.ctx.storage.get("ultN")) || [0, 0];
       this.quedaDesde = (await this.ctx.storage.get("quedaDesde")) || [0, 0];
+      this.ultEmote = [0, 0];
+      this.presenca = [true, true];                             // o que cada lado acha do outro (evita repetir avisos)
       if (this.setup) this.montar();
     })();
     return this.pronta;
@@ -140,8 +145,11 @@ export class SalaPartida {
   avisarPedido(ws = null) {
     if (this.reproduzindo || !this.pedido || this.p.acabou) return;
     const q = this.pedido;
-    const msg = JSON.stringify({ t: "pedido", tipo: q.tipo, jogador: q.jogador, turno: this.p.turno_n });
-    for (const w of ws ? [ws] : this.ctx.getWebSockets("j" + q.jogador)) { try { w.send(msg); } catch (e) { /* caiu */ } }
+    const msg = JSON.stringify({ t: "pedido", tipo: q.tipo, jogador: q.jogador, turno: this.p.turno_n, prazo_s: this.prazoDe(q),
+      passou_ms: Date.now() - this.desdePedido });
+    // vai para os DOIS lados: quem espera usa prazo_s/passou_ms para mostrar o relógio do adversário igual ao da sala
+    const todos = ws ? [ws] : [...this.ctx.getWebSockets("j0"), ...this.ctx.getWebSockets("j1")];
+    for (const w of todos) { try { w.send(msg); } catch (e) { /* caiu */ } }
   }
 
   async gravarResultado() {
@@ -195,34 +203,45 @@ export class SalaPartida {
   }
 
   // ---------- prazos (alarme) ----------
+  prazoDe(q) { return q.tipo === "acao" ? PRAZO_ACAO : q.tipo === "mulligan" ? PRAZO_MULLIGAN : PRAZO_ESCOLHA; }
+  /** Próximo alarme: no máximo ALARME_MS, mas nunca depois do prazo do pedido atual (quem espera não fica 15 s a mais). */
   async agendar() {
     if (this.p.acabou) return;
-    await this.ctx.storage.setAlarm(Date.now() + 15000);
+    let em = ALARME_MS;
+    if (this.pedido) em = Math.min(em, Math.max(500, this.desdePedido + this.prazoDe(this.pedido) * 1000 + 500 - Date.now()));
+    await this.ctx.storage.setAlarm(Date.now() + em);
+  }
+  /** Avisa o lado `j` se o adversário dele está ligado (fora de sequência; o celular mostra "SEM SINAL" com o tempo). */
+  avisarPresenca(j, ligado, desde = 0) {
+    if (this.presenca[j] === ligado && ligado) return;
+    this.presenca[j] = ligado;
+    const msg = JSON.stringify({ t: "presenca", ligado, ausente_s: ligado ? 0 : Math.round((Date.now() - desde) / 1000) });
+    for (const ws of this.ctx.getWebSockets("j" + j)) { try { ws.send(msg); } catch (e) { /* caiu */ } }
   }
   async alarm() {
     await this.carregar();
     if (!this.p || this.p.acabou) return;
-    const agora = Date.now();
-    for (const j of [0, 1]) {                                // ninguém ligado há muito tempo → abandono
-      const ligado = this.ctx.getWebSockets("j" + j).length > 0;
-      if (ligado) this.quedaDesde[j] = 0;
-      else if (!this.quedaDesde[j]) this.quedaDesde[j] = agora;
-      else if (agora - this.quedaDesde[j] > PRAZO_QUEDA * 1000) {
-        await this.aceitar({ j, desistir: true, abandono: true });
-        return;
+    try {
+      const agora = Date.now();
+      for (const j of [0, 1]) {                                // ninguém ligado há muito tempo → abandono
+        const ligado = this.ctx.getWebSockets("j" + j).length > 0;
+        if (ligado) this.quedaDesde[j] = 0;
+        else if (!this.quedaDesde[j]) this.quedaDesde[j] = agora;
+        else if (agora - this.quedaDesde[j] > PRAZO_QUEDA * 1000) {
+          await this.aceitar({ j, desistir: true, abandono: true });
+          return;
+        }
+        this.avisarPresenca(1 - j, ligado, this.quedaDesde[j]);
       }
-    }
-    await this.ctx.storage.put("quedaDesde", this.quedaDesde);
-    const q = this.pedido;
-    if (q) {
-      const esperou = (agora - this.desdePedido) / 1000;
-      const prazo = q.tipo === "acao" ? PRAZO_ACAO : q.tipo === "mulligan" ? PRAZO_MULLIGAN : PRAZO_ESCOLHA;
-      if (esperou > prazo) {                                  // a sala decide por quem sumiu, e avisa os dois
+      await this.ctx.storage.put("quedaDesde", this.quedaDesde);
+      const q = this.pedido;
+      if (q && (agora - this.desdePedido) / 1000 > this.prazoDe(q)) {   // a sala decide por quem sumiu, e avisa os dois
         const d = q.tipo === "acao" ? { tipo: "fim" } : q.tipo === "mulligan" ? [] : q.tipo === "sim_nao" ? false : -1;
         await this.aceitar({ j: q.jogador, d, forcado: q.tipo });
       }
+    } finally {
+      await this.agendar();                                  // uma exceção acima não pode matar a cadeia de alarmes
     }
-    await this.agendar();
   }
 
   // ---------- WebSocket ----------
@@ -249,22 +268,41 @@ export class SalaPartida {
     await this.carregar();
     const tags = this.ctx.getTags(ws);
     const j = tags.includes("j0") ? 0 : 1;
+    if (typeof texto !== "string" || texto.length > MSG_MAX) { try { ws.close(1009, "mensagem grande demais"); } catch (e) { /* já fechou */ } return; }
     let m;
     try { m = JSON.parse(texto); } catch (e) { return; }
+    if (!m || typeof m !== "object") return;
     if (m.t === "ola") {                                      // (re)conectou: manda o que faltou desde `desde`
-      const desde = Math.max(0, m.desde | 0);
+      const desde = Math.min(this.fluxo[j].length, Math.max(0, m.desde | 0));
+      this.quedaDesde[j] = 0;
+      this.avisarPresenca(1 - j, true);                       // o outro lado fica sabendo que este voltou
+      const op = this.ctx.getWebSockets("j" + (1 - j)).length > 0;
+      try { ws.send(JSON.stringify({ t: "presenca", ligado: op, ausente_s: op || !this.quedaDesde[1 - j] ? 0 : Math.round((Date.now() - this.quedaDesde[1 - j]) / 1000) })); } catch (e) { /* caiu */ }
       for (const msg of this.fluxo[j].slice(desde)) ws.send(JSON.stringify(msg));
       // n = último número de entrada aceito: o celular que reabriu continua a contar dali (senão tudo parece repetido)
       ws.send(JSON.stringify({ t: "pronto", s: this.fluxo[j].length, vez: this.pedido?.jogador ?? -1, n: this.ultN[j] }));
-      if (this.pedido?.jogador === j) this.avisarPedido(ws);
+      this.avisarPedido(ws);
       return;
     }
     if (m.t === "in") await this.receber(j, m.n | 0, m.t_turno, m.d);
     if (m.t === "ping") ws.send(JSON.stringify({ t: "pong" }));
     if (m.t === "emote") {                                    // fala rápida: vai direto ao outro, não entra na partida
+      const agora = Date.now();
+      if (agora - this.ultEmote[j] < EMOTE_MS) return;        // sem spam no adversário
+      this.ultEmote[j] = agora;
       for (const w of this.ctx.getWebSockets("j" + (1 - j))) { try { w.send(JSON.stringify({ t: "emote", k: m.k | 0 })); } catch (e) { /* caiu */ } }
     }
   }
-  async webSocketClose(ws, code) { try { ws.close(code, "fim"); } catch (e) { /* já fechou */ } }
-  async webSocketError() { /* o alarme cuida de quem sumiu */ }
+  /** Um aparelho sumiu: se era o último desse lado, o adversário já fica sabendo (não espera o alarme). */
+  async sumiu(ws) {
+    await this.carregar();
+    const j = this.ctx.getTags(ws).includes("j0") ? 0 : 1;
+    const resta = this.ctx.getWebSockets("j" + j).filter((w) => w !== ws).length;
+    if (resta === 0 && this.p && !this.p.acabou) {
+      if (!this.quedaDesde[j]) this.quedaDesde[j] = Date.now();
+      this.avisarPresenca(1 - j, false, this.quedaDesde[j]);
+    }
+  }
+  async webSocketClose(ws, code) { try { ws.close(code, "fim"); } catch (e) { /* já fechou */ } await this.sumiu(ws); }
+  async webSocketError(ws) { await this.sumiu(ws); }
 }

@@ -145,8 +145,9 @@ func _desenhar_nivel() -> void:
 	f._texto_central(Vector2(180, 182), Sessao.t("nível"), Color(0.72, 0.66, 0.6))
 	_barra(Rect2(60, 194, 240, 8), float(nv[1]) / float(nv[2]), f.OURO[1])
 	f._texto_central(Vector2(180, 214), "%d / %d XP" % [nv[1], nv[2]], f.CREME)
-	f._texto_central(Vector2(180, 226), Sessao.t("XP: vitória 30 · derrota 15 · empate 20 · online +10"), Color(0.6, 0.55, 0.55))
-	f._texto_central(Vector2(180, 238), Sessao.t("missão do dia +20 · semanal +60"), Color(0.6, 0.55, 0.55))
+	var x: Dictionary = Progresso.dados()["xp"]
+	f._texto_central(Vector2(180, 226), Sessao.t("XP: vitória %d · derrota %d · empate %d · online +%d") % [int(x["vitoria"]), int(x["derrota"]), int(x["empate"]), int(x["online"])], Color(0.6, 0.55, 0.55))
+	f._texto_central(Vector2(180, 238), Sessao.t("missão do dia +%d · semanal +%d") % [int(x["missao"]), int(x["semanal"])], Color(0.6, 0.55, 0.55))
 	PixelFonte.desenhar(f, Vector2(18, 254), Sessao.t("PRÓXIMOS PRÊMIOS"), f.OURO[0])
 	for k in 4:
 		var n: int = int(nv[0]) + 1 + k

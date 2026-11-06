@@ -313,6 +313,8 @@ func _ready() -> void:
 			return
 		Sessao.resultado = "vitoria" if vencedor == 0 else ("derrota" if vencedor == 1 else "empate")
 		_registrar_partida()
+		if Sessao.modo == "arcade" and vencedor == 0:         # pago aqui (antes era no menu: fechar o app no resumo perdia)
+			Sessao.premio("arcade", {"nivel": Sessao.dificuldade}, Sessao.moedas_arcade())
 		if online_partida():
 			await _fim_online()
 			return
@@ -1440,6 +1442,10 @@ func _atacar(c: Carta, alvo: Carta) -> void:
 		Som.tocar("ataque_impacto", "leve" if dd <= 2 else ("medio" if dd <= 4 else "pesado"), -6.0, 0.03)
 	alvo.dano += da
 	c.dano += dd
+	if da > 0:
+		alvo.marcar("dano")
+	if dd > 0:
+		c.marcar("dano")
 	var forca := clampf(0.7 + da * 0.12, 0.8, 1.5)
 	await _parada_impacto([c, alvo], 0.07)
 	_tremer(dir, 3.0 + da * 0.5)
@@ -1718,6 +1724,7 @@ func _lancar_rito(c: Carta, alvo_idx: int) -> void:
 	await get_tree().create_timer(0.16).timeout
 	efeitos.faiscas(alvo.position, 12, Color("#8ae3a8"), (alvo.position - p).normalized())
 	alvo.dano += 3
+	alvo.marcar("dano")
 	_piscar(alvo); _sacudir(alvo, 3.0)
 	tremor = 3.0
 	efeitos.numero(alvo.position + Vector2(0, -20), "-3", Color("#ff6a6a"))
@@ -2144,10 +2151,7 @@ func _comprar(d: int) -> void:
 			await _reembaralhar(d)
 			deck = _deck_de(d)
 	if deck.is_empty():
-		cornucopia[d] -= 2
-		placar_pulo[d] = 1.0
-		tremor = 3.0
-		efeitos.numero(_pos_placar(d) + Vector2(36, 2), "-2", Color("#ff5050"), 2)
+		motor.dano_cornucopia(d, 2)                      # fadiga: mesmo caminho (som, tremor, número) do dano de efeito
 		efeitos.numero(Vector2(180, LINHA_Y + (40 if d == 0 else -40)), "DECK VAZIO", Color("#ffd0a0"), 1)
 		await get_tree().create_timer(0.5).timeout
 		await _checar_fim()
@@ -2907,12 +2911,8 @@ func _pode_atacar(c: Carta, alvo: Carta) -> String:
 		return ""
 	if not c.virada_para_cima:
 		return "VIRADA"
-	if c.sem_ataque:
-		return "CONGELADA"
-	if c.cansada and not c.tem("impeto"):
-		return "CANSADA"
-	if c.atacou:
-		return "JÁ ATACOU"
+	if not motor.pode_atacar(c):                         # a regra é a do motor (igual ao juiz); aqui só o motivo
+		return "CONGELADA" if c.sem_ataque else ("JÁ ATACOU" if c.atacou else "CANSADA")
 	var inimigo := 1 - c.dono
 	if alvo == null:
 		return "" if _campo_vazio(inimigo) else "HÁ DEFENSORES"
@@ -5028,24 +5028,26 @@ func sortear(n: int) -> int:
 
 
 ## Retrato do estado em texto, idêntico ao Partida.canon() do servidor (lados = índices desta mesa).
+## Uma Entidade no retrato canônico (o mesmo bloco em _canon_estado, _canon_publico e no juiz): toda flag nova entra aqui.
+func _canon_entidade(c: Carta) -> String:
+	var kw: Array = c.keywords.duplicate()
+	kw.sort()
+	var ak: Array = c.aura_keywords.duplicate()
+	ak.sort()
+	var fl := ("c" if c.cansada else "") + ("a" if c.atacou else "") + ("g" if c.congelada else "") + ("x" if c.sem_ataque else "") + \
+		("s" if c.silenciada else "") + ("j" if c.ja_atacou else "") + ("R" if c.roubada_temp else "")
+	if not c.reliquia.is_empty():
+		var us = c.reliquia.get("usos")
+		fl += "r:%s:%s" % [str(c.reliquia["dados"]["id"]), "-" if us == null else str(int(us))]
+	return "/".join([c.id, str(c.atk), str(c.defe), str(c.dano), "+".join(kw) + "|" + "+".join(ak), fl])
+
+
 func _canon_estado() -> String:
 	var lados := PackedStringArray()
 	for d in 2:
 		var ent := PackedStringArray()
 		for c in campo_ent[d]:
-			if c == null:
-				ent.append("_")
-				continue
-			var kw: Array = (c as Carta).keywords.duplicate()
-			kw.sort()
-			var ak: Array = (c as Carta).aura_keywords.duplicate()
-			ak.sort()
-			var fl := ("c" if c.cansada else "") + ("a" if c.atacou else "") + ("g" if c.congelada else "") + ("x" if c.sem_ataque else "") + \
-				("s" if c.silenciada else "") + ("j" if c.ja_atacou else "") + ("R" if c.roubada_temp else "")
-			if not (c as Carta).reliquia.is_empty():
-				var us = c.reliquia.get("usos")
-				fl += "r:%s:%s" % [str(c.reliquia["dados"]["id"]), "-" if us == null else str(int(us))]
-			ent.append("/".join([c.id, str(c.atk), str(c.defe), str(c.dano), "+".join(kw) + "|" + "+".join(ak), fl]))
+			ent.append("_" if c == null else _canon_entidade(c))
 		var mao := PackedStringArray()
 		for c in _mao_de(d):
 			mao.append(c.id)
@@ -5066,19 +5068,7 @@ func _canon_publico() -> String:
 		var d := g ^ int(online_info.get("eu", 0))
 		var ent := PackedStringArray()
 		for c in campo_ent[d]:
-			if c == null:
-				ent.append("_")
-				continue
-			var kw: Array = (c as Carta).keywords.duplicate()
-			kw.sort()
-			var ak: Array = (c as Carta).aura_keywords.duplicate()
-			ak.sort()
-			var fl := ("c" if c.cansada else "") + ("a" if c.atacou else "") + ("g" if c.congelada else "") + ("x" if c.sem_ataque else "") + \
-				("s" if c.silenciada else "") + ("j" if c.ja_atacou else "") + ("R" if c.roubada_temp else "")
-			if not (c as Carta).reliquia.is_empty():
-				var us = c.reliquia.get("usos")
-				fl += "r:%s:%s" % [str(c.reliquia["dados"]["id"]), "-" if us == null else str(int(us))]
-			ent.append("/".join([c.id, str(c.atk), str(c.defe), str(c.dano), "+".join(kw) + "|" + "+".join(ak), fl]))
+			ent.append("_" if c == null else _canon_entidade(c))
 		var cem := PackedStringArray()
 		for e in cemit[d]:
 			cem.append(str(e["dados"]["id"]))

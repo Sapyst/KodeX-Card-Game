@@ -495,9 +495,7 @@ func desenhar_loja() -> void:
 	var passo := 11.0 * Fonte57.fator if Sessao.texto_grande else 12.0     # texto grande: cabe entre o Pacote e o Abrir
 	for k in linhas.size():
 		f._texto_central(Vector2(180, (476.0 if Sessao.texto_grande else 474.0) + k * passo), linhas[k], Color(0.81, 0.88, 1.0, 0.85))
-	var m := str(Sessao.moedas())
-	f.mp.moeda(Vector2(338 - Fonte57.largura(m) - 10, 18))
-	Fonte57.desenhar(f, Vector2(340 - Fonte57.largura(m), 15), m, f.OURO[0], f.ESCURO)
+	f._moedas_topo(["ouro", "koins"])
 	f.mp._desenhar_aviso()
 
 

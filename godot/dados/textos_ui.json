@@ -4373,5 +4373,140 @@
   "en": "You already played this week's Tournament. Come back on Monday.",
   "pt": "Você já jogou o Torneio desta semana. Volte na segunda.",
   "es": "Ya jugaste el Torneo de esta semana. Vuelve el lunes."
+ },
+ "Desistir do Torneio de 8?": {
+  "en": "Quit the Tournament of 8?",
+  "pt": "Desistir do Torneio de 8?",
+  "es": "¿Abandonar el Torneo de 8?"
+ },
+ "você sai da chave e perde o prêmio": {
+  "en": "you leave the bracket and forfeit the prize",
+  "pt": "você sai da chave e perde o prêmio",
+  "es": "sales de la llave y pierdes el premio"
+ },
+ "Essência: desfaça cartas repetidas (Coleção > carta > Desfazer ou no booster) e crie as que faltam.": {
+  "en": "Essence: dismantle duplicate cards (Collection > card > Dismantle, or in the booster) and craft the ones you're missing.",
+  "pt": "Essência: desfaça cartas repetidas (Coleção > carta > Desfazer ou no booster) e crie as que faltam.",
+  "es": "Esencia: deshaz cartas repetidas (Colección > carta > Deshacer o en el booster) y crea las que te faltan."
+ },
+ "XP: vitória %d · derrota %d · empate %d · online +%d": {
+  "en": "XP: win %d · loss %d · draw %d · online +%d",
+  "pt": "XP: vitória %d · derrota %d · empate %d · online +%d",
+  "es": "XP: victoria %d · derrota %d · empate %d · en línea +%d"
+ },
+ "missão do dia +%d · semanal +%d": {
+  "en": "daily mission +%d · weekly +%d",
+  "pt": "missão do dia +%d · semanal +%d",
+  "es": "misión del día +%d · semanal +%d"
+ },
+ "Batalha": {
+  "en": "Battle",
+  "pt": "Batalha",
+  "es": "Batalla"
+ },
+ "Elite": {
+  "en": "Elite",
+  "pt": "Elite",
+  "es": "Élite"
+ },
+ "Mercador": {
+  "en": "Merchant",
+  "pt": "Mercador",
+  "es": "Mercader"
+ },
+ "Chefe": {
+  "en": "Boss",
+  "pt": "Chefe",
+  "es": "Jefe"
+ },
+ "Mestre · +20 moedas e 1 carta": {
+  "en": "Master · +20 coins and 1 card",
+  "pt": "Mestre · +20 moedas e 1 carta",
+  "es": "Maestro · +20 monedas y 1 carta"
+ },
+ "Arquimago · Bênção e 1 carta": {
+  "en": "Archmage · Blessing and 1 card",
+  "pt": "Arquimago · Bênção e 1 carta",
+  "es": "Archimago · Bendición y 1 carta"
+ },
+ "+5 de Cornucópia": {
+  "en": "+5 Cornucopia",
+  "pt": "+5 de Cornucópia",
+  "es": "+5 de Cornucopia"
+ },
+ "troque 1 carta": {
+  "en": "swap 1 card",
+  "pt": "troque 1 carta",
+  "es": "cambia 1 carta"
+ },
+ "Arquimago com Lendária, 20 de vida": {
+  "en": "Archmage with a Legendary, 20 life",
+  "pt": "Arquimago com Lendária, 20 de vida",
+  "es": "Archimago con Legendaria, 20 de vida"
+ },
+ "conta suspensa": {
+  "en": "account suspended",
+  "pt": "conta suspensa",
+  "es": "cuenta suspendida"
+ },
+ "essência insuficiente": {
+  "en": "not enough essence",
+  "pt": "essência insuficiente",
+  "es": "esencia insuficiente"
+ },
+ "já tem": {
+  "en": "already owned",
+  "pt": "já tem",
+  "es": "ya la tienes"
+ },
+ "Koins insuficientes": {
+  "en": "not enough Koins",
+  "pt": "Koins insuficientes",
+  "es": "Koins insuficientes"
+ },
+ "muitas contas criadas hoje nesta conexão": {
+  "en": "too many accounts created today on this connection",
+  "pt": "muitas contas criadas hoje nesta conexão",
+  "es": "demasiadas cuentas creadas hoy en esta conexión"
+ },
+ "muitas tentativas erradas: espere 1 hora": {
+  "en": "too many wrong attempts: wait 1 hour",
+  "pt": "muitas tentativas erradas: espere 1 hora",
+  "es": "demasiados intentos fallidos: espera 1 hora"
+ },
+ "muitas tentativas, tente mais tarde": {
+  "en": "too many attempts, try again later",
+  "pt": "muitas tentativas, tente mais tarde",
+  "es": "demasiados intentos, inténtalo más tarde"
+ },
+ "não dá para criar": {
+  "en": "can't be crafted",
+  "pt": "não dá para criar",
+  "es": "no se puede crear"
+ },
+ "não dá para desfazer": {
+  "en": "can't be dismantled",
+  "pt": "não dá para desfazer",
+  "es": "no se puede deshacer"
+ },
+ "não dá para trocar": {
+  "en": "can't be traded",
+  "pt": "não dá para trocar",
+  "es": "no se puede cambiar"
+ },
+ "partida encerrada": {
+  "en": "match ended",
+  "pt": "partida encerrada",
+  "es": "partida terminada"
+ },
+ "partida não encontrada": {
+  "en": "match not found",
+  "pt": "partida não encontrada",
+  "es": "partida no encontrada"
+ },
+ "versões diferentes do jogo: atualizem os dois": {
+  "en": "different game versions: both must update",
+  "pt": "versões diferentes do jogo: atualizem os dois",
+  "es": "versiones distintas del juego: actualicen los dos"
  }
 }

@@ -180,11 +180,7 @@ func desenhar_grade(ci: CanvasItem) -> void:
 	elif n_tok > 0:
 		info += "  -  " + Sessao.t("%d TOKENS") % n_tok
 	PixelFonte.centrado(ci, Vector2(180, 103), info, Color(0.81, 0.88, 1.0, 0.8), 1)
-	# Essência no canto de cima
-	var es := str(Sessao.essencia())
-	var xe := 344.0 - PixelFonte.largura(es, 1)
-	ci.draw_colored_polygon(PackedVector2Array([Vector2(xe - 8, 21), Vector2(xe - 4, 17), Vector2(xe, 21), Vector2(xe - 4, 25)]), Color("#9ad0ff"))
-	PixelFonte.desenhar(ci, Vector2(xe + 3, 19), es, Color("#cfe8ff"), 1)
+	f._moedas_topo(["essencia", "ouro"])                 # Essência (toque explica) e ouro, como nas outras telas
 	var pulso := 0.5 + 0.5 * sin(f.tempo * 3.0)
 	for k in _ids.size():
 		var r := _rect_carta(k)

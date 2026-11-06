@@ -27,6 +27,8 @@ var fala_vis := 0.0                        # caracteres visíveis (máquina de e
 var depois_falas: Callable
 var tempo := 0.0
 var arcade := {"oponente": "aleatorio", "meu_deck": "0", "deck_dele": "do_personagem", "dificuldade": "1", "modificador": "ligado"}
+## Siglas das tradições nas abas e filtros (as mesmas nos 3 idiomas; antes "Hig"/"Wit"/"Chr" em inglês)
+const SIGLA_TRAD := {"indigena": "IND", "cristianismo": "CRI", "taoismo": "TAO", "hinduismo": "HIN", "bruxaria": "BRU", "alta_magia": "ALT", "abismo": "ABI"}
 const OPC := {
 	"oponente": ["aleatorio", "indigena", "cristianismo", "taoismo", "hinduismo", "bruxaria", "alta_magia"],
 	"deck_dele": ["do_personagem", "tematico_aleatorio", "misto"],
@@ -547,6 +549,9 @@ func _ir(novo: String, suave := false) -> void:
 			for i in Colecao.ABAS.size():
 				var d: String = Colecao.ABAS[i]
 				_botao(Rect2(14 + i * 48, 48, 44, 22), "", func() -> void: col.abrir_aba(d); _ir("colecao"), {"aba": d, "toque": Rect2(12 + i * 48, 40, 48, 33)})
+			_botao(Rect2(270, 8, 84, 26), "", func() -> void:
+				mp.avisar(Sessao.t("Essência: desfaça cartas repetidas (Coleção > carta > Desfazer ou no booster) e crie as que faltam.")),
+				{"desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
 			var filtros := [["posse", 14, 70], ["tipo", 88, 76], ["custo", 168, 70], ["busca", 242, 104]]
 			for fl in filtros:
 				var q: String = fl[0]
@@ -629,34 +634,14 @@ func _ir(novo: String, suave := false) -> void:
 					if not bo.cartas[k]["nova"]:
 						_botao(Rect2(Booster.X_CARTAS[k] - 42, Booster.Y_CARTAS + Booster.CH / 2 + 24, 84, 22), "", bo.alternar_troca.bind(k),
 							{"carta": k, "desenho": func(b: Dictionary, r: Rect2, pr: float) -> void: bo.botao_troca(b, r, pr)})
-				_botao(Rect2(90, 536, 180, 30), "Concluir", func() -> void:
-					var n := 0
-					var ganho := 0
-					var ess := 0
-					for c in bo.cartas:
-						if c["nova"]:
-							continue
-						if c["destino"] == "moedas":
-							n += 1
-							ganho += Sessao.valor_troca(c["id"], c["foil"])
-						elif c["destino"] == "essencia":
-							n += 1
-							ess += Sessao.valor_desfazer(c["id"])
-					if n == 0:
-						bo.concluir()
-					else:
-						var partes := PackedStringArray()
-						if ganho > 0:
-							partes.append(Sessao.t("+%d moedas") % ganho)
-						if ess > 0:
-							partes.append(Sessao.t("+%d essência") % ess)
-						confirmar(Sessao.t("Trocar %d repetidas?") % n, " · ".join(partes), bo.concluir))
+				_botao(Rect2(90, 536, 180, 30), "Concluir", func() -> void: _concluir_booster(Callable()))
 				if Sessao.boosters_gratis() > 0:                # tem booster grátis guardado: abre direto, sem cobrar
 					_botao(Rect2(100, 574, 160, 26), Sessao.t("Abrir grátis (%d)") % Sessao.boosters_gratis(), func() -> void:
-						bo.concluir(); bo.comprar(true))
+						_concluir_booster(bo.comprar.bind(true)))
 				elif Sessao.moedas() >= Sessao.BOOSTER_PRECO:
 					_botao(Rect2(110, 574, 140, 26), "Abrir outro", func() -> void:
-						confirmar(Sessao.t("Comprar 1 booster?"), Sessao.t("por %d de ouro") % Sessao.BOOSTER_PRECO, func() -> void: bo.concluir(); bo.comprar()))
+						_concluir_booster(func() -> void:
+							confirmar(Sessao.t("Comprar 1 booster?"), Sessao.t("por %d de ouro") % Sessao.BOOSTER_PRECO, bo.comprar)))
 		"decks":
 			_botao(Rect2(40, 86, 136, 20), "", func() -> void: mp.gaveta = "colecao"; _ir("decks", true),
 				{"aba_loja": "colecao", "atual": mp.gaveta == "colecao", "desenho": _botao_gaveta})
@@ -771,7 +756,8 @@ func _ir(novo: String, suave := false) -> void:
 				else:
 					_botao(Rect2(100, 556, 160, 30), "Lutar!", ta.lutar)
 					_botao(Rect2(20, 600, 120, 24), "Voltar", func() -> void: _ir("arcade"))
-					_botao(Rect2(220, 600, 120, 24), "Desistir", ta.concluir)
+					_botao(Rect2(220, 600, 120, 24), "Desistir", func() -> void:
+						confirmar(Sessao.t("Desistir do Torneio de 8?"), Sessao.t("você sai da chave e perde o prêmio"), ta.concluir))
 		"solo":
 			solo.botoes_lista()
 			_botao(Rect2(40, 60, 280, 20), "", func() -> void: trocar_aba(2), {"desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
@@ -1366,10 +1352,23 @@ func _botao_aba_loja(b: Dictionary, r: Rect2, pressao: float) -> void:
 
 
 func _koins_topo() -> void:
-	var k := str(Sessao.koins())
-	var w := Fonte57.largura(k)
-	MenuPerfil.icone_koin(self, Vector2(338 - w - 10, 18))
-	Fonte57.desenhar(self, Vector2(340 - w, 15), k, Color("#e0c0ff"), ESCURO)
+	_moedas_topo(["koins", "ouro"])
+
+
+## Saldos no canto de cima à direita, iguais em toda tela: ouro, Koins e Essência (da direita para a esquerda, na ordem dada).
+func _moedas_topo(quais: Array) -> void:
+	var x := 340.0
+	for q in quais:
+		var v := str({"ouro": Sessao.moedas(), "koins": Sessao.koins(), "essencia": Sessao.essencia()}[q])
+		var w := Fonte57.largura(v)
+		var cor: Color = {"ouro": OURO[0], "koins": Color("#e0c0ff"), "essencia": Color("#cfe8ff")}[q]
+		Fonte57.desenhar(self, Vector2(x - w, 15), v, cor, ESCURO)
+		var ic := Vector2(x - w - 10, 18)
+		match q:
+			"ouro": mp.moeda(ic)
+			"koins": MenuPerfil.icone_koin(self, ic)
+			"essencia": draw_colored_polygon(PackedVector2Array([ic + Vector2(-4, 0), ic + Vector2(0, -4), ic + Vector2(4, 0), ic + Vector2(0, 4)]), Color("#9ad0ff"))
+		x -= w + 26
 
 
 ## Miniatura do verso na grade: carta 72×101, nome e preço (ou TEM / EM USO); lendários com borda pulsando.
@@ -1671,8 +1670,7 @@ func _pos_luta_arcade() -> void:
 	for t in p.get(chave, []):
 		lista.append({"quem": p.get("nome", op), "texto": t, "cor": Color(p.get("cor", "#e2b85a")), "retrato": op})
 	lista.append({"quem": "Arcade", "texto": Sessao.t("Vitória!" if Sessao.resultado == "vitoria" else ("Derrota." if Sessao.resultado == "derrota" else "Empate.")), "cor": OURO[0], "retrato": ""})
-	if Sessao.resultado == "vitoria":
-		Sessao.premio("arcade", {"nivel": Sessao.dificuldade}, Sessao.moedas_arcade())
+	if Sessao.resultado == "vitoria":                      # o prêmio já foi pago na mesa, junto do registro da partida
 		lista.append({"quem": "Arcade", "texto": Sessao.t("+%d moedas! Agora você tem %d.") % [Sessao.moedas_arcade(), Sessao.moedas()], "cor": OURO[0], "retrato": ""})
 	Sessao.resultado = ""
 	var de_novo: bool = bool(Sessao.extras.get("de_novo", false))     # "DE NOVO" no resumo: mesma luta, sem passar pelo menu
@@ -2098,6 +2096,35 @@ func _entrada_leque(ev: InputEvent) -> bool:
 
 
 ## Torneio arcade de 8: começa um novo (precisa de deck completo) ou continua o salvo.
+## Fecha o booster aberto: se há repetidas marcadas para trocar/desfazer, pergunta antes (em qualquer botão de saída).
+func _concluir_booster(depois: Callable) -> void:
+	var n := 0
+	var ganho := 0
+	var ess := 0
+	for c in bo.cartas:
+		if c["nova"]:
+			continue
+		if c["destino"] == "moedas":
+			n += 1
+			ganho += Sessao.valor_troca(c["id"], c["foil"])
+		elif c["destino"] == "essencia":
+			n += 1
+			ess += Sessao.valor_desfazer(c["id"])
+	var fechar := func() -> void:
+		bo.concluir()
+		if depois.is_valid():
+			depois.call()
+	if n == 0:
+		fechar.call()
+		return
+	var partes := PackedStringArray()
+	if ganho > 0:
+		partes.append(Sessao.t("+%d moedas") % ganho)
+	if ess > 0:
+		partes.append(Sessao.t("+%d essência") % ess)
+	confirmar(Sessao.t("Trocar %d repetidas?") % n, " · ".join(partes), fechar)
+
+
 func _torneio_arcade(semanal := false) -> void:
 	if not Sessao.ta_ativo():
 		var ok := false
@@ -2375,7 +2402,9 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 		r.position.y += flutua
 		var dentro := _painel(r, true, pressao, cor.darkened(0.55))
 		var tex := Carta.textura("arte", LEND_DO_DECK[d], "png")
-		var arte := Rect2(dentro.position + Vector2((dentro.size.x - 96) / 2, 6), Vector2(96, 128))
+		var ah := minf(128.0, dentro.size.y - 6 - 22)                           # cabe na altura, com faixa do nome embaixo
+		var aw := roundf(ah * 96.0 / 128.0)
+		var arte := Rect2(dentro.position + Vector2(roundf((dentro.size.x - aw) / 2), 6), Vector2(aw, ah))
 		draw_rect(arte.grow(2), OURO[2])
 		draw_rect(arte.grow(1), ESCURO)
 		if tex:
@@ -2386,7 +2415,7 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 			var x := arte.position.x + (fase / 0.25) * (arte.size.x + 40) - 20
 			for k in 6:
 				draw_line(Vector2(clampf(x + k, arte.position.x, arte.end.x), arte.position.y), Vector2(clampf(x + k - 20, arte.position.x, arte.end.x), arte.end.y), Color(1, 1, 1, 0.07), 1.0)
-		_texto_central(Vector2(dentro.get_center().x, dentro.end.y - 10), b["texto"], OURO[0])
+		_texto_central(Vector2(dentro.get_center().x, (arte.end.y + dentro.end.y) / 2.0 - 1), b["texto"], OURO[0])
 		return
 	if b.has("campo"):
 		var dentro := _painel(r, false, pressao)
@@ -2406,7 +2435,7 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 		var ativa: bool = (b.has("aba_deck") and b["aba_deck"] == mp.aba_deck) or (b.has("filtro") and b["filtro"] == mp.filtro)
 		var cor_f: Color = Carta.COR_CULTURA.get(b.get("filtro", ""), Color("#3d1f33"))
 		var dd := _painel(r, ativa, pressao, cor_f.darkened(0.2 if ativa else 0.6))
-		var rot: String = Sessao.t(b["texto"]) if b.has("aba_deck") else PixelFonte.normalizar(Sessao.nome_deck(b["filtro"])).substr(0, 3)
+		var rot: String = Sessao.t(b["texto"]) if b.has("aba_deck") else SIGLA_TRAD.get(b["filtro"], PixelFonte.normalizar(Sessao.nome_deck(b["filtro"])).substr(0, 3))
 		if b.has("aba_deck"):
 			_texto_central(dd.get_center(), rot, OURO[0] if ativa else Color("#b8b0c0"))
 		else:
@@ -2416,7 +2445,7 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 		var ativa: bool = b["aba"] == col.aba
 		var cor_aba: Color = Color(Sessao.personagem(b["aba"]).get("cor", "#6a6070")) if b["aba"] != "abismo" else Color("#5a2a7a")
 		var dch := _painel(r, ativa, pressao, cor_aba.darkened(0.25 if ativa else 0.65))
-		var rotulo := PixelFonte.normalizar(Sessao.nome_deck(b["aba"]) if b["aba"] != "abismo" else Sessao.t("Abismo")).substr(0, 3)
+		var rotulo: String = SIGLA_TRAD.get(b["aba"], PixelFonte.normalizar(Sessao.nome_deck(b["aba"])).substr(0, 3))
 		PixelFonte.centrado(self, dch.get_center(), rotulo, OURO[0] if ativa else Color("#b8b0c0"), 1, ESCURO)
 		if Colecao.tem_novas(b["aba"]):
 			draw_circle(r.position + Vector2(r.size.x - 3, 3), 3.0, Color("#e04040"))

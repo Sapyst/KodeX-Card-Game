@@ -1161,6 +1161,7 @@ func usar_deck() -> void:
 		avisar(motivo_invalido(deck_idx))
 		return
 	Sessao.perfil["deck_ativo"] = deck_idx
+	f.arcade["meu_deck"] = str(deck_idx)                 # o Arcade acompanha (antes lia o deck só ao abrir o app)
 	Sessao.salvar()
 	f.vibrar(18, 0.6)
 	avisar(Sessao.t("Deck em uso!"))

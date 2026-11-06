@@ -218,8 +218,8 @@ func botao_caminho(b: Dictionary, r: Rect2, pressao: float) -> void:
 		"chefe": Color("#4a0a2a")}.get(c, Color("#241a20"))
 	var dentro: Rect2 = f._painel(r, c in ["elite", "chefe"], pressao, cor)
 	var info: Array = CAMINHOS[c]
-	PixelFonte.centrado(f, Vector2(dentro.get_center().x, dentro.position.y + 22), PixelFonte.normalizar(Sessao.par([info[0], info[1]])), f.OURO[0], 2, f.ESCURO)
-	var sub: String = Sessao.par([info[2], info[3]])
+	PixelFonte.centrado(f, Vector2(dentro.get_center().x, dentro.position.y + 22), PixelFonte.normalizar(Sessao.t(info[0])), f.OURO[0], 2, f.ESCURO)
+	var sub: String = Sessao.t(info[2])
 	var linhas := Fonte57.quebrar(sub, int(dentro.size.x) - 12)
 	for k in linhas.size():
 		var s: String = linhas[k]

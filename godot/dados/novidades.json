@@ -1,5 +1,21 @@
 [
  {
+  "versao": "0.20.22-alpha",
+  "data": "06/11/2026",
+  "pt": [
+   "Acertos de coerência: fadiga com o mesmo som e tremor do dano de efeito; dano de combate marca a carta como o de efeito; a regra de ataque da mesa é a mesma do motor; prêmio do Arcade pago na hora (fechar o app na tela de resultado não perde mais); Desistir do Torneio de 8 pede confirmação; sair do booster por qualquer botão pergunta sobre as repetidas marcadas; o Arcade acompanha o deck em uso; saldos iguais no topo da Loja, Cosméticos e Coleção (ouro, Koins, Essência) e toque na Essência explica para que serve; arte das tradições cabe dentro dos blocos da Peregrinação.",
+   "Idiomas: erros do servidor traduzidos, caminhos da Peregrinação em espanhol, siglas fixas das tradições nas abas (IND, CRI, TAO, HIN, BRU, ALT, ABI) e os números de XP vêm dos dados do jogo."
+  ],
+  "en": [
+   "Consistency fixes: fatigue uses the same sound and shake as effect damage; combat damage flashes the card like effect damage; the board's attack rule is the engine's; Arcade prize paid on the spot (closing the app on the result screen no longer loses it); quitting the Tournament of 8 asks for confirmation; leaving the booster by any button asks about marked duplicates; Arcade follows the current deck; same balances at the top of Shop, Cosmetics and Collection (gold, Koins, Essence) and tapping Essence explains it; tradition art fits inside the Pilgrimage blocks.",
+   "Languages: server errors translated, Pilgrimage paths in Spanish, fixed tradition codes on tabs (IND, CRI, TAO, HIN, BRU, ALT, ABI) and XP numbers come from game data."
+  ],
+  "es": [
+   "Ajustes de coherencia: la fatiga usa el mismo sonido y temblor que el daño de efecto; el daño de combate marca la carta como el de efecto; la regla de ataque de la mesa es la del motor; premio del Arcade pagado al momento (cerrar la app en la pantalla de resultado ya no lo pierde); rendirse en el Torneo de 8 pide confirmación; salir del booster por cualquier botón pregunta por las repetidas marcadas; el Arcade sigue el mazo en uso; mismos saldos arriba en Tienda, Cosméticos y Colección (oro, Koins, Esencia) y tocar la Esencia la explica; el arte de las tradiciones cabe dentro de los bloques de la Peregrinación.",
+   "Idiomas: errores del servidor traducidos, caminos de la Peregrinación en español, siglas fijas de las tradiciones en las pestañas (IND, CRI, TAO, HIN, BRU, ALT, ABI) y los números de XP vienen de los datos del juego."
+  ]
+ },
+ {
   "versao": "0.20.21-alpha",
   "data": "06/11/2026",
   "pt": [

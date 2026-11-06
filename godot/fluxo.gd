@@ -16,7 +16,8 @@ var apertado := -1                         # índice do botão sob o dedo (efeit
 var transicao := 0.0                       # 0..1 cortina escura entre telas
 ## Opções em 3 grupos: JOGO (idioma, som, vibração, animações, tempo, confirmar FIM), ACESSIBILIDADE (texto, daltônico),
 ## CONTA E INFORMAÇÕES (sincronizar, novidades, privacidade, erros). Alturas dos botões; cabeçalho 12 px acima do 1º de cada grupo.
-const OPC_Y := [108, 136, 166, 196, 226, 256, 304, 334, 382]
+const OPC_Y := [108, 136, 166, 196, 226, 256, 304, 334, 412]
+const OPC_Y_CANHOTO := 364
 var brasas: Array[Dictionary] = []         # partículas do fundo
 var ultimo_falante := ""
 var t_falante := 0.0
@@ -506,9 +507,9 @@ func _ir(novo: String, suave := false) -> void:
 			for k in Sessao.IDIOMAS.size():                         # toque direto na sigla (não cicla)
 				var idi: String = Sessao.IDIOMAS[k]
 				_botao(Rect2(110 + k * 48, OPC_Y[0], 44, 22), "", func() -> void: Sessao.definir_idioma(idi); _ir("opcoes", true), {"idioma": k})
-			_botao(Rect2(ox, OPC_Y[1], ow, 26), "Som: ligado" if Sessao.som else "Som: desligado",
+			_botao(Rect2(ox, OPC_Y[1], ow, 26), Sessao.t("Som: %s") % Sessao.rotulo_som(),
 				func() -> void: Sessao.alternar_som(); _ir("opcoes", true))
-			_botao(Rect2(ox, OPC_Y[2], ow, 26), "Vibração: ligada" if Sessao.vibracao else "Vibração: desligada",
+			_botao(Rect2(ox, OPC_Y[2], ow, 26), Sessao.t("Vibração: %s") % Sessao.rotulo_vibracao(),
 				func() -> void: Sessao.alternar_vibracao(); _ir("opcoes", true))
 			_botao(Rect2(ox, OPC_Y[3], ow, 26), Sessao.t("Animações: %s") % Sessao.rotulo_velocidade(),
 				func() -> void: Sessao.alternar_animacao(); _ir("opcoes", true))
@@ -521,6 +522,8 @@ func _ir(novo: String, suave := false) -> void:
 				func() -> void: Sessao.alternar_texto(); _ir("opcoes", true))
 			_botao(Rect2(ox, OPC_Y[7], ow, 26), "Modo daltônico: ligado" if Sessao.daltonico else "Modo daltônico: desligado",
 				func() -> void: Sessao.alternar_daltonico(); _ir("opcoes", true))
+			_botao(Rect2(ox, OPC_Y_CANHOTO, ow, 26), "Mão esquerda: ligada" if Sessao.canhoto else "Mão esquerda: desligada",
+				func() -> void: Sessao.alternar_canhoto(); _ir("opcoes", true))
 			# CONTA E INFORMAÇÕES
 			var yc := OPC_Y[8]
 			if Nuvem.url != "":                          # conta na nuvem (só quando há servidor)
@@ -621,14 +624,25 @@ func _ir(novo: String, suave := false) -> void:
 				_botao(Rect2(90, 536, 180, 30), "Concluir", func() -> void:
 					var n := 0
 					var ganho := 0
+					var ess := 0
 					for c in bo.cartas:
-						if c["trocar"] and not c["nova"]:
+						if c["nova"]:
+							continue
+						if c["destino"] == "moedas":
 							n += 1
 							ganho += Sessao.valor_troca(c["id"], c["foil"])
+						elif c["destino"] == "essencia":
+							n += 1
+							ess += Sessao.valor_desfazer(c["id"])
 					if n == 0:
 						bo.concluir()
 					else:
-						confirmar(Sessao.t("Trocar %d repetidas?") % n, Sessao.t("+%d moedas") % ganho, bo.concluir))
+						var partes := PackedStringArray()
+						if ganho > 0:
+							partes.append(Sessao.t("+%d moedas") % ganho)
+						if ess > 0:
+							partes.append(Sessao.t("+%d essência") % ess)
+						confirmar(Sessao.t("Trocar %d repetidas?") % n, " · ".join(partes), bo.concluir))
 				if Sessao.boosters_gratis() > 0:                # tem booster grátis guardado: abre direto, sem cobrar
 					_botao(Rect2(100, 574, 160, 26), Sessao.t("Abrir grátis (%d)") % Sessao.boosters_gratis(), func() -> void:
 						bo.concluir(); bo.comprar(true))
@@ -864,6 +878,8 @@ func verificar_presente(manual := true) -> void:
 		blocos.append(["centro", Sessao.t("dia %d de 7 · bônus no 7º") % k7])
 		if r.get("bonus_seq", false):
 			blocos.append(["centro", Sessao.t("Bônus do 7º dia: +1 booster e +20 Koins!")])
+		elif k7 == 6:
+			blocos.append(["centro", Sessao.t("Amanhã é o 7º dia: +1 booster e +20 Koins!")])
 		blocos.append(["espaco"])
 	if int(r["moedas"]) > 0:
 		blocos.append(["destaque", "+%d" % int(r["moedas"]), "moeda"])
@@ -905,6 +921,13 @@ func _botao_redondo(_b: Dictionary, r: Rect2, pressao: float, qual: String) -> v
 	draw_circle(c, 15.0, Color(0.05, 0.03, 0.05, 0.9))
 	draw_arc(c, 15.0, 0, TAU, 32, OURO[2] if not tem else OURO[0], 1.5)
 	draw_circle(c, 13.0, Color("#241a20").darkened(0.3 * pressao))
+	if qual == "presente":                              # sequência de dias: 7 traços em volta (os já resgatados em ouro)
+		var seq := int((Sessao.perfil.get("resgates", {}) as Dictionary).get("seq", 0))
+		var k7 := ((seq - 1) % 7) + 1 if seq > 0 else 0
+		for k in 7:
+			var a0 := -PI / 2.0 + k * TAU / 7.0 + 0.08
+			var a1 := -PI / 2.0 + (k + 1) * TAU / 7.0 - 0.08
+			draw_arc(c, 18.0, a0, a1, 6, OURO[0] if k < k7 else Color(1, 1, 1, 0.14), 2.0)
 	mpr.icone(self, qual, c, OURO[0])
 	if (qual == "presente" and tem) or novo:
 		draw_circle(c + Vector2(10, -10), 4.0, ESCURO)
@@ -2291,10 +2314,10 @@ func _opcoes() -> void:
 		draw_rect(Rect2(ox + PixelFonte.largura(tg) + 6, yg + 3, ow - PixelFonte.largura(tg) - 6, 1), Color(OURO[2], 0.45))
 	if Nuvem.url != "":
 		var st := (Sessao.t("Conta online") + " · " + Nuvem.id_curto()) if Nuvem.online and Nuvem.ativo() else Sessao.t("Conta: sem conexão")
-		_texto_central(Vector2(180, 512), st, Color("#9ad0ff") if Nuvem.online else Color("#ff9a8a"))
+		_texto_central(Vector2(180, 542), st, Color("#9ad0ff") if Nuvem.online else Color("#ff9a8a"))
 	var ver := "KodeX v" + str(ProjectSettings.get_setting("application/config/version", ""))
-	_texto_central(Vector2(180, 530), ver, Color(0.89, 0.72, 0.35, 0.7))
-	_texto_central(Vector2(180, 544), "Sapyst 2026", Color(0.6, 0.55, 0.6))
+	_texto_central(Vector2(180, 558), ver, Color(0.89, 0.72, 0.35, 0.7))
+	_texto_central(Vector2(180, 572), "Sapyst 2026", Color(0.6, 0.55, 0.6))
 
 
 ## Painel metálico (contorno, aro claro em cima/esquerda e escuro embaixo/direita, filete interno, fundo).

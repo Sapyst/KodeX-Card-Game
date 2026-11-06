@@ -74,6 +74,6 @@ func tocar(id: String, variacao := "", vol_db := 0.0, atraso := 0.0, tom := 0.0)
 	if p == _canais[_prox]:
 		_prox = (_prox + 1) % CANAIS
 	p.stream = s
-	p.volume_db = vol_db
+	p.volume_db = vol_db + (-9.0 if Sessao.volume == 1 else 0.0)   # opção "Som: baixo"
 	p.pitch_scale = (tom if tom > 0.0 else 1.0) * randf_range(0.97, 1.03)
 	p.play()

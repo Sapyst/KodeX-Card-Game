@@ -1,5 +1,24 @@
 [
  {
+  "versao": "0.20.20-alpha",
+  "data": "06/11/2026",
+  "pt": [
+   "Progressão: o título escolhido no perfil aparece junto do seu nome na moldura da mesa e para o adversário online; o resumo da partida mostra as missões do dia em andamento (\"Lance 5 Ritos 3/5\") e a maestria da tradição jogada mesmo sem subir de nível; 8 missões diárias novas (Lendárias, vitória rápida, intocável, Arquimago, vitória online, maratona…); anel de dias seguidos em volta do botão do presente e aviso na véspera do 7º dia; repetidas do booster podem virar Essência.",
+   "Online: \"Jogar contra bot\" direto, quantas pessoas estão na fila e bot em 10 s quando a fila está vazia; botão Copiar código na sala; Ranking da semana (vitórias online nos últimos 7 dias, top 50 e sua posição).",
+   "Opções: som em alto/baixo/desligado, vibração forte/leve/desligada e Mão esquerda (FIM TURNO, menu/emote e deck/cemitério espelhados)."
+  ],
+  "en": [
+   "Progression: the title chosen in your profile shows next to your name on the board frame and to your online opponent; the match summary lists daily missions in progress (\"Cast 5 Rites 3/5\") and the mastery of the tradition played even without leveling; 8 new daily missions (Legendaries, fast win, untouchable, Archmage, online win, marathon…); a streak ring around the gift button and a heads-up the day before day 7; booster duplicates can become Essence.",
+   "Online: direct \"Play against a bot\", how many people are in queue and a bot after 10 s when the queue is empty; Copy code button in the room; Weekly ranking (online wins in the last 7 days, top 50 and your rank).",
+   "Options: sound high/low/off, vibration strong/light/off and Left-handed mode (END TURN, menu/emote and deck/graveyard mirrored)."
+  ],
+  "es": [
+   "Progresión: el título elegido en el perfil aparece junto a tu nombre en el marco de la mesa y para el rival en línea; el resumen de la partida muestra las misiones del día en curso (\"Lanza 5 Ritos 3/5\") y la maestría de la tradición jugada aunque no subas de nivel; 8 misiones diarias nuevas (Legendarias, victoria rápida, intocable, Archimago, victoria en línea, maratón…); anillo de días seguidos alrededor del botón del regalo y aviso la víspera del 7º día; las repetidas del booster pueden convertirse en Esencia.",
+   "En línea: \"Jugar contra un bot\" directo, cuántas personas hay en la fila y bot a los 10 s si la fila está vacía; botón Copiar código en la sala; Ranking de la semana (victorias en línea de los últimos 7 días, top 50 y tu puesto).",
+   "Opciones: sonido alto/bajo/apagado, vibración fuerte/suave/apagada y Mano izquierda (FIN DE TURNO, menú/emote y mazo/cementerio reflejados)."
+  ]
+ },
+ {
   "versao": "0.20.19-alpha",
   "data": "06/11/2026",
   "pt": [

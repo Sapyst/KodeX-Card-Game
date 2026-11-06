@@ -205,6 +205,78 @@
    "en": "Win with a High Magic deck",
    "es": "Gana con un mazo de Alta Magia",
    "moedas": 40
+  },
+  {
+   "id": "lendarias_2",
+   "cont": "lendarias",
+   "alvo": 2,
+   "pt": "Jogue 2 Lendárias",
+   "en": "Play 2 Legendaries",
+   "es": "Juega 2 Legendarias",
+   "moedas": 30
+  },
+  {
+   "id": "rapido_1",
+   "cont": "rapido",
+   "alvo": 1,
+   "pt": "Vença em até 10 turnos",
+   "en": "Win within 10 turns",
+   "es": "Gana en 10 turnos o menos",
+   "moedas": 35
+  },
+  {
+   "id": "intocavel_1",
+   "cont": "intocavel",
+   "alvo": 1,
+   "pt": "Vença sem sofrer dano na Cornucópia",
+   "en": "Win without taking Cornucopia damage",
+   "es": "Gana sin recibir daño en la Cornucopia",
+   "moedas": 40
+  },
+  {
+   "id": "arquimago_1",
+   "cont": "arquimago_vitorias",
+   "alvo": 1,
+   "pt": "Vença um Arquimago",
+   "en": "Beat an Archmage",
+   "es": "Vence a un Archimago",
+   "moedas": 40
+  },
+  {
+   "id": "online_vit_1",
+   "cont": "online_vitorias",
+   "alvo": 1,
+   "pt": "Vença 1 partida online",
+   "en": "Win 1 online match",
+   "es": "Gana 1 partida en línea",
+   "moedas": 40
+  },
+  {
+   "id": "maratona_1",
+   "cont": "maratona",
+   "alvo": 1,
+   "pt": "Jogue uma partida de 40 turnos ou mais",
+   "en": "Play a match of 40 turns or more",
+   "es": "Juega una partida de 40 turnos o más",
+   "moedas": 30
+  },
+  {
+   "id": "entidades_15",
+   "cont": "entidades",
+   "alvo": 15,
+   "pt": "Invoque 15 Entidades",
+   "en": "Summon 15 Entities",
+   "es": "Invoca 15 Entidades",
+   "moedas": 30
+  },
+  {
+   "id": "dano_35",
+   "cont": "dano",
+   "alvo": 35,
+   "pt": "Cause 35 de dano à Cornucópia inimiga",
+   "en": "Deal 35 damage to the enemy Cornucopia",
+   "es": "Inflige 35 de daño a la Cornucopia enemiga",
+   "moedas": 35
   }
  ],
  "semanais": [

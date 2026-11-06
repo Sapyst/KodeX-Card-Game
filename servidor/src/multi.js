@@ -15,11 +15,11 @@ const QUEDA = 120;                    // s sem contato = desistência
 
 export const ESQUEMA_MULTI = `
 CREATE TABLE IF NOT EXISTS fila (id TEXT PRIMARY KEY, nome TEXT, deck TEXT, pais TEXT, cont TEXT, entrou INTEGER, visto INTEGER, partida TEXT,
-  foto TEXT, sombra INTEGER DEFAULT 0, juiz INTEGER DEFAULT 0);
+  foto TEXT, sombra INTEGER DEFAULT 0, juiz INTEGER DEFAULT 0, titulo TEXT);
 CREATE TABLE IF NOT EXISTS partidas (pid TEXT PRIMARY KEY, codigo TEXT, j0 TEXT, j1 TEXT, nome0 TEXT, nome1 TEXT, deck0 TEXT, deck1 TEXT,
   semente INTEGER, primeiro INTEGER, estado TEXT, aceite0 INTEGER DEFAULT 0, aceite1 INTEGER DEFAULT 0, prazo INTEGER,
   contato0 INTEGER, contato1 INTEGER, vencedor INTEGER DEFAULT -1, criado INTEGER, revanche0 INTEGER DEFAULT 0, revanche1 INTEGER DEFAULT 0,
-  revanche_pid TEXT, foto0 TEXT, foto1 TEXT, pago0 INTEGER DEFAULT 0, pago1 INTEGER DEFAULT 0, juiz INTEGER DEFAULT 0);
+  revanche_pid TEXT, foto0 TEXT, foto1 TEXT, pago0 INTEGER DEFAULT 0, pago1 INTEGER DEFAULT 0, juiz INTEGER DEFAULT 0, titulo0 TEXT, titulo1 TEXT);
 CREATE TABLE IF NOT EXISTS acoes (pid TEXT, seq INTEGER, jogador INTEGER, dados TEXT, ts INTEGER, PRIMARY KEY (pid, seq));`;
 
 const agora = () => Math.floor(Date.now() / 1000);
@@ -38,6 +38,9 @@ const fotoDe = (corpo) => {
 };
 
 // nome mostrado ao adversário: o do pedido (o perfil no servidor pode estar alguns segundos atrás), limpo e curto
+// título escolhido no perfil (id de dados/progressao.json; o outro celular traduz): só letras minúsculas e _
+const tituloDe = (corpo) => { const t = String(corpo.titulo || ""); return /^[a-z_]{1,32}$/.test(t) ? t : null; };
+
 const nomeDe = (corpo, perfil) => (String(corpo.nome || perfil.nome || "Jogador").replace(/[\u0000-\u001f<>]/g, "").trim() || "Jogador").slice(0, 16);
 
 function deckValido(deck, cartas) {
@@ -52,7 +55,8 @@ async function novaPartida(env, a, b, estado, pidFixo) {
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
     .bind(pid, a.codigo || null, a.id, b?.id || null, a.nome, b?.nome || null, a.deck, b?.deck || null, sem, sem % 2, estado,
       agora() + ACEITAR_EM, agora(), agora(), agora()).run();
-  await env.DB.prepare("UPDATE partidas SET foto0=?, foto1=?, juiz=? WHERE pid=?").bind(a.foto || null, b?.foto || null, a.juiz ? 1 : 0, pid).run();
+  await env.DB.prepare("UPDATE partidas SET foto0=?, foto1=?, juiz=?, titulo0=?, titulo1=? WHERE pid=?")
+    .bind(a.foto || null, b?.foto || null, a.juiz ? 1 : 0, a.titulo || null, b?.titulo || null, pid).run();
   return pid;
 }
 
@@ -96,6 +100,7 @@ async function infoPartida(env, pid, id) {
   return {
     pid, eu, estado: p.estado, semente: p.semente, primeiro: p.primeiro, vencedor: p.vencedor, codigo: p.codigo, queda: !!p.queda,
     adversario: eu === 0 ? p.nome1 : p.nome0, foto_op: (eu === 0 ? p.foto1 : p.foto0) || "", juiz: !!p.juiz,
+    adversario_titulo: (eu === 0 ? p.titulo1 : p.titulo0) || "",
     op_ausente: p.estado === "jogando" ? Math.max(0, agora() - (eu === 0 ? p.contato1 : p.contato0)) : 0, deck_eu: JSON.parse((eu === 0 ? p.deck0 : p.deck1) || "[]"),
     deck_op: p.juiz ? [] : JSON.parse((eu === 0 ? p.deck1 : p.deck0) || "[]"), prazo: p.prazo - agora(),
     aceitei: !!(eu === 0 ? p.aceite0 : p.aceite1), aceite_op: (eu === 0 ? p.aceite1 : p.aceite0),
@@ -124,9 +129,9 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
     if (!deckValido(corpo.deck, D.cartas)) { await sinal(env, id, "dados_invalidos", "deck", 2); return erro("deck inválido (32 cartas)"); }
     const { pais, cont } = regiao(req);
     const eu = { id, nome: nomeDe(corpo, perfil), deck: JSON.stringify(corpo.deck), pais, cont, entrou: agora(), foto: fotoDe(corpo), sombra: sombra ? 1 : 0,
-      juiz: corpo.juiz ? 1 : 0 };
-    await env.DB.prepare("INSERT INTO fila (id, nome, deck, pais, cont, entrou, visto, partida, foto, sombra, juiz) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET nome=excluded.nome, deck=excluded.deck, pais=excluded.pais, cont=excluded.cont, entrou=excluded.entrou, visto=excluded.visto, partida=NULL, foto=excluded.foto, sombra=excluded.sombra, juiz=excluded.juiz")
-      .bind(eu.id, eu.nome, eu.deck, pais, cont, eu.entrou, eu.entrou, eu.foto, eu.sombra, eu.juiz).run();
+      juiz: corpo.juiz ? 1 : 0, titulo: tituloDe(corpo) };
+    await env.DB.prepare("INSERT INTO fila (id, nome, deck, pais, cont, entrou, visto, partida, foto, sombra, juiz, titulo) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET nome=excluded.nome, deck=excluded.deck, pais=excluded.pais, cont=excluded.cont, entrou=excluded.entrou, visto=excluded.visto, partida=NULL, foto=excluded.foto, sombra=excluded.sombra, juiz=excluded.juiz, titulo=excluded.titulo")
+      .bind(eu.id, eu.nome, eu.deck, pais, cont, eu.entrou, eu.entrou, eu.foto, eu.sombra, eu.juiz, eu.titulo).run();
     const pid = await parear(env, eu);
     return json({ ok: true, pais, cont, pid });
   }
@@ -140,8 +145,21 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
       if (pid) return json({ ok: true, estado: "encontrada", partida: await infoPartida(env, pid, id) });
       await dormir(500);
     }
-    const f = await env.DB.prepare("SELECT entrou, pais, cont FROM fila WHERE id=?").bind(id).first();
-    return json({ ok: true, estado: "buscando", espera: f ? agora() - f.entrou : 0 });
+    const f = await env.DB.prepare("SELECT entrou, pais, cont, juiz, sombra FROM fila WHERE id=?").bind(id).first();
+    // quantas outras pessoas esperam (mesmo protocolo e mesma "linha"): o celular mostra "n na fila" e oferece o bot aos 10 s se 0
+    const outros = f ? (await env.DB.prepare("SELECT COUNT(*) AS n FROM fila WHERE partida IS NULL AND id != ? AND visto > ? AND juiz = ? AND sombra = ?")
+      .bind(id, agora() - 30, f.juiz | 0, f.sombra | 0).first()).n | 0 : 0;
+    return json({ ok: true, estado: "buscando", espera: f ? agora() - f.entrou : 0, fila: outros });
+  }
+  if (caminho === "/v1/mm/ranking") {                   // vitórias online nos últimos 7 dias: top 50 + a posição de quem pergunta
+    const desde = agora() - 7 * 86400;
+    const base = "FROM partidas WHERE estado='fim' AND vencedor IN (0, 1) AND j1 IS NOT NULL AND criado >= ?";
+    const rows = (await env.DB.prepare(`SELECT CASE vencedor WHEN 0 THEN j0 ELSE j1 END AS jid, CASE vencedor WHEN 0 THEN nome0 ELSE nome1 END AS nome, COUNT(*) AS n ${base} GROUP BY jid ORDER BY n DESC, jid LIMIT 50`)
+      .bind(desde).all()).results;
+    const meu = rows.find((r) => r.jid === id);
+    const minhas = meu ? meu.n | 0 : ((await env.DB.prepare(`SELECT COUNT(*) AS n ${base} AND ((vencedor=0 AND j0=?) OR (vencedor=1 AND j1=?))`).bind(desde, id, id).first())?.n | 0);
+    const acima = minhas > 0 ? ((await env.DB.prepare(`SELECT COUNT(*) AS n FROM (SELECT CASE vencedor WHEN 0 THEN j0 ELSE j1 END AS jid, COUNT(*) AS n ${base} GROUP BY jid HAVING n > ?)`).bind(desde, minhas).first())?.n | 0) : 0;
+    return json({ ok: true, lista: rows.map((r) => ({ nome: r.nome, n: r.n | 0, eu: r.jid === id })), minhas, posicao: minhas > 0 ? acima + 1 : 0 });
   }
   if (caminho === "/v1/mm/cancelar" && req.method === "POST") {
     await env.DB.prepare("DELETE FROM fila WHERE id=?").bind(id).run();
@@ -168,7 +186,7 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
     if (!deckValido(corpo.deck, D.cartas)) { await sinal(env, id, "dados_invalidos", "deck", 2); return erro("deck inválido (32 cartas)"); }
     const letras = "ABCDEFGHJKLMNPQRSTUVWXYZ";
     const codigo = [...crypto.getRandomValues(new Uint8Array(4))].map((b) => letras[b % letras.length]).join("");
-    const pid = await novaPartida(env, { id, nome: nomeDe(corpo, perfil), deck: JSON.stringify(corpo.deck), codigo, foto: fotoDe(corpo), juiz: !!corpo.juiz }, null, "sala");
+    const pid = await novaPartida(env, { id, nome: nomeDe(corpo, perfil), deck: JSON.stringify(corpo.deck), codigo, foto: fotoDe(corpo), juiz: !!corpo.juiz, titulo: tituloDe(corpo) }, null, "sala");
     await env.DB.prepare("UPDATE partidas SET prazo=? WHERE pid=?").bind(agora() + 900, pid).run();
     return json({ ok: true, codigo, partida: await infoPartida(env, pid, id) });
   }
@@ -179,8 +197,8 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
     if (!p) return erro("sala não encontrada", 404);
     if (p.j0 === id) return erro("é a sua própria sala");
     if (!!p.juiz !== !!corpo.juiz) return erro("versões diferentes do jogo: atualizem os dois");
-    await env.DB.prepare("UPDATE partidas SET j1=?, nome1=?, deck1=?, foto1=?, estado='jogando', contato0=?, contato1=? WHERE pid=?")
-      .bind(id, nomeDe(corpo, perfil), JSON.stringify(corpo.deck), fotoDe(corpo), agora(), agora(), p.pid).run();
+    await env.DB.prepare("UPDATE partidas SET j1=?, nome1=?, deck1=?, foto1=?, titulo1=?, estado='jogando', contato0=?, contato1=? WHERE pid=?")
+      .bind(id, nomeDe(corpo, perfil), JSON.stringify(corpo.deck), fotoDe(corpo), tituloDe(corpo), agora(), agora(), p.pid).run();
     return json({ ok: true, partida: await infoPartida(env, p.pid, id) });
   }
   const m = /^\/v1\/partida\/([0-9a-f]{20})(\/[a-z]+)?$/.exec(caminho);
@@ -260,7 +278,7 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
         // pid da revanche é derivado do pid atual: se os dois pedirem juntos, criam a MESMA partida (INSERT OR IGNORE)
         const pid2 = (await crypto.subtle.digest("SHA-256", new TextEncoder().encode("revanche:" + pid)))
         const hex2 = [...new Uint8Array(pid2)].map((b) => b.toString(16).padStart(2, "0")).join("").slice(0, 20);
-        await novaPartida(env, { id: p.j0, nome: p.nome0, deck: p.deck0, foto: p.foto0, juiz: p.juiz }, { id: p.j1, nome: p.nome1, deck: p.deck1, foto: p.foto1 }, "jogando", hex2);
+        await novaPartida(env, { id: p.j0, nome: p.nome0, deck: p.deck0, foto: p.foto0, juiz: p.juiz, titulo: p.titulo0 }, { id: p.j1, nome: p.nome1, deck: p.deck1, foto: p.foto1, titulo: p.titulo1 }, "jogando", hex2);
         await env.DB.prepare("UPDATE partidas SET revanche_pid=? WHERE pid=?").bind(hex2, pid).run();
       }
       return json({ ok: true, partida: await infoPartida(env, pid, id) });

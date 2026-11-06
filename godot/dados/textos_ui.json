@@ -4093,5 +4093,155 @@
   "en": "ANOTHER DEVICE TOOK OVER",
   "pt": "OUTRO APARELHO ASSUMIU",
   "es": "OTRO DISPOSITIVO TOMÓ EL CONTROL"
+ },
+ "Som: %s": {
+  "en": "Sound: %s",
+  "pt": "Som: %s",
+  "es": "Sonido: %s"
+ },
+ "Vibração: %s": {
+  "en": "Vibration: %s",
+  "pt": "Vibração: %s",
+  "es": "Vibración: %s"
+ },
+ "alto": {
+  "en": "high",
+  "pt": "alto",
+  "es": "alto"
+ },
+ "baixo": {
+  "en": "low",
+  "pt": "baixo",
+  "es": "bajo"
+ },
+ "desligado": {
+  "en": "off",
+  "pt": "desligado",
+  "es": "apagado"
+ },
+ "desligada": {
+  "en": "off",
+  "pt": "desligada",
+  "es": "apagada"
+ },
+ "forte": {
+  "en": "strong",
+  "pt": "forte",
+  "es": "fuerte"
+ },
+ "leve": {
+  "en": "light",
+  "pt": "leve",
+  "es": "suave"
+ },
+ "Mão esquerda: ligada": {
+  "en": "Left-handed: on",
+  "pt": "Mão esquerda: ligada",
+  "es": "Mano izquierda: activada"
+ },
+ "Mão esquerda: desligada": {
+  "en": "Left-handed: off",
+  "pt": "Mão esquerda: desligada",
+  "es": "Mano izquierda: desactivada"
+ },
+ "Amanhã é o 7º dia: +1 booster e +20 Koins!": {
+  "en": "Tomorrow is day 7: +1 booster and +20 Koins!",
+  "pt": "Amanhã é o 7º dia: +1 booster e +20 Koins!",
+  "es": "¡Mañana es el 7º día: +1 booster y +20 Koins!"
+ },
+ "+%d essência": {
+  "en": "+%d essence",
+  "pt": "+%d essência",
+  "es": "+%d esencia"
+ },
+ "essência": {
+  "en": "essence",
+  "pt": "essência",
+  "es": "esencia"
+ },
+ "+%d moedas e +%d essência pelas repetidas.": {
+  "en": "+%d coins and +%d essence for the duplicates.",
+  "pt": "+%d moedas e +%d essência pelas repetidas.",
+  "es": "+%d monedas y +%d esencia por las repetidas."
+ },
+ "+%d essência pelas repetidas.": {
+  "en": "+%d essence for the duplicates.",
+  "pt": "+%d essência pelas repetidas.",
+  "es": "+%d esencia por las repetidas."
+ },
+ "Maestria %s: +%d (%d/%d)": {
+  "en": "%s Mastery: +%d (%d/%d)",
+  "pt": "Maestria %s: +%d (%d/%d)",
+  "es": "Maestría %s: +%d (%d/%d)"
+ },
+ "Missões do dia": {
+  "en": "Daily missions",
+  "pt": "Missões do dia",
+  "es": "Misiones del día"
+ },
+ "Jogar contra bot": {
+  "en": "Play against a bot",
+  "pt": "Jogar contra bot",
+  "es": "Jugar contra un bot"
+ },
+ "Ranking da semana": {
+  "en": "Weekly ranking",
+  "pt": "Ranking da semana",
+  "es": "Ranking de la semana"
+ },
+ "Copiar código": {
+  "en": "Copy code",
+  "pt": "Copiar código",
+  "es": "Copiar código"
+ },
+ "Código copiado.": {
+  "en": "Code copied.",
+  "pt": "Código copiado.",
+  "es": "Código copiado."
+ },
+ "%d na fila": {
+  "en": "%d in queue",
+  "pt": "%d na fila",
+  "es": "%d en la fila"
+ },
+ "ninguém mais na fila · bot em 10 s": {
+  "en": "nobody else in queue · bot in 10 s",
+  "pt": "ninguém mais na fila · bot em 10 s",
+  "es": "nadie más en la fila · bot en 10 s"
+ },
+ "Buscando o ranking...": {
+  "en": "Fetching the ranking...",
+  "pt": "Buscando o ranking...",
+  "es": "Buscando el ranking..."
+ },
+ "vitórias online nos últimos 7 dias": {
+  "en": "online wins in the last 7 days",
+  "pt": "vitórias online nos últimos 7 dias",
+  "es": "victorias en línea en los últimos 7 días"
+ },
+ "você": {
+  "en": "you",
+  "pt": "você",
+  "es": "tú"
+ },
+ "Ninguém venceu uma partida online esta semana ainda.": {
+  "en": "Nobody has won an online match this week yet.",
+  "pt": "Ninguém venceu uma partida online esta semana ainda.",
+  "es": "Nadie ha ganado una partida en línea esta semana todavía."
+ },
+ "Você: %dº lugar com %d vitórias": {
+  "en": "You: rank %d with %d wins",
+  "pt": "Você: %dº lugar com %d vitórias",
+  "es": "Tú: puesto %d con %d victorias"
+ },
+ "Vença uma partida online para entrar no ranking.": {
+  "en": "Win an online match to enter the ranking.",
+  "pt": "Vença uma partida online para entrar no ranking.",
+  "es": "Gana una partida en línea para entrar en el ranking."
+ },
+ "VIBRAÇÃO": {
+  "en": "VIBRATION",
+  "pt": "VIBRAÇÃO",
+  "es": "VIBRACIÓN"
  }
 }

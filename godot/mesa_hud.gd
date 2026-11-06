@@ -77,10 +77,14 @@ func _topo() -> float:
 
 
 func rect_menu() -> Rect2:
+	if Sessao.canhoto:
+		return Rect2(tela().end.x - 30, maxf(_topo(), tela().position.y) + 6, 24, 24)
 	return Rect2(tela().position.x + 6, maxf(_topo(), tela().position.y) + 6, 24, 24)
 
 
 func rect_emote() -> Rect2:
+	if Sessao.canhoto:
+		return Rect2(tela().position.x + 6, maxf(_topo(), tela().position.y) + 6, 24, 24)
 	return Rect2(tela().end.x - 30, maxf(_topo(), tela().position.y) + 6, 24, 24)
 
 
@@ -105,7 +109,7 @@ func _botoes_menu() -> Array:
 		return out
 	var itens := [["CONTINUAR", "continuar"], ["REGRAS", "regras"],
 		[Sessao.t("ANIMAÇÕES") + ": " + Sessao.rotulo_velocidade(), "animacao"],
-		["VIBRAÇÃO: LIGADA" if Sessao.vibracao else "VIBRAÇÃO: DESLIGADA", "vibracao"],
+		[Sessao.t("VIBRAÇÃO") + ": " + Sessao.rotulo_vibracao().to_upper(), "vibracao"],
 		["SAIR DO TUTORIAL" if m.tut != null else "DESISTIR", "desistir"]]
 	for k in itens.size():
 		out.append([Rect2(x, p.position.y + 32 + k * 30, w, 22), itens[k][0], itens[k][1]])

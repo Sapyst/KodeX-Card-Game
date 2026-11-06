@@ -98,6 +98,13 @@ func _ready() -> void:
 		idioma = str(cfg.get_value("geral", "idioma", ""))
 		vibracao = bool(cfg.get_value("geral", "vibracao", true))
 		som = bool(cfg.get_value("geral", "som", true))
+		volume = int(cfg.get_value("geral", "volume", 2 if som else 0))
+		volume = clampi(volume, 0, 2)
+		som = volume > 0
+		vibracao_forte = bool(cfg.get_value("geral", "vibracao_forte", true))
+		canhoto = bool(cfg.get_value("geral", "canhoto", false))
+	if OS.get_environment("GD_CANHOTO") != "":            # teste: mesa espelhada
+		canhoto = true
 		texto_grande = bool(cfg.get_value("geral", "texto_grande", false))
 		tempo_turno = bool(cfg.get_value("geral", "tempo_turno", true))
 		tempo_ia = int(cfg.get_value("geral", "tempo_ia", 75 if tempo_turno else 0))
@@ -176,7 +183,10 @@ func carregar_dados() -> void:
 
 ## Opções (user://config.cfg): vibração ligada/desligada e animações normais/rápidas (a mesa roda 1,5× mais rápido).
 var vibracao := true
-var som := true                         # efeitos sonoros (autoload Som)
+var som := true                         # efeitos sonoros (autoload Som): volume > 0
+var volume := 2                         # 0 desligado · 1 baixo (−9 dB) · 2 alto
+var vibracao_forte := true              # vibração forte (normal) ou leve (metade da força, 60% do tempo)
+var canhoto := false                    # mão esquerda: FIM TURNO, menu/emote e deck/cemitério espelhados na mesa
 var animacao_rapida := false
 var texto_grande := false              # acessibilidade: textos longos em 2× (Fonte57.grande) e interface ×1,35 (Fonte57.fator)
 const FATOR_TEXTO := 1.35
@@ -198,18 +208,42 @@ func _gravar_opcao(chave: String, v) -> void:
 	cfg.save(CONFIG)
 
 
+## Vibração: forte → leve → desligada → forte.
 func alternar_vibracao() -> void:
-	vibracao = not vibracao
+	if vibracao and vibracao_forte:
+		vibracao_forte = false
+	elif vibracao:
+		vibracao = false
+	else:
+		vibracao = true
+		vibracao_forte = true
 	_gravar_opcao("vibracao", vibracao)
+	_gravar_opcao("vibracao_forte", vibracao_forte)
 	if vibracao:
 		vibrar(40, 0.6)
 
 
+func rotulo_vibracao() -> String:
+	return t("desligada") if not vibracao else (t("forte") if vibracao_forte else t("leve"))
+
+
+## Som: alto → baixo → desligado → alto.
 func alternar_som() -> void:
-	som = not som
+	volume = (volume + 2) % 3
+	som = volume > 0
 	_gravar_opcao("som", som)
+	_gravar_opcao("volume", volume)
 	if som:
 		Som.tocar("botao")
+
+
+func rotulo_som() -> String:
+	return [t("desligado"), t("baixo"), t("alto")][clampi(volume, 0, 2)]
+
+
+func alternar_canhoto() -> void:
+	canhoto = not canhoto
+	_gravar_opcao("canhoto", canhoto)
 
 
 func alternar_tempo_turno() -> void:
@@ -498,6 +532,9 @@ var _sem_vibrar := OS.get_environment("GD_AUTO") != "" or OS.get_environment("GD
 func vibrar(ms: int, forca: float = 0.5) -> void:
 	if _sem_vibrar or not vibracao:
 		return
+	if not vibracao_forte:                                  # leve: metade da força, 60% do tempo
+		ms = maxi(5, int(ms * 0.6))
+		forca *= 0.5
 	Input.vibrate_handheld(ms, clampf(forca, 0.0, 1.0))
 
 
@@ -984,6 +1021,12 @@ func premiar_versao() -> bool:
 
 func pode_desfazer(cid: String) -> bool:
 	return copias(cid) > 1 and copias(cid) - 1 >= copias_em_uso(cid)
+
+
+## Quanto de Essência a próxima cópia desfeita rende (normal primeiro; foil só se não sobrar normal).
+func valor_desfazer(cid: String) -> int:
+	var foil := copias(cid) - int(perfil["foils"].get(cid, 0)) <= 0
+	return int(ESSENCIA_DESFAZ[raridade(cid, foil)])
 
 
 ## Desfaz uma cópia repetida: primeiro uma normal; a foil só se não sobrar cópia normal.

@@ -23,10 +23,11 @@ const ENT_OPON := [Vector2(60, 220), Vector2(140, 220), Vector2(220, 220), Vecto
 const SELO_OPON := [Vector2(140, 118), Vector2(220, 118)]
 const ENT_JOG := [Vector2(60, 362), Vector2(140, 362), Vector2(220, 362), Vector2(300, 362)]
 const SELO_JOG := [Vector2(140, 458), Vector2(220, 458)]
-const DECK_JOG := Vector2(304, 458)
-const CEMIT_JOG := Vector2(56, 458)
-const DECK_OPON := Vector2(56, 118)
-const CEMIT_OPON := Vector2(304, 118)
+# posições do deck e do cemitério de cada lado (com "Mão esquerda" ligada, deck e cemitério trocam de lado em _ready)
+var DECK_JOG := Vector2(304, 458)
+var CEMIT_JOG := Vector2(56, 458)
+var DECK_OPON := Vector2(56, 118)
+var CEMIT_OPON := Vector2(304, 118)
 const LINHA_Y := 291.0
 const ESC_CAMPO := 1.05
 const LUZ_PRINCIPAL := Vector2(180, -34)
@@ -115,6 +116,10 @@ var _som: AudioStreamPlayer
 
 
 func _ready() -> void:
+	if Sessao.canhoto:                                   # mão esquerda: espelha deck/cemitério, FIM TURNO e o contador de turno
+		var t1 := DECK_JOG; DECK_JOG = CEMIT_JOG; CEMIT_JOG = t1
+		var t2 := DECK_OPON; DECK_OPON = CEMIT_OPON; CEMIT_OPON = t2
+		botao_fim = Rect2(360 - botao_fim.end.x, botao_fim.position.y, botao_fim.size.x, botao_fim.size.y)
 	Carta.PERSP = [PERSP_K, PERSP_A, ESCORCO]
 	RegistroErros.contexto = "partida:" + (Sessao.modo if Sessao.modo != "" else "teste")
 	# partida de verdade: embaralhamento novo a cada vez (antes era sempre a semente 7 = mesma ordem e mesma mão);
@@ -936,7 +941,7 @@ func _desenhar_placar() -> void:
 			var a2 := 0.7 + 0.3 * sin(tempo * 8.0)
 			placar.draw_rect(r.grow(2), Color(1.0, 0.6, 0.3, a2), false, 1.0)
 			var ws := PixelFonte.largura(_fim_sobra) + 8
-			var rs := Rect2(r.end.x - ws, r.position.y - 16, ws, 11)
+			var rs := Rect2(r.position.x if Sessao.canhoto else r.end.x - ws, r.position.y - 16, ws, 11)
 			placar.draw_rect(rs, Color(0.1, 0.05, 0.04, 0.9))
 			PixelFonte.desenhar(placar, rs.position + Vector2(4, 2), _fim_sobra, Color(1.0, 0.75, 0.4))
 		PixelFonte.centrado(placar, r.get_center(), Sessao.t(rot), (Color("#ffb070") if _fim_armado else Color("#ffe39a")) if vez else (Color("#d8c8ff") if ia else Color("#8a8090")))
@@ -971,7 +976,7 @@ func _desenhar_contadores() -> void:
 		var p := proj(DECK_JOG if d == 0 else DECK_OPON) + Vector2(12, -26)
 		_pilula(p, "%d" % n, Color("#ff9a8a") if n <= 3 else Color("#f2e6c8"))
 	_pilula(proj(Vector2(180, 36)), Sessao.t("MÃO %d") % mao_opon.size(), Color("#cfe0ff"))
-	_pilula(proj(Vector2(317, 306)), Sessao.t("TURNO %d") % turno_n, Color("#b8b0c0"))
+	_pilula(proj(Vector2(43 if Sessao.canhoto else 317, 306)), Sessao.t("TURNO %d") % turno_n, Color("#b8b0c0"))
 
 
 func _pilula(centro: Vector2, s: String, cor: Color) -> void:
@@ -4839,12 +4844,16 @@ func _ret_info() -> void:
 	ret_trad[0] = Sessao.deck_jogador_nome if Moldura.COR_TRAD.has(Sessao.deck_jogador_nome) else "misto"
 	var nv := Progresso.nivel()
 	ret_nivel[0] = Sessao.t("Nível %d") % nv
+	var meu_tit := str(Sessao.perfil.get("titulo", ""))
+	if meu_tit != "":
+		ret_nivel[0] += " · " + Progresso.nome_titulo(meu_tit)
 	ret_mat[0] = "bronze" if nv < 5 else ("prata" if nv < 10 else ("ouro" if nv < 20 else ("jade" if nv < 30 else "obsidiana")))
 	var op := Sessao.oponente
 	ret_trad[1] = "abismo" if op == "choronzon" else (op if Moldura.COR_TRAD.has(op) else "misto")
 	if online_partida():
 		ret_mat[1] = "prata"
-		ret_nivel[1] = ""
+		var tit_op := str(online_info.get("adversario_titulo", ""))
+		ret_nivel[1] = Progresso.nome_titulo(tit_op) if tit_op != "" else ""
 	elif op == "choronzon":
 		ret_mat[1] = "obsidiana"
 		ret_nivel[1] = Sessao.t("Arquimago")
@@ -4960,6 +4969,23 @@ func _blocos_progresso(b: Array) -> void:
 			"avatar":
 				b.append(["item", Sessao.t("Retrato liberado: %s") % e["texto"]])
 				b.append(["centro", Sessao.t("Perfil > Escolher imagem")])
+	# maestria da tradição jogada, mesmo sem subir de nível
+	var trad := Sessao.deck_jogador_nome
+	if trad in (Progresso.dados()["tradicoes"] as Array):
+		var x := int(Progresso.p()["maestria"].get(trad, 0))
+		var lims: Array = Progresso.dados()["maestria"]["limites"]
+		var nvm := Progresso.maestria_nivel(trad)
+		var lim := int(lims[mini(nvm, lims.size() - 1)])
+		b.append(["item", Sessao.t("Maestria %s: +%d (%d/%d)") % [Sessao.nome_deck(trad), xp, mini(x, lim), lim]])
+	# missões do dia ainda abertas: quanto falta
+	var abertas: Array = []
+	for m in Progresso.diarias():
+		if not Progresso.feita("dia", str(m["id"])):
+			abertas.append(m)
+	if not abertas.is_empty():
+		b.append(["sub", Sessao.t("Missões do dia")])
+		for m in abertas.slice(0, 3):
+			b.append(["item", "%s  %d/%d" % [Progresso.texto(m), Progresso.andamento("dia", m), int(m["alvo"])]])
 
 
 ## Fim da partida com os retratos: quem venceu sobe ao centro; quem perdeu fica trincado na moldura da mesa.

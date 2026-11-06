@@ -84,7 +84,7 @@ func comprar(gratis := false) -> void:
 		return
 	cartas.clear()
 	for e in r:
-		cartas.append({"id": e["id"], "foil": e["foil"], "nova": e["nova"], "virada": false, "t_virou": 0.0, "trocar": false, "pos": Vector2.ZERO})
+		cartas.append({"id": e["id"], "foil": e["foil"], "nova": e["nova"], "virada": false, "t_virou": 0.0, "destino": "guardar", "pos": Vector2.ZERO})
 	corte = PackedByteArray()
 	corte.resize(int(PW))
 	trilha = PackedVector2Array()
@@ -254,20 +254,31 @@ func _papel(p: Vector2, n: int) -> void:
 			"g": 320.0, "tam": 2})
 
 
+## Repetida: guardar → trocar por moedas → desfazer em Essência → guardar (toque cicla).
 func alternar_troca(k: int) -> void:
-	cartas[k]["trocar"] = not cartas[k]["trocar"]
+	var ordem := ["guardar", "moedas", "essencia"]
+	cartas[k]["destino"] = ordem[(ordem.find(cartas[k]["destino"]) + 1) % ordem.size()]
 	f.vibrar(10, 0.3)
-	f._ir("booster")
+	f._ir("booster", true)
 
 
 func concluir() -> void:
 	var ganho := 0
+	var ess := 0
 	for c in cartas:
-		if c["trocar"] and not c["nova"]:
+		if c["nova"]:
+			continue
+		if c["destino"] == "moedas":
 			if Sessao.trocar_repetida(c["id"], c["foil"]):
 				ganho += Sessao.valor_troca(c["id"], c["foil"])
-	if ganho > 0:
+		elif c["destino"] == "essencia":
+			ess += Sessao.desfazer_carta(c["id"])
+	if ganho > 0 and ess > 0:
+		f.mp.avisar(Sessao.t("+%d moedas e +%d essência pelas repetidas.") % [ganho, ess])
+	elif ganho > 0:
 		f.mp.avisar(Sessao.t("+%d moedas pelas repetidas.") % ganho)
+	elif ess > 0:
+		f.mp.avisar(Sessao.t("+%d essência pelas repetidas.") % ess)
 	etapa = "loja"
 	f._ir("loja")
 
@@ -642,9 +653,13 @@ func _desenhar_zoom() -> void:
 func botao_troca(b: Dictionary, r: Rect2, pressao: float) -> void:
 	var k: int = b["carta"]
 	var c: Dictionary = cartas[k]
-	var trocar: bool = c["trocar"]
-	var dentro: Rect2 = f._painel(r, trocar, pressao, Color("#4a3410") if trocar else Color("#241a20"))
-	var s := ("+%d" % Sessao.valor_troca(c["id"], c["foil"])) if trocar else Sessao.t("Guardar")
-	if trocar:
+	var dest: String = c["destino"]
+	var trocar := dest != "guardar"
+	var dentro: Rect2 = f._painel(r, trocar, pressao, (Color("#4a3410") if dest == "moedas" else Color("#2a1a4a")) if trocar else Color("#241a20"))
+	var s := Sessao.t("Guardar")
+	if dest == "moedas":
+		s = "+%d" % Sessao.valor_troca(c["id"], c["foil"])
 		f.mp.moeda(dentro.get_center() + Vector2(-Fonte57.largura(s) / 2.0 - 8, 0))
-	f._texto_central(dentro.get_center(), s, f.OURO[0] if trocar else f.CREME)
+	elif dest == "essencia":
+		s = "+%d " % Sessao.valor_desfazer(c["id"]) + Sessao.t("essência")
+	f._texto_central(dentro.get_center(), s, (f.OURO[0] if dest == "moedas" else Color("#d8b8ff")) if trocar else f.CREME)

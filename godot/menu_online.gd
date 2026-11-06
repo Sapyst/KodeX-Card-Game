@@ -58,10 +58,18 @@ func botoes() -> void:
 			f._botao(Rect2(80, 160, 200, 34), "Buscar partida", buscar, {"ouro": true})
 			f._botao(Rect2(80, 210, 200, 28), "Criar sala com código", criar_sala)
 			f._botao(Rect2(80, 246, 200, 28), "Entrar com código", entrar_sala)
+			var yb := 292.0
 			if Sessao.online_salvo() != "":
-				f._botao(Rect2(80, 292, 200, 28), "Voltar à partida", retomar)
+				f._botao(Rect2(80, yb, 200, 28), "Voltar à partida", retomar)
+				yb += 36
+			f._botao(Rect2(80, yb, 200, 28), "Jogar contra bot", jogar_bot)
+			f._botao(Rect2(80, 420, 200, 28), "Ranking da semana", ranking)
 			f._botao(Rect2(110, 560, 140, 26), "Voltar", func() -> void: f._ir("titulo"))
-		"buscando", "sala", "conectando":
+		"buscando", "conectando":
+			f._botao(Rect2(110, 400, 140, 26), "Cancelar", cancelar)
+		"sala":
+			f._botao(Rect2(110, 330, 140, 26), "Copiar código", func() -> void:
+				DisplayServer.clipboard_set(codigo); f.vibrar(10, 0.3); f.mp.avisar(Sessao.t("Código copiado.")))
 			f._botao(Rect2(110, 400, 140, 26), "Cancelar", cancelar)
 		"encontrada":
 			if not aceitei:
@@ -84,6 +92,8 @@ func desenhar() -> void:
 			var s := segundos()
 			f._texto_central(Vector2(180, 200), Sessao.t("Buscando adversário") + "." .repeat(1 + int(s * 2) % 3), f.OURO[0], 2)
 			f._texto_central(Vector2(180, 236), "%d s" % int(s), f.CREME)
+			if _na_fila >= 0:
+				f._texto_central(Vector2(180, 256), (Sessao.t("%d na fila") % _na_fila) if _na_fila > 0 else Sessao.t("ninguém mais na fila · bot em 10 s"), Color(0.72, 0.66, 0.6))
 		"encontrada":
 			f._texto_central(Vector2(180, 200), Sessao.t("Partida encontrada!"), f.OURO[0], 2)
 			f._texto_central(Vector2(180, 236), Sessao.t("contra") + " " + str(partida.get("adversario", "?")), f.CREME)
@@ -108,7 +118,7 @@ func buscar() -> void:
 	var g := _ger
 	aceitei = false
 	_mudar("buscando")
-	var r: Dictionary = await Nuvem.mp("POST", "/v1/mm/buscar", {"deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "foto": Sessao.foto_online(), "juiz": true}, 10.0)
+	var r: Dictionary = await Nuvem.mp("POST", "/v1/mm/buscar", {"deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "titulo": str(Sessao.perfil.get("titulo", "")), "foto": Sessao.foto_online(), "juiz": true}, 10.0)
 	if g != _ger:
 		return
 	if not r.get("ok", false):
@@ -128,6 +138,11 @@ func _laco_busca(g: int) -> void:
 			await f.get_tree().create_timer(1.5).timeout
 			continue
 		match str(e.get("estado", "")):
+			"buscando":
+				_na_fila = int(e.get("fila", -1))
+				if _na_fila == 0 and int(e.get("espera", 0)) >= BOT_SE_VAZIO and fase == "buscando":   # fila vazia: bot já
+					_oferecer_bot(g, true)
+					return
 			"fora":
 				_mudar("")
 				return
@@ -159,8 +174,53 @@ func _prazo(g: int) -> void:
 
 ## Ninguém em BOT_APOS s: aparece "Partida encontrada! contra X - Bot" (aceitar entra na partida contra a IA com nome de
 ## bot; recusar ou deixar passar volta a buscar gente e só oferece de novo depois de mais 30 s).
-func _oferecer_bot(g: int) -> void:
-	await f.get_tree().create_timer(BOT_APOS).timeout
+var _na_fila := -1                    # quantas outras pessoas esperam na fila (-1 = não sei)
+const BOT_SE_VAZIO := 10              # s de busca com a fila vazia até oferecer um bot
+
+
+## Jogar contra bot direto (sem fila): IA Mestre com nome de bot; conta como partida online.
+func jogar_bot() -> void:
+	if not _pronto():
+		return
+	_ger += 1
+	var op: String = Sessao.DECKS[randi() % Sessao.DECKS.size()]
+	Sessao.preparar_bot(op, _deck())
+	f._jogar()
+
+
+## Ranking da semana: vitórias online nos últimos 7 dias (top 50 e a sua posição). Só prestígio, sem prêmio.
+func ranking() -> void:
+	if not Nuvem.ativo():
+		f.mp.avisar(Sessao.t("Sem conexão com o servidor do jogo."))
+		return
+	f.esperar(Sessao.t("Buscando o ranking..."))
+	var r: Dictionary = await Nuvem.mp("GET", "/v1/mm/ranking", {}, 10.0)
+	f.esperar("")
+	if not r.get("ok", false):
+		f.mp.avisar(Sessao.t(str(r.get("erro", "sem conexão"))))
+		return
+	var b: Array = [["titulo", Sessao.t("Ranking da semana")], ["centro", Sessao.t("vitórias online nos últimos 7 dias")], ["divisor"]]
+	var lista: Array = r.get("lista", [])
+	var k := 0
+	for e in lista:
+		k += 1
+		var linha := "%2d. %s  —  %d V" % [k, str(e.get("nome", "?")), int(e.get("n", 0))]
+		if e.get("eu", false):
+			linha += "  (" + Sessao.t("você") + ")"
+		b.append(["txt", linha])
+	if lista.is_empty():
+		b.append(["centro", Sessao.t("Ninguém venceu uma partida online esta semana ainda.")])
+	b.append(["divisor"])
+	if int(r.get("minhas", 0)) > 0:
+		b.append(["centro", Sessao.t("Você: %dº lugar com %d vitórias") % [int(r.get("posicao", 0)), int(r.get("minhas", 0))]])
+	else:
+		b.append(["centro", Sessao.t("Vença uma partida online para entrar no ranking.")])
+	f.perg.abrir(b)
+
+
+func _oferecer_bot(g: int, agora := false) -> void:
+	if not agora:
+		await f.get_tree().create_timer(BOT_APOS).timeout
 	if g != _ger or fase != "buscando":
 		return
 	var op: String = Sessao.DECKS[randi() % Sessao.DECKS.size()]
@@ -243,7 +303,7 @@ func criar_sala() -> void:
 	_ger += 1
 	var g := _ger
 	_mudar("conectando")
-	var r: Dictionary = await Nuvem.mp("POST", "/v1/sala/criar", {"deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "foto": Sessao.foto_online(), "juiz": true}, 10.0)
+	var r: Dictionary = await Nuvem.mp("POST", "/v1/sala/criar", {"deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "titulo": str(Sessao.perfil.get("titulo", "")), "foto": Sessao.foto_online(), "juiz": true}, 10.0)
 	if g != _ger:
 		return
 	if not r.get("ok", false):
@@ -284,7 +344,7 @@ func entrar_sala(cod := "") -> void:
 	_ger += 1
 	var g := _ger
 	_mudar("conectando")
-	var r: Dictionary = await Nuvem.mp("POST", "/v1/sala/entrar", {"codigo": cod.to_upper(), "deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "foto": Sessao.foto_online(), "juiz": true}, 10.0)
+	var r: Dictionary = await Nuvem.mp("POST", "/v1/sala/entrar", {"codigo": cod.to_upper(), "deck": _deck(), "nome": str(Sessao.perfil.get("nome", "")), "titulo": str(Sessao.perfil.get("titulo", "")), "foto": Sessao.foto_online(), "juiz": true}, 10.0)
 	if g != _ger:
 		return
 	if not r.get("ok", false):

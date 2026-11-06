@@ -15,6 +15,8 @@ signal revelou                      # revelação nova na fila
 signal emote(k: int)
 signal fim_servidor(vencedor_eu: int, queda: bool)   # 1 = venci, 0 = perdi, 2 = empate
 signal forcado(tipo: String)        # a sala decidiu por mim (tempo esgotado)
+signal rejeitada(erro: String)      # o juiz recusou uma jogada minha: o que animei aqui não vale (ressincronizar)
+signal outro_aparelho               # outro aparelho da mesma conta entrou na partida: este sai
 
 var pid := ""
 var eu := 0                         # meu índice no servidor (0 ou 1)
@@ -92,6 +94,13 @@ func _process(delta: float) -> void:
 			_pendentes.clear()
 		elif st == WebSocketPeer.STATE_CLOSED:
 			conectado = false
+			if _ws.get_close_code() == 4001 and not encerrada:   # a sala fechou este socket: outro aparelho assumiu
+				encerrada = true
+				_parar = true
+				outro_aparelho.emit()
+				chegou.emit()
+				revelou.emit()
+				return
 			_reconectar_em = minf(10.0, 1.5 * pow(2.0, _tentativas))
 			_tentativas += 1
 			if _log:
@@ -143,6 +152,8 @@ func _mensagem(texto: String) -> void:
 			return
 		"erro":
 			print("REDE erro do juiz: ", m.get("erro", ""))
+			if not _retomando:
+				rejeitada.emit(str(m.get("erro", "")))
 			return
 		"emote":
 			emote.emit(int(m.get("k", 0)))
@@ -213,17 +224,31 @@ func proxima() -> Dictionary:
 	return recebidas.pop_front()
 
 
-## Próxima revelação do juiz; `tipo` confere que é a esperada ("" = qualquer). {} = a partida acabou antes.
+## Próxima revelação do juiz do `tipo` pedido ("" = a próxima, qualquer). Se a fila tem outras na frente (chegaram em
+## ordem diferente da que o motor local pede), procura a certa e espera até 3 s por ela; só então desiste e devolve a
+## primeira, avisando. {} = a partida acabou antes.
 func revelacao(tipo := "") -> Dictionary:
-	while revelacoes.is_empty():
+	var limite := Time.get_ticks_msec() + 3000
+	while true:
+		if tipo == "":
+			if not revelacoes.is_empty():
+				return revelacoes.pop_front()
+		else:
+			for k in revelacoes.size():
+				if str(revelacoes[k].get("r", "")) == tipo:
+					return revelacoes.pop_at(k)
+			if not revelacoes.is_empty() and Time.get_ticks_msec() > limite:
+				var r: Dictionary = revelacoes.pop_front()
+				push_warning("revelação fora de ordem: esperava %s, veio %s" % [tipo, str(r.get("r", ""))])
+				r["_fora_de_ordem"] = true
+				return r
 		if encerrada or _parar:
 			return {}
-		await revelou
-	var r: Dictionary = revelacoes.pop_front()
-	if tipo != "" and str(r.get("r", "")) != tipo:
-		push_warning("revelação fora de ordem: esperava %s, veio %s" % [tipo, str(r.get("r", ""))])
-		r["_fora_de_ordem"] = true
-	return r
+		if revelacoes.is_empty():
+			await revelou
+		else:
+			await get_tree().create_timer(0.1, true, false, true).timeout
+	return {}
 
 
 func avisar_fim(_vencedor_local: int) -> void:

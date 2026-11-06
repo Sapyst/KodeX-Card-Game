@@ -237,7 +237,19 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
       return json({ ok: true, partida: await infoPartida(env, pid, id) });
     }
     if (sub === "/revanche" && req.method === "POST") { // os dois pedem → nova partida com os mesmos decks
-      if (info.estado !== "fim") return erro("a partida ainda não acabou", 409);
+      if (info.estado !== "fim") {                        // o pedido pode chegar antes de a sala gravar o fim no D1: pergunta à sala
+        let acabou = false;
+        try {
+          const sala = env.SALA.get(env.SALA.idFromName(pid));
+          const r = await (await sala.fetch(new Request("https://sala/v1/partida/" + pid + "/estado", { headers: { "x-jogador": "-1" } }))).json();
+          if (r && r.acabou) {
+            await env.DB.prepare("UPDATE partidas SET estado='fim', vencedor=CASE WHEN vencedor < 0 THEN ? ELSE vencedor END WHERE pid=?")
+              .bind(r.vencedor | 0, pid).run();
+            acabou = true;
+          }
+        } catch (e) { /* sala sem configuração ou fora do ar: segue o 409 */ }
+        if (!acabou) return erro("a partida ainda não acabou", 409);
+      }
       if (corpo.recusar) {
         await env.DB.prepare("UPDATE partidas SET revanche0=-1, revanche1=-1 WHERE pid=?").bind(pid).run();
         return json({ ok: true, partida: await infoPartida(env, pid, id) });

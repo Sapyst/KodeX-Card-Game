@@ -198,6 +198,8 @@ func _ready() -> void:
 		rede.emote.connect(hud.emote_oponente)
 		rede.fim_servidor.connect(_fim_servidor)
 		rede.forcado.connect(_forcado)
+		rede.rejeitada.connect(func(e: String) -> void: _dessincronia("juiz recusou: " + e))
+		rede.outro_aparelho.connect(_outro_aparelho)
 		await rede.iniciar(online_info, bool(online_info.get("retomar", false)))
 	_preparar_retratos()
 	_ret_info()
@@ -302,6 +304,8 @@ func _ready() -> void:
 			if int(nivel_ia[lado]) == 2 and _arq_tem("M") and (lado == 1 or auto_jogador) and Sessao.modo != "tutorial" and not online_partida():
 				await _mulligan_ia(lado)
 		await _partida()
+		if _saiu_outro:                                       # outro aparelho assumiu: nada a registrar aqui
+			return
 		Sessao.resultado = "vitoria" if vencedor == 0 else ("derrota" if vencedor == 1 else "empate")
 		_registrar_partida()
 		if online_partida():
@@ -4501,11 +4505,59 @@ func _hash_estado() -> int:
 	return hash(str(partes))
 
 
+## O que está na mesa divergiu do juiz (jogada recusada, retrato diferente): em vez de seguir dessincronizado até o
+## próximo turno, volta à partida pelo caminho de retomar (a sala reenvia tudo e a mesa se refaz do zero).
 func _dessincronia(msg: String) -> void:
 	print("DESSINCRONIA: ", msg)
-	if not dessinc:
-		dessinc = true
+	if dessinc or acabou or not online_partida() or rede == null:
+		return
+	dessinc = true
+	if OS.get_environment("GD_SEM_RESSINC") != "":          # teste: só marca (para medir divergências sem refazer)
 		efeitos.numero(Vector2(180, LINHA_Y - 30), Sessao.t("DESSINCRONIA"), Color("#ff7070"), 2)
+		return
+	_ressincronizar()
+
+
+var _ressinc := false
+
+
+func _ressincronizar() -> void:
+	if _ressinc:
+		return
+	_ressinc = true
+	efeitos.numero(Vector2(180, LINHA_Y - 30), Sessao.t("RESSINCRONIZANDO"), Color("#ffb070"), 2)
+	rede.parar()
+	await get_tree().create_timer(0.9, true, false, true).timeout
+	Engine.time_scale = 1.0
+	var info: Dictionary = (Sessao.extras.get("online", {}) as Dictionary).duplicate()
+	if info.is_empty():
+		_voltar_menu()
+		return
+	Sessao.preparar_online(info, true)
+	get_tree().change_scene_to_file("res://mesa.tscn")
+
+
+## Outro aparelho da mesma conta entrou nesta partida: este sai para o menu (a partida continua lá).
+var _saiu_outro := false
+
+
+func _outro_aparelho() -> void:
+	if acabou:
+		return
+	acabou = true
+	_saiu_outro = true
+	efeitos.faixa = Sessao.t("OUTRO APARELHO ASSUMIU")
+	efeitos.faixa_t = 0.0
+	if OS.get_environment("GD_SAIR_NO_FIM") != "":
+		print("ONLINE FIM vencedor=-1 turnos=", turno_n, " outro_aparelho=true")
+		await get_tree().create_timer(1.0, true, false, true).timeout
+		get_tree().quit()
+		return
+	await get_tree().create_timer(2.0, true, false, true).timeout
+	Engine.time_scale = 1.0
+	Sessao.modo = ""
+	Sessao.extras = {}
+	get_tree().change_scene_to_file("res://fluxo.tscn")
 
 
 ## O servidor encerrou (desistência, abandono por queda de 2 min, ou o outro aparelho viu o fim antes).

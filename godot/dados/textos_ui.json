@@ -4083,5 +4083,15 @@
   "en": "Most faced: %s (%d)",
   "pt": "Mais enfrentado: %s (%d)",
   "es": "Más enfrentado: %s (%d)"
+ },
+ "RESSINCRONIZANDO": {
+  "en": "RESYNCING",
+  "pt": "RESSINCRONIZANDO",
+  "es": "RESINCRONIZANDO"
+ },
+ "OUTRO APARELHO ASSUMIU": {
+  "en": "ANOTHER DEVICE TOOK OVER",
+  "pt": "OUTRO APARELHO ASSUMIU",
+  "es": "OTRO DISPOSITIVO TOMÓ EL CONTROL"
  }
 }

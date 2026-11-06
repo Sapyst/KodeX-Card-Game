@@ -1,5 +1,18 @@
 [
  {
+  "versao": "0.20.19-alpha",
+  "data": "06/11/2026",
+  "pt": [
+   "Online: se o juiz recusar uma jogada ou a mesa divergir do servidor, a partida se ressincroniza sozinha (volta pelo caminho de retomar) em vez de seguir dessincronizada até o próximo turno; dois aparelhos da mesma conta na mesma partida: o último que entrou assume e o outro volta ao menu; revanche pedida no instante do fim não dá mais erro; revelações do juiz que chegam fora de ordem são casadas pelo tipo; a sala grava só a jogada nova (não a lista inteira) e o eco das jogadas ficou menor."
+  ],
+  "en": [
+   "Online: if the judge rejects a play or the board diverges from the server, the match resyncs on its own (through the resume path) instead of staying out of sync until the next turn; two devices on the same account in the same match: the last one in takes over and the other returns to the menu; a rematch requested right at the end no longer errors; judge revelations arriving out of order are matched by type; the room stores only the new play (not the whole list) and the play echo got smaller."
+  ],
+  "es": [
+   "Online: si el juez rechaza una jugada o la mesa diverge del servidor, la partida se resincroniza sola (por el camino de reanudar) en vez de seguir desincronizada hasta el próximo turno; dos dispositivos de la misma cuenta en la misma partida: el último que entra toma el control y el otro vuelve al menú; la revancha pedida justo al final ya no da error; las revelaciones del juez que llegan fuera de orden se emparejan por tipo; la sala guarda solo la jugada nueva (no la lista entera) y el eco de las jugadas es menor."
+  ]
+ },
+ {
   "versao": "0.20.18-alpha",
   "data": "06/11/2026",
   "pt": [

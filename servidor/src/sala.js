@@ -29,7 +29,9 @@ export class SalaPartida {
     if (this.pronta) return this.pronta;
     this.pronta = (async () => {
       this.setup = await this.ctx.storage.get("setup");
-      this.entradas = (await this.ctx.storage.get("entradas")) || [];
+      this.entradas = (await this.ctx.storage.get("entradas")) || [];     // salas antigas: lista inteira numa chave
+      const novas = await this.ctx.storage.list({ prefix: "in:" });          // novas: uma chave por entrada (in:000001...)
+      for (const e of novas.values()) this.entradas.push(e);
       this.ultN = (await this.ctx.storage.get("ultN")) || [0, 0];
       this.quedaDesde = (await this.ctx.storage.get("quedaDesde")) || [0, 0];
       this.ultEmote = [0, 0];
@@ -124,7 +126,7 @@ export class SalaPartida {
       if (!this.fila[j].length) break;
       const d = this.fila[j].shift();
       const pub = this.publica(j, this.pedido, d);
-      this.empurrar(j, { eu: { pedido: this.pedido.tipo, d, mao: this.p.mao[j].map((c) => c.id), fe: this.p.fe[j] } });   // eco para o próprio (refazer a partida ao voltar; a mão é dele)
+      this.empurrar(j, { eu: { pedido: this.pedido.tipo, d, fe: this.p.fe[j] } });   // eco para o próprio (refazer a partida ao voltar)
       this.empurrar(1 - j, { a: pub });                       // o adversário vê a jogada antes do que ela causa
       const r = this.g.next(d);
       this.coletarRevelacoes();
@@ -171,8 +173,8 @@ export class SalaPartida {
     this.avancar();
   }
   async aceitar(e) {
-    this.entradas.push(e);
-    await this.ctx.storage.put({ entradas: this.entradas, ultN: this.ultN });
+    this.entradas.push(e);                                    // grava só a entrada nova (antes regravava a lista inteira)
+    await this.ctx.storage.put({ ["in:" + String(this.entradas.length).padStart(6, "0")]: e, ultN: this.ultN });
     this.aplicar(e);
   }
 
@@ -259,6 +261,8 @@ export class SalaPartida {
     if (url.pathname.endsWith("/estado")) return Response.json({ ok: true, acabou: this.p.acabou, vencedor: this.p.vencedor });
     if (req.headers.get("upgrade") !== "websocket" || (j !== 0 && j !== 1)) return new Response("use WebSocket", { status: 426 });
     const par = new WebSocketPair();
+    // um aparelho por lado: o que chegou agora vale; o anterior (outro celular da mesma conta, ou socket zumbi) é fechado
+    for (const w of this.ctx.getWebSockets("j" + j)) { try { w.close(4001, "outro aparelho entrou"); } catch (e) { /* já fechou */ } }
     this.ctx.acceptWebSocket(par[1], ["j" + j]);
     await this.agendar();
     return new Response(null, { status: 101, webSocket: par[0] });

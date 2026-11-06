@@ -136,6 +136,13 @@ static func grande() -> int:
 const TAM := 10                       # tamanho da fonte por esc (maiúscula ≈ 7,1 px, a mesma altura da fonte pixel 5×7)
 const BASE := 7.2                      # da linha de cima (pos.y) até a linha de base, por esc
 static var _f: Font
+## "Texto grande" (acessibilidade): todo texto de interface no tamanho normal (esc 1) cresce por este fator; os que
+## já vêm em esc 2 (lore, painel da carta) ficam como estão. A Sessao ajusta ao ligar/desligar a opção.
+static var fator := 1.0
+
+
+static func _e(esc: float) -> float:
+	return esc * fator if esc <= 1.0 else esc
 
 
 static func fonte() -> Font:
@@ -152,8 +159,8 @@ static func tinta_v(s: String) -> Vector2i:
 	return Vector2i(0, 6)
 
 
-static func largura(s: String, esc := 1) -> int:
-	return ceili(fonte().get_string_size(s, HORIZONTAL_ALIGNMENT_LEFT, -1, TAM * esc).x)
+static func largura(s: String, esc: float = 1.0) -> int:
+	return ceili(fonte().get_string_size(s, HORIZONTAL_ALIGNMENT_LEFT, -1, int(roundf(TAM * _e(esc)))).x)
 
 
 static func _largura(s: String) -> int:
@@ -161,16 +168,28 @@ static func _largura(s: String) -> int:
 
 
 ## pos = topo-esquerda da linha (7 px de altura por esc). sombra: contorno suave + 1 px de sombra embaixo.
-static func desenhar(ci: CanvasItem, pos: Vector2, s: String, cor: Color, sombra := Color(0, 0, 0, 0), esc := 1) -> void:
+static func desenhar(ci: CanvasItem, pos: Vector2, s: String, cor: Color, sombra := Color(0, 0, 0, 0), esc: float = 1.0) -> void:
 	var f := fonte()
-	var p := Vector2(pos.x, pos.y + BASE * esc)
+	var e := _e(esc)
+	var tam := int(roundf(TAM * e))
+	var p := Vector2(pos.x, pos.y + BASE * e)
 	if sombra.a > 0.0:
-		ci.draw_string_outline(f, p + Vector2(0, 0.6 * esc), s, HORIZONTAL_ALIGNMENT_LEFT, -1, TAM * esc, 2 * esc, sombra)
-	ci.draw_string(f, p, s, HORIZONTAL_ALIGNMENT_LEFT, -1, TAM * esc, cor)
+		ci.draw_string_outline(f, p + Vector2(0, 0.6 * e), s, HORIZONTAL_ALIGNMENT_LEFT, -1, tam, int(ceilf(2 * e)), sombra)
+	ci.draw_string(f, p, s, HORIZONTAL_ALIGNMENT_LEFT, -1, tam, cor)
+
+
+## Corta com "…" o que não cabe em `larg` px.
+static func cortar(s: String, larg: int, esc: float = 1.0) -> String:
+	if largura(s, esc) <= larg:
+		return s
+	var t := s
+	while t.length() > 1 and largura(t + "…", esc) > larg:
+		t = t.substr(0, t.length() - 1)
+	return t.strip_edges() + "…"
 
 
 ## Quebra por largura real em px (esc: tamanho do texto, a largura disponível não muda).
-static func quebrar(s: String, larg: int, esc := 1) -> PackedStringArray:
+static func quebrar(s: String, larg: int, esc: float = 1.0) -> PackedStringArray:
 	var out := PackedStringArray()
 	var atual := ""
 	for p in s.split(" ", false):

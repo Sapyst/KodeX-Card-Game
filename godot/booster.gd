@@ -481,8 +481,9 @@ func desenhar_loja() -> void:
 	var linhas := [Sessao.t("3 cartas de todas as tradições") if trad == "" else Sessao.t("cada carta: 70% de %s") % Sessao.nome_deck(trad),
 		Sessao.t("Lendária: 5% por carta  ·  Foil: 2%"),
 		Sessao.t("Lendária garantida no próximo booster") if falta <= 1 else Sessao.t("Lendária garantida em até %d boosters") % falta]
+	var passo := 11.0 * Fonte57.fator if Sessao.texto_grande else 12.0     # texto grande: cabe entre o Pacote e o Abrir
 	for k in linhas.size():
-		f._texto_central(Vector2(180, 474 + k * 12), linhas[k], Color(0.81, 0.88, 1.0, 0.85))
+		f._texto_central(Vector2(180, (476.0 if Sessao.texto_grande else 474.0) + k * passo), linhas[k], Color(0.81, 0.88, 1.0, 0.85))
 	var m := str(Sessao.moedas())
 	f.mp.moeda(Vector2(338 - Fonte57.largura(m) - 10, 18))
 	Fonte57.desenhar(f, Vector2(340 - Fonte57.largura(m), 15), m, f.OURO[0], f.ESCURO)

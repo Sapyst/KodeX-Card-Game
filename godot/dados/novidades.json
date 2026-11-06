@@ -1,5 +1,21 @@
 [
  {
+  "versao": "0.20.16-alpha",
+  "data": "06/11/2026",
+  "pt": [
+   "Texto grande (Opções) agora vale para a interface inteira: botões, missões, histórico, Solo, perfil, Coleção, editor de deck e a prévia de dano na mesa (CAUSA/SOFRE em 2×). Os textos de interface crescem 35%; lore e painel da carta continuam em 2×.",
+   "Com texto grande, os botões das Opções ficam mais largos e as linhas do Histórico mais afastadas."
+  ],
+  "en": [
+   "Large text (Options) now applies to the whole interface: buttons, missions, history, Solo, profile, Collection, deck editor and the damage preview on the board (DEALS/TAKES at 2×). Interface text grows 35%; lore and the card panel stay at 2×.",
+   "With large text, Options buttons get wider and History lines further apart."
+  ],
+  "es": [
+   "Texto grande (Opciones) ahora vale para toda la interfaz: botones, misiones, historial, Solo, perfil, Colección, editor de mazo y la vista previa de daño en la mesa (CAUSA/SUFRE a 2×). Los textos de interfaz crecen un 35%; el lore y el panel de la carta siguen a 2×.",
+   "Con texto grande, los botones de Opciones son más anchos y las líneas del Historial quedan más separadas."
+  ]
+ },
+ {
   "versao": "0.20.15-alpha",
   "data": "06/11/2026",
   "pt": [

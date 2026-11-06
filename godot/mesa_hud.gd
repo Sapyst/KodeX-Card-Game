@@ -389,20 +389,22 @@ func _desenhar_previa() -> void:
 	if alvo == null or not is_instance_valid(alvo) or atk == null or not is_instance_valid(atk):
 		return
 	# painel acima da carta arrastada (ela cobre o alvo): CAUSA x (+ MATA) / SOFRE y (+ MORRE)
-	var pc: Vector2 = (atk as Carta).position + Vector2(0, -58)
+	var e := 2 if Sessao.texto_grande else 1                    # texto grande: prévia em 2×
+	var lh := 11 * e
+	var pc: Vector2 = (atk as Carta).position + Vector2(0, -58 - (lh - 11))
 	var l1 := Sessao.t("CAUSA %d") % int(previa["da"])
 	var l2 := Sessao.t("SOFRE %d") % int(previa["dd"])
-	var w := maxf(PixelFonte.largura(l1), PixelFonte.largura(l2)) + 30
-	var r := Rect2(pc.x - w / 2.0, pc.y - 13, w, 26)
+	var w := maxf(PixelFonte.largura(l1, e), PixelFonte.largura(l2, e)) + 30
+	var r := Rect2(pc.x - w / 2.0, pc.y - lh - 2, w, 2 * lh + 4)
 	draw_rect(r.grow(1), ESCURO)
 	draw_rect(r, Color(0.12, 0.07, 0.09, 0.92))
 	draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), Color(OURO[2], 0.8))
-	PixelFonte.desenhar(self, r.position + Vector2(6, 4), l1, Color(1.0, 0.45, 0.4, pulso))
-	PixelFonte.desenhar(self, r.position + Vector2(6, 15), l2, Color(1.0, 0.75, 0.55) if int(previa["dd"]) > 0 else Color(0.7, 0.66, 0.6))
+	PixelFonte.desenhar(self, r.position + Vector2(6, 4), l1, Color(1.0, 0.45, 0.4, pulso), e)
+	PixelFonte.desenhar(self, r.position + Vector2(6, 4 + lh), l2, Color(1.0, 0.75, 0.55) if int(previa["dd"]) > 0 else Color(0.7, 0.66, 0.6), e)
 	if previa["letal_alvo"]:
 		_caveira(Vector2(r.end.x - 9, r.position.y + 8), pulso)
 	if previa["letal_atk"]:
-		_caveira(Vector2(r.end.x - 9, r.position.y + 19), pulso)
+		_caveira(Vector2(r.end.x - 9, r.position.y + 8 + lh), pulso)
 
 
 func _caveira(c: Vector2, a: float) -> void:

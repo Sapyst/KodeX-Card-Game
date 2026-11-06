@@ -493,27 +493,29 @@ func _ir(novo: String) -> void:
 				_avisos_feitos = true
 				get_tree().create_timer(0.5).timeout.connect(_avisos_titulo)
 		"opcoes":
+			var ox := 65.0 if Sessao.texto_grande else 90.0        # texto grande: botões mais largos
+			var ow := 230.0 if Sessao.texto_grande else 180.0
 			_botao(Rect2(110, 150, 140, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("opcoes"), {"idioma": true})
-			_botao(Rect2(90, 190, 180, 26), "Som: ligado" if Sessao.som else "Som: desligado",
+			_botao(Rect2(ox, 190, ow, 26), "Som: ligado" if Sessao.som else "Som: desligado",
 				func() -> void: Sessao.alternar_som(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 222, 180, 26), "Vibração: ligada" if Sessao.vibracao else "Vibração: desligada",
+			_botao(Rect2(ox, 222, ow, 26), "Vibração: ligada" if Sessao.vibracao else "Vibração: desligada",
 				func() -> void: Sessao.alternar_vibracao(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 254, 180, 26), Sessao.t("Animações: %s") % Sessao.rotulo_velocidade(),
+			_botao(Rect2(ox, 254, ow, 26), Sessao.t("Animações: %s") % Sessao.rotulo_velocidade(),
 				func() -> void: Sessao.alternar_animacao(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 286, 180, 26), "Texto: grande" if Sessao.texto_grande else "Texto: normal",
+			_botao(Rect2(ox, 286, ow, 26), "Texto: grande" if Sessao.texto_grande else "Texto: normal",
 				func() -> void: Sessao.alternar_texto(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 318, 180, 26), "Modo daltônico: ligado" if Sessao.daltonico else "Modo daltônico: desligado",
+			_botao(Rect2(ox, 318, ow, 26), "Modo daltônico: ligado" if Sessao.daltonico else "Modo daltônico: desligado",
 				func() -> void: Sessao.alternar_daltonico(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 350, 180, 26), "Tempo por turno: 75 s" if Sessao.tempo_turno else "Tempo por turno: sem limite",
+			_botao(Rect2(ox, 350, ow, 26), "Tempo por turno: 75 s" if Sessao.tempo_turno else "Tempo por turno: sem limite",
 				func() -> void: Sessao.alternar_tempo_turno(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 382, 180, 26), "Confirmar FIM TURNO: ligado" if Sessao.confirmar_fim else "Confirmar FIM TURNO: desligado",
+			_botao(Rect2(ox, 382, ow, 26), "Confirmar FIM TURNO: ligado" if Sessao.confirmar_fim else "Confirmar FIM TURNO: desligado",
 				func() -> void: Sessao.alternar_confirmar_fim(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(90, 424, 180, 26), "Novidades", abrir_novidades.bind(true))
-			_botao(Rect2(90, 456, 180, 26), "Privacidade", abrir_privacidade)
+			_botao(Rect2(ox, 424, ow, 26), "Novidades", abrir_novidades.bind(true))
+			_botao(Rect2(ox, 456, ow, 26), "Privacidade", abrir_privacidade)
 			var ne := RegistroErros.quantos()
-			_botao(Rect2(90, 488, 180, 26), (Sessao.t("Relatório de erros") + " (%d)" % ne) if ne > 0 else Sessao.t("Nenhum erro registrado"), _relatorio_erros)
+			_botao(Rect2(ox, 488, ow, 26), (Sessao.t("Relatório de erros") + " (%d)" % ne) if ne > 0 else Sessao.t("Nenhum erro registrado"), _relatorio_erros)
 			if Nuvem.url != "":                          # conta na nuvem (só quando há servidor)
-				_botao(Rect2(90, 520, 180, 26), "Sincronizar conta", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
+				_botao(Rect2(ox, 520, ow, 26), "Sincronizar conta", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
@@ -2417,7 +2419,7 @@ func _desenhar_fala(f: Dictionary) -> void:
 func _texto_central(c: Vector2, s: String, cor: Color, esc: int = 1) -> void:
 	if esc == 1:                                       # centrado em x pela largura e em y pela tinta real do texto
 		var tv := Fonte57.tinta_v(s)
-		Fonte57.desenhar(self, Vector2(roundf(c.x - Fonte57.largura(s) / 2.0), roundf(c.y - (tv.x + tv.y + 1) / 2.0)), s, cor, ESCURO)
+		Fonte57.desenhar(self, Vector2(roundf(c.x - Fonte57.largura(s) / 2.0), roundf(c.y - (tv.x + tv.y + 1) * Fonte57.fator / 2.0)), s, cor, ESCURO)
 	else:
 		PixelFonte.centrado(self, c, s, cor, esc, ESCURO)
 

@@ -114,7 +114,7 @@ func _barra(r: Rect2, frac: float, cor: Color) -> void:
 func _linha_missao(_b: Dictionary, r: Rect2, pressao: float, escopo: String, m: Dictionary, _k: int) -> void:
 	var feita := Progresso.feita(escopo, str(m["id"]))
 	var dd: Rect2 = f._painel(r, feita, pressao, Color("#2a2010") if feita else Color("#1e161e"))
-	var tx := Progresso.texto(m)
+	var tx := Fonte57.cortar(Progresso.texto(m), int(dd.size.x) - 16 - (64 if escopo == "dia" else 0))   # não invade o "trocar"
 	Fonte57.desenhar(f, dd.position + Vector2(8, 4), tx, f.OURO[0] if feita else f.CREME, f.ESCURO)
 	var prem := {}
 	for k in ["moedas", "booster", "koins"]:
@@ -123,7 +123,8 @@ func _linha_missao(_b: Dictionary, r: Rect2, pressao: float, escopo: String, m: 
 	var andamento := Progresso.andamento(escopo, m)
 	var alvo := int(m["alvo"])
 	_barra(Rect2(dd.position + Vector2(8, 18), Vector2(150, 5)), float(andamento) / alvo, Color("#3a8a4a") if feita else f.OURO[1])
-	Fonte57.desenhar(f, dd.position + Vector2(164, 15), "%d/%d" % [andamento, alvo], Color(0.72, 0.66, 0.6), f.ESCURO)
+	var ct := "%d/%d" % [andamento, alvo]
+	Fonte57.desenhar(f, dd.position + Vector2(dd.size.x - 8 - Fonte57.largura(ct), 26), ct, Color(0.72, 0.66, 0.6), f.ESCURO)   # à direita, na linha do prêmio
 	Fonte57.desenhar(f, dd.position + Vector2(8, 26), Progresso.premio_txt(prem) + ("  ·  " + Sessao.t("feita") if feita else ""),
 		Color("#9ad08a") if feita else Color("#e0c88a"), f.ESCURO)
 
@@ -149,7 +150,9 @@ func _desenhar_nivel() -> void:
 		Fonte57.desenhar(f, Vector2(90, 268 + k * 14), Progresso.premio_txt(Progresso.premio_nivel(n)), Color("#e0c88a"), f.ESCURO)
 	PixelFonte.desenhar(f, Vector2(18, 340), Sessao.t("TÍTULOS  (TOQUE PARA USAR)"), f.OURO[0])
 	if (Sessao.perfil.get("titulos", []) as Array).is_empty():
-		f._texto_central(Vector2(180, 372), Sessao.t("Ganhe títulos subindo de nível, nas conquistas e na maestria."), Color(0.72, 0.66, 0.6))
+		var ls := Fonte57.quebrar(Sessao.t("Ganhe títulos subindo de nível, nas conquistas e na maestria."), 320)
+		for k in ls.size():
+			f._texto_central(Vector2(180, 372 + k * 12 * Fonte57.fator), ls[k], Color(0.72, 0.66, 0.6))
 
 
 func _botao_titulo(_b: Dictionary, r: Rect2, pressao: float, id: String) -> void:
@@ -181,8 +184,9 @@ func _desenhar_maestria() -> void:
 		_barra(Rect2(dd.position + Vector2(50, 18), Vector2(dd.size.x - 58, 5)), 1.0 if n >= lim.size() else float(x - ant) / float(prox - ant), f.OURO[1])
 		var sub := Sessao.t("máxima!") if n >= lim.size() else ("%d / %d XP  ·  " % [x, prox] + Sessao.t("próximo: ") +
 			Progresso.premio_txt(_premio_maestria(t, n + 1)))
-		Fonte57.desenhar(f, dd.position + Vector2(50, 28), sub, Color("#e0c88a"), f.ESCURO)
-		Fonte57.desenhar(f, dd.position + Vector2(50, 40), Sessao.t("XP das partidas com um deck desta tradição"), Color(0.6, 0.55, 0.55), f.ESCURO)
+		var lw := int(dd.size.x) - 56
+		Fonte57.desenhar(f, dd.position + Vector2(50, 28), Fonte57.cortar(sub, lw), Color("#e0c88a"), f.ESCURO)
+		Fonte57.desenhar(f, dd.position + Vector2(50, 40), Fonte57.cortar(Sessao.t("XP das partidas com um deck desta tradição"), lw), Color(0.6, 0.55, 0.55), f.ESCURO)
 		k += 1
 
 
@@ -206,7 +210,8 @@ func _linha_conquista(_b: Dictionary, r: Rect2, pressao: float, c: Dictionary) -
 	Fonte57.desenhar(f, dd.position + Vector2(8, 4), Progresso.texto(c), f.OURO[0] if feita else f.CREME, f.ESCURO)
 	var v := mini(Progresso.valor(str(c["cont"])), int(c["alvo"]))
 	_barra(Rect2(dd.position + Vector2(8, 18), Vector2(150, 5)), float(v) / float(c["alvo"]), Color("#3a8a4a") if feita else f.OURO[1])
-	Fonte57.desenhar(f, dd.position + Vector2(164, 15), "%d/%d" % [v, int(c["alvo"])], Color(0.72, 0.66, 0.6), f.ESCURO)
+	var ct := "%d/%d" % [v, int(c["alvo"])]
+	Fonte57.desenhar(f, dd.position + Vector2(dd.size.x - 8 - Fonte57.largura(ct), 26), ct, Color(0.72, 0.66, 0.6), f.ESCURO)
 	var r2 := {"moedas": int(c.get("moedas", 0))}
 	if c.has("titulo"):
 		r2["titulo"] = c["titulo"]

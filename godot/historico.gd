@@ -53,15 +53,16 @@ func desenhar() -> void:
 	var ia: Dictionary = contra.get("ia", {})
 	var jg: Dictionary = contra.get("jogador", {})
 	var y := 92.0
+	var lf := Fonte57.fator                              # texto grande: linhas mais afastadas
 	f._texto_central(Vector2(180, y), Sessao.t("Contra a IA: %d  ·  %s") % [_total(ia), _placar(ia)], f.CREME)
-	f._texto_central(Vector2(180, y + 13), Sessao.t("Contra jogadores: %d  ·  %s") % [_total(jg), _placar(jg)], Color("#9ad0ff"))
+	f._texto_central(Vector2(180, y + 13 * lf), Sessao.t("Contra jogadores: %d  ·  %s") % [_total(jg), _placar(jg)], Color("#9ad0ff"))
 	var modos: Dictionary = e.get("modos", {})
 	var partes := PackedStringArray()
 	for m in modos:
 		partes.append("%s %d" % [nome_modo(m), _total(modos[m])])
 	var linhas := Fonte57.quebrar("  ·  ".join(partes) if not partes.is_empty() else Sessao.t("Nenhuma partida ainda."), 330)
 	for k in mini(linhas.size(), 3):
-		f._texto_central(Vector2(180, y + 30 + k * 11), linhas[k], Color(0.72, 0.66, 0.6))
+		f._texto_central(Vector2(180, y + 30 * lf + k * 11 * lf), linhas[k], Color(0.72, 0.66, 0.6))
 	var adv: Dictionary = e.get("adversarios", {})
 	var top := ""
 	var topn := 0

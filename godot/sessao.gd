@@ -121,6 +121,7 @@ func _ready() -> void:
 	if OS.get_environment("GD_ACESS") != "":             # teste: "texto,dalt"
 		texto_grande = OS.get_environment("GD_ACESS").contains("texto")
 		daltonico = OS.get_environment("GD_ACESS").contains("dalt")
+	Fonte57.fator = FATOR_TEXTO if texto_grande else 1.0
 	if OS.get_environment("GD_PACOTE") != "":            # teste: pacote escolhido na loja
 		perfil["pacote"] = OS.get_environment("GD_PACOTE").replace("todas", "")
 	if OS.get_environment("GD_VERSO") != "":             # teste: equipa um verso e dá Koins
@@ -173,7 +174,8 @@ func carregar_dados() -> void:
 var vibracao := true
 var som := true                         # efeitos sonoros (autoload Som)
 var animacao_rapida := false
-var texto_grande := false              # acessibilidade: textos longos em 2× (Fonte57.grande)
+var texto_grande := false              # acessibilidade: textos longos em 2× (Fonte57.grande) e interface ×1,35 (Fonte57.fator)
+const FATOR_TEXTO := 1.35
 var tempo_turno := true                # limite de 75 s por turno contra a IA (online é sempre ligado)
 var daltonico := false                 # acessibilidade: cores de destaque trocadas por pares azul/laranja + ícones
 const VEL_RAPIDA := 1.5
@@ -212,6 +214,7 @@ func alternar_tempo_turno() -> void:
 func alternar_texto() -> void:
 	texto_grande = not texto_grande
 	_gravar_opcao("texto_grande", texto_grande)
+	Fonte57.fator = FATOR_TEXTO if texto_grande else 1.0
 
 
 func alternar_daltonico() -> void:

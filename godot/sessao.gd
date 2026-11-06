@@ -100,6 +100,10 @@ func _ready() -> void:
 		som = bool(cfg.get_value("geral", "som", true))
 		texto_grande = bool(cfg.get_value("geral", "texto_grande", false))
 		tempo_turno = bool(cfg.get_value("geral", "tempo_turno", true))
+		tempo_ia = int(cfg.get_value("geral", "tempo_ia", 75 if tempo_turno else 0))
+		if not tempo_ia in TEMPOS_IA:
+			tempo_ia = 75
+		tempo_turno = tempo_ia > 0
 		daltonico = bool(cfg.get_value("geral", "daltonico", false))
 		animacao_rapida = bool(cfg.get_value("geral", "animacao_rapida", false))
 		velocidade = float(cfg.get_value("geral", "velocidade", VEL_RAPIDA if animacao_rapida else 1.0))
@@ -176,7 +180,9 @@ var som := true                         # efeitos sonoros (autoload Som)
 var animacao_rapida := false
 var texto_grande := false              # acessibilidade: textos longos em 2× (Fonte57.grande) e interface ×1,35 (Fonte57.fator)
 const FATOR_TEXTO := 1.35
-var tempo_turno := true                # limite de 75 s por turno contra a IA (online é sempre ligado)
+var tempo_turno := true                # há limite de tempo por turno contra a IA (online é sempre 75 s)
+const TEMPOS_IA := [45, 75, 120, 0]    # segundos por turno contra a IA (0 = sem limite)
+var tempo_ia := 75
 var daltonico := false                 # acessibilidade: cores de destaque trocadas por pares azul/laranja + ícones
 const VEL_RAPIDA := 1.5
 const VELOCIDADES := [1.0, 1.5, 2.0]
@@ -207,8 +213,14 @@ func alternar_som() -> void:
 
 
 func alternar_tempo_turno() -> void:
-	tempo_turno = not tempo_turno
+	tempo_ia = TEMPOS_IA[(TEMPOS_IA.find(tempo_ia) + 1) % TEMPOS_IA.size()]
+	tempo_turno = tempo_ia > 0
+	_gravar_opcao("tempo_ia", tempo_ia)
 	_gravar_opcao("tempo_turno", tempo_turno)
+
+
+func rotulo_tempo() -> String:
+	return ("%d s" % tempo_ia) if tempo_ia > 0 else t("sem limite")
 
 
 func alternar_texto() -> void:
@@ -248,7 +260,13 @@ func definir_rapido_ia(v: bool) -> void:
 
 
 func trocar_idioma() -> void:
-	idioma = IDIOMAS[(IDIOMAS.find(idioma) + 1) % IDIOMAS.size()]
+	definir_idioma(IDIOMAS[(IDIOMAS.find(idioma) + 1) % IDIOMAS.size()])
+
+
+func definir_idioma(novo: String) -> void:
+	if not novo in IDIOMAS:
+		return
+	idioma = novo
 	var cfg := ConfigFile.new()
 	cfg.load(CONFIG)
 	cfg.set_value("geral", "idioma", idioma)
@@ -1016,6 +1034,17 @@ func eh_nova(cid: String) -> bool:
 func vista(cid: String) -> void:
 	if eh_nova(cid):
 		(perfil["novas"] as Dictionary).erase(cid)
+		salvar()
+
+
+## Várias de uma vez (as que apareceram na tela da Coleção): um salvar só.
+func vistas(cids: Array) -> void:
+	var mudou := false
+	for cid in cids:
+		if eh_nova(cid):
+			(perfil["novas"] as Dictionary).erase(cid)
+			mudou = true
+	if mudou:
 		salvar()
 const CHANCE_FOIL := 0.02          # 1 em 50 cartas; só cartas com arte foil aprovada (assets/carta_foil)
 const CHANCE_LENDARIA := 0.05

@@ -1084,6 +1084,10 @@ func pressionar(p: Vector2) -> void:
 			Sessao.vibrar(10, 0.4)
 			Som.tocar("turno_fim_botao", "fim")
 			fim_turno_pedido.emit()
+		elif ativo == 0 and ocupado and not acabou:   # animação em curso: avisa em vez de ignorar o toque
+			if Time.get_ticks_msec() - _aguarde_ms > 900:
+				_aguarde_ms = Time.get_ticks_msec()
+				efeitos.numero(botao_fim.get_center() + Vector2(0, -22), "AGUARDE", Color("#ffd0a0"), 1)
 		elif ativo == 1 and not acabou:            # turno do oponente: liga/desliga o modo rápido (fica lembrado)
 			acelerar_ia = not acelerar_ia
 			Sessao.definir_rapido_ia(acelerar_ia)
@@ -1123,6 +1127,7 @@ func mover(p: Vector2) -> void:
 
 func soltar(p: Vector2) -> void:
 	ponteiro = p
+	hud.soltar()
 	if carrossel.aberto():
 		carrossel.soltar(p)
 		return
@@ -1273,6 +1278,8 @@ func _soltar_do_campo(c: Carta, p: Vector2) -> void:
 		await _voltar_ao_espaco(c)
 		await _golpe_direto(c, 1)
 	else:
+		if c.virada_para_cima and p.y < LINHA_Y and not _campo_vazio(1):     # soltou na área vazia com defensores no campo
+			efeitos.numero(c.position + Vector2(0, -40), "HÁ DEFENSORES", Color("#ffd0a0"), 1)
 		await _recusar(c)
 
 
@@ -1889,6 +1896,7 @@ func _conta(d: int, k: String) -> void:
 	estat[d][k] = int(estat[d].get(k, 0)) + 1
 var zoom_travado := false
 var _ignorar_soltar := false             # carta ampliada fica aberta até o próximo toque
+var _aguarde_ms := -10000                # último aviso AGUARDE no FIM TURNO
 var zoom_pendente: Carta = null
 var zoom_t := 0.0
 var zoom_ini := Vector2.ZERO
@@ -2117,7 +2125,8 @@ func _comprar(d: int) -> void:
 			sim = not (cemit[d].size() < 3 and cornucopia[d] < 10)
 			_enviar({"tipo": "sim", "v": sim})
 		elif motor.humano(d):
-			sim = await pedir_sim_nao("DECK VAZIO", "REEMBARALHAR O CEMITÉRIO: -%d CORNUCÓPIA" % CUSTO_REEMBARALHAR,
+			var nc: int = cemit[d].filter(func(e: Dictionary) -> bool: return not e["dados"].get("token", false)).size()
+			sim = await pedir_sim_nao("DECK VAZIO", "REEMBARALHAR %d CARTAS: -%d CORNUCÓPIA" % [nc, CUSTO_REEMBARALHAR],
 				"REEMBARALHAR", "NÃO  (-2)")
 			_enviar({"tipo": "sim", "v": sim})
 		elif cemit[d].size() < 3 and cornucopia[d] < 10:
@@ -2413,10 +2422,16 @@ func _primeiro_ocupado(d: int) -> int:
 	return -1
 
 
+var _vitrine_vistas := {}
+
+
 func _vitrine(c: Carta, dur := 1.15, cor := Color("#ffe39a")) -> void:
 	var tex := Carta.textura(Sessao.pasta("carta"), c.id, "webp")
 	if tex == null or acabou:
 		return
+	if _vitrine_vistas.has(c.id):                       # já vista nesta partida: passa mais rápido
+		dur = minf(dur, 0.6)
+	_vitrine_vistas[c.id] = true
 	efeitos.vitrine = {"tex": tex, "de": c.global_position, "t": 0.0, "dur": dur, "cor": cor}
 	if c.tipo != "selo" and c.tipo != "rito":            # Selo e Rito já têm som próprio
 		Som.tocar("vitrine_carta", "ameaca" if c.dono == 1 else "comum")
@@ -3462,10 +3477,66 @@ func tocar_som(nome: String) -> void:
 		_som.play()
 
 
+## Prévia ao arrastar da mão: Rito de dano (no alvo sob o dedo ou na Cornucópia) e Relíquia (+ATK/+VIDA e palavras-chave
+## na portadora sob o dedo). Uma linha só, acima da carta arrastada.
+func _previa_da_mao(c: Carta) -> void:
+	if not modo_partida or _motivo_jogar(c, 0) != "":
+		return
+	if c.tipo == "reliquia":
+		var port = _carta_sob(ponteiro, _portadoras(0))
+		if port == null:
+			return
+		var at := 0
+		var vi := 0
+		var kws := PackedStringArray()
+		for ef in c.dados.get("efeitos", []):
+			if str(ef.get("gatilho", "")) != "on_equip":
+				continue
+			for a in ef["acoes"]:
+				if str(a.get("op", "")) == "buff" and str(a.get("alvo", "")) == "equipped":
+					at += int(a.get("atk", 0))
+					vi += int(a.get("vida", 0))
+				elif str(a.get("op", "")) == "give_keyword":
+					kws.append(Sessao.t(str(a.get("keyword", "")).to_upper()))
+		var txt := "%+d / %+d" % [at, vi]
+		if not kws.is_empty():
+			txt += "  " + " ".join(kws)
+		hud.previa = {"alvo": port, "linha": txt, "cor": Color("#ffe39a"), "letal_alvo": false}
+		return
+	if c.tipo != "rito":
+		return
+	var escolhido_t := MotorEfeitos.alvo_escolhido(c.dados)
+	var cands: Array = motor.candidatos(escolhido_t, 0, c.dados) if escolhido_t != "" else []
+	var i := _inimigo_sob(ponteiro)
+	var n_ent := 0
+	var n_corn := 0
+	for ef in c.dados.get("efeitos", []):
+		if str(ef.get("gatilho", "")) != "on_play":
+			continue
+		for a in ef["acoes"]:
+			if str(a.get("op", "")) != "damage":
+				continue
+			var al := str(a.get("alvo", ""))
+			if al.contains("cornucopia") and al.begins_with("enemy"):
+				n_corn += int(a.get("n", 0))
+			elif i >= 0 and (al in ["all_enemy_entities", "all_entities"] or (al == escolhido_t and campo_ent[1][i] in cands)):
+				n_ent += int(a.get("n", 0))
+	if i >= 0 and n_ent > 0:
+		var e: Carta = campo_ent[1][i]
+		hud.previa = {"alvo": e, "linha": Sessao.t("CAUSA %d") % n_ent, "cor": Color(1.0, 0.45, 0.4), "letal_alvo": e.vida() - n_ent <= 0}
+	elif i < 0 and n_corn > 0 and ponteiro.y < LINHA_Y:
+		hud.previa = {"direto": true, "da": n_corn}
+
+
 ## Prévia ao arrastar uma Entidade do campo: dano dos dois lados e caveira em quem morre (ou o motivo da recusa).
 func _atualizar_previa() -> void:
 	hud.previa = {}
-	if segurando == null or origem != "campo" or not segurando.virada_para_cima or ativo != 0:
+	if segurando == null or not segurando.virada_para_cima or ativo != 0:
+		return
+	if origem == "mao":
+		_previa_da_mao(segurando)
+		return
+	if origem != "campo":
 		return
 	var c := segurando
 	var i := _inimigo_sob(ponteiro)
@@ -3596,7 +3667,16 @@ func _resumo() -> void:
 		b.append(["destaque", "+%d" % ganho, "moeda"])
 		b.append(["centro", Sessao.t("moedas da partida online")])
 	_blocos_progresso(b)
-	perg.abrir(b)
+	if vencedor == 1 and not auto_jogador and not (Sessao.modo in ["online", "bot", "tutorial", "enigma"]):
+		var ia_l: Dictionary = (Sessao.perfil.get("estat", {}) as Dictionary).get("contra", {}).get("ia", {})
+		if int(ia_l.get("d", 0)) == 1:                          # 1ª derrota contra a IA: uma dica de jogo
+			b.append(["divisor"])
+			b.append(["sub", Sessao.t("Primeira derrota? Uma dica")])
+			b.append(["txt", Sessao.t("Gaste toda a Fé em cada turno, mantenha uma Entidade com Guarda na frente e segure o dedo nas cartas do oponente para ler o que fazem.")])
+	var extra := {}
+	if Sessao.modo in ["arcade", "livre"] and not auto_jogador:   # DE NOVO: mesmo oponente e nível, pelo menu (que paga o prêmio)
+		extra = {"texto": "DE NOVO", "acao": func() -> void: Sessao.extras["de_novo"] = true; perg.fechar()}
+	perg.abrir(b, Callable(), extra)
 	await perg.fechou
 
 
@@ -4090,7 +4170,8 @@ func online_partida() -> bool:
 
 func _iniciar_relogio() -> void:
 	if _limite_turno():
-		restante = TEMPO_TURNO if OS.get_environment("GD_TEMPO_TURNO") == "" else float(OS.get_environment("GD_TEMPO_TURNO"))
+		restante = (TEMPO_TURNO if online_partida() or Sessao.modo == "bot" else float(Sessao.tempo_ia)) \
+			if OS.get_environment("GD_TEMPO_TURNO") == "" else float(OS.get_environment("GD_TEMPO_TURNO"))
 		if OS.get_environment("GD_TEMPO_TURNO") != "":
 			print("RELOGIO turno ", turno_n, " limite ", restante)
 		relogio_ativo = true
@@ -4123,8 +4204,10 @@ func _tempo_esgotado() -> void:
 	Sessao.vibrar_pulsos(2, 40, 0.7)
 	if not alvos_pedidos.is_empty():
 		alvo_tocado.emit(null)
-	if not efeitos.escolha.is_empty():
-		escolhido.emit(efeitos.escolha[efeitos.escolha.size() - 1]["valor"])
+	if not efeitos.escolha.is_empty():                 # a pergunta aberta recebe a última opção, e o jogador vê qual foi
+		var ult: Dictionary = efeitos.escolha[efeitos.escolha.size() - 1]
+		efeitos.numero(Vector2(180, LINHA_Y + 50), Sessao.t(str(ult["texto"])), Color("#ffb070"), 1)
+		escolhido.emit(ult["valor"])
 	if carrossel.aberto():
 		carrossel.selecionado.emit(-1)
 	if segurando != null:

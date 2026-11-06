@@ -454,6 +454,23 @@ func _desenhar_perfil_pronto() -> void:
 	y += 16
 	Fonte57.desenhar(f, Vector2(x, y), (Sessao.t("Kode") + ": " + Nuvem.kode) if Nuvem.kode != "" else Sessao.t("Convidado (sem Kode)"),
 		Color(0.72, 0.66, 0.6), f.ESCURO)
+	# totais por modo e adversário mais enfrentado (voltaram do Histórico para a página)
+	var est: Dictionary = Sessao.perfil.get("estat", {})
+	var modos: Dictionary = est.get("modos", {})
+	if not modos.is_empty():
+		var partes := PackedStringArray()
+		for md in modos:
+			partes.append("%s %d" % [Historico.nome_modo(str(md)), f.hist._total(modos[md])])
+		Fonte57.desenhar(f, Vector2(x, y + 16), Fonte57.cortar("  ·  ".join(partes), 206), Color(0.62, 0.57, 0.62), f.ESCURO)
+	var adv: Dictionary = est.get("adversarios", {})
+	var top := ""
+	var topn := 0
+	for a in adv:
+		if f.hist._total(adv[a]) > topn:
+			topn = f.hist._total(adv[a])
+			top = str(a)
+	if top != "":
+		Fonte57.desenhar(f, Vector2(x, y + 30), Fonte57.cortar(Sessao.t("Mais enfrentado: %s (%d)") % [top, topn], 206), Color("#e0c88a"), f.ESCURO)
 	# placar
 	var contra: Dictionary = (Sessao.perfil.get("estat", {}) as Dictionary).get("contra", {})
 	_caixa_placar(Rect2(22, 238, 154, 44), Sessao.t("CONTRA A IA"), contra.get("ia", {}), f.CREME)
@@ -1283,8 +1300,9 @@ func copiar_codigo() -> void:
 	f.perg.abrir(blocos)
 
 
-## Importa um código: cria um deck novo com as cartas que você tem (as que faltam são contadas no aviso).
-func importar_codigo(c: String) -> void:
+## Importa um código: primeiro mostra a prévia (lista de cartas, quantas faltam) com o botão Importar; confirmado,
+## cria um deck novo com as cartas que você tem (as que faltam são contadas no aviso).
+func importar_codigo(c: String, confirmado := false) -> void:
 	c = c.strip_edges().replace(" ", "").replace("\n", "")
 	if not c.begins_with("KDX1-"):
 		avisar(Sessao.t("Código inválido: copie um código KDX1 antes."))
@@ -1297,6 +1315,24 @@ func importar_codigo(c: String) -> void:
 		avisar(Sessao.t("Código inválido: copie um código KDX1 antes."))
 		return
 	var ids := _ids_ordenados()
+	if not confirmado:
+		var blocos: Array = [["titulo", Sessao.t("Importar deck")]]
+		var total := 0
+		var faltam := 0
+		for k in range(0, b.size(), 3):
+			var idx := int(b[k]) + int(b[k + 1]) * 256
+			if idx >= ids.size():
+				continue
+			var n := int(b[k + 2])
+			var cid: String = ids[idx]
+			total += n
+			var falta := maxi(0, n - Sessao.copias(cid))
+			faltam += falta
+			blocos.append(["txt", "%d× %s" % [n, str(Sessao.db["cartas"][cid]["nome"])] + ((" (" + Sessao.t("falta %d") % falta + ")") if falta > 0 else "")])
+		blocos.append(["divisor"])
+		blocos.append(["centro", Sessao.t("%d cartas") % total + ("  ·  " + Sessao.t("faltam %d que você não tem") % faltam if faltam > 0 else "  ·  " + Sessao.t("você tem todas"))])
+		f.perg.abrir(blocos, Callable(), {"texto": "Importar", "acao": func() -> void: f.perg.fechar(); importar_codigo(c, true)})
+		return
 	var i := _novo_na_gaveta(Sessao.t("Importado"))
 	if i < 0:
 		return

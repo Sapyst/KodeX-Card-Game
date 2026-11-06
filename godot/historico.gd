@@ -98,7 +98,29 @@ func botao_linha(b: Dictionary, r: Rect2, pressao: float) -> void:
 		Color("#7fcf8a") if res == "vitoria" else (Color("#ff8a7a") if res == "derrota" else Color("#a89a8e")))
 
 
-func _nome_carta(cid: String) -> String:
+## Linhas "T3  Você invocou X" de um log [turno, dono, tipo, carta, alvo] (perfil e mesa usam o mesmo formato).
+static func linhas_log(log: Array, adversario: String) -> Array:
+	var b: Array = []
+	for ln in log:
+		var turno := int(ln[0])
+		var quem := Sessao.t("Você") if int(ln[1]) == 0 else adversario
+		var carta := _nome_carta(str(ln[3]))
+		var alvo := _nome_carta(str(ln[4])) if str(ln[4]) != "" else ""
+		var t := ""
+		match str(ln[2]):
+			"entidade": t = Sessao.t("invocou %s") % carta
+			"rito": t = Sessao.t("lançou %s") % carta
+			"reliquia": t = Sessao.t("equipou %s em %s") % [carta, alvo]
+			"selo": t = Sessao.t("colocou um Selo") if int(ln[1]) == 1 else Sessao.t("colocou o Selo %s") % carta
+			"selo_revelado": t = Sessao.t("Selo disparou: %s") % carta
+			"ataque": t = Sessao.t("atacou %s com %s") % [alvo, carta]
+			"golpe": t = Sessao.t("golpeou a Cornucópia com %s") % carta
+			_: t = carta
+		b.append(["txt", "T%d  %s %s" % [turno, quem, t]])
+	return b
+
+
+static func _nome_carta(cid: String) -> String:
 	if cid == "":
 		return "?"
 	if Sessao.db["cartas"].has(cid):
@@ -120,22 +142,7 @@ func abrir_log(k: int) -> void:
 		["item", Sessao.t("Dano causado: %d  ·  recebido: %d") % [int(st.get("dano", 0)), int(st.get("recebido", 0))]],
 		["item", Sessao.t("Entidades destruídas: %d  ·  perdidas: %d") % [int(st.get("mortes", 0)), int(st.get("perdas", 0))]],
 		["sub", Sessao.t("Jogada a jogada")]]
-	for ln in p.get("log", []):
-		var turno := int(ln[0])
-		var quem := Sessao.t("Você") if int(ln[1]) == 0 else str(p.get("adversario", Sessao.t("Oponente")))
-		var carta := _nome_carta(str(ln[3]))
-		var alvo := _nome_carta(str(ln[4])) if str(ln[4]) != "" else ""
-		var t := ""
-		match str(ln[2]):
-			"entidade": t = Sessao.t("invocou %s") % carta
-			"rito": t = Sessao.t("lançou %s") % carta
-			"reliquia": t = Sessao.t("equipou %s em %s") % [carta, alvo]
-			"selo": t = Sessao.t("colocou um Selo") if int(ln[1]) == 1 else Sessao.t("colocou o Selo %s") % carta
-			"selo_revelado": t = Sessao.t("Selo disparou: %s") % carta
-			"ataque": t = Sessao.t("atacou %s com %s") % [alvo, carta]
-			"golpe": t = Sessao.t("golpeou a Cornucópia com %s") % carta
-			_: t = carta
-		b.append(["txt", "T%d  %s %s" % [turno, quem, t]])
+	b.append_array(linhas_log(p.get("log", []), str(p.get("adversario", Sessao.t("Oponente")))))
 	if (p.get("log", []) as Array).is_empty():
 		b.append(["centro", Sessao.t("Sem jogadas registradas.")])
 	f.perg.abrir(b)

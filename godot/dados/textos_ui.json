@@ -3943,5 +3943,145 @@
   "en": "waiting for internet time",
   "pt": "aguardando a hora da internet",
   "es": "esperando la hora de internet"
+ },
+ "DE NOVO": {
+  "en": "AGAIN",
+  "pt": "DE NOVO",
+  "es": "DE NUEVO"
+ },
+ "Primeira derrota? Uma dica": {
+  "en": "First loss? A tip",
+  "pt": "Primeira derrota? Uma dica",
+  "es": "¿Primera derrota? Un consejo"
+ },
+ "Gaste toda a Fé em cada turno, mantenha uma Entidade com Guarda na frente e segure o dedo nas cartas do oponente para ler o que fazem.": {
+  "en": "Spend all your Faith every turn, keep an Entity with Guard up front, and hold your finger on the opponent's cards to read what they do.",
+  "pt": "Gaste toda a Fé em cada turno, mantenha uma Entidade com Guarda na frente e segure o dedo nas cartas do oponente para ler o que fazem.",
+  "es": "Gasta toda la Fe en cada turno, mantén una Entidad con Guardia al frente y mantén el dedo sobre las cartas del rival para leer qué hacen."
+ },
+ "REEMBARALHAR %d CARTAS: -%d CORNUCÓPIA": {
+  "en": "SHUFFLE %d CARDS BACK IN: -%d CORNUCOPIA",
+  "pt": "REEMBARALHAR %d CARTAS: -%d CORNUCÓPIA",
+  "es": "BARAJAR %d CARTAS DE VUELTA: -%d CORNUCOPIA"
+ },
+ "toque para fechar · segure a miniatura para o log inteiro": {
+  "en": "tap to close · hold the thumbnail for the full log",
+  "pt": "toque para fechar · segure a miniatura para o log inteiro",
+  "es": "toca para cerrar · mantén la miniatura para el registro completo"
+ },
+ "Derrota: a Peregrinação termina aqui.": {
+  "en": "Loss: the Pilgrimage ends here.",
+  "pt": "Derrota: a Peregrinação termina aqui.",
+  "es": "Derrota: la Peregrinación termina aquí."
+ },
+ "Derrota: a tentativa de hoje acaba.": {
+  "en": "Loss: today's attempt is over.",
+  "pt": "Derrota: a tentativa de hoje acaba.",
+  "es": "Derrota: el intento de hoy se acaba."
+ },
+ "Derrota: conta no Torneio.": {
+  "en": "Loss: it counts in the Tournament.",
+  "pt": "Derrota: conta no Torneio.",
+  "es": "Derrota: cuenta en el Torneo."
+ },
+ "Derrota: o adversário vence a partida.": {
+  "en": "Loss: your opponent wins the match.",
+  "pt": "Derrota: o adversário vence a partida.",
+  "es": "Derrota: el rival gana la partida."
+ },
+ "Derrota: o desafio fica para outra vez.": {
+  "en": "Loss: the challenge waits for another time.",
+  "pt": "Derrota: o desafio fica para outra vez.",
+  "es": "Derrota: el desafío queda para otra vez."
+ },
+ "Volta para a lista de Enigmas.": {
+  "en": "Back to the Puzzles list.",
+  "pt": "Volta para a lista de Enigmas.",
+  "es": "Vuelve a la lista de Enigmas."
+ },
+ "sem limite": {
+  "en": "no limit",
+  "pt": "sem limite",
+  "es": "sin límite"
+ },
+ "Tempo por turno: %s": {
+  "en": "Turn timer: %s",
+  "pt": "Tempo por turno: %s",
+  "es": "Tiempo por turno: %s"
+ },
+ "JOGO": {
+  "en": "GAME",
+  "pt": "JOGO",
+  "es": "JUEGO"
+ },
+ "ACESSIBILIDADE": {
+  "en": "ACCESSIBILITY",
+  "pt": "ACESSIBILIDADE",
+  "es": "ACCESIBILIDAD"
+ },
+ "CONTA E INFORMAÇÕES": {
+  "en": "ACCOUNT AND INFO",
+  "pt": "CONTA E INFORMAÇÕES",
+  "es": "CUENTA E INFORMACIÓN"
+ },
+ "jogo, acessibilidade e conta": {
+  "en": "game, accessibility and account",
+  "pt": "jogo, acessibilidade e conta",
+  "es": "juego, accesibilidad y cuenta"
+ },
+ "é este o nome? não dá para trocar depois": {
+  "en": "is this the name? it can't be changed later",
+  "pt": "é este o nome? não dá para trocar depois",
+  "es": "¿es este el nombre? no se puede cambiar después"
+ },
+ "Primeira vez?": {
+  "en": "First time?",
+  "pt": "Primeira vez?",
+  "es": "¿Primera vez?"
+ },
+ "O tutorial ensina a mesa em poucos minutos: Fé, Entidades, Selos, Ritos e ataques.": {
+  "en": "The tutorial teaches the board in a few minutes: Faith, Entities, Seals, Rites and attacks.",
+  "pt": "O tutorial ensina a mesa em poucos minutos: Fé, Entidades, Selos, Ritos e ataques.",
+  "es": "El tutorial enseña la mesa en pocos minutos: Fe, Entidades, Sellos, Ritos y ataques."
+ },
+ "Ele também fica no menu Início, quando quiser.": {
+  "en": "It also lives in the Home menu, whenever you want.",
+  "pt": "Ele também fica no menu Início, quando quiser.",
+  "es": "También está en el menú Inicio, cuando quieras."
+ },
+ "TUTORIAL": {
+  "en": "TUTORIAL",
+  "pt": "TUTORIAL",
+  "es": "TUTORIAL"
+ },
+ "Importar deck": {
+  "en": "Import deck",
+  "pt": "Importar deck",
+  "es": "Importar mazo"
+ },
+ "falta %d": {
+  "en": "missing %d",
+  "pt": "falta %d",
+  "es": "falta %d"
+ },
+ "%d cartas": {
+  "en": "%d cards",
+  "pt": "%d cartas",
+  "es": "%d cartas"
+ },
+ "faltam %d que você não tem": {
+  "en": "%d missing that you don't own",
+  "pt": "faltam %d que você não tem",
+  "es": "faltan %d que no tienes"
+ },
+ "você tem todas": {
+  "en": "you own them all",
+  "pt": "você tem todas",
+  "es": "las tienes todas"
+ },
+ "Mais enfrentado: %s (%d)": {
+  "en": "Most faced: %s (%d)",
+  "pt": "Mais enfrentado: %s (%d)",
+  "es": "Más enfrentado: %s (%d)"
  }
 }

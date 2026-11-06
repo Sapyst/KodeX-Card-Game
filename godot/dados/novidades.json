@@ -1,5 +1,21 @@
 [
  {
+  "versao": "0.20.18-alpha",
+  "data": "06/11/2026",
+  "pt": [
+   "Mesa: prévia ao arrastar Rito de dano e Relíquia (CAUSA n / +ATK +VIDA); histórico de jogadas com o turno e, segurando a miniatura, o log inteiro da partida; \"DE NOVO\" no resumo do Arcade e do Modo livre; tempo por turno contra a IA em 45/75/120 s ou sem limite; Desistir diz o que se perde em cada modo; bônus temporário com anel ciano nas medalhas; reembaralhar diz quantas cartas voltam e o tempo esgotado mostra a resposta; cartas já vistas passam mais rápido; \"HÁ DEFENSORES\" e \"AGUARDE\" quando o toque não vale.",
+   "Menus: Opções em grupos (Jogo, Acessibilidade, Conta) com toque direto na sigla do idioma e sem refazer a tela a cada toggle; etiquetas NOVA somem depois de aparecerem na Coleção; \"Primeira vez?\" oferece o tutorial; dica na primeira derrota; importar código mostra a lista e quantas faltam antes de criar o deck; deck em uso visível e trocável em Solo e Online; confirmação do nome antes de Começar; totais por modo e mais enfrentado na página do perfil."
+  ],
+  "en": [
+   "Board: drag preview for damage Rites and Relics (DEALS n / +ATK +HP); play history with the turn and, holding the thumbnail, the full match log; \"AGAIN\" in the Arcade and Free mode summary; turn timer vs AI at 45/75/120 s or no limit; Surrender says what you lose in each mode; temporary bonuses get a cyan ring on the medals; reshuffle says how many cards return and a timed-out prompt shows its answer; already-seen cards showcase faster; \"DEFENDERS\" and \"WAIT\" when a tap can't apply.",
+   "Menus: Options in groups (Game, Accessibility, Account) with direct taps on the language code and no screen rebuild per toggle; NEW tags clear after showing in the Collection; \"First time?\" offers the tutorial; a tip on your first loss; importing a code previews the list and what's missing before creating the deck; current deck visible and switchable in Solo and Online; name confirmation before Start; per-mode totals and most-faced on the profile page."
+  ],
+  "es": [
+   "Mesa: vista previa al arrastrar Ritos de daño y Reliquias (CAUSA n / +ATQ +VIDA); historial de jugadas con el turno y, manteniendo la miniatura, el registro completo; \"DE NUEVO\" en el resumen de Arcade y Modo libre; tiempo por turno contra la IA en 45/75/120 s o sin límite; Rendirse dice qué se pierde en cada modo; bonus temporal con anillo cian en las medallas; barajar dice cuántas cartas vuelven y el tiempo agotado muestra la respuesta; las cartas ya vistas pasan más rápido; \"HAY DEFENSORES\" y \"ESPERA\" cuando el toque no vale.",
+   "Menús: Opciones en grupos (Juego, Accesibilidad, Cuenta) con toque directo en la sigla del idioma y sin rehacer la pantalla en cada toggle; las etiquetas NUEVA desaparecen tras mostrarse en la Colección; \"¿Primera vez?\" ofrece el tutorial; consejo en la primera derrota; importar un código muestra la lista y cuántas faltan antes de crear el mazo; mazo en uso visible y cambiable en Solo y Online; confirmación del nombre antes de Empezar; totales por modo y más enfrentado en la página del perfil."
+  ]
+ },
+ {
   "versao": "0.20.17-alpha",
   "data": "06/11/2026",
   "pt": [

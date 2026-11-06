@@ -54,6 +54,7 @@ func segundos() -> float:
 func botoes() -> void:
 	match fase:
 		"":
+			f._botao(Rect2(40, 92, 280, 18), "", func() -> void: f.trocar_aba(2), {"desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
 			f._botao(Rect2(80, 160, 200, 34), "Buscar partida", buscar, {"ouro": true})
 			f._botao(Rect2(80, 210, 200, 28), "Criar sala com código", criar_sala)
 			f._botao(Rect2(80, 246, 200, 28), "Entrar com código", entrar_sala)
@@ -71,7 +72,8 @@ func botoes() -> void:
 func desenhar() -> void:
 	f._cabecalho("Online", Sessao.t("jogue com outras pessoas"))
 	var dk := _deck()
-	f._texto_central(Vector2(180, 100), Sessao.t("Deck em uso") + ": " + (Sessao.nome_deck(Sessao.tradicao_do_deck(dk)) if dk.size() == Sessao.DECK_TAM else Sessao.t("incompleto")), Color(0.72, 0.66, 0.6))
+	f._texto_central(Vector2(180, 100), Sessao.t("Deck em uso") + ": " + (Sessao.nome_deck(Sessao.tradicao_do_deck(dk)) if dk.size() == Sessao.DECK_TAM else Sessao.t("incompleto"))
+		+ ("  (" + Sessao.t("trocar") + ")" if fase == "" else ""), Color(0.72, 0.66, 0.6))
 	if not Nuvem.ativo():
 		f._texto_central(Vector2(180, 118), Sessao.t("sem conexão com o servidor"), Color("#ff9a8a"))
 	match fase:

@@ -612,6 +612,11 @@ func jogar_livre() -> void:
 
 func pos_livre() -> void:
 	Sessao.resultado = ""
+	var de_novo: bool = bool(Sessao.extras.get("de_novo", false))     # "DE NOVO" no resumo: mesma configuração
+	Sessao.extras.erase("de_novo")
+	if de_novo:
+		jogar_livre()
+		return
 	f._ir("livre")
 
 

@@ -14,6 +14,9 @@ var estado := "titulo"
 var t_estado := 0.0                        # segundos desde a última troca de tela (animações de entrada)
 var apertado := -1                         # índice do botão sob o dedo (efeito de pressão)
 var transicao := 0.0                       # 0..1 cortina escura entre telas
+## Opções em 3 grupos: JOGO (idioma, som, vibração, animações, tempo, confirmar FIM), ACESSIBILIDADE (texto, daltônico),
+## CONTA E INFORMAÇÕES (sincronizar, novidades, privacidade, erros). Alturas dos botões; cabeçalho 12 px acima do 1º de cada grupo.
+const OPC_Y := [108, 136, 166, 196, 226, 256, 304, 334, 382]
 var brasas: Array[Dictionary] = []         # partículas do fundo
 var ultimo_falante := ""
 var t_falante := 0.0
@@ -469,14 +472,18 @@ func _process(delta: float) -> void:
 
 
 # ================= estados =================
-func _ir(novo: String) -> void:
-	if novo != estado:
+## `suave`: a tela é refeita no lugar (toggle de opção, filtro) sem som, cortina nem os botões caindo de novo.
+func _ir(novo: String, suave := false) -> void:
+	if estado == "colecao" and novo != "colecao" and novo != "lore":
+		col.limpar_novas_vistas()                        # etiquetas NOVA que apareceram na tela somem ao sair
+	if novo != estado and not suave:
 		Som.tocar("transicao_tela")
 	estado = novo
 	RegistroErros.contexto = "menu:" + novo
-	t_estado = 0.0
 	apertado = -1
-	transicao = 1.0
+	if not suave:
+		t_estado = 0.0
+		transicao = 1.0
 	botoes.clear()
 	mp.sair_texto()
 	match novo:
@@ -495,27 +502,34 @@ func _ir(novo: String) -> void:
 		"opcoes":
 			var ox := 65.0 if Sessao.texto_grande else 90.0        # texto grande: botões mais largos
 			var ow := 230.0 if Sessao.texto_grande else 180.0
-			_botao(Rect2(110, 150, 140, 24), "Idioma", func() -> void: Sessao.trocar_idioma(); _ir("opcoes"), {"idioma": true})
-			_botao(Rect2(ox, 190, ow, 26), "Som: ligado" if Sessao.som else "Som: desligado",
-				func() -> void: Sessao.alternar_som(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(ox, 222, ow, 26), "Vibração: ligada" if Sessao.vibracao else "Vibração: desligada",
-				func() -> void: Sessao.alternar_vibracao(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(ox, 254, ow, 26), Sessao.t("Animações: %s") % Sessao.rotulo_velocidade(),
-				func() -> void: Sessao.alternar_animacao(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(ox, 286, ow, 26), "Texto: grande" if Sessao.texto_grande else "Texto: normal",
-				func() -> void: Sessao.alternar_texto(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(ox, 318, ow, 26), "Modo daltônico: ligado" if Sessao.daltonico else "Modo daltônico: desligado",
-				func() -> void: Sessao.alternar_daltonico(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(ox, 350, ow, 26), "Tempo por turno: 75 s" if Sessao.tempo_turno else "Tempo por turno: sem limite",
-				func() -> void: Sessao.alternar_tempo_turno(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(ox, 382, ow, 26), "Confirmar FIM TURNO: ligado" if Sessao.confirmar_fim else "Confirmar FIM TURNO: desligado",
-				func() -> void: Sessao.alternar_confirmar_fim(); _ir("opcoes"); transicao = 0.0)
-			_botao(Rect2(ox, 424, ow, 26), "Novidades", abrir_novidades.bind(true))
-			_botao(Rect2(ox, 456, ow, 26), "Privacidade", abrir_privacidade)
-			var ne := RegistroErros.quantos()
-			_botao(Rect2(ox, 488, ow, 26), (Sessao.t("Relatório de erros") + " (%d)" % ne) if ne > 0 else Sessao.t("Nenhum erro registrado"), _relatorio_erros)
+			# JOGO
+			for k in Sessao.IDIOMAS.size():                         # toque direto na sigla (não cicla)
+				var idi: String = Sessao.IDIOMAS[k]
+				_botao(Rect2(110 + k * 48, OPC_Y[0], 44, 22), "", func() -> void: Sessao.definir_idioma(idi); _ir("opcoes", true), {"idioma": k})
+			_botao(Rect2(ox, OPC_Y[1], ow, 26), "Som: ligado" if Sessao.som else "Som: desligado",
+				func() -> void: Sessao.alternar_som(); _ir("opcoes", true))
+			_botao(Rect2(ox, OPC_Y[2], ow, 26), "Vibração: ligada" if Sessao.vibracao else "Vibração: desligada",
+				func() -> void: Sessao.alternar_vibracao(); _ir("opcoes", true))
+			_botao(Rect2(ox, OPC_Y[3], ow, 26), Sessao.t("Animações: %s") % Sessao.rotulo_velocidade(),
+				func() -> void: Sessao.alternar_animacao(); _ir("opcoes", true))
+			_botao(Rect2(ox, OPC_Y[4], ow, 26), Sessao.t("Tempo por turno: %s") % Sessao.rotulo_tempo(),
+				func() -> void: Sessao.alternar_tempo_turno(); _ir("opcoes", true))
+			_botao(Rect2(ox, OPC_Y[5], ow, 26), "Confirmar FIM TURNO: ligado" if Sessao.confirmar_fim else "Confirmar FIM TURNO: desligado",
+				func() -> void: Sessao.alternar_confirmar_fim(); _ir("opcoes", true))
+			# ACESSIBILIDADE
+			_botao(Rect2(ox, OPC_Y[6], ow, 26), "Texto: grande" if Sessao.texto_grande else "Texto: normal",
+				func() -> void: Sessao.alternar_texto(); _ir("opcoes", true))
+			_botao(Rect2(ox, OPC_Y[7], ow, 26), "Modo daltônico: ligado" if Sessao.daltonico else "Modo daltônico: desligado",
+				func() -> void: Sessao.alternar_daltonico(); _ir("opcoes", true))
+			# CONTA E INFORMAÇÕES
+			var yc := OPC_Y[8]
 			if Nuvem.url != "":                          # conta na nuvem (só quando há servidor)
-				_botao(Rect2(ox, 520, ow, 26), "Sincronizar conta", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
+				_botao(Rect2(ox, yc, ow, 26), "Sincronizar conta", func() -> void: Nuvem.atualizar_info(); _ir("conta"))
+				yc += 30
+			_botao(Rect2(ox, yc, ow, 26), "Novidades", abrir_novidades.bind(true))
+			_botao(Rect2(ox, yc + 30, ow, 26), "Privacidade", abrir_privacidade)
+			var ne := RegistroErros.quantos()
+			_botao(Rect2(ox, yc + 60, ow, 26), (Sessao.t("Relatório de erros") + " (%d)" % ne) if ne > 0 else Sessao.t("Nenhum erro registrado"), _relatorio_erros)
 		"colecao":
 			if col._ids.is_empty():
 				col.abrir_aba(col.aba)
@@ -525,7 +539,7 @@ func _ir(novo: String) -> void:
 			var filtros := [["posse", 14, 70], ["tipo", 88, 76], ["custo", 168, 70], ["busca", 242, 104]]
 			for fl in filtros:
 				var q: String = fl[0]
-				var acao := (func() -> void: col.ciclar(q); _ir("colecao"); transicao = 0.0) if q != "busca" else mp.editar_busca
+				var acao := (func() -> void: col.ciclar(q); _ir("colecao", true)) if q != "busca" else mp.editar_busca
 				var ex := {"filtro_col": q, "desenho": _botao_filtro}
 				if q == "busca" and OS.has_feature("web"):
 					ex["web_nome"] = "busca"
@@ -542,11 +556,13 @@ func _ir(novo: String) -> void:
 			if OS.has_feature("web"):                   # web: o campo abre a caixa de digitação do jogo
 				_botao(mp.campo_nome(), "", func() -> void: pass, {"web_nome": "perfil", "desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
 			_botao(Rect2(80, 420, 200, 34), "Começar", func() -> void:
-				if str(Sessao.perfil.get("nome", "")).strip_edges() == "":
+				var nm := str(Sessao.perfil.get("nome", "")).strip_edges()
+				if nm == "":
 					mp.avisar(Sessao.t("Escreva seu nome."))
-				else:
-					criando_perfil = false
-					_ir("titulo"), {"ouro": true})
+				else:                                   # o nome não muda depois: confirma antes
+					confirmar(nm, Sessao.t("é este o nome? não dá para trocar depois"), func() -> void:
+						criando_perfil = false
+						_ir("titulo")), {"ouro": true})
 		"avatar":
 			var avs := MenuPerfil.lista_avatares()
 			var cols := 2 if avs.size() <= 4 else 3            # mais retratos liberáveis: grade de 3, menor
@@ -620,9 +636,9 @@ func _ir(novo: String) -> void:
 					_botao(Rect2(110, 574, 140, 26), "Abrir outro", func() -> void:
 						confirmar(Sessao.t("Comprar 1 booster?"), Sessao.t("por %d de ouro") % Sessao.BOOSTER_PRECO, func() -> void: bo.concluir(); bo.comprar()))
 		"decks":
-			_botao(Rect2(40, 86, 136, 20), "", func() -> void: mp.gaveta = "colecao"; _ir("decks"); transicao = 0.0,
+			_botao(Rect2(40, 86, 136, 20), "", func() -> void: mp.gaveta = "colecao"; _ir("decks", true),
 				{"aba_loja": "colecao", "atual": mp.gaveta == "colecao", "desenho": _botao_gaveta})
-			_botao(Rect2(184, 86, 136, 20), "", func() -> void: mp.gaveta = "livre"; _ir("decks"); transicao = 0.0,
+			_botao(Rect2(184, 86, 136, 20), "", func() -> void: mp.gaveta = "livre"; _ir("decks", true),
 				{"aba_loja": "livre", "atual": mp.gaveta == "livre", "desenho": _botao_gaveta})
 			var vis: Array = mp.indices_gaveta()
 			for j in vis.size():
@@ -643,7 +659,7 @@ func _ir(novo: String) -> void:
 			var fdeck := [["tipo", 16, 78], ["custo", 98, 78], ["ordem", 180, 78], ["busca", 262, 82]]
 			for fl in fdeck:
 				var q: String = fl[0]
-				var acao := (func() -> void: mp.ciclar_deck(q); _ir("deck_edit"); transicao = 0.0) if q != "busca" else mp.editar_busca_deck
+				var acao := (func() -> void: mp.ciclar_deck(q); _ir("deck_edit", true)) if q != "busca" else mp.editar_busca_deck
 				var ex := {"filtro_deck": q, "desenho": _botao_filtro, "toque": Rect2(fl[1] - 2, 105, fl[2] + 4, 32)}
 				if q == "busca" and OS.has_feature("web"):
 					ex["web_nome"] = "busca_deck"
@@ -732,6 +748,7 @@ func _ir(novo: String) -> void:
 					_botao(Rect2(220, 600, 120, 24), "Desistir", ta.concluir)
 		"solo":
 			solo.botoes_lista()
+			_botao(Rect2(40, 60, 280, 20), "", func() -> void: trocar_aba(2), {"desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
 		"pere":
 			solo.botoes_pere()
 		"pere_premio":
@@ -762,6 +779,19 @@ func _avisos_titulo() -> void:
 		if Nuvem.kode != "" and (Nuvem.kode_senha_temp or Nuvem.kode_refazer_frase):
 			_kode_pendencias()
 			return
+	if (Sessao.perfil.get("historico", []) as Array).is_empty() and not bool(Sessao.perfil.get("tut_oferecido", false)) \
+			and OS.get_environment("GD_FLUXO_AUTO") == "":
+		Sessao.perfil["tut_oferecido"] = true               # 1ª vez (nenhuma partida): oferece o tutorial uma vez só
+		Sessao.salvar()
+		perg.abrir([["titulo", Sessao.t("Primeira vez?")],
+			["centro", Sessao.t("O tutorial ensina a mesa em poucos minutos: Fé, Entidades, Selos, Ritos e ataques.")],
+			["espaco"], ["centro", Sessao.t("Ele também fica no menu Início, quando quiser.")]],
+			_novidades_e_presente, {"texto": "TUTORIAL", "acao": _comecar_tutorial})
+		return
+	_novidades_e_presente()
+
+
+func _novidades_e_presente() -> void:
 	if str(Sessao.perfil.get("versao_vista", "")) != _versao():
 		abrir_novidades(false, verificar_presente.bind(false))
 	else:
@@ -1609,7 +1639,13 @@ func _pos_luta_arcade() -> void:
 		Sessao.premio("arcade", {"nivel": Sessao.dificuldade}, Sessao.moedas_arcade())
 		lista.append({"quem": "Arcade", "texto": Sessao.t("+%d moedas! Agora você tem %d.") % [Sessao.moedas_arcade(), Sessao.moedas()], "cor": OURO[0], "retrato": ""})
 	Sessao.resultado = ""
-	_falar(lista, func() -> void: _ir("arcade"))
+	var de_novo: bool = bool(Sessao.extras.get("de_novo", false))     # "DE NOVO" no resumo: mesma luta, sem passar pelo menu
+	Sessao.extras.erase("de_novo")
+	_falar(lista, func() -> void:
+		if de_novo:
+			_comecar_arcade()
+		else:
+			_ir("arcade"))
 
 
 func _ciclar(campo: String) -> void:
@@ -2114,7 +2150,7 @@ func _draw() -> void:
 		"chave":
 			ta.desenhar()
 		"solo":
-			_cabecalho("Solo", Sessao.t("modos para jogar sozinho"))
+			_cabecalho("Solo", Sessao.t("Deck em uso") + ": " + Sessao.nome_deck(Sessao.tradicao_do_deck(Sessao.deck_ativo_ids())) + "  (" + Sessao.t("trocar") + ")")
 		"sugerir":
 			_cabecalho(Sessao.t("Deck sugerido"), Sessao.t("montado com as cartas que você tem"))
 		"historico":
@@ -2245,14 +2281,20 @@ func _titulo() -> void:
 
 
 func _opcoes() -> void:
-	_cabecalho(Sessao.t("Opções"), Sessao.t("idioma e informações"))
+	_cabecalho(Sessao.t("Opções"), Sessao.t("jogo, acessibilidade e conta"))
+	var ox := 65.0 if Sessao.texto_grande else 90.0
+	var ow := 230.0 if Sessao.texto_grande else 180.0
+	for g in [[OPC_Y[0], "JOGO"], [OPC_Y[6], "ACESSIBILIDADE"], [OPC_Y[8], "CONTA E INFORMAÇÕES"]]:
+		var yg: float = g[0] - 13
+		var tg: String = Sessao.t(g[1])
+		PixelFonte.desenhar(self, Vector2(ox, yg), tg, Color("#b8a888"))
+		draw_rect(Rect2(ox + PixelFonte.largura(tg) + 6, yg + 3, ow - PixelFonte.largura(tg) - 6, 1), Color(OURO[2], 0.45))
 	if Nuvem.url != "":
 		var st := (Sessao.t("Conta online") + " · " + Nuvem.id_curto()) if Nuvem.online and Nuvem.ativo() else Sessao.t("Conta: sem conexão")
-		_texto_central(Vector2(180, 552), st, Color("#9ad0ff") if Nuvem.online else Color("#ff9a8a"))
-	Fonte57.desenhar(self, Vector2(110, 134), Sessao.t("Idioma"), Color("#b8a888"))
+		_texto_central(Vector2(180, 512), st, Color("#9ad0ff") if Nuvem.online else Color("#ff9a8a"))
 	var ver := "KodeX v" + str(ProjectSettings.get_setting("application/config/version", ""))
-	_texto_central(Vector2(180, 568), ver, Color(0.89, 0.72, 0.35, 0.7))
-	_texto_central(Vector2(180, 582), "Sapyst 2026", Color(0.6, 0.55, 0.6))
+	_texto_central(Vector2(180, 530), ver, Color(0.89, 0.72, 0.35, 0.7))
+	_texto_central(Vector2(180, 544), "Sapyst 2026", Color(0.6, 0.55, 0.6))
 
 
 ## Painel metálico (contorno, aro claro em cima/esquerda e escuro embaixo/direita, filete interno, fundo).
@@ -2334,19 +2376,13 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 		if Colecao.tem_novas(b["aba"]):
 			draw_circle(r.position + Vector2(r.size.x - 3, 3), 3.0, Color("#e04040"))
 		return
-	if b.has("idioma"):
-		var din := _painel(r, false, pressao)
-		var rot := ["PT-BR", "EN", "ES"]                 # toque: PT → EN → ES → PT
-		var larg := 0
-		for k in rot.size():
-			larg += Fonte57.largura(rot[k]) + (12 if k > 0 else 0)
-		var x := din.get_center().x - larg / 2.0
-		for k in rot.size():
-			if k > 0:
-				Fonte57.desenhar(self, Vector2(x + 4, din.position.y + 4), "|", Color("#6a6070"))
-				x += 12
-			Fonte57.desenhar(self, Vector2(x, din.position.y + 4), rot[k], OURO[0] if Sessao.IDIOMAS[k] == Sessao.idioma else Color("#6a6070"), ESCURO)
-			x += Fonte57.largura(rot[k])
+	if b.has("idioma"):                                  # uma sigla por botão: a do idioma atual em ouro
+		var k: int = b["idioma"]
+		var sel: bool = Sessao.IDIOMAS[k] == Sessao.idioma
+		var din := _painel(r, sel, pressao)
+		var rot: String = ["PT-BR", "EN", "ES"][k]
+		Fonte57.desenhar(self, Vector2(roundf(din.get_center().x - Fonte57.largura(rot) / 2.0), din.position.y + 3), rot,
+			OURO[0] if sel else Color("#9a9098"), ESCURO)
 		return
 	var principal: bool = b["texto"] in ["Torneio", "Jogar", "Tentar de novo"] or b.get("ouro", false)
 	var dentro := _painel(r, principal, pressao, Color("#3a2410") if principal else Color("#241a20"))

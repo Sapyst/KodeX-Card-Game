@@ -53,6 +53,13 @@ func _process(delta: float) -> void:
 		lendaria["t"] += delta
 	for h in historico:
 		h["t"] += delta
+	if _hist_press >= 0:
+		_hist_press_t += delta
+		if _hist_press_t > 0.5:
+			_hist_press = -1
+			hist_aberto = -1
+			Sessao.vibrar(12, 0.4)
+			abrir_log_partida()
 	queue_redraw()
 
 
@@ -114,7 +121,7 @@ func _rect_emotes(k: int) -> Rect2:
 func registrar(dono: int, cid: String, tipo: String, alvo := "") -> void:
 	if m.log_partida.size() < 400:                    # log completo da partida (vai para o histórico do perfil)
 		m.log_partida.append([m.turno_n, dono, tipo, cid, alvo])
-	historico.push_front({"dono": dono, "cid": cid, "tipo": tipo, "alvo": alvo, "t": 0.0})
+	historico.push_front({"dono": dono, "cid": cid, "tipo": tipo, "alvo": alvo, "t": 0.0, "turno": m.turno_n})
 	if historico.size() > MAX_HIST:
 		historico.resize(MAX_HIST)
 	if hist_aberto >= 0:
@@ -193,9 +200,29 @@ func pressionar(p: Vector2) -> bool:
 		for k in historico.size():
 			if _rect_hist(k).grow(2).has_point(p):
 				hist_aberto = k
+				_hist_press = k                              # segurar 0,5 s abre o log inteiro da partida
+				_hist_press_t = 0.0
 				Sessao.vibrar(8, 0.3)
 				return true
 	return false
+
+
+var _hist_press := -1
+var _hist_press_t := 0.0
+
+
+func soltar() -> void:
+	_hist_press = -1
+
+
+## Log inteiro da partida (jogada a jogada) num pergaminho, como no histórico do perfil.
+func abrir_log_partida() -> void:
+	var op := str(Sessao.personagem(Sessao.oponente).get("nome", Sessao.t("Oponente")))
+	var b: Array = [["titulo", Sessao.t("Jogada a jogada")], ["centro", Sessao.t("TURNO %d") % m.turno_n], ["divisor"]]
+	b.append_array(Historico.linhas_log(m.log_partida, op))
+	if m.log_partida.is_empty():
+		b.append(["centro", Sessao.t("Sem jogadas registradas.")])
+	m.perg.abrir(b)
 
 
 func _acao_menu(a: String) -> void:
@@ -354,9 +381,9 @@ func _desenhar_carta_hist(h: Dictionary, tl: Rect2) -> void:
 		"selo": acao = Sessao.t("colocou um Selo")
 		"selo_revelado": acao = Sessao.t("Selo disparado")
 		_: acao = Sessao.t("jogou")
-	var s := quem + " " + acao
+	var s := (Sessao.t("TURNO %d") % int(h.get("turno", 0))) + " · " + quem + " " + acao
 	Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(s) / 2.0), r.end.y + 10), s, AZUL if h["dono"] == 0 else Color("#ffb0a0"), ESCURO)
-	var dica := Sessao.t("toque para fechar")
+	var dica := Sessao.t("toque para fechar · segure a miniatura para o log inteiro")
 	Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(dica) / 2.0), r.end.y + 24), dica, Color(0.7, 0.66, 0.6, 0.7))
 
 
@@ -388,9 +415,22 @@ func _desenhar_previa() -> void:
 	var atk = m.segurando
 	if alvo == null or not is_instance_valid(alvo) or atk == null or not is_instance_valid(atk):
 		return
-	# painel acima da carta arrastada (ela cobre o alvo): CAUSA x (+ MATA) / SOFRE y (+ MORRE)
 	var e := 2 if Sessao.texto_grande else 1                    # texto grande: prévia em 2×
 	var lh := 11 * e
+	if previa.has("linha"):                                     # Rito/Relíquia da mão: uma linha só
+		var pc1: Vector2 = (atk as Carta).position + Vector2(0, -58 - (lh - 11))
+		var l0: String = previa["linha"]
+		var w0 := PixelFonte.largura(l0, e) + 30
+		var r0 := Rect2(pc1.x - w0 / 2.0, pc1.y - lh / 2.0 - 2, w0, lh + 4)
+		draw_rect(r0.grow(1), ESCURO)
+		draw_rect(r0, Color(0.12, 0.07, 0.09, 0.92))
+		draw_rect(Rect2(r0.position, Vector2(r0.size.x, 1)), Color(OURO[2], 0.8))
+		var c0: Color = previa.get("cor", Color(1.0, 0.45, 0.4))
+		PixelFonte.desenhar(self, r0.position + Vector2(6, 4), l0, Color(c0, pulso), e)
+		if previa.get("letal_alvo", false):
+			_caveira(Vector2(r0.end.x - 9, r0.position.y + 8), pulso)
+		return
+	# painel acima da carta arrastada (ela cobre o alvo): CAUSA x (+ MATA) / SOFRE y (+ MORRE)
 	var pc: Vector2 = (atk as Carta).position + Vector2(0, -58 - (lh - 11))
 	var l1 := Sessao.t("CAUSA %d") % int(previa["da"])
 	var l2 := Sessao.t("SOFRE %d") % int(previa["dd"])
@@ -460,6 +500,20 @@ func _desenhar_lendaria(tl: Rect2) -> void:
 		PixelFonte.centrado(self, Vector2(180, r.end.y + 14), nome, Color(cor, a2), 2, ESCURO)
 
 
+## O que se perde ao desistir, por modo (Peregrinação acaba, tentativa do dia, Torneio...).
+func _aviso_desistir() -> String:
+	if m.tut != null:
+		return Sessao.t("Você pode refazer o tutorial no menu.")
+	match Sessao.modo:
+		"peregrinacao": return Sessao.t("Derrota: a Peregrinação termina aqui.")
+		"diario": return Sessao.t("Derrota: a tentativa de hoje acaba.")
+		"torneio", "arcade_t": return Sessao.t("Derrota: conta no Torneio.")
+		"online", "bot": return Sessao.t("Derrota: o adversário vence a partida.")
+		"lendario": return Sessao.t("Derrota: o desafio fica para outra vez.")
+		"enigma": return Sessao.t("Volta para a lista de Enigmas.")
+	return Sessao.t("A partida conta como derrota.")
+
+
 func _desenhar_menu(tl: Rect2) -> void:
 	draw_rect(tl, Color(0.02, 0.01, 0.03, 0.7))
 	var p := _painel()
@@ -472,8 +526,10 @@ func _desenhar_menu(tl: Rect2) -> void:
 	var titulo := "PAUSA" if menu == "pausa" else ("SAIR?" if m.tut != null else "DESISTIR?")
 	PixelFonte.centrado(self, Vector2(180, p.position.y + 16), Sessao.t(titulo), OURO[0], 2, ESCURO)
 	if menu == "desistir":
-		var aviso := Sessao.t("A partida conta como derrota.") if m.tut == null else Sessao.t("Você pode refazer o tutorial no menu.")
-		Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(aviso) / 2.0), p.position.y + 50), aviso, Color("#d8ccb4"))
+		var aviso := _aviso_desistir()
+		var la := Fonte57.quebrar(aviso, 190)
+		for k in mini(la.size(), 2):
+			Fonte57.desenhar(self, Vector2(roundf(180 - Fonte57.largura(la[k]) / 2.0), p.position.y + 44 + k * 12), la[k], Color("#d8ccb4"))
 	for b in _botoes_menu():
 		var r: Rect2 = b[0]
 		var perigo: bool = b[2] in ["desistir", "confirmar"]

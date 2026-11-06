@@ -477,9 +477,13 @@ func _frente(x0: int, y0: int) -> void:
 			var base_def: int = int(dados["vida"]) if dados.get("vida") != null else defe
 			var cor_atk := Color("#ffe39a") if atk > base_atk else (Color("#e0a8ff") if atk < base_atk else Color("#fff0d8"))
 			var anel_atk := Color("#ffd04a") if atk > base_atk else (Color("#b070ff") if atk < base_atk else Color(0, 0, 0, 0))
+			if temp_atk != 0 and em_campo:                 # bônus só até o fim do turno: anel ciano (o permanente é ouro)
+				anel_atk = Color("#7ae0ff")
 			_medalha(Vector2(x0 + 8, y0 + ALT - 8), str(atk), Color("#8a2a1a"), cor_atk, "espada", anel_atk, _pulso_atk)
 			var cor_def := Color("#ffb0b0") if dano > 0 else (Color("#ffe39a") if defe > base_def else (Color("#e0a8ff") if defe < base_def else Color("#e8f0ff")))
 			var anel_def := Color("#ff6a5a") if dano > 0 else (Color("#ffd04a") if defe > base_def else (Color("#b070ff") if defe < base_def else Color(0, 0, 0, 0)))
+			if temp_vida != 0 and dano <= 0 and em_campo:
+				anel_def = Color("#7ae0ff")
 			_medalha(Vector2(x0 + LARG - 8, y0 + ALT - 8), str(maxi(defe - dano, 0)), Color("#1f3f7a"), cor_def, "escudo", anel_def, _pulso_def)
 		"selo":
 			_rodape(x0, y0, Sessao.t("SELO"), Color("#c8b0f0"))

@@ -102,6 +102,16 @@ static func progresso(d := "") -> Array:
 	return [tem, tot]
 
 
+var _novas_vistas := {}
+
+
+## Ao sair da Coleção: as etiquetas NOVA que apareceram na tela deixam de ser novas (sem precisar tocar carta a carta).
+func limpar_novas_vistas() -> void:
+	if not _novas_vistas.is_empty():
+		Sessao.vistas(_novas_vistas.keys())
+		_novas_vistas.clear()
+
+
 static func tem_novas(d: String) -> bool:
 	for cid in (Sessao.perfil.get("novas", {}) as Dictionary):
 		if Sessao.db["cartas"].has(cid) and Sessao.db["cartas"][cid]["cultura"] == d:
@@ -189,6 +199,7 @@ func desenhar_grade(ci: CanvasItem) -> void:
 		if not cid.begins_with("tok_"):
 			var tem := Sessao.copias(cid)
 			if Sessao.eh_nova(cid) and r.end.y - 12 > TOPO and r.end.y < BASE:   # recém-chegada: etiqueta NOVA
+				_novas_vistas[cid] = true                                        # apareceu na tela: some ao sair da Coleção
 				var sn := Sessao.t("NOVA")
 				ci.draw_rect(Rect2(r.position.x + 1, r.end.y - 11, PixelFonte.largura(sn) + 6, 10), Color("#c83030"))
 				PixelFonte.desenhar(ci, Vector2(r.position.x + 4, r.end.y - 8), sn, Color("#ffe0d0"))

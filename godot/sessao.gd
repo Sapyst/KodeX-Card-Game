@@ -152,8 +152,8 @@ func _ready() -> void:
 		var lista: Array = JSON.parse_string(FileAccess.get_file_as_string("res://dados/enigmas.json"))
 		var e: Dictionary = lista[int(OS.get_environment("GD_ENIGMA"))]
 		preparar_modo("enigma", [], "alta_magia", [], 1, {"enigma": e, "enigma_id": e["id"]})
-	if OS.get_environment("GD_TUTORIAL") != "":          # teste: abre a mesa direto no tutorial
-		preparar_tutorial()
+	if OS.get_environment("GD_TUTORIAL") != "":          # teste: abre a mesa direto no tutorial (2 = Lição 2)
+		preparar_tutorial(2 if OS.get_environment("GD_TUTORIAL") == "2" else 1)
 
 
 ## Recarrega cartas e lore no idioma atual (nomes e textos das cartas vêm de cartas_en.json no inglês).
@@ -467,12 +467,13 @@ func preparar_luta_torneio() -> void:
 
 
 ## Tutorial: Alta Magia × Taoísmo com as cartas na ordem do roteiro (tutorial.gd); o resto do deck completa as 32.
-func preparar_tutorial() -> void:
+func preparar_tutorial(licao := 1) -> void:
 	modo = "tutorial"
 	deck_jogador_nome = "alta_magia"
 	oponente = "taoismo"
-	deck_jogador = _deck_ordenado("alta_magia", Tutorial.DECK_JOGADOR)
-	deck_oponente = _deck_ordenado("taoismo", Tutorial.DECK_OPONENTE)
+	deck_jogador = _deck_ordenado("alta_magia", Tutorial.DECK_JOGADOR_2 if licao == 2 else Tutorial.DECK_JOGADOR)
+	deck_oponente = _deck_ordenado("taoismo", Tutorial.DECK_OPONENTE_2 if licao == 2 else Tutorial.DECK_OPONENTE)
+	extras = {"licao": licao}
 	resultado = ""
 
 

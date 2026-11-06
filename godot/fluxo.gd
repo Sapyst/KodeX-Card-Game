@@ -2163,8 +2163,8 @@ func _torneio() -> void:
 	_falar_lista(Sessao.lore.get("prologo", []), Sessao.t("Narrador"), OURO[0], "", func() -> void: _comecar_torneio(""))
 
 
-func _comecar_tutorial() -> void:
-	Sessao.preparar_tutorial()
+func _comecar_tutorial(licao := 1) -> void:
+	Sessao.preparar_tutorial(licao)
 	get_tree().change_scene_to_file("res://mesa.tscn")
 
 

@@ -10,6 +10,74 @@ const DECK_JOGADOR := ["alt_andras", "alt_homunculo", "alt_pedra_de_visao", "alt
 	"alt_pentagrama_flamejante", "alt_silfo"]
 const DECK_OPONENTE := ["tao_he_xiangu", "tao_flechas_de_houyi", "tao_cao_guojiu", "tao_lan_caihe"]
 const CORNUCOPIA_LIN := 6
+## Lição 2 (mão inicial, cemitério, reembaralhar e fadiga): mão = Silfo, Abrahadabra, Homúnculo, Pedra de Visão; a
+## troca da Pedra traz o Pentagrama; depois o deck é cortado para 1 carta (Orobas) para o deck acabar no 3º turno.
+const DECK_JOGADOR_2 := ["alt_orobas", "alt_pentagrama_flamejante", "alt_pedra_de_visao", "alt_homunculo", "alt_abrahadabra", "alt_silfo"]
+const DECK_OPONENTE_2 := ["tao_he_xiangu", "tao_lan_caihe"]
+var licao := 1
+
+const FALAS2 := {
+	"pt": {
+		"oi2": "De volta? Ótimo. A primeira aula foi sobre vencer. Esta é sobre o que ninguém te conta: a mão que você recebe, o cemitério e o que acontece quando as cartas acabam.",
+		"mull": "Toda partida começa assim: quatro cartas e o direito de trocar até duas. Toque na Pedra de Visão (hoje não teremos tempo para relíquias) e depois em TROCAR. Ela volta ao deck e outra carta vem no lugar.",
+		"mull_ok": "Outra carta veio no lugar, do fundo do deck embaralhado. Troque sempre o que não vai usar nos dois primeiros turnos; o resto se ajeita.",
+		"silfo2": "Comecemos como da outra vez: arraste o Silfo para a sua fileira.",
+		"direto2a": "Campo vazio do lado dela. Mande o Silfo direto na Cornucópia.",
+		"direto2a_ok": "Um ponto. Toque em FIM TURNO.",
+		"lan2": "Lan Caihe, de novo com o cesto de flores. Repare na sua pilha de deck, ali à direita: cada turno tira uma carta dela. Hoje ela está... curta. Foi de propósito.",
+		"ataque2": "Arraste o Silfo sobre Lan Caihe.",
+		"cemiterio": "Lan caiu, e foi para o cemitério dela, no canto. O seu fica aqui embaixo, à esquerda. Tudo o que morre ou se gasta vai parar lá. Segure o dedo no cemitério quando quiser rever as cartas.",
+		"rito2": "Lance Abrahadabra no meio da mesa: 3 de dano direto.",
+		"rito_cem": "Viu para onde o Rito foi? Cemitério. Ritos se gastam; só as Entidades ficam. Agora, uma maldade pedagógica: vou tirar dez da sua Cornucópia. Toque em FIM TURNO e confie em mim.",
+		"fadiga": "Seu deck acabou, e a mesa cobrou: menos 2 de Cornucópia. É a fadiga, e ela cobra todo turno sem carta. Com 6 ou mais de Cornucópia, porém, há saída. Devolvo o que tirei. Toque em FIM TURNO.",
+		"reemb": "Aí está a pergunta. Pagando 5 de Cornucópia, o cemitério inteiro volta embaralhado ao deck. Toque em REEMBARALHAR.",
+		"reemb_ok": "Caro, mas melhor que sangrar 2 por turno. E a carta que voltou foi comprada na hora: Abrahadabra, outra vez.",
+		"final2": "Lin está com 2. Você sabe o que fazer: arraste o Rito para o meio da mesa.",
+		"fim2a": "Mão inicial, cemitério, fadiga e o reembaralhar. Agora nenhum deck vazio te pega de surpresa.",
+		"fim2b": "Minha dica: conte as cartas do deck antes de apostar numa partida longa. Quem conta, não paga fadiga. Vá, o Torneio espera.",
+		"toque": "toque para continuar",
+	},
+	"en": {
+		"oi2": "Back again? Good. The first lesson was about winning. This one is about what nobody tells you: the hand you're dealt, the graveyard, and what happens when the cards run out.",
+		"mull": "Every match starts like this: four cards and the right to swap up to two. Tap the Shew Stone (no time for relics today) and then SWAP. It goes back into the deck and another card takes its place.",
+		"mull_ok": "Another card came instead, from the shuffled deck. Always swap what you won't use in the first two turns; the rest sorts itself out.",
+		"silfo2": "Let's start like last time: drag the Sylph onto your row.",
+		"direto2a": "Her side is empty. Send the Sylph straight at the Cornucopia.",
+		"direto2a_ok": "One point. Tap END TURN.",
+		"lan2": "Lan Caihe, again with her basket of flowers. Look at your deck pile, over on the right: every turn takes one card from it. Today it's... short. On purpose.",
+		"ataque2": "Drag the Sylph onto Lan Caihe.",
+		"cemiterio": "Lan fell and went to her graveyard, in the corner. Yours is down here on the left. Everything that dies or is spent ends up there. Hold your finger on the graveyard whenever you want to look through it.",
+		"rito2": "Cast Abrahadabra in the middle of the table: 3 direct damage.",
+		"rito_cem": "See where the Rite went? Graveyard. Rites are spent; only Entities stay. Now, a pedagogical cruelty: I'm taking ten off your Cornucopia. Tap END TURN and trust me.",
+		"fadiga": "Your deck ran out and the table collected: minus 2 Cornucopia. That's fatigue, and it collects every turn without a card. With 6 or more Cornucopia, though, there's a way out. I'll give back what I took. Tap END TURN.",
+		"reemb": "There's the question. For 5 Cornucopia, the whole graveyard shuffles back into the deck. Tap RESHUFFLE.",
+		"reemb_ok": "Pricey, but better than bleeding 2 a turn. And the card that came back was drawn right away: Abrahadabra, once more.",
+		"final2": "Lin is at 2. You know what to do: drag the Rite to the middle of the table.",
+		"fim2a": "Opening hand, graveyard, fatigue and the reshuffle. No empty deck will catch you off guard now.",
+		"fim2b": "My tip: count the cards in your deck before betting on a long match. Those who count never pay fatigue. Go, the Tournament awaits.",
+		"toque": "tap to continue",
+	},
+	"es": {
+		"oi2": "¿De vuelta? Perfecto. La primera lección fue sobre ganar. Esta es sobre lo que nadie te cuenta: la mano que recibes, el cementerio y lo que pasa cuando se acaban las cartas.",
+		"mull": "Toda partida empieza así: cuatro cartas y el derecho a cambiar hasta dos. Toca la Piedra de Visión (hoy no hay tiempo para reliquias) y luego CAMBIAR. Vuelve al mazo y otra carta ocupa su lugar.",
+		"mull_ok": "Vino otra carta en su lugar, del mazo barajado. Cambia siempre lo que no vayas a usar en los dos primeros turnos; el resto se acomoda.",
+		"silfo2": "Empecemos como la otra vez: arrastra al Silfo a tu fila.",
+		"direto2a": "Su lado está vacío. Manda al Silfo directo a la Cornucopia.",
+		"direto2a_ok": "Un punto. Toca FIN TURNO.",
+		"lan2": "Lan Caihe, otra vez con la canasta de flores. Mira tu pila de mazo, a la derecha: cada turno saca una carta. Hoy está... corta. A propósito.",
+		"ataque2": "Arrastra al Silfo sobre Lan Caihe.",
+		"cemiterio": "Lan cayó y fue a su cementerio, en la esquina. El tuyo está aquí abajo, a la izquierda. Todo lo que muere o se gasta termina ahí. Mantén el dedo en el cementerio cuando quieras repasar las cartas.",
+		"rito2": "Lanza Abrahadabra al centro de la mesa: 3 de daño directo.",
+		"rito_cem": "¿Viste adónde fue el Rito? Al cementerio. Los Ritos se gastan; solo las Entidades se quedan. Ahora, una maldad pedagógica: te quito diez de la Cornucopia. Toca FIN TURNO y confía en mí.",
+		"fadiga": "Tu mazo se acabó y la mesa cobró: menos 2 de Cornucopia. Es la fatiga, y cobra cada turno sin carta. Con 6 o más de Cornucopia, sin embargo, hay salida. Te devuelvo lo que quité. Toca FIN TURNO.",
+		"reemb": "Ahí está la pregunta. Pagando 5 de Cornucopia, todo el cementerio vuelve barajado al mazo. Toca BARAJAR.",
+		"reemb_ok": "Caro, pero mejor que sangrar 2 por turno. Y la carta que volvió se robó al instante: Abrahadabra, otra vez.",
+		"final2": "Lin está en 2. Ya sabes qué hacer: arrastra el Rito al centro de la mesa.",
+		"fim2a": "Mano inicial, cementerio, fatiga y el barajar. Ningún mazo vacío te tomará por sorpresa.",
+		"fim2b": "Mi consejo: cuenta las cartas del mazo antes de apostar a una partida larga. Quien cuenta no paga fatiga. Ve, el Torneo espera.",
+		"toque": "toca para continuar",
+	},
+}
 
 const FALAS := {
 	"pt": {
@@ -115,7 +183,8 @@ func _init(mesa) -> void:
 
 
 func txt(chave: String) -> String:
-	return FALAS.get(Sessao.idioma, FALAS["pt"]).get(chave, chave)
+	var tabela: Dictionary = FALAS2 if licao == 2 else FALAS
+	return tabela.get(Sessao.idioma, tabela["pt"]).get(chave, chave)
 
 
 ## Painel do Silas no topo; espera um toque (o 1º toque completa a digitação). `espera` = false: só mostra.
@@ -241,6 +310,9 @@ func _turno(d: int, fe: int) -> void:
 
 ## O roteiro inteiro. Chamado pela mesa no lugar de _partida() quando Sessao.modo == "tutorial".
 func rodar() -> void:
+	if licao == 2:
+		await _rodar_licao2()
+		return
 	m.cornucopia[1] = CORNUCOPIA_LIN
 	m.ativo = 0
 	m.turno_n = 0
@@ -332,6 +404,147 @@ func rodar() -> void:
 	await falar("fim1")
 	m.efeitos.confete(60)
 	await falar("fim2")
+
+
+# ================= Lição 2: mão inicial, cemitério, reembaralhar e fadiga =================
+func _rodar_licao2() -> void:
+	m.cornucopia[1] = CORNUCOPIA_LIN
+	m.ativo = 0
+	m.turno_n = 0
+	await falar("oi2")
+	await _mulligan_guiado()
+	await falar("mull_ok")
+	for id in ["alt_silfo", "alt_abrahadabra"]:         # se a troca levou uma carta da aula, ela volta
+		await _garantir_na_mao(id)
+	_cortar_deck(["alt_orobas"])
+	# ---------- turno 1: Silfo + golpe direto ----------
+	await _turno(0, 2)
+	falar("silfo2", false)
+	await _jogada_da_mao("alt_silfo", m.pos_ent(0, 1), func() -> bool: return _silfo() != null and not m.ocupado)
+	var silfo = _silfo()
+	falar("direto2a", false)
+	var c_antes: int = m.cornucopia[1]
+	await _jogada_do_campo(silfo, Vector2(180, m.LINHA_Y - 70), func() -> bool: return m.cornucopia[1] < c_antes,
+		func(_c, _o, p: Vector2) -> bool: return p.y < m.LINHA_Y)
+	await falar("direto2a_ok", false)
+	await _fim_turno_jogador()
+	m.efeitos.tutor = {}
+	# ---------- turno da Lin: Lan Caihe ----------
+	await _turno(1, 3)
+	var lan = _da_mao_oponente("tao_lan_caihe")
+	if lan:
+		await m._jogar_entidade(lan, 1, 1)
+	await m.get_tree().create_timer(0.4).timeout
+	await m._fim_turno(1)
+	m.efeitos.foco = [m._rect_espaco(m.proj(m.DECK_JOG))]
+	await falar("lan2")
+	m.efeitos.foco = []
+	# ---------- turno 2: ataque (Lan morre), Rito (vai ao cemitério), "maldade" ----------
+	await _turno(0, 3)
+	falar("ataque2", false)
+	var alvo_lan = m.campo_ent[1][1]
+	if alvo_lan != null:
+		await _jogada_do_campo(silfo, alvo_lan.position, func() -> bool: return silfo.atacou and not m.ocupado,
+			func(_c, _o, p: Vector2) -> bool: return m._inimigo_sob(p) == 1)
+	m.efeitos.foco = [m._rect_espaco(m.proj(m.CEMIT_OPON)), m._rect_espaco(m.proj(m.CEMIT_JOG))]
+	await falar("cemiterio")
+	m.efeitos.foco = []
+	falar("rito2", false)
+	c_antes = m.cornucopia[1]
+	await _jogada_da_mao("alt_abrahadabra", Vector2(180, m.LINHA_Y - 40), func() -> bool: return m.cornucopia[1] < c_antes and not m.ocupado)
+	m.efeitos.foco = [m._rect_espaco(m.proj(m.CEMIT_JOG))]
+	await falar("rito_cem", false)
+	m.efeitos.foco = []
+	m.cornucopia[0] = 5                                  # a "maldade": a fadiga vai doer no próximo turno
+	m.placar_pulo[0] = 1.0
+	await _fim_turno_jogador()
+	m.efeitos.tutor = {}
+	# ---------- turno da Lin: nada ----------
+	await _turno(1, 4)
+	await m.get_tree().create_timer(0.5).timeout
+	await m._fim_turno(1)
+	# ---------- turno 3: deck vazio com 5 de Cornucópia → fadiga ----------
+	await _turno(0, 4)
+	await falar("fadiga", false)
+	m.cornucopia[0] = 10                                 # devolve: agora dá para reembaralhar
+	m.placar_pulo[0] = 1.0
+	await _fim_turno_jogador()
+	m.efeitos.tutor = {}
+	# ---------- turno da Lin: nada ----------
+	await _turno(1, 5)
+	await m.get_tree().create_timer(0.5).timeout
+	await m._fim_turno(1)
+	# ---------- turno 4: a pergunta do reembaralhar (sem await: a fala vem por cima do pedido) ----------
+	_turno(0, 5)
+	await _ate(func() -> bool: return not m.efeitos.escolha.is_empty())
+	falar("reemb", false)
+	var bsim: Rect2 = m.efeitos.escolha[0]["rect"]
+	_guia(bsim.get_center() + Vector2(0, 40), bsim.get_center())
+	if auto:
+		await m.get_tree().create_timer(1.2).timeout
+		m.escolhido.emit(true)
+	await _ate(func() -> bool: return m.efeitos.escolha.is_empty())
+	_sem_guia()
+	await _ate(func() -> bool: return not m.ocupado)
+	await falar("reemb_ok")
+	falar("final2", false)
+	await _garantir_na_mao("alt_abrahadabra")
+	await _jogada_da_mao("alt_abrahadabra", Vector2(180, m.LINHA_Y - 40), func() -> bool: return m.acabou)
+	m.efeitos.tutor = {}
+	await m.get_tree().create_timer(0.6).timeout
+	m.efeitos.confete(120)
+	await falar("fim2a")
+	m.efeitos.confete(60)
+	await falar("fim2b")
+	print("TUTORIAL 2: fim, vencedor=", m.vencedor)
+
+
+## Mão inicial guiada: abre o mulligan da mesa (forçado: no tutorial ele fica desligado) e pede a troca da Pedra.
+func _mulligan_guiado() -> void:
+	var pedra = _na_mao("alt_pedra_de_visao")
+	falar("mull", false)
+	m._mulligan(true)
+	await _ate(func() -> bool: return m.hud.mulligan)
+	if pedra:
+		_guia(pedra.position + Vector2(0, -36), pedra.position)
+	if auto:
+		await m.get_tree().create_timer(1.2).timeout
+		if pedra and m.hud.mulligan:
+			m.hud.marcadas.append(pedra)
+			m.efeitos.escolha[1]["texto"] = Sessao.t("TROCAR (%d)") % 1
+			m.escolhido.emit(true)
+	await _ate(func() -> bool: return not m.hud.mulligan)
+	_sem_guia()
+	await _ate(func() -> bool: return not m.ocupado)
+	m.efeitos.tutor = {}
+
+
+## A carta precisa estar na mão (a pessoa pode ter trocado outra no mulligan): se não está, chega do deck.
+func _garantir_na_mao(id: String) -> void:
+	if _na_mao(id) != null:
+		return
+	var c: Carta = m._carta_db(id, 0, m.proj(m.DECK_JOG), 1.0)
+	c.virada_para_cima = true
+	m.ocupado = true
+	await m._entrar_na_mao(0, c)
+	m.ocupado = false
+
+
+## Deixa no deck só as cartas de `manter` (na ordem dada; a última sai primeiro): a aula precisa do deck acabar.
+func _cortar_deck(manter: Array) -> void:
+	var novos: Array = []
+	for id in manter:
+		for c in m.deck_jog:
+			if c.id == id and not (c in novos):
+				novos.append(c)
+				break
+	for c in m.deck_jog:
+		if not (c in novos):
+			c.queue_free()
+	m.deck_jog.clear()
+	for c in novos:
+		m.deck_jog.append(c)
+	m._deitar_cartas()
 
 
 ## Espera a escolha de alvo do Despertar de Andras aparecer: fala curta e, no teste automático, toca no alvo.

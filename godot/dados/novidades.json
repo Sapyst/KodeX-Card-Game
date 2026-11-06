@@ -1,5 +1,18 @@
 [
  {
+  "versao": "0.20.23-alpha",
+  "data": "06/11/2026",
+  "pt": [
+   "Tutorial 2, com Silas: a mão inicial (trocar até 2 cartas), o cemitério (para onde vão Entidades mortas e Ritos usados), a fadiga de deck vazio (−2 por turno) e o reembaralhar (5 de Cornucópia para o cemitério voltar ao deck). Fica no menu Início, ao lado do Tutorial."
+  ],
+  "en": [
+   "Tutorial 2, with Silas: the opening hand (swap up to 2 cards), the graveyard (where dead Entities and spent Rites go), empty-deck fatigue (−2 per turn) and the reshuffle (5 Cornucopia to bring the graveyard back into the deck). It lives in the Home menu, next to the Tutorial."
+  ],
+  "es": [
+   "Tutorial 2, con Silas: la mano inicial (cambiar hasta 2 cartas), el cementerio (adonde van las Entidades muertas y los Ritos usados), la fatiga de mazo vacío (−2 por turno) y el barajar (5 de Cornucopia para que el cementerio vuelva al mazo). Está en el menú Inicio, junto al Tutorial."
+  ]
+ },
+ {
   "versao": "0.20.22-alpha",
   "data": "06/11/2026",
   "pt": [

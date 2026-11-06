@@ -283,6 +283,7 @@ func _ready() -> void:
 		return
 	if modo_partida and Sessao.modo == "tutorial":
 		tut = Tutorial.new(self)
+		tut.licao = int(Sessao.extras.get("licao", 1))
 		await tut.rodar()
 		Sessao.modo = ""
 		Sessao.resultado = ""
@@ -3563,14 +3564,14 @@ func _atualizar_previa() -> void:
 
 
 ## Mulligan: depois da mão inicial, o jogador marca até 2 cartas; elas voltam ao deck, ele embaralha e compra o mesmo número.
-func _mulligan() -> void:
+func _mulligan(forcar := false) -> void:
 	if online_partida() and auto_jogador:
 		if not rede.proprias.is_empty() and str(rede.proprias[0].get("tipo", "")) == "mull":
 			rede.proprias.pop_front()                  # reconexão: a escolha já foi enviada
 		else:
 			_enviar({"tipo": "mull", "k": []})
 		return
-	if Sessao.modo == "tutorial" or auto_jogador or OS.get_environment("GD_SEM_MULLIGAN") != "":
+	if (Sessao.modo == "tutorial" and not forcar) or auto_jogador or OS.get_environment("GD_SEM_MULLIGAN") != "":
 		return
 	hud.mulligan = true
 	hud.marcadas.clear()

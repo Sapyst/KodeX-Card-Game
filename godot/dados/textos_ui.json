@@ -4508,5 +4508,15 @@
   "en": "different game versions: both must update",
   "pt": "versões diferentes do jogo: atualizem os dois",
   "es": "versiones distintas del juego: actualicen los dos"
+ },
+ "Tutorial 2": {
+  "en": "Tutorial 2",
+  "pt": "Tutorial 2",
+  "es": "Tutorial 2"
+ },
+ "mão inicial, cemitério e fadiga": {
+  "en": "opening hand, graveyard and fatigue",
+  "pt": "mão inicial, cemitério e fadiga",
+  "es": "mano inicial, cementerio y fatiga"
  }
 }

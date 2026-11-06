@@ -34,7 +34,8 @@ func modos() -> Array:
 		{"nome": "Torneio de 8", "sub": Sessao.t("continuar chave") if Sessao.ta_ativo() else Sessao.t("chave  até 150"), "retrato": "taoismo", "cor": Color("#1f6a5a"), "acao": f._torneio_arcade},
 		{"nome": "Solo", "sub": Sessao.t("peregrinação, desafios e mais"), "retrato": "hinduismo", "cor": Color("#6a3a10"), "acao": func() -> void: f._ir("solo")},
 		{"nome": "Online", "sub": Sessao.t("contra gente de verdade"), "retrato": "cristianismo", "cor": Color("#1f4a7a"), "acao": func() -> void: f._ir("online")},
-		{"nome": "Tutorial", "sub": Sessao.t("aprenda com Silas"), "retrato": "alta_magia", "cor": Color("#3a3050"), "acao": f._comecar_tutorial},
+		{"nome": "Tutorial", "sub": Sessao.t("aprenda com Silas"), "retrato": "alta_magia", "cor": Color("#3a3050"), "acao": f._comecar_tutorial.bind(1)},
+		{"nome": "Tutorial 2", "sub": Sessao.t("mão inicial, cemitério e fadiga"), "retrato": "taoismo", "cor": Color("#2a4050"), "acao": f._comecar_tutorial.bind(2)},
 	]
 
 

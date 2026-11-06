@@ -21,6 +21,7 @@ done
 item "enigma 1 resolvido" "vencedor=0" env GD_ENIGMA=0 GD_SAIR_NO_FIM=1 GD_HUD_TESTE="6:atacar:1:0;9:golpe:0" timeout 60 "$G" --audio-driver Dummy --headless --path . res://mesa.tscn
 item "enigma 3 resolvido" "vencedor=0" env GD_ENIGMA=2 GD_SAIR_NO_FIM=1 GD_HUD_TESTE="6:atacar:0:0;9:golpe:1" timeout 60 "$G" --audio-driver Dummy --headless --path . res://mesa.tscn
 item "tutorial completo" "" env GD_TUTORIAL=1 GD_TUTORIAL_AUTO=1 GD_SAIR_NO_FIM=1 GD_VELOCIDADE=6 timeout 240 "$G" --audio-driver Dummy --headless --path . res://mesa.tscn
+item "tutorial lição 2" "TUTORIAL 2: fim, vencedor=0" env GD_TUTORIAL=2 GD_TUTORIAL_AUTO=1 GD_SAIR_NO_FIM=1 GD_VELOCIDADE=6 timeout 240 "$G" --audio-driver Dummy --headless --path . res://mesa.tscn
 item "tempo por turno" "RELOGIO turno 3" env GD_TEMPO_TURNO=4 GD_SEM_MULLIGAN=1 GD_VELOCIDADE=4 timeout 120 "$G" --audio-driver Dummy --headless --path . res://mesa.tscn --quit-after 2400
 for T in titulo colecao decks loja cosmeticos opcoes solo pere:indigena diario lendarios livre enigmas historico arcade perfil sugerir progresso:missoes progresso:nivel progresso:maestria progresso:conquistas online; do
   item "tela $T" "" env GD_SOLO_TESTE=$T GD_NOME_TESTE=Teste timeout 30 "$G" --audio-driver Dummy --headless --path . res://fluxo.tscn --quit-after 120

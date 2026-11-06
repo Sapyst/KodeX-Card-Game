@@ -1,5 +1,21 @@
 [
  {
+  "versao": "0.20.17-alpha",
+  "data": "06/11/2026",
+  "pt": [
+   "Correções: carta congelada na própria vez (Ímpeto, Krishna) de fato não ataca; Renascer, devolver e reviver para a mão respeitam o limite de 7 cartas (a que não cabe queima); palavra-chave dada por Relíquia sai com ela; token e revive sem espaço avisam \"SEM ESPAÇO\".",
+   "Excluir o deck em uso passa a vez ao primeiro deck jogável; saves antigos sem foils não quebram a Coleção; o save antigo só é apagado depois de migrado; missões do dia não viram mudando o relógio do aparelho; a contagem \"novas em…\" só aparece com a hora da internet."
+  ],
+  "en": [
+   "Fixes: a creature frozen on its owner's turn (Rush, Krishna) really can't attack; Rebirth, bounce and revive to hand respect the 7-card limit (the extra card burns); keywords granted by a Relic leave with it; tokens and revives with no room now show \"NO ROOM\".",
+   "Deleting the deck in use switches to the first playable deck; old saves without foils no longer break the Collection; the old save is only deleted after migrating; daily missions no longer roll over by changing the device clock; the \"new in…\" countdown only shows with internet time."
+  ],
+  "es": [
+   "Correcciones: una criatura congelada en el turno de su dueño (Ímpetu, Krishna) de verdad no ataca; Renacer, devolver y revivir a la mano respetan el límite de 7 cartas (la que no cabe se quema); la palabra clave dada por una Reliquia se va con ella; tokens y revivir sin espacio avisan \"SIN ESPACIO\".",
+   "Borrar el mazo en uso pasa al primer mazo jugable; los guardados antiguos sin foils no rompen la Colección; el guardado antiguo solo se borra tras migrar; las misiones del día no cambian al mover el reloj del aparato; la cuenta \"nuevas en…\" solo aparece con la hora de internet."
+  ]
+ },
+ {
   "versao": "0.20.16-alpha",
   "data": "06/11/2026",
   "pt": [

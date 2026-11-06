@@ -2099,6 +2099,8 @@ func _encerrar(v: int, motivo := "") -> void:
 		efeitos.faixa_t = 0.0
 		await get_tree().create_timer(2.5).timeout
 	fim_turno_pedido.emit()               # a partida podia estar esperando o botão FIM do jogador
+	alvo_tocado.emit(null)                # e quem esperava um alvo ou uma escolha também é solto
+	escolhido.emit(false)
 
 
 ## Compra 1. Deck vazio: pode reembaralhar o cemitério pagando 5 de Cornucópia (com 6+); senão fadiga (2 de dano).
@@ -2275,6 +2277,19 @@ func _entrar_na_mao(d: int, c: Carta) -> void:
 	c.dono = d
 	c.dono_real = d
 	var mao := _mao_de(d)
+	if mao.size() >= MAO_MAX:                               # mão cheia: a carta que voltaria queima, como na compra
+		c.z_index = 760
+		if not c.virada_para_cima:
+			await c.virar(0.2)
+		efeitos.numero(c.position + Vector2(0, -40), "MÃO CHEIA", Color("#ffd0a0"), 1)
+		await get_tree().create_timer(0.3).timeout
+		Som.tocar("carta_queimar")
+		efeitos.estilhacar(c.position, c.cores_estilhaco(), int(Carta.LARG * c.scale.x), int(Carta.ALT * c.scale.y))
+		cemit[d].append({"dados": c.dados, "no": null})
+		c.queue_free()
+		cemiterio[d] += 1
+		_atualizar_apagadas()
+		return
 	mao.append(c)
 	c.z_index = 500 + mao.size()
 	if d == 1 and c.virada_para_cima:

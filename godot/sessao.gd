@@ -553,15 +553,19 @@ func carregar_perfil() -> void:
 			d = _ler_cifrado(SAVE_BAK)
 			if d != null:                                  # principal ruim, cópia boa: descarta o ruim (não vira .bak)
 				DirAccess.remove_absolute(SAVE)
-		if d == null and not FileAccess.file_exists(SAVE) and not FileAccess.file_exists(SAVE_BAK) \
-				and FileAccess.file_exists(SAVE_ANTIGO):
-			d = JSON.parse_string(FileAccess.get_file_as_string(SAVE_ANTIGO))   # migração do save aberto antigo
-		elif d == null and FileAccess.file_exists(SAVE):
-			DirAccess.rename_absolute(SAVE, SAVE + ".invalido")              # guarda o arquivo ruim, não sobrescreve às cegas
+			elif FileAccess.file_exists(SAVE):
+				DirAccess.rename_absolute(SAVE, SAVE + ".invalido")          # guarda o arquivo ruim, não sobrescreve às cegas
+		if d == null and FileAccess.file_exists(SAVE_ANTIGO):
+			# migração do save aberto antigo — também quando o save novo veio corrompido (antes ele era apagado sem ser lido)
+			d = JSON.parse_string(FileAccess.get_file_as_string(SAVE_ANTIGO))
+			if not (d is Dictionary):
+				DirAccess.rename_absolute(SAVE_ANTIGO, SAVE_ANTIGO + ".invalido")
 		if d is Dictionary:
 			perfil = d
+	var carregou := not perfil.is_empty()
 	if perfil.is_empty():
 		perfil = _perfil_novo()
+	_garantir_estrutura()
 	# JSON devolve números como float: normaliza contagens
 	for cid in perfil["colecao"]:
 		perfil["colecao"][cid] = int(perfil["colecao"][cid])
@@ -578,9 +582,20 @@ func carregar_perfil() -> void:
 		torneio_ordem = (perfil["torneio"]["ordem"] as Array).duplicate()
 		torneio_idx = int(perfil["torneio"]["idx"])
 		deck_jogador_nome = str(perfil["torneio"].get("deck", deck_jogador_nome))
-	if FileAccess.file_exists(SAVE_ANTIGO):
+	if carregou and FileAccess.file_exists(SAVE_ANTIGO):     # já migrado (agora ou antes) e regravado cifrado
 		salvar()
 		DirAccess.remove_absolute(SAVE_ANTIGO)
+
+
+## Save de versão antiga ou perfil incompleto do servidor: garante as chaves que o código acessa direto
+## (um save sem "foils" quebrava a Coleção).
+func _garantir_estrutura() -> void:
+	for k in ["colecao", "foils"]:
+		if not (perfil.get(k) is Dictionary):
+			perfil[k] = {}
+	if not (perfil.get("decks") is Array) or (perfil["decks"] as Array).is_empty():
+		perfil["decks"] = _perfil_novo()["decks"]
+	perfil["deck_ativo"] = clampi(int(perfil.get("deck_ativo", 0)), 0, (perfil["decks"] as Array).size() - 1)
 
 
 ## Auto-save: grava o perfil inteiro a cada mudança (arquivo temporário + renomeia, com o anterior em .bak).
@@ -625,16 +640,15 @@ func adotar_servidor(srv: Dictionary, tudo := false) -> void:
 	for k in CAMPOS_SERVIDOR + (CAMPOS_LIVRES if tudo else ["verso"]):
 		if srv.has(k):
 			perfil[k] = srv[k]
-		elif k in CAMPOS_SERVIDOR:
+		elif k in CAMPOS_SERVIDOR and not (k in ["colecao", "foils"]):   # coleção e foils nunca somem por omissão do servidor
 			perfil.erase(k)
+	_garantir_estrutura()
 	for cid in perfil.get("colecao", {}):
 		perfil["colecao"][cid] = int(perfil["colecao"][cid])
 	for cid in perfil.get("foils", {}):
 		perfil["foils"][cid] = int(perfil["foils"][cid])
 	for k in PROTEGIDOS:
 		_gravar(k, int(srv.get(k, 0)))
-	if tudo:
-		perfil["deck_ativo"] = int(perfil.get("deck_ativo", 0))
 	salvar_so_local()
 
 

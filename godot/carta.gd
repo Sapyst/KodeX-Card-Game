@@ -55,6 +55,7 @@ var aura_atk := 0
 var aura_vida := 0
 var rel_atk := 0
 var rel_vida := 0
+var rel_keywords: Array = []            # palavras-chave dadas pela Relíquia (saem com ela)
 var aura_keywords: Array = []
 var efeitos: Array = []
 var silenciada := false
@@ -633,6 +634,7 @@ func resetar() -> void:
 		keywords.erase("renascer")
 	efeitos = dados.get("efeitos", [])
 	buff_atk = 0; buff_vida = 0; temp_atk = 0; temp_vida = 0; aura_atk = 0; aura_vida = 0; rel_atk = 0; rel_vida = 0
+	rel_keywords = []
 	aura_keywords = []
 	dano = 0
 	silenciada = false; congelada = false; sem_ataque = false; ja_atacou = false

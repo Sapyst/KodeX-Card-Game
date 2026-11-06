@@ -3938,5 +3938,10 @@
   "en": "SORT: TYPE",
   "pt": "ORDEM: TIPO",
   "es": "ORDEN: TIPO"
+ },
+ "aguardando a hora da internet": {
+  "en": "waiting for internet time",
+  "pt": "aguardando a hora da internet",
+  "es": "esperando la hora de internet"
  }
 }

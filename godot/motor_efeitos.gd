@@ -589,6 +589,10 @@ func remover_reliquia(rel: Dictionary) -> void:
 		port.reliquia = {}
 		port.rel_atk = 0
 		port.rel_vida = 0
+		for kw in port.rel_keywords:
+			port.keywords.erase(kw)
+		port.rel_keywords = []
+		port.sincronizar()
 		if port.em_campo:
 			m.efeitos.faiscas(port.position + Vector2(0, 40), 10, COR_BUFF)
 	m.cemit[rel["dono"]].append({"dados": rel["dados"], "no": null})
@@ -771,7 +775,11 @@ func aplicar_em_alvo(op: String, a: Dictionary, t, ctx: Dictionary) -> void:
 				m.efeitos.numero(t.position + Vector2(0, -24), "SILÊNCIO", COR_MUDO, 1)
 		"freeze":
 			if t is Carta:
-				t.congelada = true
+				# na vez do dono (Ímpeto, Krishna...): perde o ataque que ainda tinha neste turno; se já atacou, perde o do próximo
+				if m.ativo == t.dono and t.em_campo and not t.atacou:
+					t.sem_ataque = true
+				else:
+					t.congelada = true
 				t.marcar("gelo")
 				m.efeitos.anel(t.position, COR_GELO, 32)
 				Som.tocar("efeito_congelar")
@@ -781,6 +789,9 @@ func aplicar_em_alvo(op: String, a: Dictionary, t, ctx: Dictionary) -> void:
 			if t is Carta and t.em_campo:
 				if not (a["keyword"] in t.keywords):
 					t.keywords.append(a["keyword"])
+					var fonte_kw = ctx.get("fonte")
+					if ctx.get("gatilho") == "on_equip" and fonte_kw is Dictionary and is_same(t.reliquia, fonte_kw):
+						t.rel_keywords.append(a["keyword"])        # sai junto com a Relíquia
 				t.marcar("buff")
 				m.efeitos.numero(t.position + Vector2(0, -28), str(a["keyword"]).to_upper(), COR_BUFF, 1)
 				m.efeitos.motes(_caixa(t), COR_BUFF, true, 10)
@@ -860,6 +871,8 @@ func _invocar_tokens(d: int, a: Dictionary, fonte) -> void:
 	for k in int(a.get("n", 1)):
 		var i: int = m._espaco_livre(m.campo_ent[d])
 		if i < 0:
+			if k == 0:
+				m.efeitos.numero(de + Vector2(0, -30), "SEM ESPAÇO", COR_DEBUFF, 1)
 			break
 		var c: Carta = m._nova_carta(de, 0.5)
 		c.definir(dados, d)
@@ -878,6 +891,7 @@ func _reviver(d: int, e, para: String) -> void:
 	if idx < 0:
 		return
 	if para == "field" and not tem_slot(d):
+		m.efeitos.numero(m.proj(m.CEMIT_JOG if d == 0 else m.CEMIT_OPON) + Vector2(0, -30), "SEM ESPAÇO", COR_DEBUFF, 1)
 		return
 	m.cemit[d].remove_at(idx)
 	var c: Carta = e["no"] if e["no"] != null and is_instance_valid(e["no"]) and not e["no"].em_campo and not (e["no"] in m._mao_de(d)) else null

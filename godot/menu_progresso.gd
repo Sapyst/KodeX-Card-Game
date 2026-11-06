@@ -76,10 +76,14 @@ func desenhar() -> void:
 	f._cabecalho(Sessao.t("Progresso"), Sessao.t("missões, nível e conquistas"))
 	match aba:
 		"missoes":
-			var h := Relogio.segundos_ate_amanha()
-			_rotulo(Vector2(18, 128), Sessao.t("HOJE"), Sessao.t("novas em %dh %02dmin") % [h / 3600, (h % 3600) / 60])
-			var b := Relogio.segundos_ate_segunda()
-			_rotulo(Vector2(18, 310), Sessao.t("SEMANA"), Sessao.t("novas em %d dias e %dh") % [b / 86400, (b % 86400) / 3600])
+			if Relogio.sincronizado():
+				var h := Relogio.segundos_ate_amanha()
+				_rotulo(Vector2(18, 128), Sessao.t("HOJE"), Sessao.t("novas em %dh %02dmin") % [h / 3600, (h % 3600) / 60])
+				var b := Relogio.segundos_ate_segunda()
+				_rotulo(Vector2(18, 310), Sessao.t("SEMANA"), Sessao.t("novas em %d dias e %dh") % [b / 86400, (b % 86400) / 3600])
+			else:                                           # sem a hora da internet a contagem seria inventada
+				_rotulo(Vector2(18, 128), Sessao.t("HOJE"), Sessao.t("aguardando a hora da internet"))
+				_rotulo(Vector2(18, 310), Sessao.t("SEMANA"), Sessao.t("aguardando a hora da internet"))
 			var seq := int(Sessao.perfil.get("resgates", {}).get("seq", 0))
 			f._texto_central(Vector2(180, 486), Sessao.t("Dias seguidos: %d  ·  bônus a cada 7 (+1 booster, +20 Koins)") % seq, Color("#9ad0ff"))
 			f._texto_central(Vector2(180, 502), Sessao.t("Missões pagam na hora, ao terminar a partida."), Color(0.72, 0.66, 0.6))

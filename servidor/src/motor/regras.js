@@ -60,7 +60,7 @@ class Carta {
     if (this.sem_renascer) this.keywords = this.keywords.filter((k) => k !== "renascer");
     this.efeitos = d.efeitos || [];
     this.buff_atk = 0; this.buff_vida = 0; this.temp_atk = 0; this.temp_vida = 0; this.aura_atk = 0; this.aura_vida = 0;
-    this.rel_atk = 0; this.rel_vida = 0;
+    this.rel_atk = 0; this.rel_vida = 0; this.rel_keywords = [];
     this.aura_keywords = [];
     this.dano = 0;
     this.silenciada = false; this.congelada = false; this.sem_ataque = false; this.ja_atacou = false;
@@ -279,6 +279,12 @@ export class Partida {
     c.resetar();
     c.em_campo = false;
     c.dono = d; c.dono_real = d;
+    if (this.mao[d].length >= MAO_MAX) {              // mão cheia: a carta que voltaria queima, como na compra
+      this.cemit[d].push({ dados: c.dados, no: null });
+      c._liberada = true;
+      this.ev("queima", { jogador: d, uid: c.uid, id: c.id });
+      return;
+    }
     this.mao[d].push(c);
     this.ev("volta_mao", { jogador: d, uid: c.uid, id: c.id });
   }
@@ -783,7 +789,11 @@ export class Partida {
   }
   removerReliquia(rel) {
     const port = rel.portadora;
-    if (port.reliquia === rel) { port.reliquia = null; port.rel_atk = 0; port.rel_vida = 0; }
+    if (port.reliquia === rel) {
+      port.reliquia = null; port.rel_atk = 0; port.rel_vida = 0;
+      port.keywords = port.keywords.filter((k) => !port.rel_keywords.includes(k)); port.rel_keywords = [];
+      port.sincronizar();
+    }
     this.cemit[rel.dono].push({ dados: rel.dados, no: null });
     this.recalcularAuras();
   }
@@ -856,8 +866,17 @@ export class Partida {
       case "silence":
         if (ehCarta(t)) { t.keywords = []; t.efeitos = []; t.silenciada = true; this.recalcularAuras(); }
         break;
-      case "freeze": if (ehCarta(t)) t.congelada = true; break;
-      case "give_keyword": if (ehCarta(t) && t.em_campo && !t.keywords.includes(a.keyword)) t.keywords.push(a.keyword); break;
+      case "freeze":
+        // na vez do dono (Ímpeto, Krishna...): perde o ataque que ainda tinha neste turno; se já atacou, perde o do próximo
+        if (ehCarta(t)) { if (this.ativo === t.dono && t.em_campo && !t.atacou) t.sem_ataque = true; else t.congelada = true; }
+        break;
+      case "give_keyword":
+        if (ehCarta(t) && t.em_campo && !t.keywords.includes(a.keyword)) {
+          t.keywords.push(a.keyword);
+          const fkw = ctx.fonte;
+          if (ctx.gatilho === "on_equip" && fkw && !ehCarta(fkw) && t.reliquia === fkw) t.rel_keywords.push(a.keyword);   // sai junto com a Relíquia
+        }
+        break;
       case "set_stats":
         if (ehCarta(t) && t.em_campo) { t.atk_base = a.atk | 0; t.vida_base = a.vida | 0; t.limpar_stats(); }
         break;

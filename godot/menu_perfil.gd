@@ -1353,7 +1353,22 @@ func excluir_deck() -> void:
 	if Sessao.perfil["decks"].size() <= 1:
 		avisar(Sessao.t("Você precisa de pelo menos um deck."))
 		return
+	var ativo := int(Sessao.perfil["deck_ativo"])
 	Sessao.perfil["decks"].remove_at(deck_idx)
-	Sessao.perfil["deck_ativo"] = clampi(int(Sessao.perfil["deck_ativo"]) - (1 if int(Sessao.perfil["deck_ativo"]) >= deck_idx else 0), 0, Sessao.perfil["decks"].size() - 1)
+	if ativo == deck_idx:                                  # apagou o deck em uso: passa ao 1º deck jogável (não ao vizinho, que pode ser livre ou incompleto)
+		ativo = -1
+		for k in Sessao.perfil["decks"].size():
+			if Sessao.deck_valido(k):
+				ativo = k
+				break
+		if ativo < 0:
+			ativo = 0
+			for k in Sessao.perfil["decks"].size():
+				if not Sessao.deck_livre(k):
+					ativo = k
+					break
+	elif ativo > deck_idx:
+		ativo -= 1
+	Sessao.perfil["deck_ativo"] = clampi(ativo, 0, Sessao.perfil["decks"].size() - 1)
 	Sessao.salvar()
 	f._ir("decks")

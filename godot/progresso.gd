@@ -52,7 +52,10 @@ static func p() -> Dictionary:
 		if not pr.has(k):
 			pr[k] = []
 	var d := hoje()
-	if int(pr.get("dia", {}).get("k", -999)) != d:
+	var dia_salvo := int(pr.get("dia", {}).get("k", -999))
+	if dia_salvo != -999 and not Relogio.sincronizado():
+		d = dia_salvo                                     # sem a hora da internet o dia não vira: mudar o relógio do aparelho não traz missões novas
+	if dia_salvo != d:
 		pr["dia"] = {"k": d, "cont": {}, "feitas": [], "troca": -1}
 	var s := int(floor((d + 3) / 7.0))                  # semana começa na segunda (igual ao Relogio)
 	if int(pr.get("semana", {}).get("k", -999)) != s:

@@ -302,13 +302,16 @@ func _escolher(dono: int, cands: Array, acao: Dictionary, ctx: Dictionary) -> Ar
 		for c in cands:
 			if is_same(c, prev):
 				return [prev]
+	# "escolhido pelo jogador" vale em QUALQUER gatilho (Despertar, ao atacar, ao morrer, fim do turno, Selos, reviver…):
+	# o humano toca; a IA decide sozinha. `interativo: false` no ctx desliga (hoje nenhum caminho usa). O juiz
+	# (regras.js) pede a escolha nos mesmos pontos, então online os dois lados concordam.
 	var esc = null
-	if m.decisao_da_rede(dono) and ctx.get("interativo", false):   # online: a escolha do adversário chega pela rede
+	if m.decisao_da_rede(dono) and ctx.get("interativo", true):    # online: a escolha do adversário chega pela rede
 		var v: int = await m.esc_rede(dono)
 		if v < 0 or v >= cands.size():
 			return []
 		esc = cands[v]
-	elif humano(dono) and ctx.get("interativo", false):      # o jogador toca o alvo (mesmo com 1 só: pode PULAR)
+	elif humano(dono) and ctx.get("interativo", true):       # o jogador toca o alvo (mesmo com 1 só: pode PULAR)
 		if m.auto_jogador:                                    # teste online com a IA jogando por mim
 			esc = cands[0] if cands.size() == 1 else ia_alvo(dono, cands, acao)
 		elif cands[0] is Carta:

@@ -1,5 +1,18 @@
 [
  {
+  "versao": "0.20.13-alpha",
+  "data": "06/11/2026",
+  "pt": [
+   "Agora VOCÊ escolhe o alvo em todos os efeitos que dizem \"uma Entidade\", não só no Despertar: ao atacar (Davi, Arjuna, Funda de Davi, Sudarshana Chakra, Trishula, Anel de Salomão), ao morrer (Sapo Familiar, Caldeirão), no fim do turno (He Xiangu), nos Selos (Véu de Maya) e ao reviver (Tumba Vazia, Pássaro Vermelho, Roda do Samsara, Solve et Coagula). Antes o jogo decidia sozinho. Online, o juiz pergunta nos mesmos pontos; sem resposta em 45 s ele pula."
+  ],
+  "en": [
+   "Now YOU pick the target in every effect that says \"an Entity\", not only on Awaken: when attacking (David, Arjuna, David's Sling, Sudarshana Chakra, Trishula, Ring of Solomon), on death (Familiar Toad, Cauldron), at end of turn (He Xiangu), on Seals (Veil of Maya) and when reviving (Empty Tomb, Vermilion Bird, Wheel of Samsara, Solve et Coagula). Before, the game decided on its own. Online, the judge asks at the same points; with no answer in 45 s it skips."
+  ],
+  "es": [
+   "Ahora TÚ eliges el objetivo en todos los efectos que dicen \"una Entidad\", no solo en el Despertar: al atacar (David, Arjuna, Honda de David, Sudarshana Chakra, Trishula, Anillo de Salomón), al morir (Sapo Familiar, Caldero), al final del turno (He Xiangu), en los Sellos (Velo de Maya) y al revivir (Tumba Vacía, Pájaro Bermellón, Rueda del Samsara, Solve et Coagula). Antes el juego decidía solo. Online, el juez pregunta en los mismos puntos; sin respuesta en 45 s, salta."
+  ]
+ },
+ {
   "versao": "0.20.12-alpha",
   "data": "06/11/2026",
   "pt": [

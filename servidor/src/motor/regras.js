@@ -637,7 +637,7 @@ export class Partida {
     const prev = ctx[chave];
     if (prev != null && cands.includes(prev)) return [prev];
     let esc = null;
-    if (this.humano[dono] && ctx.interativo) {   // o jogador escolhe (mesmo com 1 só: pode pular)
+    if (this.humano[dono] && ctx.interativo !== false) {   // o jogador escolhe em qualquer gatilho (mesmo com 1 só: pode pular)
       const v = yield { tipo: "escolha", jogador: dono, op: acao.op, alvo: acao.alvo, cands: cands.map(refDe) };
       if (!Number.isInteger(v) || v < 0 || v >= cands.length) return [];
       esc = cands[v];

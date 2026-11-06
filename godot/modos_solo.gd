@@ -233,6 +233,7 @@ func seguir(caminho: String) -> void:
 				["centro", Sessao.t("Cornucópia: %d de %d") % [int(p["corn"]), int(p["corn_max"])]]],
 				func() -> void: f._ir("pere"))
 		"mercador":
+			_avancar()                                   # a parada passa antes da troca (senão dá para trocar sem fim)
 			_preparar_premio_cartas(false)
 			f._ir("pere_premio")
 		_:
@@ -501,6 +502,9 @@ func desenhar_lendarios() -> void:
 
 
 func jogar_lendario(cid: String) -> void:
+	if not Sessao.tem_deck_valido():
+		f.mp.avisar(Sessao.t("Monte um deck com 32 cartas primeiro."))
+		return
 	var trad: String = Sessao.db["cartas"][cid]["cultura"]
 	var deck_op := Sessao.deck_tematico(trad)
 	if not cid in deck_op:
@@ -615,6 +619,9 @@ func pos_livre() -> void:
 ## O Habitante do Abismo: Conjunto do Abismo (pode invocar Choronzon e vencer na hora) + 28 cartas de todas as tradições,
 ## 30 de Cornucópia, nível Arquimago.
 func _choronzon() -> void:
+	if not Sessao.tem_deck_valido():
+		f.mp.avisar(Sessao.t("Monte um deck com 32 cartas primeiro."))
+		return
 	var deck: Array = Sessao.montar_deck("misto")
 	var abismo: Array = Sessao.db["decks"].get("abismo", [])
 	for k in mini(abismo.size(), 4):

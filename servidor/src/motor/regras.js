@@ -47,7 +47,7 @@ class Carta {
     this.defe = this.vida_base + this.buff_vida + this.temp_vida + this.aura_vida + this.rel_vida;
   }
   limpar_stats() {
-    this.buff_atk = 0; this.buff_vida = 0; this.temp_atk = 0; this.temp_vida = 0; this.rel_atk = 0; this.rel_vida = 0;
+    this.buff_atk = 0; this.buff_vida = 0; this.temp_atk = 0; this.temp_vida = 0;   // o bônus da Relíquia continua
     this.dano = 0;
     this.sincronizar();
   }
@@ -706,7 +706,7 @@ export class Partida {
     const port = rel.portadora;
     for (const ef of rel.dados.efeitos || []) {
       if (ef.gatilho !== gat) continue;
-      if (port.reliquia !== rel) return;
+      if (gat !== "equipped_dies" && port.reliquia !== rel) return;   // ao morrer a portadora já foi resetada
       const ctx = { ...ctxBase, gatilho: gat, self: port, equipped: port, dono: port.dono, fonte: rel };
       if (this.condOk(ef.cond, ctx)) yield* this.executarAcoes(ef.acoes, ctx);
     }

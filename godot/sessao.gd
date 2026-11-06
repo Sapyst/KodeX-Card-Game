@@ -825,6 +825,14 @@ func deck_valido(idx: int, aceita_livre := false) -> bool:
 		and (aceita_livre or not deck_livre(idx))
 
 
+## Há algum deck completo (não livre) para jogar? Quem chama avisa "Monte um deck com 32 cartas primeiro."
+func tem_deck_valido() -> bool:
+	for k in perfil["decks"].size():
+		if deck_valido(k):
+			return true
+	return false
+
+
 func deck_ativo_ids() -> Array:
 	var i := int(perfil["deck_ativo"])
 	if not deck_valido(i):
@@ -904,7 +912,7 @@ func gastar_koins(n: int) -> bool:
 ## Presente de versão nova: +30 Koins e +50 de ouro, uma vez por versão (quem acabou de criar o perfil não recebe).
 func premiar_versao() -> bool:
 	var v := str(ProjectSettings.get_setting("application/config/version", ""))
-	if str(perfil.get("versao_premiada", "")) == v or str(perfil.get("versao_vista", "")) == v:
+	if str(perfil.get("versao_premiada", "")) == v:          # perfil novo já nasce com a versão atual premiada
 		return false
 	perfil["versao_premiada"] = v
 	_gravar("koins", koins() + KOINS_VERSAO)

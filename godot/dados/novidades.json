@@ -1,5 +1,27 @@
 [
  {
+  "versao": "0.20.11-alpha",
+  "data": "06/11/2026",
+  "pt": [
+   "Correções: Relíquias com efeito \"quando a portadora morrer\" (Trishula, Sigillum Dei Aemeth, Maracá do Pajé, Caldeirão) agora disparam, no jogo e no juiz online. Vishvarupa e Circe não apagam mais o bônus da Relíquia equipada.",
+   "Online: \"Voltar à partida\" e revanche não mudam mais o resultado decidido pelo juiz. O botão Voltar do celular cancela a busca de partida direito.",
+   "Peregrinação: o Mercador avança a parada (não dá mais para trocar sem fim); as Bênçãos \"Selos −1\" e \"+1 Vida\" continuam valendo depois de bounce, Renascer e reembaralhar.",
+   "Prêmios: o do Torneio de 8 e o presente da atualização não se perdem mais se o app fechar na hora errada. Desafios lendários, Choronzon e torneio salvo exigem deck completo."
+  ],
+  "en": [
+   "Fixes: Relics with a \"when the bearer dies\" effect (Trishula, Sigillum Dei Aemeth, Pajé's Maracá, Cauldron) now trigger, in the game and in the online judge. Vishvarupa and Circe no longer erase the equipped Relic's bonus.",
+   "Online: \"Back to match\" and rematch no longer change the result decided by the judge. The phone's Back button properly cancels matchmaking.",
+   "Pilgrimage: the Merchant advances the stop (no more endless trades); the \"Seals −1\" and \"+1 Life\" Blessings keep working after bounce, Rebirth and reshuffle.",
+   "Rewards: the Tournament of 8 prize and the update gift are no longer lost if the app closes at the wrong time. Legendary challenges, Choronzon and a saved tournament require a complete deck."
+  ],
+  "es": [
+   "Correcciones: las Reliquias con efecto \"cuando la portadora muera\" (Trishula, Sigillum Dei Aemeth, Maracá del Pajé, Caldero) ahora se activan, en el juego y en el juez online. Vishvarupa y Circe ya no borran el bono de la Reliquia equipada.",
+   "Online: \"Volver a la partida\" y la revancha ya no cambian el resultado decidido por el juez. El botón Atrás del celular cancela bien la búsqueda de partida.",
+   "Peregrinación: el Mercader avanza la parada (ya no se puede cambiar sin fin); las Bendiciones \"Sellos −1\" y \"+1 Vida\" siguen valiendo tras rebote, Renacer y rebarajar.",
+   "Premios: el del Torneo de 8 y el regalo de la actualización ya no se pierden si la app se cierra en mal momento. Desafíos legendarios, Choronzon y torneo guardado exigen mazo completo."
+  ]
+ },
+ {
   "versao": "0.20.10-alpha",
   "data": "28/10/2026",
   "pt": [

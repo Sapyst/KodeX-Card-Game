@@ -3799,6 +3799,7 @@ func _bencao(b: String) -> bool:
 ## Cornucópia inicial, Lendária garantida na mão inicial do oponente e Bênçãos que mexem nas cartas do jogador.
 func _aplicar_extras_deck() -> void:
 	var ex := _extras()
+	Carta.bencaos_jog = []                                # estática: não pode vazar de uma partida para a outra
 	if ex.has("cornucopia"):
 		cornucopia = [int(ex["cornucopia"][0]), int(ex["cornucopia"][1])]
 	for cid in ex.get("mao_garantida", []):
@@ -3808,13 +3809,10 @@ func _aplicar_extras_deck() -> void:
 				deck_opon.remove_at(k)
 				deck_opon.append(c)
 				break
-	if _bencao("selo-1") or _bencao("vida1"):
+	if _bencao("selo-1") or _bencao("vida1"):             # Carta.definir/resetar aplicam (sobrevive a bounce e reembaralhar)
+		Carta.bencaos_jog = (_extras().get("bencaos", []) as Array).duplicate()
 		for c in deck_jog:
-			if c.tipo == "selo" and _bencao("selo-1"):
-				c.custo = maxi(0, c.custo - 1)
-			if c.tipo == "entidade" and _bencao("vida1"):
-				c.vida_base += 1
-				c.sincronizar()
+			c.definir(c.dados, c.dono_real)
 	for c in deck_opon:
 		c.queue_redraw()
 	if OS.get_environment("GD_MODO_TESTE") != "":

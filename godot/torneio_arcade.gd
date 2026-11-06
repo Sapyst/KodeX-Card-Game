@@ -331,6 +331,9 @@ func _tela_campeao(d: Dictionary, eu: int) -> void:
 
 # ---------------- ações ----------------
 func lutar() -> void:
+	if not Sessao.tem_deck_valido():                 # tirou cartas do deck com o torneio salvo
+		f.mp.avisar(Sessao.t("Monte um deck com 32 cartas primeiro."))
+		return
 	Sessao.preparar_partida_ta()
 	var adv: String = Sessao.ta()["participantes"][Sessao.ta_adversario()]
 	var lista: Array = []
@@ -365,6 +368,7 @@ func ver_resto() -> void:
 
 
 func concluir() -> void:
+	Sessao.ta_pagar()                            # se o app fechou durante a animação da chave, o prêmio ainda não saiu
 	Sessao.ta_encerrar()
 	faixa_t = -1.0
 	particulas.clear()

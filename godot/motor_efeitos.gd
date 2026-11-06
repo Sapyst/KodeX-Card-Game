@@ -412,7 +412,7 @@ func disparar_efeitos_reliquia(rel: Dictionary, gat: String, ctx_base: Dictionar
 	for ef in rel["dados"]["efeitos"]:
 		if ef["gatilho"] != gat:
 			continue
-		if not is_same(port.reliquia, rel):
+		if gat != "equipped_dies" and not is_same(port.reliquia, rel):   # ao morrer a portadora já foi resetada (reliquia = {})
 			return
 		var ctx := ctx_base.duplicate()
 		ctx["gatilho"] = gat

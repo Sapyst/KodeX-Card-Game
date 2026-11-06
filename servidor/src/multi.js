@@ -83,7 +83,8 @@ async function infoPartida(env, pid, id) {
   const eu = p.j0 === id ? 0 : (p.j1 === id ? 1 : -1);
   if (eu < 0) return null;
   // queda: o outro sem contato há mais de QUEDA s numa partida em andamento → vitória de quem ficou
-  if (p.estado === "jogando" && agora() - (eu === 0 ? p.contato1 : p.contato0) > QUEDA) {
+  // (com juiz a sala é a fonte de verdade: o contato nem é atualizado durante a partida, só pelo WebSocket)
+  if (!p.juiz && p.estado === "jogando" && agora() - (eu === 0 ? p.contato1 : p.contato0) > QUEDA) {
     await env.DB.prepare("UPDATE partidas SET estado='fim', vencedor=? WHERE pid=?").bind(eu, pid).run();
     p.estado = "fim"; p.vencedor = eu; p.queda = true;
     await sinal(env, eu === 0 ? p.j1 : p.j0, "abandono", pid, 1);

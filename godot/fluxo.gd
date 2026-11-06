@@ -698,6 +698,8 @@ func _ir(novo: String) -> void:
 		"chave":
 			var d := Sessao.ta()
 			if ta.anim.is_empty() and not d.is_empty():
+				if d["fim"] or d["eliminado"]:
+					Sessao.ta_pagar()                    # torneio reaberto depois de fechar o app: paga o que ficou pendente
 				if d["fim"] and ta._campeao(d):
 					_botao(Rect2(90, 488, 180, 30), "Abrir booster", ta.abrir_premio)
 					_botao(Rect2(110, 528, 140, 24), "Concluir", ta.concluir)
@@ -757,7 +759,7 @@ func abrir_novidades(todas := true, depois := Callable()) -> void:
 			break
 		lista.append(e)
 	var blocos: Array = [["titulo", Sessao.t("Novidades")]]
-	if not todas and Sessao.premiar_versao():               # versão nova: +30 Koins e +50 de ouro
+	if Sessao.premiar_versao():                             # versão nova: +30 Koins e +50 de ouro (por qualquer caminho)
 		blocos.append(["destaque", "+%d" % Sessao.KOINS_VERSAO, "koin"])
 		blocos.append(["destaque", "+%d" % Sessao.MOEDAS_VERSAO, "moeda"])
 		blocos.append(["centro", Sessao.t("presente da atualização")])
@@ -1766,6 +1768,12 @@ func voltar() -> void:
 		perg.fechar()
 		return
 	if estado in ["capitulo", "falas", "creditos", "booster", "recorte", "chave", "pere_premio", "escolha_deck"]:
+		return
+	if estado == "perfil" and criando_perfil:                # sem nome não há como seguir: Voltar é sair do jogo
+		confirmar(Sessao.t("Sair do jogo?"), "", func() -> void: get_tree().quit())
+		return
+	if estado == "online" and onl.fase != "":                 # busca/sala/encontrada: cancela os laços antes de sair
+		onl.cancelar()
 		return
 	for b in botoes:
 		if str(b.get("texto", "")) in ["Voltar", "Cancelar"]:

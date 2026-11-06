@@ -227,6 +227,10 @@ func cancelar() -> void:
 	_ger += 1
 	if fase == "buscando":
 		Nuvem.mp("POST", "/v1/mm/cancelar", {})
+	elif fase == "encontrada" and not partida.get("bot", false):   # Voltar do Android depois de aceitar: recusa e sai da fila
+		Nuvem.mp("POST", "/v1/mm/responder", {"pid": partida.get("pid", ""), "aceitar": false})
+		Nuvem.mp("POST", "/v1/mm/cancelar", {})
+	aceitei = false
 	_mudar("")
 
 

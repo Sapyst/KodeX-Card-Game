@@ -378,6 +378,9 @@ func _verso(x0: int, y0: int) -> void:
 const COR_CULTURA := {"indigena": Color("#9a4a26"), "cristianismo": Color("#36508c"), "taoismo": Color("#1f6a5a"),
 	"hinduismo": Color("#b8661c"), "bruxaria": Color("#4e2c6c"), "alta_magia": Color("#2a2430"), "abismo": Color("#3a2a18")}
 static var _texturas: Dictionary = {}
+## Bênçãos da Peregrinação que mudam as cartas do jogador ("selo-1", "vida1"); a mesa define antes de montar o deck.
+## Aplicadas em definir/resetar, para sobreviverem a bounce, Renascer e reembaralhar.
+static var bencaos_jog: Array = []
 
 
 ## Textura do jogo (assets/arte: 48×64 na mesa; assets/carta: carta inteira no zoom). Carrega uma vez só.
@@ -554,6 +557,8 @@ func definir(d: Dictionary, quem: int) -> void:
 	dados = d
 	dono_real = quem
 	token = bool(d.get("token", false))
+	if dono_real == 0 and tipo == "selo" and "selo-1" in bencaos_jog:
+		custo = maxi(0, custo - 1)
 	resetar()
 
 
@@ -572,8 +577,9 @@ func sincronizar() -> void:
 	defe = vida_base + buff_vida + temp_vida + aura_vida + rel_vida
 
 
+## Fixa os stats (set_stats/copy_stats): some buff, temporário e dano; o bônus da Relíquia equipada continua.
 func limpar_stats() -> void:
-	buff_atk = 0; buff_vida = 0; temp_atk = 0; temp_vida = 0; rel_atk = 0; rel_vida = 0
+	buff_atk = 0; buff_vida = 0; temp_atk = 0; temp_vida = 0
 	dano = 0
 	sincronizar()
 
@@ -584,6 +590,8 @@ func resetar() -> void:
 		return
 	atk_base = int(dados["atk"]) if dados.get("atk") != null else 0
 	vida_base = int(dados["vida"]) if dados.get("vida") != null else 0
+	if dono_real == 0 and tipo == "entidade" and "vida1" in bencaos_jog:
+		vida_base += 1
 	keywords = (dados.get("keywords", []) as Array).duplicate()
 	if sem_renascer:
 		keywords.erase("renascer")

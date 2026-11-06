@@ -326,6 +326,10 @@ func _ready() -> void:
 # ---------------- perspectiva ----------------
 ## Cartas na mesa (campo, Selos, decks) deitam no tampo com a perspectiva dele; as da mão ficam retas.
 func _deitar_cartas() -> void:
+	for deck in [deck_jog, deck_opon]:                   # no monte só a carta de cima mostra o verso inteiro
+		var n: int = deck.size()
+		for i in n:
+			(deck[i] as Carta).coberta = i < n - 1
 	for d in 2:
 		for c in campo_ent[d] + campo_selo[d]:
 			if c != null and is_instance_valid(c):
@@ -400,7 +404,23 @@ func _criar_luzes() -> void:
 		luz_pos0.append(d[0])
 
 
+var _perf_t := 0.0
+var _perf_n := 0
+var _perf_soma := 0.0
+var _perf_max := 0.0
+
+
 func _process(delta: float) -> void:
+	if OS.get_environment("GD_PERF") != "":               # medição: tempo de quadro médio/máximo a cada 2 s
+		_perf_t += delta
+		_perf_n += 1
+		var fq := float(Performance.get_monitor(Performance.TIME_PROCESS)) * 1000.0
+		_perf_soma += fq
+		_perf_max = maxf(_perf_max, fq)
+		if _perf_t >= 2.0:
+			print("PERF fps=%d proc_med=%.2fms proc_max=%.2fms draws=%d objs=%d nos=%d" % [Engine.get_frames_per_second(), _perf_soma / _perf_n, _perf_max,
+				int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)), int(Performance.get_monitor(Performance.RENDER_TOTAL_OBJECTS_IN_FRAME)), int(Performance.get_monitor(Performance.OBJECT_NODE_COUNT))])
+			_perf_t = 0.0; _perf_n = 0; _perf_soma = 0.0; _perf_max = 0.0
 	_deitar_cartas()
 	if _fim_armado:
 		_fim_armado_t -= delta
@@ -500,13 +520,8 @@ func _process(delta: float) -> void:
 # ---------------- mesa ----------------
 func _desenhar_tabuleiro() -> void:
 	var t := tabuleiro
-	# piso de pedra grande (a câmera gira e se afasta)
-	for gy in range(-50, 90):
-		for gx in range(-50, 72):
-			var c: Color = PEDRA[(gx * 7 + gy * 13) % 2]
-			t.draw_rect(Rect2(gx * 16, gy * 16, 16, 16), c)
-			t.draw_rect(Rect2(gx * 16, gy * 16, 16, 1), PEDRA[2])
-			t.draw_rect(Rect2(gx * 16 + (8 if gy % 2 else 0), gy * 16, 1, 16), PEDRA[2])
+	# piso de pedra grande (a câmera gira e se afasta): um ladrilho 32×32 repetido (antes eram ~51 mil retângulos por quadro)
+	t.draw_texture_rect(_ladrilho_pedra(), Rect2(-800, -800, 1952, 2240), true)
 	# tampo de madeira: tábuas convergindo (perspectiva)
 	var tampo := PackedVector2Array([proj(Vector2(8, TOPO_Y)), proj(Vector2(352, TOPO_Y)), proj(Vector2(352, BASE_Y)), proj(Vector2(8, BASE_Y))])
 	t.draw_colored_polygon(tampo, MADEIRA[1])
@@ -548,6 +563,23 @@ func _desenhar_tabuleiro() -> void:
 	for p in [DECK_JOG, DECK_OPON, CEMIT_JOG, CEMIT_OPON]:
 		_espaco(p, Color("#8c7a6a"))
 
+
+
+static var _pedra_tex: ImageTexture = null
+
+
+## Ladrilho 2×2 pedras de 16 px (mesmo padrão do laço antigo: cor alternada, rejunte em cima e linha vertical deslocada).
+static func _ladrilho_pedra() -> ImageTexture:
+	if _pedra_tex != null:
+		return _pedra_tex
+	var img := Image.create(32, 32, false, Image.FORMAT_RGBA8)
+	for gy in 2:
+		for gx in 2:
+			img.fill_rect(Rect2i(gx * 16, gy * 16, 16, 16), PEDRA[(gx + gy) % 2])
+			img.fill_rect(Rect2i(gx * 16, gy * 16, 16, 1), PEDRA[2])
+			img.fill_rect(Rect2i(gx * 16 + (8 if gy % 2 else 0), gy * 16, 1, 16), PEDRA[2])
+	_pedra_tex = ImageTexture.create_from_image(img)
+	return _pedra_tex
 
 
 func _anel(c: Vector2, r: float, cor: Color) -> void:
@@ -1540,6 +1572,9 @@ func _topo_assentado(d: int) -> int:
 	return -1
 
 
+var _pilhas_vistas: Array = [-2, -2]
+
+
 func _atualizar_pilhas() -> void:
 	if not modo_partida:
 		return
@@ -1567,7 +1602,10 @@ func _atualizar_pilhas() -> void:
 			tc.position = cem + Vector2(0, -_altura_pilha(k))
 			tc.scale = Vector2.ONE * esc_em(cem)
 			tc.rotation = 0.0
-	pilha_cem.queue_redraw()
+	var pilhas := [_topo_assentado(0), _topo_assentado(1)]
+	if pilhas != _pilhas_vistas:                         # só redesenha as lâminas quando a pilha muda
+		_pilhas_vistas = pilhas
+		pilha_cem.queue_redraw()
 
 
 ## Espessura da pilha: uma lâmina de papel por carta (até 12), alinhadas, com a borda escura alternada.
@@ -1962,6 +2000,7 @@ func _partida() -> void:
 ## Início do turno: Fé máx +1 (teto 8) e restaura; o 2º jogador ganha +1 Fé temporária no 1º turno dele;
 ## Entidades acordam (congeladas perdem este turno); compra 1 (quem começa não compra no 1º turno); "início do turno".
 func _inicio_turno(d: int) -> void:
+	_plano_cache.clear()
 	Som.tocar("turno_inicio", "meu" if d == 0 else "dele")
 	_fim_armado = false
 	aplicar_tempo()                                      # RÁPIDO fica ligado: 2,5× só no turno do oponente
@@ -3726,7 +3765,23 @@ func _trocar_mao(d: int, trocar: Array) -> void:
 
 
 ## Plano de ataques do turno inteiro. Devolve {primeiro: ação, nota, letal}.
+var _plano_cache := {}                  # Arquimago: plano de ataques por estado do campo (zerado a cada turno)
+
+
 func _ia_plano_ataques(d: int) -> Dictionary:
+	var chave: Array = [d, cornucopia[1 - d], fe[d]]
+	for lado in [d, 1 - d]:
+		for c in motor.campo(lado):
+			var cc: Carta = c
+			chave.append([cc.get_instance_id(), cc.atk, cc.vida(), cc.atacou, cc.sem_ataque, cc.cansada, cc.virada_para_cima, cc.tem("guarda"), cc.tem("impeto")])
+	if _plano_cache.has(chave):
+		return _plano_cache[chave]
+	var plano := _ia_plano_ataques_calc(d)
+	_plano_cache[chave] = plano
+	return plano
+
+
+func _ia_plano_ataques_calc(d: int) -> Dictionary:
 	var ini := 1 - d
 	var atacantes: Array = motor.campo(d).filter(func(e: Carta) -> bool: return motor.pode_atacar(e) and e.atk > 0 \
 		and not e.sem_ataque and not e.atacou)
@@ -4596,7 +4651,20 @@ var corn_max := [15, 15]
 
 
 ## Grupo centrado: [arco] + pilha à direita (barra de vida, plaquinha do nome, fita do nível), alinhada ao arco.
+var _ret_cache: Array = [{}, {}]       # layout por lado, refeito só quando nome/nível/escala mudam (media texto)
+
+
 func _ret_layout(d: int) -> Dictionary:
+	var chave := [ret_nome[d], ret_nivel[d], RET_ESC[d], RET_TAM[d], RET_Y[d], RET_BARRA[d]]
+	var cc: Dictionary = _ret_cache[d]
+	if cc.get("chave") == chave:
+		return cc["lay"]
+	var lay := _ret_layout_calc(d)
+	_ret_cache[d] = {"chave": chave, "lay": lay}
+	return lay
+
+
+func _ret_layout_calc(d: int) -> Dictionary:
 	var tam: Vector2i = RET_TAM[d]
 	var e: int = RET_ESC[d]
 	var larg_pilha := maxf(RET_BARRA[d], Fonte57.largura(ret_nome[d], e) + 18)

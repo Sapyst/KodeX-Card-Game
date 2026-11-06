@@ -1,5 +1,21 @@
 [
  {
+  "versao": "0.20.15-alpha",
+  "data": "06/11/2026",
+  "pt": [
+   "Desempenho da mesa: cada carta só é redesenhada quando algo nela muda, o piso virou um ladrilho repetido (eram 51 mil retângulos por quadro) e as cartas cobertas no monte não desenham o verso inteiro. Nos testes, o tempo por quadro caiu de ~85 ms para ~30 ms e os engasgos de 150 ms para 55 ms.",
+   "Arquimago: o plano de ataques é guardado por estado do campo, sem recalcular a cada ação do turno."
+  ],
+  "en": [
+   "Board performance: each card is redrawn only when something on it changes, the floor became a repeated tile (it was 51k rectangles per frame) and covered cards in the deck pile skip the full back. In tests, frame time dropped from ~85 ms to ~30 ms and hitches from 150 ms to 55 ms.",
+   "Archmage: the attack plan is cached per board state instead of being recomputed on every action."
+  ],
+  "es": [
+   "Rendimiento de la mesa: cada carta solo se redibuja cuando algo cambia, el suelo pasó a ser un azulejo repetido (eran 51 mil rectángulos por cuadro) y las cartas tapadas del mazo no dibujan el reverso entero. En las pruebas, el tiempo por cuadro bajó de ~85 ms a ~30 ms y los tirones de 150 ms a 55 ms.",
+   "Archimago: el plan de ataques se guarda por estado del campo, sin recalcular en cada acción."
+  ]
+ },
+ {
   "versao": "0.20.14-alpha",
   "data": "06/11/2026",
   "pt": [

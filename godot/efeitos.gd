@@ -163,27 +163,35 @@ func _process(delta: float) -> void:
 			p["rot"] += p["vr"] * delta
 		p["p"] += p["v"] * delta
 		p["vida"] -= delta
-	particulas = particulas.filter(func(p: Dictionary) -> bool: return p["vida"] > 0.0)
+	if not particulas.is_empty():
+		particulas = particulas.filter(func(p: Dictionary) -> bool: return p["vida"] > 0.0)
 	for nv in nuvens:
 		nv["t"] += delta
 		nv["p"] += (nv["v"] as Vector2) * delta
 		nv["v"] *= 0.90
-	nuvens = nuvens.filter(func(nv: Dictionary) -> bool: return nv["t"] < nv["vida"])
+	if not nuvens.is_empty():
+		nuvens = nuvens.filter(func(nv: Dictionary) -> bool: return nv["t"] < nv["vida"])
 	for p in popups:
 		p["t"] += delta
 		p["vida"] -= delta
-	popups = popups.filter(func(p: Dictionary) -> bool: return p["vida"] > 0.0)
+	if not popups.is_empty():
+		popups = popups.filter(func(p: Dictionary) -> bool: return p["vida"] > 0.0)
 	for a in aneis:
 		a["r"] = lerpf(a["r"], a["rmax"], 1.0 - exp(-delta * 16.0))
 		a["vida"] -= delta
-	aneis = aneis.filter(func(a: Dictionary) -> bool: return a["vida"] > 0.0)
+	if not aneis.is_empty():
+		aneis = aneis.filter(func(a: Dictionary) -> bool: return a["vida"] > 0.0)
 	for lst in [cortes, fantasmas, feixes, choques]:
 		for e in lst:
 			e["t"] += delta
-	cortes = cortes.filter(func(e: Dictionary) -> bool: return e["t"] < e["dur"])
-	fantasmas = fantasmas.filter(func(e: Dictionary) -> bool: return e["t"] < 0.16)
-	feixes = feixes.filter(func(e: Dictionary) -> bool: return e["t"] < e["dur"] * 1.8)
-	choques = choques.filter(func(e: Dictionary) -> bool: return e["t"] < e["dur"])
+	if not cortes.is_empty():
+		cortes = cortes.filter(func(e: Dictionary) -> bool: return e["t"] < e["dur"])
+	if not fantasmas.is_empty():
+		fantasmas = fantasmas.filter(func(e: Dictionary) -> bool: return e["t"] < 0.16)
+	if not feixes.is_empty():
+		feixes = feixes.filter(func(e: Dictionary) -> bool: return e["t"] < e["dur"] * 1.8)
+	if not choques.is_empty():
+		choques = choques.filter(func(e: Dictionary) -> bool: return e["t"] < e["dur"])
 	clarao.a = maxf(0.0, clarao.a - delta * 1.4)
 	t_escolha += delta
 	if not tutor.is_empty():

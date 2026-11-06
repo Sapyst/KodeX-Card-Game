@@ -20,6 +20,7 @@ var virada_para_cima := false
 var levantada := 0.0                    # 0..1: altura da carta (sombra maior e mais longe)
 var luz := Vector2(180, -60)            # posição global da luz principal
 var empilhada := false                  # no monte: só a borda conta, sem sombra própria
+var coberta := false                    # no monte e com outra carta em cima: verso simplificado (ninguém vê)
 var giro := 1.0                         # 1 → 0 → 1 ao virar (independente da escala, que pode estar animando)
 var inclinacao := 0.0                   # cisalhamento ao arrastar (simula a carta tombando na direção do movimento)
 var brilho := 0.0                       # 0..1: clarão branco por cima (golpe, destruição)
@@ -115,10 +116,28 @@ func marcar(tipo: String) -> void:
 	_marcas.append({"tipo": tipo, "t": 0.0})
 
 
+var _chave_ant: Array = []               # último estado visível desenhado (desempenho: ~100 cartas por quadro)
+
+
+## Tudo o que muda o desenho sem ser animação contínua. Mudou → redesenha; senão o canvas guardado serve.
+func _chave_visual() -> Array:
+	return [virada_para_cima, giro, inclinacao, bob, plano, levantada, brilho, atk, defe, dano, cansada, atacou, apagada,
+		silenciada, congelada, sem_ataque, destaque, em_campo, empilhada, coberta, reliquia.get("usos"), reliquia.get("nome"),
+		global_position.round(), global_rotation, global_scale.y, luz, nome, aura_keywords.size(), keywords.size(), rachadura, _t_aura if aura_arcoiris else 0.0]
+
+
+## Animação contínua (pulsos por tempo): precisa redesenhar todo quadro.
+func _animada() -> bool:
+	return destaque > 0 or not _marcas.is_empty() or aura_arcoiris or congelada or sem_ataque or brilho > 0.0 or rachadura > 0.0 \
+		or _pulso_atk > 0.0 or _pulso_def > 0.0 or (em_campo and virada_para_cima and tem("guarda")) \
+		or (not virada_para_cima and dono_real == 0 and not empilhada and Sessao.verso_equipado() != "")
+
+
 func _process(d: float) -> void:
-	for mk in _marcas:
-		mk["t"] += d
-	_marcas = _marcas.filter(func(mk: Dictionary) -> bool: return mk["t"] < DUR_MARCA.get(mk["tipo"], 0.6))
+	if not _marcas.is_empty():
+		for mk in _marcas:
+			mk["t"] += d
+		_marcas = _marcas.filter(func(mk: Dictionary) -> bool: return mk["t"] < DUR_MARCA.get(mk["tipo"], 0.6))
 	_pulso_atk = maxf(0.0, _pulso_atk - d / 0.35)
 	_pulso_def = maxf(0.0, _pulso_def - d / 0.35)
 	if virada_para_cima and tipo == "entidade":
@@ -134,9 +153,17 @@ func _process(d: float) -> void:
 		plano = move_toward(plano, alvo, d * 5.0)        # deita/levanta em 0,2 s
 		_mat_plano.set_shader_parameter("plano", plano)
 		_mat_fx.set_shader_parameter("plano", plano)
-	queue_redraw()
-	if _fx:
-		_fx.queue_redraw()
+	if _animada():
+		queue_redraw()
+		if _fx:
+			_fx.queue_redraw()
+		return
+	var chave := _chave_visual()
+	if chave != _chave_ant:
+		_chave_ant = chave
+		queue_redraw()
+		if _fx:
+			_fx.queue_redraw()
 
 
 func _desenhar_fx() -> void:
@@ -266,8 +293,11 @@ func _desenhar_marca(x0: int, y0: int, mk: Dictionary) -> void:
 
 
 ## 6 rachaduras em zigue-zague saindo de um ponto perto do centro (sorteio fixo pelo id), com brilho por dentro.
+static var _rng_rach := RandomNumberGenerator.new()
+
+
 func _rachar(x0: int, y0: int) -> void:
-	var rng := RandomNumberGenerator.new()
+	var rng := _rng_rach
 	rng.seed = hash(id + str(dono))
 	var c := Vector2(x0 + LARG / 2.0 + rng.randf_range(-6, 6), y0 + ALT / 2.0 + rng.randf_range(-8, 8))
 	var face := Rect2(x0 + 1, y0 + 1, LARG - 2, ALT - 2)
@@ -349,6 +379,12 @@ func _moldura(x0: int, y0: int, fundo: Color) -> void:
 
 
 func _verso(x0: int, y0: int) -> void:
+	if empilhada and coberta:                # só a borda aparece por baixo da carta de cima: moldura e filete bastam
+		_moldura(x0, y0, VERSO_FUNDO)
+		draw_rect(Rect2(x0 + 4, y0 + 3, LARG - 8, 1), OURO)
+		draw_rect(Rect2(x0 + 3, y0 + 4, 1, ALT - 8), OURO)
+		draw_rect(Rect2(x0 + LARG - 4, y0 + 4, 1, ALT - 8), OURO_ESC)
+		return
 	# verso equipado na loja de cosméticos (só nas cartas do jogador; efeitos animados fora das cartas empilhadas)
 	if dono_real == 0 and Cosmeticos.desenhar(self, Sessao.verso_equipado(), Rect2(x0, y0, LARG, ALT), not empilhada):
 		return

@@ -4243,5 +4243,135 @@
   "en": "VIBRATION",
   "pt": "VIBRAÇÃO",
   "es": "VIBRACIÓN"
+ },
+ "você: %d turnos": {
+  "en": "you: %d turns",
+  "pt": "você: %d turnos",
+  "es": "tú: %d turnos"
+ },
+ "você: derrota": {
+  "en": "you: loss",
+  "pt": "você: derrota",
+  "es": "tú: derrota"
+ },
+ "melhor: %d turnos": {
+  "en": "best: %d turns",
+  "pt": "melhor: %d turnos",
+  "es": "mejor: %d turnos"
+ },
+ "%d venceram de %d": {
+  "en": "%d won out of %d",
+  "pt": "%d venceram de %d",
+  "es": "%d ganaron de %d"
+ },
+ "PORTADA": {
+  "en": "BORNE",
+  "pt": "PORTADA",
+  "es": "PORTADA"
+ },
+ "JOGAR COM": {
+  "en": "PLAY WITH",
+  "pt": "JOGAR COM",
+  "es": "JUGAR CON"
+ },
+ "vença quem tem a Lendária e leve-a": {
+  "en": "beat whoever holds the Legendary and take it",
+  "pt": "vença quem tem a Lendária e leve-a",
+  "es": "vence a quien tiene la Legendaria y llévatela"
+ },
+ "jogue COM a Lendária contra um Arquimago · %d de 12": {
+  "en": "play WITH the Legendary against an Archmage · %d of 12",
+  "pt": "jogue COM a Lendária contra um Arquimago · %d de 12",
+  "es": "juega CON la Legendaria contra un Archimago · %d de 12"
+ },
+ "Lendária portada": {
+  "en": "Legendary borne",
+  "pt": "Lendária portada",
+  "es": "Legendaria portada"
+ },
+ "%d de 12 portadas": {
+  "en": "%d of 12 borne",
+  "pt": "%d de 12 portadas",
+  "es": "%d de 12 portadas"
+ },
+ "De novo! Prêmio só na 1ª vitória com cada Lendária.": {
+  "en": "Again! Reward only on the 1st win with each Legendary.",
+  "pt": "De novo! Prêmio só na 1ª vitória com cada Lendária.",
+  "es": "¡Otra vez! Premio solo en la 1ª victoria con cada Legendaria."
+ },
+ "DA SEMANA": {
+  "en": "THIS WEEK'S",
+  "pt": "DA SEMANA",
+  "es": "DE LA SEMANA"
+ },
+ "bônus do enigma da semana": {
+  "en": "weekly puzzle bonus",
+  "pt": "bônus do enigma da semana",
+  "es": "bono del enigma de la semana"
+ },
+ "Peregrinação do dia (+%d)": {
+  "en": "Daily Pilgrimage (+%d)",
+  "pt": "Peregrinação do dia (+%d)",
+  "es": "Peregrinación del día (+%d)"
+ },
+ "Peregrinação do dia: feita hoje": {
+  "en": "Daily Pilgrimage: done today",
+  "pt": "Peregrinação do dia: feita hoje",
+  "es": "Peregrinación del día: hecha hoy"
+ },
+ "Peregrinação do dia": {
+  "en": "Daily Pilgrimage",
+  "pt": "Peregrinação do dia",
+  "es": "Peregrinación del día"
+ },
+ "Sem conexão: a Peregrinação do dia usa a hora da internet.": {
+  "en": "No connection: the Daily Pilgrimage uses internet time.",
+  "pt": "Sem conexão: a Peregrinação do dia usa a hora da internet.",
+  "es": "Sin conexión: la Peregrinación del día usa la hora de internet."
+ },
+ "A tentativa de hoje já foi usada. Volte amanhã.": {
+  "en": "Today's attempt is already used. Come back tomorrow.",
+  "pt": "A tentativa de hoje já foi usada. Volte amanhã.",
+  "es": "El intento de hoy ya se usó. Vuelve mañana."
+ },
+ "Peregrinação do dia completa": {
+  "en": "Daily Pilgrimage complete",
+  "pt": "Peregrinação do dia completa",
+  "es": "Peregrinación del día completa"
+ },
+ "Volte amanhã para outra jornada.": {
+  "en": "Come back tomorrow for another journey.",
+  "pt": "Volte amanhã para outra jornada.",
+  "es": "Vuelve mañana para otro viaje."
+ },
+ "Modificador do dia": {
+  "en": "Daily modifier",
+  "pt": "Modificador do dia",
+  "es": "Modificador del día"
+ },
+ "Desligado": {
+  "en": "Off",
+  "pt": "Desligado",
+  "es": "Apagado"
+ },
+ "Torneio da semana": {
+  "en": "Weekly Tournament",
+  "pt": "Torneio da semana",
+  "es": "Torneo de la semana"
+ },
+ "Torneio da semana: jogado": {
+  "en": "Weekly Tournament: played",
+  "pt": "Torneio da semana: jogado",
+  "es": "Torneo de la semana: jugado"
+ },
+ "Sem conexão: o Torneio da semana usa a hora da internet.": {
+  "en": "No connection: the Weekly Tournament uses internet time.",
+  "pt": "Sem conexão: o Torneio da semana usa a hora da internet.",
+  "es": "Sin conexión: el Torneo de la semana usa la hora de internet."
+ },
+ "Você já jogou o Torneio desta semana. Volte na segunda.": {
+  "en": "You already played this week's Tournament. Come back on Monday.",
+  "pt": "Você já jogou o Torneio desta semana. Volte na segunda.",
+  "es": "Ya jugaste el Torneo de esta semana. Vuelve el lunes."
  }
 }

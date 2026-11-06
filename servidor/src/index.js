@@ -21,6 +21,9 @@ const PREMIOS = {
   pere_vitoria: { teto: 15, moedas: () => 20 },
   pere_chefe: { teto: 2, moedas: () => 120, booster: () => 1 },
   diario: { teto: 1, moedas: () => 30 },
+  enigma_semana: { teto: 1, moedas: () => 20 },   // bônus do enigma da semana (uma vez por semana)
+  pere_dia: { teto: 1, moedas: () => 40 },        // Peregrinação do dia completa (uma vez por dia)
+  lendario_inv: { teto: 12 },                     // 1ª vitória COM cada Lendária (15 moedas)
   lendario: { teto: 5 },
   enigma: { teto: 12 },
   choronzon: { teto: 3 },
@@ -202,6 +205,13 @@ async function progresso(env, id, p, d) {
   return out;
 }
 
+// Placar do Desafio do dia: quantos jogaram, quantos venceram, melhor número de turnos e o resultado de quem pergunta.
+async function placarDiario(env, dd, id) {
+  const t = await env.DB.prepare("SELECT COUNT(*) AS jogaram, COALESCE(SUM(venceu), 0) AS venceram, MIN(CASE WHEN venceu = 1 THEN turnos END) AS melhor FROM diario WHERE dia=?").bind(dd).first();
+  const eu = await env.DB.prepare("SELECT venceu, turnos FROM diario WHERE dia=? AND id=?").bind(dd, id).first();
+  return { dia: dd, jogaram: t?.jogaram | 0, venceram: t?.venceram | 0, melhor: t?.melhor ?? 0, eu: eu ? { venceu: !!eu.venceu, turnos: eu.turnos | 0 } : null };
+}
+
 async function premio(env, id, p, d) {
   const regra = PREMIOS[d.motivo];
   if (!regra) return { erro: "motivo desconhecido" };
@@ -214,6 +224,23 @@ async function premio(env, id, p, d) {
   if (d.motivo === "diario") {
     if (p.diario_dia === hoje) return { moedas: 0, teto: true };
     p.diario_dia = hoje;
+  }
+  if (d.motivo === "pere_dia") {
+    if (p.pere_dia === hoje) return { moedas: 0, teto: true };
+    p.pere_dia = hoje;
+  }
+  if (d.motivo === "enigma_semana") {
+    const s = semana();
+    if ((d.semana | 0) !== s || p.enigma_semana === s) return { moedas: 0, teto: true };
+    p.enigma_semana = s;
+  }
+  if (d.motivo === "lendario_inv") {
+    const cid = String(d.carta || "");
+    if (!carta(cid)?.l) return { erro: "carta inválida" };
+    const reg = (p.lendarios_inv ||= {});
+    if (reg[cid] | 0) return { moedas: 0, repetido: true };
+    reg[cid] = 1;
+    out.moedas = 15;
   }
   if (d.motivo === "lendario") {
     const cid = String(d.carta || "");
@@ -513,6 +540,20 @@ export default {
         return json({ ok: true, usuario: u });
       }
       const p = await lerPerfil(env, id);
+      if (url.pathname === "/v1/diario" && req.method === "POST") {   // resultado do Desafio do dia (placar público)
+        const dd = corpo.dia | 0, hoje = dia();
+        if (dd !== hoje && dd !== hoje - 1) return erro("dia errado");
+        const turnos = clamp(corpo.turnos | 0, 1, 200), venceu = corpo.venceu ? 1 : 0;
+        // só melhora: uma vitória não vira derrota e o número de turnos só diminui
+        await env.DB.prepare(`INSERT INTO diario (dia, id, venceu, turnos, ts) VALUES (?, ?, ?, ?, ?)
+          ON CONFLICT(dia, id) DO UPDATE SET turnos = CASE WHEN excluded.venceu = 1 AND (venceu = 0 OR excluded.turnos < turnos) THEN excluded.turnos ELSE turnos END,
+          venceu = MAX(venceu, excluded.venceu)`).bind(dd, id, venceu, turnos, agora()).run();
+        return json({ ok: true, placar: await placarDiario(env, dd, id) });
+      }
+      if (url.pathname === "/v1/diario") {
+        const dd = parseInt(url.searchParams.get("dia") || "0", 10) || dia();
+        return json({ ok: true, placar: await placarDiario(env, dd, id) });
+      }
       if (url.pathname === "/v1/perfil") {
         const em = await env.DB.prepare("SELECT email FROM emails WHERE id=?").bind(id).first();
         const ko = await env.DB.prepare("SELECT usuario, refazer_frase, senha_temp FROM kodes WHERE id=?").bind(id).first();

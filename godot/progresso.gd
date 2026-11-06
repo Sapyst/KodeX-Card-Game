@@ -310,6 +310,8 @@ static func valor(k: String) -> int:
 			return n
 		"enigmas":
 			return (pf.get("enigmas", {}) as Dictionary).size()
+		"lendarios_inv":
+			return (pf.get("lendarios_inv", {}) as Dictionary).size()
 		"torneio_vencido", "choronzon_vencido":
 			return int(bool(pf.get(k, false)))
 		"pere_fim":

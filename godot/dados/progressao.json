@@ -802,6 +802,16 @@
    "en": "Reach Mastery 5 in a Tradition",
    "es": "Alcanza maestría 5 en una Tradición",
    "moedas": 150
+  },
+  {
+   "id": "portador",
+   "cont": "lendarios_inv",
+   "alvo": 12,
+   "pt": "Vença com cada uma das 12 Lendárias (Desafios lendários invertidos)",
+   "en": "Win with each of the 12 Legendaries (inverted Legendary challenges)",
+   "es": "Gana con cada una de las 12 Legendarias (Desafíos legendarios invertidos)",
+   "moedas": 150,
+   "titulo": "portador"
   }
  ],
  "titulos": {
@@ -899,6 +909,11 @@
    "Mestre da Alta Magia",
    "Master of High Magic",
    "Maestro de la Alta Magia"
+  ],
+  "portador": [
+   "Portador",
+   "Bearer",
+   "Portador"
   ]
  },
  "tradicoes": {

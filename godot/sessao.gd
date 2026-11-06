@@ -686,9 +686,10 @@ func salvar_so_local() -> void:
 ## Campos que o servidor controla (economia e progresso que dá prêmio). `tudo` = entrar numa conta de outro aparelho:
 ## traz também nome, decks e opções.
 const CAMPOS_SERVIDOR := ["colecao", "foils", "versos", "resgates", "sem_lendaria", "lendarios", "enigmas", "diario_dia",
+	"lendarios_inv", "enigma_semana", "pere_dia",
 	"versao_premiada", "choronzon_vencido", "titulos", "novas", "prog_pagos", "correio"]
 const CAMPOS_LIVRES := ["nome", "decks", "deck_ativo", "verso", "pacote", "tarcade", "torneio", "versao_vista", "pere",
-	"torneio_vencido", "historico", "estat", "prog", "titulo", "pere_fim", "avatares"]
+	"torneio_vencido", "historico", "estat", "prog", "titulo", "pere_fim", "avatares", "ta_semana"]
 
 
 func adotar_servidor(srv: Dictionary, tudo := false) -> void:
@@ -1218,14 +1219,22 @@ func ta_ativo() -> bool:
 	return not ta().is_empty() and not ta().get("fim", false)
 
 
-func novo_torneio_arcade() -> void:
+## `semana` >= 0: Torneio da semana, com a chave sorteada pela semana (igual para todo mundo).
+func novo_torneio_arcade(semana := -1) -> void:
 	var parts: Array = ["jogador"] + NPCS_TA.duplicate()
-	parts.shuffle()
+	if semana >= 0:
+		var r := RandomNumberGenerator.new()
+		r.seed = semana * 6007 + 11
+		for i in range(parts.size() - 1, 0, -1):          # embaralhamento determinístico (Fisher-Yates)
+			var j := r.randi_range(0, i)
+			var tmp = parts[i]; parts[i] = parts[j]; parts[j] = tmp
+	else:
+		parts.shuffle()
 	var ordem: Array = []
 	for i in 8:
 		ordem.append(i)
 	perfil["tarcade"] = {"participantes": parts, "rodadas": [ordem, [-1, -1, -1, -1], [-1, -1], [-1]], "margem": {},
-		"rodada": 0, "eliminado": false, "premio": -1, "fim": false}
+		"rodada": 0, "eliminado": false, "premio": -1, "fim": false, "semana": semana}
 	salvar()
 
 

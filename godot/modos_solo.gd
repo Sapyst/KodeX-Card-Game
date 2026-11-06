@@ -109,6 +109,7 @@ func abrir(id: String) -> void:
 				Relogio.sincronizar()
 				return
 			f._ir("diario")
+			buscar_placar_diario()
 		"lendario":
 			f._ir("lendarios")
 		"livre":
@@ -127,6 +128,9 @@ func pere() -> Dictionary:
 	return Sessao.perfil.get("pere", {})
 
 
+const MOEDAS_PERE_DIA := 40
+
+
 func comecar_pere(trad: String) -> void:
 	Sessao.perfil["pere"] = {"trad": trad, "parada": 0, "corn": 15, "corn_max": CORN_MAX, "deck": Sessao.deck_tematico(trad),
 		"bencaos": [], "caminhos": _sortear_caminhos(0), "vitorias": 0}
@@ -134,16 +138,55 @@ func comecar_pere(trad: String) -> void:
 	f._ir("pere")
 
 
+## Peregrinação do dia: tradição, caminhos e oponentes vêm da semente do dia (iguais para todo mundo); uma tentativa
+## por dia (abandonar ou cair gasta a tentativa); sem prêmio por parada, +40 moedas ao vencer o Chefe.
+func pere_dia_feita() -> bool:
+	return int(Sessao.perfil.get("pere_dia", -1)) == Relogio.dia()
+
+
+func comecar_pere_dia() -> void:
+	if not Relogio.sincronizado():
+		f.mp.avisar(Sessao.t("Sem conexão: a Peregrinação do dia usa a hora da internet."))
+		Relogio.sincronizar()
+		return
+	if pere_dia_feita():
+		f.mp.avisar(Sessao.t("A tentativa de hoje já foi usada. Volte amanhã."))
+		return
+	var dia := Relogio.dia()
+	var trad: String = Sessao.DECKS[_rng_dia(dia, 0).randi_range(0, 5)]
+	Sessao.perfil["pere_dia"] = dia
+	Sessao.perfil["pere"] = {"trad": trad, "parada": 0, "corn": 15, "corn_max": CORN_MAX, "deck": Sessao.deck_tematico(trad),
+		"bencaos": [], "caminhos": [], "vitorias": 0, "dia": dia}
+	Sessao.perfil["pere"]["caminhos"] = _sortear_caminhos(0)
+	Sessao.salvar()
+	f._ir("pere")
+
+
+func _rng_dia(dia: int, parada: int) -> RandomNumberGenerator:
+	var r := RandomNumberGenerator.new()
+	r.seed = dia * 7919 + parada * 131 + 5
+	return r
+
+
+## Sorteio da Peregrinação: do dia = determinístico pela parada; normal = aleatório.
+func _rng_pere(parada: int) -> RandomNumberGenerator:
+	var p := pere()
+	if p.has("dia"):
+		return _rng_dia(int(p["dia"]), parada)
+	return Sessao.rng
+
+
 func _sortear_caminhos(parada: int) -> Array:
 	if parada >= PARADAS - 1:
 		return ["chefe"]
 	if parada == 0:
 		return ["batalha", "batalha"]
+	var rng := _rng_pere(parada)
 	var pool := ["batalha", "batalha", "batalha", "elite", "elite", "santuario", "mercador"]
-	var a: String = pool[Sessao.rng.randi_range(0, pool.size() - 1)]
-	var b: String = pool[Sessao.rng.randi_range(0, pool.size() - 1)]
+	var a: String = pool[rng.randi_range(0, pool.size() - 1)]
+	var b: String = pool[rng.randi_range(0, pool.size() - 1)]
 	while b == a and a != "batalha":
-		b = pool[Sessao.rng.randi_range(0, pool.size() - 1)]
+		b = pool[rng.randi_range(0, pool.size() - 1)]
 	return [a, b]
 
 
@@ -152,8 +195,10 @@ func botoes_pere() -> void:
 	if p.is_empty():
 		for i in 6:
 			var d: String = Sessao.DECKS[i]
-			f._botao(Rect2(16 + (i % 2) * 168, 112 + (i / 2) * 150, 160, 140), Sessao.nome_deck(d), comecar_pere.bind(d), {"deck": d})
-		f._botao(Rect2(110, 572, 140, 26), "Voltar", func() -> void: f._ir("solo"))
+			f._botao(Rect2(16 + (i % 2) * 168, 100 + (i / 2) * 140, 160, 130), Sessao.nome_deck(d), comecar_pere.bind(d), {"deck": d})
+		f._botao(Rect2(60, 528, 240, 28), Sessao.t("Peregrinação do dia (+%d)") % MOEDAS_PERE_DIA if not pere_dia_feita() else Sessao.t("Peregrinação do dia: feita hoje"),
+			comecar_pere_dia, {"ouro": not pere_dia_feita()})
+		f._botao(Rect2(110, 566, 140, 26), "Voltar", func() -> void: f._ir("solo"))
 		return
 	var cams: Array = p["caminhos"]
 	for k in cams.size():
@@ -186,7 +231,7 @@ func desenhar_pere() -> void:
 	if p.is_empty():
 		f._cabecalho(Sessao.t("Peregrinação"), Sessao.t("escolha a fé que vai carregar"))
 		return
-	f._cabecalho(Sessao.t("Peregrinação"), Sessao.nome_deck(p["trad"]))
+	f._cabecalho(Sessao.t("Peregrinação do dia") if p.has("dia") else Sessao.t("Peregrinação"), Sessao.nome_deck(p["trad"]))
 	# trilha das 8 paradas
 	for k in PARADAS:
 		var x := 40.0 + k * 40.0
@@ -237,7 +282,7 @@ func seguir(caminho: String) -> void:
 			_preparar_premio_cartas(false)
 			f._ir("pere_premio")
 		_:
-			var opon: String = Sessao.DECKS[Sessao.rng.randi_range(0, 5)]
+			var opon: String = Sessao.DECKS[_rng_pere(int(p["parada"]) + 10).randi_range(0, 5)]
 			var nivel := 1 if caminho == "batalha" else 2
 			var corn_op: int = {"batalha": 15, "elite": 18, "chefe": 20}[caminho]
 			var deck_op := Sessao.deck_tematico(opon)
@@ -387,6 +432,15 @@ func pos_pere() -> void:
 		return
 	p["corn"] = clampi(int(ex.get("fim_cornucopia", p["corn"])), 1, int(p["corn_max"]))
 	p["vitorias"] = int(p["vitorias"]) + 1
+	if p.has("dia") and caminho == "chefe":              # do dia: só o prêmio do fim
+		Sessao.perfil["pere_fim"] = int(Sessao.perfil.get("pere_fim", 0)) + 1
+		Sessao.premio("pere_dia", {"dia": int(p["dia"])}, MOEDAS_PERE_DIA)
+		Sessao.perfil.erase("pere")
+		Sessao.salvar()
+		f._ir("solo")
+		f.perg.abrir([["titulo", Sessao.t("Peregrinação do dia completa")], ["destaque", "+%d" % MOEDAS_PERE_DIA, "moeda"],
+			["centro", Sessao.t("Volte amanhã para outra jornada.")]])
+		return
 	if caminho == "chefe":
 		Sessao.perfil["pere_fim"] = int(Sessao.perfil.get("pere_fim", 0)) + 1      # conta para a conquista
 		Sessao.premio("pere_chefe", {}, MOEDAS_CHEFE_PERE + MOEDAS_VITORIA_PERE, 1)
@@ -397,7 +451,8 @@ func pos_pere() -> void:
 			["destaque", "+%d" % (MOEDAS_CHEFE_PERE + MOEDAS_VITORIA_PERE), "moeda"], ["espaco"], ["destaque", "+1", "booster"],
 			["centro", Sessao.t("booster grátis - abra na Loja")]])
 		return
-	Sessao.premio("pere_vitoria", {}, MOEDAS_VITORIA_PERE)
+	if not p.has("dia"):
+		Sessao.premio("pere_vitoria", {}, MOEDAS_VITORIA_PERE)
 	_avancar()
 	if caminho == "elite":
 		tipo_premio = "bencao"
@@ -421,6 +476,32 @@ func diario() -> Dictionary:
 	while b == a:
 		b = Sessao.DECKS[r.randi_range(0, 5)]
 	return {"dia": dia, "meu": a, "opon": b}
+
+
+var placar_diario := {}                    # {dia, jogaram, venceram, melhor, eu:{venceu, turnos}} vindo do servidor
+
+
+## Busca o placar público do dia (quantos venceram, melhor número de turnos, o seu).
+func buscar_placar_diario() -> void:
+	var d := diario()
+	if not Nuvem.ativo():
+		return
+	var r: Dictionary = await Nuvem.mp("GET", "/v1/diario?dia=%d" % int(d["dia"]), {}, 8.0)
+	if r.get("ok", false) and r.has("placar"):
+		placar_diario = r["placar"]
+		f.queue_redraw()
+
+
+## Manda o resultado (vitória e turnos) para o placar; só melhora o que já está lá.
+func enviar_placar_diario(dia: int, venceu: bool) -> void:
+	if not Nuvem.ativo():
+		return
+	var h: Array = Sessao.perfil.get("historico", [])
+	var turnos := int(h[0].get("turnos", 0)) if not h.is_empty() else 0
+	var r: Dictionary = await Nuvem.mp("POST", "/v1/diario", {"dia": dia, "venceu": venceu, "turnos": turnos}, 8.0)
+	if r.get("ok", false) and r.has("placar"):
+		placar_diario = r["placar"]
+		f.queue_redraw()
 
 
 func botoes_diario() -> void:
@@ -448,6 +529,16 @@ func desenhar_diario() -> void:
 	var s := Sessao.t("Prêmio de hoje já recebido. Jogue pelo prazer.") if feito \
 		else (Sessao.t("Vitória: +%d moedas (uma vez por dia)") % MOEDAS_DIARIO)
 	f._texto_central(Vector2(180, 380), s, f.OURO[1])
+	if int(placar_diario.get("dia", -1)) == int(d["dia"]):             # placar de todo mundo hoje
+		var pl := placar_diario
+		var partes := PackedStringArray()
+		if pl.get("eu") != null:
+			var eu: Dictionary = pl["eu"]
+			partes.append((Sessao.t("você: %d turnos") % int(eu.get("turnos", 0))) if eu.get("venceu", false) else Sessao.t("você: derrota"))
+		if int(pl.get("venceram", 0)) > 0:
+			partes.append(Sessao.t("melhor: %d turnos") % int(pl.get("melhor", 0)))
+		partes.append(Sessao.t("%d venceram de %d") % [int(pl.get("venceram", 0)), int(pl.get("jogaram", 0))])
+		f._texto_central(Vector2(180, 398), "  ·  ".join(partes), Color("#9ad0ff"))
 
 
 func jogar_diario() -> void:
@@ -462,6 +553,7 @@ func pos_diario() -> void:
 	Sessao.resultado = ""
 	var dia := int(Sessao.extras.get("dia", -1))
 	f._ir("diario")
+	enviar_placar_diario(dia, venceu)
 	if venceu and int(Sessao.perfil.get("diario_dia", -1)) != dia:
 		Sessao.perfil["diario_dia"] = dia
 		Sessao.premio("diario", {}, MOEDAS_DIARIO)
@@ -478,32 +570,51 @@ func lendarias() -> Array:
 	return out
 
 
+const MOEDAS_LENDARIO_INV := 15             # 1ª vitória com cada Lendária (modo invertido)
+var lend_modo := "desafiar"                 # "desafiar" (vencer quem tem a Lendária) | "portar" (jogar com ela)
+
+
 func botoes_lendarios() -> void:
 	var l := lendarias()
 	for k in l.size():
 		f._botao(Rect2(16 + (k % 4) * 84, 92 + (k / 4) * 132, 76, 124), "", jogar_lendario.bind(l[k]), {"lend": l[k], "carta_id": l[k], "desenho": botao_lendario})
+	f._botao(Rect2(40, 60, 280, 20), "", func() -> void:
+		lend_modo = "portar" if lend_modo == "desafiar" else "desafiar"; f.vibrar(10, 0.3); f._ir("lendarios", true),
+		{"desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
 	f._botao(Rect2(110, 92 + 3 * 132 + 8, 140, 26), "Voltar", func() -> void: f._ir("solo"))
 
 
 func botao_lendario(b: Dictionary, r: Rect2, pressao: float) -> void:
 	var cid: String = b["lend"]
-	var venc := int((Sessao.perfil.get("lendarios", {}) as Dictionary).get(cid, 0))
+	var venc := int((Sessao.perfil.get("lendarios" if lend_modo == "desafiar" else "lendarios_inv", {}) as Dictionary).get(cid, 0))
 	var cr := Rect2(r.position + Vector2(2, 2 + pressao), Vector2(72, 101))
 	var tex := Carta.textura(Sessao.pasta("carta"), cid, "webp")
 	f.draw_rect(cr.grow(2), f.OURO[1] if venc > 0 else f.ESCURO)
 	if tex:
 		f.draw_texture_rect(tex, cr, false, Color(1, 1, 1, 1.0) if venc > 0 else Color(0.55, 0.5, 0.55))
-	var s := Sessao.t("CONQUISTADA") if venc > 0 else Sessao.t("DESAFIAR")
+	var s := (Sessao.t("CONQUISTADA") if venc > 0 else Sessao.t("DESAFIAR")) if lend_modo == "desafiar" else (Sessao.t("PORTADA") if venc > 0 else Sessao.t("JOGAR COM"))
 	PixelFonte.centrado(f, Vector2(r.get_center().x, r.end.y - 8), s, f.OURO[0] if venc > 0 else f.CREME, 1, f.ESCURO)
 
 
 func desenhar_lendarios() -> void:
-	f._cabecalho(Sessao.t("Desafios lendários"), Sessao.t("vença o nível mais difícil e leve a Lendária"))
+	if lend_modo == "desafiar":
+		f._cabecalho(Sessao.t("Desafios lendários"), Sessao.t("vença quem tem a Lendária e leve-a") + "  (" + Sessao.t("trocar") + ")")
+	else:
+		var n := (Sessao.perfil.get("lendarios_inv", {}) as Dictionary).size()
+		f._cabecalho(Sessao.t("Desafios lendários"), (Sessao.t("jogue COM a Lendária contra um Arquimago · %d de 12") % n) + "  (" + Sessao.t("trocar") + ")")
 
 
 func jogar_lendario(cid: String) -> void:
 	if not Sessao.tem_deck_valido():
 		f.mp.avisar(Sessao.t("Monte um deck com 32 cartas primeiro."))
+		return
+	if lend_modo == "portar":                            # invertido: a Lendária entra no SEU deck (e na mão), contra um Arquimago
+		var meu := Sessao.deck_ativo_ids()
+		if not cid in meu:
+			meu[meu.size() - 1] = cid
+		var opon: String = Sessao.DECKS[Sessao.rng.randi_range(0, 5)]
+		Sessao.preparar_modo("lendario", meu, opon, Sessao.deck_tematico(opon), 2, {"mao_garantida": [cid], "lendaria_inv": cid})
+		f._jogar()
 		return
 	var trad: String = Sessao.db["cartas"][cid]["cultura"]
 	var deck_op := Sessao.deck_tematico(trad)
@@ -516,6 +627,29 @@ func jogar_lendario(cid: String) -> void:
 func pos_lendario() -> void:
 	var venceu := Sessao.resultado == "vitoria"
 	Sessao.resultado = ""
+	var cid_inv: String = Sessao.extras.get("lendaria_inv", "")
+	if cid_inv != "":                                    # invertido: 1ª vitória com cada Lendária vale moedas; 12 = título Portador
+		f._ir("lendarios")
+		if not venceu:
+			return
+		var ri: Dictionary = Sessao.perfil.get("lendarios_inv", {})
+		var primeira_inv := int(ri.get(cid_inv, 0)) == 0
+		ri[cid_inv] = int(ri.get(cid_inv, 0)) + 1
+		Sessao.perfil["lendarios_inv"] = ri
+		var b: Array = [["titulo", Sessao.t("Lendária portada")], ["centro", str(Sessao.db["cartas"][cid_inv]["nome"])]]
+		if primeira_inv:
+			Sessao.premio("lendario_inv", {"carta": cid_inv}, MOEDAS_LENDARIO_INV)
+			b.append(["destaque", "+%d" % MOEDAS_LENDARIO_INV, "moeda"])
+			b.append(["centro", Sessao.t("%d de 12 portadas") % ri.size()])
+			for ev in Progresso.verificar():                   # "Portador" fecha aqui mesmo
+				b.append(["divisor"])
+				b.append(["item", Sessao.t("Conquista: %s") % ev["texto"]])
+				b.append(["centro", Progresso.premio_txt(ev["premio"])])
+		else:
+			b.append(["centro", Sessao.t("De novo! Prêmio só na 1ª vitória com cada Lendária.")])
+		Sessao.salvar()
+		f.perg.abrir(b)
+		return
 	var cid: String = Sessao.extras.get("lendaria", "")
 	f._ir("lendarios")
 	if not venceu or cid == "":
@@ -668,6 +802,18 @@ func enigmas() -> Array:
 	return _enigmas
 
 
+const MOEDAS_ENIGMA_SEMANA := 20
+
+
+## Número da semana (segunda a segunda, hora de Nova York) e o enigma sorteado para ela.
+func semana_atual() -> int:
+	return Relogio.semana() if Relogio.sincronizado() else int(floor((Progresso.hoje() + 3) / 7.0))
+
+
+func enigma_da_semana() -> int:
+	return int(Progresso.sorteio(semana_atual() + 777, 1, enigmas().size())[0])
+
+
 func botoes_enigmas() -> void:
 	var l := enigmas()
 	for k in l.size():
@@ -678,8 +824,15 @@ func botoes_enigmas() -> void:
 func botao_enigma(b: Dictionary, r: Rect2, pressao: float) -> void:
 	var e: Dictionary = b["enigma"]
 	var feito := (Sessao.perfil.get("enigmas", {}) as Dictionary).has(e["id"])
-	var dentro: Rect2 = f._painel(r, feito, pressao, Color("#2a2a4a") if not feito else Color("#3a3010"))
+	var da_semana: bool = enigmas().find(e) == enigma_da_semana()
+	var semana_paga := int(Sessao.perfil.get("enigma_semana", -1)) == semana_atual()
+	var dentro: Rect2 = f._painel(r, feito or da_semana, pressao, (Color("#1f3a5a") if da_semana and not semana_paga else Color("#2a2a4a")) if not feito else Color("#3a3010"))
 	Fonte57.desenhar(f, dentro.position + Vector2(10, 6), _l(e["titulo"]), f.OURO[0] if feito else f.CREME, f.ESCURO)
+	if da_semana:                                        # enigma da semana: etiqueta e bônus (uma vez por semana, mesmo já resolvido)
+		var tag := Sessao.t("DA SEMANA") + ("" if semana_paga else "  +%d" % MOEDAS_ENIGMA_SEMANA)
+		var tw := PixelFonte.largura(tag) + 6
+		f.draw_rect(Rect2(dentro.end.x - 70 - tw, dentro.position.y + 3, tw, 10), Color("#9ad0ff") if not semana_paga else Color("#4a5a6a"))
+		PixelFonte.desenhar(f, Vector2(dentro.end.x - 67 - tw, dentro.position.y + 6), tag, Color("#10203a"))
 	var info := Sessao.t("Fé %d · Cornucópia dele %d") % [int(e["fe"]), int(e["corn"])]
 	Fonte57.desenhar(f, dentro.position + Vector2(10, 19), info, Color(0.72, 0.66, 0.6), f.ESCURO)
 	for k in 4:
@@ -710,13 +863,24 @@ func pos_enigma() -> void:
 		return
 	var reg: Dictionary = Sessao.perfil.get("enigmas", {})
 	var id: String = Sessao.extras.get("enigma_id", "")
+	var b: Array = [["titulo", Sessao.t("Resolvido")]]
+	var k_sem := enigma_da_semana()
+	var sem := semana_atual()
+	if id == str(enigmas()[k_sem]["id"]) and int(Sessao.perfil.get("enigma_semana", -1)) != sem:   # bônus da semana
+		Sessao.perfil["enigma_semana"] = sem
+		Sessao.premio("enigma_semana", {"semana": sem, "enigma": id}, MOEDAS_ENIGMA_SEMANA)
+		b.append(["destaque", "+%d" % MOEDAS_ENIGMA_SEMANA, "moeda"])
+		b.append(["centro", Sessao.t("bônus do enigma da semana")])
 	if reg.has(id):
-		f.perg.abrir([["titulo", Sessao.t("Resolvido")], ["centro", Sessao.t("De novo! Prêmio só na 1ª vez.")]])
+		if b.size() == 1:
+			b.append(["centro", Sessao.t("De novo! Prêmio só na 1ª vez.")])
+		f.perg.abrir(b)
 		return
 	reg[id] = true
 	Sessao.perfil["enigmas"] = reg
 	Sessao.premio("enigma", {"enigma": id}, MOEDAS_ENIGMA)
-	f.perg.abrir([["titulo", Sessao.t("Resolvido")], ["destaque", "+%d" % MOEDAS_ENIGMA, "moeda"]])
+	b.append(["destaque", "+%d" % MOEDAS_ENIGMA, "moeda"])
+	f.perg.abrir(b)
 
 
 func pos_partida() -> void:

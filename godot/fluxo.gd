@@ -26,12 +26,19 @@ var falas: Array = []                      # fila de {quem, texto, cor, retrato}
 var fala_vis := 0.0                        # caracteres visíveis (máquina de escrever, 45/s)
 var depois_falas: Callable
 var tempo := 0.0
-var arcade := {"oponente": "aleatorio", "meu_deck": "0", "deck_dele": "do_personagem", "dificuldade": "1"}
+var arcade := {"oponente": "aleatorio", "meu_deck": "0", "deck_dele": "do_personagem", "dificuldade": "1", "modificador": "ligado"}
 const OPC := {
 	"oponente": ["aleatorio", "indigena", "cristianismo", "taoismo", "hinduismo", "bruxaria", "alta_magia"],
 	"deck_dele": ["do_personagem", "tematico_aleatorio", "misto"],
 	"dificuldade": ["0", "1", "2"],
+	"modificador": ["ligado", "desligado"],
 }
+
+
+## Modificador do dia do Arcade: uma Bênção da Peregrinação, a mesma para todo mundo no dia.
+func modificador_do_dia() -> String:
+	var chaves: Array = solo.BENCAOS.keys()
+	return chaves[posmod(Progresso.hoje(), chaves.size())]
 
 
 ## A arte é desenhada em 360×640; em telas mais altas o conteúdo é centralizado verticalmente,
@@ -347,6 +354,7 @@ func _ready() -> void:
 		var st := OS.get_environment("GD_SOLO_TESTE").split(":")
 		match st[0]:
 			"pere": solo.comecar_pere(st[1])
+			"pere_inicio": _ir("pere")                          # tela de escolha (com a Peregrinação do dia)
 			"premio":
 				solo.comecar_pere("indigena")
 				solo._preparar_premio_cartas(true)
@@ -736,13 +744,17 @@ func _ir(novo: String, suave := false) -> void:
 				var r := Rect2(16 + (i % 2) * 168, 88 + (i / 2) * 178, 160, 168)
 				_botao(r, Sessao.nome_deck(d), func() -> void: _comecar_torneio(d), {"deck": d})
 		"arcade":
-			_botao(Rect2(20, 150, 320, 40), "", func() -> void: _ciclar("oponente"), {"campo": "oponente"})
-			_botao(Rect2(20, 220, 320, 40), "", func() -> void: _ciclar("meu_deck"), {"campo": "meu_deck"})
-			_botao(Rect2(20, 290, 320, 40), "", func() -> void: _ciclar("deck_dele"), {"campo": "deck_dele"})
-			_botao(Rect2(20, 360, 320, 40), "", func() -> void: _ciclar("dificuldade"), {"campo": "dificuldade"})
-			_botao(Rect2(90, 428, 180, 30), "Jogar", _comecar_arcade)
-			_botao(Rect2(90, 468, 180, 30), "Continuar torneio" if Sessao.ta_ativo() else "Torneio de 8", _torneio_arcade)
-			_botao(Rect2(90, 510, 180, 26), "Voltar", func() -> void: _ir("titulo"))
+			_botao(Rect2(20, 124, 320, 40), "", func() -> void: _ciclar("oponente"), {"campo": "oponente"})
+			_botao(Rect2(20, 176, 320, 40), "", func() -> void: _ciclar("meu_deck"), {"campo": "meu_deck"})
+			_botao(Rect2(20, 228, 320, 40), "", func() -> void: _ciclar("deck_dele"), {"campo": "deck_dele"})
+			_botao(Rect2(20, 280, 320, 40), "", func() -> void: _ciclar("dificuldade"), {"campo": "dificuldade"})
+			_botao(Rect2(20, 332, 320, 40), "", func() -> void: _ciclar("modificador"), {"campo": "modificador"})
+			_botao(Rect2(90, 392, 180, 30), "Jogar", _comecar_arcade)
+			_botao(Rect2(90, 432, 180, 30), "Continuar torneio" if Sessao.ta_ativo() else "Torneio de 8", _torneio_arcade.bind(false))
+			if not Sessao.ta_ativo():
+				var feito := int(Sessao.perfil.get("ta_semana", -1)) == Relogio.semana()
+				_botao(Rect2(90, 472, 180, 30), "Torneio da semana: jogado" if feito else "Torneio da semana", _torneio_arcade.bind(true))
+			_botao(Rect2(90, 514, 180, 26), "Voltar", func() -> void: _ir("titulo"))
 		"chave":
 			var d := Sessao.ta()
 			if ta.anim.is_empty() and not d.is_empty():
@@ -1642,6 +1654,7 @@ func _comecar_arcade() -> void:
 	if not Sessao.deck_valido(int(arcade["meu_deck"])):
 		return
 	Sessao.preparar_arcade(arcade["meu_deck"], arcade["oponente"], arcade["deck_dele"], int(arcade["dificuldade"]))
+	Sessao.extras = {"bencaos": [modificador_do_dia()]} if arcade.get("modificador", "ligado") == "ligado" else {}
 	var op := Sessao.oponente
 	var p := Sessao.personagem(op)
 	var lista: Array = []
@@ -2085,7 +2098,7 @@ func _entrada_leque(ev: InputEvent) -> bool:
 
 
 ## Torneio arcade de 8: começa um novo (precisa de deck completo) ou continua o salvo.
-func _torneio_arcade() -> void:
+func _torneio_arcade(semanal := false) -> void:
 	if not Sessao.ta_ativo():
 		var ok := false
 		for i in Sessao.perfil["decks"].size():
@@ -2093,7 +2106,16 @@ func _torneio_arcade() -> void:
 		if not ok:
 			mp.avisar(Sessao.t("Monte um deck com 32 cartas primeiro."))
 			return
-		Sessao.novo_torneio_arcade()
+		if semanal:                                      # chave igual para todo mundo na semana; uma vez por semana
+			if not Relogio.sincronizado():
+				mp.avisar(Sessao.t("Sem conexão: o Torneio da semana usa a hora da internet."))
+				Relogio.sincronizar()
+				return
+			if int(Sessao.perfil.get("ta_semana", -1)) == Relogio.semana():
+				mp.avisar(Sessao.t("Você já jogou o Torneio desta semana. Volte na segunda."))
+				return
+			Sessao.perfil["ta_semana"] = Relogio.semana()
+		Sessao.novo_torneio_arcade(Relogio.semana() if semanal else -1)
 	ta.faixa_t = -1.0
 	_ir("chave")
 
@@ -2369,7 +2391,7 @@ func _desenhar_botao(b: Dictionary, i: int) -> void:
 	if b.has("campo"):
 		var dentro := _painel(r, false, pressao)
 		var campo: String = b["campo"]
-		var rotulo: String = Sessao.t({"oponente": "Oponente", "meu_deck": "Seu deck", "deck_dele": "Deck do oponente", "dificuldade": "Dificuldade"}[campo])
+		var rotulo: String = Sessao.t({"oponente": "Oponente", "meu_deck": "Seu deck", "deck_dele": "Deck do oponente", "dificuldade": "Dificuldade", "modificador": "Modificador do dia"}[campo])
 		Fonte57.desenhar(self, dentro.position + Vector2(8, 4), rotulo, Color("#b8a888"))
 		var txt := _nome_opcao(campo, arcade[campo])
 		Fonte57.desenhar(self, dentro.position + Vector2(8, 19), txt, OURO[0], ESCURO)
@@ -2420,6 +2442,8 @@ func _nome_opcao(campo: String, v: String) -> String:
 		return "-"
 	if campo == "dificuldade":
 		return Sessao.t(["Aprendiz", "Mestre", "Arquimago"][int(v)]) + "  (+%d)" % Sessao.MOEDAS_DIFICULDADE[int(v)]
+	if campo == "modificador":
+		return Fonte57.cortar(solo._l(solo.BENCAOS[modificador_do_dia()]), 280) if v == "ligado" else Sessao.t("Desligado")
 	if v == "aleatorio":
 		return Sessao.t("Aleatório")
 	if v == "misto":

@@ -1,5 +1,18 @@
 [
  {
+  "versao": "0.20.21-alpha",
+  "data": "06/11/2026",
+  "pt": [
+   "Conteúdo novo com o que já existe: Desafio do dia com placar (você em N turnos · melhor · quantos venceram); Enigma da semana com +20 moedas (uma vez por semana, mesmo já resolvido); Arcade com Modificador do dia (uma Bênção da Peregrinação, igual para todo mundo; dá para desligar); Peregrinação do dia (tradição, caminhos e oponentes pela semente do dia, 1 tentativa, +40 moedas no Chefe); Desafios lendários invertidos: jogue COM a Lendária contra um Arquimago, +15 moedas na 1ª vitória com cada uma e o título Portador ao vencer com as 12; Torneio da semana (chave igual para todo mundo, uma vez por semana)."
+  ],
+  "en": [
+   "New content from what already exists: Daily Challenge with a scoreboard (you in N turns · best · how many won); Weekly Puzzle with +20 coins (once a week, even if already solved); Arcade with a Daily Modifier (a Pilgrimage Blessing, the same for everyone; can be turned off); Daily Pilgrimage (tradition, paths and opponents from the day's seed, 1 attempt, +40 coins at the Boss); inverted Legendary challenges: play WITH the Legendary against an Archmage, +15 coins on the 1st win with each and the Bearer title after all 12; Weekly Tournament (same bracket for everyone, once a week)."
+  ],
+  "es": [
+   "Contenido nuevo con lo que ya existe: Desafío del día con marcador (tú en N turnos · mejor · cuántos ganaron); Enigma de la semana con +20 monedas (una vez por semana, aunque ya esté resuelto); Arcade con Modificador del día (una Bendición de la Peregrinación, igual para todos; se puede apagar); Peregrinación del día (tradición, caminos y rivales por la semilla del día, 1 intento, +40 monedas en el Jefe); Desafíos legendarios invertidos: juega CON la Legendaria contra un Archimago, +15 monedas en la 1ª victoria con cada una y el título Portador al ganar con las 12; Torneo de la semana (misma llave para todos, una vez por semana)."
+  ]
+ },
+ {
   "versao": "0.20.20-alpha",
   "data": "06/11/2026",
   "pt": [

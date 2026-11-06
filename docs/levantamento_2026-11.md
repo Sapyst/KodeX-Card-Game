@@ -153,6 +153,10 @@ Forjar ações: coberto (juiz valida mão, Fé, alvos). Mão do oponente: cobert
 
 ---
 
+## Andamento
+- **Bloco 1 (bugs graves)**: feito na v0.20.11-alpha (06/11/2026) — 1.1, 1.2, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 1.10 e 2.1.
+- **Bloco 2 (netcode de borda)**: feito na v0.20.12-alpha (06/11/2026) — 3.1, 3.2, 3.3, 3.5, 3.6, 3.9, 3.10, 3.11, limites de mensagem/emote. Ficam: 3.4 (rollback via retomar), 3.7, 3.8, 3.12, 3.13, 3.14, 3.15.
+
 ## Ordem sugerida (blocos de ~1 dia)
 1. **Correções graves**: 1.1, 1.2 (dois lados), 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 1.4 → release.
 2. **Netcode borda**: 3.1, 3.2, 3.3, 3.6, 3.10, 3.11, 3.9 → release; depois 3.4 e 3.5.

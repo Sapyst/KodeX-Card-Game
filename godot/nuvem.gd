@@ -83,7 +83,9 @@ func iniciar() -> void:
 			id = str(r["id"])
 			_segredo = str(r["segredo"])
 			_gravar_conta()
-			Sessao.adotar_servidor(r["perfil"])
+			# conta nova: moedas e cartas vêm só do servidor; decks voltam cortados para a coleção dela
+			Sessao.adotar_servidor(r["perfil"], true)
+			await _reenviar_pendentes()            # prêmios ganhos offline antes da 1ª conexão (o servidor confere os tetos)
 	else:
 		var r := await _pedir("GET", "/v1/perfil")
 		if str(r.get("erro", "")) == "não autenticado":   # conta apagada ou de outro servidor: cria uma nova levando o progresso

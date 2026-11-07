@@ -103,8 +103,6 @@ func _ready() -> void:
 		som = volume > 0
 		vibracao_forte = bool(cfg.get_value("geral", "vibracao_forte", true))
 		canhoto = bool(cfg.get_value("geral", "canhoto", false))
-	if OS.get_environment("GD_CANHOTO") != "":            # teste: mesa espelhada
-		canhoto = true
 		texto_grande = bool(cfg.get_value("geral", "texto_grande", false))
 		tempo_turno = bool(cfg.get_value("geral", "tempo_turno", true))
 		tempo_ia = int(cfg.get_value("geral", "tempo_ia", 75 if tempo_turno else 0))
@@ -118,6 +116,8 @@ func _ready() -> void:
 			velocidade = 1.0
 		confirmar_fim = bool(cfg.get_value("geral", "confirmar_fim", true))
 		rapido_ia = bool(cfg.get_value("geral", "rapido_ia", false))
+	if OS.get_environment("GD_CANHOTO") != "":            # teste: mesa espelhada
+		canhoto = true
 	if not idioma in IDIOMAS:
 		idioma = OS.get_locale_language() if OS.get_locale_language() in IDIOMAS else "en"   # 1ª vez: idioma do celular
 	if OS.get_environment("GD_IDIOMA") != "":

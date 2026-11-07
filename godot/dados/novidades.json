@@ -1,5 +1,21 @@
 [
  {
+  "versao": "0.20.24-alpha",
+  "data": "07/11/2026",
+  "pt": [
+   "As opções agora ficam salvas de verdade: texto grande, modo daltônico, tempo por turno, velocidade das animações, confirmar FIM TURNO e RÁPIDO voltavam ao padrão toda vez que o jogo abria.",
+   "Online mais justo: o deck de cada partida online só pode usar cartas da sua coleção, e o resultado das partidas com juiz é decidido só pelo servidor."
+  ],
+  "en": [
+   "Options are now really saved: large text, colorblind mode, turn time, animation speed, confirm END TURN and FAST used to reset every time the game opened.",
+   "Fairer online: each online deck can only use cards from your collection, and refereed matches are decided by the server alone."
+  ],
+  "es": [
+   "Las opciones ahora se guardan de verdad: texto grande, modo daltónico, tiempo por turno, velocidad de animaciones, confirmar FIN DE TURNO y RÁPIDO volvían al valor inicial cada vez que se abría el juego.",
+   "En línea más justo: el mazo de cada partida en línea solo puede usar cartas de tu colección, y las partidas con juez las decide solo el servidor."
+  ]
+ },
+ {
   "versao": "0.20.23-alpha",
   "data": "06/11/2026",
   "pt": [

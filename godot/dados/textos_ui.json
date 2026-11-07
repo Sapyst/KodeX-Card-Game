@@ -4518,5 +4518,15 @@
   "en": "opening hand, graveyard and fatigue",
   "pt": "mão inicial, cemitério e fadiga",
   "es": "mano inicial, cementerio y fatiga"
+ },
+ "deck inválido: use só cartas da sua coleção": {
+  "en": "Invalid deck: use only cards from your collection",
+  "pt": "deck inválido: use só cartas da sua coleção",
+  "es": "Mazo inválido: usa solo cartas de tu colección"
+ },
+ "partida com juiz: use a conexão da sala": {
+  "en": "This match is refereed: use the room connection",
+  "pt": "partida com juiz: use a conexão da sala",
+  "es": "Partida con juez: usa la conexión de la sala"
  }
 }

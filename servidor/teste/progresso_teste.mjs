@@ -2,7 +2,7 @@
 // nível paga 1×, conquista paga 1× e dá título, sequência de dias no presente
 import { readFileSync } from "node:fs";
 const U = process.argv[2] || "http://127.0.0.1:8787";
-const D = JSON.parse(readFileSync("/mnt/d/Projetos de Jogos/GodsKodex/servidor/src/dados.js", "utf8").replace(/^[\s\S]*?export default /, "").replace(/;\s*$/, ""));
+const D = JSON.parse(readFileSync(new URL("../src/dados.js", import.meta.url), "utf8").replace(/^[\s\S]*?export default /, "").replace(/;\s*$/, ""));
 let falhas = 0; const ok = (c, m) => { console.log((c ? "OK      " : "FALHOU  ") + m); if (!c) falhas++; };
 const r0 = await (await fetch(U + "/v1/conta", { method: "POST", body: "{}" })).json();
 const A = `KDX ${r0.id}:${r0.segredo}`;

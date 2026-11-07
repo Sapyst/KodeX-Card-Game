@@ -401,23 +401,16 @@ const gravarPerfil = (env, id, p) =>
   env.DB.prepare("INSERT INTO perfis (id, dados, atualizado) VALUES (?, ?, ?) ON CONFLICT(id) DO UPDATE SET dados=excluded.dados, atualizado=excluded.atualizado")
     .bind(id, JSON.stringify(p), Math.floor(agora())).run();
 
-// Migração de quem já jogava offline: aceita uma vez o progresso local, com tetos (alpha).
+// Conta nova: o progresso local NÃO vira moeda, carta nem título no servidor (o celular pode mandar qualquer coisa).
+// Só vêm os campos livres (nome, foto, decks, histórico...); os decks são cortados para a coleção nova.
+// Quem já jogava offline antes do online (v0.18) migrou em outubro; quem perde a conta recupera por Kode/código.
 function importarLocal(local) {
   const p = perfilNovo();
   if (!local || typeof local !== "object") return p;
-  p.moedas = clamp(local.moedas | 0, 0, 5000);
-  p.koins = clamp(local.koins | 0, 0, 2000);
-  p.essencia = clamp(local.essencia | 0, 0, 2000);
-  p.boosters_gratis = clamp(local.boosters_gratis | 0, 0, 10);
-  p.colecao = {};
-  for (const [cid, n] of Object.entries(local.colecao || {})) if (carta(cid)) p.colecao[cid] = clamp(n | 0, 0, 3);
-  for (const cid of D.deck_inicial) p.colecao[cid] = Math.max(p.colecao[cid] | 0, 1);
-  p.foils = {};
-  for (const [cid, n] of Object.entries(local.foils || {})) if (D.foils.includes(cid)) p.foils[cid] = clamp(n | 0, 0, p.colecao[cid] | 0);
-  p.versos = (local.versos || []).filter((v) => v in D.versos);
-  for (const k of ["resgates", "sem_lendaria", "lendarios", "enigmas", "diario_dia", "versao_premiada", "choronzon_vencido", "titulos"])
-    if (k in local) p[k] = local[k];
   aplicarLivres(p, local);
+  if (!p.decks.some((d) => !d.livre && d.cartas.length === 32)) { p.decks.unshift({ nome: "Alta Magia", cartas: [...D.deck_inicial] }); p.deck_ativo = 0; }
+  const a = p.decks[p.deck_ativo | 0];
+  if (!a || a.livre || a.cartas.length !== 32) p.deck_ativo = Math.max(0, p.decks.findIndex((d) => !d.livre && d.cartas.length === 32));
   return p;
 }
 

@@ -43,9 +43,15 @@ const tituloDe = (corpo) => { const t = String(corpo.titulo || ""); return /^[a-
 
 const nomeDe = (corpo, perfil) => (String(corpo.nome || perfil.nome || "Jogador").replace(/[\u0000-\u001f<>]/g, "").trim() || "Jogador").slice(0, 16);
 
-function deckValido(deck, cartas) {
-  return Array.isArray(deck) && deck.length === 32 && deck.every((c) => cartas[c]);
+// 32 cartas que existem e, de cada uma, no máximo as cópias que a conta tem na coleção (a mesma regra dos decks salvos).
+// DECKS_LIVRES_TESTE=1 (só no .dev.vars) libera os decks temáticos dos testes com contas novas.
+function deckValido(deck, cartas, perfil, livre) {
+  if (!(Array.isArray(deck) && deck.length === 32 && deck.every((c) => cartas[c]))) return false;
+  if (livre) return true;
+  const col = (perfil && perfil.colecao) || {}, n = {};
+  return deck.every((c) => (n[c] = (n[c] | 0) + 1) <= (col[c] | 0));
 }
+const ERRO_DECK = "deck inválido: use só cartas da sua coleção";
 
 async function novaPartida(env, a, b, estado, pidFixo) {
   const pid = pidFixo || aleatorio(10);
@@ -126,7 +132,7 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
   };
 
   if (caminho === "/v1/mm/buscar" && req.method === "POST") {
-    if (!deckValido(corpo.deck, D.cartas)) { await sinal(env, id, "dados_invalidos", "deck", 2); return erro("deck inválido (32 cartas)"); }
+    if (!deckValido(corpo.deck, D.cartas, perfil, env.DECKS_LIVRES_TESTE === "1")) { await sinal(env, id, "dados_invalidos", "deck", 2); return erro(ERRO_DECK); }
     const { pais, cont } = regiao(req);
     const eu = { id, nome: nomeDe(corpo, perfil), deck: JSON.stringify(corpo.deck), pais, cont, entrou: agora(), foto: fotoDe(corpo), sombra: sombra ? 1 : 0,
       juiz: corpo.juiz ? 1 : 0, titulo: tituloDe(corpo) };
@@ -183,7 +189,7 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
     return json({ ok: true, partida: await infoPartida(env, p.pid, id) });
   }
   if (caminho === "/v1/sala/criar" && req.method === "POST") {
-    if (!deckValido(corpo.deck, D.cartas)) { await sinal(env, id, "dados_invalidos", "deck", 2); return erro("deck inválido (32 cartas)"); }
+    if (!deckValido(corpo.deck, D.cartas, perfil, env.DECKS_LIVRES_TESTE === "1")) { await sinal(env, id, "dados_invalidos", "deck", 2); return erro(ERRO_DECK); }
     const letras = "ABCDEFGHJKLMNPQRSTUVWXYZ";
     const codigo = [...crypto.getRandomValues(new Uint8Array(4))].map((b) => letras[b % letras.length]).join("");
     const pid = await novaPartida(env, { id, nome: nomeDe(corpo, perfil), deck: JSON.stringify(corpo.deck), codigo, foto: fotoDe(corpo), juiz: !!corpo.juiz, titulo: tituloDe(corpo) }, null, "sala");
@@ -191,7 +197,7 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
     return json({ ok: true, codigo, partida: await infoPartida(env, pid, id) });
   }
   if (caminho === "/v1/sala/entrar" && req.method === "POST") {
-    if (!deckValido(corpo.deck, D.cartas)) { await sinal(env, id, "dados_invalidos", "deck", 2); return erro("deck inválido (32 cartas)"); }
+    if (!deckValido(corpo.deck, D.cartas, perfil, env.DECKS_LIVRES_TESTE === "1")) { await sinal(env, id, "dados_invalidos", "deck", 2); return erro(ERRO_DECK); }
     const cod = String(corpo.codigo || "").toUpperCase().trim();
     const p = await env.DB.prepare("SELECT * FROM partidas WHERE codigo=? AND estado='sala' AND prazo > ?").bind(cod, agora()).first();
     if (!p) return erro("sala não encontrada", 404);
@@ -218,6 +224,7 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
       return json({ ok: true, partida: await infoPartida(env, pid, id) });
     }
     if (sub === "/acao" && req.method === "POST") {    // anexa a próxima ação (seq precisa ser a seguinte)
+      if (info.juiz) return erro("partida com juiz: use a conexão da sala", 409);   // só o protocolo antigo usa esta rota
       if (info.estado !== "jogando") return erro("partida encerrada", 410);
       // o servidor dá a ordem (seq); a mesma ação reenviada (mesmo n do jogador) não duplica
       const n = corpo.n | 0;
@@ -250,6 +257,7 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
       return json({ ok: true, acoes: [], partida: await infoPartida(env, pid, id) });
     }
     if (sub === "/fim" && req.method === "POST") {
+      if (info.juiz) return erro("partida com juiz: use a conexão da sala", 409);   // com juiz, só a sala decide o resultado
       const v = corpo.vencedor_eu === true ? info.eu : corpo.vencedor_eu === false ? 1 - info.eu : 2;
       await env.DB.prepare("UPDATE partidas SET estado='fim', vencedor=CASE WHEN vencedor < 0 THEN ? ELSE vencedor END WHERE pid=?").bind(v, pid).run();
       return json({ ok: true, partida: await infoPartida(env, pid, id) });

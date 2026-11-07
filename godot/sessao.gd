@@ -129,6 +129,21 @@ func _ready() -> void:
 			var tt := float(k)
 			get_tree().create_timer(tt, true, false, true).timeout.connect(func() -> void:
 				get_viewport().get_texture().get_image().save_png(OS.get_environment("GD_PRINTS_DIR") + "/p_%05.2f.png" % tt))
+	if OS.get_environment("GD_TOQUES") != "":            # teste: "s:x,y;s:x,y" toques reais (coordenadas do canvas 360×640)
+		for it in OS.get_environment("GD_TOQUES").split(";"):
+			var pt := it.split(":")
+			var xy := pt[1].split(",")
+			var alvo := Vector2(float(xy[0]), float(xy[1]))
+			get_tree().create_timer(float(pt[0]), true, false, true).timeout.connect(func() -> void:
+				var k := Vector2(DisplayServer.window_get_size()) / get_viewport().get_visible_rect().size
+				for apertar in [true, false]:
+					var ev := InputEventMouseButton.new()
+					ev.button_index = MOUSE_BUTTON_LEFT
+					ev.pressed = apertar
+					ev.position = alvo * k
+					ev.global_position = ev.position
+					Input.parse_input_event(ev)
+					await get_tree().create_timer(0.08, true, false, true).timeout)
 	if OS.get_environment("GD_ACESS") != "":             # teste: "texto,dalt"
 		texto_grande = OS.get_environment("GD_ACESS").contains("texto")
 		daltonico = OS.get_environment("GD_ACESS").contains("dalt")

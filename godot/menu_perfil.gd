@@ -27,7 +27,8 @@ var _dist_ini := 0.0
 var _esc_ini := 1.0
 # decks
 var deck_idx := 0
-var aba_deck := "cartas"                          # "cartas" (coleção: toque adiciona) | "deck" (toque remove)
+var aba_deck := "cartas"                          # "cartas" (coleção: toque adiciona) | "deck" (toque abre detalhes)
+var remover := false                              # chave REMOVER da aba "No deck": só ligada o toque tira a carta
 var filtro := "alta_magia"
 # filtros da 2ª linha do editor (os da Coleção): tipo, faixa de custo, ordem e busca por nome
 var tipo_deck := ""
@@ -520,6 +521,17 @@ func _bordado(r: Rect2) -> void:
 		f.draw_colored_polygon(PackedVector2Array([c + Vector2(0, -2), c + Vector2(2, 0), c + Vector2(0, 2), c + Vector2(-2, 0)]), Color("#150e16"))
 
 
+## Lápis pequeno (sem círculo) ao lado de um texto editável.
+func _lapis_pequeno(c: Vector2) -> void:
+	var dir := Vector2(1, -1).normalized()
+	var n := Vector2(dir.y, -dir.x)
+	var a := c - dir * 5
+	var b := c + dir * 4
+	f.draw_colored_polygon(PackedVector2Array([a + n * 2.0, b + n * 2.0, b - n * 2.0, a - n * 2.0]), f.OURO[0])
+	f.draw_colored_polygon(PackedVector2Array([a + n * 2.0, a - n * 2.0, a - dir * 3]), Color("#f0dcb0"))
+	f.draw_colored_polygon(PackedVector2Array([b + n * 2.0, b - n * 2.0, b - n * 2.0 + dir * 2.0, b + n * 2.0 + dir * 2.0]), Color("#d06a6a"))
+
+
 ## Botão redondo com lápis: troca a foto.
 func _botao_lapis(_b: Dictionary, r: Rect2, pressao: float) -> void:
 	var c := r.get_center() + Vector2(0, pressao)
@@ -535,12 +547,12 @@ func _botao_lapis(_b: Dictionary, r: Rect2, pressao: float) -> void:
 	f.draw_colored_polygon(PackedVector2Array([b + n * 2.5, b - n * 2.5, b - n * 2.5 + dir * 2.5, b + n * 2.5 + dir * 2.5]), Color("#d06a6a"))
 
 
-func _desenhar_aviso() -> void:
+func _desenhar_aviso(y := 574.0) -> void:
 	if aviso_t <= 0.0:
 		return
 	var a := clampf(aviso_t / 0.3, 0, 1)
 	var w := Fonte57.largura(aviso) + 16
-	var r := Rect2(180 - w / 2.0, 574, w, 18)
+	var r := Rect2(180 - w / 2.0, y, w, 18)
 	f.draw_rect(r.grow(1), Color(f.ESCURO, a))
 	f.draw_rect(r, Color(0.35, 0.1, 0.1, 0.95 * a))
 	Fonte57.desenhar(f, r.position + Vector2(8, 5), aviso, Color(1, 0.9, 0.85, a), f.ESCURO)
@@ -861,8 +873,15 @@ func botao_deck(b: Dictionary, r: Rect2, pressao: float) -> void:
 		PixelFonte.desenhar(f, Vector2(dentro.end.x - PixelFonte.largura(s) - 6, dentro.position.y + 6), s, f.OURO[0])
 
 
-func novo_deck() -> void:
+## Novo deck: pergunta o nome já preenchido com "Deck N" (Cancelar não cria; OK vazio fica com o nome sugerido).
+func novo_deck(perguntar := true) -> void:
 	var nome := (Sessao.t("Livre %d") if gaveta == "livre" else Sessao.t("Deck %d")) % (indices_gaveta().size() + 1)
+	if perguntar:
+		var dado: String = str(await f.pedir_texto(Sessao.t("Nome do deck"), false, 16, nome)).strip_edges()
+		if f.cancelou:
+			return
+		if dado != "":
+			nome = dado.substr(0, 16)
 	var i := _novo_na_gaveta(nome)
 	if i >= 0:
 		abrir_deck(i)
@@ -871,6 +890,7 @@ func novo_deck() -> void:
 func abrir_deck(i: int) -> void:
 	deck_idx = i
 	aba_deck = "cartas"
+	remover = false
 	rolagem = 0.0
 	_montar_lista()
 	f._ir("deck_edit")
@@ -879,12 +899,12 @@ func abrir_deck(i: int) -> void:
 
 ## Nas 3 primeiras vezes em cada aba: como o toque funciona.
 func _dica_editor() -> void:
-	var chave := "dica_editor_" + aba_deck
+	var chave := "dica_editor_" + aba_deck + ("_v2" if aba_deck == "deck" else "")   # v2: tocar não tira mais (chave REMOVER)
 	var n := int(Sessao.perfil.get(chave, 0))
 	if n >= 3:
 		return
 	Sessao.perfil[chave] = n + 1
-	avisar(Sessao.t("Toque: adiciona · Segure: detalhes" if aba_deck == "cartas" else "Toque: tira do deck · Segure: detalhes"))
+	avisar(Sessao.t("Toque: adiciona · Segure: detalhes" if aba_deck == "cartas" else "Toque: detalhes · Para tirar cartas, ligue REMOVER"))
 
 
 func _montar_lista() -> void:
@@ -982,22 +1002,45 @@ func editar_busca_deck() -> void:
 	nome_edit.caret_column = nome_edit.text.length()
 
 
-## Toque curto numa carta da grade: na Coleção adiciona ao deck, em "No deck" tira. (Segurar abre o visor.)
+## Toque curto numa carta da grade: na Coleção adiciona ao deck; em "No deck" abre os detalhes
+## (para analisar o deck sem risco) e só tira a carta com a chave REMOVER ligada. Segurar sempre abre o visor.
 func tocar_rapido(p: Vector2) -> void:
 	if p.y < GTOPO or p.y > GBASE:
 		return
 	for k in _ids.size():
 		if _rect(k).has_point(p):
 			var cid: String = _ids[k]
-			if aba_deck == "deck":
+			if aba_deck == "cartas":
+				adicionar(cid)
+			elif remover:
 				tirar(cid)
 			else:
-				adicionar(cid)
+				tocar_grade(p)
 			return
+
+
+func alternar_remover() -> void:
+	remover = not remover
+	f.vibrar(14 if remover else 10, 0.5 if remover else 0.3)
+	avisar(Sessao.t("REMOVER ligado: toque numa carta para tirar do deck.") if remover else Sessao.t("REMOVER desligado: toque abre os detalhes."))
+	f._ir("deck_edit", true)
+
+
+## Chave REMOVER (aba "No deck"): rótulo + trilho com bolinha; ligada fica vermelha.
+func botao_remover(_b: Dictionary, r: Rect2, pressao: float) -> void:
+	var dd: Rect2 = f._painel(r, false, pressao, Color("#5a1a22") if remover else Color("#1e161e"))
+	var trilho := Rect2(dd.end.x - 30, dd.get_center().y - 6, 24, 12)
+	f.draw_rect(trilho.grow(1), f.ESCURO)
+	f.draw_rect(trilho, Color("#d04a4a") if remover else Color("#4a4240"))
+	var bx := trilho.end.x - 7.0 if remover else trilho.position.x + 7.0
+	f.draw_circle(Vector2(bx, trilho.get_center().y), 5.0, f.CREME)
+	var rot := Sessao.t("Remover")
+	Fonte57.desenhar(f, Vector2(dd.position.x + 6, dd.get_center().y - 5), rot, Color("#ffd0c8") if remover else f.CREME, f.ESCURO)
 
 
 func trocar_aba(a: String) -> void:
 	aba_deck = a
+	remover = false
 	rolagem = 0.0
 	_montar_lista()
 	f._ir("deck_edit")
@@ -1075,6 +1118,8 @@ func desenhar_deck_edit() -> void:
 	var deck: Array = d["cartas"]
 	var editando_nome := nome_edit.has_focus() and editando == "deck"
 	_texto2x_cursor(Vector2(180, 18), str(d["nome"]), f.OURO[0], editando_nome)
+	if not editando_nome:                                  # lápis ao lado do nome: tocar renomeia
+		_lapis_pequeno(Vector2(minf(180.0 + Fonte57.largura(str(d["nome"])) + 14.0, 340.0), 18))
 	if editando_nome:
 		_contador(Vector2(352, 30), str(d["nome"]).length())
 	var n := deck.size()
@@ -1108,12 +1153,19 @@ func desenhar_deck_edit() -> void:
 			s = "%d+%d" % [no_deck, livres] if no_deck > 0 else "x%d" % livres
 			if livres <= 0 and no_deck == 0:
 				f.draw_rect(vis, Color(0, 0, 0, 0.55))
+		if aba_deck == "deck" and remover:                    # modo remover: carta avermelhada com "−" no canto
+			f.draw_rect(vis, Color(0.7, 0.1, 0.12, 0.28))
+			var cr := Rect2(r.end.x - 13, r.position.y + 2, 11, 11)
+			if cr.position.y >= GTOPO:
+				f.draw_rect(cr.grow(1), f.ESCURO)
+				f.draw_rect(cr, Color("#d04a4a"))
+				f.draw_rect(Rect2(cr.position + Vector2(2, 5), Vector2(7, 2)), f.CREME)
 		var w := PixelFonte.largura(s) + 6
 		var et := Rect2(r.end.x - w - 1, r.end.y - 11, w, 10)
 		f.draw_rect(et, Color(0.45, 0.32, 0.1, 0.95) if no_deck > 0 else Color(0.1, 0.07, 0.1, 0.9))
 		PixelFonte.desenhar(f, et.position + Vector2(3, 3), s, f.OURO[0] if no_deck > 0 else f.CREME)
 	f.col._barra_rolagem(f, rolagem, _altura(), GTOPO, GBASE)
-	_desenhar_aviso()
+	_desenhar_aviso(GBASE - 20.0)                      # acima da fileira de botões (em 574 ficava escondido atrás deles)
 
 
 ## Busca na Coleção: o campo invisível fica sobre o botão de busca (no celular abre o teclado); na web, caixa nativa.

@@ -374,7 +374,7 @@ func _ready() -> void:
 			"fala":
 				_falar([{"quem": "Moema Arani", "texto": "A mata responde a quem pisa com respeito. Você pisou como quem tem pressa. Volte quando souber ouvir o rio.", "cor": Color("#3f8f3a"), "retrato": "indigena"}], func() -> void: pass)
 			"gaveta_livre":
-				mp.gaveta = "livre"; mp.deck_sugerido("hinduismo"); mp.novo_deck(); _ir("decks")
+				mp.gaveta = "livre"; mp.deck_sugerido("hinduismo"); mp.novo_deck(false); _ir("decks")
 			"editor_livre":
 				mp.gaveta = "livre"; mp.deck_sugerido("bruxaria")
 			"progresso":
@@ -655,7 +655,7 @@ func _ir(novo: String, suave := false) -> void:
 			_botao(Rect2(127, 498, 106, 28), "Sugerido", func() -> void: _ir("sugerir"))
 			_botao(Rect2(238, 498, 106, 28), "Importar", mp.colar_codigo, {"web_nome": "codigo"} if OS.has_feature("web") else {})
 		"deck_edit":
-			_botao(Rect2(60, 4, 240, 28), "", mp.renomear_deck, {"web_nome": "deck", "desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
+			_botao(Rect2(40, 2, 310, 32), "", mp.renomear_deck, {"web_nome": "deck", "desenho": func(_b: Dictionary, _r: Rect2, _p: float) -> void: pass})
 			_botao(Rect2(70, 54, 104, 22), "Coleção", mp.trocar_aba.bind("cartas"), {"aba_deck": "cartas", "toque": Rect2(66, 44, 112, 30)})
 			_botao(Rect2(186, 54, 104, 22), "No deck", mp.trocar_aba.bind("deck"), {"aba_deck": "deck", "toque": Rect2(182, 44, 112, 30)})
 			if mp.aba_deck == "cartas":
@@ -673,6 +673,8 @@ func _ir(novo: String, suave := false) -> void:
 				_botao(Rect2(fl[1], 106, fl[2], 22), "", acao, ex)
 			_botao(Rect2(16, 538, 106, 26), "Completar", mp.completar)
 			_botao(Rect2(127, 538, 106, 26), "Código", mp.copiar_codigo)
+			if mp.aba_deck == "deck":                       # chave REMOVER: só ligada o toque tira a carta do deck
+				_botao(Rect2(238, 538, 106, 26), "", mp.alternar_remover, {"desenho": mp.botao_remover})
 			if Sessao.deck_livre(mp.deck_idx):            # deck livre: vai direto para o Modo livre com ele escolhido
 				_botao(Rect2(16, 570, 150, 26), "Jogar no Modo livre", func() -> void:
 					if not Sessao.deck_valido(mp.deck_idx, true):

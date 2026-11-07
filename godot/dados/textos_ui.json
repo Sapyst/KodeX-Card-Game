@@ -4528,5 +4528,25 @@
   "en": "This match is refereed: use the room connection",
   "pt": "partida com juiz: use a conexão da sala",
   "es": "Partida con juez: usa la conexión de la sala"
+ },
+ "Remover": {
+  "en": "Remove",
+  "pt": "Remover",
+  "es": "Quitar"
+ },
+ "Toque: detalhes · Para tirar cartas, ligue REMOVER": {
+  "en": "Tap: details · To take cards out, turn on REMOVE",
+  "pt": "Toque: detalhes · Para tirar cartas, ligue REMOVER",
+  "es": "Toca: detalles · Para quitar cartas, activa QUITAR"
+ },
+ "REMOVER ligado: toque numa carta para tirar do deck.": {
+  "en": "REMOVE on: tap a card to take it out of the deck.",
+  "pt": "REMOVER ligado: toque numa carta para tirar do deck.",
+  "es": "QUITAR activado: toca una carta para sacarla del mazo."
+ },
+ "REMOVER desligado: toque abre os detalhes.": {
+  "en": "REMOVE off: tapping opens the details.",
+  "pt": "REMOVER desligado: toque abre os detalhes.",
+  "es": "QUITAR desactivado: tocar abre los detalles."
  }
 }

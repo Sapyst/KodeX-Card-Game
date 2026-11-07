@@ -1,5 +1,21 @@
 [
  {
+  "versao": "0.20.26-alpha",
+  "data": "07/11/2026",
+  "pt": [
+   "Editor de deck mais seguro: na aba No deck, tocar numa carta agora só mostra os detalhes. Para tirar cartas, ligue a chave REMOVER (as cartas ficam avermelhadas com um − no canto) e desligue para voltar ao normal.",
+   "Decks com nome: ao criar um deck o jogo pergunta o nome, e o lápis ao lado do nome no editor renomeia a qualquer hora. Os avisos do editor aparecem acima dos botões (antes ficavam escondidos atrás deles)."
+  ],
+  "en": [
+   "Safer deck editor: in the In deck tab, tapping a card now only shows its details. To take cards out, turn on the REMOVE switch (cards turn reddish with a − in the corner) and turn it off to go back to normal.",
+   "Named decks: creating a deck asks for its name, and the pencil next to the name in the editor renames it anytime. Editor messages now show above the buttons (they used to hide behind them)."
+  ],
+  "es": [
+   "Editor de mazo más seguro: en la pestaña En el mazo, tocar una carta ahora solo muestra los detalles. Para quitar cartas, activa el interruptor QUITAR (las cartas se ponen rojizas con un − en la esquina) y desactívalo para volver a lo normal.",
+   "Mazos con nombre: al crear un mazo el juego pregunta el nombre, y el lápiz junto al nombre en el editor lo cambia cuando quieras. Los avisos del editor aparecen encima de los botones (antes quedaban ocultos detrás)."
+  ]
+ },
+ {
   "versao": "0.20.25-alpha",
   "data": "07/11/2026",
   "pt": [

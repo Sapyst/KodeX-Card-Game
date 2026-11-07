@@ -1,5 +1,18 @@
 [
  {
+  "versao": "0.20.25-alpha",
+  "data": "07/11/2026",
+  "pt": [
+   "O resumo do fim da partida voltou a mostrar o progresso (nível, maestria da tradição e missões do dia): desde a v0.20.20 ele parava no meio por um erro, logo depois da vitória ou da derrota."
+  ],
+  "en": [
+   "The end-of-match summary shows your progress again (level, tradition mastery and daily missions): since v0.20.20 an error stopped it halfway, right after a win or a loss."
+  ],
+  "es": [
+   "El resumen del final de la partida vuelve a mostrar tu progreso (nivel, maestría de la tradición y misiones del día): desde la v0.20.20 un error lo cortaba a la mitad, justo después de ganar o perder."
+  ]
+ },
+ {
   "versao": "0.20.24-alpha",
   "data": "07/11/2026",
   "pt": [

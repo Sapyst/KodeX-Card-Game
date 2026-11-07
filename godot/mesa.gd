@@ -4972,7 +4972,7 @@ func _blocos_progresso(b: Array) -> void:
 				b.append(["centro", Sessao.t("Perfil > Escolher imagem")])
 	# maestria da tradição jogada, mesmo sem subir de nível
 	var trad := Sessao.deck_jogador_nome
-	if trad in (Progresso.dados()["tradicoes"] as Array):
+	if (Progresso.dados()["tradicoes"] as Dictionary).has(trad):     # dicionário id → nomes (PT/EN/ES)
 		var x := int(Progresso.p()["maestria"].get(trad, 0))
 		var lims: Array = Progresso.dados()["maestria"]["limites"]
 		var nvm := Progresso.maestria_nivel(trad)

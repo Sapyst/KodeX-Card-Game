@@ -133,9 +133,128 @@ Com dinheiro envolvido, cada brecha na economia vira prejuízo direto.
    mesmo sem venda direta.
 7. **Classificação indicativa e política de dados:** revisar com o modelo de cobrança definido.
 
-## 6. Ordem sugerida
+## 6. Recompensas: muito mais variedade, quase tudo de graça
+
+O que se ganha hoje é estreito:
+- as 25 diárias pagam só moedas (20–40);
+- as 51 conquistas pagam moedas, e só 8 dão título;
+- as semanais pagam boosters;
+- os 10 versos saem só por Koins;
+- há só 4 emotes e nenhum retrato liberável.
+
+Para o pago não parecer a única novidade, **pelo menos 2/3 de cada tipo de cosmético sai jogando**. O pago fica com
+o verso do mês e a trilha paga do passe.
+
+### 6.1 Catálogo (tipos novos em negrito)
+
+| Tipo | Hoje | No lançamento | Arte |
+|---|---|---|---|
+| Moedas, Koins | sim | — | — |
+| Essência como prêmio | só ao desfazer | missões, calendário, maestria | — |
+| **Booster de tradição** (3 cartas de uma tradição escolhida, ≥ 1 Entidade) | — | prêmio de semanal e maestria | reaproveita o pacote |
+| **Escolha de carta** (3 cartas da raridade indicada que faltam na coleção; fica com 1) | — | semanal, calendário, conquista | — |
+| Títulos | 20 | **45** (+25) | — (texto) |
+| Versos | 10 (Koins) | **22**: +6 de maestria, +6 de conquista | código (SDF) |
+| **Moldura do retrato** (perfil, mesa e ranking) | — | **18**: 6 de tradição, 4 de ranqueada, 8 de conquista | código (SDF) |
+| Emotes | 4 | **20**: +2 por tradição (12), +4 de evento | texto + ícone 16 px |
+| **Tapete da mesa** | — | **7**: padrão + 6 tradições | código |
+| **Efeito de vitória** (fim da partida) | — | **6**, 1 por tradição | partículas por código |
+| **Estrela de maestria da carta** (canto da carta) | — | ~160 cartas × 3: bronze 25, prata 100, ouro 250 vezes jogada | código, 3 desenhos para todas |
+| **Insígnia da temporada ranqueada** | — | 4 por temporada | código |
+| **Página do Códex** (lore de cada Entidade, `dados/codex/`) | aberto | libera ao vencer com a Entidade em campo | — (texto já existe) |
+| Retratos de personagem | 0 liberáveis | 1 por chefe de Arcade e Peregrinação | arte existente |
+
+### 6.2 De onde sai cada coisa
+
+**Diárias (3 por dia):** o tipo do prêmio passa a variar. Cada dia sorteia 1 diária de cada tipo.
+
+| Tipo | Valor |
+|---|---|
+| Moedas | como hoje, 20–40 |
+| Essência | metade do valor em moedas (10–20) |
+| Koins | metade do valor em moedas (10–20) |
+
+**Semanais (7):** além dos 2 boosters e das moedas de hoje:
+- **booster de tradição** em "vença 5 com a mesma tradição";
+- **escolha de carta R** em "complete 15 diárias".
+
+**Calendário de 28 dias (grátis, separado do presente diário):** cada dia marcado ao abrir o jogo. Faltar não zera:
+continua do dia em que parou e renova a cada 28 dias marcados.
+
+| Dia | Prêmio |
+|---|---|
+| 3, 10, 17, 24 | 40 Essência |
+| 7 | booster de tradição |
+| 14 | escolha de carta R |
+| 21 | 2 boosters |
+| 28 | **moldura do ciclo** (a cada ciclo uma nova; o Pacto fica com o verso do mês) |
+| demais | 30 moedas ou 15 Koins, alternados |
+
+**Maestria por tradição:** hoje são 5 níveis (100–1500 pontos). Passa a 10.
+
+| Nível | Pontos | Prêmio |
+|---|---|---|
+| 6 | 2.100 | tapete da tradição |
+| 7 | 2.800 | 2 emotes da tradição |
+| 8 | 3.600 | moldura da tradição |
+| 9 | 4.500 | verso da tradição |
+| 10 | 5.500 | efeito de vitória da tradição + título "Arauto de <tradição>" |
+
+**Nível da conta:** hoje dá título nos níveis 5, 10, 20, 30 e 50. Passa a dar algo a cada 5 níveis, alternando:
+- 200 moedas;
+- 100 Essência;
+- escolha de carta R;
+- título novo.
+
+**Conquistas:** das 51 de hoje, as 12 mais difíceis trocam moedas por cosmético:
+- 6 versos;
+- 6 molduras.
+
+Entram 20 conquistas novas:
+- 10 de coleção, por exemplo "complete a Bruxaria";
+- 5 de estrela de ouro, por exemplo "10 cartas com estrela de ouro";
+- 5 de Códex.
+
+**Ranqueada por temporada** (6 semanas, junto com o passe):
+
+| Vitórias na temporada | Prêmio |
+|---|---|
+| 10 | insígnia bronze |
+| 30 | insígnia prata + 100 Essência |
+| 60 | insígnia ouro + moldura da temporada |
+| Top 100 do ranking | insígnia "Hierofante" + título da temporada |
+
+**Fim de semana de evento** (1 por mês):
+- Essência ×2 nas diárias;
+- desafio especial que dá 1 dos 4 emotes de evento.
+
+### 6.3 Regras
+
+- **Todo prêmio novo é decidido pelo servidor**, como os de hoje (`premio` em `servidor/src/index.js`, motivo + teto
+  diário em `limites`). Contadores de carta jogada e de Códex só contam partidas que o juiz viu (online) ou com teto
+  diário (solo).
+- **Sorteios grátis continuam permitidos** (booster ganho jogando, escolha de carta). A proibição é só sobre
+  dinheiro → sorteio.
+- **Nenhum cosmético muda o jogo.** Moldura, tapete e efeito aparecem para o adversário, mas sem informação escondida.
+- **Acessibilidade:** tapete e efeito de vitória têm opção "simples" (fundo liso, sem partículas); o texto maior
+  continua prioridade.
+
+### 6.4 O que dá para fazer já, sem arte nova
+
+1. Diárias com tipo variado (Essência e Koins).
+2. Calendário de 28 dias (com a moldura do dia 28 entrando depois).
+3. Booster de tradição e escolha de carta.
+4. Estrela de maestria da carta (3 desenhos por código).
+5. Códex que libera por vitória.
+6. 25 títulos e 16 emotes novos (texto).
+7. Maestria até o nível 10 e prêmio a cada 5 níveis de conta, com os cosméticos marcados como "em breve".
+
+Depois, por código (sem IA): molduras, versos, tapetes, efeitos de vitória e insígnias.
+
+## 7. Ordem sugerida
 
 1. Itens 1–3 da seção 5 (já estão no levantamento; servem também sem cobrança).
-2. Pacto do Mês: é o mais simples (um produto, sem arte nova além do verso do mês).
-3. Arte de molduras e emotes → pacotes de Koins.
-4. Passe de temporada, quando houver missões e arte para 30 níveis.
+2. Recompensas sem arte (seção 6.4): valem para todos e já dão motivo para jogar todo dia.
+3. Pacto do Mês: é o mais simples de cobrar (um produto, sem arte nova além do verso do mês).
+4. Cosméticos por código (molduras, versos, tapetes, efeitos, insígnias) → pacotes de Koins.
+5. Passe de temporada, quando houver missões e arte para 30 níveis.

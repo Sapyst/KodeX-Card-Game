@@ -1,7 +1,8 @@
 class_name Progresso
 extends RefCounted
 ## Progressão (dados/progressao.json, gerado por servidor/gerar_progressao.py): missões diárias (3 por dia, 1 troca),
-## semanais (3), nível com XP e prêmio a cada nível, maestria por tradição (5 níveis), 50 conquistas e títulos.
+## semanais (3), nível com XP e prêmio a cada nível, maestria por tradição (10 níveis), conquistas, títulos, estrelas das
+## cartas (vezes jogada) e o calendário de 28 dias (pago pelo servidor junto com o presente diário).
 ## Os contadores ficam em Sessao.perfil["prog"] (sincronizado); cada prêmio vai ao servidor, que confere a missão do
 ## dia/semana pela mesma sorteio, paga uma vez só (perfil "prog_pagos") e respeita tetos diários.
 ## As missões do dia saem de uma sorteio pela data de Nova York: todo mundo tem as mesmas 3 no mesmo dia.
@@ -93,6 +94,22 @@ static func semanais() -> Array:
 	return sorteio(int(p()["semana"]["k"]) + 100000, 3, lista.size()).map(func(i: int) -> Dictionary: return lista[i])
 
 
+## Prêmio da missão do dia pelo lugar (0–2): moedas, Essência ou Koins (metade do valor). Igual ao servidor.
+static func premio_missao(m: Dictionary, lugar: int) -> Dictionary:
+	var tipo := str(dados()["diarias_tipos"][clampi(lugar, 0, 2)])
+	var v := int(m.get("moedas", 0))
+	return {"moedas": v} if tipo == "moedas" else {tipo: int(round(v / 2.0))}
+
+
+## Prêmio da semanal (como está nos dados).
+static func premio_semanal(m: Dictionary) -> Dictionary:
+	var r := {}
+	for k in ["moedas", "booster", "koins"]:
+		if m.has(k):
+			r[k] = int(m[k])
+	return r
+
+
 static func feita(escopo: String, id: String) -> bool:
 	return id in (p()[escopo]["feitas"] as Array)
 
@@ -139,6 +156,11 @@ static func premio_nivel(n: int) -> Dictionary:
 		r = {"booster": 1}
 	else:
 		r = {"moedas": 40}
+	if n % 5 == 0:                                      # a cada 5: extra em ciclo (Essência, escolha de carta, moedas, nada)
+		var ex: Array = dados()["nivel"]["extra_5"]
+		var e: Dictionary = ex[(n / 5 - 1) % ex.size()]
+		for k in e:
+			r[k] = (int(r.get(k, 0)) + int(e[k])) if (e[k] is float or e[k] is int) else e[k]
 	var t = dados()["nivel"]["titulos"].get(str(n))
 	if t != null:
 		r["titulo"] = str(t)
@@ -187,6 +209,13 @@ static func partida(reg: Dictionary) -> Array:
 	if int(reg.get("turnos", 0)) >= 40:
 		inc["maratona"] = 1
 	_somar(inc)
+	if not pr.has("cartas"):
+		pr["cartas"] = {}
+	var jog: Dictionary = reg.get("jogadas", {})
+	var estrelas_antes := {}
+	for cid in jog:
+		estrelas_antes[cid] = estrela(str(cid))
+		pr["cartas"][cid] = int(pr["cartas"].get(cid, 0)) + int(jog[cid])
 	if venceu:
 		pr["seq"] = int(pr.get("seq", 0)) + 1
 	elif res == "derrota":
@@ -206,6 +235,10 @@ static func partida(reg: Dictionary) -> Array:
 				avs.append(a["id"])
 				Sessao.perfil["avatares"] = avs
 				ev.append({"tipo": "avatar", "texto": _l(a["nome"]), "premio": {}})
+	for cid in jog:                                      # estrela nova numa carta
+		var e := estrela(str(cid))
+		if e > int(estrelas_antes[cid]) and Sessao.db["cartas"].has(cid):
+			ev.append({"tipo": "estrela", "texto": Sessao.t(["Estrela de bronze: %s", "Estrela de prata: %s", "Estrela de ouro: %s"][e - 1]) % str(Sessao.db["cartas"][cid]["nome"]), "premio": {}})
 	ev.append_array(_ganhar_xp(ganho))
 	ev.append_array(_missoes())
 	ev.append_array(_maestria(trad, mn_antes))
@@ -245,17 +278,15 @@ static func _missoes() -> Array:
 	var ev: Array = []
 	for escopo in ["dia", "semana"]:
 		var lista := diarias() if escopo == "dia" else semanais()
-		for m in lista:
+		for lugar in lista.size():
+			var m: Dictionary = lista[lugar]
 			var id := str(m["id"])
 			if feita(escopo, id) or andamento(escopo, m) < int(m["alvo"]):
 				continue
 			(pr[escopo]["feitas"] as Array).append(id)
-			var r := {}
-			for k in ["moedas", "booster", "koins"]:
-				if m.has(k):
-					r[k] = int(m[k])
+			var r := premio_missao(m, lugar) if escopo == "dia" else premio_semanal(m)
 			if escopo == "dia":
-				_pagar({"k": "missao", "id": id, "dia": int(pr["dia"]["k"])}, r)
+				_pagar({"k": "missao", "id": id, "dia": int(pr["dia"]["k"]), "slot": lugar}, r)
 				_somar({"missoes": 1})
 			else:
 				_pagar({"k": "semanal", "id": id, "semana": int(pr["semana"]["k"])}, r)
@@ -266,13 +297,27 @@ static func _missoes() -> Array:
 	return ev
 
 
+static func premio_maestria(trad: String, nv: int) -> Dictionary:
+	var r: Dictionary = (dados()["maestria"]["premios"][nv - 1] as Dictionary).duplicate()
+	if r.has("titulo"):
+		r["titulo"] = str(r["titulo"]) + trad
+	if r.has("emotes"):
+		r["emotes"] = trad
+	return r
+
+
+## Paga os níveis de maestria ainda não pagos (pr["maestria_nv"][trad] = último pago). Quem já tinha pontos de sobra
+## quando os níveis 6–10 chegaram recebe todos na próxima partida com a tradição.
 static func _maestria(trad: String, antes: int) -> Array:
 	var ev: Array = []
 	var agora := maestria_nivel(trad)
-	for nv in range(antes + 1, agora + 1):
-		var r: Dictionary = (dados()["maestria"]["premios"][nv - 1] as Dictionary).duplicate()
-		if r.has("titulo"):
-			r["titulo"] = str(r["titulo"]) + trad
+	var pr := p()
+	if not pr.has("maestria_nv"):
+		pr["maestria_nv"] = {}
+	var pago := int(pr["maestria_nv"].get(trad, mini(antes, 5)))
+	for nv in range(pago + 1, agora + 1):
+		pr["maestria_nv"][trad] = nv
+		var r := premio_maestria(trad, nv)
 		_pagar({"k": "maestria", "trad": trad, "nivel": nv}, r)
 		ev.append({"tipo": "maestria", "texto": Sessao.t("Maestria %s %d") % [Sessao.nome_deck(trad), nv], "premio": r})
 	var mx := 0
@@ -320,7 +365,29 @@ static func valor(k: String) -> int:
 			return nivel()
 		"dias_max":
 			return int(pf.get("resgates", {}).get("max", 0))
+		"estrelas_1", "estrelas_2", "estrelas_3":
+			var lim := int(dados()["estrelas"][int(k.right(1)) - 1])
+			var n := 0
+			for cid in p().get("cartas", {}):
+				n += int(int(p()["cartas"][cid]) >= lim)
+			return n
+	if k.begins_with("completa_"):
+		var t := k.substr(9)
+		for cid in Sessao.db["cartas"]:
+			if Sessao.db["cartas"][cid]["cultura"] == t and int(pf.get("colecao", {}).get(cid, 0)) <= 0:
+				return 0
+		return 1
 	return cont(k)
+
+
+## Estrela de maestria da carta: 0 nenhuma, 1 bronze (25 vezes jogada), 2 prata (100), 3 ouro (250).
+static func estrela(cid: String) -> int:
+	var n := int(p().get("cartas", {}).get(cid, 0))
+	var e := 0
+	for lim in dados()["estrelas"]:
+		if n >= int(lim):
+			e += 1
+	return e
 
 
 static func verificar() -> Array:
@@ -331,11 +398,7 @@ static func verificar() -> Array:
 		if id in (pr["conquistas"] as Array) or valor(str(c["cont"])) < int(c["alvo"]):
 			continue
 		(pr["conquistas"] as Array).append(id)
-		var r := {"moedas": int(c.get("moedas", 0))}
-		if c.has("koins"):
-			r["koins"] = int(c["koins"])
-		if c.has("titulo"):
-			r["titulo"] = str(c["titulo"])
+		var r := premio_conquista(c)
 		_pagar({"k": "conquista", "id": id}, r)
 		ev.append({"tipo": "conquista", "texto": texto(c), "premio": r})
 	if not ev.is_empty():
@@ -343,21 +406,51 @@ static func verificar() -> Array:
 	return ev
 
 
+static func premio_conquista(c: Dictionary) -> Dictionary:
+	var r := {"moedas": int(c.get("moedas", 0))}
+	if c.has("koins"):
+		r["koins"] = int(c["koins"])
+	if c.has("titulo"):
+		r["titulo"] = str(c["titulo"])
+	return r
+
+
 ## Credita na hora e manda ao servidor (que confere e devolve o perfil certo).
 static func _pagar(op: Dictionary, r: Dictionary) -> void:
+	creditar_local(r)
+	if Nuvem.ativo():
+		Nuvem.op("progresso", op, true)
+
+
+## Credita um prêmio no aparelho (o servidor faz o mesmo e o perfil dele prevalece). Chaves: moedas, booster, koins,
+## essencia, booster_trad, escolha (raridade), emotes (tradição), titulo.
+static func creditar_local(r: Dictionary) -> void:
 	if int(r.get("moedas", 0)) > 0:
 		Sessao._gravar("moedas", Sessao.moedas() + int(r["moedas"]))
 	if int(r.get("booster", 0)) > 0:
 		Sessao._gravar("boosters_gratis", Sessao.boosters_gratis() + int(r["booster"]))
 	if int(r.get("koins", 0)) > 0:
 		Sessao._gravar("koins", Sessao.koins() + int(r["koins"]))
+	if int(r.get("essencia", 0)) > 0:
+		Sessao._gravar("essencia", Sessao.essencia() + int(r["essencia"]))
+	if int(r.get("booster_trad", 0)) > 0:
+		Sessao.perfil["boosters_trad"] = int(Sessao.perfil.get("boosters_trad", 0)) + int(r["booster_trad"])
+	if str(r.get("escolha", "")) in ["C", "R", "SR"]:
+		var es: Array = Sessao.perfil.get("escolhas", [])
+		es.append(str(r["escolha"]))
+		Sessao.perfil["escolhas"] = es
+	if str(r.get("emotes", "")) in dados()["emotes"]:
+		var em: Array = Sessao.perfil.get("emotes", [])
+		for i in (dados()["emotes"][str(r["emotes"])] as Array).size():
+			var eid := "%s_%d" % [r["emotes"], i]
+			if not (eid in em):
+				em.append(eid)
+		Sessao.perfil["emotes"] = em
 	if r.has("titulo"):
 		var t: Array = Sessao.perfil.get("titulos", [])
 		if not (r["titulo"] in t):
 			t.append(r["titulo"])
 		Sessao.perfil["titulos"] = t
-	if Nuvem.ativo():
-		Nuvem.op("progresso", op, true)
 
 
 ## "+40 moedas · +1 booster · Título: X" para os resumos.
@@ -369,6 +462,14 @@ static func premio_txt(r: Dictionary) -> String:
 		partes.append(Sessao.t("+%d booster") % int(r["booster"]))
 	if int(r.get("koins", 0)) > 0:
 		partes.append("+%d Koins" % int(r["koins"]))
+	if int(r.get("essencia", 0)) > 0:
+		partes.append(Sessao.t("+%d Essência") % int(r["essencia"]))
+	if int(r.get("booster_trad", 0)) > 0:
+		partes.append(Sessao.t("+%d booster de tradição") % int(r["booster_trad"]))
+	if str(r.get("escolha", "")) != "":
+		partes.append(Sessao.t("escolha de carta %s") % str(r["escolha"]))
+	if str(r.get("emotes", "")) != "":
+		partes.append(Sessao.t("2 emotes"))
 	if r.has("titulo"):
 		partes.append(Sessao.t("Título: %s") % nome_titulo(str(r["titulo"])))
 	return "  ·  ".join(partes)

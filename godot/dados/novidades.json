@@ -1,5 +1,33 @@
 [
  {
+  "versao": "0.20.29-alpha",
+  "data": "13/11/2026",
+  "pt": [
+   "Calendário de 28 dias (Progresso > Calendário): cada presente diário marca 1 dia, com Essência, booster de tradição, 2 boosters e carta à escolha. Faltar um dia não zera.",
+   "Missões do dia variadas: a 1ª paga moedas, a 2ª Essência e a 3ª Koins.",
+   "Prêmios novos na Loja (Prêmios guardados): booster de tradição (as 3 cartas da tradição que você escolher) e escolha de carta (veja 3 e fique com 1, primeiro as que faltam).",
+   "Maestria vai até o nível 10: booster de tradição, 2 emotes da tradição, Essência, escolha de carta e o título Arauto. Quem já tinha pontos recebe tudo na próxima partida com a tradição.",
+   "A cada 5 níveis, além do booster: Essência, escolha de carta ou 200 moedas. 25 títulos novos e 12 conquistas novas.",
+   "Estrelas nas cartas da Coleção: bronze, prata e ouro ao jogar a carta 25, 100 e 250 vezes."
+  ],
+  "en": [
+   "28-day calendar (Progress > Calendar): each daily gift marks 1 day, with Essence, a tradition booster, 2 boosters and a card of your choice. Missing a day doesn't reset it.",
+   "Varied daily missions: the 1st pays coins, the 2nd Essence and the 3rd Koins.",
+   "New rewards in the Shop (Saved rewards): tradition booster (all 3 cards from the tradition you choose) and card pick (see 3, keep 1, missing cards first).",
+   "Mastery goes up to level 10: tradition booster, 2 tradition emotes, Essence, card pick and the Herald title. Players who already had the points get everything on their next match with that tradition.",
+   "Every 5 levels, besides the booster: Essence, a card pick or 200 coins. 25 new titles and 12 new achievements.",
+   "Stars on Collection cards: bronze, silver and gold after playing the card 25, 100 and 250 times."
+  ],
+  "es": [
+   "Calendario de 28 días (Progreso > Calendario): cada regalo diario marca 1 día, con Esencia, sobre de tradición, 2 sobres y carta a elegir. Faltar un día no lo reinicia.",
+   "Misiones diarias variadas: la 1ª paga monedas, la 2ª Esencia y la 3ª Koins.",
+   "Premios nuevos en la Tienda (Premios guardados): sobre de tradición (las 3 cartas de la tradición que elijas) y elección de carta (mira 3 y quédate con 1, primero las que faltan).",
+   "La maestría llega al nivel 10: sobre de tradición, 2 emotes de la tradición, Esencia, elección de carta y el título Heraldo. Quien ya tenía los puntos recibe todo en su próxima partida con la tradición.",
+   "Cada 5 niveles, además del sobre: Esencia, elección de carta o 200 monedas. 25 títulos nuevos y 12 logros nuevos.",
+   "Estrellas en las cartas de la Colección: bronce, plata y oro al jugar la carta 25, 100 y 250 veces."
+  ]
+ },
+ {
   "versao": "0.20.28-alpha",
   "data": "13/11/2026",
   "pt": [

@@ -116,15 +116,47 @@ func _botoes_menu() -> Array:
 	return out
 
 
-func _rect_emotes(k: int) -> Rect2:
+## Todos os emotes do jogo por número (o número vai pela rede): 0–3 os de sempre, depois 2 por tradição, na ordem de
+## progressao.json (liberados na maestria 7 de cada uma).
+static func todos_emotes() -> Array:
+	var out: Array = EMOTES.duplicate()
+	var em: Dictionary = Progresso.dados()["emotes"]
+	for trad in Progresso.dados()["tradicoes"]:
+		for e in em.get(trad, []):
+			out.append(e)
+	return out
+
+
+## Números dos emotes que este jogador pode usar.
+static func meus_emotes() -> Array:
+	var out: Array = [0, 1, 2, 3]
+	var tem: Array = Sessao.perfil.get("emotes", [])
+	var em: Dictionary = Progresso.dados()["emotes"]
+	var k := EMOTES.size()
+	for trad in Progresso.dados()["tradicoes"]:
+		for i in (em.get(trad, []) as Array).size():
+			if "%s_%d" % [trad, i] in tem:
+				out.append(k)
+			k += 1
+	return out
+
+
+## Lugar do i-ésimo emote da lista aberta: até 8 por coluna, colunas crescendo para dentro da tela.
+func _rect_emotes(i: int) -> Rect2:
 	var r := rect_emote()
-	return Rect2(r.end.x - 110, r.end.y + 6 + k * 24, 110, 20)
+	var col := i / 8
+	var lin := i % 8
+	if Sessao.canhoto:
+		return Rect2(r.position.x + col * 140, r.end.y + 6 + lin * 24, 136, 20)
+	return Rect2(r.end.x - 136 - col * 140, r.end.y + 6 + lin * 24, 136, 20)
 
 
 # ---------------- registro ----------------
 func registrar(dono: int, cid: String, tipo: String, alvo := "") -> void:
 	if m.log_partida.size() < 400:                    # log completo da partida (vai para o histórico do perfil)
 		m.log_partida.append([m.turno_n, dono, tipo, cid, alvo])
+	if dono == 0 and tipo in ["entidade", "selo", "rito", "reliquia"]:   # vezes que joguei cada carta (estrelas de maestria)
+		m.jogadas_eu[cid] = int(m.jogadas_eu.get(cid, 0)) + 1
 	historico.push_front({"dono": dono, "cid": cid, "tipo": tipo, "alvo": alvo, "t": 0.0, "turno": m.turno_n})
 	if historico.size() > MAX_HIST:
 		historico.resize(MAX_HIST)
@@ -136,7 +168,7 @@ func emote_jogador(k: int) -> void:
 	if t - _ultimo_emote < 2.5:
 		return
 	_ultimo_emote = t
-	fala_jog = {"texto": Sessao.par(EMOTES[k]), "t": 0.0}
+	fala_jog = {"texto": Sessao.par(todos_emotes()[k]), "t": 0.0}
 	Sessao.vibrar(10, 0.3)
 	if m.online_partida():                             # online: a fala vai para o adversário (gente de verdade)
 		m.rede.enviar_emote(k)
@@ -145,10 +177,11 @@ func emote_jogador(k: int) -> void:
 		var p: Dictionary = Sessao.personagem(Sessao.oponente)
 		var proprias: Array = p.get("falas", {}).get("emote", [])
 		var texto := ""
-		if k < proprias.size() and not (proprias[k] as Array).is_empty():   # resposta com a personalidade dele
-			texto = str(proprias[k][randi() % (proprias[k] as Array).size()])
+		var kr := k if k < RESPOSTAS.size() else 1           # emote de tradição: responde como a um "Boa jogada."
+		if kr < proprias.size() and not (proprias[kr] as Array).is_empty():   # resposta com a personalidade dele
+			texto = str(proprias[kr][randi() % (proprias[kr] as Array).size()])
 		else:
-			var linha: Array = RESPOSTAS[k][randi() % RESPOSTAS[k].size()]
+			var linha: Array = RESPOSTAS[kr][randi() % RESPOSTAS[kr].size()]
 			texto = Sessao.par(linha)
 		get_tree().create_timer(1.2).timeout.connect(func() -> void:
 			if m.acabou:
@@ -158,10 +191,10 @@ func emote_jogador(k: int) -> void:
 
 ## Emote recebido do adversário online: balão do lado de lá com o nome dele.
 func emote_oponente(k: int) -> void:
-	if m.acabou or k < 0 or k >= EMOTES.size():
+	if m.acabou or k < 0 or k >= todos_emotes().size():
 		return
 	var p: Dictionary = Sessao.personagem(Sessao.oponente)
-	m.efeitos.falar(str(m.online_info.get("adversario", "")), Sessao.par(EMOTES[k]), Color(p.get("cor", "#e2b85a")), Sessao.oponente)
+	m.efeitos.falar(str(m.online_info.get("adversario", "")), Sessao.par(todos_emotes()[k]), Color(p.get("cor", "#e2b85a")), Sessao.oponente)
 
 
 func entrada_lendaria(c: Carta) -> void:
@@ -186,9 +219,10 @@ func pressionar(p: Vector2) -> bool:
 		hist_aberto = -1
 		return true
 	if emotes_abertos:
-		for k in EMOTES.size():
-			if _rect_emotes(k).has_point(p):
-				emote_jogador(k)
+		var meus := meus_emotes()
+		for i in meus.size():
+			if _rect_emotes(i).has_point(p):
+				emote_jogador(int(meus[i]))
 		emotes_abertos = false
 		return true
 	if rect_menu().grow(6).has_point(p) and not m.acabou:
@@ -273,12 +307,14 @@ func _draw() -> void:
 		if m.tut == null:
 			_botao_canto(rect_emote(), "emote")
 	if emotes_abertos:
-		for k in EMOTES.size():
-			var r := _rect_emotes(k)
+		var meus := meus_emotes()
+		var todos := todos_emotes()
+		for i in meus.size():
+			var r := _rect_emotes(i)
 			draw_rect(r.grow(1), ESCURO)
 			draw_rect(r, Color("#2a1f2a"))
 			draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), OURO[2])
-			Fonte57.desenhar(self, r.position + Vector2(7, 6), Sessao.par(EMOTES[k]), Color("#f2e6c8"))
+			Fonte57.desenhar(self, r.position + Vector2(7, 6), Fonte57.cortar(Sessao.par(todos[int(meus[i])]), 126), Color("#f2e6c8"))
 	if sem_jogadas and not m.acabou and m.ativo == 0 and menu == "" and not m._fim_armado:
 		var r: Rect2 = m.botao_fim
 		var a := 0.6 + 0.4 * sin(t * 5.0)

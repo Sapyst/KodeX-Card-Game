@@ -74,8 +74,13 @@ function perfilNovo() {
 }
 function sortear(lista) { return lista[Math.floor(Math.random() * lista.length)]; }
 
-function abrirBooster(p, gratis, trad) {
-  if (gratis) {
+// deTrad: booster de tradição (prêmio): gasta 1 de p.boosters_trad e as 3 cartas saem todas da tradição escolhida.
+function abrirBooster(p, gratis, trad, deTrad = false) {
+  if (deTrad) {
+    if (!D.prog.tradicoes.includes(trad)) return { erro: "tradição inválida" };
+    if ((p.boosters_trad | 0) <= 0) return { erro: "sem booster de tradição" };
+    p.boosters_trad -= 1;
+  } else if (gratis) {
     if ((p.boosters_gratis | 0) <= 0) return { erro: "sem booster grátis" };
     p.boosters_gratis -= 1;
   } else {
@@ -88,7 +93,7 @@ function abrirBooster(p, gratis, trad) {
     if (c.l) { lend.push(cid); if (D.foils.includes(cid)) foils.push(cid); } else comuns.push(cid);
   }
   const daTrad = (l) => {
-    if (!trad || Math.random() >= R.CHANCE_TRADICAO) return l;
+    if (!trad || (!deTrad && Math.random() >= R.CHANCE_TRADICAO)) return l;
     const f = l.filter((cid) => carta(cid).c === trad);
     return f.length ? f : l;
   };
@@ -115,6 +120,22 @@ function abrirBooster(p, gratis, trad) {
   return { cartas: saida };
 }
 
+// Escolha de carta (prêmio): 3 cartas da raridade, primeiro as que faltam na coleção, depois as que ainda cabem num
+// deck (Lendária 1, demais 2), depois qualquer uma. Fica guardada até a pessoa escolher (fechar o app não sorteia de novo).
+function abrirEscolha(p) {
+  if (p.escolha_aberta) return { ...p.escolha_aberta };
+  if (!(p.escolhas || []).length) return { erro: "sem escolha de carta" };
+  const r = p.escolhas.shift();
+  const todas = Object.keys(D.cartas).filter((cid) => carta(cid).c !== "abismo" && raridade(cid, false) === r);
+  const max = (cid) => (carta(cid).l ? 1 : 2);
+  const embaralha = (l) => { for (let i = l.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [l[i], l[j]] = [l[j], l[i]]; } return l; };
+  const opcoes = [];
+  for (const grupo of [todas.filter((cid) => copias(p, cid) === 0), todas.filter((cid) => copias(p, cid) > 0 && copias(p, cid) < max(cid)), todas])
+    for (const cid of embaralha([...grupo])) if (opcoes.length < 3 && !opcoes.includes(cid)) opcoes.push(cid);
+  p.escolha_aberta = { r, opcoes };
+  return { ...p.escolha_aberta };
+}
+
 function resgatar(p) {
   const r = p.resgates || {};
   const d = dia(), s = semana(), sx = semanaSexta();
@@ -133,7 +154,18 @@ function resgatar(p) {
   p.moedas += dias * R.MOEDAS_DIA;
   p.boosters_gratis = (p.boosters_gratis | 0) + bo + bb;
   p.koins = (p.koins | 0) + dias * R.KOINS_DIA + ks + kb;
-  return { dias, moedas: dias * R.MOEDAS_DIA, booster: bo + bb, koins: dias * R.KOINS_DIA + ks + kb, koins_semana: ks, seq, bonus_seq: bonus };
+  const out = { dias, moedas: dias * R.MOEDAS_DIA, booster: bo + bb, koins: dias * R.KOINS_DIA + ks + kb, koins_semana: ks, seq, bonus_seq: bonus };
+  if (dias > 0) out.cal = marcarCalendario(p);
+  return out;
+}
+
+// Calendário de 28 dias: cada presente diário resgatado marca 1 dia (faltar não zera); no 28º recomeça (ciclo + 1).
+function marcarCalendario(p) {
+  const c = p.cal || { n: 0, ciclo: 0 };
+  const n = (c.n | 0) + 1;
+  const pago = creditar(p, D.prog.calendario[n - 1] || {});
+  p.cal = n >= D.prog.calendario.length ? { n: 0, ciclo: (c.ciclo | 0) + 1 } : { n, ciclo: c.ciclo | 0 };
+  return { dia: n, premio: pago };
 }
 
 // ---------- progressão (missões, nível, maestria, conquistas) — mesmos números do jogo (dados.js "prog") ----------
@@ -151,21 +183,56 @@ function sorteio(semente, n, tam) {
 }
 function premioNivel(n) {
   const r = n % 10 === 0 ? { booster: 1, koins: 30 } : n % 5 === 0 ? { booster: 1 } : { moedas: 40 };
+  if (n % 5 === 0) {                                   // a cada 5: extra em ciclo (Essência, escolha de carta, moedas, nada)
+    const ex = D.prog.nivel.extra_5[(n / 5 - 1) % D.prog.nivel.extra_5.length];
+    for (const [k, v] of Object.entries(ex)) r[k] = typeof v === "number" ? (r[k] | 0) + v : v;
+  }
   const t = D.prog.nivel.titulos[String(n)];
   if (t) r.titulo = t;
   return r;
 }
-const TETO_PROG = { nivel: 5, maestria: 6, conquista: 15 };
+// Prêmio da missão do dia pelo lugar dela na lista: 1ª moedas, 2ª Essência, 3ª Koins (metade do valor). A 4ª (a da
+// troca) herda o lugar da que saiu (o jogo informa qual; tanto faz para a economia).
+function premioMissao(m, lugar) {
+  const tipo = D.prog.diarias_tipos[clamp(lugar | 0, 0, 2)];
+  const v = m.moedas | 0;
+  return tipo === "moedas" ? { moedas: v } : { [tipo]: Math.round(v / 2) };
+}
+// Credita um prêmio no perfil (servidor) e devolve o que foi pago. Chaves: moedas, booster, koins, essencia,
+// booster_trad (booster de uma tradição à escolha), escolha (raridade: "escolha de carta"), emotes (tradição), titulo.
+function creditar(p, r, trad = "") {
+  const out = {};
+  for (const k of ["moedas", "booster", "koins", "essencia", "booster_trad"]) {
+    const n = r[k] | 0;
+    if (n <= 0) continue;
+    if (k === "booster") p.boosters_gratis = (p.boosters_gratis | 0) + n;
+    else if (k === "booster_trad") p.boosters_trad = (p.boosters_trad | 0) + n;
+    else p[k] = (p[k] | 0) + n;
+    out[k] = n;
+  }
+  if (r.escolha && ["C", "R", "SR"].includes(r.escolha)) { (p.escolhas ||= []).push(r.escolha); out.escolha = r.escolha; }
+  if (r.emotes && trad && D.prog.emotes[trad]) {
+    const e = (p.emotes ||= []);
+    D.prog.emotes[trad].forEach((_, i) => { const id = `${trad}_${i}`; if (!e.includes(id)) e.push(id); });
+    out.emotes = trad;
+  }
+  if (r.titulo) { const t = (p.titulos ||= []); if (!t.includes(r.titulo)) t.push(r.titulo); out.titulo = r.titulo; }
+  if (!("moedas" in out)) out.moedas = 0;
+  return out;
+}
+// Teto por dia: a maestria aceita até 60 porque os níveis 6–10 (13/11/2026) chegam de uma vez para quem já passou deles.
+const TETO_PROG = { nivel: 5, maestria: 60, conquista: 20 };
 async function progresso(env, id, p, d) {
   const P = D.prog, pagos = (p.prog_pagos ||= {}), hoje = dia();
   let chave = "", r = null;
   if (d.k === "missao") {
     const dd = d.dia | 0;
     if (dd !== hoje && dd !== hoje - 1) return { erro: "dia errado" };
-    const m = sorteio(dd, 4, P.diarias.length).map((i) => P.diarias[i]).find((x) => x.id === d.id);
-    if (!m) return { erro: "missão não é deste dia" };
+    const lista = sorteio(dd, 4, P.diarias.length).map((i) => P.diarias[i]);
+    const pos = lista.findIndex((x) => x.id === d.id);
+    if (pos < 0) return { erro: "missão não é deste dia" };
     if (Object.keys(pagos).filter((k) => k.startsWith(`m:${dd}:`)).length >= 3) return { moedas: 0, repetido: true };
-    chave = `m:${dd}:${m.id}`; r = m;
+    chave = `m:${dd}:${lista[pos].id}`; r = premioMissao(lista[pos], pos < 3 ? pos : d.slot);
   } else if (d.k === "semanal") {
     const ss = d.semana | 0, s = semana();
     if (ss !== s && ss !== s - 1) return { erro: "semana errada" };
@@ -197,12 +264,7 @@ async function progresso(env, id, p, d) {
   }
   pagos[chave] = hoje;
   for (const k of Object.keys(pagos)) if ((k[0] === "m" || k[0] === "s") && pagos[k] < hoje - 21) delete pagos[k];   // poda
-  const out = { moedas: r.moedas | 0, booster: r.booster | 0, koins: r.koins | 0 };
-  p.moedas += out.moedas;
-  p.boosters_gratis = (p.boosters_gratis | 0) + out.booster;
-  p.koins = (p.koins | 0) + out.koins;
-  if (r.titulo) { const t = (p.titulos ||= []); if (!t.includes(r.titulo)) t.push(r.titulo); out.titulo = r.titulo; }
-  return out;
+  return creditar(p, r, d.k === "maestria" ? String(d.trad) : "");
 }
 
 // Placar do Desafio do dia: quantos jogaram, quantos venceram, melhor número de turnos e o resultado de quem pergunta.
@@ -298,7 +360,16 @@ function aplicarLivres(p, campos) {
 async function op(env, id, p, d) {
   switch (d.tipo) {
     case "resgatar": return resgatar(p);
-    case "booster": return abrirBooster(p, !!d.gratis, d.pacote && D.cartas && String(d.pacote));
+    case "booster": return abrirBooster(p, !!d.gratis, d.pacote && D.cartas && String(d.pacote), !!d.de_trad);
+    case "escolha_abrir": return abrirEscolha(p);
+    case "escolha_pegar": {
+      const e = p.escolha_aberta, cid = String(d.carta);
+      if (!e || !e.opcoes.includes(cid)) return { erro: "escolha inválida" };
+      delete p.escolha_aberta;
+      if (copias(p, cid) === 0) (p.novas ||= {})[cid] = true;
+      p.colecao[cid] = copias(p, cid) + 1;
+      return { carta: cid };
+    }
     case "trocar": {
       const cid = String(d.carta);
       if (!carta(cid) || copias(p, cid) <= 1 || copias(p, cid) - 1 < emUso(p, cid)) return { erro: "não dá para trocar" };

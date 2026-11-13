@@ -378,7 +378,30 @@ func _ready() -> void:
 			"editor_livre":
 				mp.gaveta = "livre"; mp.deck_sugerido("bruxaria")
 			"progresso":
+				if st.size() > 1 and st[1] == "calendario":
+					Sessao.perfil["cal"] = {"n": 9, "ciclo": 0}
+				if st.size() > 1 and st[1] == "nivel":
+					Sessao.perfil["titulos"] = (Progresso.dados()["titulos"] as Dictionary).keys().slice(0, 16)
 				prg.aba = st[1] if st.size() > 1 else "missoes"; _ir("progresso")
+			"premios", "pacotes_premio":                       # prêmios guardados (booster de tradição e escolha de carta)
+				Sessao.perfil["boosters_trad"] = 2; Sessao.perfil["escolhas"] = ["R"]; _ir(st[0])
+			"escolha":
+				Sessao.perfil["escolhas"] = ["SR"]; escolha_atual = Sessao.abrir_escolha_local(); _ir("escolha")
+			"loja_premios":
+				Sessao.perfil["boosters_trad"] = 1; Sessao.perfil["escolhas"] = ["R"]; _ir("loja")
+			"recompensas":                                     # confere a lógica: maestria retroativa, estrela, missão, nível, calendário
+				var pr: Dictionary = Progresso.p()
+				pr["maestria"]["taoismo"] = 3000
+				pr["cartas"] = {"tao_lan_caihe": 24}
+				for e in Progresso.partida({"resultado": "vitoria", "deck": "taoismo", "contra": "ia", "stats": {}, "jogadas": {"tao_lan_caihe": 1}}):
+					if e["tipo"] in ["maestria", "estrela"]:
+						print("RECOMP ev ", e["tipo"], " ", e["texto"], " | ", Progresso.premio_txt(e.get("premio", {})))
+				print("RECOMP emotes ", Sessao.perfil.get("emotes", []), " bt ", Sessao.boosters_trad(), " nv ", pr["maestria_nv"], " estrela ", Progresso.estrela("tao_lan_caihe"))
+				print("RECOMP missao ", Progresso.premio_missao({"moedas": 30}, 0), Progresso.premio_missao({"moedas": 30}, 1), Progresso.premio_missao({"moedas": 25}, 2))
+				print("RECOMP nivel ", Progresso.premio_nivel(5), Progresso.premio_nivel(10), Progresso.premio_nivel(15), Progresso.premio_nivel(20))
+				Sessao.perfil["cal"] = {"n": 6, "ciclo": 0}
+				print("RECOMP cal ", Sessao.marcar_calendario_local(), " ", Sessao.perfil["cal"], " bt ", Sessao.boosters_trad())
+				print("RECOMP escolha ", Sessao.abrir_escolha_local())
 			"perfil_hist":                                     # perfil com 14 partidas falsas (rolagem do histórico)
 				var advs := ["Aditya Rao", "Moema Arani", "Ana", "Silas Ashcombe", "Bia - Bot"]
 				for k in 14:
@@ -602,6 +625,32 @@ func _ir(novo: String, suave := false) -> void:
 			_botao(Rect2(70, 440, 220, 22), "", func() -> void: _ir("pacotes"), {"desenho": _botao_pacote})
 			if Sessao.boosters_gratis() > 0:
 				_botao(Rect2(90, 512, 180, 30), Sessao.t("Abrir grátis (%d)") % Sessao.boosters_gratis(), bo.comprar.bind(true))
+			var guardados := Sessao.boosters_trad() + Sessao.escolhas_pendentes()
+			if guardados > 0:
+				_botao(Rect2(90, 548, 180, 26), Sessao.t("Prêmios guardados (%d)") % guardados, func() -> void: _ir("premios"), {"ouro": true})
+		"premios":                                     # booster de tradição e escolha de carta guardados
+			_botao(Rect2(30, 130, 300, 96), "", func() -> void:
+				if Sessao.boosters_trad() > 0:
+					_ir("pacotes_premio"), {"desenho": _linha_premio.bind("booster_trad")})
+			_botao(Rect2(30, 240, 300, 96), "", _abrir_escolha, {"desenho": _linha_premio.bind("escolha")})
+			_botao(Rect2(110, 572, 140, 26), "Voltar", func() -> void: _ir("loja"))
+		"pacotes_premio":                              # booster de tradição: escolher de qual tradição
+			for k in Booster.OPCOES_PACOTE.size() - 1:
+				var trp: String = Booster.OPCOES_PACOTE[k + 1]
+				_botao(bo.rect_opcao_pacote(k), "", func() -> void:
+					confirmar(Sessao.t("Abrir booster de %s?") % Sessao.nome_deck(trp), Sessao.t("as 3 cartas saem desta tradição"),
+						bo.comprar.bind(false, trp)),
+					{"desenho": func(_b: Dictionary, r: Rect2, pr: float) -> void: bo.desenhar_opcao_pacote(r, pr, trp, false)})
+			_botao(Rect2(110, 584, 140, 26), "Voltar", func() -> void: _ir("premios"))
+		"escolha":                                     # escolha de carta: 3 cartas, fica com 1
+			var ops: Array = escolha_atual.get("opcoes", [])
+			for k in ops.size():
+				var cid_e: String = ops[k]
+				_botao(_rect_escolha(k), "", func() -> void:
+					confirmar(Sessao.t("Ficar com %s?") % str(Sessao.db["cartas"][cid_e]["nome"]), Sessao.t("as outras duas não voltam"),
+						_pegar_escolha.bind(cid_e)),
+					{"desenho": _carta_escolha.bind(cid_e)})
+			_botao(Rect2(110, 572, 140, 26), "Voltar", func() -> void: _ir("premios"))
 		"pacotes":                                     # escolher o pacote: os 7 de uma vez
 			for k in Booster.OPCOES_PACOTE.size():
 				var tr: String = Booster.OPCOES_PACOTE[k]
@@ -841,6 +890,86 @@ func abrir_novidades(todas := true, depois := Callable()) -> void:
 	perg.abrir(blocos, depois)
 
 
+# ================= prêmios guardados: booster de tradição e escolha de carta =================
+var escolha_atual := {}                 # {r: raridade, opcoes: [3 ids]} da escolha de carta aberta
+
+
+func _linha_premio(_b: Dictionary, r: Rect2, pressao: float, qual: String) -> void:
+	var n := Sessao.boosters_trad() if qual == "booster_trad" else Sessao.escolhas_pendentes()
+	var dd: Rect2 = _painel(r, n > 0, pressao, Color("#2a2010") if n > 0 else Color("#1e161e"))
+	if qual == "booster_trad":
+		bo.pacote(self, dd.position + Vector2(40, dd.size.y / 2), sin(tempo * 0.9) * 0.04, Vector2.ZERO, 0.0, 1.0, false, 0.4,
+			Booster.OPCOES_PACOTE[1 + int(tempo / 2.0) % 6])
+	else:
+		for k in 3:                                       # 3 versos em leque
+			var c := dd.position + Vector2(28 + k * 12, dd.size.y / 2 + absf(k - 1) * 3)
+			bo.verso(self, Rect2(c - Vector2(14, 20), Vector2(28, 40)))
+	var titulo := Sessao.t("Booster de tradição") if qual == "booster_trad" else Sessao.t("Escolha de carta")
+	var sub := Sessao.t("as 3 cartas saem da tradição que você escolher") if qual == "booster_trad" else Sessao.t("veja 3 cartas e fique com 1")
+	Fonte57.desenhar(self, dd.position + Vector2(82, 22), "%s  x%d" % [titulo, n], OURO[0] if n > 0 else CREME, ESCURO)
+	for k in Fonte57.quebrar(sub, int(dd.size.x) - 92).size():
+		Fonte57.desenhar(self, dd.position + Vector2(82, 40 + k * 12), Fonte57.quebrar(sub, int(dd.size.x) - 92)[k], Color(0.72, 0.66, 0.6), ESCURO)
+	if n > 0:
+		Fonte57.desenhar(self, dd.position + Vector2(82, dd.size.y - 18), Sessao.t("toque para abrir"), Color("#9ad08a"), ESCURO)
+
+
+func _abrir_escolha() -> void:
+	if Sessao.escolhas_pendentes() <= 0 or espera != "":
+		return
+	var e := {}
+	if Nuvem.ativo():                                     # online: o servidor sorteia e guarda as 3 opções
+		esperar(Sessao.t("Buscando as cartas..."))
+		e = await Nuvem.op("escolha_abrir")
+		esperar("")
+		if e.is_empty():
+			mp.avisar(Sessao.t("Sem conexão: tente de novo.")); vibrar(30, 0.6); return
+		if e.has("erro"):
+			mp.avisar(Sessao.t(str(e["erro"]))); vibrar(30, 0.6); return
+	else:
+		e = Sessao.abrir_escolha_local()
+	if (e.get("opcoes", []) as Array).is_empty():
+		return
+	escolha_atual = e
+	_ir("escolha")
+
+
+func _pegar_escolha(cid: String) -> void:
+	if Nuvem.ativo():
+		esperar(Sessao.t("Guardando a carta..."))
+		var r: Dictionary = await Nuvem.op("escolha_pegar", {"carta": cid})
+		esperar("")
+		if r.is_empty() or r.has("erro"):
+			mp.avisar(Sessao.t("Sem conexão: tente de novo.") if r.is_empty() else Sessao.t(str(r["erro"]))); vibrar(30, 0.6); return
+	elif not Sessao.pegar_escolha_local(cid):
+		return
+	escolha_atual = {}
+	vibrar(30, 0.7)
+	Sessao.vibrar_pulsos(2, 30, 0.6)
+	mp.avisar(Sessao.t("%s entrou na coleção.") % str(Sessao.db["cartas"][cid]["nome"]))
+	_ir("premios" if Sessao.boosters_trad() + Sessao.escolhas_pendentes() > 0 else "loja")
+
+
+func _rect_escolha(k: int) -> Rect2:
+	return Rect2(14 + k * 114, 150, 104, 146)
+
+
+func _carta_escolha(_b: Dictionary, r: Rect2, pressao: float, cid: String) -> void:
+	var rr := Rect2(r.position + Vector2(0, -3 * sin(tempo * 1.8 + r.position.x) - pressao * 2), r.size)
+	draw_rect(rr.grow(2), Color(1.0, 0.85, 0.4, 0.25 + 0.15 * sin(tempo * 3.0 + r.position.x)))
+	draw_rect(rr.grow(1), ESCURO)
+	var tex := Carta.textura(Sessao.pasta("carta"), cid, "webp")
+	if tex:
+		draw_texture_rect(tex, rr, false)
+	Efeitos.selo_raridade(self, rr.position + Vector2(13, 8), Sessao.raridade(cid, false), 1, tempo)
+	var nova := Sessao.copias(cid) == 0
+	var etiqueta := Sessao.t("NOVA") if nova else "x%d" % Sessao.copias(cid)
+	var w := PixelFonte.largura(etiqueta) + 6
+	draw_rect(Rect2(rr.get_center().x - w / 2.0, rr.end.y + 6, w, 10), Color("#c83030") if nova else Color(0.45, 0.32, 0.1, 0.95))
+	PixelFonte.desenhar(self, Vector2(rr.get_center().x - w / 2.0 + 3, rr.end.y + 9), etiqueta, Color("#ffe0d0") if nova else OURO[0])
+	var nm := Fonte57.cortar(str(Sessao.db["cartas"][cid]["nome"]), 108)
+	Fonte57.desenhar(self, Vector2(rr.get_center().x - Fonte57.largura(nm) / 2.0, rr.end.y + 22), nm, CREME, ESCURO)
+
+
 ## Pede a hora ao servidor e paga o presente pendente. manual = tocado no botão: mostra também "volte amanhã"/sem rede.
 func verificar_presente(manual := true) -> void:
 	if espera != "":
@@ -894,6 +1023,10 @@ func verificar_presente(manual := true) -> void:
 		blocos.append(["espaco"])
 		blocos.append(["destaque", "+1", "booster"])
 		blocos.append(["centro", Sessao.t("booster grátis da semana - abra na Loja")])
+	if r.get("cal") is Dictionary:                   # calendário de 28 dias: o dia marcado hoje e o prêmio dele
+		blocos.append(["espaco"])
+		blocos.append(["centro", Sessao.t("Calendário: dia %d de 28") % int(r["cal"].get("dia", 0))])
+		blocos.append(["centro", Progresso.premio_txt(r["cal"].get("premio", {}))])
 	blocos.append(["divisor"])
 	blocos.append(["centro", Sessao.t("Volte amanhã para mais moedas.")])
 	perg.abrir(blocos)
@@ -2263,6 +2396,15 @@ func _draw() -> void:
 			solo.desenhar_enigmas()
 		"pacotes":
 			_cabecalho(Sessao.t("Escolha o pacote"), Sessao.t("a tradição da capa sai em 70% das cartas"))
+		"premios":
+			_cabecalho(Sessao.t("Prêmios guardados"), Sessao.t("ganhos no calendário, na maestria e nas missões"))
+		"pacotes_premio":
+			_cabecalho(Sessao.t("Booster de tradição"), Sessao.t("as 3 cartas saem da tradição escolhida"))
+		"escolha":
+			_cabecalho(Sessao.t("Escolha de carta"), Sessao.t("fique com 1 das 3 (%s)") % str(escolha_atual.get("r", "")))
+			var ls_e := Fonte57.quebrar(Sessao.t("Primeiro aparecem as cartas que faltam na sua coleção. Toque na que quiser."), 300)
+			for k in ls_e.size():
+				_texto_central(Vector2(180, 470 + k * 12), ls_e[k], Color(0.72, 0.66, 0.6))
 		"loja":
 			bo.desenhar_loja()
 		"cosmeticos":

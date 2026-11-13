@@ -4588,5 +4588,210 @@
   "en": "too many requests: wait a moment",
   "pt": "muitos pedidos: espere um pouco",
   "es": "demasiadas solicitudes: espera un poco"
+ },
+ "+%d Essência": {
+  "en": "+%d Essence",
+  "pt": "+%d Essência",
+  "es": "+%d Esencia"
+ },
+ "+%d booster de tradição": {
+  "en": "+%d tradition booster",
+  "pt": "+%d booster de tradição",
+  "es": "+%d sobre de tradición"
+ },
+ "escolha de carta %s": {
+  "en": "card pick %s",
+  "pt": "escolha de carta %s",
+  "es": "elección de carta %s"
+ },
+ "2 emotes": {
+  "en": "2 emotes",
+  "pt": "2 emotes",
+  "es": "2 emotes"
+ },
+ "Estrela de bronze: %s": {
+  "en": "Bronze star: %s",
+  "pt": "Estrela de bronze: %s",
+  "es": "Estrella de bronce: %s"
+ },
+ "Estrela de prata: %s": {
+  "en": "Silver star: %s",
+  "pt": "Estrela de prata: %s",
+  "es": "Estrella de plata: %s"
+ },
+ "Estrela de ouro: %s": {
+  "en": "Gold star: %s",
+  "pt": "Estrela de ouro: %s",
+  "es": "Estrella de oro: %s"
+ },
+ "aparece na carta, na Coleção": {
+  "en": "shows on the card, in the Collection",
+  "pt": "aparece na carta, na Coleção",
+  "es": "aparece en la carta, en la Colección"
+ },
+ "Calendário: dia %d de 28": {
+  "en": "Calendar: day %d of 28",
+  "pt": "Calendário: dia %d de 28",
+  "es": "Calendario: día %d de 28"
+ },
+ "Prêmios guardados (%d)": {
+  "en": "Saved rewards (%d)",
+  "pt": "Prêmios guardados (%d)",
+  "es": "Premios guardados (%d)"
+ },
+ "Prêmios guardados": {
+  "en": "Saved rewards",
+  "pt": "Prêmios guardados",
+  "es": "Premios guardados"
+ },
+ "ganhos no calendário, na maestria e nas missões": {
+  "en": "earned in the calendar, mastery and missions",
+  "pt": "ganhos no calendário, na maestria e nas missões",
+  "es": "ganados en el calendario, la maestría y las misiones"
+ },
+ "Abrir booster de %s?": {
+  "en": "Open a %s booster?",
+  "pt": "Abrir booster de %s?",
+  "es": "¿Abrir sobre de %s?"
+ },
+ "as 3 cartas saem desta tradição": {
+  "en": "all 3 cards come from this tradition",
+  "pt": "as 3 cartas saem desta tradição",
+  "es": "las 3 cartas salen de esta tradición"
+ },
+ "Ficar com %s?": {
+  "en": "Keep %s?",
+  "pt": "Ficar com %s?",
+  "es": "¿Quedarte con %s?"
+ },
+ "as outras duas não voltam": {
+  "en": "the other two won't come back",
+  "pt": "as outras duas não voltam",
+  "es": "las otras dos no vuelven"
+ },
+ "Booster de tradição": {
+  "en": "Tradition booster",
+  "pt": "Booster de tradição",
+  "es": "Sobre de tradición"
+ },
+ "as 3 cartas saem da tradição escolhida": {
+  "en": "all 3 cards come from the chosen tradition",
+  "pt": "as 3 cartas saem da tradição escolhida",
+  "es": "las 3 cartas salen de la tradición elegida"
+ },
+ "Escolha de carta": {
+  "en": "Card pick",
+  "pt": "Escolha de carta",
+  "es": "Elección de carta"
+ },
+ "fique com 1 das 3 (%s)": {
+  "en": "keep 1 of the 3 (%s)",
+  "pt": "fique com 1 das 3 (%s)",
+  "es": "quédate con 1 de las 3 (%s)"
+ },
+ "Primeiro aparecem as cartas que faltam na sua coleção. Toque na que quiser.": {
+  "en": "Cards missing from your collection come first. Tap the one you want.",
+  "pt": "Primeiro aparecem as cartas que faltam na sua coleção. Toque na que quiser.",
+  "es": "Primero aparecen las cartas que faltan en tu colección. Toca la que quieras."
+ },
+ "as 3 cartas saem da tradição que você escolher": {
+  "en": "all 3 cards come from the tradition you choose",
+  "pt": "as 3 cartas saem da tradição que você escolher",
+  "es": "las 3 cartas salen de la tradición que elijas"
+ },
+ "veja 3 cartas e fique com 1": {
+  "en": "see 3 cards and keep 1",
+  "pt": "veja 3 cartas e fique com 1",
+  "es": "mira 3 cartas y quédate con 1"
+ },
+ "toque para abrir": {
+  "en": "tap to open",
+  "pt": "toque para abrir",
+  "es": "toca para abrir"
+ },
+ "Buscando as cartas...": {
+  "en": "Fetching the cards...",
+  "pt": "Buscando as cartas...",
+  "es": "Buscando las cartas..."
+ },
+ "Sem conexão: tente de novo.": {
+  "en": "No connection: try again.",
+  "pt": "Sem conexão: tente de novo.",
+  "es": "Sin conexión: inténtalo de nuevo."
+ },
+ "Guardando a carta...": {
+  "en": "Saving the card...",
+  "pt": "Guardando a carta...",
+  "es": "Guardando la carta..."
+ },
+ "%s entrou na coleção.": {
+  "en": "%s joined your collection.",
+  "pt": "%s entrou na coleção.",
+  "es": "%s entró en tu colección."
+ },
+ "sem escolha de carta": {
+  "en": "no card pick",
+  "pt": "sem escolha de carta",
+  "es": "sin elección de carta"
+ },
+ "escolha inválida": {
+  "en": "invalid pick",
+  "pt": "escolha inválida",
+  "es": "elección inválida"
+ },
+ "sem booster de tradição": {
+  "en": "no tradition booster",
+  "pt": "sem booster de tradição",
+  "es": "sin sobre de tradición"
+ },
+ "tradição inválida": {
+  "en": "invalid tradition",
+  "pt": "tradição inválida",
+  "es": "tradición inválida"
+ },
+ "Calendário": {
+  "en": "Calendar",
+  "pt": "Calendário",
+  "es": "Calendario"
+ },
+ "Dias marcados: %d de 28  ·  ciclo %d": {
+  "en": "Days marked: %d of 28  ·  cycle %d",
+  "pt": "Dias marcados: %d de 28  ·  ciclo %d",
+  "es": "Días marcados: %d de 28  ·  ciclo %d"
+ },
+ "Próximo: ": {
+  "en": "Next: ",
+  "pt": "Próximo: ",
+  "es": "Próximo: "
+ },
+ "Cada presente diário marca 1 dia. Faltar um dia não zera: o calendário continua de onde parou.": {
+  "en": "Each daily gift marks 1 day. Missing a day doesn't reset it: the calendar picks up where it left off.",
+  "pt": "Cada presente diário marca 1 dia. Faltar um dia não zera: o calendário continua de onde parou.",
+  "es": "Cada regalo diario marca 1 día. Faltar un día no lo reinicia: el calendario sigue donde se quedó."
+ },
+ "ouro": {
+  "en": "gold",
+  "pt": "ouro",
+  "es": "oro"
+ },
+ "Ess.": {
+  "en": "Ess.",
+  "pt": "Ess.",
+  "es": "Esen."
+ },
+ "tradição": {
+  "en": "tradition",
+  "pt": "tradição",
+  "es": "tradición"
+ },
+ "carta": {
+  "en": "card",
+  "pt": "carta",
+  "es": "carta"
+ },
+ "à escolha": {
+  "en": "of choice",
+  "pt": "à escolha",
+  "es": "a elegir"
  }
 }

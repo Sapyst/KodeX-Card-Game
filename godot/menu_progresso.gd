@@ -4,8 +4,9 @@ extends RefCounted
 ## semana), Nível (barra de XP, próximos prêmios, título em uso), Maestria (6 tradições) e Conquistas (50, em páginas).
 ## Regras e números em progresso.gd / dados/progressao.json. px nativos 360×640.
 
-const ABAS := [["missoes", "Missões", "Missions"], ["nivel", "Nível", "Level"], ["maestria", "Maestria", "Mastery"],
-	["conquistas", "Conquistas", "Achievements"]]
+const ABAS := [["missoes", "Missões", "Missions"], ["calendario", "Calendário", "Calendar"], ["nivel", "Nível", "Level"],
+	["maestria", "Maestria", "Mastery"], ["conquistas", "Conquistas", "Achievements"]]
+const TITULOS_POR_PAGINA := 12
 const POR_PAGINA := 9
 
 var f
@@ -24,7 +25,7 @@ func _l(par) -> String:
 func botoes() -> void:
 	for i in ABAS.size():
 		var a: String = ABAS[i][0]
-		f._botao(Rect2(14 + i * 84, 88, 80, 22), "", func() -> void: aba = a; pagina = 0; f._ir("progresso"),
+		f._botao(Rect2(14 + i * 67, 88, 64, 22), "", func() -> void: aba = a; pagina = 0; f._ir("progresso"),
 			{"desenho": _botao_aba.bind(i)})
 	if OS.get_environment("GD_PROG_LOG") != "":
 		print("MISSOES dia=", Progresso.hoje(), " ", Progresso.diarias().map(func(m: Dictionary) -> String: return m["id"]),
@@ -44,11 +45,19 @@ func botoes() -> void:
 						f._botao(Rect2(292, 152 + k * 46, 48, 16), "", _trocar.bind(k), {"desenho": _botao_trocar, "toque": Rect2(284, 144 + k * 46, 64, 32)})
 		"nivel":
 			var ts: Array = Sessao.perfil.get("titulos", [])
-			for i in mini(ts.size(), 12):
+			var pags := ceili(ts.size() / float(TITULOS_POR_PAGINA))
+			for j in TITULOS_POR_PAGINA:
+				var i := pagina * TITULOS_POR_PAGINA + j
+				if i >= ts.size():
+					break
 				var id := str(ts[i])
-				f._botao(Rect2(30 + (i % 2) * 152, 352 + (i / 2) * 30, 148, 26), "",
+				f._botao(Rect2(30 + (j % 2) * 152, 352 + (j / 2) * 30, 148, 26), "",
 					func() -> void: Sessao.perfil["titulo"] = "" if str(Sessao.perfil.get("titulo", "")) == id else id; Sessao.salvar(); f._ir("progresso"),
 					{"desenho": _botao_titulo.bind(id)})
+			if pagina > 0:
+				f._botao(Rect2(16, 540, 70, 24), "<", func() -> void: pagina -= 1; f._ir("progresso"))
+			if pagina < pags - 1:
+				f._botao(Rect2(274, 540, 70, 24), ">", func() -> void: pagina += 1; f._ir("progresso"))
 		"conquistas":
 			var tot: int = (Progresso.dados()["conquistas"] as Array).size()
 			var paginas := ceili(tot / float(POR_PAGINA))
@@ -87,6 +96,8 @@ func desenhar() -> void:
 			var seq := int(Sessao.perfil.get("resgates", {}).get("seq", 0))
 			f._texto_central(Vector2(180, 486), Sessao.t("Dias seguidos: %d  ·  bônus a cada 7 (+1 booster, +20 Koins)") % seq, Color("#9ad0ff"))
 			f._texto_central(Vector2(180, 502), Sessao.t("Missões pagam na hora, ao terminar a partida."), Color(0.72, 0.66, 0.6))
+		"calendario":
+			_desenhar_calendario()
 		"nivel":
 			_desenhar_nivel()
 		"maestria":
@@ -120,10 +131,7 @@ func _linha_missao(_b: Dictionary, r: Rect2, pressao: float, escopo: String, m: 
 	var dd: Rect2 = f._painel(r, feita, pressao, Color("#2a2010") if feita else Color("#1e161e"))
 	var tx := Fonte57.cortar(Progresso.texto(m), int(dd.size.x) - 16 - (64 if escopo == "dia" else 0))   # não invade o "trocar"
 	Fonte57.desenhar(f, dd.position + Vector2(8, 4), tx, f.OURO[0] if feita else f.CREME, f.ESCURO)
-	var prem := {}
-	for k in ["moedas", "booster", "koins"]:
-		if m.has(k):
-			prem[k] = int(m[k])
+	var prem := Progresso.premio_missao(m, _k) if escopo == "dia" else Progresso.premio_semanal(m)
 	var andamento := Progresso.andamento(escopo, m)
 	var alvo := int(m["alvo"])
 	_barra(Rect2(dd.position + Vector2(8, 18), Vector2(150, 5)), float(andamento) / alvo, Color("#3a8a4a") if feita else f.OURO[1])
@@ -179,9 +187,9 @@ func _desenhar_maestria() -> void:
 			f.draw_texture_rect_region(tex, ft, Rect2(tex.get_width() * 0.15, 0, tex.get_width() * 0.7, tex.get_width() * 0.7 * ft.size.y / ft.size.x))
 		var n := Progresso.maestria_nivel(t)
 		var x := int(Progresso.p()["maestria"].get(t, 0))
-		Fonte57.desenhar(f, dd.position + Vector2(50, 4), Sessao.nome_deck(t), f.OURO[0], f.ESCURO)
-		for e in 5:                                     # 5 losangos: acesos = níveis de maestria
-			var c := Vector2(dd.end.x - 46 + e * 9, dd.position.y + 8)
+		Fonte57.desenhar(f, dd.position + Vector2(50, 4), Fonte57.cortar(Sessao.nome_deck(t), int(dd.size.x) - 140), f.OURO[0], f.ESCURO)
+		for e in lim.size():                            # 10 losangos: acesos = níveis de maestria
+			var c := Vector2(dd.end.x - 6 - (lim.size() - e) * 8, dd.position.y + 8)
 			var pts := PackedVector2Array([c + Vector2(0, -4), c + Vector2(4, 0), c + Vector2(0, 4), c + Vector2(-4, 0)])
 			f.draw_colored_polygon(pts, f.OURO[0] if e < n else Color("#3a2c36"))
 		var prox := int(lim[mini(n, lim.size() - 1)])
@@ -196,10 +204,7 @@ func _desenhar_maestria() -> void:
 
 
 func _premio_maestria(t: String, n: int) -> Dictionary:
-	var r: Dictionary = (Progresso.dados()["maestria"]["premios"][n - 1] as Dictionary).duplicate()
-	if r.has("titulo"):
-		r["titulo"] = str(r["titulo"]) + t
-	return r
+	return Progresso.premio_maestria(t, n)
 
 
 ## Feitas primeiro? Não: as que faltam primeiro (o que dá para buscar), feitas no fim.
@@ -217,8 +222,65 @@ func _linha_conquista(_b: Dictionary, r: Rect2, pressao: float, c: Dictionary) -
 	_barra(Rect2(dd.position + Vector2(8, 18), Vector2(150, 5)), float(v) / float(c["alvo"]), Color("#3a8a4a") if feita else f.OURO[1])
 	var ct := "%d/%d" % [v, int(c["alvo"])]
 	Fonte57.desenhar(f, dd.position + Vector2(dd.size.x - 8 - Fonte57.largura(ct), 26), ct, Color(0.72, 0.66, 0.6), f.ESCURO)
-	var r2 := {"moedas": int(c.get("moedas", 0))}
-	if c.has("titulo"):
-		r2["titulo"] = c["titulo"]
+	var r2 := Progresso.premio_conquista(c)
 	Fonte57.desenhar(f, dd.position + Vector2(8, 26), Progresso.premio_txt(r2) + ("  ·  " + Sessao.t("conquistada") if feita else ""),
 		Color("#9ad08a") if feita else Color("#e0c88a"), f.ESCURO)
+
+
+## Calendário de 28 dias: cada presente diário resgatado marca 1 dia (faltar não zera; no 28º recomeça).
+func _desenhar_calendario() -> void:
+	var cal: Array = Progresso.dados()["calendario"]
+	var c: Dictionary = Sessao.perfil.get("cal", {})
+	var feitos := int(c.get("n", 0))
+	for d in cal.size():
+		var r := Rect2(19 + (d % 7) * 46, 128 + (d / 7) * 62, 44, 58)
+		var marcado := d < feitos
+		var proximo := d == feitos
+		var grande := d == 6 or d == 13 or d == 20 or d == 27
+		var fundo := Color("#3a2c12") if marcado else (Color("#2a1f2a") if not grande else Color("#2c2030"))
+		f.draw_rect(r.grow(1), f.ESCURO)
+		f.draw_rect(r, fundo)
+		f.draw_rect(Rect2(r.position, Vector2(r.size.x, 1)), f.OURO[2] if not grande else f.OURO[0])
+		if proximo:
+			f.draw_rect(r.grow(2), Color(1.0, 0.85, 0.4, 0.3 + 0.25 * sin(f.tempo * 4.0)), false, 1.0)
+		var dia := str(d + 1)
+		Fonte57.desenhar(f, r.position + Vector2(4, 4), dia, f.OURO[0] if marcado else Color(0.72, 0.66, 0.6), f.ESCURO)
+		var linhas := _rotulo_cal(cal[d])
+		for k in linhas.size():
+			var tx: String = linhas[k]
+			Fonte57.desenhar(f, Vector2(r.get_center().x - Fonte57.largura(tx) / 2.0, r.position.y + 22 + k * 12), tx,
+				Color("#9ad08a") if marcado else Color("#e0c88a"), f.ESCURO)
+		if marcado:                                       # visto: dia já recebido
+			f.draw_line(r.position + Vector2(30, 8), r.position + Vector2(33, 11), Color("#9ad08a"), 2.0)
+			f.draw_line(r.position + Vector2(33, 11), r.position + Vector2(39, 4), Color("#9ad08a"), 2.0)
+	var y := 128 + 4 * 62 + 10
+	f._texto_central(Vector2(180, y), Sessao.t("Dias marcados: %d de 28  ·  ciclo %d") % [feitos, int(c.get("ciclo", 0)) + 1], f.CREME)
+	if feitos < cal.size():
+		f._texto_central(Vector2(180, y + 14), Sessao.t("Próximo: ") + Progresso.premio_txt(cal[feitos]), Color("#e0c88a"))
+	var ls := Fonte57.quebrar(Sessao.t("Cada presente diário marca 1 dia. Faltar um dia não zera: o calendário continua de onde parou."), 320)
+	for k in ls.size():
+		f._texto_central(Vector2(180, y + 34 + k * 12), ls[k], Color(0.72, 0.66, 0.6))
+
+
+## Rótulo curto do prêmio de um dia (até 2 linhas que cabem em 44 px).
+func _rotulo_cal(r: Dictionary) -> Array:
+	var out: Array = []
+	if str(r.get("escolha", "")) != "":
+		out.append(Sessao.t("carta"))
+		out.append(Sessao.t("à escolha"))
+	if int(r.get("moedas", 0)) > 0:
+		out.append("+%d" % int(r["moedas"]))
+		out.append(Sessao.t("ouro"))
+	if int(r.get("koins", 0)) > 0:
+		out.append("+%d" % int(r["koins"]))
+		out.append("Koins")
+	if int(r.get("essencia", 0)) > 0:
+		out.append("+%d" % int(r["essencia"]))
+		out.append(Sessao.t("Ess."))
+	if int(r.get("booster", 0)) > 0:
+		out.append("%dx" % int(r["booster"]))
+		out.append("booster")
+	if int(r.get("booster_trad", 0)) > 0:
+		out.append("booster")
+		out.append(Sessao.t("tradição"))
+	return out.slice(0, 2) if out.size() <= 2 else [out[0], out[1]]

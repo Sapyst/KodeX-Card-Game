@@ -251,6 +251,26 @@ Entram 20 conquistas novas:
 
 Depois, por código (sem IA): molduras, versos, tapetes, efeitos de vitória e insígnias.
 
+**Andamento (v0.20.29-alpha, 13/11/2026):**
+- **Feito:**
+  - itens 1–4 e 7;
+  - 25 títulos novos (45 no total);
+  - 12 emotes de tradição (maestria 7);
+  - 12 conquistas novas (coleção por tradição, estrelas, maestria 10), além da "portador", que agora está no gerador.
+- **Mudanças em relação ao plano acima:**
+  - maestria 6–10 hoje paga booster de tradição, 2 emotes, 150 Essência, escolha R e 2 boosters de tradição + título
+    "Arauto". Tapete, moldura, verso e efeito de vitória entram quando houver a arte;
+  - o dia 28 do calendário paga escolha R + 100 Essência até existir a moldura do ciclo.
+- **Fica para depois:**
+  - Códex que libera por vitória: travar o lore que hoje está aberto tiraria algo de quem já joga;
+  - os 4 emotes de evento;
+  - as conquistas de Códex.
+
+Regras no código:
+- dados em `servidor/gerar_progressao.py` (gera `godot/dados/progressao.json`; o servidor lê pelo `gerar_dados.py`);
+- servidor: `creditar`, `marcarCalendario`, `abrirEscolha` e o booster `de_trad`, em `servidor/src/index.js`;
+- teste em `servidor/teste/progresso_teste.mjs`.
+
 ## 7. Ordem sugerida
 
 1. Itens 1–3 da seção 5 (já estão no levantamento; servem também sem cobrança).

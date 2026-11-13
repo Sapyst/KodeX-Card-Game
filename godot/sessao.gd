@@ -703,7 +703,8 @@ func salvar_so_local() -> void:
 ## traz também nome, decks e opções.
 const CAMPOS_SERVIDOR := ["colecao", "foils", "versos", "resgates", "sem_lendaria", "lendarios", "enigmas", "diario_dia",
 	"lendarios_inv", "enigma_semana", "pere_dia",
-	"versao_premiada", "choronzon_vencido", "titulos", "novas", "prog_pagos", "correio"]
+	"versao_premiada", "choronzon_vencido", "titulos", "novas", "prog_pagos", "correio", "boosters_trad", "escolhas",
+	"escolha_aberta", "cal", "emotes"]
 const CAMPOS_LIVRES := ["nome", "decks", "deck_ativo", "verso", "pacote", "tarcade", "torneio", "versao_vista", "pere",
 	"torneio_vencido", "historico", "estat", "prog", "titulo", "pere_fim", "avatares", "ta_semana"]
 
@@ -889,8 +890,65 @@ func resgatar() -> Dictionary:
 	_gravar("moedas", moedas() + int(p["moedas"]))
 	_gravar("boosters_gratis", boosters_gratis() + int(p["booster"]))
 	_gravar("koins", koins() + int(p["koins"]))
+	if int(p["dias"]) > 0:
+		p["cal"] = marcar_calendario_local()
 	salvar()
 	return p
+
+
+## Calendário de 28 dias sem internet (o mesmo que o servidor faz no presente): marca 1 dia e paga o prêmio dele.
+func marcar_calendario_local() -> Dictionary:
+	var c: Dictionary = perfil.get("cal", {"n": 0, "ciclo": 0})
+	var cal: Array = Progresso.dados()["calendario"]
+	var n := int(c.get("n", 0)) + 1
+	var r: Dictionary = cal[n - 1]
+	Progresso.creditar_local(r)
+	perfil["cal"] = {"n": 0, "ciclo": int(c.get("ciclo", 0)) + 1} if n >= cal.size() else {"n": n, "ciclo": int(c.get("ciclo", 0))}
+	return {"dia": n, "premio": r}
+
+
+func boosters_trad() -> int:
+	return int(perfil.get("boosters_trad", 0))
+
+
+func escolhas_pendentes() -> int:
+	return (perfil.get("escolhas", []) as Array).size() + int(perfil.get("escolha_aberta", null) is Dictionary)
+
+
+## Escolha de carta sem internet (igual ao servidor): 3 cartas da raridade, primeiro as que faltam, depois as que ainda
+## cabem num deck, depois qualquer uma. Fica guardada até escolher.
+func abrir_escolha_local() -> Dictionary:
+	if perfil.get("escolha_aberta", null) is Dictionary:
+		return perfil["escolha_aberta"]
+	var es: Array = perfil.get("escolhas", [])
+	if es.is_empty():
+		return {}
+	var r := str(es.pop_front())
+	var todas: Array = []
+	for cid in db["cartas"]:
+		if db["cartas"][cid]["cultura"] != "abismo" and raridade(cid, false) == r:
+			todas.append(cid)
+	var opcoes: Array = []
+	var grupos := [todas.filter(func(c: String) -> bool: return copias(c) == 0),
+		todas.filter(func(c: String) -> bool: return copias(c) > 0 and copias(c) < (1 if db["cartas"][c]["lendaria"] else 2)), todas]
+	for g in grupos:
+		var l: Array = g.duplicate()
+		l.shuffle()
+		for cid in l:
+			if opcoes.size() < 3 and not (cid in opcoes):
+				opcoes.append(cid)
+	perfil["escolha_aberta"] = {"r": r, "opcoes": opcoes}
+	salvar()
+	return perfil["escolha_aberta"]
+
+
+func pegar_escolha_local(cid: String) -> bool:
+	var e = perfil.get("escolha_aberta", null)
+	if not (e is Dictionary) or not (cid in (e["opcoes"] as Array)):
+		return false
+	perfil.erase("escolha_aberta")
+	adicionar_carta(cid)
+	return true
 
 
 func copias(cid: String) -> int:
@@ -1143,8 +1201,12 @@ func usar_booster_gratis() -> bool:
 	return true
 
 
-func comprar_booster(gratis := false, trad := "") -> Array:
-	if not gratis and not gastar_moedas(BOOSTER_PRECO):
+func comprar_booster(gratis := false, trad := "", de_trad := false) -> Array:
+	if de_trad:                                          # booster de tradição (prêmio): as 3 cartas saem da tradição
+		if boosters_trad() <= 0 or trad == "":
+			return []
+		perfil["boosters_trad"] = boosters_trad() - 1
+	elif not gratis and not gastar_moedas(BOOSTER_PRECO):
 		return []
 	if trad == "":
 		trad = str(perfil.get("pacote", ""))
@@ -1164,7 +1226,7 @@ func comprar_booster(gratis := false, trad := "") -> Array:
 	var saida: Array = []
 	# pacote de uma tradição: cada carta tem 70% de chance de sair dela (o resto, de todas)
 	var da_trad := func(lista: Array) -> Array:
-		if trad == "" or rng.randf() >= CHANCE_TRADICAO:
+		if trad == "" or (not de_trad and rng.randf() >= CHANCE_TRADICAO):
 			return lista
 		var f: Array = lista.filter(func(cid: String) -> bool: return db["cartas"][cid]["cultura"] == trad)
 		return f if not f.is_empty() else lista

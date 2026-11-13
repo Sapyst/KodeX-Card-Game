@@ -53,7 +53,8 @@ func y_corte() -> float:
 var _comprando := false                # espera do servidor: um 2º toque em Comprar não compra de novo
 
 
-func comprar(gratis := false) -> void:
+## trad_premio: abre um booster de tradição (prêmio) dessa tradição — as 3 cartas saem dela.
+func comprar(gratis := false, trad_premio := "") -> void:
 	if _comprando:
 		return
 	var r: Array = []
@@ -61,11 +62,14 @@ func comprar(gratis := false) -> void:
 	if Nuvem.ativo():                              # online: o servidor sorteia (e cobra); o jogo só anima
 		if gratis and Sessao.boosters_gratis() <= 0:
 			gratis = false
-		if not gratis and Sessao.moedas() < Sessao.BOOSTER_PRECO:
+		if trad_premio == "" and not gratis and Sessao.moedas() < Sessao.BOOSTER_PRECO:
 			f.mp.avisar(Sessao.t("Moedas insuficientes.")); f.vibrar(30, 0.6); return
 		_comprando = true
 		f.esperar(Sessao.t("Abrindo o booster..."))
-		var res: Dictionary = await Nuvem.op("booster", {"gratis": gratis, "pacote": str(Sessao.perfil.get("pacote", ""))})
+		var pedido := {"gratis": gratis, "pacote": str(Sessao.perfil.get("pacote", ""))}
+		if trad_premio != "":
+			pedido = {"de_trad": true, "pacote": trad_premio}
+		var res: Dictionary = await Nuvem.op("booster", pedido)
 		f.esperar("")
 		_comprando = false
 		if res.is_empty():
@@ -75,9 +79,12 @@ func comprar(gratis := false) -> void:
 		for e in res["cartas"]:
 			r.append({"id": str(e["id"]), "foil": bool(e["foil"]), "nova": bool(e["nova"])})
 	else:
-		if gratis and not Sessao.usar_booster_gratis():
-			gratis = false
-		r = Sessao.comprar_booster(gratis)
+		if trad_premio != "":
+			r = Sessao.comprar_booster(false, trad_premio, true)
+		else:
+			if gratis and not Sessao.usar_booster_gratis():
+				gratis = false
+			r = Sessao.comprar_booster(gratis)
 	if r.is_empty():
 		f.mp.avisar(Sessao.t("Moedas insuficientes."))
 		f.vibrar(30, 0.6)
@@ -400,8 +407,8 @@ func rect_opcao_pacote(k: int) -> Rect2:
 	return Rect2(14 + (k % 3) * 114, 96 + (k / 3) * 160, 104, 150)
 
 
-func desenhar_opcao_pacote(r: Rect2, pressao: float, trad: String) -> void:
-	var escolhido := str(Sessao.perfil.get("pacote", "")) == trad
+func desenhar_opcao_pacote(r: Rect2, pressao: float, trad: String, marcar_escolhido := true) -> void:
+	var escolhido := marcar_escolhido and str(Sessao.perfil.get("pacote", "")) == trad
 	if escolhido:
 		f.draw_rect(r.grow(2), Color(1.0, 0.85, 0.4, 0.25 + 0.15 * sin(f.tempo * 3.0)))
 		f.draw_rect(r.grow(1), f.OURO[0], false, 1.0)

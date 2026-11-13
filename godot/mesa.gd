@@ -1909,6 +1909,9 @@ var veu_a := 0.0
 signal alvo_tocado(alvo)
 
 
+var jogadas_eu := {}                      # cid → vezes que o jogador jogou a carta nesta partida (estrelas)
+
+
 func _conta(d: int, k: String) -> void:
 	estat[d][k] = int(estat[d].get(k, 0)) + 1
 var zoom_travado := false
@@ -4261,7 +4264,7 @@ func _registrar_partida() -> void:
 			"entidades": int(estat[0].get("entidades", 0)), "ritos": int(estat[0].get("ritos", 0)), "selos": int(estat[0].get("selos", 0)),
 			"reliquias": int(estat[0].get("reliquias", 0)), "golpes": int(estat[0].get("golpes_diretos", 0)),
 			"lendarias": int(estat[0].get("lendarias", 0)), "cornucopia": cornucopia[0], "sofreu": _sofreu},
-		"log": log_partida})
+		"jogadas": jogadas_eu if Sessao.modo != "livre" else {}, "log": log_partida})
 	if OS.get_environment("GD_SAIR_NO_FIM") != "":
 		for e in prog_eventos:
 			print("PROG ", e.get("tipo"), " ", e.get("texto", e.get("xp", "")), " ", Progresso.premio_txt(e.get("premio", {})))
@@ -4976,6 +4979,9 @@ func _blocos_progresso(b: Array) -> void:
 			"avatar":
 				b.append(["item", Sessao.t("Retrato liberado: %s") % e["texto"]])
 				b.append(["centro", Sessao.t("Perfil > Escolher imagem")])
+			"estrela":
+				b.append(["item", str(e["texto"])])
+				b.append(["centro", Sessao.t("aparece na carta, na Coleção")])
 	# maestria da tradição jogada, mesmo sem subir de nível
 	var trad := Sessao.deck_jogador_nome
 	if (Progresso.dados()["tradicoes"] as Dictionary).has(trad):     # dicionário id → nomes (PT/EN/ES)

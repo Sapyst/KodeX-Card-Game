@@ -214,6 +214,9 @@ func desenhar_grade(ci: CanvasItem) -> void:
 			# sigla de raridade no canto de cima, à esquerda (UR se possui a foil)
 			var sig := Sessao.raridade(cid, int(Sessao.perfil["foils"].get(cid, 0)) > 0)
 			Efeitos.selo_raridade(ci, r.position + Vector2(13, 8), sig, 1, f.tempo)
+		var est := Progresso.estrela(cid) if not cid.begins_with("tok_") else 0
+		if est > 0 and not (cid in Sessao.arte_revisao) and r.position.y + 2 > TOPO and r.position.y + 16 < BASE:
+			estrela_maestria(ci, Vector2(r.end.x - 9, r.position.y + 9), est)
 		if cid in Sessao.arte_revisao and r.position.y + 8 > TOPO and r.position.y + 8 < BASE:
 			# selo "em revisão": faixinha no canto de cima, pulsando
 			var s := Sessao.t("REVISÃO")
@@ -338,3 +341,18 @@ func desenhar_lore(ci: CanvasItem) -> void:
 					Fonte57.desenhar(ci, Vector2(21, y), s, Color("#ff9a8a"), f.ESCURO)
 		y += 11 * Fonte57.grande() if tipo in ["texto", "carta", "cur"] else (11 if tipo != "titulo" else 14)
 	_barra_rolagem(ci, rolagem_lore, _altura_lore(), y0, BASE)
+
+
+## Estrela de maestria da carta (vezes jogada): 1 bronze, 2 prata, 3 ouro. Estrela de 5 pontas, raio 6 px, com contorno.
+static func estrela_maestria(ci: CanvasItem, c: Vector2, nivel: int, raio := 6.0) -> void:
+	var cores := [Color("#c8844a"), Color("#d8dce8"), Color("#ffd24a")]
+	var cor: Color = cores[clampi(nivel, 1, 3) - 1]
+	var pts := PackedVector2Array()
+	for i in 10:
+		var a := -PI / 2 + i * PI / 5
+		pts.append(c + Vector2(cos(a), sin(a)) * (raio if i % 2 == 0 else raio * 0.45))
+	ci.draw_circle(c, raio + 1.5, Color(0.05, 0.03, 0.07, 0.75))
+	ci.draw_colored_polygon(pts, cor)
+	pts.append(pts[0])
+	ci.draw_polyline(pts, cor.darkened(0.55), 1.0)
+	ci.draw_circle(c + Vector2(-1, -1.5), 1.0, cor.lightened(0.6))

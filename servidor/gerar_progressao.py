@@ -39,6 +39,21 @@ diarias = [
 ] + [M("vit_" + k, "vit_" + k, 1, ("Vença com um deck de " + v[0], "Win with a " + v[1] + " deck", "Gana con un mazo de " + v[2]), 40)
      for k, v in TR.items()]
 
+# 8 diárias a mais (levantamento de nov/2026, bloco 10), no fim da lista: a ordem importa para o sorteio do dia.
+diarias += [
+    M("lendarias_2", "lendarias", 2, ("Jogue 2 Lendárias", "Play 2 Legendaries", "Juega 2 Legendarias"), 30),
+    M("rapido_1", "rapido", 1, ("Vença em até 10 turnos", "Win within 10 turns", "Gana en 10 turnos o menos"), 35),
+    M("intocavel_1", "intocavel", 1, ("Vença sem sofrer dano na Cornucópia", "Win without taking Cornucopia damage",
+                                      "Gana sin recibir daño en la Cornucopia"), 40),
+    M("arquimago_1", "arquimago_vitorias", 1, ("Vença um Arquimago", "Beat an Archmage", "Vence a un Archimago"), 40),
+    M("online_vit_1", "online_vitorias", 1, ("Vença 1 partida online", "Win 1 online match", "Gana 1 partida en línea"), 40),
+    M("maratona_1", "maratona", 1, ("Jogue uma partida de 40 turnos ou mais", "Play a match of 40 turns or more",
+                                    "Juega una partida de 40 turnos o más"), 30),
+    M("entidades_15", "entidades", 15, ("Invoque 15 Entidades", "Summon 15 Entities", "Invoca 15 Entidades"), 30),
+    M("dano_35", "dano", 35, ("Cause 35 de dano à Cornucópia inimiga", "Deal 35 damage to the enemy Cornucopia",
+                              "Inflige 35 de daño a la Cornucopia enemiga"), 35),
+]
+
 semanais = [
     M("s_vencer_10", "vitorias", 10, ("Vença 10 partidas", "Win 10 matches", "Gana 10 partidas"), booster=1),
     M("s_jogar_20", "partidas", 20, ("Jogue 20 partidas", "Play 20 matches", "Juega 20 partidas"), 100),
@@ -105,7 +120,35 @@ conquistas = [
     C("maestria_max", "maestria_max", 5, ("Chegue à maestria 5 numa Tradição", "Reach Mastery 5 in a Tradition",
                                           "Alcanza maestría 5 en una Tradición"), 150),
 ]
-assert len(conquistas) == 50, len(conquistas)
+conquistas.append(C("portador", "lendarios_inv", 12, ("Vença com cada uma das 12 Lendárias (Desafios lendários invertidos)",
+                                                    "Win with each of the 12 Legendaries (inverted Legendary challenges)",
+                                                    "Gana con cada una de las 12 Legendarias (Desafíos legendarios invertidos)"), 150, titulo="portador"))
+HERDEIRO = {"indigena": ["Herdeiro da Mata", "Heir of the Forest", "Heredero de la Selva"],
+            "cristianismo": ["Herdeiro da Luz", "Heir of the Light", "Heredero de la Luz"],
+            "taoismo": ["Herdeiro do Caminho", "Heir of the Way", "Heredero del Camino"],
+            "hinduismo": ["Herdeiro do Ciclo", "Heir of the Cycle", "Heredero del Ciclo"],
+            "bruxaria": ["Herdeiro do Caldeirão", "Heir of the Cauldron", "Heredero del Caldero"],
+            "alta_magia": ["Herdeiro do Templo", "Heir of the Temple", "Heredero del Templo"]}
+# Coleção por tradição (cont "completa_<trad>": 1 quando todas as cartas dela estão na coleção) e estrelas de maestria
+# das cartas (cont "estrelas_<n>": quantas cartas já foram jogadas ao menos ESTRELAS[n] vezes).
+conquistas += [C("completa_" + k, "completa_" + k, 1, ("Complete a coleção de " + v[0], "Complete the " + v[1] + " collection",
+                                                        "Completa la colección de " + v[2]), 150, titulo="herdeiro_" + k)
+               for k, v in TR.items()]
+conquistas += [
+    C("estrela_bronze_10", "estrelas_1", 10, ("Tenha 10 cartas com estrela de bronze", "Have 10 cards with a bronze star",
+                                             "Ten 10 cartas con estrella de bronce"), 60),
+    C("estrela_bronze_50", "estrelas_1", 50, ("Tenha 50 cartas com estrela de bronze", "Have 50 cards with a bronze star",
+                                             "Ten 50 cartas con estrella de bronce"), 150, titulo="constelado"),
+    C("estrela_prata_10", "estrelas_2", 10, ("Tenha 10 cartas com estrela de prata", "Have 10 cards with a silver star",
+                                            "Ten 10 cartas con estrella de plata"), 120, titulo="mao_firme"),
+    C("estrela_ouro_1", "estrelas_3", 1, ("Tenha 1 carta com estrela de ouro", "Have 1 card with a gold star",
+                                         "Ten 1 carta con estrella de oro"), 100),
+    C("estrela_ouro_10", "estrelas_3", 10, ("Tenha 10 cartas com estrela de ouro", "Have 10 cards with a gold star",
+                                           "Ten 10 cartas con estrella de oro"), 300, titulo="lenda_viva"),
+    C("maestria_10", "maestria_max", 10, ("Chegue à maestria 10 numa Tradição", "Reach Mastery 10 in a Tradition",
+                                          "Alcanza maestría 10 en una Tradición"), 250),
+]
+assert len(conquistas) == 63, len(conquistas)
 
 # Títulos: id -> [pt, en, es] (mesmo formato de par de antes, com o ES como 3º elemento).
 titulos = {"iniciado": ["Iniciado", "Initiate", "Iniciado"], "adepto": ["Adepto", "Adept", "Adepto"],
@@ -123,14 +166,65 @@ MESTRE = {"indigena": ["Mestre Indígena", "Indigenous Master", "Maestro Indíge
           "hinduismo": ["Mestre do Hinduísmo", "Master of Hinduism", "Maestro del Hinduismo"],
           "bruxaria": ["Mestre da Bruxaria", "Master of Witchcraft", "Maestro de la Brujería"],
           "alta_magia": ["Mestre da Alta Magia", "Master of High Magic", "Maestro de la Alta Magia"]}
+ARAUTO = {"indigena": ["Arauto da Mata", "Herald of the Forest", "Heraldo de la Selva"],
+          "cristianismo": ["Arauto da Luz", "Herald of the Light", "Heraldo de la Luz"],
+          "taoismo": ["Arauto do Caminho", "Herald of the Way", "Heraldo del Camino"],
+          "hinduismo": ["Arauto do Ciclo", "Herald of the Cycle", "Heraldo del Ciclo"],
+          "bruxaria": ["Arauto do Caldeirão", "Herald of the Cauldron", "Heraldo del Caldero"],
+          "alta_magia": ["Arauto do Templo", "Herald of the Temple", "Heraldo del Templo"]}
 for k in TR:
     titulos["mestre_" + k] = MESTRE[k]
+    titulos["arauto_" + k] = ARAUTO[k]
+    titulos["herdeiro_" + k] = HERDEIRO[k]
+# Títulos de nível (a cada 5 a partir do 15, nos níveis que ainda não tinham) e das estrelas das cartas
+NIVEL_TIT = {"15": ("teurgo", ["Teurgo", "Theurgist", "Teurgo"]), "25": ("taumaturgo", ["Taumaturgo", "Thaumaturge", "Taumaturgo"]),
+             "35": ("arcanista", ["Arcanista", "Arcanist", "Arcanista"]), "40": ("oraculo", ["Oráculo", "Oracle", "Oráculo"]),
+             "45": ("sabio", ["Sábio", "Sage", "Sabio"]), "60": ("arconte", ["Arconte", "Archon", "Arconte"]),
+             "70": ("demiurgo", ["Demiurgo", "Demiurge", "Demiurgo"]), "80": ("ascendido", ["Ascendido", "Ascended", "Ascendido"]),
+             "90": ("eterno", ["Eterno", "Eternal", "Eterno"]), "100": ("avatar", ["Avatar", "Avatar", "Avatar"])}
+for n, (i, t) in NIVEL_TIT.items():
+    titulos[i] = t
+titulos.update({"portador": ["Portador", "Bearer", "Portador"], "constelado": ["Constelado", "Star-Studded", "Constelado"], "mao_firme": ["Mão Firme", "Steady Hand", "Mano Firme"],
+                "lenda_viva": ["Lenda Viva", "Living Legend", "Leyenda Viva"]})
+
+# Emotes liberados na maestria 7 de cada tradição (2 por tradição). Os 4 de sempre ficam com ids 0–3 no jogo.
+EMOTES = {"indigena": [["A floresta vê tudo.", "The forest sees all.", "La selva lo ve todo."],
+                       ["Pelo espírito da mata!", "By the forest spirit!", "¡Por el espíritu de la selva!"]],
+          "cristianismo": [["Paz e bem.", "Peace and goodwill.", "Paz y bien."],
+                           ["Que a luz te guarde.", "May the light keep you.", "Que la luz te guarde."]],
+          "taoismo": [["O caminho flui.", "The Way flows.", "El camino fluye."],
+                      ["Sem pressa, sem pausa.", "No haste, no rest.", "Sin prisa, sin pausa."]],
+          "hinduismo": [["Namastê.", "Namaste.", "Namasté."], ["Tudo é ciclo.", "All is a cycle.", "Todo es ciclo."]],
+          "bruxaria": [["Hora das bruxas!", "Witching hour!", "¡Hora de las brujas!"],
+                       ["Que o caldeirão ferva!", "Let the cauldron boil!", "¡Que hierva el caldero!"]],
+          "alta_magia": [["Assim seja.", "So mote it be.", "Así sea."],
+                         ["Como em cima, embaixo.", "As above, so below.", "Como es arriba, es abajo."]]}
+
+# Calendário de 28 dias: um dia marcado a cada presente diário resgatado (faltar não zera; continua de onde parou).
+CALENDARIO = []
+for d in range(1, 29):
+    if d == 28: CALENDARIO.append({"escolha": "R", "essencia": 100})
+    elif d == 21: CALENDARIO.append({"booster": 2})
+    elif d == 14: CALENDARIO.append({"escolha": "R"})
+    elif d == 7: CALENDARIO.append({"booster_trad": 1})
+    elif d in (3, 10, 17, 24): CALENDARIO.append({"essencia": 40})
+    else: CALENDARIO.append({"moedas": 30} if d % 2 else {"koins": 15})
 
 out = {"_doc": "Gerado por dados/gerar_progressao.py. O servidor usa os mesmos números (servidor/gerar_dados.py).",
        "xp": {"vitoria": 30, "empate": 20, "derrota": 15, "online": 10, "missao": 20, "semanal": 60},
-       "nivel": {"base": 100, "passo": 25, "teto": 400, "titulos": {"5": "iniciado", "10": "adepto", "20": "hierofante", "30": "magus", "50": "mestre_do_codice"}},
-       "maestria": {"limites": [100, 300, 600, 1000, 1500],
-                    "premios": [{"moedas": 50}, {"moedas": 100}, {"booster": 1}, {"koins": 30}, {"booster": 1, "titulo": "mestre_"}]},
+       "nivel": {"base": 100, "passo": 25, "teto": 400,
+                 "titulos": {"5": "iniciado", "10": "adepto", "20": "hierofante", "30": "magus", "50": "mestre_do_codice",
+                             **{n: i for n, (i, _) in NIVEL_TIT.items()}},
+                 # a cada 5 níveis, além do booster: Essência, escolha de carta, moedas, (nada: nível de título) — em ciclo
+                 "extra_5": [{"essencia": 100}, {"escolha": "R"}, {"moedas": 200}, {}]},
+       "maestria": {"limites": [100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500, 5500],
+                    "premios": [{"moedas": 50}, {"moedas": 100}, {"booster": 1}, {"koins": 30}, {"booster": 1, "titulo": "mestre_"},
+                                {"booster_trad": 1}, {"emotes": 1}, {"essencia": 150}, {"escolha": "R"},
+                                {"booster_trad": 2, "titulo": "arauto_"}]},
+       # missões do dia: a 1ª paga moedas, a 2ª Essência e a 3ª Koins (metade do valor em moedas); a trocada herda o tipo
+       "diarias_tipos": ["moedas", "essencia", "koins"],
+       "estrelas": [25, 100, 250],
+       "calendario": CALENDARIO, "emotes": EMOTES,
        "sequencia": {"a_cada": 7, "booster": 1, "koins": 20},
        "diarias": diarias, "semanais": semanais, "conquistas": conquistas, "titulos": titulos, "tradicoes": TR}
 aqui = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "godot", "dados")

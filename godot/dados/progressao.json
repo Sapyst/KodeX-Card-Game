@@ -17,8 +17,30 @@
    "10": "adepto",
    "20": "hierofante",
    "30": "magus",
-   "50": "mestre_do_codice"
-  }
+   "50": "mestre_do_codice",
+   "15": "teurgo",
+   "25": "taumaturgo",
+   "35": "arcanista",
+   "40": "oraculo",
+   "45": "sabio",
+   "60": "arconte",
+   "70": "demiurgo",
+   "80": "ascendido",
+   "90": "eterno",
+   "100": "avatar"
+  },
+  "extra_5": [
+   {
+    "essencia": 100
+   },
+   {
+    "escolha": "R"
+   },
+   {
+    "moedas": 200
+   },
+   {}
+  ]
  },
  "maestria": {
   "limites": [
@@ -26,7 +48,12 @@
    300,
    600,
    1000,
-   1500
+   1500,
+   2100,
+   2800,
+   3600,
+   4500,
+   5500
   ],
   "premios": [
    {
@@ -44,7 +71,194 @@
    {
     "booster": 1,
     "titulo": "mestre_"
+   },
+   {
+    "booster_trad": 1
+   },
+   {
+    "emotes": 1
+   },
+   {
+    "essencia": 150
+   },
+   {
+    "escolha": "R"
+   },
+   {
+    "booster_trad": 2,
+    "titulo": "arauto_"
    }
+  ]
+ },
+ "diarias_tipos": [
+  "moedas",
+  "essencia",
+  "koins"
+ ],
+ "estrelas": [
+  25,
+  100,
+  250
+ ],
+ "calendario": [
+  {
+   "moedas": 30
+  },
+  {
+   "koins": 15
+  },
+  {
+   "essencia": 40
+  },
+  {
+   "koins": 15
+  },
+  {
+   "moedas": 30
+  },
+  {
+   "koins": 15
+  },
+  {
+   "booster_trad": 1
+  },
+  {
+   "koins": 15
+  },
+  {
+   "moedas": 30
+  },
+  {
+   "essencia": 40
+  },
+  {
+   "moedas": 30
+  },
+  {
+   "koins": 15
+  },
+  {
+   "moedas": 30
+  },
+  {
+   "escolha": "R"
+  },
+  {
+   "moedas": 30
+  },
+  {
+   "koins": 15
+  },
+  {
+   "essencia": 40
+  },
+  {
+   "koins": 15
+  },
+  {
+   "moedas": 30
+  },
+  {
+   "koins": 15
+  },
+  {
+   "booster": 2
+  },
+  {
+   "koins": 15
+  },
+  {
+   "moedas": 30
+  },
+  {
+   "essencia": 40
+  },
+  {
+   "moedas": 30
+  },
+  {
+   "koins": 15
+  },
+  {
+   "moedas": 30
+  },
+  {
+   "escolha": "R",
+   "essencia": 100
+  }
+ ],
+ "emotes": {
+  "indigena": [
+   [
+    "A floresta vê tudo.",
+    "The forest sees all.",
+    "La selva lo ve todo."
+   ],
+   [
+    "Pelo espírito da mata!",
+    "By the forest spirit!",
+    "¡Por el espíritu de la selva!"
+   ]
+  ],
+  "cristianismo": [
+   [
+    "Paz e bem.",
+    "Peace and goodwill.",
+    "Paz y bien."
+   ],
+   [
+    "Que a luz te guarde.",
+    "May the light keep you.",
+    "Que la luz te guarde."
+   ]
+  ],
+  "taoismo": [
+   [
+    "O caminho flui.",
+    "The Way flows.",
+    "El camino fluye."
+   ],
+   [
+    "Sem pressa, sem pausa.",
+    "No haste, no rest.",
+    "Sin prisa, sin pausa."
+   ]
+  ],
+  "hinduismo": [
+   [
+    "Namastê.",
+    "Namaste.",
+    "Namasté."
+   ],
+   [
+    "Tudo é ciclo.",
+    "All is a cycle.",
+    "Todo es ciclo."
+   ]
+  ],
+  "bruxaria": [
+   [
+    "Hora das bruxas!",
+    "Witching hour!",
+    "¡Hora de las brujas!"
+   ],
+   [
+    "Que o caldeirão ferva!",
+    "Let the cauldron boil!",
+    "¡Que hierva el caldero!"
+   ]
+  ],
+  "alta_magia": [
+   [
+    "Assim seja.",
+    "So mote it be.",
+    "Así sea."
+   ],
+   [
+    "Como em cima, embaixo.",
+    "As above, so below.",
+    "Como es arriba, es abajo."
+   ]
   ]
  },
  "sequencia": {
@@ -812,6 +1026,123 @@
    "es": "Gana con cada una de las 12 Legendarias (Desafíos legendarios invertidos)",
    "moedas": 150,
    "titulo": "portador"
+  },
+  {
+   "id": "completa_indigena",
+   "cont": "completa_indigena",
+   "alvo": 1,
+   "pt": "Complete a coleção de Indígena",
+   "en": "Complete the Indigenous collection",
+   "es": "Completa la colección de Indígena",
+   "moedas": 150,
+   "titulo": "herdeiro_indigena"
+  },
+  {
+   "id": "completa_cristianismo",
+   "cont": "completa_cristianismo",
+   "alvo": 1,
+   "pt": "Complete a coleção de Cristianismo",
+   "en": "Complete the Christianity collection",
+   "es": "Completa la colección de Cristianismo",
+   "moedas": 150,
+   "titulo": "herdeiro_cristianismo"
+  },
+  {
+   "id": "completa_taoismo",
+   "cont": "completa_taoismo",
+   "alvo": 1,
+   "pt": "Complete a coleção de Taoísmo",
+   "en": "Complete the Taoism collection",
+   "es": "Completa la colección de Taoísmo",
+   "moedas": 150,
+   "titulo": "herdeiro_taoismo"
+  },
+  {
+   "id": "completa_hinduismo",
+   "cont": "completa_hinduismo",
+   "alvo": 1,
+   "pt": "Complete a coleção de Hinduísmo",
+   "en": "Complete the Hinduism collection",
+   "es": "Completa la colección de Hinduismo",
+   "moedas": 150,
+   "titulo": "herdeiro_hinduismo"
+  },
+  {
+   "id": "completa_bruxaria",
+   "cont": "completa_bruxaria",
+   "alvo": 1,
+   "pt": "Complete a coleção de Bruxaria",
+   "en": "Complete the Witchcraft collection",
+   "es": "Completa la colección de Brujería",
+   "moedas": 150,
+   "titulo": "herdeiro_bruxaria"
+  },
+  {
+   "id": "completa_alta_magia",
+   "cont": "completa_alta_magia",
+   "alvo": 1,
+   "pt": "Complete a coleção de Alta Magia",
+   "en": "Complete the High Magic collection",
+   "es": "Completa la colección de Alta Magia",
+   "moedas": 150,
+   "titulo": "herdeiro_alta_magia"
+  },
+  {
+   "id": "estrela_bronze_10",
+   "cont": "estrelas_1",
+   "alvo": 10,
+   "pt": "Tenha 10 cartas com estrela de bronze",
+   "en": "Have 10 cards with a bronze star",
+   "es": "Ten 10 cartas con estrella de bronce",
+   "moedas": 60
+  },
+  {
+   "id": "estrela_bronze_50",
+   "cont": "estrelas_1",
+   "alvo": 50,
+   "pt": "Tenha 50 cartas com estrela de bronze",
+   "en": "Have 50 cards with a bronze star",
+   "es": "Ten 50 cartas con estrella de bronce",
+   "moedas": 150,
+   "titulo": "constelado"
+  },
+  {
+   "id": "estrela_prata_10",
+   "cont": "estrelas_2",
+   "alvo": 10,
+   "pt": "Tenha 10 cartas com estrela de prata",
+   "en": "Have 10 cards with a silver star",
+   "es": "Ten 10 cartas con estrella de plata",
+   "moedas": 120,
+   "titulo": "mao_firme"
+  },
+  {
+   "id": "estrela_ouro_1",
+   "cont": "estrelas_3",
+   "alvo": 1,
+   "pt": "Tenha 1 carta com estrela de ouro",
+   "en": "Have 1 card with a gold star",
+   "es": "Ten 1 carta con estrella de oro",
+   "moedas": 100
+  },
+  {
+   "id": "estrela_ouro_10",
+   "cont": "estrelas_3",
+   "alvo": 10,
+   "pt": "Tenha 10 cartas com estrela de ouro",
+   "en": "Have 10 cards with a gold star",
+   "es": "Ten 10 cartas con estrella de oro",
+   "moedas": 300,
+   "titulo": "lenda_viva"
+  },
+  {
+   "id": "maestria_10",
+   "cont": "maestria_max",
+   "alvo": 10,
+   "pt": "Chegue à maestria 10 numa Tradição",
+   "en": "Reach Mastery 10 in a Tradition",
+   "es": "Alcanza maestría 10 en una Tradición",
+   "moedas": 250
   }
  ],
  "titulos": {
@@ -885,35 +1216,160 @@
    "Indigenous Master",
    "Maestro Indígena"
   ],
+  "arauto_indigena": [
+   "Arauto da Mata",
+   "Herald of the Forest",
+   "Heraldo de la Selva"
+  ],
+  "herdeiro_indigena": [
+   "Herdeiro da Mata",
+   "Heir of the Forest",
+   "Heredero de la Selva"
+  ],
   "mestre_cristianismo": [
    "Mestre do Cristianismo",
    "Master of Christianity",
    "Maestro del Cristianismo"
+  ],
+  "arauto_cristianismo": [
+   "Arauto da Luz",
+   "Herald of the Light",
+   "Heraldo de la Luz"
+  ],
+  "herdeiro_cristianismo": [
+   "Herdeiro da Luz",
+   "Heir of the Light",
+   "Heredero de la Luz"
   ],
   "mestre_taoismo": [
    "Mestre do Taoísmo",
    "Master of Taoism",
    "Maestro del Taoísmo"
   ],
+  "arauto_taoismo": [
+   "Arauto do Caminho",
+   "Herald of the Way",
+   "Heraldo del Camino"
+  ],
+  "herdeiro_taoismo": [
+   "Herdeiro do Caminho",
+   "Heir of the Way",
+   "Heredero del Camino"
+  ],
   "mestre_hinduismo": [
    "Mestre do Hinduísmo",
    "Master of Hinduism",
    "Maestro del Hinduismo"
+  ],
+  "arauto_hinduismo": [
+   "Arauto do Ciclo",
+   "Herald of the Cycle",
+   "Heraldo del Ciclo"
+  ],
+  "herdeiro_hinduismo": [
+   "Herdeiro do Ciclo",
+   "Heir of the Cycle",
+   "Heredero del Ciclo"
   ],
   "mestre_bruxaria": [
    "Mestre da Bruxaria",
    "Master of Witchcraft",
    "Maestro de la Brujería"
   ],
+  "arauto_bruxaria": [
+   "Arauto do Caldeirão",
+   "Herald of the Cauldron",
+   "Heraldo del Caldero"
+  ],
+  "herdeiro_bruxaria": [
+   "Herdeiro do Caldeirão",
+   "Heir of the Cauldron",
+   "Heredero del Caldero"
+  ],
   "mestre_alta_magia": [
    "Mestre da Alta Magia",
    "Master of High Magic",
    "Maestro de la Alta Magia"
   ],
+  "arauto_alta_magia": [
+   "Arauto do Templo",
+   "Herald of the Temple",
+   "Heraldo del Templo"
+  ],
+  "herdeiro_alta_magia": [
+   "Herdeiro do Templo",
+   "Heir of the Temple",
+   "Heredero del Templo"
+  ],
+  "teurgo": [
+   "Teurgo",
+   "Theurgist",
+   "Teurgo"
+  ],
+  "taumaturgo": [
+   "Taumaturgo",
+   "Thaumaturge",
+   "Taumaturgo"
+  ],
+  "arcanista": [
+   "Arcanista",
+   "Arcanist",
+   "Arcanista"
+  ],
+  "oraculo": [
+   "Oráculo",
+   "Oracle",
+   "Oráculo"
+  ],
+  "sabio": [
+   "Sábio",
+   "Sage",
+   "Sabio"
+  ],
+  "arconte": [
+   "Arconte",
+   "Archon",
+   "Arconte"
+  ],
+  "demiurgo": [
+   "Demiurgo",
+   "Demiurge",
+   "Demiurgo"
+  ],
+  "ascendido": [
+   "Ascendido",
+   "Ascended",
+   "Ascendido"
+  ],
+  "eterno": [
+   "Eterno",
+   "Eternal",
+   "Eterno"
+  ],
+  "avatar": [
+   "Avatar",
+   "Avatar",
+   "Avatar"
+  ],
   "portador": [
    "Portador",
    "Bearer",
    "Portador"
+  ],
+  "constelado": [
+   "Constelado",
+   "Star-Studded",
+   "Constelado"
+  ],
+  "mao_firme": [
+   "Mão Firme",
+   "Steady Hand",
+   "Mano Firme"
+  ],
+  "lenda_viva": [
+   "Lenda Viva",
+   "Living Legend",
+   "Leyenda Viva"
   ]
  },
  "tradicoes": {

@@ -12,6 +12,8 @@
 //  - o ping dos celulares (a cada 15 s) é respondido pela própria Cloudflare (setWebSocketAutoResponse), sem acordar a sala;
 //  - o alarme toca só no prazo da jogada, no prazo da queda ou a cada 60 s para achar socket morto (ping parado);
 //  - cada entrada guarda a hora (ts) e o número (n): ao acordar, o relógio do turno continua de onde estava;
+//  - gravação (a Cloudflare cobra por linha gravada): as entradas vão em blocos de 16 por linha (c:000000…) e o alarme
+//    só é regravado quando precisa tocar ANTES do marcado (tocar cedo é barato: a sala confere e remarca);
 //  - 1 h depois do fim a sala apaga tudo e guarda só o resultado (quem volta ao app ainda recebe o fim).
 import { Partida, sorteioJuiz } from "./motor/regras.js";
 
@@ -24,6 +26,7 @@ const EMOTE_MS = 1000;           // no máximo 1 emote por segundo
 const VIGIA_MS = 60000;          // sem prazo perto: acorda a cada 60 s só para achar socket morto
 const ZUMBI_MS = 50000;          // socket sem ping há 50 s (o celular pinga a cada 15 s; versões antigas, 10 s) = sumiu
 const LIMPAR_MS = 3600000;       // 1 h depois do fim: apaga as entradas e guarda só o resultado (teste: SALA_LIMPAR_S)
+const BLOCO = 16;                // entradas por linha gravada (a linha do bloco atual é regravada a cada entrada)
 const PING = '{"t":"ping"}', PONG = '{"t":"pong"}';   // exatamente o que o jogo manda (JSON.stringify do Godot)
 
 export class SalaPartida {
@@ -31,7 +34,7 @@ export class SalaPartida {
     this.ctx = ctx;
     this.env = env;
     this.pronta = null;
-    this.alarmeEm = 0;
+    this.alarmeEm = null;            // hora do alarme marcado (null = ainda não sabe: lê uma vez; 0 = nenhum)
     this.limparMs = env.SALA_LIMPAR_S ? parseInt(env.SALA_LIMPAR_S, 10) * 1000 : LIMPAR_MS;
     // ping/pong sem acordar a sala (a Cloudflare responde e anota a hora: getWebSocketAutoResponseTimestamp)
     try { ctx.setWebSocketAutoResponse(new WebSocketRequestResponsePair(PING, PONG)); } catch (e) { /* ambiente sem suporte */ }
@@ -48,8 +51,11 @@ export class SalaPartida {
       const base = await this.ctx.storage.get(["setup", "entradas", "ultN", "quedaDesde", "fimEm"]);
       this.setup = base.get("setup");
       this.entradas = base.get("entradas") || [];                            // salas antigas: lista inteira numa chave
-      const novas = await this.ctx.storage.list({ prefix: "in:" });          // novas: uma chave por entrada (in:000001...)
-      for (const e of novas.values()) this.entradas.push(e);
+      const soltas = await this.ctx.storage.list({ prefix: "in:" });         // v0.20.27: uma chave por entrada (in:000001...)
+      for (const e of soltas.values()) this.entradas.push(e);
+      this.blocoBase = this.entradas.length;                                // as entradas em blocos vêm depois destas
+      const blocos = await this.ctx.storage.list({ prefix: "c:" });         // atual: blocos de BLOCO entradas (c:000000...)
+      for (const b of blocos.values()) for (const e of b) this.entradas.push(e);
       // último número aceito de cada lado: vem das próprias entradas (salas antigas: chave ultN)
       this.ultN = base.get("ultN") || [0, 0];
       for (const e of this.entradas) if (e.n) this.ultN[e.j] = Math.max(this.ultN[e.j], e.n);
@@ -199,8 +205,10 @@ export class SalaPartida {
   }
   async aceitar(e) {
     e.ts = Date.now();                                        // hora da entrada: ao acordar, o prazo do turno continua daqui
-    this.entradas.push(e);                                    // 1 linha por entrada (o n vai junto: sem regravar ultN)
-    await this.ctx.storage.put("in:" + String(this.entradas.length).padStart(6, "0"), e);
+    this.entradas.push(e);                                    // o n vai junto: sem regravar ultN
+    // regrava só a linha do bloco atual (até BLOCO entradas): 1 linha gravada por entrada e ~BLOCO× menos linhas no total
+    const k = this.entradas.length - 1 - (this.blocoBase || 0), ini = (this.blocoBase || 0) + k - (k % BLOCO);
+    await this.ctx.storage.put("c:" + String(Math.floor(k / BLOCO)).padStart(6, "0"), this.entradas.slice(ini, ini + BLOCO));
     this.aplicar(e);
   }
 
@@ -247,7 +255,10 @@ export class SalaPartida {
       for (const j of [0, 1]) if (this.quedaDesde[j]) quando = Math.min(quando, this.quedaDesde[j] + PRAZO_QUEDA * 1000 + 500);
       quando = Math.max(quando, ag + 500);
     }
-    if (Math.abs(quando - this.alarmeEm) < 1000) return;
+    if (this.alarmeEm === null) this.alarmeEm = (await this.ctx.storage.getAlarm()) || 0;   // acordou: qual está marcado?
+    // já há alarme marcado para antes (ou quase igual): fica. Ele toca, a sala confere os prazos e remarca o próximo.
+    // Sem isto cada jogada regravava o alarme (1 linha gravada por jogada, a cobrança que mais pesava).
+    if (this.alarmeEm > ag && this.alarmeEm <= quando + 1000) return;
     this.alarmeEm = quando;
     await this.ctx.storage.setAlarm(quando);
   }
@@ -306,6 +317,7 @@ export class SalaPartida {
     const fim = { vencedor: this.p.vencedor, motivo: this.p.motivo_fim || "" };
     await this.ctx.storage.deleteAlarm();
     await this.ctx.storage.deleteAll();
+    this.alarmeEm = 0;
     await this.ctx.storage.put("encerrada", fim);
     this.encerrada = fim;
     this.p = null;

@@ -40,7 +40,7 @@ var _retomando := false
 var _ping_em := 0.0
 var _pong_em := 0.0                 # > 0: esperando o pong há esse tempo restante
 var _ausente_ms := 0                # ticks em que o adversário sumiu (0 = ligado)
-const PING_S := 10.0
+const PING_S := 15.0                 # 15 s: ~240 pings por hora de partida; o servidor só dá o socket por morto com 50 s sem ping
 const PONG_S := 5.0
 const RETOMAR_S := 15.0
 var _log := OS.get_environment("GD_REDE_LOG") != ""

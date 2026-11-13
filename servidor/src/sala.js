@@ -9,7 +9,7 @@
 // com a mesma semente (o motor é determinístico).
 //
 // Custo (a sala só é cobrada enquanto está acordada): ela DORME entre as jogadas (hibernação do WebSocket).
-//  - o ping de 10 s dos celulares é respondido pela própria Cloudflare (setWebSocketAutoResponse), sem acordar a sala;
+//  - o ping dos celulares (a cada 15 s) é respondido pela própria Cloudflare (setWebSocketAutoResponse), sem acordar a sala;
 //  - o alarme toca só no prazo da jogada, no prazo da queda ou a cada 60 s para achar socket morto (ping parado);
 //  - cada entrada guarda a hora (ts) e o número (n): ao acordar, o relógio do turno continua de onde estava;
 //  - 1 h depois do fim a sala apaga tudo e guarda só o resultado (quem volta ao app ainda recebe o fim).
@@ -22,7 +22,7 @@ const PRAZO_QUEDA = 120;         // s sem nenhum dos dois aparelhos do jogador l
 const MSG_MAX = 2048;            // bytes por mensagem do celular (intenções têm ~40–80)
 const EMOTE_MS = 1000;           // no máximo 1 emote por segundo
 const VIGIA_MS = 60000;          // sem prazo perto: acorda a cada 60 s só para achar socket morto
-const ZUMBI_MS = 35000;          // socket sem ping há 35 s (o celular pinga a cada 10 s) = aparelho sumiu
+const ZUMBI_MS = 50000;          // socket sem ping há 50 s (o celular pinga a cada 15 s; versões antigas, 10 s) = sumiu
 const LIMPAR_MS = 3600000;       // 1 h depois do fim: apaga as entradas e guarda só o resultado (teste: SALA_LIMPAR_S)
 const PING = '{"t":"ping"}', PONG = '{"t":"pong"}';   // exatamente o que o jogo manda (JSON.stringify do Godot)
 

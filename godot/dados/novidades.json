@@ -1,5 +1,18 @@
 [
  {
+  "versao": "0.20.28-alpha",
+  "data": "13/11/2026",
+  "pt": [
+   "Online mais econômico: o jogo confere a conexão a cada 15 segundos (antes 10), gastando menos dados e bateria. Se o adversário sumir sem avisar, o servidor percebe em cerca de 1 minuto e mostra SEM SINAL."
+  ],
+  "en": [
+   "Lighter online: the game checks the connection every 15 seconds (was 10), using less data and battery. If the opponent drops without warning, the server notices in about 1 minute and shows NO SIGNAL."
+  ],
+  "es": [
+   "Online más económico: el juego revisa la conexión cada 15 segundos (antes 10), gastando menos datos y batería. Si el rival desaparece sin avisar, el servidor lo nota en cerca de 1 minuto y muestra SIN SEÑAL."
+  ]
+ },
+ {
   "versao": "0.20.27-alpha",
   "data": "13/11/2026",
   "pt": [

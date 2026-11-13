@@ -55,7 +55,8 @@ ok(f.partida.estado === "fim" && f.partida.vencedor === 0, "desistência dá vit
 const pa1 = await pedir(a, "/v1/op", { tipo: "premio", motivo: "online", pid });
 const pa2 = await pedir(a, "/v1/op", { tipo: "premio", motivo: "online", pid });
 const pb1 = await pedir(b, "/v1/op", { tipo: "premio", motivo: "online", pid });
-ok(pa1.resultado?.moedas === 20 && pa2.resultado?.moedas === 0 && pb1.resultado?.moedas === 5, `prêmio online: vitória 20, repetido 0, derrota 5 (${pa1.resultado?.moedas}/${pa2.resultado?.moedas}/${pb1.resultado?.moedas})`);
+ok(e.partida.casual && ea.partida.casual, "sala com código é partida casual");
+ok(pa1.resultado?.moedas === 0 && pa1.resultado?.casual && pb1.resultado?.moedas === 0, `partida casual não paga moedas (${pa1.resultado?.moedas}/${pb1.resultado?.moedas})`);
 const pc = await pedir(c, "/v1/op", { tipo: "premio", motivo: "online", pid });
 ok(!pc.resultado?.moedas, "quem não jogou a partida não ganha");
 const rv1 = await pedir(a, `/v1/partida/${pid}/revanche`, {});
@@ -66,6 +67,7 @@ ok(rp && rp.length === 20, "revanche criada");
 const nova = await pedir(a, `/v1/partida/${rp}`);
 ok(nova.ok && nova.partida.estado === "jogando" && nova.partida.adversario === "Bia", "revanche jogável pelos dois");
 // busca: mesmo país pareia na hora; outro continente espera
+const rk0 = await pedir(b, "/v1/mm/ranking");          // (as contas de teste são reaproveitadas: a conta é relativa)
 const ba = await pedir(a, "/v1/mm/buscar", { deck });
 const bc = await pedir(c, "/v1/mm/buscar", { deck });
 ok(!bc.pid, "Japão não pareia na hora com Brasil");
@@ -76,6 +78,16 @@ ok(ma.estado === "encontrada" && ma.partida.estado === "aceitar", "Ana vê a par
 await pedir(a, "/v1/mm/responder", { pid: bb.pid, aceitar: true });
 const rb = await pedir(b, "/v1/mm/responder", { pid: bb.pid, aceitar: true });
 ok(rb.partida.estado === "jogando", "os dois aceitaram → jogando");
+ok(!rb.partida.casual, "partida da busca é ranqueada");
+// prêmio da ranqueada: o servidor confere o resultado (Ana vence por desistência da Bia) e paga uma vez só
+await pedir(b, `/v1/partida/${bb.pid}/acao`, { n: 1, dados: { tipo: "desistir" } });
+const qa1 = await pedir(a, "/v1/op", { tipo: "premio", motivo: "online", pid: bb.pid });
+const qa2 = await pedir(a, "/v1/op", { tipo: "premio", motivo: "online", pid: bb.pid });
+const qb1 = await pedir(b, "/v1/op", { tipo: "premio", motivo: "online", pid: bb.pid });
+ok(qa1.resultado?.moedas === 20 && qa2.resultado?.moedas === 0 && qb1.resultado?.moedas === 5, `prêmio ranqueada: vitória 20, repetido 0, derrota 5 (${qa1.resultado?.moedas}/${qa2.resultado?.moedas}/${qb1.resultado?.moedas})`);
+const rk = await pedir(b, "/v1/mm/ranking");
+ok(rk.ranqueadas_hoje === rk0.ranqueadas_hoje + 1 && rk.limite === 30, `ranqueada contada no dia (${rk0.ranqueadas_hoje} → ${rk.ranqueadas_hoje} de ${rk.limite})`);
+ok(rk.lista.some((x) => x.nome === "Ana") && !rk.lista.some((x) => x.nome === "Bia"), "ranking com a vitória ranqueada da Ana (a casual da Bia não conta)");
 // recusa: quem aceitou volta pra fila, quem recusou sai
 const t1 = Date.now();
 const mc = await pedir(c, "/v1/mm/estado");   // espera Cid (JP) achar alguém global

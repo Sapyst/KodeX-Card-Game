@@ -12,6 +12,10 @@ const CONTINENTE = {
 const ESPERA_POLL = 20;               // s de long-poll
 const ACEITAR_EM = 12;                // s para aceitar a partida encontrada
 const QUEDA = 120;                    // s sem contato = desistência
+// Ranqueada (busca de partida) × casual (sala com código, com um amigo): a casual não entra no ranking nem paga moedas.
+export const LIMITE_RANQUEADAS = 30;  // partidas ranqueadas por conta por dia (Nova York); protege contra script em loop
+const RANKING_CACHE_S = 60;           // o ranking da semana é recalculado no máximo 1× por minuto (por instância)
+let rankingCache = { t: 0, linhas: null };
 
 export const ESQUEMA_MULTI = `
 CREATE TABLE IF NOT EXISTS fila (id TEXT PRIMARY KEY, nome TEXT, deck TEXT, pais TEXT, cont TEXT, entrou INTEGER, visto INTEGER, partida TEXT,
@@ -19,7 +23,8 @@ CREATE TABLE IF NOT EXISTS fila (id TEXT PRIMARY KEY, nome TEXT, deck TEXT, pais
 CREATE TABLE IF NOT EXISTS partidas (pid TEXT PRIMARY KEY, codigo TEXT, j0 TEXT, j1 TEXT, nome0 TEXT, nome1 TEXT, deck0 TEXT, deck1 TEXT,
   semente INTEGER, primeiro INTEGER, estado TEXT, aceite0 INTEGER DEFAULT 0, aceite1 INTEGER DEFAULT 0, prazo INTEGER,
   contato0 INTEGER, contato1 INTEGER, vencedor INTEGER DEFAULT -1, criado INTEGER, revanche0 INTEGER DEFAULT 0, revanche1 INTEGER DEFAULT 0,
-  revanche_pid TEXT, foto0 TEXT, foto1 TEXT, pago0 INTEGER DEFAULT 0, pago1 INTEGER DEFAULT 0, juiz INTEGER DEFAULT 0, titulo0 TEXT, titulo1 TEXT);
+  revanche_pid TEXT, foto0 TEXT, foto1 TEXT, pago0 INTEGER DEFAULT 0, pago1 INTEGER DEFAULT 0, juiz INTEGER DEFAULT 0, titulo0 TEXT, titulo1 TEXT,
+  casual INTEGER DEFAULT 0);
 CREATE TABLE IF NOT EXISTS acoes (pid TEXT, seq INTEGER, jogador INTEGER, dados TEXT, ts INTEGER, PRIMARY KEY (pid, seq));`;
 
 const agora = () => Math.floor(Date.now() / 1000);
@@ -53,17 +58,29 @@ function deckValido(deck, cartas, perfil, livre) {
 }
 const ERRO_DECK = "deck inválido: use só cartas da sua coleção";
 
-async function novaPartida(env, a, b, estado, pidFixo) {
+// Uma gravação só (antes: INSERT + UPDATE das fotos + UPDATE que varria as partidas antigas a cada partida nova;
+// apagar as fotos com 3 h agora é tarefa do cron, em limparFotos).
+async function novaPartida(env, a, b, estado, pidFixo, prazo = ACEITAR_EM) {
   const pid = pidFixo || aleatorio(10);
-  await env.DB.prepare("UPDATE partidas SET foto0=NULL, foto1=NULL WHERE criado < ? AND estado != 'jogando'").bind(agora() - 3 * 3600).run();
   const sem = crypto.getRandomValues(new Uint32Array(1))[0] % 2000000000;
-  await env.DB.prepare(`INSERT OR IGNORE INTO partidas (pid, codigo, j0, j1, nome0, nome1, deck0, deck1, semente, primeiro, estado, prazo, contato0, contato1, criado)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+  await env.DB.prepare(`INSERT OR IGNORE INTO partidas (pid, codigo, j0, j1, nome0, nome1, deck0, deck1, semente, primeiro, estado, prazo,
+    contato0, contato1, criado, foto0, foto1, juiz, titulo0, titulo1, casual) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
     .bind(pid, a.codigo || null, a.id, b?.id || null, a.nome, b?.nome || null, a.deck, b?.deck || null, sem, sem % 2, estado,
-      agora() + ACEITAR_EM, agora(), agora(), agora()).run();
-  await env.DB.prepare("UPDATE partidas SET foto0=?, foto1=?, juiz=?, titulo0=?, titulo1=? WHERE pid=?")
-    .bind(a.foto || null, b?.foto || null, a.juiz ? 1 : 0, a.titulo || null, b?.titulo || null, pid).run();
+      agora() + prazo, agora(), agora(), agora(), a.foto || null, b?.foto || null, a.juiz ? 1 : 0, a.titulo || null, b?.titulo || null,
+      a.casual ? 1 : 0).run();
   return pid;
+}
+
+/** Cron: apaga as fotos das partidas com mais de 3 h (só a janela de 3–6 h; o índice em `criado` evita varrer tudo). */
+export async function limparFotos(env) {
+  const ag = agora();
+  await env.DB.prepare("UPDATE partidas SET foto0=NULL, foto1=NULL WHERE criado BETWEEN ? AND ? AND (foto0 IS NOT NULL OR foto1 IS NOT NULL) AND estado != 'jogando'")
+    .bind(ag - 6 * 3600, ag - 3 * 3600).run();
+}
+
+/** Ranqueadas que a conta já começou hoje (dia de Nova York, o mesmo dos tetos de prêmio). */
+async function ranqueadasHoje(env, id, hoje) {
+  return (await env.DB.prepare("SELECT n FROM limites WHERE id=? AND dia=? AND motivo='ranqueada'").bind(id, hoje).first())?.n | 0;
 }
 
 // tenta parear quem está na fila (sem partida) com o melhor adversário pela região e pelo tempo de espera
@@ -106,7 +123,7 @@ async function infoPartida(env, pid, id) {
   return {
     pid, eu, estado: p.estado, semente: p.semente, primeiro: p.primeiro, vencedor: p.vencedor, codigo: p.codigo, queda: !!p.queda,
     adversario: eu === 0 ? p.nome1 : p.nome0, foto_op: (eu === 0 ? p.foto1 : p.foto0) || "", juiz: !!p.juiz,
-    adversario_titulo: (eu === 0 ? p.titulo1 : p.titulo0) || "",
+    adversario_titulo: (eu === 0 ? p.titulo1 : p.titulo0) || "", casual: !!p.casual,
     op_ausente: p.estado === "jogando" ? Math.max(0, agora() - (eu === 0 ? p.contato1 : p.contato0)) : 0, deck_eu: JSON.parse((eu === 0 ? p.deck0 : p.deck1) || "[]"),
     deck_op: p.juiz ? [] : JSON.parse((eu === 0 ? p.deck1 : p.deck0) || "[]"), prazo: p.prazo - agora(),
     aceitei: !!(eu === 0 ? p.aceite0 : p.aceite1), aceite_op: (eu === 0 ? p.aceite1 : p.aceite0),
@@ -124,15 +141,17 @@ async function cancelar(env, p, motivo) {
   }
 }
 
-export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro, sombra = false) {
+export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro, sombra = false, hoje = 0) {
   const caminho = url.pathname;
-  const contato = async (pid) => {
-    const p = await env.DB.prepare("SELECT j0 FROM partidas WHERE pid=?").bind(pid).first();
-    if (p) await env.DB.prepare(`UPDATE partidas SET ${p.j0 === id ? "contato0" : "contato1"}=? WHERE pid=?`).bind(agora(), pid).run();
+  // contato (só o protocolo antigo, sem juiz, usa para detectar queda): uma gravação, sem ler a partida de novo
+  const contato = async (pid, eu) => {
+    await env.DB.prepare(`UPDATE partidas SET ${eu === 0 ? "contato0" : "contato1"}=? WHERE pid=?`).bind(agora(), pid).run();
   };
 
   if (caminho === "/v1/mm/buscar" && req.method === "POST") {
     if (!deckValido(corpo.deck, D.cartas, perfil, env.DECKS_LIVRES_TESTE === "1")) { await sinal(env, id, "dados_invalidos", "deck", 2); return erro(ERRO_DECK); }
+    if ((await ranqueadasHoje(env, id, hoje)) >= LIMITE_RANQUEADAS)
+      return json({ ok: false, erro: "limite de partidas ranqueadas de hoje", limite: LIMITE_RANQUEADAS }, 429);
     const { pais, cont } = regiao(req);
     const eu = { id, nome: nomeDe(corpo, perfil), deck: JSON.stringify(corpo.deck), pais, cont, entrou: agora(), foto: fotoDe(corpo), sombra: sombra ? 1 : 0,
       juiz: corpo.juiz ? 1 : 0, titulo: tituloDe(corpo) };
@@ -145,7 +164,8 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
     for (let k = 0; k < parseInt(env.ESPERA_S || "20", 10) * 2; k++) {
       const f = await env.DB.prepare("SELECT * FROM fila WHERE id=?").bind(id).first();
       if (!f) return json({ ok: true, estado: "fora" });
-      if (k % 4 === 0) await env.DB.prepare("UPDATE fila SET visto=? WHERE id=?").bind(agora(), id).run();
+      // visto: 1 gravação por long-poll (a fila considera viva quem foi visto há menos de 30 s; o poll dura ≤ 20 s)
+      if (k === 0) await env.DB.prepare("UPDATE fila SET visto=? WHERE id=?").bind(agora(), id).run();
       if (f.partida) return json({ ok: true, estado: "encontrada", partida: await infoPartida(env, f.partida, id) });
       const pid = await parear(env, f);
       if (pid) return json({ ok: true, estado: "encontrada", partida: await infoPartida(env, pid, id) });
@@ -157,15 +177,20 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
       .bind(id, agora() - 30, f.juiz | 0, f.sombra | 0).first()).n | 0 : 0;
     return json({ ok: true, estado: "buscando", espera: f ? agora() - f.entrou : 0, fila: outros });
   }
-  if (caminho === "/v1/mm/ranking") {                   // vitórias online nos últimos 7 dias: top 50 + a posição de quem pergunta
-    const desde = agora() - 7 * 86400;
-    const base = "FROM partidas WHERE estado='fim' AND vencedor IN (0, 1) AND j1 IS NOT NULL AND criado >= ?";
-    const rows = (await env.DB.prepare(`SELECT CASE vencedor WHEN 0 THEN j0 ELSE j1 END AS jid, CASE vencedor WHEN 0 THEN nome0 ELSE nome1 END AS nome, COUNT(*) AS n ${base} GROUP BY jid ORDER BY n DESC, jid LIMIT 50`)
-      .bind(desde).all()).results;
-    const meu = rows.find((r) => r.jid === id);
-    const minhas = meu ? meu.n | 0 : ((await env.DB.prepare(`SELECT COUNT(*) AS n ${base} AND ((vencedor=0 AND j0=?) OR (vencedor=1 AND j1=?))`).bind(desde, id, id).first())?.n | 0);
-    const acima = minhas > 0 ? ((await env.DB.prepare(`SELECT COUNT(*) AS n FROM (SELECT CASE vencedor WHEN 0 THEN j0 ELSE j1 END AS jid, COUNT(*) AS n ${base} GROUP BY jid HAVING n > ?)`).bind(desde, minhas).first())?.n | 0) : 0;
-    return json({ ok: true, lista: rows.map((r) => ({ nome: r.nome, n: r.n | 0, eu: r.jid === id })), minhas, posicao: minhas > 0 ? acima + 1 : 0 });
+  if (caminho === "/v1/mm/ranking") {                   // vitórias RANQUEADAS nos últimos 7 dias: top 50 + a posição de quem pergunta
+    // uma consulta (pelo índice em `criado`) a cada RANKING_CACHE_S; a posição de cada um sai da mesma lista
+    if (!rankingCache.linhas || agora() - rankingCache.t > RANKING_CACHE_S) {
+      const rows = (await env.DB.prepare(`SELECT CASE vencedor WHEN 0 THEN j0 ELSE j1 END AS jid, MAX(CASE vencedor WHEN 0 THEN nome0 ELSE nome1 END) AS nome,
+        COUNT(*) AS n FROM partidas WHERE criado >= ? AND estado='fim' AND vencedor IN (0, 1) AND j1 IS NOT NULL AND casual=0
+        GROUP BY jid ORDER BY n DESC, jid`).bind(agora() - 7 * 86400).all()).results;
+      rankingCache = { t: agora(), linhas: rows };
+    }
+    const todas = rankingCache.linhas;
+    const k = todas.findIndex((r) => r.jid === id);
+    const minhas = k >= 0 ? todas[k].n | 0 : 0;
+    const posicao = minhas > 0 ? todas.filter((r) => (r.n | 0) > minhas).length + 1 : 0;
+    return json({ ok: true, lista: todas.slice(0, 50).map((r) => ({ nome: r.nome, n: r.n | 0, eu: r.jid === id })), minhas, posicao,
+      ranqueadas_hoje: await ranqueadasHoje(env, id, hoje), limite: LIMITE_RANQUEADAS });
   }
   if (caminho === "/v1/mm/cancelar" && req.method === "POST") {
     await env.DB.prepare("DELETE FROM fila WHERE id=?").bind(id).run();
@@ -183,8 +208,12 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
     await env.DB.prepare(`UPDATE partidas SET aceite${lado}=1 WHERE pid=?`).bind(p.pid).run();
     p[`aceite${lado}`] = 1;
     if (p.aceite0 === 1 && p.aceite1 === 1) {
-      await env.DB.prepare("UPDATE partidas SET estado='jogando', contato0=?, contato1=? WHERE pid=?").bind(agora(), agora(), p.pid).run();
-      await env.DB.prepare("DELETE FROM fila WHERE id IN (?, ?)").bind(p.j0, p.j1).run();
+      const conta = "INSERT INTO limites (id, dia, motivo, n) VALUES (?, ?, 'ranqueada', 1) ON CONFLICT(id, dia, motivo) DO UPDATE SET n = n + 1";
+      // só quem confirma por último chega aqui: as duas contas ganham +1 ranqueada no dia, numa ida só ao banco
+      await env.DB.batch([
+        env.DB.prepare("UPDATE partidas SET estado='jogando', contato0=?, contato1=? WHERE pid=?").bind(agora(), agora(), p.pid),
+        env.DB.prepare("DELETE FROM fila WHERE id IN (?, ?)").bind(p.j0, p.j1),
+        env.DB.prepare(conta).bind(p.j0, hoje), env.DB.prepare(conta).bind(p.j1, hoje)]);
     }
     return json({ ok: true, partida: await infoPartida(env, p.pid, id) });
   }
@@ -192,8 +221,8 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
     if (!deckValido(corpo.deck, D.cartas, perfil, env.DECKS_LIVRES_TESTE === "1")) { await sinal(env, id, "dados_invalidos", "deck", 2); return erro(ERRO_DECK); }
     const letras = "ABCDEFGHJKLMNPQRSTUVWXYZ";
     const codigo = [...crypto.getRandomValues(new Uint8Array(4))].map((b) => letras[b % letras.length]).join("");
-    const pid = await novaPartida(env, { id, nome: nomeDe(corpo, perfil), deck: JSON.stringify(corpo.deck), codigo, foto: fotoDe(corpo), juiz: !!corpo.juiz, titulo: tituloDe(corpo) }, null, "sala");
-    await env.DB.prepare("UPDATE partidas SET prazo=? WHERE pid=?").bind(agora() + 900, pid).run();
+    const pid = await novaPartida(env, { id, nome: nomeDe(corpo, perfil), deck: JSON.stringify(corpo.deck), codigo, foto: fotoDe(corpo), juiz: !!corpo.juiz,
+      titulo: tituloDe(corpo), casual: true }, null, "sala", null, 900);
     return json({ ok: true, codigo, partida: await infoPartida(env, pid, id) });
   }
   if (caminho === "/v1/sala/entrar" && req.method === "POST") {
@@ -212,7 +241,7 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
     const pid = m[1], sub = m[2] || "";
     const info = await infoPartida(env, pid, id);
     if (!info) return erro("partida não encontrada", 404);
-    await contato(pid);
+    if (!info.juiz && info.estado === "jogando") await contato(pid, info.eu);
     if (sub === "" ) {                                  // long-poll do estado (sala esperando o amigo, revanche...)
       const desde = String(url.searchParams.get("estado") || "");
       const rev = String(url.searchParams.get("rev") || "");
@@ -252,7 +281,7 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
         const i = await infoPartida(env, pid, id);
         if (r.length || i.estado !== "jogando") return json({ ok: true, acoes: r.map((a) => ({ seq: a.seq, jogador: a.jogador, dados: JSON.parse(a.dados) })), partida: i });
         await dormir(passo);
-        if (k % Math.ceil(2000 / passo) === 0) await contato(pid);
+        if (k % Math.ceil(2000 / passo) === 0) await contato(pid, info.eu);
       }
       return json({ ok: true, acoes: [], partida: await infoPartida(env, pid, id) });
     }
@@ -286,8 +315,14 @@ export async function rotaMulti(req, env, url, corpo, id, perfil, D, json, erro,
         // pid da revanche é derivado do pid atual: se os dois pedirem juntos, criam a MESMA partida (INSERT OR IGNORE)
         const pid2 = (await crypto.subtle.digest("SHA-256", new TextEncoder().encode("revanche:" + pid)))
         const hex2 = [...new Uint8Array(pid2)].map((b) => b.toString(16).padStart(2, "0")).join("").slice(0, 20);
-        await novaPartida(env, { id: p.j0, nome: p.nome0, deck: p.deck0, foto: p.foto0, juiz: p.juiz, titulo: p.titulo0 }, { id: p.j1, nome: p.nome1, deck: p.deck1, foto: p.foto1, titulo: p.titulo1 }, "jogando", hex2);
-        await env.DB.prepare("UPDATE partidas SET revanche_pid=? WHERE pid=?").bind(hex2, pid).run();
+        // revanche de partida casual continua casual (e não conta no limite de ranqueadas)
+        await novaPartida(env, { id: p.j0, nome: p.nome0, deck: p.deck0, foto: p.foto0, juiz: p.juiz, titulo: p.titulo0, casual: !!p.casual },
+          { id: p.j1, nome: p.nome1, deck: p.deck1, foto: p.foto1, titulo: p.titulo1 }, "jogando", hex2);
+        const r = await env.DB.prepare("UPDATE partidas SET revanche_pid=? WHERE pid=? AND revanche_pid IS NULL").bind(hex2, pid).run();
+        if (!p.casual && (r.meta?.changes ?? 0) > 0) {        // revanche ranqueada conta 1× no limite do dia de cada um
+          const conta = "INSERT INTO limites (id, dia, motivo, n) VALUES (?, ?, 'ranqueada', 1) ON CONFLICT(id, dia, motivo) DO UPDATE SET n = n + 1";
+          await env.DB.batch([env.DB.prepare(conta).bind(p.j0, hoje), env.DB.prepare(conta).bind(p.j1, hoje)]);
+        }
       }
       return json({ ok: true, partida: await infoPartida(env, pid, id) });
     }

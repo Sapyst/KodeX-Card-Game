@@ -5,6 +5,7 @@ extends RefCounted
 ## voltar a uma partida que ficou aberta (app fechou no meio). Usa o deck em uso. Servidor: servidor/src/multi.js.
 
 const TEMPO_ACEITAR := 12.0
+const LIMITE_RANQUEADAS := 30          # o servidor confirma (multi.js → LIMITE_RANQUEADAS)
 const BOT_APOS := 30.0                 # s de busca sem ninguém até oferecer um bot (marcado "Nome - Bot")
 
 var f
@@ -86,8 +87,10 @@ func desenhar() -> void:
 		f._texto_central(Vector2(180, 118), Sessao.t("sem conexão com o servidor"), Color("#ff9a8a"))
 	match fase:
 		"":
-			f._texto_central(Vector2(180, 336), Sessao.t("Com um amigo: um cria a sala e passa o código."), Color(0.72, 0.66, 0.6))
-			f._texto_central(Vector2(180, 350), Sessao.t("Cada turno tem 75 segundos."), Color(0.72, 0.66, 0.6))
+			var yt := 372.0 if Sessao.online_salvo() != "" else 336.0   # abaixo do botão do bot (que desce com "Voltar à partida")
+			f._texto_central(Vector2(180, yt), Sessao.t("Buscar partida: ranqueada (até %d por dia).") % LIMITE_RANQUEADAS, Color(0.72, 0.66, 0.6))
+			f._texto_central(Vector2(180, yt + 14), Sessao.t("Sala com código: casual, com um amigo."), Color(0.72, 0.66, 0.6))
+			f._texto_central(Vector2(180, yt + 28), Sessao.t("Cada turno tem 75 segundos."), Color(0.72, 0.66, 0.6))
 		"buscando":
 			var s := segundos()
 			f._texto_central(Vector2(180, 200), Sessao.t("Buscando adversário") + "." .repeat(1 + int(s * 2) % 3), f.OURO[0], 2)
@@ -106,6 +109,7 @@ func desenhar() -> void:
 			PixelFonte.centrado(f, Vector2(180, 226), codigo, f.OURO[0], 5, f.ESCURO)
 			f._texto_central(Vector2(180, 276), Sessao.t("Passe este código para o seu amigo."), f.CREME)
 			f._texto_central(Vector2(180, 296), Sessao.t("Esperando") + "." .repeat(1 + int(segundos() * 2) % 3), Color("#9ad0ff"))
+			f._texto_central(Vector2(180, 372), Sessao.t("Partida casual: não conta no ranking nem dá moedas."), Color(0.72, 0.66, 0.6))
 		"conectando":
 			f._texto_central(Vector2(180, 220), Sessao.t("Conectando..."), Color("#9ad0ff"))
 
@@ -122,7 +126,10 @@ func buscar() -> void:
 	if g != _ger:
 		return
 	if not r.get("ok", false):
-		f.mp.avisar(Sessao.t(str(r.get("erro", "sem conexão"))))
+		if str(r.get("erro", "")) == "limite de partidas ranqueadas de hoje":
+			f.mp.avisar(Sessao.t("Você já jogou as %d ranqueadas de hoje. A sala com amigo continua liberada.") % int(r.get("limite", LIMITE_RANQUEADAS)))
+		else:
+			f.mp.avisar(Sessao.t(str(r.get("erro", "sem conexão"))))
 		_mudar("")
 		return
 	await _laco_busca(g)
@@ -199,7 +206,7 @@ func ranking() -> void:
 	if not r.get("ok", false):
 		f.mp.avisar(Sessao.t(str(r.get("erro", "sem conexão"))))
 		return
-	var b: Array = [["titulo", Sessao.t("Ranking da semana")], ["centro", Sessao.t("vitórias online nos últimos 7 dias")], ["divisor"]]
+	var b: Array = [["titulo", Sessao.t("Ranking da semana")], ["centro", Sessao.t("vitórias ranqueadas nos últimos 7 dias")], ["divisor"]]
 	var lista: Array = r.get("lista", [])
 	var k := 0
 	for e in lista:
@@ -214,7 +221,9 @@ func ranking() -> void:
 	if int(r.get("minhas", 0)) > 0:
 		b.append(["centro", Sessao.t("Você: %dº lugar com %d vitórias") % [int(r.get("posicao", 0)), int(r.get("minhas", 0))]])
 	else:
-		b.append(["centro", Sessao.t("Vença uma partida online para entrar no ranking.")])
+		b.append(["centro", Sessao.t("Vença uma partida ranqueada para entrar no ranking.")])
+	if r.has("ranqueadas_hoje"):
+		b.append(["centro", Sessao.t("Ranqueadas hoje: %d de %d") % [int(r["ranqueadas_hoje"]), int(r.get("limite", LIMITE_RANQUEADAS))]])
 	f.perg.abrir(b)
 
 

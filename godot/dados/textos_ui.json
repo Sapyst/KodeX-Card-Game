@@ -4548,5 +4548,45 @@
   "en": "REMOVE off: tapping opens the details.",
   "pt": "REMOVER desligado: toque abre os detalhes.",
   "es": "QUITAR desactivado: tocar abre los detalles."
+ },
+ "Buscar partida: ranqueada (até %d por dia).": {
+  "en": "Find match: ranked (up to %d a day).",
+  "pt": "Buscar partida: ranqueada (até %d por dia).",
+  "es": "Buscar partida: clasificatoria (hasta %d por día)."
+ },
+ "Sala com código: casual, com um amigo.": {
+  "en": "Room with code: casual, with a friend.",
+  "pt": "Sala com código: casual, com um amigo.",
+  "es": "Sala con código: casual, con un amigo."
+ },
+ "Partida casual: não conta no ranking nem dá moedas.": {
+  "en": "Casual match: no ranking and no coins.",
+  "pt": "Partida casual: não conta no ranking nem dá moedas.",
+  "es": "Partida casual: no cuenta en el ranking ni da monedas."
+ },
+ "Você já jogou as %d ranqueadas de hoje. A sala com amigo continua liberada.": {
+  "en": "You already played today's %d ranked matches. Rooms with friends are still open.",
+  "pt": "Você já jogou as %d ranqueadas de hoje. A sala com amigo continua liberada.",
+  "es": "Ya jugaste las %d clasificatorias de hoy. La sala con amigos sigue abierta."
+ },
+ "vitórias ranqueadas nos últimos 7 dias": {
+  "en": "ranked wins in the last 7 days",
+  "pt": "vitórias ranqueadas nos últimos 7 dias",
+  "es": "victorias clasificatorias en los últimos 7 días"
+ },
+ "Vença uma partida ranqueada para entrar no ranking.": {
+  "en": "Win a ranked match to enter the ranking.",
+  "pt": "Vença uma partida ranqueada para entrar no ranking.",
+  "es": "Gana una clasificatoria para entrar en el ranking."
+ },
+ "Ranqueadas hoje: %d de %d": {
+  "en": "Ranked today: %d of %d",
+  "pt": "Ranqueadas hoje: %d de %d",
+  "es": "Clasificatorias hoy: %d de %d"
+ },
+ "muitos pedidos: espere um pouco": {
+  "en": "too many requests: wait a moment",
+  "pt": "muitos pedidos: espere um pouco",
+  "es": "demasiadas solicitudes: espera un poco"
  }
 }

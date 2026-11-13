@@ -3,7 +3,7 @@
 // Conta anônima: id + segredo (o servidor guarda só o SHA-256 do segredo). Sem email nesta fase.
 // Tudo o que depende de hora usa a hora do servidor no fuso de Nova York (com horário de verão).
 import D from "./dados.js";
-import { rotaMulti } from "./multi.js";
+import { rotaMulti, limparFotos } from "./multi.js";
 import { rotaAdmin } from "./admin.js";
 import { sinal, punicao, varredura } from "./moderacao.js";
 export { SalaPartida } from "./sala.js";
@@ -215,6 +215,10 @@ async function placarDiario(env, dd, id) {
 async function premio(env, id, p, d) {
   const regra = PREMIOS[d.motivo];
   if (!regra) return { erro: "motivo desconhecido" };
+  if (d.motivo === "online") {                     // partida com amigo (casual): não paga e não gasta o teto do dia
+    const c = await env.DB.prepare("SELECT casual FROM partidas WHERE pid=?").bind(String(d.pid || "")).first();
+    if (c?.casual) return { moedas: 0, casual: true };
+  }
   const hoje = dia();
   const lim = await env.DB.prepare("SELECT n FROM limites WHERE id=? AND dia=? AND motivo=?").bind(id, hoje, d.motivo).first();
   if ((lim?.n | 0) >= regra.teto) { await sinal(env, id, "teto_premio", d.motivo, 1); return { moedas: 0, teto: true }; }
@@ -414,10 +418,34 @@ function importarLocal(local) {
   return p;
 }
 
+// Limpeza diária: tabelas que só cresciam. Guarda o que o ranking (7 dias), a moderação e o painel usam.
+async function limpeza(env) {
+  const ag = Math.floor(agora()), hoje = dia();
+  const passos = [
+    ["DELETE FROM fila WHERE visto < ?", ag - 3600],                                   // quem saiu sem cancelar
+    ["DELETE FROM partidas WHERE criado < ?", ag - 15 * 86400],                       // ranking usa 7 dias; painel, 15
+    ["DELETE FROM partidas WHERE estado IN ('cancelada', 'sala', 'aceitar') AND criado < ?", ag - 86400],
+    ["DELETE FROM acoes WHERE ts < ?", ag - 2 * 86400],                               // protocolo antigo (sem juiz)
+    ["DELETE FROM limites WHERE dia < ?", hoje - 3],                                  // tetos do dia (e da véspera)
+    ["DELETE FROM codigos WHERE expira < ?", ag],
+    ["DELETE FROM email_codigos WHERE expira < ?", ag - 3600],
+    ["DELETE FROM erros WHERE ts < ?", ag - 90 * 86400],
+    ["DELETE FROM diario WHERE dia < ?", hoje - 60],
+    ["DELETE FROM sinais WHERE ts < ?", ag - 60 * 86400],
+    ["DELETE FROM admin_log WHERE ts < ?", ag - 180 * 86400],
+  ];
+  const r = await env.DB.batch(passos.map(([q, v]) => env.DB.prepare(q).bind(v)));
+  console.log("limpeza", JSON.stringify(r.map((x, k) => [passos[k][0].split(" ")[2], x.meta?.changes | 0])));
+}
+
 export default {
-  // varredura de comportamento alarmante (wrangler.toml → [triggers] crons, a cada 30 min)
+  // a cada 30 min (wrangler.toml → [triggers] crons): varredura de comportamento alarmante e fotos de partidas com 3 h;
+  // 1× por dia (a rodada das 08:00 UTC): limpeza das tabelas
   async scheduled(evento, env, ctx) {
-    ctx.waitUntil(varredura(env));
+    ctx.waitUntil(varredura(env).catch((e) => console.error("varredura", e)));
+    ctx.waitUntil(limparFotos(env).catch((e) => console.error("fotos", e)));
+    const h = new Date(evento.scheduledTime || Date.now());
+    if ((h.getUTCHours() === 8 && h.getUTCMinutes() < 30) || env.LIMPEZA_SEMPRE === "1") ctx.waitUntil(limpeza(env).catch((e) => console.error("limpeza", e)));
   },
   async fetch(req, env) {
     if (req.method === "OPTIONS") return json({});
@@ -517,6 +545,8 @@ export default {
       }
       const id = await autenticar(req, env);
       if (!id) return erro("não autenticado", 401);
+      // limite por conta (contador da Cloudflare, sem gravar no banco): um script em loop não esgota a cota de todos
+      if (env.LIMITE && !(await env.LIMITE.limit({ key: id })).success) return erro("muitos pedidos: espere um pouco", 429);
       // punição: soft (até uma data) e hard (para sempre) bloqueiam tudo menos excluir a conta; shadow só muda a fila
       const pun = await punicao(env, id);
       if (pun && pun.tipo !== "shadow" && url.pathname !== "/v1/apagar")
@@ -609,16 +639,18 @@ export default {
         return sala.fetch(new Request(req.url, { method: req.method, headers: h }));
       }
       if (url.pathname.startsWith("/v1/mm/") || url.pathname.startsWith("/v1/sala/") || url.pathname.startsWith("/v1/partida/")) {
-        const r = await rotaMulti(req, env, url, corpo, id, p || {}, D, json, erro, pun?.tipo === "shadow");
+        const r = await rotaMulti(req, env, url, corpo, id, p || {}, D, json, erro, pun?.tipo === "shadow", dia());
         if (r) return r;
       }
       if (url.pathname === "/v1/apagar" && req.method === "POST") {   // excluir a conta (exigência da Play Store)
-        for (const t of ["perfis", "limites", "codigos", "emails", "kodes", "fila", "erros"]) await env.DB.prepare(`DELETE FROM ${t} WHERE id=?`).bind(id).run();
-        await env.DB.prepare("DELETE FROM contas WHERE id=?").bind(id).run();
+        // tudo o que leva o id da conta (LGPD): perfil, tetos, códigos, email, Kode, fila, erros, Desafio do dia e moderação
+        const tabelas = ["perfis", "limites", "codigos", "emails", "kodes", "fila", "erros", "diario", "sinais", "notas", "vistos", "revisoes", "punicoes", "contas"];
+        await env.DB.batch(tabelas.map((t) => env.DB.prepare(`DELETE FROM ${t} WHERE id=?`).bind(id)));
         return json({ ok: true });
       }
       return erro("rota desconhecida", 404);
     } catch (e) {
+      console.error("500", req.method, url.pathname, e?.stack || e);   // aparece nos logs da Cloudflare (observability)
       return erro("erro interno: " + e.message, 500);
     }
   },

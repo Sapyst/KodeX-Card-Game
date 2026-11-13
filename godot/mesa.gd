@@ -4588,7 +4588,10 @@ func _fim_online() -> void:
 		get_tree().quit()
 		return
 	var ganho: int = [20, 5, 10][0 if vencedor == 0 else (1 if vencedor == 1 else 2)]
-	Sessao.premio("online", {"pid": rede.pid}, ganho)
+	if bool(online_info.get("casual", false)):     # sala com amigo: casual, sem moedas (o servidor também não paga)
+		ganho = 0
+	else:
+		Sessao.premio("online", {"pid": rede.pid}, ganho)
 	await _resumo_online(ganho)
 	var rev := await pedir_sim_nao(Sessao.t("REVANCHE?"), Sessao.t("OS DOIS PRECISAM ACEITAR"), Sessao.t("REVANCHE"), Sessao.t("MENU"))
 	if not rev:
@@ -4645,6 +4648,9 @@ func _resumo_online(ganho := 0) -> void:
 	if ganho > 0:
 		b.append(["espaco"])
 		b.append(["destaque", "+%d" % ganho, "moeda"])
+	elif bool(online_info.get("casual", false)):
+		b.append(["espaco"])
+		b.append(["centro", Sessao.t("Partida casual: não conta no ranking nem dá moedas.")])
 	_blocos_progresso(b)
 	if dessinc:
 		b.append(["espaco"])

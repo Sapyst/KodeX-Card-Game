@@ -71,6 +71,6 @@ export async function varredura(env, nivelDe) {
     await env.DB.prepare("INSERT INTO vistos (id, ts, moedas, xp) VALUES (?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET ts=excluded.ts, moedas=excluded.moedas, xp=excluded.xp")
       .bind(l.id, ag, moedas, xp).run();
   }
-  await env.DB.prepare("DELETE FROM sinais WHERE ts < ?").bind(ag - 60 * 86400).run();   // guarda 60 dias
+  // sinais com mais de 60 dias: apagados na limpeza diária (index.js → limpeza)
   return { olhadas: lista.length, sinais: n };
 }

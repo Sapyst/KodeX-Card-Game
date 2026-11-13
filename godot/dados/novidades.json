@@ -1,5 +1,21 @@
 [
  {
+  "versao": "0.20.27-alpha",
+  "data": "13/11/2026",
+  "pt": [
+   "Online em dois modos: Buscar partida é a ranqueada (conta no ranking da semana e dá moedas, até 30 por dia) e a sala com código é a partida casual com um amigo (fora do ranking e sem moedas). O ranking agora só conta vitórias ranqueadas.",
+   "Servidor mais leve e mais rápido de acordar: o juiz da partida dorme entre as jogadas, percebe sozinho quando um aparelho some e o turno continua no tempo certo mesmo depois de uma pausa."
+  ],
+  "en": [
+   "Online in two modes: Find match is ranked (counts for the weekly ranking and gives coins, up to 30 a day) and the room with a code is a casual match with a friend (no ranking, no coins). The ranking now counts only ranked wins.",
+   "Lighter server: the match judge sleeps between plays, notices on its own when a device drops, and the turn timer keeps the right time even after a pause."
+  ],
+  "es": [
+   "Online en dos modos: Buscar partida es la clasificatoria (cuenta en el ranking semanal y da monedas, hasta 30 por día) y la sala con código es la partida casual con un amigo (sin ranking ni monedas). El ranking ahora cuenta solo victorias clasificatorias.",
+   "Servidor más liviano: el juez de la partida duerme entre jugadas, nota solo cuando un dispositivo se cae y el turno mantiene el tiempo correcto incluso después de una pausa."
+  ]
+ },
+ {
   "versao": "0.20.26-alpha",
   "data": "07/11/2026",
   "pt": [
